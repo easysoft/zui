@@ -13,12 +13,12 @@
 <Example class="col gap-4">
   <div class="input-control has-prefix">
     <span class="input-control-prefix">用户名</span>
-    <input type="text" class="form-control" placeholder="请填写" />
+    <input type="text" class="form-control" placeholder="请输入用户名" />
   </div>
-  <div class="input-control has-prefix has-surffix">
+  <div class="input-control has-prefix has-suffix">
     <span class="input-control-prefix">用户名</span>
-    <input type="text" class="form-control" placeholder="请填写"/>
-    <span class="input-control-suffix text-danger">验证失败</span>
+    <input type="text" class="form-control" value="linyue" placeholder="请更换用户名"/>
+    <span class="input-control-suffix text-danger">已被占用</span>
   </div>
 </Example>
 
@@ -27,12 +27,12 @@
 ```html
 <div class="input-control has-prefix">
   <span class="input-control-prefix">用户名</span>
-  <input type="text" class="form-control" placeholder="请填写" />
+  <input type="text" class="form-control" placeholder="请输入用户名" />
 </div>
-<div class="input-control has-prefix has-surffix">
+<div class="input-control has-prefix has-suffix">
   <span class="input-control-prefix">用户名</span>
-  <input type="text" class="form-control" placeholder="请填写"/>
-  <span class="input-control-suffix text-danger">验证失败</span>
+  <input type="text" class="form-control" value="linyue" placeholder="请更换用户名"/>
+  <span class="input-control-suffix text-danger">已被占用</span>
 </div>
 ```
 
@@ -47,11 +47,11 @@
 <Example class="col gap-4">
   <div class="input-control has-prefix-icon">
     <span class="input-control-prefix icon icon-user"></span>
-    <input type="text" class="form-control" placeholder="请填写" />
+    <input type="text" class="form-control" placeholder="请输入用户名" />
   </div>
-  <div class="input-control has-prefix-icon has-surffix-icon has-error">
+  <div class="input-control has-prefix-icon has-suffix-icon has-error">
     <span class="input-control-prefix icon icon-user"></span>
-    <input type="text" class="form-control" placeholder="请填写"/>
+    <input type="text" class="form-control" value="linyue" placeholder="请更换用户名"/>
     <span class="input-control-suffix text-danger icon icon-warning-sign"></span>
   </div>
 </Example>
@@ -61,11 +61,11 @@
 ```html
 <div class="input-control has-prefix-icon">
   <span class="input-control-prefix icon icon-user"></span>
-  <input type="text" class="form-control" placeholder="请填写" />
+  <input type="text" class="form-control" placeholder="请输入用户名" />
 </div>
-<div class="input-control has-prefix-icon has-surffix-icon has-error">
+<div class="input-control has-prefix-icon has-suffix-icon has-error">
   <span class="input-control-prefix icon icon-user"></span>
-  <input type="text" class="form-control" placeholder="请填写"/>
+  <input type="text" class="form-control" value="linyue" placeholder="请更换用户名"/>
   <span class="input-control-suffix text-danger icon icon-warning-sign"></span>
 </div>
 ```
@@ -85,21 +85,21 @@
 <Example class="col gap-4">
   <div class="input-control has-prefix-sm">
     <span class="input-control-prefix"><i class="icon icon-user"></i></span>
-    <input type="text" class="form-control" placeholder="请填写"/>
+    <input type="text" class="form-control" placeholder="请输入用户名"/>
   </div>
   <div class="input-control has-prefix-sm has-suffix-sm">
     <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
-    <input type="text" class="form-control" placeholder="请填写"/>
+    <input type="password" class="form-control" placeholder="请输入密码"/>
     <span class="input-control-suffix"><i class="icon icon-eye-open"></i></span>
   </div>
   <div class="input-control has-prefix has-suffix-sm">
     <span class="input-control-prefix">用户名</span>
-    <input type="text" class="form-control" placeholder="请填写"/>
+    <input type="text" class="form-control" placeholder="请输入用户名"/>
     <span class="input-control-suffix"><i class="icon icon-search"></i></span>
   </div>
   <div class="input-control has-prefix-lg">
-    <span class="input-control-prefix">有效身份证号码</span>
-    <input type="text" class="form-control" placeholder="请填写"/>
+    <span class="input-control-prefix">项目访问地址</span>
+    <input type="text" class="form-control" placeholder="例如 https://portal.example.com"/>
   </div>
 </Example>
 
@@ -108,21 +108,21 @@
 ```html
 <div class="input-control has-prefix-sm">
   <span class="input-control-prefix"><i class="icon icon-user"></i></span>
-  <input type="text" class="form-control" placeholder="请填写"/>
+  <input type="text" class="form-control" placeholder="请输入用户名"/>
 </div>
 <div class="input-control has-prefix-sm has-suffix-sm">
   <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
-  <input type="text" class="form-control" placeholder="请填写"/>
+  <input type="password" class="form-control" placeholder="请输入密码"/>
   <span class="input-control-suffix"><i class="icon icon-eye-open"></i></span>
 </div>
 <div class="input-control has-prefix has-suffix">
   <span class="input-control-prefix">用户名</span>
-  <input type="text" class="form-control" placeholder="请填写"/>
+  <input type="text" class="form-control" placeholder="请输入用户名"/>
   <span class="input-control-suffix">点击搜索</span>
 </div>
 <div class="input-control has-prefix-lg">
-  <span class="input-control-prefix">有效身份证号码</span>
-  <input type="text" class="form-control" placeholder="请填写"/>
+  <span class="input-control-prefix">项目访问地址</span>
+  <input type="text" class="form-control" placeholder="例如 https://portal.example.com"/>
 </div>
 ```
 
@@ -141,20 +141,20 @@
     <p class="w-36">小号尺寸</p>
     <div class="col gap-2">
       <div class="input-control size-sm">
-        <input type="text" class="form-control" placeholder="请填写" />
+        <input type="text" class="form-control" placeholder="请输入用户名" />
       </div>
       <div class="input-control size-sm has-prefix has-suffix w-96">
         <span class="input-control-prefix">用户名</span>
-        <input type="text" class="form-control size-sm" placeholder="请填写"/>
+        <input type="text" class="form-control size-sm" placeholder="请输入用户名"/>
         <span class="input-control-suffix"><i class="icon icon-search"></i></span>
       </div>
       <div class="input-control size-sm has-prefix-sm w-96">
         <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
-        <input type="text" class="form-control size-sm" placeholder="请填写"/>
+        <input type="password" class="form-control size-sm" placeholder="请输入密码"/>
       </div>
       <div class="input-control size-sm has-prefix-lg w-96">
-        <span class="input-control-prefix">有效身份证号码</span>
-        <input type="text" class="form-control size-sm" placeholder="请填写"/>
+        <span class="input-control-prefix">项目访问地址</span>
+        <input type="text" class="form-control size-sm" placeholder="例如 https://portal.example.com"/>
       </div>
     </div>
   </div>
@@ -162,20 +162,20 @@
     <p class="w-36">默认尺寸</p>
     <div class="col gap-2">
       <div class="input-control w-96">
-        <input type="text" class="form-control" placeholder="请填写" />
+        <input type="text" class="form-control" placeholder="请输入用户名" />
       </div>
       <div class="input-control has-prefix has-suffix w-96">
         <span class="input-control-prefix">用户名</span>
-        <input type="text" class="form-control" placeholder="请填写"/>
+        <input type="text" class="form-control" placeholder="请输入用户名"/>
         <span class="input-control-suffix"><i class="icon icon-search"></i></span>
       </div>
       <div class="input-control has-prefix-sm w-96">
         <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
-        <input type="text" class="form-control" placeholder="请填写"/>
+        <input type="password" class="form-control" placeholder="请输入密码"/>
       </div>
       <div class="input-control has-prefix-lg w-96">
-        <span class="input-control-prefix">有效身份证号码</span>
-        <input type="text" class="form-control" placeholder="请填写"/>
+        <span class="input-control-prefix">项目访问地址</span>
+        <input type="text" class="form-control" placeholder="例如 https://portal.example.com"/>
       </div>
     </div>
   </div>
@@ -183,20 +183,20 @@
     <p class="w-36">大号尺寸</p>
     <div class="col gap-2">
       <div class="input-control size-lg w-96">
-        <input type="text" class="form-control" placeholder="请填写" />
+        <input type="text" class="form-control" placeholder="请输入用户名" />
       </div>
       <div class="input-control size-lg has-prefix has-suffix w-96">
         <span class="input-control-prefix">用户名</span>
-        <input type="text" class="form-control size-lg" placeholder="请填写"/>
+        <input type="text" class="form-control size-lg" placeholder="请输入用户名"/>
         <span class="input-control-suffix"><i class="icon icon-search"></i></span>
       </div>
       <div class="input-control size-lg has-prefix-sm w-96">
         <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
-        <input type="text" class="form-control size-lg" placeholder="请填写"/>
+        <input type="password" class="form-control size-lg" placeholder="请输入密码"/>
       </div>
       <div class="input-control size-lg has-prefix-lg w-96">
-        <span class="input-control-prefix">有效身份证号码</span>
-        <input type="text" class="form-control size-lg" placeholder="请填写"/>
+        <span class="input-control-prefix">项目访问地址</span>
+        <input type="text" class="form-control size-lg" placeholder="例如 https://portal.example.com"/>
       </div>
     </div>
   </div>
@@ -209,20 +209,20 @@
   <p class="w-36">小号尺寸</p>
   <div class="col gap-2">
     <div class="input-control size-sm w-96">
-      <input type="text" class="form-control" placeholder="请填写" />
+      <input type="text" class="form-control" placeholder="请输入用户名" />
     </div>
     <div class="input-control size-sm has-prefix has-suffix w-96">
       <span class="input-control-prefix">用户名</span>
-      <input type="text" class="form-control size-sm" placeholder="请填写"/>
+      <input type="text" class="form-control size-sm" placeholder="请输入用户名"/>
       <span class="input-control-suffix"><i class="icon icon-search"></i></span>
     </div>
     <div class="input-control size-sm has-prefix-sm w-96">
       <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
-      <input type="text" class="form-control size-sm" placeholder="请填写"/>
+      <input type="password" class="form-control size-sm" placeholder="请输入密码"/>
     </div>
     <div class="input-control size-sm has-prefix-lg w-96">
-      <span class="input-control-prefix">有效身份证号码</span>
-      <input type="text" class="form-control size-sm" placeholder="请填写"/>
+      <span class="input-control-prefix">项目访问地址</span>
+      <input type="text" class="form-control size-sm" placeholder="例如 https://portal.example.com"/>
     </div>
   </div>
 </div>
@@ -270,19 +270,19 @@
 
 <Example class="flex gap-4 flex-wrap items-end">
   <div class="input-control">
-    <input type="text" class="form-control circle" placeholder="请填写" />
+    <input type="text" class="form-control circle" placeholder="请输入用户名" />
   </div>
   <div class="input-control">
-    <input type="text" class="form-control shadow" placeholder="请填写" />
+    <input type="text" class="form-control shadow" placeholder="请输入用户名" />
   </div>
 </Example>
 
 ```html
 <div class="input-control">
-  <input type="text" class="form-control circle" placeholder="请填写" />
+  <input type="text" class="form-control circle" placeholder="请输入用户名" />
 </div>
 <div class="input-control">
-  <input type="text" class="form-control shadow" placeholder="请填写" />
+  <input type="text" class="form-control shadow" placeholder="请输入用户名" />
 </div>
 ```
 
