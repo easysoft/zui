@@ -72,13 +72,13 @@ Color Generator](https://uicolors.app/create) 等工具来生成调色板。
 
 <Example>
   <h4 style="color: var(--color-primary-500)">
-    这是一段使用 Primary 调色板上的第 500 号颜色的文本
+    客户门户 · 本周交付计划
   </h4>
 </Example>
 
 ```html
 <h4 style="color: var(--color-primary-500)">
-  这是一段使用 Primary 调色板上的第 500 号颜色的文本
+  客户门户 · 本周交付计划
 </h4>
 ```
 
@@ -88,13 +88,13 @@ Color Generator](https://uicolors.app/create) 等工具来生成调色板。
 
 <Example>
   <h4 class="text-primary">
-    这是一段使用 Primary 调色板上的第 500 号颜色的文本
+    客户门户 · 本周交付计划
   </h4>
 </Example>
 
 ```html
 <h4 class="text-primary">
-  这是一段使用 Primary 调色板上的第 500 号颜色的文本
+  客户门户 · 本周交付计划
 </h4>
 ```
 
@@ -129,16 +129,16 @@ Color Generator](https://uicolors.app/create) 等工具来生成调色板。
   --color-primary-900: #581c87;
   --color-primary-950: #3b0764;
   --color-primary-50-rgb: 250, 245, 255;
-  --color-primary-100-rgb: 243, 233, 255;
-  --color-primary-200-rgb: 233, 214, 254;
-  --color-primary-300-rgb: 216, 182, 252;
-  --color-primary-400-rgb: 191, 136, 249;
-  --color-primary-500-rgb: 167, 92, 244;
-  --color-primary-600-rgb: 146, 62, 231;
-  --color-primary-700-rgb: 125, 46, 203;
-  --color-primary-800-rgb: 106, 41, 166;
-  --color-primary-900-rgb: 88, 34, 133;
-  --color-primary-950-rgb: 59, 14, 99;
+  --color-primary-100-rgb: 243, 232, 255;
+  --color-primary-200-rgb: 233, 213, 255;
+  --color-primary-300-rgb: 216, 180, 254;
+  --color-primary-400-rgb: 192, 132, 252;
+  --color-primary-500-rgb: 168, 85, 247;
+  --color-primary-600-rgb: 147, 51, 234;
+  --color-primary-700-rgb: 126, 34, 206;
+  --color-primary-800-rgb: 107, 33, 168;
+  --color-primary-900-rgb: 88, 28, 135;
+  --color-primary-950-rgb: 59, 7, 100;
 }
 ```
 
@@ -213,16 +213,16 @@ const toggleCssVars = import.meta.env.SSR ? null : () => {
       '  --color-primary-900: #581c87;',
       '  --color-primary-950: #3b0764;',
       '  --color-primary-50-rgb: 250, 245, 255;',
-      '  --color-primary-100-rgb: 243, 233, 255;',
-      '  --color-primary-200-rgb: 233, 214, 254;',
-      '  --color-primary-300-rgb: 216, 182, 252;',
-      '  --color-primary-400-rgb: 191, 136, 249;',
-      '  --color-primary-500-rgb: 167, 92, 244;',
-      '  --color-primary-600-rgb: 146, 62, 231;',
-      '  --color-primary-700-rgb: 125, 46, 203;',
-      '  --color-primary-800-rgb: 106, 41, 166;',
-      '  --color-primary-900-rgb: 88, 34, 133;',
-      '  --color-primary-950-rgb: 59, 14, 99;',
+      '  --color-primary-100-rgb: 243, 232, 255;',
+      '  --color-primary-200-rgb: 233, 213, 255;',
+      '  --color-primary-300-rgb: 216, 180, 254;',
+      '  --color-primary-400-rgb: 192, 132, 252;',
+      '  --color-primary-500-rgb: 168, 85, 247;',
+      '  --color-primary-600-rgb: 147, 51, 234;',
+      '  --color-primary-700-rgb: 126, 34, 206;',
+      '  --color-primary-800-rgb: 107, 33, 168;',
+      '  --color-primary-900-rgb: 88, 28, 135;',
+      '  --color-primary-950-rgb: 59, 7, 100;',
       '}',
     ].join('\n');
     document.head.appendChild(style);
