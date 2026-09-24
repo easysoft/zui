@@ -9,13 +9,13 @@
 == 示例
 
 <Example>
-  <button type="button" class="btn" zui-on-click="alert('Hello World!')">Click Me</button>
+  <button type="button" class="btn" zui-on-click="alert('项目周报已生成，可在文档库查看。')">查看导出结果</button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn" zui-on-click="alert('Hello World!')">Click Me</button>
+<button type="button" class="btn" zui-on-click="alert('项目周报已生成，可在文档库查看。')">查看导出结果</button>
 ```
 
 :::
@@ -43,13 +43,13 @@
 == 示例
 
 <Example>
-  <button type="button" class="btn" zui-on-click="{call: 'alert', params: [1 + 2], prevent: true}">1+2=?</button>
+  <button type="button" class="btn" zui-on-click="{call: 'alert', params: ['本周剩余任务：' + (8 - 5) + ' 项'], prevent: true}">查看剩余任务</button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn" zui-on-click="{call: 'alert', params: [1 + 2], prevent: true}">1+2=?</button>
+<button type="button" class="btn" zui-on-click="{call: 'alert', params: ['本周剩余任务：' + (8 - 5) + ' 项'], prevent: true}">查看剩余任务</button>
 ```
 
 :::

@@ -79,8 +79,8 @@ class Component {
 <script>
 const nav = new zui.Nav('#myNav', {
     items: [
-        {text: 'Home'},
-        {text: 'Blog'},
+        {text: '项目概览'},
+        {text: '任务看板'},
     ]
 });
 </script>
@@ -89,7 +89,7 @@ const nav = new zui.Nav('#myNav', {
 == 示例
 
 <Example>
-  <nav zui-create zui-create-nav="{items: [{text: 'Home'}, {text: 'Blog'}]}"></nav>
+  <nav zui-create zui-create-nav="{items: [{text: '项目概览'}, {text: '任务看板'}]}"></nav>
 </Example>
 
 :::
@@ -127,17 +127,17 @@ const nav = new zui.Nav('#myNav', {
 <script>
 const nav = new zui.Nav('#myNav', {
     items: [
-        {text: 'Home'},
-        {text: 'Blog'},
+        {text: '项目概览'},
+        {text: '任务看板'},
     ]
 });
 
 $('#myNavRenderBtn').on('click', () => {
     nav.render({
         items: [
-            {text: 'Home', url: '#home'},
-            {text: 'Blog'},
-            {text: 'About'},
+            {text: '项目概览', url: '#overview'},
+            {text: '任务看板'},
+            {text: '团队成员'},
         ]
     });
 });
@@ -147,7 +147,7 @@ $('#myNavRenderBtn').on('click', () => {
 == 示例
 
 <Example>
-  <nav zui-create zui-create-nav="{items: [{text: 'Home'}, {text: 'Blog'}]}"></nav>
+  <nav zui-create zui-create-nav="{items: [{text: '项目概览'}, {text: '任务看板'}]}"></nav>
   <button id="myNavRenderBtn1">重新渲染</button>
 </Example>
 
@@ -163,8 +163,8 @@ $('#myNavRenderBtn').on('click', () => {
 <script>
 new zui.Nav('#myNav', {
     items: [
-        {text: 'Home'},
-        {text: 'Blog'},
+        {text: '项目概览'},
+        {text: '任务看板'},
     ]
 });
 
@@ -363,7 +363,7 @@ export const ZuiSectionElement = defineWebComponent(SectionView, {
     tagName: 'zui-section',
     properties: {},
     slots: {'': 'children', heading: 'heading', actions: 'actions'},
-    options: () => ({heading: '默认标题'}),
+    options: () => ({heading: '项目详情'}),
 });
 ```
 
@@ -371,7 +371,7 @@ export const ZuiSectionElement = defineWebComponent(SectionView, {
 <zui-section>
     <strong slot="heading">基本信息</strong>
     <span slot="heading"> · 可编辑</span>
-    <p>这里是正文。</p>
+    <p>客户门户计划于周五发布，当前已完成附件预览验收。</p>
     <button slot="actions" type="button">编辑</button>
 </zui-section>
 ```

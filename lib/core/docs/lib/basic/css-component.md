@@ -9,13 +9,13 @@ CSS 组件通常提供了界面所需的基本功能，例如按钮、表单、�
 == 示例
 
 <Example class="flex gap-4">
-  <button type="button" class="btn">按钮</button>
+  <button type="button" class="btn">查看任务</button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn">按钮</button>
+<button type="button" class="btn">查看任务</button>
 ```
 
 :::
@@ -39,23 +39,23 @@ CSS 组件通常提供了多种样式修饰，例如按钮的颜色、大小、�
 == 示例
 
 <Example class="flex gap-4 flex-wrap" background="light-circle">
-  <button type="button" class="btn primary">主要按钮</button>
-  <button type="button" class="btn black rounded-none">黑色按钮</button>
+  <button type="button" class="btn primary">保存设置</button>
+  <button type="button" class="btn black rounded-none">预览报告</button>
   <button type="button" class="btn secondary-outline square">正</button>
   <button type="button" class="btn dark-outline circle">描边</button>
   <button type="button" class="btn danger-pale square circle">❤️</button>
-  <button type="button" class="btn text-primary ghost">链接按钮</button>
+  <button type="button" class="btn text-primary ghost">查看详情</button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn primary">主要按钮</button>
-<button type="button" class="btn black rounded-none">黑色按钮</button>
+<button type="button" class="btn primary">保存设置</button>
+<button type="button" class="btn black rounded-none">预览报告</button>
 <button type="button" class="btn secondary-outline square">正</button>
 <button type="button" class="btn dark-outline circle">描边</button>
 <button type="button" class="btn danger-pale square circle">❤️</button>
-<button type="button" class="btn text-primary ghost">链接按钮</button>
+<button type="button" class="btn text-primary ghost">查看详情</button>
 ```
 
 :::
@@ -69,15 +69,15 @@ CSS 组件通常提供了多种样式修饰，例如按钮的颜色、大小、�
 == 示例
 
 <Example class="flex gap-4 flex-wrap items-end">
-  <button type="button" class="btn btn-link">链接按钮</button>
-  <button type="button" class="btn btn-link text-fore">普通颜色文字链接</button>
+  <button type="button" class="btn btn-link">查看详情</button>
+  <button type="button" class="btn btn-link text-fore">返回列表</button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn btn-link">链接按钮</button>
-<button type="button" class="btn btn-link text-fore">普通颜色文字链接</button>
+<button type="button" class="btn btn-link">查看详情</button>
+<button type="button" class="btn btn-link text-fore">返回列表</button>
 ```
 
 :::

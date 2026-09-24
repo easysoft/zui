@@ -26,7 +26,7 @@
 == 示例
 
 <Example>
-  <div zui-create zui-create-list="{items: [{text: 'item1'}, {text: 'item2'}], onClickItem: (e) => console.log('You clicked', e)}"></div>
+  <div zui-create zui-create-list="{items: [{text: '需求说明'}, {text: '验收清单'}], onClickItem: (e) => console.log('You clicked', e)}"></div>
 </Example>
 
 == HTML
@@ -34,7 +34,7 @@
 ```html
 <div zui-create zui-create-list="
   {
-    items: [{text: 'item1'}, {text: 'item2'}],
+    items: [{text: '需求说明'}, {text: '验收清单'}],
     onClickItem: (e) => console.log('You clicked', e)
   }
 "></div>

@@ -14,7 +14,7 @@ client.mount();
 
 const users = zui.createQuery(client, {
     queryKey: ['users'],
-    queryFn: async () => [{id: 1, name: '张三'}],
+    queryFn: async () => [{id: 1, name: '林悦'}],
 });
 
 const stop = zui.effect(() => {
@@ -82,12 +82,15 @@ import {
 type User = {id: number; name: string};
 type Props = HElementProps & {projectId: number};
 
+const projectMembers: Record<number, User[]> = {
+    1: [{id: 1, name: '林悦'}, {id: 2, name: '陈晨'}],
+    2: [{id: 2, name: '陈晨'}, {id: 3, name: '王宁'}],
+};
+
 function usersOptions(projectId: number) {
     return {
         queryKey: ['project', projectId, 'users'] as const,
-        queryFn: async (): Promise<User[]> => [
-            {id: 1, name: `项目 ${projectId} 的成员`},
-        ],
+        queryFn: async (): Promise<User[]> => projectMembers[projectId] || [],
     };
 }
 
@@ -183,7 +186,7 @@ const renameUser = zui.createMutation(client, {
 });
 
 try {
-    await renameUser.mutate({id: 1, name: '李四'});
+    await renameUser.mutate({id: 1, name: '林悦（产品经理）'});
 } catch (error) {
     console.error(error);
 } finally {
