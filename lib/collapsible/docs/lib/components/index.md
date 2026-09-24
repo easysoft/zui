@@ -12,8 +12,8 @@
 
 <Example>
   <details class="details">
-    <summary>查看说明</summary>
-    <p>点击标题即可展开或收起这段内容。</p>
+    <summary>查看交付范围</summary>
+    <p>本次交付包含工单查询与附件预览，消息通知将在下个迭代完成。</p>
   </details>
 </Example>
 
@@ -21,8 +21,8 @@
 
 ```html
 <details class="details">
-  <summary>查看说明</summary>
-  <p>点击标题即可展开或收起这段内容。</p>
+  <summary>查看交付范围</summary>
+  <p>本次交付包含工单查询与附件预览，消息通知将在下个迭代完成。</p>
 </details>
 ```
 
@@ -39,7 +39,7 @@
 <Example>
   <details class="details panel" open>
     <summary class="panel-heading"><span class="panel-title">发布说明</span></summary>
-    <div class="panel-body">这里展示版本说明。</div>
+    <div class="panel-body">客户门户 v1.2 新增附件预览，并修复移动端图片上传失败的问题。</div>
   </details>
 </Example>
 
@@ -48,7 +48,7 @@
 ```html
 <details class="details panel" open>
   <summary class="panel-heading"><span class="panel-title">发布说明</span></summary>
-  <div class="panel-body">这里展示版本说明。</div>
+  <div class="panel-body">客户门户 v1.2 新增附件预览，并修复移动端图片上传失败的问题。</div>
 </details>
 ```
 
@@ -65,7 +65,7 @@
 == 示例
 
 <Example>
-  <ZUI use="collapsible" :options="{title: '高级设置', caption: '可选', content: '这里展示更多设置。', bordered: true, defaultCollapsed: true, toggleButton: {attrs: {'aria-label': '展开或收起高级设置'}}}" />
+  <ZUI use="collapsible" :options="{title: '高级设置', caption: '可选', content: '开启每周摘要后，系统将在周一汇总上周的项目动态。', bordered: true, defaultCollapsed: true, toggleButton: {attrs: {'aria-label': '展开或收起高级设置'}}}" />
 </Example>
 
 == HTML
@@ -80,7 +80,7 @@
 const collapsible = new zui.Collapsible('#advancedSettings', {
     title: '高级设置',
     caption: '可选',
-    content: '这里展示更多设置。',
+    content: '开启每周摘要后，系统将在周一汇总上周的项目动态。',
     bordered: true,
     defaultCollapsed: true,
     toggleButton: {attrs: {'aria-label': '展开或收起高级设置'}},
@@ -105,7 +105,7 @@ const collapsible = new zui.Collapsible('#advancedSettings', {
 ```js
 const controlled = new zui.Collapsible('#controlledSettings', {
     title: '高级设置',
-    content: '由调用方维护折叠状态。',
+    content: '每周摘要发送到项目成员的工作邮箱。',
     collapsed: true,
     onChange(collapsed) {
         controlled.render({collapsed});
@@ -141,7 +141,7 @@ onChange?: (collapsed: boolean) =&gt; void | false; // 切换前回调。
 ## 实例方法
 
 ```js
-collapsible.render({title: '新的标题'});
+collapsible.render({title: '通知设置'});
 collapsible.$?.toggle();      // 切换状态。
 collapsible.$?.toggle(true);  // 收起。
 collapsible.$?.toggle(false); // 展开。
