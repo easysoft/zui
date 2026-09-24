@@ -68,8 +68,8 @@ list.render({
 ```js
 list.render({
     items: [
-        {id: 'public', type: 'text', text: '公开内容', visible: true},
-        {id: 'hidden', type: 'text', text: '隐藏内容', visible: false},
+        {id: 'public', type: 'text', text: '新成员入门指南', visible: true},
+        {id: 'hidden', type: 'text', text: '尚未发布的迁移草稿', visible: false},
     ],
     getItems(items) {
         return items.filter(item => item.visible);
@@ -83,9 +83,9 @@ list.render({
 
 ```js
 list.render({
-    items: [{id: 'docs', text: '使用文档', count: 3}],
+    items: [{id: 'docs', text: '使用指南', count: 3}],
     itemRender(item) {
-        return {component: 'li', children: `${item.text}（${item.count}）`};
+        return {component: 'li', children: `${item.text}（${item.count} 篇）`};
     },
 });
 ```
@@ -97,7 +97,7 @@ list.render({
 ```js
 list.render({
     onClickItem({item}) {
-        zui.Messager.show(`点击了 ${item.id}`);
+        zui.Messager.show(`已选择：${item.text}`);
     },
 });
 ```
@@ -126,7 +126,7 @@ relativeTarget?: unknown; // 传入点击事件的关联数据。
 原生实例使用 `render(options)` 更新内容，`$` 访问内部 Preact 实例。初始化完成后可以查询数据：
 
 ```js
-list.render({items: [{id: 'done', type: 'text', text: '已完成'}]});
+list.render({items: [{id: 'done', type: 'text', text: '发布检查已完成'}]});
 list.$?.getItems();
 list.$?.getItemByIndex(0);
 list.$?.getKey(0);
