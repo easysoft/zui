@@ -9,11 +9,11 @@
 ```js
 const bus = new zui.EventBus();
 
-bus.on('greet', (event) => {
-    console.log(event.detail); // {name: 'ZUI'}
+bus.on('task:assigned', (event) => {
+    console.log(event.detail); // {taskId: 101, title: '验收附件预览', assignee: 'linyue'}
 });
 
-bus.emit('greet', {name: 'ZUI'});
+bus.emit('task:assigned', {taskId: 101, title: '验收附件预览', assignee: 'linyue'});
 ```
 
 ## 一次性监听
@@ -24,9 +24,9 @@ bus.emit('greet', {name: 'ZUI'});
 const bus = new zui.EventBus();
 let count = 0;
 
-bus.once('tick', () => { count += 1; });
-bus.emit('tick');
-bus.emit('tick');
+bus.once('project:loaded', () => { count += 1; });
+bus.emit('project:loaded');
+bus.emit('project:loaded');
 
 console.log(count); // 1
 ```
@@ -37,11 +37,11 @@ console.log(count); // 1
 
 ```js
 const bus = new zui.EventBus();
-const listener = () => console.log('hi');
+const listener = () => console.log('项目已加载');
 
-bus.once('hi', listener);
-bus.off('hi', listener); // 在触发前取消
-bus.emit('hi');          // 不会输出
+bus.once('project:loaded', listener);
+bus.off('project:loaded', listener); // 在触发前取消
+bus.emit('project:loaded');          // 不会输出
 ```
 
 ## 模块引入（ESM / npm）
@@ -60,14 +60,14 @@ import {EventBus, EventHub, EventEmitter} from '@zui/event-bus';
 import {EventHub} from '@zui/event-bus';
 
 const hub = new EventHub();
-const listener = () => console.log('hit');
+const listener = () => console.log('刷新任务列表');
 
-hub.on('a', listener);
-hub.on('b', listener);
+hub.on('task:saved', listener);
+hub.on('task:removed', listener);
 
 hub.offAll();
-hub.emit('a'); // 不会输出
-hub.emit('b'); // 不会输出
+hub.emit('task:saved'); // 不会输出
+hub.emit('task:removed'); // 不会输出
 ```
 
 ### 自定义事件后缀（`EventHub`）
