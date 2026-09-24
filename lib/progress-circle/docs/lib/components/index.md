@@ -11,12 +11,14 @@
 == 示例
 
 <Example>
+  <p>验收尚未开始：0 / 8 项</p>
   <div data-zui="ProgressCircle"></div>
 </Example>
 
 == HTML
 
 ```html
+<p>验收尚未开始：0 / 8 项</p>
 <div id="progressCircleExample"></div>
 
 <script>
@@ -33,17 +35,20 @@ const progressCircle = new zui.ProgressCircle('#progressCircleExample');
 == 示例
 
 <Example>
-  <div data-zui="ProgressCircle" data-percent="75" data-size="128" data-circle-color="var(--color-success-500)"></div>
+  <p>验收进度：已通过 6 / 8 项（75%）</p>
+  <div data-zui="ProgressCircle" data-text="6/8" data-percent="75" data-size="128" data-circle-color="var(--color-success-500)"></div>
 </Example>
 
 == HTML
 
 ```html
+<p>验收进度：已通过 6 / 8 项（75%）</p>
 <div id="progressCircleExample"></div>
 
 <script>
 const progressCircle = new zui.ProgressCircle('#progressCircleExample', {
     percent: 75,
+    text: '6/8',
     size: 128,
     circleColor: 'var(--color-success-500)',
 });
