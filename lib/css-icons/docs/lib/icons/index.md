@@ -39,17 +39,17 @@ ZUI 提供一组用纯 CSS 绘制的小图标，不依赖图标字体，也不�
 == 示例
 
 <Example class="flex items-center gap-4">
-  <span class="row items-center gap-1">正常 <span class="caret"></span></span>
-  <span class="row items-center gap-1 disabled">禁用 <span class="caret"></span></span>
-  <span class="row items-center gap-1 readonly">只读 <span class="caret"></span></span>
+  <span class="row items-center gap-1">选择负责人 <span class="caret"></span></span>
+  <span class="row items-center gap-1 disabled">项目已归档（禁用）<span class="caret"></span></span>
+  <span class="row items-center gap-1 readonly">当前负责人（只读）<span class="caret"></span></span>
 </Example>
 
 == HTML
 
 ```html
-<span class="row items-center gap-1">正常 <span class="caret"></span></span>
-<span class="row items-center gap-1 disabled">禁用 <span class="caret"></span></span>
-<span class="row items-center gap-1 readonly">只读 <span class="caret"></span></span>
+<span class="row items-center gap-1">选择负责人 <span class="caret"></span></span>
+<span class="row items-center gap-1 disabled">项目已归档（禁用）<span class="caret"></span></span>
+<span class="row items-center gap-1 readonly">当前负责人（只读）<span class="caret"></span></span>
 ```
 
 :::
