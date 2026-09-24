@@ -55,20 +55,20 @@
   </div>
   <div class="input-group">
     <select class="form-control w-20">
-      <option>类别</option>
+      <option>全部类型</option>
       <option>图片</option>
-      <option>文件</option>
+      <option>文档</option>
     </select>
-    <input type="text" class="form-control" placeholder="关键词">
-    <button type="button" class="btn"><i class="icon icon-search"></i></button>
+    <input type="text" class="form-control" placeholder="搜索文件名称">
+    <button type="button" class="btn" aria-label="搜索文件"><i class="icon icon-search"></i></button>
   </div>
   <div class="input-group">
     <span class="input-group-addon">
       <div class="checkbox">
-        <input type="checkbox">
+        <input type="checkbox" aria-label="自定义导出文件名">
       </div>
     </span>
-    <input type="text" class="form-control" placeholder="自定义名称">
+    <input type="text" class="form-control" placeholder="导出文件名，例如项目周报">
   </div>
 </Example>
 
@@ -83,20 +83,20 @@
 </div>
 <div class="input-group">
   <select class="form-control">
-    <option>类别</option>
+    <option>全部类型</option>
     <option>图片</option>
-    <option>文件</option>
+    <option>文档</option>
   </select>
-  <input type="text" class="form-control" placeholder="关键词">
-  <button type="button" class="btn"><i class="icon icon-search"></i></button>
+  <input type="text" class="form-control" placeholder="搜索文件名称">
+  <button type="button" class="btn" aria-label="搜索文件"><i class="icon icon-search"></i></button>
 </div>
 <div class="input-group">
   <span class="input-group-addon">
     <div class="checkbox">
-      <input type="checkbox">
+      <input type="checkbox" aria-label="自定义导出文件名">
     </div>
   </span>
-  <input type="text" class="form-control" placeholder="自定义名称">
+  <input type="text" class="form-control" placeholder="导出文件名，例如项目周报">
 </div>
 ```
 
