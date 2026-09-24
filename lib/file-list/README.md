@@ -87,7 +87,7 @@ fileList.render({
 fileList.render({items: [{...fileInfo, thumbnail: '/covers/report.png'}]});
 ```
 
-缩略图优先使用同步回调 `getThumbnail(file)` 返回的 URL，其次是文件的 `thumbnail` 字段；都为空时，才为原生图片生成预览。原生图片按 MIME 类型或图片扩展名识别，没有缩略图时使用 `fileIcon`。
+缩略图优先使用同步回调 `getThumbnail(file)` 返回的 URL，其次是文件的 `thumbnail` 字段；都为空时，才为原生图片生成预览。原生图片按 MIME 类型或图片扩展名识别，没有缩略图或图片加载失败时使用 `fileIcon`；更换缩略图 URL 后会重新尝试加载。
 
 设置列表选项 `thumbnail: false` 可关闭所有缩略图并恢复 `fileIcon` 配置，也不会调用 `getThumbnail`。组件会复用自己生成的预览 URL，并在不再使用或组件销毁时释放；调用方提供的 URL 由调用方管理。
 

@@ -1,11 +1,22 @@
 import {formatBytes, formatString} from '@zui/helpers';
 import {List} from '@zui/list/react';
 
-import type {RenderableProps} from 'preact';
-import {mergeProps, nextGid, type ClassNameLike, type IconType} from '@zui/core';
+import {Component, type RenderableProps} from 'preact';
+import {Icon, mergeProps, nextGid, type ClassNameLike, type IconType} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {ListState} from '@zui/list';
 import type {FileIconGetter, FileIconMap, FileInfo, FileInfoLike, FileListProps} from '../types';
+
+class FileThumbnail extends Component<{src: string; fallback: () => IconType | null}, {failed: boolean}> {
+    state = {failed: false};
+
+    render() {
+        const {src, fallback} = this.props;
+        return this.state.failed
+            ? <Icon className="item-icon text-gray" icon={fallback() || undefined} />
+            : <img className="item-icon file-list-thumbnail w-8 h-8 rounded object-cover" src={src} alt="" onError={() => this.setState({failed: true})} />;
+    }
+}
 
 export class FileList<T extends FileListProps = FileListProps, S extends ListState = ListState> extends List<T, S> {
     static NAME = 'file-list';
@@ -136,7 +147,9 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
                 ...file,
                 key: `${file.id}`,
                 className: mode === 'cards' ? 'file-list-card' : mode === 'cards-inline' ? 'file-list-card-inline' : mode === 'covers' ? 'file-list-cover' : undefined,
-                icon: thumbnailUrl ? <img className="item-icon file-list-thumbnail w-8 h-8 rounded object-cover" src={thumbnailUrl} alt="" /> : (this.constructor as typeof FileList).getFileIcon(file, fileIcon),
+                icon: thumbnailUrl
+                    ? <FileThumbnail key={thumbnailUrl} src={thumbnailUrl} fallback={() => (this.constructor as typeof FileList).getFileIcon(file, fileIcon)} />
+                    : (this.constructor as typeof FileList).getFileIcon(file, fileIcon),
                 iconClass: 'text-gray',
                 title: file.title,
                 subtitle,

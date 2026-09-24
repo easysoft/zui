@@ -282,6 +282,44 @@ describe('FileList', () => {
         expect(revokeObjectURL).not.toHaveBeenCalled();
     });
 
+    it('falls back after thumbnail errors and retries when the source changes', () => {
+        const file = {...files[0], thumbnail: '/covers/broken.png'};
+        const {container, rerender} = render(<FileListView items={[file]} fileIcon="file-pdf" />);
+        fireEvent.error(container.querySelector('img')!);
+        expect(container.querySelector('img')).toBeNull();
+        expect(container.querySelector('.item-icon.icon-file-pdf')).not.toBeNull();
+
+        rerender(<FileListView items={[file]} fileIcon={() => 'paper-clip'} />);
+        expect(container.querySelector('img')).toBeNull();
+        expect(container.querySelector('.item-icon.icon-paper-clip')).not.toBeNull();
+
+        rerender(<FileListView items={[{...file, thumbnail: '/covers/replaced.png'}]} />);
+        expect(container.querySelector('img')).toHaveAttribute('src', '/covers/replaced.png');
+        fireEvent.error(container.querySelector('img')!);
+        expect(container.querySelector('.item-icon')).toBeNull();
+
+        rerender(<FileListView items={[file]} fileIcon="file-pdf" />);
+        expect(container.querySelector('img')).toHaveAttribute('src', '/covers/broken.png');
+    });
+
+    it('falls back for invalid native images and releases their preview URLs on removal', () => {
+        const createObjectURL = vi.fn(() => 'blob:invalid-image');
+        const revokeObjectURL = vi.fn();
+        vi.stubGlobal('URL', class extends URL {
+            static createObjectURL = createObjectURL;
+            static revokeObjectURL = revokeObjectURL;
+        });
+        const items = [{file: new File(['invalid image'], 'invalid.png', {type: 'image/png'})}];
+        const {container, rerender} = render(<FileListView items={items} fileIcon="file-image" />);
+        fireEvent.error(container.querySelector('img')!);
+        expect(container.querySelector('.icon-file-image')).not.toBeNull();
+        rerender(<FileListView items={items} fileIcon="file-image" />);
+        expect(container.querySelector('img')).toBeNull();
+        expect(createObjectURL).toHaveBeenCalledTimes(1);
+        rerender(<FileListView items={[]} />);
+        expect(revokeObjectURL).toHaveBeenCalledExactlyOnceWith('blob:invalid-image');
+    });
+
     it('resolves custom thumbnail URLs before file metadata and skips the callback when disabled', () => {
         const file = new File(['image'], 'local.png', {type: 'image/png'});
         const items = [{file, thumbnail: '/covers/local.png'}];
