@@ -49,9 +49,9 @@
                 {name: 'transparent', label: '透明'},
                 {name: 'canvas', label: '画布'},
                 {name: 'inverse', label: '反色'},
-                {name: 'surface-light', label: '加重的控件'},
+                {name: 'surface-light', label: '轻量的控件'},
                 {name: 'surface', label: '控件'},
-                {name: 'surface-strong', label: '轻量的控件'},
+                {name: 'surface-strong', label: '加重的控件'},
             ],
         }
     ];

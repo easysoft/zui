@@ -38,9 +38,8 @@
 == HTML
 
 ```html
-<div class="break-normal border canvas w-56">  The quick brown fox jumps over the lazy dog.
-  白日依山尽，黄河入海流。
-  欲穷千里目，更上一层楼。</div>上一层楼。</div>
+<div class="break-normal border canvas w-56">CustomerPortalAttachmentPreviewAcceptanceReport20260924.pdf
+  客户门户附件预览验收报告，包含图片、PDF 和移动端上传的检查结果。</div>
 ```
 
 :::
@@ -60,9 +59,8 @@
 == HTML
 
 ```html
-<div class="break-words border canvas w-56">  The quick brown fox jumps over the lazy dog.
-  白日依山尽，黄河入海流。
-  欲穷千里目，更上一层楼。</div>上一层楼。</div>
+<div class="break-words border canvas w-56">CustomerPortalAttachmentPreviewAcceptanceReport20260924.pdf
+  客户门户附件预览验收报告，包含图片、PDF 和移动端上传的检查结果。</div>
 ```
 
 :::
@@ -82,9 +80,8 @@
 == HTML
 
 ```html
-<div class="break-all border canvas w-56">  The quick brown fox jumps over the lazy dog.
-  白日依山尽，黄河入海流。
-  欲穷千里目，更上一层楼。</div>上一层楼。</div>
+<div class="break-all border canvas w-56">CustomerPortalAttachmentPreviewAcceptanceReport20260924.pdf
+  客户门户附件预览验收报告，包含图片、PDF 和移动端上传的检查结果。</div>
 ```
 
 :::
@@ -95,7 +92,6 @@ const wordBreakList = [
     {name: 'break-words', desc: 'overflow-wrap: break-word;'},
     {name: 'break-all', desc: 'word-break: break-all;'},
 ];
-const exampleText = `  The quick brown fox jumps over the lazy dog.
-  白日依山尽，黄河入海流。
-  欲穷千里目，更上一层楼。`;
+const exampleText = `CustomerPortalAttachmentPreviewAcceptanceReport20260924.pdf
+  客户门户附件预览验收报告，包含图片、PDF 和移动端上传的检查结果。`;
 </script>

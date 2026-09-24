@@ -30,13 +30,13 @@
 == 示例
 
 <Example background="light-circle">
-  <p class="uppercase">The quick brown fox jumps over the lazy dog. </p>
+  <p class="uppercase">Customer portal release v1.2</p>
 </Example>
 
 == HTML
 
 ```html
-<p class="uppercase">The quick brown fox jumps over the lazy dog. </p>
+<p class="uppercase">Customer portal release v1.2</p>
 ```
 
 :::
@@ -48,13 +48,13 @@
 == 示例
 
 <Example background="light-circle">
-  <p class="lowercase">The quick brown fox jumps over the lazy dog. </p>
+  <p class="lowercase">Customer portal release v1.2</p>
 </Example>
 
 == HTML
 
 ```html
-<p class="lowercase">The quick brown fox jumps over the lazy dog. </p>
+<p class="lowercase">Customer portal release v1.2</p>
 ```
 
 :::
@@ -66,13 +66,13 @@
 == 示例
 
 <Example background="light-circle">
-  <p class="capitalize">The quick brown fox jumps over the lazy dog. </p>
+  <p class="capitalize">Customer portal release v1.2</p>
 </Example>
 
 == HTML
 
 ```html
-<p class="capitalize">The quick brown fox jumps over the lazy dog. </p>
+<p class="capitalize">Customer portal release v1.2</p>
 ```
 
 :::
@@ -84,13 +84,13 @@
 == 示例
 
 <Example background="light-circle">
-  <p class="normal-case">The quick brown fox jumps over the lazy dog. </p>
+  <p class="normal-case">Customer portal release v1.2</p>
 </Example>
 
 == HTML
 
 ```html
-<p class="normal-case">The quick brown fox jumps over the lazy dog. </p>
+<p class="normal-case">Customer portal release v1.2</p>
 ```
 
 :::

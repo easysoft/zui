@@ -91,29 +91,29 @@
 
 <Example>
   <div class="h-48 overflow-auto">
-    <div class="sticky top-0 secondary">黄鹤楼送孟浩然之广陵</div>
+    <div class="sticky top-0 secondary">周三 · 确认范围</div>
     <div class="py-4">
-      <p>故人西辞黄鹤楼，</p>
-      <p>烟花三月下扬州。</p>
-      <p>孤帆远影碧空尽，</p>
-      <p>唯见长江天际流。</p>
+      <p>09:00 汇总客户反馈</p>
+      <p>10:00 确认交付范围</p>
+      <p>14:00 分配研发任务</p>
+      <p>16:00 评审验收用例</p>
     </div>
-    <div class="sticky top-0 secondary">闻王昌龄左迁龙标遥有此寄</div>
+    <div class="sticky top-0 secondary">周四 · 完成验收</div>
     <div class="py-4">
-      <p>杨花落尽子规啼，</p>
-      <p>闻道龙标过五溪。</p>
-      <p>我寄愁心与明月，</p>
-      <p>随君直到夜郎西。</p>
+      <p>09:00 验证工单查询</p>
+      <p>10:30 验证附件预览</p>
+      <p>14:00 检查移动端上传</p>
+      <p>16:00 汇总验收结果</p>
     </div>
-    <div class="sticky top-0 secondary">宣州谢朓楼饯别校书叔云</div>
+    <div class="sticky top-0 secondary">周五 · 准备发布</div>
     <div class="py-4">
-      <p>弃我去者，昨日之日不可留；</p>
-      <p>乱我心者，今日之日多烦忧。</p>
-      <p>长风万里送秋雁，对此可以酣高楼。</p>
-      <p>蓬莱文章建安骨，中间小谢又清发。</p>
-      <p>俱怀逸兴壮思飞，欲上青天揽明月。</p>
-      <p>抽刀断水水更流，举杯消愁愁更愁。</p>
-      <p>人生在世不称意，明朝散发弄扁舟。</p>
+      <p>09:00 整理发布说明</p>
+      <p>10:00 检查数据库备份</p>
+      <p>11:00 确认回退步骤</p>
+      <p>15:00 召开发布评审</p>
+      <p>17:30 通知项目成员</p>
+      <p>18:00 更新客户门户</p>
+      <p>18:20 完成发布后检查</p>
     </div>
   </div>
 </Example>
@@ -122,17 +122,29 @@
 
 ```html
 <div class="h-48 overflow-auto">
-  <div class="sticky top-0">Sticky 1</div>
+  <div class="sticky top-0 secondary">周三 · 确认范围</div>
   <div class="py-4">
-    <!-- ... -->
+    <p>09:00 汇总客户反馈</p>
+    <p>10:00 确认交付范围</p>
+    <p>14:00 分配研发任务</p>
+    <p>16:00 评审验收用例</p>
   </div>
-  <div class="sticky top-0">Sticky 2</div>
+  <div class="sticky top-0 secondary">周四 · 完成验收</div>
   <div class="py-4">
-    <!-- ... -->
+    <p>09:00 验证工单查询</p>
+    <p>10:30 验证附件预览</p>
+    <p>14:00 检查移动端上传</p>
+    <p>16:00 汇总验收结果</p>
   </div>
-  <div class="sticky top-0">Sticky 3</div>
+  <div class="sticky top-0 secondary">周五 · 准备发布</div>
   <div class="py-4">
-    <!-- ... -->
+    <p>09:00 整理发布说明</p>
+    <p>10:00 检查数据库备份</p>
+    <p>11:00 确认回退步骤</p>
+    <p>15:00 召开发布评审</p>
+    <p>17:30 通知项目成员</p>
+    <p>18:00 更新客户门户</p>
+    <p>18:20 完成发布后检查</p>
   </div>
 </div>
 ```

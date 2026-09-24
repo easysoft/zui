@@ -43,15 +43,15 @@
 
 <Example>
   <ul class="list-unstyled">
-    <li>这是一个列表</li>
-    <li>含四个列表项</li>
-    <li>作为示例</li>
+    <li>确认交付范围</li>
+    <li>完成研发与代码评审</li>
+    <li>安排验收测试</li>
     <li>
-      最后一个列表有嵌套的子列表
+      准备发布材料
       <ul class="list-unstyled">
-        <li>子列表项 1</li>
-        <li>子列表项 2</li>
-        <li>子列表项 3</li>
+        <li>整理发布说明</li>
+        <li>确认数据备份</li>
+        <li>记录回退步骤</li>
       </ul>
     </li>
   </ul>
@@ -61,15 +61,15 @@
 
 ```html
 <ul class="list-unstyled">
-  <li>这是一个列表</li>
-  <li>含四个列表项</li>
-  <li>作为示例</li>
+  <li>确认交付范围</li>
+  <li>完成研发与代码评审</li>
+  <li>安排验收测试</li>
   <li>
-    最后一个列表有嵌套的子列表
+    准备发布材料
     <ul class="list-unstyled">
-      <li>子列表项 1</li>
-      <li>子列表项 2</li>
-      <li>子列表项 3</li>
+      <li>整理发布说明</li>
+      <li>确认数据备份</li>
+      <li>记录回退步骤</li>
     </ul>
   </li>
 </ul>
@@ -85,15 +85,15 @@
 
 <Example>
   <ul class="list-none">
-    <li>这是一个列表</li>
-    <li>含四个列表项</li>
-    <li>作为示例</li>
+    <li>确认交付范围</li>
+    <li>完成研发与代码评审</li>
+    <li>安排验收测试</li>
     <li>
-      最后一个列表有嵌套的子列表
+      准备发布材料
       <ul class="list-none">
-        <li>子列表项 1</li>
-        <li>子列表项 2</li>
-        <li>子列表项 3</li>
+        <li>整理发布说明</li>
+        <li>确认数据备份</li>
+        <li>记录回退步骤</li>
       </ul>
     </li>
   </ul>
@@ -103,15 +103,15 @@
 
 ```html
 <ul class="list-none">
-  <li>这是一个列表</li>
-  <li>含四个列表项</li>
-  <li>作为示例</li>
+  <li>确认交付范围</li>
+  <li>完成研发与代码评审</li>
+  <li>安排验收测试</li>
   <li>
-    最后一个列表有嵌套的子列表
+    准备发布材料
     <ul class="list-none">
-      <li>子列表项 1</li>
-      <li>子列表项 2</li>
-      <li>子列表项 3</li>
+      <li>整理发布说明</li>
+      <li>确认数据备份</li>
+      <li>记录回退步骤</li>
     </ul>
   </li>
 </ul>
@@ -127,15 +127,15 @@
 
 <Example>
   <ul class="list-disc">
-    <li>这是一个列表</li>
-    <li>含四个列表项</li>
-    <li>作为示例</li>
+    <li>确认交付范围</li>
+    <li>完成研发与代码评审</li>
+    <li>安排验收测试</li>
     <li>
-      最后一个列表有嵌套的子列表
+      准备发布材料
       <ul class="list-disc">
-        <li>子列表项 1</li>
-        <li>子列表项 2</li>
-        <li>子列表项 3</li>
+        <li>整理发布说明</li>
+        <li>确认数据备份</li>
+        <li>记录回退步骤</li>
       </ul>
     </li>
   </ul>
@@ -145,15 +145,15 @@
 
 ```html
 <ul class="list-disc">
-  <li>这是一个列表</li>
-  <li>含四个列表项</li>
-  <li>作为示例</li>
+  <li>确认交付范围</li>
+  <li>完成研发与代码评审</li>
+  <li>安排验收测试</li>
   <li>
-    最后一个列表有嵌套的子列表
+    准备发布材料
     <ul class="list-disc">
-      <li>子列表项 1</li>
-      <li>子列表项 2</li>
-      <li>子列表项 3</li>
+      <li>整理发布说明</li>
+      <li>确认数据备份</li>
+      <li>记录回退步骤</li>
     </ul>
   </li>
 </ul>
@@ -169,15 +169,15 @@
 
 <Example>
   <ul class="list-decimal">
-    <li>这是一个列表</li>
-    <li>含四个列表项</li>
-    <li>作为示例</li>
+    <li>确认交付范围</li>
+    <li>完成研发与代码评审</li>
+    <li>安排验收测试</li>
     <li>
-      最后一个列表有嵌套的子列表
+      准备发布材料
       <ul class="list-decimal">
-        <li>子列表项 1</li>
-        <li>子列表项 2</li>
-        <li>子列表项 3</li>
+        <li>整理发布说明</li>
+        <li>确认数据备份</li>
+        <li>记录回退步骤</li>
       </ul>
     </li>
   </ul>
@@ -187,15 +187,15 @@
 
 ```html
 <ul class="list-decimal">
-  <li>这是一个列表</li>
-  <li>含四个列表项</li>
-  <li>作为示例</li>
+  <li>确认交付范围</li>
+  <li>完成研发与代码评审</li>
+  <li>安排验收测试</li>
   <li>
-    最后一个列表有嵌套的子列表
+    准备发布材料
     <ul class="list-decimal">
-      <li>子列表项 1</li>
-      <li>子列表项 2</li>
-      <li>子列表项 3</li>
+      <li>整理发布说明</li>
+      <li>确认数据备份</li>
+      <li>记录回退步骤</li>
     </ul>
   </li>
 </ul>

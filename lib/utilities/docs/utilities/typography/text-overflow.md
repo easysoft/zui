@@ -30,13 +30,13 @@
 == 示例
 
 <Example background="light-circle">
-  <p class="text-ellipsis">The quick brown fox jumps over the lazy dog.白日依山尽，黄河入海流。欲穷千里目，更上一层楼。The quick brown fox jumps over the lazy dog.白日依山尽，黄河入海流。欲穷千里目，更上一层楼。</p>
+  <p class="text-ellipsis">客户门户 v1.2 将于周五 18:00 发布。本次更新支持图片和 PDF 附件在线预览，客户无需下载文件即可查看处理材料；移动端上传新增进度反馈，并在网络中断时保留已填写的工单描述。项目负责人需要在发布前确认验收结果、通知范围和回退步骤。发布后，值班成员将检查登录、工单查询、附件上传和消息提醒，并把客户反馈整理到下一轮迭代计划中。</p>
 </Example>
 
 == HTML
 
 ```html
-<p class="text-ellipsis">The quick brown fox jumps over the lazy dog.白日依山尽，黄河入海流。欲穷千里目，更上一层楼。The quick brown fox jumps over the lazy dog.白日依山尽，黄河入海流。欲穷千里目，更上一层楼。</p>
+<p class="text-ellipsis">客户门户 v1.2 将于周五 18:00 发布。本次更新支持图片和 PDF 附件在线预览，客户无需下载文件即可查看处理材料；移动端上传新增进度反馈，并在网络中断时保留已填写的工单描述。项目负责人需要在发布前确认验收结果、通知范围和回退步骤。发布后，值班成员将检查登录、工单查询、附件上传和消息提醒，并把客户反馈整理到下一轮迭代计划中。</p>
 ```
 
 :::
@@ -50,13 +50,13 @@
 == 示例
 
 <Example background="light-circle">
-  <p class="text-clip">The quick brown fox jumps over the lazy dog.白日依山尽，黄河入海流。欲穷千里目，更上一层楼。The quick brown fox jumps over the lazy dog.白日依山尽，黄河入海流。欲穷千里目，更上一层楼。</p>
+  <p class="text-clip">客户门户 v1.2 将于周五 18:00 发布。本次更新支持图片和 PDF 附件在线预览，客户无需下载文件即可查看处理材料；移动端上传新增进度反馈，并在网络中断时保留已填写的工单描述。项目负责人需要在发布前确认验收结果、通知范围和回退步骤。发布后，值班成员将检查登录、工单查询、附件上传和消息提醒，并把客户反馈整理到下一轮迭代计划中。</p>
 </Example>
 
 == HTML
 
 ```html
-<p class="text-clip">The quick brown fox jumps over the lazy dog.白日依山尽，黄河入海流。欲穷千里目，更上一层楼。The quick brown fox jumps over the lazy dog.白日依山尽，黄河入海流。欲穷千里目，更上一层楼。</p>
+<p class="text-clip">客户门户 v1.2 将于周五 18:00 发布。本次更新支持图片和 PDF 附件在线预览，客户无需下载文件即可查看处理材料；移动端上传新增进度反馈，并在网络中断时保留已填写的工单描述。项目负责人需要在发布前确认验收结果、通知范围和回退步骤。发布后，值班成员将检查登录、工单查询、附件上传和消息提醒，并把客户反馈整理到下一轮迭代计划中。</p>
 ```
 
 :::

@@ -38,9 +38,10 @@
 == HTML
 
 ```html
-<div class="whitespace-nowrap border canvas w-56">  The quick brown fox jumps over the lazy dog.
-  白日依山尽，黄河入海流。
-  欲穷千里目，更上一层楼。</div>
+<div class="whitespace-nowrap border canvas w-56">  客户门户 v1.2 发布安排
+    负责人    林悦
+    评审时间  周五 15:00
+    发布范围  工单查询、附件预览与消息通知</div>
 ```
 
 :::
@@ -60,9 +61,10 @@
 == HTML
 
 ```html
-<div class="whitespace-pre border canvas w-56">  The quick brown fox jumps over the lazy dog.
-  白日依山尽，黄河入海流。
-  欲穷千里目，更上一层楼。</div>
+<div class="whitespace-pre border canvas w-56">  客户门户 v1.2 发布安排
+    负责人    林悦
+    评审时间  周五 15:00
+    发布范围  工单查询、附件预览与消息通知</div>
 ```
 
 :::
@@ -82,9 +84,10 @@
 == HTML
 
 ```html
-<div class="whitespace-pre-line border canvas w-56">  The quick brown fox jumps over the lazy dog.
-  白日依山尽，黄河入海流。
-  欲穷千里目，更上一层楼。</div>上一层楼。</div>
+<div class="whitespace-pre-line border canvas w-56">  客户门户 v1.2 发布安排
+    负责人    林悦
+    评审时间  周五 15:00
+    发布范围  工单查询、附件预览与消息通知</div>
 ```
 
 :::
@@ -104,9 +107,10 @@
 == HTML
 
 ```html
-<div class="whitespace-pre-wrap border canvas w-56">  The quick brown fox jumps over the lazy dog.
-  白日依山尽，黄河入海流。
-  欲穷千里目，更上一层楼。</div>
+<div class="whitespace-pre-wrap border canvas w-56">  客户门户 v1.2 发布安排
+    负责人    林悦
+    评审时间  周五 15:00
+    发布范围  工单查询、附件预览与消息通知</div>
 ```
 
 :::
@@ -118,7 +122,8 @@ const whitespaceList = [
     {name: 'whitespace-pre-line', desc: 'white-space: pre-line;'},
     {name: 'whitespace-pre-wrap', desc: 'white-space: pre-wrap;'},
 ];
-const exampleText = `  The quick brown fox jumps over the lazy dog.
-  白日依山尽，黄河入海流。
-  欲穷千里目，更上一层楼。`;
+const exampleText = `  客户门户 v1.2 发布安排
+    负责人    林悦
+    评审时间  周五 15:00
+    发布范围  工单查询、附件预览与消息通知`;
 </script>

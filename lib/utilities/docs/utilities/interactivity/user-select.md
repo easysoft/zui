@@ -29,19 +29,19 @@
 == HTML
 
 ```html
-<div class="select-none">禁止选择文本</div>
-<div class="select-text">允许选择文本</div>
-<div class="select-all">点击自动选择所有文本</div>
-<div class="select-auto">浏览器默认行为</div>
+<div class="select-none">拖动手柄：调整任务顺序</div>
+<div class="select-text">验收结论：附件预览通过</div>
+<div class="select-all">PORTAL-2026-018</div>
+<div class="select-auto">负责人：林悦</div>
 ```
 
 :::
 
 <script setup>
 const userSelectList = [
-    {name: 'select-none', title: '禁止选择文本'},
-    {name: 'select-text', title: '允许选择文本'},
-    {name: 'select-all', title: '点击自动选择所有文本'},
-    {name: 'select-auto', title: '浏览器默认行为'},
+    {name: 'select-none', title: '拖动手柄：调整任务顺序'},
+    {name: 'select-text', title: '验收结论：附件预览通过'},
+    {name: 'select-all', title: 'PORTAL-2026-018'},
+    {name: 'select-auto', title: '负责人：林悦'},
 ];
 </script>

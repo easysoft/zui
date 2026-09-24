@@ -30,13 +30,13 @@
 == 示例
 
 <Example background="light-circle">
-  <p class="underline">The quick brown fox jumps over the lazy dog. 白日依山尽，黄河入海流。</p>
+  <p class="underline">查看客户门户发布说明</p>
 </Example>
 
 == HTML
 
 ```html
-<p class="underline">The quick brown fox jumps over the lazy dog. 白日依山尽，黄河入海流。</p>
+<p class="underline">查看客户门户发布说明</p>
 ```
 
 :::
@@ -48,13 +48,13 @@
 == 示例
 
 <Example background="light-circle">
-  <p class="overline">The quick brown fox jumps over the lazy dog. 白日依山尽，黄河入海流。</p>
+  <p class="overline">交付范围已确认</p>
 </Example>
 
 == HTML
 
 ```html
-<p class="overline">The quick brown fox jumps over the lazy dog. 白日依山尽，黄河入海流。</p>
+<p class="overline">交付范围已确认</p>
 ```
 
 :::
@@ -66,13 +66,13 @@
 == 示例
 
 <Example background="light-circle">
-  <p class="line-through">The quick brown fox jumps over the lazy dog. 白日依山尽，黄河入海流。</p>
+  <p class="line-through">原计划：周四 18:00 发布（已取消）</p>
 </Example>
 
 == HTML
 
 ```html
-<p class="line-through">The quick brown fox jumps over the lazy dog. 白日依山尽，黄河入海流。</p>
+<p class="line-through">原计划：周四 18:00 发布（已取消）</p>
 ```
 
 :::
@@ -84,13 +84,13 @@
 == 示例
 
 <Example background="light-circle">
-  <p class="no-underline">The quick brown fox jumps over the lazy dog. 白日依山尽，黄河入海流。</p>
+  <p class="no-underline">新计划：周五 18:00 发布</p>
 </Example>
 
 == HTML
 
 ```html
-<p class="no-underline">The quick brown fox jumps over the lazy dog. 白日依山尽，黄河入海流。</p>
+<p class="no-underline">新计划：周五 18:00 发布</p>
 ```
 
 :::

@@ -37,8 +37,8 @@
 <Example background="light-grid">
   <div class="clearfix">
     <img class="pull-right ml-4 h-24" src="/favicon.svg">
-    <p>So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the kinship of all living things but I tell you Jerry at that moment, I was a marine biologist.</p>
-    <p>月光如流水一般，静静地泻在这一片叶子和花上。薄薄的青雾浮起在荷塘里。叶子和花仿佛在牛乳中洗过一样；又像笼着轻纱的梦。</p>
+    <p>The release review is scheduled for Friday at 15:00. The team will confirm the delivery scope, review the acceptance results, and check the upgrade instructions before publishing. After the update, the on-call engineer will verify sign-in, ticket search, and file uploads. Any remaining issues will be recorded with an owner and a follow-up date.</p>
+    <p>本次迭代交付工单查询、附件预览和消息通知。发布前请核对验收结果与升级说明，确认负责人和回退步骤。发布后由值班成员检查核心操作，记录客户反馈，并安排下一轮改进。</p>
   </div>
 </Example>
 
@@ -46,9 +46,9 @@
 
 ```html
 <div class="clearfix">
-  <img class="pull-right ml-2 h-24" src="/favicon.svg">
-  <p>So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the kinship of all living things but I tell you Jerry at that moment, I was a marine biologist.</p>
-    <p>月光如流水一般，静静地泻在这一片叶子和花上。薄薄的青雾浮起在荷塘里。叶子和花仿佛在牛乳中洗过一样；又像笼着轻纱的梦。</p>
+  <img class="pull-right ml-4 h-24" src="/favicon.svg">
+  <p>The release review is scheduled for Friday at 15:00. The team will confirm the delivery scope, review the acceptance results, and check the upgrade instructions before publishing. After the update, the on-call engineer will verify sign-in, ticket search, and file uploads. Any remaining issues will be recorded with an owner and a follow-up date.</p>
+  <p>本次迭代交付工单查询、附件预览和消息通知。发布前请核对验收结果与升级说明，确认负责人和回退步骤。发布后由值班成员检查核心操作，记录客户反馈，并安排下一轮改进。</p>
 </div>
 ```
 
@@ -64,8 +64,8 @@
 <Example background="light-grid">
   <div class="clearfix">
     <img class="pull-left mr-4 h-24" src="/favicon.svg">
-    <p>So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the kinship of all living things but I tell you Jerry at that moment, I was a marine biologist.</p>
-    <p>月光如流水一般，静静地泻在这一片叶子和花上。薄薄的青雾浮起在荷塘里。叶子和花仿佛在牛乳中洗过一样；又像笼着轻纱的梦。</p>
+    <p>The release review is scheduled for Friday at 15:00. The team will confirm the delivery scope, review the acceptance results, and check the upgrade instructions before publishing. After the update, the on-call engineer will verify sign-in, ticket search, and file uploads. Any remaining issues will be recorded with an owner and a follow-up date.</p>
+    <p>本次迭代交付工单查询、附件预览和消息通知。发布前请核对验收结果与升级说明，确认负责人和回退步骤。发布后由值班成员检查核心操作，记录客户反馈，并安排下一轮改进。</p>
   </div>
 </Example>
 
@@ -74,8 +74,8 @@
 ```html
 <div class="clearfix">
   <img class="pull-left mr-4 h-24" src="/favicon.svg">
-  <p>So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the kinship of all living things but I tell you Jerry at that moment, I was a marine biologist.</p>
-    <p>月光如流水一般，静静地泻在这一片叶子和花上。薄薄的青雾浮起在荷塘里。叶子和花仿佛在牛乳中洗过一样；又像笼着轻纱的梦。</p>
+  <p>The release review is scheduled for Friday at 15:00. The team will confirm the delivery scope, review the acceptance results, and check the upgrade instructions before publishing. After the update, the on-call engineer will verify sign-in, ticket search, and file uploads. Any remaining issues will be recorded with an owner and a follow-up date.</p>
+  <p>本次迭代交付工单查询、附件预览和消息通知。发布前请核对验收结果与升级说明，确认负责人和回退步骤。发布后由值班成员检查核心操作，记录客户反馈，并安排下一轮改进。</p>
 </div>
 ```
 

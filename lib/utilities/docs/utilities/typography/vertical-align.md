@@ -31,8 +31,8 @@
   <p class="text-xl mb-3">参照文本<span class="align-middle text-sm">中部对齐</span></p>
   <p class="text-xl mb-3">参照文本<span class="align-top text-sm">顶端对齐</span></p>
   <p class="text-xl mb-3">参照文本<span class="align-bottom text-sm">底部对齐</span></p>
-  <p class="text-xl mb-3">参照文本<span class="align-super text-sm">文本下标对齐</span></p>
-  <p class="text-xl mb-3">参照文本<span class="align-sub text-sm">文本上标对齐</span></p>
+  <p class="text-xl mb-3">会议室面积：32 m<span class="align-super text-sm">2</span></p>
+  <p class="text-xl mb-3">水分子：H<span class="align-sub text-sm">2</span>O</p>
 </Example>
 
 == HTML
@@ -41,8 +41,8 @@
 <p class="text-xl">参照文本<span class="align-middle text-sm">中部对齐</span></p>
 <p class="text-xl">参照文本<span class="align-top text-sm">顶端对齐</span></p>
 <p class="text-xl">参照文本<span class="align-bottom text-sm">底部对齐</span></p>
-<p class="text-xl">参照文本<span class="align-super text-sm">文本下标对齐</span></p>
-<p class="text-xl">参照文本<span class="align-sub text-sm">文本上标对齐</span></p>
+<p class="text-xl">会议室面积：32 m<span class="align-super text-sm">2</span></p>
+<p class="text-xl">水分子：H<span class="align-sub text-sm">2</span>O</p>
 ```
 
 :::

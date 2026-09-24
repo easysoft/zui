@@ -10,7 +10,7 @@
 
 <Example class="space-y-4">
   <div id="loadExample" class="load-indicator relative center h-40 secondary-pale">
-    <p>Hello ZUI!</p>
+    <p>正在加载项目工单，请稍候。</p>
   </div>
   <button type="button" class="btn primary" onclick="document.getElementById('loadExample').classList.toggle('loading')">切换加载状态</button>
 </Example>
@@ -19,7 +19,7 @@
 
 ```html
 <div class="load-indicator relative loading">
-  <p>Hello ZUI!</p>
+  <p>正在加载项目工单，请稍候。</p>
 </div>
 ```
 
