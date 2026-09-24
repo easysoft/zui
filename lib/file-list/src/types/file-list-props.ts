@@ -17,9 +17,10 @@ export interface FileListProps<T extends FileInfoLike = FileInfoLike> extends Li
     heading?: ListitemProps;
     /** File icons are disabled by default. Load any required icon library separately. */
     fileIcon?: FileIconSetting;
-    /** Show native image files as thumbnails in place of icons. Defaults to true. */
+    /** Show file thumbnails in place of icons. Defaults to true. */
     thumbnail?: boolean;
-    getThumbnail?: (file: FileInfo) => string | Promise<string>;
+    /** Override the thumbnail URL. An empty string falls back to the file's thumbnail or native image preview. */
+    getThumbnail?: (file: FileInfo) => string;
     fileSizeFormat?: string;
     fileUrl?: string | ((file: T) => string);
     fileActions?: (file: T) => ListitemProps['actions'];

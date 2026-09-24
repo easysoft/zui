@@ -187,6 +187,51 @@ describe('FileList', () => {
         expect(createObjectURL).toHaveBeenCalledTimes(4);
     });
 
+    it('uses each file thumbnail URL without a native file and never revokes caller URLs', () => {
+        const createObjectURL = vi.fn();
+        const revokeObjectURL = vi.fn();
+        vi.stubGlobal('URL', class extends URL {
+            static createObjectURL = createObjectURL;
+            static revokeObjectURL = revokeObjectURL;
+        });
+        const file = Object.freeze({...files[0], thumbnail: '/covers/guide.png'});
+        const {container, rerender, unmount} = render(<FileListView items={[file]} />);
+
+        expect(container.querySelector('img.item-icon')).toHaveAttribute('src', '/covers/guide.png');
+        rerender(<FileListView items={[file]} thumbnail={false} fileIcon="paper-clip" />);
+        expect(container.querySelector('img')).toBeNull();
+        expect(container.querySelector('.icon-paper-clip')).not.toBeNull();
+
+        rerender(<FileListView items={[{...file, thumbnail: 'blob:caller-cover'}]} />);
+        expect(container.querySelector('img.item-icon')).toHaveAttribute('src', 'blob:caller-cover');
+        rerender(<FileListView items={[{...file, thumbnail: ''}]} fileIcon="paper-clip" />);
+        expect(container.querySelector('img')).toBeNull();
+        expect(container.querySelector('.icon-paper-clip')).not.toBeNull();
+        unmount();
+        expect(createObjectURL).not.toHaveBeenCalled();
+        expect(revokeObjectURL).not.toHaveBeenCalled();
+    });
+
+    it('resolves custom thumbnail URLs before file metadata and skips the callback when disabled', () => {
+        const file = new File(['image'], 'local.png', {type: 'image/png'});
+        const items = [{file, thumbnail: '/covers/local.png'}];
+        const getThumbnail = vi.fn(() => '/covers/custom.png');
+        const {container, rerender} = render(<FileListView items={items} getThumbnail={getThumbnail} />);
+
+        expect(container.querySelector('img.item-icon')).toHaveAttribute('src', '/covers/custom.png');
+        expect(getThumbnail).toHaveBeenCalledWith(expect.objectContaining({file, title: 'local.png', extension: 'png', id: expect.any(String)}));
+
+        getThumbnail.mockReturnValue('');
+        rerender(<FileListView items={items} getThumbnail={getThumbnail} />);
+        expect(container.querySelector('img.item-icon')).toHaveAttribute('src', '/covers/local.png');
+
+        getThumbnail.mockClear();
+        rerender(<FileListView items={items} getThumbnail={getThumbnail} thumbnail={false} fileIcon="paper-clip" />);
+        expect(container.querySelector('img')).toBeNull();
+        expect(container.querySelector('.icon-paper-clip')).not.toBeNull();
+        expect(getThumbnail).not.toHaveBeenCalled();
+    });
+
     it('reuses thumbnail URLs and releases them on replacement, removal and vanilla destruction', async () => {
         let urlId = 0;
         const createObjectURL = vi.fn(() => `blob:preview-${++urlId}`);
@@ -211,6 +256,10 @@ describe('FileList', () => {
         list.render({items: [{id: 'image', file: second}]});
         expect(host.querySelector('img')).toHaveAttribute('src', 'blob:preview-2');
         expect(revokeObjectURL.mock.calls).toEqual([['blob:preview-1']]);
+
+        list.render({items: [{id: 'image', file: second, thumbnail: '/covers/photo.png'}]});
+        expect(host.querySelector('img')).toHaveAttribute('src', '/covers/photo.png');
+        expect(revokeObjectURL.mock.calls).toEqual([['blob:preview-1'], ['blob:preview-2']]);
 
         list.render({items: []});
         expect(host.querySelector('img')).toBeNull();

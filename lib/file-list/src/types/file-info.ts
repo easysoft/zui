@@ -8,10 +8,13 @@ export type FileInfo = {
     extension: string;
     size: number;
     pathname: string;
+    /** Cover image URL, also supported for files without a native File object. */
+    thumbnail?: string;
     addedBy: string;
     addedDate: string;
     downloads?: number;
     deleted?: boolean;
+    file?: File;
 };
 
 /**

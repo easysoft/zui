@@ -31,6 +31,7 @@ onPageUpdate(() => {
                 id: 79939,
                 pathname: '202303/2917460608242575.pdf',
                 title: '插件安装文档.pdf',
+                thumbnail: '/favicon.svg',
                 extension: 'pdf',
                 size: 38594,
                 addedBy: 'sunhao',

@@ -4,7 +4,7 @@
 
 ## 示例
 
-默认不显示文件类型图标。
+默认不显示文件类型图标；提供封面 URL 时显示缩略图。
 
 ```html:example
 <div id="fileList"></div>
@@ -79,9 +79,15 @@ fileList.render({
 
 ### 图片缩略图
 
-原生图片文件默认在图标位置显示缩略图，即使 `fileIcon` 为 `false` 也会显示。图片按 MIME 类型或图片扩展名识别；没有原生 `File` 的记录仍按 `fileIcon` 显示图标。
+文件默认在图标位置显示缩略图，即使 `fileIcon` 为 `false` 也会显示。没有原生 `File` 的记录可通过自身的 `thumbnail` 字段提供封面 URL，PDF 等非图片文件也可使用封面。
 
-设置 `thumbnail: false` 可关闭缩略图并恢复 `fileIcon` 配置。组件会复用预览 URL，并在文件移除、关闭缩略图或组件销毁时释放。
+```ts
+fileList.render({items: [{...fileInfo, thumbnail: '/covers/report.png'}]});
+```
+
+缩略图优先使用同步回调 `getThumbnail(file)` 返回的 URL，其次是文件的 `thumbnail` 字段；都为空时，才为原生图片生成预览。原生图片按 MIME 类型或图片扩展名识别，没有缩略图时使用 `fileIcon`。
+
+设置列表选项 `thumbnail: false` 可关闭所有缩略图并恢复 `fileIcon` 配置，也不会调用 `getThumbnail`。组件会复用自己生成的预览 URL，并在不再使用或组件销毁时释放；调用方提供的 URL 由调用方管理。
 
 ```ts
 fileList.render({items: [{file: imageFile}], thumbnail: false});
