@@ -9,22 +9,22 @@
 == 示例
 
 <Example class="col gap-4">
-  <input type="text" class="form-control" placeholder="文本" />
+  <input type="text" class="form-control" placeholder="请输入项目名称" />
   <input type="password" class="form-control" placeholder="密码" />
-  <input type="email" class="form-control" placeholder="电子邮件" />
-  <input type="number" class="form-control" placeholder="数值" />
-  <input type="tel" class="form-control" placeholder="电话" />
+  <input type="email" class="form-control" placeholder="例如 linyue@example.com" />
+  <input type="number" class="form-control" placeholder="预计工时（小时）" />
+  <input type="tel" class="form-control" placeholder="请输入联系电话" />
   <input type="url" class="form-control" placeholder="URL" />
 </Example>
 
 == HTML
 
 ```html
-<input type="text" class="form-control" placeholder="文本" />
+<input type="text" class="form-control" placeholder="请输入项目名称" />
 <input type="password" class="form-control" placeholder="密码" />
-<input type="email" class="form-control" placeholder="电子邮件" />
-<input type="number" class="form-control" placeholder="数值" />
-<input type="tel" class="form-control" placeholder="电话" />
+<input type="email" class="form-control" placeholder="例如 linyue@example.com" />
+<input type="number" class="form-control" placeholder="预计工时（小时）" />
+<input type="tel" class="form-control" placeholder="请输入联系电话" />
 <input type="url" class="form-control" placeholder="URL" />
 ```
 
@@ -41,26 +41,26 @@
 == 示例
 
 <Example>
-  <select class="form-control" placeholder="选择一个宠物..." >
+  <select class="form-control" placeholder="选择负责部门..." >
     <option value=""></option>
-    <option value="cat">小猫</option>
-    <option value="fish">金鱼</option>
-    <option value="dragon">龙</option>
-    <option value="mammoth">猛犸</option>
-    <option value="gollum">咕噜</option>
+    <option value="product">产品部</option>
+    <option value="development">研发部</option>
+    <option value="qa">测试部</option>
+    <option value="design">设计部</option>
+    <option value="support">客户支持部</option>
   </select>
 </Example>
 
 == HTML
 
 ```html
-<select class="form-control" placeholder="选择一个宠物..." >
+<select class="form-control" placeholder="选择负责部门..." >
   <option value=""></option>
-  <option value="cat">小猫</option>
-  <option value="fish">金鱼</option>
-  <option value="dragon">龙</option>
-  <option value="mammoth">猛犸</option>
-  <option value="gollum">咕噜</option>
+  <option value="product">产品部</option>
+  <option value="development">研发部</option>
+  <option value="qa">测试部</option>
+  <option value="design">设计部</option>
+  <option value="support">客户支持部</option>
 </select>
 ```
 
@@ -73,26 +73,26 @@
 == 示例
 
 <Example>
-  <select class="form-control h-24" multiple placeholder="选择多个宠物..." >
+  <select class="form-control h-24" multiple placeholder="选择协作部门..." >
     <option value=""></option>
-    <option value="cat">小猫</option>
-    <option value="fish">金鱼</option>
-    <option value="dragon">龙</option>
-    <option value="mammoth">猛犸</option>
-    <option value="gollum">咕噜</option>
+    <option value="product">产品部</option>
+    <option value="development">研发部</option>
+    <option value="qa">测试部</option>
+    <option value="design">设计部</option>
+    <option value="support">客户支持部</option>
   </select>
 </Example>
 
 == HTML
 
 ```html
-<select class="form-control h-24" multiple placeholder="选择多个宠物..." >
+<select class="form-control h-24" multiple placeholder="选择协作部门..." >
   <option value=""></option>
-  <option value="cat">小猫</option>
-  <option value="fish">金鱼</option>
-  <option value="dragon">龙</option>
-  <option value="mammoth">猛犸</option>
-  <option value="gollum">咕噜</option>
+  <option value="product">产品部</option>
+  <option value="development">研发部</option>
+  <option value="qa">测试部</option>
+  <option value="design">设计部</option>
+  <option value="support">客户支持部</option>
 </select>
 ```
 
@@ -113,14 +113,14 @@
 == 示例
 
 <Example>
-  <textarea class="form-control" rows="5" placeholder="输入一些文本">Hello, world!</textarea>
+  <textarea class="form-control" rows="5" placeholder="说明项目目标与交付范围">让客户可以自助查询工单进展，并查看完整的处理记录。</textarea>
 </Example>
 
 == HTML
 
 ```html
-<textarea rows="5" class="form-control" placeholder="输入一些文本">
-Hello, world!
+<textarea rows="5" class="form-control" placeholder="说明项目目标与交付范围">
+让客户可以自助查询工单进展，并查看完整的处理记录。
 </textarea>
 ```
 
@@ -323,49 +323,49 @@ Hello, world!
 == 示例
 
 <Example class="col gap-4">
-  <input type="text" disabled class="form-control" placeholder="文本" />
+  <input type="text" disabled class="form-control" placeholder="请输入项目名称" />
   <input type="file" disabled class="form-control" placeholder="文件" />
-  <select class="form-control" disabled placeholder="选择一个宠物..." >
+  <select class="form-control" disabled placeholder="选择负责部门..." >
     <option value=""></option>
-    <option value="cat">小猫</option>
-    <option value="fish">金鱼</option>
-    <option value="dragon">龙</option>
-    <option value="mammoth">猛犸</option>
-    <option value="gollum">咕噜</option>
+    <option value="product">产品部</option>
+    <option value="development">研发部</option>
+    <option value="qa">测试部</option>
+    <option value="design">设计部</option>
+    <option value="support">客户支持部</option>
   </select>
-  <select class="form-control h-24" multiple disabled placeholder="选择多个宠物..." >
+  <select class="form-control h-24" multiple disabled placeholder="选择协作部门..." >
     <option value=""></option>
-    <option value="cat">小猫</option>
-    <option value="fish">金鱼</option>
-    <option value="dragon">龙</option>
-    <option value="mammoth">猛犸</option>
-    <option value="gollum">咕噜</option>
+    <option value="product">产品部</option>
+    <option value="development">研发部</option>
+    <option value="qa">测试部</option>
+    <option value="design">设计部</option>
+    <option value="support">客户支持部</option>
   </select>
-  <textarea class="form-control" disabled rows="5" placeholder="输入一些文本">Hello, world!</textarea>
+  <textarea class="form-control" disabled rows="5" placeholder="说明项目目标与交付范围">让客户可以自助查询工单进展，并查看完整的处理记录。</textarea>
 </Example>
 
 == HTML
 
 ```html
-<input type="text" disabled class="form-control" placeholder="文本" />
+<input type="text" disabled class="form-control" placeholder="请输入项目名称" />
 <input type="file" disabled class="form-control" placeholder="文件" />
-<select class="form-control" disabled placeholder="选择一个宠物..." >
+<select class="form-control" disabled placeholder="选择负责部门..." >
   <option value=""></option>
-  <option value="cat">小猫</option>
-  <option value="fish">金鱼</option>
-  <option value="dragon">龙</option>
-  <option value="mammoth">猛犸</option>
-  <option value="gollum">咕噜</option>
+  <option value="product">产品部</option>
+  <option value="development">研发部</option>
+  <option value="qa">测试部</option>
+  <option value="design">设计部</option>
+  <option value="support">客户支持部</option>
 </select>
-<select class="form-control h-24" multiple disabled placeholder="选择多个宠物..." >
+<select class="form-control h-24" multiple disabled placeholder="选择协作部门..." >
   <option value=""></option>
-  <option value="cat">小猫</option>
-  <option value="fish">金鱼</option>
-  <option value="dragon">龙</option>
-  <option value="mammoth">猛犸</option>
-  <option value="gollum">咕噜</option>
+  <option value="product">产品部</option>
+  <option value="development">研发部</option>
+  <option value="qa">测试部</option>
+  <option value="design">设计部</option>
+  <option value="support">客户支持部</option>
 </select>
-<textarea class="form-control" disabled rows="5" placeholder="输入一些文本">Hello, world!</textarea>
+<textarea class="form-control" disabled rows="5" placeholder="说明项目目标与交付范围">让客户可以自助查询工单进展，并查看完整的处理记录。</textarea>
 ```
 
 :::
@@ -380,15 +380,15 @@ Hello, world!
 == 示例
 
 <Example class="col gap-4">
-  <input type="text" readonly class="form-control" placeholder="文本" />
-  <textarea class="form-control" readonly rows="5" placeholder="输入一些文本">Hello, world!</textarea>
+  <input type="text" readonly class="form-control" value="客户门户升级" />
+  <textarea class="form-control" readonly rows="5" placeholder="说明项目目标与交付范围">让客户可以自助查询工单进展，并查看完整的处理记录。</textarea>
 </Example>
 
 == HTML
 
 ```html
-<input type="text" readonly class="form-control" placeholder="文本" />
-<textarea class="form-control" readonly rows="5" placeholder="输入一些文本">Hello, world!</textarea>
+<input type="text" readonly class="form-control" value="客户门户升级" />
+<textarea class="form-control" readonly rows="5" placeholder="说明项目目标与交付范围">让客户可以自助查询工单进展，并查看完整的处理记录。</textarea>
 ```
 
 :::
@@ -403,13 +403,13 @@ Hello, world!
 
 <Example class="col gap-4">
   <div class="has-error">
-    <input type="text" class="form-control" placeholder="输入一些文本" />
+    <input type="text" class="form-control" placeholder="说明项目目标与交付范围" />
   </div>
   <div class="has-warning">
-    <input type="text" class="form-control" placeholder="输入一些文本" />
+    <input type="text" class="form-control" placeholder="说明项目目标与交付范围" />
   </div>
   <div class="has-success">
-    <input type="text" class="form-control" placeholder="输入一些文本" />
+    <input type="text" class="form-control" placeholder="说明项目目标与交付范围" />
   </div>
 </Example>
 
@@ -417,13 +417,13 @@ Hello, world!
 
 ```html
 <div class="has-error">
-  <input type="text" class="form-control" placeholder="输入一些文本" />
+  <input type="text" class="form-control" placeholder="说明项目目标与交付范围" />
 </div>
 <div class="has-warning">
-  <input type="text" class="form-control" placeholder="输入一些文本" />
+  <input type="text" class="form-control" placeholder="说明项目目标与交付范围" />
 </div>
 <div class="has-success">
-  <input type="text" class="form-control" placeholder="输入一些文本" />
+  <input type="text" class="form-control" placeholder="说明项目目标与交付范围" />
 </div>
 ```
 
