@@ -16,7 +16,7 @@
 
 ```js
 const upload = new Upload('#example1', {
-    name: 'files1'
+    name: 'projectAttachments'
 });
 ```
 
@@ -30,7 +30,7 @@ const upload = new Upload('#example1', {
 
 ```js
 const upload = new Upload('#example2', {
-    name: 'files2',
+    name: 'acceptanceReport',
     multiple: false,
 });
 ```
@@ -45,10 +45,10 @@ const upload = new Upload('#example2', {
 
 ```js
 const upload = new Upload('#example3', {
-    name: 'files3',
+    name: 'reviewAttachments',
     multiple: true,
     limitCount: 5,
-    exceededCountHint: '超出上传文件数量限制',
+    exceededCountHint: '最多添加 5 份评审附件，请移除不需要的文件。',
 });
 ```
 
@@ -62,10 +62,10 @@ const upload = new Upload('#example3', {
 
 ```js
 const upload = new Upload('#example4', {
-    name: 'files4',
+    name: 'designFiles',
     multiple: true,
     limitSize: '50MB',
-    exceededSizeHint: '超出上传文件大小限制',
+    exceededSizeHint: '单个设计文件不能超过 50 MB，请压缩后重试。',
 });
 ```
 
@@ -81,7 +81,7 @@ const upload = new Upload('#example4', {
 
 ```js
 const upload = new Upload('#example5', {
-    name: 'files5',
+    name: 'archivedAttachments',
     renameBtn: false,
     deleteBtn: false,
 });
@@ -97,7 +97,7 @@ const upload = new Upload('#example5', {
 
 ```js
 const upload = new Upload('#example6', {
-    name: 'files6',
+    name: 'releaseAttachments',
     useIconBtn: false,
 });
 ```
@@ -112,9 +112,10 @@ const upload = new Upload('#example6', {
 
 ```js
 const upload = new Upload('#example7', {
-    name: 'files7',
+    name: 'handoffFiles',
     draggable: true,
-    tip: '可点击添加或拖拽上传，不超过50M',
+    limitSize: '50MB',
+    tip: '添加交付材料，单个文件不超过 50 MB',
 });
 ```
 
@@ -127,14 +128,14 @@ const upload = new Upload('#example7', {
 </Example>
 
 ```js
-const file1 = new File(['file1'], 'file1.txt', {
+const file1 = new File(['客户门户 v1.2：新增附件预览，优化移动端上传。'], '发布说明.txt', {
     type: 'text/plain',
 });
-const file2 = new File(['file2'], 'file2.txt', {
+const file2 = new File(['验收清单：登录、工单查询、附件预览、移动端上传。'], '验收清单.txt', {
     type: 'text/plain',
 });
 const upload = new Upload('#example8', {
-    name: 'files8',
+    name: 'releaseDocuments',
     defaultFileList: [file1, file2]
 });
 ```
@@ -413,16 +414,16 @@ const upload = new Upload('#example8', {
 export default {
     mounted() {
         onZUIReady(() => {
-            new zui.Upload('#example1', {name: 'files1'});
-            new zui.Upload('#example2', {name: 'files2', multiple: false});
-            new zui.Upload('#example3', {name: 'files3', multiple: true, limitCount: 5, exceededCountHint: '超出上传文件数量限制'});
-            new zui.Upload('#example4', {name: 'files4', multiple: true, limitSize: '50MB', exceededSizeHint: '超出上传文件大小限制'});
-            new zui.Upload('#example5', {name: 'files5', renameBtn: false, deleteBtn: false});
-            new zui.Upload('#example6', {name: 'files6', useIconBtn: false});
-            new zui.Upload('#example7', {name: 'files7', draggable: true, tip: '可点击添加或拖拽上传，不超过50M'});
-            const file1 = new File(['file1'], 'file1.txt', {type: 'text/plain'});
-            const file2 = new File(['file2'], 'file2.txt', {type: 'text/plain'});
-            new zui.Upload('#example8', {name: 'files8', defaultFileList: [file1, file2]});
+            new zui.Upload('#example1', {name: 'projectAttachments'});
+            new zui.Upload('#example2', {name: 'acceptanceReport', multiple: false});
+            new zui.Upload('#example3', {name: 'reviewAttachments', multiple: true, limitCount: 5, exceededCountHint: '最多添加 5 份评审附件，请移除不需要的文件。'});
+            new zui.Upload('#example4', {name: 'designFiles', multiple: true, limitSize: '50MB', exceededSizeHint: '单个设计文件不能超过 50 MB，请压缩后重试。'});
+            new zui.Upload('#example5', {name: 'archivedAttachments', renameBtn: false, deleteBtn: false});
+            new zui.Upload('#example6', {name: 'releaseAttachments', useIconBtn: false});
+            new zui.Upload('#example7', {name: 'handoffFiles', draggable: true, limitSize: '50MB', tip: '添加交付材料，单个文件不超过 50 MB'});
+            const file1 = new File(['客户门户 v1.2：新增附件预览，优化移动端上传。'], '发布说明.txt', {type: 'text/plain'});
+            const file2 = new File(['验收清单：登录、工单查询、附件预览、移动端上传。'], '验收清单.txt', {type: 'text/plain'});
+            new zui.Upload('#example8', {name: 'releaseDocuments', defaultFileList: [file1, file2]});
         });
     }
 };
