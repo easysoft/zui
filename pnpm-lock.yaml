@@ -996,6 +996,34 @@ importers:
         specifier: workspace:*
         version: link:../../dev
 
+  lib/file-list:
+    dependencies:
+      '@zui/common-list':
+        specifier: workspace:*
+        version: link:../common-list
+      '@zui/core':
+        specifier: workspace:*
+        version: link:../core
+      '@zui/helpers':
+        specifier: workspace:*
+        version: link:../helpers
+      '@zui/list':
+        specifier: workspace:*
+        version: link:../list
+      '@zui/utilities':
+        specifier: workspace:*
+        version: link:../utilities
+      preact:
+        specifier: ^10.27.2
+        version: 10.28.2
+    devDependencies:
+      '@zui/icons':
+        specifier: workspace:*
+        version: link:../icons
+      zui-dev:
+        specifier: workspace:*
+        version: link:../../dev
+
   lib/file-selector:
     dependencies:
       '@zui/avatar':
