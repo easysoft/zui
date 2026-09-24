@@ -24,6 +24,8 @@ const timePicker = new zui.TimePicker('#timePicker');
 
 ## 设置默认值
 
+以每日提醒时间为例，设置固定时间后，用户仍可调整小时和分钟。
+
 通过 `defaultValue` 选项设置默认值，设置为 `'now'` 可以将默认值设置为页面显示的时刻。
 
 ::: tabs
@@ -31,7 +33,7 @@ const timePicker = new zui.TimePicker('#timePicker');
 == 示例
 
 <Example className="row gap-3">
-  <div zui-create="timePicker" data-default-value="9:42"></div>
+  <div zui-create="timePicker" data-default-value="09:30"></div>
   <div zui-create="timePicker" data-default-value="now"></div>
 </Example>
 
@@ -42,10 +44,10 @@ const timePicker = new zui.TimePicker('#timePicker');
 <div id="timePicker2"></div>
 
 <script>
-const timePicker1 = new zui.DatePicker('#timePicker1', {
-    defaultValue: '9:42'
+const timePicker1 = new zui.TimePicker('#timePicker1', {
+    defaultValue: '09:30'
 });
-const timePicker2 = new zui.DatePicker('#timePicker2', {
+const timePicker2 = new zui.TimePicker('#timePicker2', {
     defaultValue: 'now'
 });
 </script>

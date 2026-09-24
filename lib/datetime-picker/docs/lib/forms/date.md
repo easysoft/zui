@@ -24,6 +24,8 @@ const datePicker = new zui.DatePicker('#datePicker');
 
 ## 设置默认值
 
+以“9 月 30 日交付”为例，对比固定截止日期与今天。
+
 通过 `defaultValue` 选项设置默认值，设置为 `'today'` 可以将默认值设置为当天。
 
 ::: tabs
@@ -31,7 +33,7 @@ const datePicker = new zui.DatePicker('#datePicker');
 == 示例
 
 <Example className="row gap-3">
-  <div data-zui="datePicker" data-default-value="2023-06-12"></div>
+  <div data-zui="datePicker" data-default-value="2026-09-30"></div>
   <div data-zui="datePicker" data-default-value="today"></div>
 </Example>
 
@@ -43,7 +45,7 @@ const datePicker = new zui.DatePicker('#datePicker');
 
 <script>
 const datePicker1 = new zui.DatePicker('#datePicker1', {
-    defaultValue: '2023-06-12'
+    defaultValue: '2026-09-30'
 });
 const datePicker2 = new zui.DatePicker('#datePicker2', {
     defaultValue: 'today'

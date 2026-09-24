@@ -26,6 +26,8 @@ const datetimePicker = new zui.DatetimePicker('#datetimePicker');
 
 ## 设置默认值
 
+以“9 月 30 日 14:00 的发布评审”为例，对比指定会议时间与当前时间。
+
 通过 `defaultValue` 选项设置默认值，设置为 `'today'` 可以将默认值设置为现在时间。
 
 ::: tabs
@@ -33,7 +35,7 @@ const datetimePicker = new zui.DatetimePicker('#datetimePicker');
 == 示例
 
 <Example className="row gap-3">
-  <div data-zui="datetimePicker" data-default-value="2023-06-12 08:00"></div>
+  <div data-zui="datetimePicker" data-default-value="2026-09-30 14:00"></div>
   <div data-zui="datetimePicker" data-default-value="today"></div>
 </Example>
 
@@ -45,7 +47,7 @@ const datetimePicker = new zui.DatetimePicker('#datetimePicker');
 
 <script>
 const datetimePicker1 = new zui.DatetimePicker('#datetimePicker1', {
-    defaultValue: '2023-06-12'
+    defaultValue: '2026-09-30 14:00'
 });
 const datetimePicker2 = new zui.DatetimePicker('#datetimePicker2', {
     defaultValue: 'today'
