@@ -1,0 +1,31 @@
+{
+    "name": "@zui/file-list",
+    "description": "ZUI file attachment list with configurable icons and actions",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "keywords": ["zui:component"],
+    "files": ["./src/**/*"],
+    "exports": {
+        ".": "./src/main.ts",
+        "./react": "./src/main-react.ts"
+    },
+    "dependencies": {
+        "@zui/common-list": "workspace:*",
+        "@zui/core": "workspace:*",
+        "@zui/helpers": "workspace:*",
+        "@zui/list": "workspace:*",
+        "@zui/utilities": "workspace:*",
+        "preact": "^10.27.2"
+    },
+    "devDependencies": {
+        "@zui/icons": "workspace:*",
+        "zui-dev": "workspace:*"
+    },
+    "zui": {
+        "type": "component",
+        "displayName": "文件列表",
+        "contributes": {
+            "js": ["class", "component"]
+        }
+    }
+}
