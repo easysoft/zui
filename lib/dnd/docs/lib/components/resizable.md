@@ -16,7 +16,7 @@
 
 <Example>
   <div id="resizableArea" class="ring rounded relative w-full" style="height: 240px;">
-    <div id="resizableBasic" class="center rounded canvas ring absolute" style="width: 140px; height: 100px; left: 24px; top: 24px;">调整我的大小</div>
+    <div id="resizableBasic" class="center rounded canvas ring absolute" style="width: 140px; height: 100px; left: 24px; top: 24px;">附件预览区域</div>
   </div>
 </Example>
 
@@ -24,7 +24,7 @@
 
 ```html
 <div id="resizableArea" class="ring rounded relative w-full" style="height: 240px;">
-  <div id="resizableBasic" class="center rounded canvas ring absolute" style="width: 140px; height: 100px; left: 24px; top: 24px;">调整我的大小</div>
+  <div id="resizableBasic" class="center rounded canvas ring absolute" style="width: 140px; height: 100px; left: 24px; top: 24px;">附件预览区域</div>
 </div>
 
 <script>

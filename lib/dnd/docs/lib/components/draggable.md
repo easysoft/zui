@@ -14,10 +14,10 @@
 
 <Example>
   <menu id="draggableBasic" class="col gap-2 w-48">
-    <li draggable="true" class="item ring rounded p-2 canvas cursor-move">列表项 1</li>
-    <li draggable="true" class="item ring rounded p-2 canvas cursor-move">列表项 2</li>
-    <li draggable="true" class="item ring rounded p-2 canvas cursor-move">列表项 3</li>
-    <li draggable="true" class="item ring rounded p-2 canvas cursor-move">列表项 4</li>
+    <li draggable="true" class="item ring rounded p-2 canvas cursor-move">梳理客户反馈</li>
+    <li draggable="true" class="item ring rounded p-2 canvas cursor-move">确认交付范围</li>
+    <li draggable="true" class="item ring rounded p-2 canvas cursor-move">编写验收用例</li>
+    <li draggable="true" class="item ring rounded p-2 canvas cursor-move">安排发布评审</li>
   </menu>
 </Example>
 
@@ -25,10 +25,10 @@
 
 ```html
 <menu id="draggableBasic" class="col gap-2 w-48">
-  <li draggable="true" class="item ring rounded p-2 canvas cursor-move">列表项 1</li>
-  <li draggable="true" class="item ring rounded p-2 canvas cursor-move">列表项 2</li>
-  <li draggable="true" class="item ring rounded p-2 canvas cursor-move">列表项 3</li>
-  <li draggable="true" class="item ring rounded p-2 canvas cursor-move">列表项 4</li>
+  <li draggable="true" class="item ring rounded p-2 canvas cursor-move">梳理客户反馈</li>
+  <li draggable="true" class="item ring rounded p-2 canvas cursor-move">确认交付范围</li>
+  <li draggable="true" class="item ring rounded p-2 canvas cursor-move">编写验收用例</li>
+  <li draggable="true" class="item ring rounded p-2 canvas cursor-move">安排发布评审</li>
 </menu>
 
 <script>
@@ -55,11 +55,11 @@ new zui.Draggable('#draggableBasic', {
 <Example class="row gap-6 items-start">
   <div id="draggableTarget" class="row gap-6 items-start">
     <div class="col gap-2 w-32">
-      <div draggable="true" class="item ring rounded p-2 canvas cursor-move text-center">文件 A</div>
-      <div draggable="true" class="item ring rounded p-2 canvas cursor-move text-center">文件 B</div>
-      <div draggable="true" class="item ring rounded p-2 canvas cursor-move text-center">文件 C</div>
+      <div draggable="true" class="item ring rounded p-2 canvas cursor-move text-center">需求说明.pdf</div>
+      <div draggable="true" class="item ring rounded p-2 canvas cursor-move text-center">验收清单.xlsx</div>
+      <div draggable="true" class="item ring rounded p-2 canvas cursor-move text-center">发布说明.txt</div>
     </div>
-    <div id="draggableDropZone" class="col gap-2 center w-40 h-40 ring rounded text-muted">拖放到此处</div>
+    <div id="draggableDropZone" class="col gap-2 center w-40 h-40 ring rounded text-muted">发布资料：拖放文件到此处</div>
   </div>
 </Example>
 
@@ -68,11 +68,11 @@ new zui.Draggable('#draggableBasic', {
 ```html
 <div id="draggableTarget" class="row gap-6 items-start">
   <div class="col gap-2 w-32">
-    <div draggable="true" class="item ring rounded p-2 canvas cursor-move text-center">文件 A</div>
-    <div draggable="true" class="item ring rounded p-2 canvas cursor-move text-center">文件 B</div>
-    <div draggable="true" class="item ring rounded p-2 canvas cursor-move text-center">文件 C</div>
+    <div draggable="true" class="item ring rounded p-2 canvas cursor-move text-center">需求说明.pdf</div>
+    <div draggable="true" class="item ring rounded p-2 canvas cursor-move text-center">验收清单.xlsx</div>
+    <div draggable="true" class="item ring rounded p-2 canvas cursor-move text-center">发布说明.txt</div>
   </div>
-  <div id="draggableDropZone" class="col gap-2 center w-40 h-40 ring rounded text-muted">拖放到此处</div>
+  <div id="draggableDropZone" class="col gap-2 center w-40 h-40 ring rounded text-muted">发布资料：拖放文件到此处</div>
 </div>
 
 <script>
@@ -99,15 +99,15 @@ new zui.Draggable('#draggableTarget', {
   <menu id="draggableHandle" class="col gap-2 w-56">
     <li draggable="true" class="item ring rounded canvas row items-center gap-2 pr-2">
       <span class="drag-handle center w-8 h-8 cursor-move text-muted">⣿</span>
-      <span>可拖拽项 1</span>
+      <span>工单查询优化</span>
     </li>
     <li draggable="true" class="item ring rounded canvas row items-center gap-2 pr-2">
       <span class="drag-handle center w-8 h-8 cursor-move text-muted">⣿</span>
-      <span>可拖拽项 2</span>
+      <span>附件在线预览</span>
     </li>
     <li draggable="true" class="item ring rounded canvas row items-center gap-2 pr-2">
       <span class="drag-handle center w-8 h-8 cursor-move text-muted">⣿</span>
-      <span>可拖拽项 3</span>
+      <span>消息提醒设置</span>
     </li>
   </menu>
 </Example>
@@ -118,7 +118,7 @@ new zui.Draggable('#draggableTarget', {
 <menu id="draggableHandle" class="col gap-2 w-56">
   <li draggable="true" class="item ring rounded canvas row items-center gap-2 pr-2">
     <span class="drag-handle center w-8 h-8 cursor-move text-muted">⣿</span>
-    <span>可拖拽项 1</span>
+    <span>工单查询优化</span>
   </li>
   <!-- 省略其余列表项 -->
 </menu>

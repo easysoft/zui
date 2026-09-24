@@ -14,8 +14,8 @@
 
 <Example>
   <div id="moveableBasic" class="ring rounded relative w-full" style="height: 220px;">
-    <div moveable="true" class="center rounded primary cursor-move absolute" style="width: 72px; height: 72px; left: 16px; top: 16px;">拖我</div>
-    <div moveable="true" class="center rounded secondary cursor-move absolute" style="width: 72px; height: 72px; left: 120px; top: 80px;">拖我</div>
+    <div moveable="true" class="center rounded primary cursor-move absolute" style="width: 72px; height: 72px; left: 16px; top: 16px;">需求评审</div>
+    <div moveable="true" class="center rounded secondary cursor-move absolute" style="width: 72px; height: 72px; left: 120px; top: 80px;">版本验收</div>
   </div>
 </Example>
 
@@ -23,8 +23,8 @@
 
 ```html
 <div id="moveableBasic" class="ring rounded relative w-full" style="height: 220px;">
-  <div moveable="true" class="center rounded primary cursor-move absolute" style="width: 72px; height: 72px; left: 16px; top: 16px;">拖我</div>
-  <div moveable="true" class="center rounded secondary cursor-move absolute" style="width: 72px; height: 72px; left: 120px; top: 80px;">拖我</div>
+  <div moveable="true" class="center rounded primary cursor-move absolute" style="width: 72px; height: 72px; left: 16px; top: 16px;">需求评审</div>
+  <div moveable="true" class="center rounded secondary cursor-move absolute" style="width: 72px; height: 72px; left: 120px; top: 80px;">版本验收</div>
 </div>
 
 <script>
@@ -48,8 +48,8 @@ new zui.Moveable('#moveableBasic', {
 <Example>
   <div id="moveableHandle" class="ring rounded relative w-full" style="height: 220px;">
     <div moveable="true" class="ring rounded canvas absolute overflow-hidden" style="width: 180px; left: 24px; top: 24px;">
-      <div class="move-handle primary px-3 py-2 cursor-move">面板标题</div>
-      <div class="p-3 text-muted">按住标题栏拖动整个面板。</div>
+      <div class="move-handle primary px-3 py-2 cursor-move">今日待办</div>
+      <div class="p-3 text-muted">15:00 评审发布计划。按住标题栏可移动便签。</div>
     </div>
   </div>
 </Example>
@@ -59,8 +59,8 @@ new zui.Moveable('#moveableBasic', {
 ```html
 <div id="moveableHandle" class="ring rounded relative w-full" style="height: 220px;">
   <div moveable="true" class="ring rounded canvas absolute overflow-hidden" style="width: 180px; left: 24px; top: 24px;">
-    <div class="move-handle primary px-3 py-2 cursor-move">面板标题</div>
-    <div class="p-3 text-muted">按住标题栏拖动整个面板。</div>
+    <div class="move-handle primary px-3 py-2 cursor-move">今日待办</div>
+    <div class="p-3 text-muted">15:00 评审发布计划。按住标题栏可移动便签。</div>
   </div>
 </div>
 
