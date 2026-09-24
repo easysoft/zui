@@ -10,13 +10,13 @@
 
 <Example>
   <article class="article">
-    <h3>准备发布新版本</h3>
-    <p>先确认发布范围，再验证文档和构建产物。</p>
+    <h3>客户门户 v1.2 发布计划</h3>
+    <p>本次交付新增附件预览与消息通知，计划周五 18:00 发布。</p>
     <ul>
-      <li>完善常用场景的说明。</li>
-      <li>检查代码示例和文档链接。</li>
+      <li>完成图片与 PDF 预览验收。</li>
+      <li>检查移动端上传和消息接收范围。</li>
     </ul>
-    <blockquote>让读者可以直接运行基础示例。</blockquote>
+    <blockquote>全部验收项通过后，由项目负责人确认发布。</blockquote>
   </article>
 </Example>
 
@@ -24,13 +24,13 @@
 
 ```html
 <article class="article">
-  <h3>准备发布新版本</h3>
-  <p>先确认发布范围，再验证文档和构建产物。</p>
+  <h3>客户门户 v1.2 发布计划</h3>
+  <p>本次交付新增附件预览与消息通知，计划周五 18:00 发布。</p>
   <ul>
-    <li>完善常用场景的说明。</li>
-    <li>检查代码示例和文档链接。</li>
+    <li>完成图片与 PDF 预览验收。</li>
+    <li>检查移动端上传和消息接收范围。</li>
   </ul>
-  <blockquote>让读者可以直接运行基础示例。</blockquote>
+  <blockquote>全部验收项通过后，由项目负责人确认发布。</blockquote>
 </article>
 ```
 
@@ -103,7 +103,7 @@
 
 <Example class="space-y-3">
   <p>使用 <code>zui.Messager.show()</code> 显示消息。</p>
-  <pre><code>const version = '3.0.0';</code></pre>
+  <pre><code>const releaseVersion = '1.2.0';</code></pre>
   <blockquote>先验证，再发布。<figcaption>项目约定</figcaption></blockquote>
 </Example>
 
@@ -111,7 +111,7 @@
 
 ```html
 <p>使用 <code>zui.Messager.show()</code> 显示消息。</p>
-<pre><code>const version = '3.0.0';</code></pre>
+<pre><code>const releaseVersion = '1.2.0';</code></pre>
 <blockquote>先验证，再发布。<figcaption>项目约定</figcaption></blockquote>
 ```
 
