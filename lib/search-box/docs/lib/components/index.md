@@ -11,7 +11,7 @@
 == 示例
 
 <Example>
-  <div data-zui="SearchBox" data-name="mySearch"></div>
+  <div data-zui="SearchBox" data-name="projectQuery" data-placeholder="搜索项目名称或编号"></div>
 </Example>
 
 == HTML
@@ -20,7 +20,7 @@
 <div id="searchBox"></div>
 
 <script>
-const searchBox = new zui.SearchBox('#searchBox', {name: 'mySearch'});
+const searchBox = new zui.SearchBox('#searchBox', {name: 'projectQuery', placeholder: '搜索项目名称或编号'});
 </script>
 ```
 
@@ -33,7 +33,7 @@ const searchBox = new zui.SearchBox('#searchBox', {name: 'mySearch'});
 == 示例
 
 <Example>
-  <div data-zui="SearchBox" data-circle="true"></div>
+  <div data-zui="SearchBox" data-circle="true" data-placeholder="搜索团队成员" data-default-value="林悦"></div>
 </Example>
 
 == HTML
@@ -42,7 +42,7 @@ const searchBox = new zui.SearchBox('#searchBox', {name: 'mySearch'});
 <div id="searchBox"></div>
 
 <script>
-const searchBox = new zui.SearchBox('#searchBox', {circle: true});
+const searchBox = new zui.SearchBox('#searchBox', {circle: true, placeholder: '搜索团队成员', defaultValue: '林悦'});
 </script>
 ```
 
@@ -55,7 +55,7 @@ const searchBox = new zui.SearchBox('#searchBox', {circle: true});
 == 示例
 
 <Example>
-  <div data-zui="SearchBox" data-circle="true" data-merge-icon="true"></div>
+  <div data-zui="SearchBox" data-circle="true" data-merge-icon="true" data-placeholder="搜索任务标题"></div>
 </Example>
 
 == HTML
@@ -64,7 +64,7 @@ const searchBox = new zui.SearchBox('#searchBox', {circle: true});
 <div id="searchBox"></div>
 
 <script>
-const searchBox = new zui.SearchBox('#searchBox', {circle: true, mergeICon: true});
+const searchBox = new zui.SearchBox('#searchBox', {circle: true, mergeIcon: true, placeholder: '搜索任务标题'});
 </script>
 ```
 
@@ -77,7 +77,7 @@ const searchBox = new zui.SearchBox('#searchBox', {circle: true, mergeICon: true
 == 示例
 
 <Example>
-  <div data-zui="SearchBox" data-circle="true" data-disabled="true"></div>
+  <div data-zui="SearchBox" data-circle="true" data-disabled="true" data-placeholder="请先选择项目"></div>
 </Example>
 
 == HTML
@@ -86,7 +86,7 @@ const searchBox = new zui.SearchBox('#searchBox', {circle: true, mergeICon: true
 <div id="searchBox"></div>
 
 <script>
-const searchBox = new zui.SearchBox('#searchBox', {circle: true, disabled: true});
+const searchBox = new zui.SearchBox('#searchBox', {circle: true, disabled: true, placeholder: '请先选择项目'});
 </script>
 ```
 
