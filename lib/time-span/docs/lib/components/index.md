@@ -32,7 +32,7 @@
 
 <Example>
   <p>页面加载于： <strong zui-create="timeago" zui-create-timeago="{time: Date.now()}"></strong></p>
-  <p>功能开发于： <strong zui-create="timeago" zui-create-timeago="{time: '2026-1-22 10:00:00'}"></strong></p>
+  <p>最近编辑于： <strong zui-create="timeago" zui-create-timeago="{time: Date.now() - 2 * 60 * 60 * 1000}"></strong></p>
   <p>不合法的时间： <strong zui-create="timeago" zui-create-timeago="{time: '2026-1x22 10:00:00', hint: '2026-1-22 10:00:00'}"></strong></p>
 </Example>
 
@@ -40,7 +40,7 @@
 
 ```html
 <p>页面加载于： <strong zui-create="timeago" zui-create-timeago="{time: Date.now()}"></strong></p>
-<p>功能开发于： <strong zui-create="timeago" zui-create-timeago="{time: '2026-1-22 10:00:00'}"></strong></p>
+<p>最近编辑于： <strong zui-create="timeago" zui-create-timeago="{time: Date.now() - 2 * 60 * 60 * 1000}"></strong></p>
 <p>不合法的时间： <strong zui-create="timeago" zui-create-timeago="{time: '2026-1x22 10:00:00', hint: '2026-1-22 10:00:00'}"></strong></p>
 ```
 
@@ -53,24 +53,24 @@
 == 示例
 
 <Example>
-<p>3 小时后： <strong zui-create="timeago" zui-create-timeago="{time: Date.now() + 1000 * 60 * 60 * 3 + 100}"></strong></p>
-<p>一天后： <strong zui-create="timeago" zui-create-timeago="{time: Date.now() + 1000 * 60 * 60 * 25}"></strong></p>
-<p>一年后： <strong zui-create="timeago" zui-create-timeago="{time: Date.now() + 1000 * 60 * 60 * 25 * 365}"></strong></p>
+<p>评审开始（约 3 小时后）： <strong zui-create="timeago" zui-create-timeago="{time: Date.now() + 1000 * 60 * 60 * 3}"></strong></p>
+<p>报告截止（约 1 天后）： <strong zui-create="timeago" zui-create-timeago="{time: Date.now() + 1000 * 60 * 60 * 24}"></strong></p>
+<p>归档保留期结束（约 1 年后）： <strong zui-create="timeago" zui-create-timeago="{time: Date.now() + 1000 * 60 * 60 * 24 * 365}"></strong></p>
 </Example>
 
 == HTML
 
 ```html
-<p>3 小时后： <strong zui-create="timeago" zui-create-timeago="{time: Date.now() + 1000 * 60 * 60 * 3 + 100}"></strong></p>
-<p>一天后： <strong zui-create="timeago" zui-create-timeago="{time: Date.now() + 1000 * 60 * 60 * 25}"></strong></p>
-<p>一年后： <strong zui-create="timeago" zui-create-timeago="{time: Date.now() + 1000 * 60 * 60 * 25 * 365}"></strong></p>
+<p>评审开始（约 3 小时后）： <strong zui-create="timeago" zui-create-timeago="{time: Date.now() + 1000 * 60 * 60 * 3}"></strong></p>
+<p>报告截止（约 1 天后）： <strong zui-create="timeago" zui-create-timeago="{time: Date.now() + 1000 * 60 * 60 * 24}"></strong></p>
+<p>归档保留期结束（约 1 年后）： <strong zui-create="timeago" zui-create-timeago="{time: Date.now() + 1000 * 60 * 60 * 24 * 365}"></strong></p>
 ```
 
 :::
 
 ## 在 JS 中使用
 
-在 ZAI 中提供了 `timeago` 方法，用于手动生成相对时间文本，该方法定义如下：
+在 ZUI 中提供了 `timeago` 方法，用于手动生成相对时间文本，该方法定义如下：
 
 ```ts
 function timeago(time: DateLike, now?: DateLike, lang?: string): string;
@@ -87,7 +87,7 @@ function timeago(time: DateLike, now?: DateLike, lang?: string): string;
 示例：
 
 ```ts
-const timeagoText = zui.timeago(new Date('2026-1-22 10:00:00'), new Date(), 'zh-cn');
+const timeagoText = zui.timeago(new Date('2026-09-23T10:00:00'), new Date('2026-09-24T10:00:00'), 'zh-cn');
 console.log(timeagoText); // 1天前
 ```
 
