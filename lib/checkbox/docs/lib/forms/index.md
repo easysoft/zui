@@ -12,10 +12,10 @@
 
 <Example class="row gap-4">
   <label class="checkbox">
-    <input type="checkbox"> 复选框
+    <input type="checkbox"> 接收项目动态
   </label>
   <label class="checkbox">
-    <input type="checkbox" disabled> 复选框被禁用
+    <input type="checkbox" disabled> 短信提醒（需绑定手机）
   </label>
 </Example>
 
@@ -23,10 +23,10 @@
 
 ```html
 <label class="checkbox">
-  <input type="checkbox"> 复选框
+  <input type="checkbox"> 接收项目动态
 </label>
 <label class="checkbox">
-  <input type="checkbox" disabled> 复选框被禁用
+  <input type="checkbox" disabled> 短信提醒（需绑定手机）
 </label>
 ```
 
@@ -43,13 +43,13 @@
 <Example>
   <div class="check-list">
     <label class="radio">
-      <input type="radio" name="radioOptionsExample"> 单选框 1
+      <input type="radio" name="radioOptionsExample2"> 仅自己可见
     </label>
     <label class="radio">
-      <input type="radio" name="radioOptionsExample"> 单选框 2
+      <input type="radio" name="radioOptionsExample2"> 团队成员可见
     </label>
     <label class="radio disabled">
-      <input disabled type="radio" name="radioOptionsExample"> 被禁用的单选框
+      <input disabled type="radio" name="radioOptionsExample2"> 公开访问（需管理员授权）
     </label>
   </div>
 </Example>
@@ -59,13 +59,13 @@
 ```html
 <div class="check-list">
   <label class="radio">
-    <input type="radio" name="radioOptionsExample"> 单选框 1
+    <input type="radio" name="radioOptionsExample2"> 仅自己可见
   </label>
   <label class="radio">
-    <input type="radio" name="radioOptionsExample"> 单选框 2
+    <input type="radio" name="radioOptionsExample2"> 团队成员可见
   </label>
   <label class="radio disabled">
-    <input disabled type="radio" name="radioOptionsExample"> 被禁用的单选框
+    <input disabled type="radio" name="radioOptionsExample2"> 公开访问（需管理员授权）
   </label>
 </div>
 ```
@@ -83,13 +83,13 @@
 <Example>
   <div class="check-list">
     <label class="checkbox">
-      <input type="checkbox"> 复选框 1
+      <input type="checkbox"> 邮件通知
     </label>
     <label class="checkbox">
-      <input type="checkbox"> 复选框 2
+      <input type="checkbox"> 每周摘要
     </label>
     <label class="checkbox disabled">
-      <input disabled type="checkbox"> 被禁用的复选框
+      <input disabled type="checkbox"> 短信提醒（需绑定手机）
     </label>
   </div>
 </Example>
@@ -99,13 +99,13 @@
 ```html
 <div class="check-list">
   <label class="checkbox">
-    <input type="checkbox"> 复选框 1
+    <input type="checkbox"> 邮件通知
   </label>
   <label class="checkbox">
-    <input type="checkbox"> 复选框 2
+    <input type="checkbox"> 每周摘要
   </label>
   <label class="checkbox disabled">
-    <input disabled type="checkbox"> 被禁用的复选框
+    <input disabled type="checkbox"> 短信提醒（需绑定手机）
   </label>
 </div>
 ```
@@ -158,13 +158,13 @@
 
 <Example>
   <label class="radio">
-    <input type="radio" name="radioOptionsExample">
+    <input type="radio" name="radioOptionsExample5">
   </label>
   <label class="radio">
-    <input type="radio" name="radioOptionsExample">
+    <input type="radio" name="radioOptionsExample5">
   </label>
   <label class="radio disabled">
-    <input disabled type="radio" name="radioOptionsExample">
+    <input disabled type="radio" name="radioOptionsExample5">
   </label>
 </Example>
 
@@ -172,13 +172,13 @@
 
 ```html
 <label class="radio">
-  <input type="radio" name="radioOptionsExample">
+  <input type="radio" name="radioOptionsExample5">
 </label>
 <label class="radio">
-  <input type="radio" name="radioOptionsExample">
+  <input type="radio" name="radioOptionsExample5">
 </label>
 <label class="radio disabled">
-  <input disabled type="radio" name="radioOptionsExample">
+  <input disabled type="radio" name="radioOptionsExample5">
 </label>
 ```
 
@@ -197,13 +197,13 @@
 <Example>
   <div class="check-list-inline">
     <label class="checkbox">
-      <input type="checkbox"> 复选框 1
+      <input type="checkbox"> 邮件通知
     </label>
     <label class="checkbox">
-      <input type="checkbox"> 复选框 2
+      <input type="checkbox"> 每周摘要
     </label>
     <label class="checkbox disabled">
-      <input disabled type="checkbox"> 被禁用的复选框
+      <input disabled type="checkbox"> 短信提醒（需绑定手机）
     </label>
   </div>
 </Example>
@@ -213,13 +213,13 @@
 ```html
 <div class="check-list-inline">
   <label class="checkbox">
-    <input type="checkbox"> 复选框 1
+    <input type="checkbox"> 邮件通知
   </label>
   <label class="checkbox">
-    <input type="checkbox"> 复选框 2
+    <input type="checkbox"> 每周摘要
   </label>
   <label class="checkbox disabled">
-    <input disabled type="checkbox"> 被禁用的复选框
+    <input disabled type="checkbox"> 短信提醒（需绑定手机）
   </label>
 </div>
 ```
@@ -235,13 +235,13 @@
 <Example>
   <div class="check-list-inline">
     <label class="radio">
-      <input type="radio" name="radioOptionsExample"> 单选框 1
+      <input type="radio" name="radioOptionsExample7"> 仅自己可见
     </label>
     <label class="radio">
-      <input type="radio" name="radioOptionsExample"> 单选框 2
+      <input type="radio" name="radioOptionsExample7"> 团队成员可见
     </label>
     <label class="radio disabled">
-      <input disabled type="radio" name="radioOptionsExample"> 被禁用的单选框
+      <input disabled type="radio" name="radioOptionsExample7"> 公开访问（需管理员授权）
     </label>
   </div>
 </Example>
@@ -251,13 +251,13 @@
 ```html
 <div class="check-list-inline">
   <label class="radio">
-    <input type="radio" name="radioOptionsExample"> 单选框 1
+    <input type="radio" name="radioOptionsExample7"> 仅自己可见
   </label>
   <label class="radio">
-    <input type="radio" name="radioOptionsExample"> 单选框 2
+    <input type="radio" name="radioOptionsExample7"> 团队成员可见
   </label>
   <label class="radio disabled">
-    <input disabled type="radio" name="radioOptionsExample"> 被禁用的单选框
+    <input disabled type="radio" name="radioOptionsExample7"> 公开访问（需管理员授权）
   </label>
 </div>
 ```
@@ -275,13 +275,13 @@
 <Example>
   <div class="check-list-inline gap-8">
     <label class="checkbox">
-      <input type="checkbox"> 复选框 1
+      <input type="checkbox"> 邮件通知
     </label>
     <label class="checkbox">
-      <input type="checkbox"> 复选框 2
+      <input type="checkbox"> 每周摘要
     </label>
     <label class="checkbox disabled">
-      <input disabled type="checkbox"> 被禁用的复选框
+      <input disabled type="checkbox"> 短信提醒（需绑定手机）
     </label>
   </div>
 </Example>
@@ -310,15 +310,15 @@
   <div class="check-list">
     <div class="checkbox-primary">
       <input type="checkbox" id="primaryCheckbox1">
-      <label for="primaryCheckbox1">未选中</label>
+      <label for="primaryCheckbox1">邮件通知</label>
     </div>
     <div class="checkbox-primary">
       <input type="checkbox" checked="checked" id="primaryCheckbox2">
-      <label for="primaryCheckbox2">选中</label>
+      <label for="primaryCheckbox2">每周摘要</label>
     </div>
     <div class="checkbox-primary">
       <input type="checkbox" checked="checked" disabled="disabled" id="primaryCheckbox3">
-      <label for="primaryCheckbox3">禁用</label>
+      <label for="primaryCheckbox3">安全通知（始终开启）</label>
     </div>
   </div>
 </Example>
@@ -329,15 +329,15 @@
 <div class="check-list">
   <div class="checkbox-primary">
     <input type="checkbox" id="primaryCheckbox1">
-    <label for="primaryCheckbox1">未选中</label>
+    <label for="primaryCheckbox1">邮件通知</label>
   </div>
   <div class="checkbox-primary">
     <input type="checkbox" checked="checked" id="primaryCheckbox2">
-    <label for="primaryCheckbox2">选中</label>
+    <label for="primaryCheckbox2">每周摘要</label>
   </div>
   <div class="checkbox-primary">
     <input type="checkbox" checked="checked" disabled="disabled" id="primaryCheckbox3">
-    <label for="primaryCheckbox3">禁用</label>
+    <label for="primaryCheckbox3">安全通知（始终开启）</label>
   </div>
 </div>
 ```
@@ -354,15 +354,15 @@
   <div class="check-list">
     <div class="radio-primary">
       <input type="radio" name="primaryRadioGroup1" id="primaryradio1">
-      <label for="primaryradio1">选项一</label>
+      <label for="primaryradio1">仅自己可见</label>
     </div>
     <div class="radio-primary">
       <input type="radio" name="primaryRadioGroup1" checked="checked" id="primaryradio2">
-      <label for="primaryradio2">选项二</label>
+      <label for="primaryradio2">团队成员可见</label>
     </div>
     <div class="radio-primary">
-      <input type="radio" name="primaryRadioGroup1" checked="checked" disabled="disabled" id="primaryradio3">
-      <label for="primaryradio3">禁用</label>
+      <input type="radio" name="primaryRadioGroup1" disabled="disabled" id="primaryradio3">
+      <label for="primaryradio3">公开访问（需管理员授权）</label>
     </div>
   </div>
 </Example>
@@ -373,19 +373,15 @@
 <div class="check-list">
   <div class="radio-primary">
     <input type="radio" name="primaryRadioGroup1" id="primaryradio1">
-    <label for="primaryradio1">选项一</label>
+    <label for="primaryradio1">仅自己可见</label>
   </div>
   <div class="radio-primary">
     <input type="radio" name="primaryRadioGroup1" checked="checked" id="primaryradio2">
-    <label for="primaryradio2">选项二</label>
+    <label for="primaryradio2">团队成员可见</label>
   </div>
   <div class="radio-primary">
-    <input type="radio" name="primaryRadioGroup1" checked="checked" id="primaryradio3">
-    <label for="primaryradio3">选项三</label>
-  </div>
-  <div class="radio-primary">
-    <input type="radio" name="primaryRadioGroup1" checked="checked" disabled="disabled" id="primaryradio4">
-    <label for="primaryradio4">禁用</label>
+    <input type="radio" name="primaryRadioGroup1" disabled="disabled" id="primaryradio3">
+    <label for="primaryradio3">公开访问（需管理员授权）</label>
   </div>
 </div>
 ```
@@ -403,11 +399,11 @@
 <Example class="check-list-inline">
   <div class="checkbox-primary"><label>未选中</label></div>
   <div class="checkbox-primary checked"><label>选中</label></div>
-  <div class="checkbox-primary focus"><label>选中</label></div>
-  <div class="checkbox-primary indeterminate"><label>Indeterminate</label></div>
+  <div class="checkbox-primary focus"><label>聚焦</label></div>
+  <div class="checkbox-primary indeterminate"><label>部分选中</label></div>
   <div class="radio-primary"><label>未选中</label></div>
   <div class="radio-primary checked"><label>选中</label></div>
-  <div class="radio-primary focus"><label>选中</label></div>
+  <div class="radio-primary focus"><label>聚焦</label></div>
 </Example>
 
 == HTML
@@ -415,11 +411,11 @@
 ```html
 <div class="checkbox-primary"><label>未选中</label></div>
 <div class="checkbox-primary checked"><label>选中</label></div>
-<div class="checkbox-primary focus"><label>选中</label></div>
-<div class="checkbox-primary indeterminate"><label>Indeterminate</label></div>
+<div class="checkbox-primary focus"><label>聚焦</label></div>
+<div class="checkbox-primary indeterminate"><label>部分选中</label></div>
 <div class="radio-primary"><label>未选中</label></div>
 <div class="radio-primary checked"><label>选中</label></div>
-<div class="radio-primary focus"><label>选中</label></div>
+<div class="radio-primary focus"><label>聚焦</label></div>
 ```
 
 :::
@@ -433,10 +429,10 @@
 == 示例
 
 <Example class="check-list-inline">
-  <div class="checkbox-primary checked" style="--checkbox-color: var(--color-success-500)"><label>未选中</label></div>
+  <div class="checkbox-primary checked" style="--checkbox-color: var(--color-success-500)"><label>已选中</label></div>
   <div class="checkbox-primary checked" style="--checkbox-color: red"><label>选中</label></div>
   <div class="checkbox-primary checked" style="--checkbox-color: black"><label>选中</label></div>
-  <div class="radio-primary checked" style="--checkbox-color: var(--color-success-500)"><label>未选中</label></div>
+  <div class="radio-primary checked" style="--checkbox-color: var(--color-success-500)"><label>已选中</label></div>
   <div class="radio-primary checked" style="--checkbox-color: red"><label>选中</label></div>
   <div class="radio-primary checked" style="--checkbox-color: black"><label>选中</label></div>
 </Example>
@@ -444,10 +440,10 @@
 == HTML
 
 ```html
-<div class="checkbox-primary checked" style="--checkbox-color: var(--color-success-500)"><label>未选中</label></div>
+<div class="checkbox-primary checked" style="--checkbox-color: var(--color-success-500)"><label>已选中</label></div>
 <div class="checkbox-primary checked" style="--checkbox-color: red"><label>选中</label></div>
 <div class="checkbox-primary checked" style="--checkbox-color: black"><label>选中</label></div>
-<div class="radio-primary checked" style="--checkbox-color: var(--color-success-500)"><label>未选中</label></div>
+<div class="radio-primary checked" style="--checkbox-color: var(--color-success-500)"><label>已选中</label></div>
 <div class="radio-primary checked" style="--checkbox-color: red"><label>选中</label></div>
 <div class="radio-primary checked" style="--checkbox-color: black"><label>选中</label></div>
 ```

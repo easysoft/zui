@@ -15,7 +15,7 @@
   </div>
   <div class="switch">
     <input type="checkbox" disabled="disabled">
-    <label>被禁用</label>
+    <label>短信提醒（需绑定手机）</label>
   </div>
 </Example>
 
@@ -28,7 +28,7 @@
 </div>
 <div class="switch">
   <input type="checkbox" disabled="disabled">
-  <label>被禁用</label>
+  <label>短信提醒（需绑定手机）</label>
 </div>
 ```
 
@@ -45,28 +45,32 @@
 <Example class="row gap-6">
   <div class="switch" style="--checkbox-color: var(--color-success-500)">
     <input type="checkbox" checked="checked" id="switchExample10">
-    <label for="switchExample10">选项 1</label>
+    <label for="switchExample10">邮件通知</label>
   </div>
   <div class="switch" style="--checkbox-color: red">
     <input type="checkbox" checked="checked" id="switchExample11">
-    <label for="switchExample11">选项 2</label>
+    <label for="switchExample11">桌面提醒</label>
   </div>
   <div class="switch" style="--checkbox-color: black">
     <input type="checkbox" checked="checked" id="switchExample12">
-    <label for="switchExample12">选项 3</label>
+    <label for="switchExample12">每周摘要</label>
   </div>
 </Example>
 
 == HTML
 
 ```html
-<div class="switch">
-  <input type="checkbox" checked="checked" id="darkModeExample1">
-  <label for="darkModeExample1">深色模式</label>
+<div class="switch" style="--checkbox-color: var(--color-success-500)">
+  <input type="checkbox" checked="checked" id="switchExample10">
+  <label for="switchExample10">邮件通知</label>
 </div>
-<div class="switch">
-  <input type="checkbox" disabled="disabled">
-  <label>被禁用</label>
+<div class="switch" style="--checkbox-color: red">
+  <input type="checkbox" checked="checked" id="switchExample11">
+  <label for="switchExample11">桌面提醒</label>
+</div>
+<div class="switch" style="--checkbox-color: black">
+  <input type="checkbox" checked="checked" id="switchExample12">
+  <label for="switchExample12">每周摘要</label>
 </div>
 ```
 
@@ -85,16 +89,16 @@
 <Example>
   <div class="check-list">
     <div class="switch">
-       <input type="checkbox" id="switchExample1">
-       <label for="switchExample1">选项 1</label>
+       <input type="checkbox" id="switchExample1" checked>
+       <label for="switchExample1">邮件通知</label>
     </div>
     <div class="switch">
        <input type="checkbox" id="switchExample2">
-       <label for="switchExample2">选项 2</label>
+       <label for="switchExample2">桌面提醒</label>
     </div>
     <div class="switch">
        <input type="checkbox" id="switchExample3">
-       <label for="switchExample3">选项 3</label>
+       <label for="switchExample3">每周摘要</label>
     </div>
   </div>
 </Example>
@@ -104,16 +108,16 @@
 ```html
 <div class="check-list">
   <div class="switch">
-    <input type="checkbox" id="switchExample1">
-    <label for="switchExample1">选项 1</label>
+    <input type="checkbox" id="switchExample1" checked>
+    <label for="switchExample1">邮件通知</label>
   </div>
   <div class="switch">
     <input type="checkbox" id="switchExample2">
-    <label for="switchExample2">选项 2</label>
+    <label for="switchExample2">桌面提醒</label>
   </div>
   <div class="switch">
     <input type="checkbox" id="switchExample3">
-    <label for="switchExample3">选项 3</label>
+    <label for="switchExample3">每周摘要</label>
   </div>
 </div>
 ```
@@ -132,15 +136,15 @@
   <div class="check-list-inline">
     <div class="switch">
        <input type="checkbox" id="switchExample4">
-       <label for="switchExample4">选项 1</label>
+       <label for="switchExample4">邮件通知</label>
     </div>
     <div class="switch">
        <input type="checkbox" id="switchExample5">
-       <label for="switchExample5">选项 2</label>
+       <label for="switchExample5">桌面提醒</label>
     </div>
     <div class="switch">
        <input type="checkbox" id="switchExample6">
-       <label for="switchExample6">选项 3</label>
+       <label for="switchExample6">每周摘要</label>
     </div>
   </div>
 </Example>
@@ -151,15 +155,15 @@
 <div class="check-list-inline">
   <div class="switch">
     <input type="checkbox" id="switchExample4">
-    <label for="switchExample4">选项 1</label>
+    <label for="switchExample4">邮件通知</label>
   </div>
   <div class="switch">
     <input type="checkbox" id="switchExample5">
-    <label for="switchExample5">选项 2</label>
+    <label for="switchExample5">桌面提醒</label>
   </div>
   <div class="switch">
     <input type="checkbox" id="switchExample6">
-    <label for="switchExample6">选项 3</label>
+    <label for="switchExample6">每周摘要</label>
   </div>
 </div>
 ```
@@ -177,16 +181,16 @@
 <Example>
   <div class="check-list">
     <div class="switch">
-       <input type="radio" id="switchExample7" name="radioSwitchExample">
-       <label for="switchExample7">选项 1</label>
+       <input type="radio" id="switchExample7" name="radioSwitchExample" value="immediate" checked>
+       <label for="switchExample7">立即通知</label>
     </div>
     <div class="switch">
-       <input type="radio" id="switchExample8" name="radioSwitchExample">
-       <label for="switchExample8">选项 2</label>
+       <input type="radio" id="switchExample8" name="radioSwitchExample" value="daily">
+       <label for="switchExample8">每日汇总</label>
     </div>
     <div class="switch">
-       <input type="radio" id="switchExample9" name="radioSwitchExample">
-       <label for="switchExample9">选项 3</label>
+       <input type="radio" id="switchExample9" name="radioSwitchExample" value="weekly">
+       <label for="switchExample9">每周汇总</label>
     </div>
   </div>
 </Example>
@@ -196,16 +200,16 @@
 ```html
 <div class="check-list">
   <div class="switch">
-    <input type="radio" id="switchExample7">
-    <label for="switchExample7">选项 1</label>
+    <input type="radio" id="switchExample7" name="radioSwitchExample" value="immediate" checked>
+    <label for="switchExample7">立即通知</label>
   </div>
   <div class="switch">
-    <input type="radio" id="switchExample8">
-    <label for="switchExample8">选项 2</label>
+    <input type="radio" id="switchExample8" name="radioSwitchExample" value="daily">
+    <label for="switchExample8">每日汇总</label>
   </div>
   <div class="switch">
-    <input type="radio" id="switchExample9">
-    <label for="switchExample9">选项 3</label>
+    <input type="radio" id="switchExample9" name="radioSwitchExample" value="weekly">
+    <label for="switchExample9">每周汇总</label>
   </div>
 </div>
 ```
