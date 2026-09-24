@@ -8,10 +8,14 @@ let fileList: FileList | undefined;
 let fileListWithIcons: FileList | undefined;
 let fileListCards: FileList | undefined;
 let fileListCardsInline: FileList | undefined;
+let fileListImages: FileList | undefined;
 
 onPageUpdate(() => {
     fileList?.destroy();
     fileListWithIcons?.destroy();
+    fileListCards?.destroy();
+    fileListCardsInline?.destroy();
+    fileListImages?.destroy();
     fileList = new FileList('#fileList', {
         heading: {title: '附件', icon: 'paper-clip'},
         fileUrl: '#file?id={id}',
@@ -71,5 +75,17 @@ onPageUpdate(() => {
         fileUrl: '#file?id={id}',
         fileIcon: FileListView.getFileIconMap(),
         mode: 'cards-inline',
+    });
+    fileListImages = new FileList('#fileListImages', {
+        items: [],
+        fileIcon: FileListView.getFileIconMap(),
+    });
+    const imageInput = document.querySelector<HTMLInputElement>('#fileListImageInput');
+    const thumbnailToggle = document.querySelector<HTMLInputElement>('#fileListThumbnailToggle');
+    imageInput?.addEventListener('change', () => {
+        fileListImages?.render({items: Array.from(imageInput.files || [], file => ({file}))});
+    });
+    thumbnailToggle?.addEventListener('change', () => {
+        fileListImages?.render({thumbnail: thumbnailToggle.checked});
     });
 });

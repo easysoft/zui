@@ -76,3 +76,19 @@ fileList.render({
 省略 `id` 或设为空字符串时会自动生成 ID；同一列表实例中，同一个原生 `File` 或普通文件信息对象在更新、排序后保持 ID 不变，数字 `0` 和非空字符串 ID 会保留。组件不会修改传入对象。
 
 图标、链接、操作及列表项回调均可取得补齐的元信息，原生文件引用保留在 `file` 字段中。原生文件没有的 `addedBy`、`addedDate` 以及未选择目录时的 `pathname` 默认为空字符串；链接仍通过 `fileUrl` 配置。
+
+### 图片缩略图
+
+原生图片文件默认在图标位置显示缩略图，即使 `fileIcon` 为 `false` 也会显示。图片按 MIME 类型或图片扩展名识别；没有原生 `File` 的记录仍按 `fileIcon` 显示图标。
+
+设置 `thumbnail: false` 可关闭缩略图并恢复 `fileIcon` 配置。组件会复用预览 URL，并在文件移除、关闭缩略图或组件销毁时释放。
+
+```ts
+fileList.render({items: [{file: imageFile}], thumbnail: false});
+```
+
+```html:example
+<label>选择图片 <input id="fileListImageInput" type="file" accept="image/*" multiple></label>
+<label><input id="fileListThumbnailToggle" type="checkbox" checked> 显示缩略图</label>
+<div id="fileListImages"></div>
+```

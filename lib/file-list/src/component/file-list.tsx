@@ -14,6 +14,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
         ...List.defaultProps,
         fileSizeFormat: '{size}',
         fileIcon: false,
+        thumbnail: true,
     };
 
     static TAG = 'div';
@@ -26,6 +27,14 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
     };
 
     protected _fileIds = new WeakMap<FileInfoLike | File, string>();
+
+    protected _objectURLs = new Map<File, string>();
+
+    componentWillUnmount(): void {
+        this._objectURLs.forEach(url => URL.revokeObjectURL(url));
+        this._objectURLs.clear();
+        super.componentWillUnmount();
+    }
 
     protected _getFileInfo(fileInfo: FileInfoLike): FileInfo {
         const file = 'file' in fileInfo ? fileInfo.file : undefined;
@@ -80,9 +89,21 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
 
     protected _getItems(props: RenderableProps<T>): Item[] {
         const files = super._getItems(props) as FileInfoLike[];
-        const {fileIcon, fileSizeFormat, itemProps, heading, fileUrl, fileActions, mode} = props;
+        const {fileIcon, fileSizeFormat, itemProps, heading, fileUrl, fileActions, mode, thumbnail} = props;
+        const thumbnailFiles = new Set<File>();
         const items: Item[] = files.map((fileInfo) => {
             const file = this._getFileInfo(fileInfo);
+            const originFile = 'file' in fileInfo ? fileInfo.file : undefined;
+            let icon: IconType | undefined;
+            if (thumbnail && originFile && (originFile.type.startsWith('image/') || (this.constructor as typeof FileList).fileIconOfTypes['file-image'].includes(file.extension.toLowerCase()))) {
+                let url = this._objectURLs.get(originFile);
+                if (!url) {
+                    url = URL.createObjectURL(originFile);
+                    this._objectURLs.set(originFile, url);
+                }
+                thumbnailFiles.add(originFile);
+                icon = <img className="item-icon file-list-thumbnail w-8 h-8 rounded object-cover" src={url} alt="" />;
+            }
             let subtitle = null;
             if (typeof file.size === 'number') {
                 subtitle = formatBytes(file.size);
@@ -94,7 +115,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
                 ...file,
                 key: `${file.id}`,
                 className: mode === 'cards' ? 'file-list-card' : mode === 'cards-inline' ? 'file-list-card-inline' : mode === 'covers' ? 'file-list-cover' : undefined,
-                icon: (this.constructor as typeof FileList).getFileIcon(file, fileIcon),
+                icon: icon ?? (this.constructor as typeof FileList).getFileIcon(file, fileIcon),
                 iconClass: 'text-gray',
                 title: file.title,
                 subtitle,
@@ -102,6 +123,12 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
                 url: typeof fileUrl === 'function' ? fileUrl.call(this, file) : (fileUrl ? formatString(fileUrl, file) : undefined),
                 actions: fileActions ? fileActions.call(this, file) : undefined,
             }, itemProps);
+        });
+        this._objectURLs.forEach((url, file) => {
+            if (!thumbnailFiles.has(file)) {
+                URL.revokeObjectURL(url);
+                this._objectURLs.delete(file);
+            }
         });
         if (heading) {
             items.unshift({

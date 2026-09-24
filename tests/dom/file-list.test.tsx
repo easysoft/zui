@@ -147,6 +147,83 @@ describe('FileList', () => {
         expect(getByText('7.00B')).toBeInTheDocument();
     });
 
+    it('shows native image thumbnails by default and restores configured icons when disabled', () => {
+        const createObjectURL = vi.fn((file: File) => `blob:${file.name}`);
+        const revokeObjectURL = vi.fn();
+        vi.stubGlobal('URL', class extends URL {
+            static createObjectURL = createObjectURL;
+            static revokeObjectURL = revokeObjectURL;
+        });
+        const image = new File(['image'], 'photo.bin', {type: 'image/png'});
+        const untypedImage = new File(['image'], 'photo.JPG');
+        const items = [{file: image}, {file: untypedImage}, {file: new File(['text'], 'notes.txt')}, {...files[0], title: 'remote.png', extension: 'png'}];
+        const {container, rerender} = render(<FileListView items={items} />);
+
+        const thumbnails = container.querySelectorAll('img.item-icon');
+        expect(thumbnails).toHaveLength(2);
+        expect(thumbnails[0]).toHaveAttribute('src', 'blob:photo.bin');
+        expect(thumbnails[0]).toHaveAttribute('alt', '');
+        expect(thumbnails[1]).toHaveAttribute('src', 'blob:photo.JPG');
+        expect(createObjectURL).toHaveBeenCalledTimes(2);
+        expect(createObjectURL).toHaveBeenCalledWith(image);
+        expect(createObjectURL).toHaveBeenCalledWith(untypedImage);
+
+        rerender(<FileListView items={items} fileIcon="paper-clip" />);
+        expect(container.querySelectorAll('img.item-icon')).toHaveLength(2);
+        expect(container.querySelectorAll('.icon-paper-clip')).toHaveLength(2);
+        expect(createObjectURL).toHaveBeenCalledTimes(2);
+
+        rerender(<FileListView items={items} fileIcon="paper-clip" thumbnail={false} />);
+        expect(container.querySelector('img')).toBeNull();
+        expect(container.querySelectorAll('.icon-paper-clip')).toHaveLength(4);
+        expect(revokeObjectURL.mock.calls).toEqual([['blob:photo.bin'], ['blob:photo.JPG']]);
+
+        rerender(<FileListView items={items} fileIcon={false} thumbnail={false} />);
+        expect(container.querySelector('.item-icon')).toBeNull();
+        expect(createObjectURL).toHaveBeenCalledTimes(2);
+
+        rerender(<FileListView items={items} />);
+        expect(container.querySelectorAll('img.item-icon')).toHaveLength(2);
+        expect(createObjectURL).toHaveBeenCalledTimes(4);
+    });
+
+    it('reuses thumbnail URLs and releases them on replacement, removal and vanilla destruction', async () => {
+        let urlId = 0;
+        const createObjectURL = vi.fn(() => `blob:preview-${++urlId}`);
+        const revokeObjectURL = vi.fn();
+        vi.stubGlobal('URL', class extends URL {
+            static createObjectURL = createObjectURL;
+            static revokeObjectURL = revokeObjectURL;
+        });
+        const first = new File(['first'], 'photo.png', {type: 'image/png'});
+        const second = new File(['second'], 'photo.png', {type: 'image/png'});
+        const host = document.createElement('div');
+        document.body.append(host);
+        const beforeDestroy = vi.fn();
+        const list = new FileList(host, {items: [{id: 'image', file: first}], beforeDestroy});
+        await flushAnimationFrame();
+
+        expect(host.querySelector('img')).toHaveAttribute('src', 'blob:preview-1');
+        list.render({items: [{id: 'image', file: first, title: 'Renamed'}]});
+        expect(createObjectURL).toHaveBeenCalledTimes(1);
+        expect(revokeObjectURL).not.toHaveBeenCalled();
+
+        list.render({items: [{id: 'image', file: second}]});
+        expect(host.querySelector('img')).toHaveAttribute('src', 'blob:preview-2');
+        expect(revokeObjectURL.mock.calls).toEqual([['blob:preview-1']]);
+
+        list.render({items: []});
+        expect(host.querySelector('img')).toBeNull();
+        expect(revokeObjectURL.mock.calls).toEqual([['blob:preview-1'], ['blob:preview-2']]);
+
+        list.render({items: [{file: first}]});
+        expect(host.querySelector('img')).toHaveAttribute('src', 'blob:preview-3');
+        list.destroy();
+        expect(revokeObjectURL.mock.calls).toEqual([['blob:preview-1'], ['blob:preview-2'], ['blob:preview-3']]);
+        expect(beforeDestroy).toHaveBeenCalledTimes(1);
+        expect(host.querySelector('img')).toBeNull();
+    });
+
     it('registers both component forms and supports vanilla updates and cleanup', async () => {
         expect(Component.map.get('filelist')).toBe(FileList);
         expect(getReactComponent('FileList')).toBe(FileListView);
