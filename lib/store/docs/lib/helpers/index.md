@@ -15,7 +15,7 @@
 **示例**
 
 ```js
-zui.store.set('mySecretCode', 1314520);
+zui.store.set('pageSize', 20);
 ```
 
 ## 读取数据
@@ -25,7 +25,7 @@ zui.store.set('mySecretCode', 1314520);
 **示例**
 
 ```js
-zui.store.get('mySecretCode'); // 基于存储数据的例子应该返回 1314520
+zui.store.get('pageSize'); // 基于存储数据的例子应该返回 20
 ```
 
 ## 移除数据
@@ -35,7 +35,7 @@ zui.store.get('mySecretCode'); // 基于存储数据的例子应该返回 131452
 **示例**
 
 ```js
-zui.store.remove('mySecretCode');
+zui.store.remove('pageSize');
 ```
 
 ## 遍历数据
@@ -57,10 +57,10 @@ zui.store.each((name, value) => {
 **示例**
 
 ```js
-zui.store.set('mySecretCode', 1314520);
-zui.store.set('myName', 'Jue');
+zui.store.set('pageSize', 20);
+zui.store.set('viewMode', 'list');
 
-zui.store.getAll(); // 返回 {mySecretCode: 1314520, myName: 'Jue'}
+zui.store.getAll(); // 仅含上面两项时： {pageSize: 20, viewMode: 'list'}
 ```
 
 ## 操作本地会话数据
@@ -70,10 +70,10 @@ zui.store.getAll(); // 返回 {mySecretCode: 1314520, myName: 'Jue'}
 **示例**
 
 ```js
-zui.store.session.set('mySecretCode', 1314520);
-zui.store.session.set('myName', 'Jue');
+zui.store.session.set('currentProject', 'customer-portal');
+zui.store.session.set('taskFilter', {status: 'active', owner: 'linyue'});
 
-zui.store.session.getAll(); // 返回 {mySecretCode: 1314520, myName: 'Jue'}
+zui.store.session.getAll(); // 仅含上面两项时：{currentProject: 'customer-portal', taskFilter: {status: 'active', owner: 'linyue'}}
 ```
 
 ::: warning
@@ -90,18 +90,18 @@ zui.store.session.getAll(); // 返回 {mySecretCode: 1314520, myName: 'Jue'}
 
 ```js
 /* 分别创建一个本地存储和会话存储实例 */
-const myStore = zui.store.create('myStore');
-const mySessionStore = zui.store.create('mySessionStore', 'session');
+const myStore = zui.store.create('projectTable');
+const mySessionStore = zui.store.create('reviewSession', 'session');
 
 /* 分别设置同名的存储的值 */
-zui.store.set('mySecretCode', 1);
-myStore.set('mySecretCode', 2);
-mySessionStore.set('mySecretCode', 3);
+zui.store.set('pageSize', 10);
+myStore.set('pageSize', 20);
+mySessionStore.set('pageSize', 50);
 
 /* 他们可以读取到同名的各自的值 */
-zui.store.get('mySecretCode');          // 返回 1
-myStore.get('mySecretCode');            // 返回 2
-mySessionStore.get('mySecretCode');     // 返回 3
+zui.store.get('pageSize');          // 返回 10
+myStore.get('pageSize');            // 返回 20
+mySessionStore.get('pageSize');     // 返回 50
 ```
 
 ## 切换存储配置
@@ -109,7 +109,7 @@ mySessionStore.get('mySecretCode');     // 返回 3
 使用 `switch` 方法可以将实例切换到另一个存储配置（`id`）。切换后已经通过 `zui.store.session` 创建的会话实例也会同步到新的配置，不会继续写入旧配置。
 
 ```js
-zui.store.switch('userA'); // 之后 zui.store 和 zui.store.session 都读写 userA 的数据
+zui.store.switch('linyue'); // 之后 zui.store 和 zui.store.session 都读写 linyue 的界面偏好
 ```
 
 ## 直接使用 `Store` 类
@@ -117,8 +117,8 @@ zui.store.switch('userA'); // 之后 zui.store 和 zui.store.session 都读写 u
 除了默认的 `zui.store` 实例，也可以通过全局对象上的 `zui.Store` 类创建自己的实例。
 
 ```js
-const myStore = new zui.Store('myProfile', 'local');
-myStore.set('token', 'abc');
+const myStore = new zui.Store('projectPreferences', 'local');
+myStore.set('taskFilter', {status: 'active', owner: 'linyue'});
 ```
 
 ## 模块引入（ESM / npm）
@@ -128,8 +128,8 @@ myStore.set('token', 'abc');
 ```js
 import {Store, store} from '@zui/store';
 
-const myStore = new Store('myProfile', 'local');
-myStore.set('token', 'abc');
+const myStore = new Store('projectPreferences', 'local');
+myStore.set('taskFilter', {status: 'active', owner: 'linyue'});
 ```
 
 ## 存储不可用时的回退
