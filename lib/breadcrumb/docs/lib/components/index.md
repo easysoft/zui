@@ -10,9 +10,9 @@
 
 <Example>
   <ol class="breadcrumb">
-    <li><a href="your/url/">首页</a></li>
-    <li><a href="your/url/">图书馆</a></li>
-    <li class="active">数据</li>
+    <li><a href="/">首页</a></li>
+    <li><a href="/lib/">组件</a></li>
+    <li class="active" aria-current="page">面包屑</li>
   </ol>
 </Example>
 
@@ -20,9 +20,9 @@
 
 ```html
 <ol class="breadcrumb">
-  <li><a href="your/url/">首页</a></li>
-  <li><a href="your/url/">图书馆</a></li>
-  <li class="active">数据</li>
+  <li><a href="/">首页</a></li>
+  <li><a href="/lib/">组件</a></li>
+  <li class="active" aria-current="page">面包屑</li>
 </ol>
 ```
 
