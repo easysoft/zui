@@ -4,7 +4,7 @@
 
 ## 基本使用
 
-下面的列表包含 10,000 条数据，每项高度为 36px。
+下面按工单编号顺序生成 10,000 条待分派记录，每项高度为 36px。数据固定，便于对比滚动位置。
 
 ::: tabs
 
@@ -29,9 +29,9 @@ const list = new zui.VirtualList('#virtualList', {
     height: 240,
     overscan: 5,
     className: 'border rounded',
-    attrs: {'aria-label': '数据列表'},
+    attrs: {'aria-label': '待分派工单列表'},
     itemClassName: 'flex items-center px-3 border-b',
-    renderItem: item => `条目 ${item.index + 1}`,
+    renderItem: item => `工单 #${10001 + item.index} · 待分派`,
 });
 ```
 
@@ -56,9 +56,17 @@ const list = new zui.VirtualList('#virtualList', {
 == JS
 
 ```js
+const updates = [
+    '已复现登录超时，等待确认会话过期策略。',
+    '附件预览已修复。\n验证范围：PNG、JPEG 和 PDF。\n下一步：安排移动端回归测试。',
+    '客户确认导出报表符合要求，工单已关闭。',
+    '消息通知需要补充接收人规则。\n当前方案：默认通知负责人，抄送参与人；已归档项目不发送日常提醒。\n待确认：外部协作成员是否接收每周摘要。',
+    '已提交修复，等待代码评审。',
+    '完成移动端图片上传回归。\n弱网环境下保留已填写的描述，上传中断后可重新选择文件。\n大图压缩和多图连续上传均通过检查，计划随下个版本发布。',
+];
 const notes = Array.from({length: 500}, (_, index) => ({
     id: `note-${index}`,
-    text: `记录 ${index + 1}\n${'内容长度决定条目实际高度。'.repeat(index % 6 + 1)}`,
+    text: `工单 #${10001 + index} 处理记录\n${updates[index % updates.length]}`,
 }));
 
 const list = new zui.VirtualList('#virtualList', {
@@ -68,7 +76,7 @@ const list = new zui.VirtualList('#virtualList', {
     dynamic: true,
     height: 280,
     className: 'border rounded',
-    attrs: {'aria-label': '动态高度记录列表'},
+    attrs: {'aria-label': '工单处理记录列表'},
     itemClassName: 'p-3 border-b',
     itemStyle: {whiteSpace: 'pre-wrap'},
     renderItem: item => notes[item.index].text,
@@ -106,7 +114,7 @@ new zui.VirtualList('#virtualList', {
     className: 'border rounded',
     attrs: {'aria-label': '水平卡片列表'},
     itemClassName: 'flex items-center justify-center bg-surface rounded',
-    renderItem: item => `卡片 ${item.index + 1}`,
+    renderItem: item => `客户档案 #${1001 + item.index}`,
 });
 ```
 
@@ -121,7 +129,7 @@ new zui.VirtualList('#virtualList', {
     height: 320,
     lanes: 3,
     gap: 8,
-    renderItem: item => `第 ${item.lane + 1} 列 · 条目 ${item.index + 1}`,
+    renderItem: item => `第 ${item.lane + 1} 列 · 工单 #${10001 + item.index}`,
 });
 ```
 
@@ -132,7 +140,7 @@ new zui.VirtualList('#virtualList', {
 离开渲染范围的条目会卸载，不应依靠条目内部状态保存业务数据。
 
 ```js
-let rows = [{id: 'a', text: '第一条'}, {id: 'b', text: '第二条'}];
+let rows = [{id: 'ticket-10001', text: '登录超时：待分派'}, {id: 'ticket-10002', text: '附件预览：处理中'}];
 const list = new zui.VirtualList('#virtualList', {
     count: rows.length,
     estimateSize: () => 36,
@@ -205,7 +213,7 @@ import {VirtualList} from '@zui/virtualize/react';
     count={10000}
     estimateSize={() => 36}
     height={240}
-    renderItem={item => `条目 ${item.index + 1}`}
+    renderItem={item => `工单 #${10001 + item.index} · 待分派`}
 />;
 ```
 
@@ -237,7 +245,7 @@ function renderItems() {
     content.style.height = `${virtualizer.getTotalSize()}px`;
     content.replaceChildren(...virtualizer.getVirtualItems().map(item => {
         const element = document.createElement('div');
-        element.textContent = `条目 ${item.index + 1}`;
+        element.textContent = `工单 #${10001 + item.index} · 待分派`;
         element.style.cssText = `position:absolute;top:0;left:0;width:100%;height:${item.size}px;transform:translateY(${item.start}px)`;
         return element;
     }));
@@ -284,14 +292,22 @@ const fixedOptions = {
     height: 240,
     overscan: 5,
     className: 'border rounded',
-    attrs: {'aria-label': '数据列表'},
+    attrs: {'aria-label': '待分派工单列表'},
     itemClassName: 'flex items-center px-3 border-b',
-    renderItem: item => `条目 ${item.index + 1}`,
+    renderItem: item => `工单 #${10001 + item.index} · 待分派`,
 };
 
+const updates = [
+    '已复现登录超时，等待确认会话过期策略。',
+    '附件预览已修复。\n验证范围：PNG、JPEG 和 PDF。\n下一步：安排移动端回归测试。',
+    '客户确认导出报表符合要求，工单已关闭。',
+    '消息通知需要补充接收人规则。\n当前方案：默认通知负责人，抄送参与人；已归档项目不发送日常提醒。\n待确认：外部协作成员是否接收每周摘要。',
+    '已提交修复，等待代码评审。',
+    '完成移动端图片上传回归。\n弱网环境下保留已填写的描述，上传中断后可重新选择文件。\n大图压缩和多图连续上传均通过检查，计划随下个版本发布。',
+];
 const notes = Array.from({length: 500}, (_, index) => ({
     id: `note-${index}`,
-    text: `记录 ${index + 1}\n${'内容长度决定条目实际高度。'.repeat(index % 6 + 1)}`,
+    text: `工单 #${10001 + index} 处理记录\n${updates[index % updates.length]}`,
 }));
 
 const dynamicOptions = {
@@ -301,7 +317,7 @@ const dynamicOptions = {
     dynamic: true,
     height: 280,
     className: 'border rounded',
-    attrs: {'aria-label': '动态高度记录列表'},
+    attrs: {'aria-label': '工单处理记录列表'},
     itemClassName: 'p-3 border-b',
     itemStyle: {whiteSpace: 'pre-wrap'},
     renderItem: item => notes[item.index].text,
@@ -319,6 +335,6 @@ const horizontalOptions = {
     className: 'border rounded',
     attrs: {'aria-label': '水平卡片列表'},
     itemClassName: 'flex items-center justify-center bg-surface rounded',
-    renderItem: item => `卡片 ${item.index + 1}`,
+    renderItem: item => `客户档案 #${1001 + item.index}`,
 };
 </script>
