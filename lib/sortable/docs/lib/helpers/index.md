@@ -4,7 +4,7 @@
 
 ## 基本使用
 
-按住条目前面的拖动区域调整顺序。每个条目使用稳定、唯一的 `data-id`，用于读取和保存排序结果。
+下面是待办需求的优先级列表，按住条目前面的拖动区域调整处理顺序。每个条目使用稳定、唯一的 `data-id`，用于读取和保存排序结果。
 
 ::: tabs
 
@@ -12,26 +12,26 @@
 
 <Example>
   <ul id="sortableDemo" class="col gap-2">
-    <li class="flex items-center gap-2 p-2 border rounded" data-id="docs"><span class="drag-handle cursor-move" title="拖动排序">⠿</span>完善文档</li>
-    <li class="flex items-center gap-2 p-2 border rounded" data-id="build"><span class="drag-handle cursor-move" title="拖动排序">⠿</span>验证构建</li>
-    <li class="flex items-center gap-2 p-2 border rounded" data-id="release"><span class="drag-handle cursor-move" title="拖动排序">⠿</span>发布版本</li>
+    <li class="flex items-center gap-2 p-2 border rounded" data-id="docs"><span class="drag-handle cursor-move" title="拖动排序">⠿</span>补充使用指南</li>
+    <li class="flex items-center gap-2 p-2 border rounded" data-id="export"><span class="drag-handle cursor-move" title="拖动排序">⠿</span>修复报表导出</li>
+    <li class="flex items-center gap-2 p-2 border rounded" data-id="preview"><span class="drag-handle cursor-move" title="拖动排序">⠿</span>支持附件预览</li>
   </ul>
 </Example>
 
 == HTML
 
 ```html
-<ul id="releaseSteps" class="col gap-2">
-  <li class="flex gap-2 p-2 border rounded" data-id="docs"><span class="drag-handle cursor-move">⠿</span>完善文档</li>
-  <li class="flex gap-2 p-2 border rounded" data-id="build"><span class="drag-handle cursor-move">⠿</span>验证构建</li>
-  <li class="flex gap-2 p-2 border rounded" data-id="release"><span class="drag-handle cursor-move">⠿</span>发布版本</li>
+<ul id="priorityTasks" class="col gap-2">
+  <li class="flex gap-2 p-2 border rounded" data-id="docs"><span class="drag-handle cursor-move">⠿</span>补充使用指南</li>
+  <li class="flex gap-2 p-2 border rounded" data-id="export"><span class="drag-handle cursor-move">⠿</span>修复报表导出</li>
+  <li class="flex gap-2 p-2 border rounded" data-id="preview"><span class="drag-handle cursor-move">⠿</span>支持附件预览</li>
 </ul>
 ```
 
 == JS
 
 ```js
-const sortable = new zui.Sortable('#releaseSteps', {
+const sortable = new zui.Sortable('#priorityTasks', {
     draggable: 'li',
     handle: '.drag-handle',
     animation: 150,
@@ -117,7 +117,7 @@ onRemove?: (event: SortableEvent) =&gt; void; // 条目移入其他列表。
 
 ```js
 const order = sortable.toArray();
-sortable.sort(['release', 'docs', 'build'], true);
+sortable.sort(['preview', 'docs', 'export'], true);
 sortable.option('disabled', true);
 const disabled = sortable.option('disabled');
 const item = sortable.closest(document.querySelector('.drag-handle'));
@@ -133,9 +133,9 @@ sortable.destroy();
 ```js
 const list = new zui.SortableList('#taskList', {
     items: [
-        {id: 'docs', text: '完善文档'},
-        {id: 'build', text: '验证构建'},
-        {id: 'release', text: '发布版本'},
+        {id: 'docs', text: '补充使用指南'},
+        {id: 'export', text: '修复报表导出'},
+        {id: 'preview', text: '支持附件预览'},
     ],
     sortable: {animation: 150},
     onSort(event, orders) {
