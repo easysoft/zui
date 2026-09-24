@@ -6,8 +6,8 @@
 
 ```html
 <div class="row" id="layout">
-  <aside class="sidebar" id="projectSidebar">...</aside>
-  <main class="flex-auto">...</main>
+  <aside class="sidebar" id="projectSidebar"><div class="sidebar-content">客户门户 · 需求、任务与发布记录</div></aside>
+  <main class="flex-auto">客户门户 · 本周迭代任务</main>
 </div>
 ```
 
@@ -27,9 +27,9 @@ const sidebar = new zui.Sidebar('#projectSidebar', {
 
 ```html
 <div class="row">
-  <aside class="sidebar" id="sharedSidebarLeft"><div class="sidebar-content">左侧内容</div></aside>
-  <main class="flex-auto">主要内容</main>
-  <aside class="sidebar" id="sharedSidebarRight"><div class="sidebar-content">右侧内容</div></aside>
+  <aside class="sidebar" id="sharedSidebarLeft"><div class="sidebar-content">项目目录：客户门户、移动端工单、团队知识库</div></aside>
+  <main class="flex-auto">客户门户 · 本周迭代任务</main>
+  <aside class="sidebar" id="sharedSidebarRight"><div class="sidebar-content">任务详情：负责人、计划日期与验收标准</div></aside>
 </div>
 ```
 
@@ -50,7 +50,7 @@ new zui.Sidebar('#sharedSidebarRight', {side: 'right', shareWidth: 'workspace'})
 import {Sidebar} from '@zui/sidebar/react';
 
 <Sidebar side="right" width={320} minWidth={200}>
-  <div className="sidebar-content">...</div>
+  <div className="sidebar-content">任务详情与操作记录</div>
 </Sidebar>
 ```
 
