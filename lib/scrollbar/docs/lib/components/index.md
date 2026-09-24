@@ -8,16 +8,16 @@
 
 <Example>
   <div class="h-32 overflow-scroll whitespace-nowrap">
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, accusamus.Molestiae saepe deleniti voluptas excepturi nostrum. Consequatur eius non voluptates!Commodi omnis minus quo totam, ab aspernatur sequi vero cum?</p>
-    <p>Explicabo asperiores recusandae qui? Aliquam similique eaque animi nemo? Fugiat.Cupiditate eaque, doloribus magnam velit ipsum maiores voluptatum eveniet rem!</p>
-    <p>Pariatur sapiente laboriosam cumque itaque, id saepe commodi accusantium neque?</p>
-    <p>Cupiditate eaque, doloribus magnam velit ipsum maiores voluptatum eveniet rem!</p>
-    <p>Quidem eum, reiciendis iusto rem perspiciatis neque optio! Quae, sint!</p>
-    <p>Maxime animi iure enim sint aperiam tempora non voluptatibus dolore.</p>
-    <p>Suscipit cumque minus veritatis labore dolor corporis molestias. Rem, pariatur.</p>
-    <p>Commodi omnis minus quo totam, ab aspernatur sequi vero cum?</p>
-    <p>Repellendus rerum tempora eos praesentium at placeat, quas quibusdam sunt?</p>
-    <p>Molestiae saepe deleniti voluptas excepturi nostrum. Consequatur eius non voluptates!</p>
+    <p>09:00 · 林悦提交客户门户验收计划，包含登录、工单查询、图片与 PDF 附件预览、移动端上传、消息通知、报表导出和成员权限检查；各负责人需要在本周五 15:00 评审前更新结果。</p>
+    <p>09:20 · 陈晨完成附件预览，已支持图片与 PDF。</p>
+    <p>09:45 · 王宁发现手机上传大图后进度没有更新，已补充复现步骤。</p>
+    <p>10:10 · 周敏提交上传进度修复，等待代码评审。</p>
+    <p>10:35 · 林悦确认客户通知文案，补充工单编号和处理入口。</p>
+    <p>11:00 · 陈晨合并上传修复，交付测试环境验证。</p>
+    <p>13:30 · 王宁完成弱网回归，确认失败后可以重新选择文件。</p>
+    <p>14:15 · 周敏整理发布说明，标注功能变化和已知限制。</p>
+    <p>15:00 · 团队通过发布评审，计划在 18:00 更新客户门户。</p>
+    <p>18:20 · 发布后检查完成，登录、查询和附件上传均正常。</p>
   </div>
 </Example>
 
@@ -25,7 +25,16 @@
 
 ```html
 <div class="h-32 overflow-scroll whitespace-nowrap">
-  ...
+  <p>09:00 · 林悦提交客户门户验收计划，包含登录、工单查询、图片与 PDF 附件预览、移动端上传、消息通知、报表导出和成员权限检查；各负责人需要在本周五 15:00 评审前更新结果。</p>
+  <p>09:20 · 陈晨完成附件预览，已支持图片与 PDF。</p>
+  <p>09:45 · 王宁发现手机上传大图后进度没有更新，已补充复现步骤。</p>
+  <p>10:10 · 周敏提交上传进度修复，等待代码评审。</p>
+  <p>10:35 · 林悦确认客户通知文案，补充工单编号和处理入口。</p>
+  <p>11:00 · 陈晨合并上传修复，交付测试环境验证。</p>
+  <p>13:30 · 王宁完成弱网回归，确认失败后可以重新选择文件。</p>
+  <p>14:15 · 周敏整理发布说明，标注功能变化和已知限制。</p>
+  <p>15:00 · 团队通过发布评审，计划在 18:00 更新客户门户。</p>
+  <p>18:20 · 发布后检查完成，登录、查询和附件上传均正常。</p>
 </div>
 ```
 
@@ -56,16 +65,16 @@ import {Scrollbar} from '@zui/scrollbar/react';
 
 <Example>
   <div class="scrollbar-thin h-32 overflow-scroll whitespace-nowrap">
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, accusamus.Molestiae saepe deleniti voluptas excepturi nostrum. Consequatur eius non voluptates!Commodi omnis minus quo totam, ab aspernatur sequi vero cum?</p>
-    <p>Explicabo asperiores recusandae qui? Aliquam similique eaque animi nemo? Fugiat.Cupiditate eaque, doloribus magnam velit ipsum maiores voluptatum eveniet rem!</p>
-    <p>Pariatur sapiente laboriosam cumque itaque, id saepe commodi accusantium neque?</p>
-    <p>Cupiditate eaque, doloribus magnam velit ipsum maiores voluptatum eveniet rem!</p>
-    <p>Quidem eum, reiciendis iusto rem perspiciatis neque optio! Quae, sint!</p>
-    <p>Maxime animi iure enim sint aperiam tempora non voluptatibus dolore.</p>
-    <p>Suscipit cumque minus veritatis labore dolor corporis molestias. Rem, pariatur.</p>
-    <p>Commodi omnis minus quo totam, ab aspernatur sequi vero cum?</p>
-    <p>Repellendus rerum tempora eos praesentium at placeat, quas quibusdam sunt?</p>
-    <p>Molestiae saepe deleniti voluptas excepturi nostrum. Consequatur eius non voluptates!</p>
+    <p>09:00 · 林悦提交客户门户验收计划，包含登录、工单查询、图片与 PDF 附件预览、移动端上传、消息通知、报表导出和成员权限检查；各负责人需要在本周五 15:00 评审前更新结果。</p>
+    <p>09:20 · 陈晨完成附件预览，已支持图片与 PDF。</p>
+    <p>09:45 · 王宁发现手机上传大图后进度没有更新，已补充复现步骤。</p>
+    <p>10:10 · 周敏提交上传进度修复，等待代码评审。</p>
+    <p>10:35 · 林悦确认客户通知文案，补充工单编号和处理入口。</p>
+    <p>11:00 · 陈晨合并上传修复，交付测试环境验证。</p>
+    <p>13:30 · 王宁完成弱网回归，确认失败后可以重新选择文件。</p>
+    <p>14:15 · 周敏整理发布说明，标注功能变化和已知限制。</p>
+    <p>15:00 · 团队通过发布评审，计划在 18:00 更新客户门户。</p>
+    <p>18:20 · 发布后检查完成，登录、查询和附件上传均正常。</p>
   </div>
 </Example>
 
@@ -73,7 +82,16 @@ import {Scrollbar} from '@zui/scrollbar/react';
 
 ```html
 <div class="scrollbar-thin h-32 overflow-scroll whitespace-nowrap">
-  ...
+  <p>09:00 · 林悦提交客户门户验收计划，包含登录、工单查询、图片与 PDF 附件预览、移动端上传、消息通知、报表导出和成员权限检查；各负责人需要在本周五 15:00 评审前更新结果。</p>
+  <p>09:20 · 陈晨完成附件预览，已支持图片与 PDF。</p>
+  <p>09:45 · 王宁发现手机上传大图后进度没有更新，已补充复现步骤。</p>
+  <p>10:10 · 周敏提交上传进度修复，等待代码评审。</p>
+  <p>10:35 · 林悦确认客户通知文案，补充工单编号和处理入口。</p>
+  <p>11:00 · 陈晨合并上传修复，交付测试环境验证。</p>
+  <p>13:30 · 王宁完成弱网回归，确认失败后可以重新选择文件。</p>
+  <p>14:15 · 周敏整理发布说明，标注功能变化和已知限制。</p>
+  <p>15:00 · 团队通过发布评审，计划在 18:00 更新客户门户。</p>
+  <p>18:20 · 发布后检查完成，登录、查询和附件上传均正常。</p>
 </div>
 ```
 
@@ -87,16 +105,16 @@ import {Scrollbar} from '@zui/scrollbar/react';
 
 <Example>
   <div class="scrollbar-hover h-32 overflow-scroll whitespace-nowrap">
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, accusamus.Molestiae saepe deleniti voluptas excepturi nostrum. Consequatur eius non voluptates!Commodi omnis minus quo totam, ab aspernatur sequi vero cum?</p>
-    <p>Explicabo asperiores recusandae qui? Aliquam similique eaque animi nemo? Fugiat.Cupiditate eaque, doloribus magnam velit ipsum maiores voluptatum eveniet rem!</p>
-    <p>Pariatur sapiente laboriosam cumque itaque, id saepe commodi accusantium neque?</p>
-    <p>Cupiditate eaque, doloribus magnam velit ipsum maiores voluptatum eveniet rem!</p>
-    <p>Quidem eum, reiciendis iusto rem perspiciatis neque optio! Quae, sint!</p>
-    <p>Maxime animi iure enim sint aperiam tempora non voluptatibus dolore.</p>
-    <p>Suscipit cumque minus veritatis labore dolor corporis molestias. Rem, pariatur.</p>
-    <p>Commodi omnis minus quo totam, ab aspernatur sequi vero cum?</p>
-    <p>Repellendus rerum tempora eos praesentium at placeat, quas quibusdam sunt?</p>
-    <p>Molestiae saepe deleniti voluptas excepturi nostrum. Consequatur eius non voluptates!</p>
+    <p>09:00 · 林悦提交客户门户验收计划，包含登录、工单查询、图片与 PDF 附件预览、移动端上传、消息通知、报表导出和成员权限检查；各负责人需要在本周五 15:00 评审前更新结果。</p>
+    <p>09:20 · 陈晨完成附件预览，已支持图片与 PDF。</p>
+    <p>09:45 · 王宁发现手机上传大图后进度没有更新，已补充复现步骤。</p>
+    <p>10:10 · 周敏提交上传进度修复，等待代码评审。</p>
+    <p>10:35 · 林悦确认客户通知文案，补充工单编号和处理入口。</p>
+    <p>11:00 · 陈晨合并上传修复，交付测试环境验证。</p>
+    <p>13:30 · 王宁完成弱网回归，确认失败后可以重新选择文件。</p>
+    <p>14:15 · 周敏整理发布说明，标注功能变化和已知限制。</p>
+    <p>15:00 · 团队通过发布评审，计划在 18:00 更新客户门户。</p>
+    <p>18:20 · 发布后检查完成，登录、查询和附件上传均正常。</p>
   </div>
 </Example>
 
@@ -104,7 +122,16 @@ import {Scrollbar} from '@zui/scrollbar/react';
 
 ```html
 <div class="scrollbar-hover h-32 overflow-scroll whitespace-nowrap">
-  ...
+  <p>09:00 · 林悦提交客户门户验收计划，包含登录、工单查询、图片与 PDF 附件预览、移动端上传、消息通知、报表导出和成员权限检查；各负责人需要在本周五 15:00 评审前更新结果。</p>
+  <p>09:20 · 陈晨完成附件预览，已支持图片与 PDF。</p>
+  <p>09:45 · 王宁发现手机上传大图后进度没有更新，已补充复现步骤。</p>
+  <p>10:10 · 周敏提交上传进度修复，等待代码评审。</p>
+  <p>10:35 · 林悦确认客户通知文案，补充工单编号和处理入口。</p>
+  <p>11:00 · 陈晨合并上传修复，交付测试环境验证。</p>
+  <p>13:30 · 王宁完成弱网回归，确认失败后可以重新选择文件。</p>
+  <p>14:15 · 周敏整理发布说明，标注功能变化和已知限制。</p>
+  <p>15:00 · 团队通过发布评审，计划在 18:00 更新客户门户。</p>
+  <p>18:20 · 发布后检查完成，登录、查询和附件上传均正常。</p>
 </div>
 ```
 
