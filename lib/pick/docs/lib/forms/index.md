@@ -4,7 +4,7 @@
 
 ## 基本使用
 
-下面使用按钮作为触发元素，在弹出内容中通过 `data-pick-value` 指定选择值。
+下面使用按钮作为触发元素，在弹出内容中通过 `data-pick-value` 指定浅色、深色和跟随系统三种配色偏好。示例保存选择值；应用可在 `onChange` 中应用对应的配色。
 
 ::: tabs
 
@@ -29,8 +29,8 @@ const pick = new zui.Pick('#themePick', {
     attrs: {type: 'button', tabIndex: 0, 'aria-label': '选择配色'},
     defaultValue: '浅色',
     clickType: 'toggle',
-    popWidth: 200,
-    popHeader: {html: '<div class="p-2 flex gap-2"><button type="button" class="btn" data-pick-value="浅色">浅色</button><button type="button" class="btn" data-pick-value="深色">深色</button></div>'},
+    popWidth: 280,
+    popHeader: {html: '<div class="p-2 flex gap-2"><button type="button" class="btn" data-pick-value="浅色">浅色</button><button type="button" class="btn" data-pick-value="深色">深色</button><button type="button" class="btn" data-pick-value="跟随系统">跟随系统</button></div>'},
 });
 ```
 
@@ -45,8 +45,8 @@ const pickOptions = {
     attrs: {type: 'button', tabIndex: 0, 'aria-label': '选择配色'},
     defaultValue: '浅色',
     clickType: 'toggle',
-    popWidth: 200,
-    popHeader: {html: '<div class="p-2 flex gap-2"><button type="button" class="btn" data-pick-value="浅色">浅色</button><button type="button" class="btn" data-pick-value="深色">深色</button></div>'},
+    popWidth: 280,
+    popHeader: {html: '<div class="p-2 flex gap-2"><button type="button" class="btn" data-pick-value="浅色">浅色</button><button type="button" class="btn" data-pick-value="深色">深色</button><button type="button" class="btn" data-pick-value="跟随系统">跟随系统</button></div>'},
 };
 </script>
 
