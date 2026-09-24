@@ -167,6 +167,45 @@ describe('FileList', () => {
         expect(emptyId.id).toBe('');
     });
 
+    it('gives repeated native files distinct item ids while sharing their preview URL', async () => {
+        const createObjectURL = vi.fn(() => 'blob:shared-image');
+        vi.stubGlobal('URL', class extends URL {
+            static createObjectURL = createObjectURL;
+            static revokeObjectURL = vi.fn();
+        });
+        const file = new File(['image'], 'shared.png', {type: 'image/png'});
+        const first = Object.freeze({file, title: 'First'});
+        const second = Object.freeze({file, title: 'Second'});
+        const host = document.createElement('div');
+        document.body.append(host);
+        const onClickItem = vi.fn();
+        const list = new FileList(host, {items: [first, second, first], onClickItem});
+        await flushAnimationFrame();
+        const keys = () => Array.from(host.querySelectorAll('[z-type="item"]'), item => item.getAttribute('z-key')!);
+        const initialKeys = keys();
+
+        expect(new Set(initialKeys).size).toBe(3);
+        expect(list.$!.getItem(initialKeys[1])!.title).toBe('Second');
+        fireEvent.click(host.querySelector(`[z-key="${initialKeys[1]}"] .item-title`)!);
+        expect(onClickItem).toHaveBeenCalledWith(expect.objectContaining({item: expect.objectContaining({title: 'Second'})}));
+        list.render({items: [second, first, first]});
+        expect(keys()).toEqual([initialKeys[1], initialKeys[0], initialKeys[2]]);
+        list.render({items: [first, second]});
+        expect(keys()).toEqual(initialKeys.slice(0, 2));
+        list.render({items: [{file, title: 'Inserted'}, second, first]});
+        expect(keys().slice(1)).toEqual([initialKeys[1], initialKeys[0]]);
+        expect(new Set(keys()).size).toBe(3);
+        expect(createObjectURL).toHaveBeenCalledTimes(1);
+        expect(first).toEqual({file, title: 'First'});
+
+        list.render({items: [first, {...files[0], id: initialKeys[0]}]});
+        const reservedKeys = keys();
+        expect(reservedKeys[0]).not.toBe(initialKeys[0]);
+        expect(reservedKeys[1]).toBe(initialKeys[0]);
+        list.destroy();
+        host.remove();
+    });
+
     it('normalizes native files returned by an asynchronous items source', async () => {
         const file = new File(['content'], 'Loaded.txt');
         const load = vi.fn(async () => [{file}]);

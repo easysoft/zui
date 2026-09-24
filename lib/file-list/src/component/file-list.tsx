@@ -26,7 +26,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
         component: 'div',
     };
 
-    protected _fileIds = new WeakMap<FileInfoLike | File, string>();
+    protected _fileIds = new WeakMap<FileInfoLike | File, string[]>();
 
     protected _objectURLs = new Map<File, string>();
 
@@ -36,16 +36,31 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
         super.componentWillUnmount();
     }
 
-    protected _getFileInfo(fileInfo: FileInfoLike): FileInfo {
+    protected _getFileInfo(fileInfo: FileInfoLike, usedIds: Set<string>, reuseFileId: boolean): FileInfo {
         const file = fileInfo.file;
         let {id} = fileInfo;
         if (id === undefined || id === '') {
-            const source = file || fileInfo;
-            id = this._fileIds.get(source);
-            if (id === undefined) {
-                id = `file-${nextGid()}`;
-                this._fileIds.set(source, id);
+            const ids = this._fileIds.get(fileInfo) || [];
+            id = ids.find(value => !usedIds.has(value));
+            if (id === undefined && !ids.length && file && reuseFileId) {
+                const fileId = this._fileIds.get(file)?.[0];
+                if (fileId !== undefined && !usedIds.has(fileId)) {
+                    id = fileId;
+                }
             }
+            if (id === undefined) {
+                do {
+                    id = `file-${nextGid()}`;
+                } while (usedIds.has(id));
+            }
+            if (!ids.includes(id)) {
+                ids.push(id);
+                this._fileIds.set(fileInfo, ids);
+            }
+            if (file && !this._fileIds.has(file)) {
+                this._fileIds.set(file, [id]);
+            }
+            usedIds.add(id);
         }
         if (!file) {
             return (fileInfo.id === id ? fileInfo : {...fileInfo, id}) as FileInfo;
@@ -91,8 +106,15 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
         const files = super._getItems(props) as FileInfoLike[];
         const {fileIcon, fileSizeFormat, itemProps, heading, fileUrl, fileActions, mode, thumbnail, getThumbnail} = props;
         const thumbnailFiles = new Set<File>();
+        const usedIds = new Set(files.filter(file => file.id !== undefined && file.id !== '').map(file => String(file.id)));
+        const fileCounts = new Map<File, number>();
+        files.forEach(({file}) => {
+            if (file) {
+                fileCounts.set(file, (fileCounts.get(file) || 0) + 1);
+            }
+        });
         const items: Item[] = files.map((fileInfo) => {
-            const file = this._getFileInfo(fileInfo);
+            const file = this._getFileInfo(fileInfo, usedIds, !fileInfo.file || fileCounts.get(fileInfo.file) === 1);
             const originFile = file.file;
             let thumbnailUrl = thumbnail ? getThumbnail?.call(this, file) || file.thumbnail : undefined;
             if (thumbnail && !thumbnailUrl && originFile && (originFile.type.startsWith('image/') || (this.constructor as typeof FileList).fileIconOfTypes['file-image'].includes(file.extension.toLowerCase()))) {
