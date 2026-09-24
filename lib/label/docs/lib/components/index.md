@@ -11,13 +11,13 @@
 == 示例
 
 <Example>
-  <span class="label">标签</span>
+  <span class="label">待评审</span>
 </Example>
 
 == HTML
 
 ```html
-<span class="label">标签</span>
+<span class="label">待评审</span>
 ```
 
 :::
@@ -31,10 +31,10 @@
 == 常用
 
 <Example class="flex gap-4 flex-wrap" background="light-circle">
-  <span class="label primary">主要标签</span>
-  <span class="label black rounded-none">黑色标签</span>
-  <span class="label dark-outline rounded-full">描边</span>
-  <span class="label success-pale">浅色</span>
+  <span class="label primary">进行中</span>
+  <span class="label black rounded-none">已归档</span>
+  <span class="label dark-outline rounded-full">外部协作</span>
+  <span class="label success-pale">已完成</span>
 </Example>
 
 == 实心
@@ -76,7 +76,7 @@
 == HTML
 
 ```html
-<span class="label primary">...</span>
+<span class="label primary">进行中</span>
 ```
 
 :::
@@ -201,17 +201,17 @@
 == 示例
 
 <Example class="flex gap-4 items-end">
-  <button class="btn" type="button">按钮 <span class="label size-sm rounded-full">42</span></button>
-  <button class="btn success-outline" type="button">按钮 <span class="label size-sm success rounded-full">42</span></button>
-  <button class="btn danger-pale" type="button">按钮 <span class="label label-dot danger"></span></button>
+  <button class="btn" type="button">待办 <span class="label size-sm rounded-full">8</span></button>
+  <button class="btn success-outline" type="button">已完成 <span class="label size-sm success rounded-full">24</span></button>
+  <button class="btn danger-pale" type="button">未读通知 <span class="label label-dot danger"></span></button>
 </Example>
 
 == HTML
 
 ```html
-<button class="btn" type="button">按钮 <span class="label size-sm rounded-full">42</span></button>
-<button class="btn success-outline" type="button">按钮 <span class="label size-sm success rounded-full">42</span></button>
-<button class="btn danger-pale" type="button">按钮 <span class="label label-dot danger"></span></button>
+<button class="btn" type="button">待办 <span class="label size-sm rounded-full">8</span></button>
+<button class="btn success-outline" type="button">已完成 <span class="label size-sm success rounded-full">24</span></button>
+<button class="btn danger-pale" type="button">未读通知 <span class="label label-dot danger"></span></button>
 ```
 
 :::
