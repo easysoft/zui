@@ -11,13 +11,13 @@
 <Example class="gap-2 col">
   <div class="card">
     <div class="card-header">
-      <h3>卡片标题</h3>
+      <h3>客户门户升级</h3>
     </div>
     <div class="card-body">
-      卡片内容
+      支持客户自助查询工单进展，减少重复咨询。
     </div>
     <div class="card-footer">
-      卡片底部
+      负责人：林悦 · 计划 9 月 30 日发布
     </div>
   </div>
 </Example>
@@ -27,13 +27,13 @@
 ```html
 <div class="card">
   <div class="card-header">
-    <h3>卡片标题</h3>
+    <h3>客户门户升级</h3>
   </div>
   <div class="card-body">
-    卡片内容
+    支持客户自助查询工单进展，减少重复咨询。
   </div>
   <div class="card-footer">
-    卡片底部
+    负责人：林悦 · 计划 9 月 30 日发布
   </div>
 </div>
 ```
@@ -48,23 +48,23 @@
 import {Card, CardList} from '@zui/cards';
 
 new Card('#cardExample', {
-  title: '卡片标题',
-  subtitle: '副标题',
-  content: '卡片内容',
+  title: '客户门户升级',
+  subtitle: '客户服务 · 九月迭代',
+  content: '支持客户自助查询工单进展，减少重复咨询。',
   selected: true,
 });
 
 new CardList('#cardListExample', {
   countPerRow: 3,
-  items: [{title: '第一张卡片'}, {title: '第二张卡片'}],
+  items: [{title: '客户门户升级'}, {title: '移动端工单'}],
 });
 ```
 
 ```tsx
 import {Card, CardList} from '@zui/cards/react';
 
-<Card title="卡片标题" content="卡片内容" />
-<CardList countPerRow={3} items={[{title: '第一张卡片'}]} />
+<Card title="客户门户升级" content="支持客户自助查询工单进展，减少重复咨询。" />
+<CardList countPerRow={3} items={[{title: '客户门户升级'}]} />
 ```
 
 ## 选中状态
@@ -78,12 +78,12 @@ import {Card, CardList} from '@zui/cards/react';
 <Example class="gap-2 col">
   <div class="card">
     <div class="card-body">
-      普通卡片
+      团队知识库 · 待选择
     </div>
   </div>
   <div class="card selected">
     <div class="card-body">
-      选中的卡片
+      客户门户升级 · 已选择
     </div>
   </div>
 </Example>
@@ -93,12 +93,12 @@ import {Card, CardList} from '@zui/cards/react';
 ```html
 <div class="card">
   <div class="card-body">
-    普通卡片
+    团队知识库 · 待选择
   </div>
 </div>
 <div class="card selected">
   <div class="card-body">
-    选中的卡片
+    客户门户升级 · 已选择
   </div>
 </div>
 ```
