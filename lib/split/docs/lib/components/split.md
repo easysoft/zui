@@ -14,9 +14,9 @@
 
 <Example>
   <div class="split ring rounded" id="splitBasic" style="height: 160px;">
-    <div class="split-cell center">A</div>
-    <div class="split-cell center">B</div>
-    <div class="split-cell center">C</div>
+    <div class="split-cell center">项目目录</div>
+    <div class="split-cell center">文档编辑</div>
+    <div class="split-cell center">预览</div>
   </div>
 </Example>
 
@@ -24,9 +24,9 @@
 
 ```html
 <div class="split ring rounded" id="splitBasic" style="height: 160px;">
-  <div class="split-cell center">A</div>
-  <div class="split-cell center">B</div>
-  <div class="split-cell center">C</div>
+  <div class="split-cell center">项目目录</div>
+  <div class="split-cell center">文档编辑</div>
+  <div class="split-cell center">预览</div>
 </div>
 
 <script>
@@ -46,8 +46,8 @@ new zui.Split('#splitBasic');
 
 <Example>
   <div class="split ring rounded" id="splitVertical" style="height: 240px;">
-    <div class="split-cell center">上</div>
-    <div class="split-cell center">下</div>
+    <div class="split-cell center">编辑区</div>
+    <div class="split-cell center">运行结果</div>
   </div>
 </Example>
 
@@ -55,8 +55,8 @@ new zui.Split('#splitBasic');
 
 ```html
 <div class="split ring rounded" id="splitVertical" style="height: 240px;">
-  <div class="split-cell center">上</div>
-  <div class="split-cell center">下</div>
+  <div class="split-cell center">编辑区</div>
+  <div class="split-cell center">运行结果</div>
 </div>
 
 <script>
@@ -110,9 +110,9 @@ new zui.Split('#splitSizes', {
 
 <Example>
   <div class="split ring rounded" id="splitToggle" style="height: 160px;">
-    <div class="split-cell center">A</div>
-    <div class="split-cell center">B</div>
-    <div class="split-cell center">C</div>
+    <div class="split-cell center">项目目录</div>
+    <div class="split-cell center">文档编辑</div>
+    <div class="split-cell center">预览</div>
   </div>
 </Example>
 
@@ -120,9 +120,9 @@ new zui.Split('#splitSizes', {
 
 ```html
 <div class="split ring rounded" id="splitToggle" style="height: 160px;">
-  <div class="split-cell center">A</div>
-  <div class="split-cell center">B</div>
-  <div class="split-cell center">C</div>
+  <div class="split-cell center">项目目录</div>
+  <div class="split-cell center">文档编辑</div>
+  <div class="split-cell center">预览</div>
 </div>
 
 <script>
