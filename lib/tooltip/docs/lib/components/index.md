@@ -65,15 +65,15 @@
 == 示例
 
 <Example class="flex gap-2">
-  <button type="button" class="btn" data-toggle="tooltip" data-trigger="hover" data-title="hover 触发">hover 触发</button>
-  <button type="button" class="btn" data-toggle="tooltip" data-trigger="click" data-title="click 触发">click 触发</button>
+  <button type="button" class="btn" data-toggle="tooltip" data-trigger="hover" data-title="保存当前项目设置">hover 触发</button>
+  <button type="button" class="btn" data-toggle="tooltip" data-trigger="click" data-title="只有项目管理员可以修改成员权限">click 触发</button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn" data-toggle="tooltip" data-trigger="hover" data-title="hover 触发">hover 触发</button>
-<button type="button" class="btn" data-toggle="tooltip" data-trigger="click" data-title="click 触发">click 触发</button>
+<button type="button" class="btn" data-toggle="tooltip" data-trigger="hover" data-title="保存当前项目设置">hover 触发</button>
+<button type="button" class="btn" data-toggle="tooltip" data-trigger="click" data-title="只有项目管理员可以修改成员权限">click 触发</button>
 ```
 
 :::
@@ -87,27 +87,27 @@
 == 示例
 
 <Example class="flex gap-2 flex-wrap">
-  <button type="button" class="btn" data-toggle="tooltip" data-title="提示消息">默认</button>
-  <button type="button" class="btn primary" data-toggle="tooltip" data-type="primary" data-title="提示消息">Primary</button>
-  <button type="button" class="btn secondary" data-toggle="tooltip" data-type="secondary" data-title="提示消息">Secondary</button>
-  <button type="button" class="btn warning" data-toggle="tooltip" data-type="warning" data-title="提示消息">Warning</button>
-  <button type="button" class="btn success" data-toggle="tooltip" data-type="success" data-title="提示消息">Success</button>
-  <button type="button" class="btn danger" data-toggle="tooltip" data-type="danger" data-title="提示消息">Danger</button>
-  <button type="button" class="btn important" data-toggle="tooltip" data-type="important" data-title="提示消息">Important</button>
-  <button type="button" class="btn gray" data-toggle="tooltip" data-type="gray" data-title="提示消息">Gray</button>
+  <button type="button" class="btn" data-toggle="tooltip" data-title="查看任务详情">默认</button>
+  <button type="button" class="btn primary" data-toggle="tooltip" data-type="primary" data-title="保存当前项目设置">Primary</button>
+  <button type="button" class="btn secondary" data-toggle="tooltip" data-type="secondary" data-title="切换到团队视图">Secondary</button>
+  <button type="button" class="btn warning" data-toggle="tooltip" data-type="warning" data-title="截止日期临近，请确认剩余工作">Warning</button>
+  <button type="button" class="btn success" data-toggle="tooltip" data-type="success" data-title="全部验收项已通过">Success</button>
+  <button type="button" class="btn danger" data-toggle="tooltip" data-type="danger" data-title="删除后可在回收站中恢复">Danger</button>
+  <button type="button" class="btn important" data-toggle="tooltip" data-type="important" data-title="有 3 项变更等待确认">Important</button>
+  <button type="button" class="btn gray" data-toggle="tooltip" data-type="gray" data-title="此任务已归档">Gray</button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn" data-toggle="tooltip" data-title="提示消息">默认</button>
-<button type="button" class="btn primary" data-toggle="tooltip" data-type="primary" data-title="提示消息">Primary</button>
-<button type="button" class="btn secondary" data-toggle="tooltip" data-type="secondary" data-title="提示消息">Secondary</button>
-<button type="button" class="btn warning" data-toggle="tooltip" data-type="warning" data-title="提示消息">Warning</button>
-<button type="button" class="btn success" data-toggle="tooltip" data-type="success" data-title="提示消息">Success</button>
-<button type="button" class="btn danger" data-toggle="tooltip" data-type="danger" data-title="提示消息">Danger</button>
-<button type="button" class="btn important" data-toggle="tooltip" data-type="important" data-title="提示消息">Important</button>
-<button type="button" class="btn gray" data-toggle="tooltip" data-type="gray" data-title="提示消息">Gray</button>
+<button type="button" class="btn" data-toggle="tooltip" data-title="查看任务详情">默认</button>
+<button type="button" class="btn primary" data-toggle="tooltip" data-type="primary" data-title="保存当前项目设置">Primary</button>
+<button type="button" class="btn secondary" data-toggle="tooltip" data-type="secondary" data-title="切换到团队视图">Secondary</button>
+<button type="button" class="btn warning" data-toggle="tooltip" data-type="warning" data-title="截止日期临近，请确认剩余工作">Warning</button>
+<button type="button" class="btn success" data-toggle="tooltip" data-type="success" data-title="全部验收项已通过">Success</button>
+<button type="button" class="btn danger" data-toggle="tooltip" data-type="danger" data-title="删除后可在回收站中恢复">Danger</button>
+<button type="button" class="btn important" data-toggle="tooltip" data-type="important" data-title="有 3 项变更等待确认">Important</button>
+<button type="button" class="btn gray" data-toggle="tooltip" data-type="gray" data-title="此任务已归档">Gray</button>
 ```
 
 :::
