@@ -275,7 +275,7 @@ type StyleMap = Record<string, string> | ((info: {row: RowInfo, col: ColInfo}) =
 
 ```js
 const options = {
-    cols = [
+    cols: [
         {
             name: 'status',
             title: '状态',
@@ -290,16 +290,16 @@ const options = {
             title: '分类',
 
             /* 使用函数动态生成样式。 */
-            styleMap: (info) => ({color: info.category ? 'green' : '#ff00ff'}),
+            styleMap: (info) => ({color: info.row.data.category ? '#166534' : '#64748b'}),
         }, {
             name: 'product',
             title: '产品'
         }
     ],
     data: [
-        {id: '1', product: '项目1', status: 'wait', statusColor: 'red', statusBg: 'yellow', category: ''},
-        {id: '2', product: '项目2', status: 'doing', statusColor: 'green', statusBg: 'blue', category: '类目1'},
-        {id: '3', product: '项目3', status: 'done', statusColor: 'blue', statusBg: 'green', category: '类目2'},
+        {id: '1', product: '团队知识库', status: '待开始', statusColor: '#64748b', statusBg: '#f1f5f9', category: ''},
+        {id: '2', product: '移动端工单', status: '进行中', statusColor: '#1d4ed8', statusBg: '#dbeafe', category: '客户服务'},
+        {id: '3', product: '客户服务门户', status: '已完成', statusColor: '#166534', statusBg: '#dcfce7', category: '客户服务'},
     ]
 };
 ```
@@ -681,13 +681,13 @@ const options = {
     /* 指定是否视为父级行的属性名为 isParent。 */
     asParentKey: 'isParent',
 
-    data: {
+    data: [
         {id: '1', name: '研发部', isParent: true},
         {id: '2', name: '客户端开发部', parentID: '1'},
         {id: '3', name: '移动开发部', parentID: '1', isParent: true},
         {id: '4', name: 'iOS 开发小组', parentID: '3'},
         {id: '5', name: 'Android 开发小组', parentID: '3'},
-    }
+    ]
 };
 ```
 
@@ -1089,10 +1089,10 @@ const colSetting = {
         group: {icon: 'icon-group', hint: '团队'},
         split: {icon: 'icon-split', hint: '添加子项目集'},
         delete: {icon: 'icon-trash', hint: '删除', text: '删除'},
-        close: {icon: 'icon-off', hint: '关闭', 'data-toggle': 'modal', url: '#test?id={id}'},
+        close: {icon: 'icon-off', hint: '关闭', 'data-toggle': 'modal', url: '#project?id={id}'},
         start: {icon: 'icon-start', hint: '开始'},
         pause: {icon: 'icon-pause', text: '挂起项目集'},
-        active: {icon: 'icon-magic', text: '激活项目集', 'data-toggle': 'modal', url: '#test?id={id}'},
+        active: {icon: 'icon-magic', text: '激活项目集', 'data-toggle': 'modal', url: '#project?id={id}'},
         other: {type: 'dropdown', caret: true, hint: '其他操作'},
         link: {name: 'link', icon: 'icon-link', text: '关联产品'},
         whitelist: {name: 'whitelist', icon: 'icon-shield-check', text: '项目白名单'},
@@ -1131,10 +1131,10 @@ const colSetting = {
         group: {icon: 'icon-group', hint: '团队'},
         split: {icon: 'icon-split', hint: '添加子项目集'},
         delete: {icon: 'icon-trash', hint: '删除', text: '删除'},
-        close: {icon: 'icon-off', hint: '关闭', 'data-toggle': 'modal', url: '#test?id={id}'},
+        close: {icon: 'icon-off', hint: '关闭', 'data-toggle': 'modal', url: '#project?id={id}'},
         start: {icon: 'icon-start', hint: '开始'},
         pause: {icon: 'icon-pause', text: '挂起项目集'},
-        active: {icon: 'icon-magic', text: '激活项目集', 'data-toggle': 'modal', url: '#test?id={id}'},
+        active: {icon: 'icon-magic', text: '激活项目集', 'data-toggle': 'modal', url: '#project?id={id}'},
         other: {type: 'dropdown', caret: true, hint: '其他操作'},
         link: {name: 'link', icon: 'icon-link', text: '关联产品'},
         whitelist: {name: 'whitelist', icon: 'icon-shield-check', text: '项目白名单'},

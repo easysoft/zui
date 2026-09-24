@@ -1,5 +1,7 @@
 # 数据表格
 
+本页使用固定的项目计划数据，涵盖已完成、进行中和未开始的项目及其阶段；日期为示例计划日期，刷新页面不会改变排序与进度。
+
 数据表格是一种展示二维数据的强大方式，相比较普通的[表格（`<table>`）组件](/lib/components/table/)，提供了更多的交互形式，并且拥有插件机制方便定制复杂交互的界面。
 
 ## 模块化入口
@@ -66,7 +68,7 @@ const cols = [
     {name: 'executionCounts', title: '执行数', width: 70, align: 'center'},
     {name: 'investedDays', title: '已投入', width: 70, align: 'center'},
     {name: 'startDate', title: '开始日期', width: 90, align: 'center'},
-    {name: 'finishDate', title: '完成日期', width: 90, align: 'center'},
+    {name: 'finishDate', title: '计划完成', width: 90, align: 'center'},
     {name: 'progress', title: '进度', width: 65, align: 'center'},
     {name: 'actions', title: '操作', width: 100, sortType: false, fixed: 'right', onRenderCell: renderActions}, // renderActions 为单元格自定义渲染方法
 ]
@@ -80,8 +82,8 @@ const cols = [
 
 ```js
 const data = [
-    {id: 1, project: '禅道开源版', manager: '李明', storyPoints: 1024, executionCounts: 42, investedDays: 32, startDate: '2022-05-03', finishDate: '2022-09-20', progress: 55, actions: ['start', 'edit', 'close']},
-    ...
+    {id: 1, project: '移动端工单', manager: '周敏', storyPoints: 34, executionCounts: 3, investedDays: 18, startDate: '2026-09-14', finishDate: '2026-10-09', progress: 47, actions: ['edit']},
+    // 可继续添加项目记录。
 ]
 ```
 
@@ -112,7 +114,8 @@ const dtable = new zui.DTable(element, options);
 const element = document.getElementById('myDtable');
 
 // 定义一个方法用于渲染操作列单元格内的操作按钮
-const renderActions = (result, rowID, col, rowData) => {
+const renderActions = (result, {row, col}) => {
+    const rowData = row.data;
     return [{
         html: rowData[col.name].map(action => {
             const actionNames = {start: '开始', close: '关闭', edit: '编辑'};
@@ -133,13 +136,13 @@ const options = {
         {name: 'executionCounts', title: '执行数', width: 70, align: 'center'},
         {name: 'investedDays', title: '已投入', width: 70, align: 'center'},
         {name: 'startDate', title: '开始日期', width: 90, align: 'center'},
-        {name: 'finishDate', title: '完成日期', width: 90, align: 'center'},
+        {name: 'finishDate', title: '计划完成', width: 90, align: 'center'},
         {name: 'progress', title: '进度', width: 65, align: 'center'},
         {name: 'actions', title: '操作', width: 100, fixed: 'right', onRenderCell: renderActions}, // renderActions 为单元格自定义渲染方法
     ],
     data: [
-        {id: 1, project: '禅道开源版', manager: '李明', storyPoints: 1024, executionCounts: 42, investedDays: 32, startDate: '2022-05-03', finishDate: '2022-09-20', progress: 55, actions: ['start', 'edit', 'close']},
-        ...
+        {id: 1, project: '移动端工单', manager: '周敏', storyPoints: 34, executionCounts: 3, investedDays: 18, startDate: '2026-09-14', finishDate: '2026-10-09', progress: 47, actions: ['edit']},
+        // 可继续添加项目记录。
     ],
     striped: false
 };
