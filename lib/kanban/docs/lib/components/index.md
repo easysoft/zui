@@ -33,15 +33,15 @@ const kanban = new zui.Kanban('#releaseKanban', {
     minColWidth: 140,
     selectable: true,
     data: {
-        lanes: [{name: 'team', title: '发布'}],
+        lanes: [{name: 'team', title: '九月发布'}],
         cols: [
             {name: 'todo', title: '待处理'},
             {name: 'doing', title: '进行中'},
             {name: 'done', title: '已完成'},
         ],
         items: [
-            {id: 'docs', lane: 'team', col: 'todo', title: '完善文档'},
-            {id: 'build', lane: 'team', col: 'doing', title: '验证构建'},
+            {id: 'docs', lane: 'team', col: 'todo', title: '补充客户门户使用指南'},
+            {id: 'build', lane: 'team', col: 'doing', title: '验证客户门户发布包'},
         ],
     },
     onSelect(selected) {
@@ -64,15 +64,15 @@ const kanbanOptions = {
     minColWidth: 140,
     selectable: true,
     data: {
-        lanes: [{name: 'team', title: '发布'}],
+        lanes: [{name: 'team', title: '九月发布'}],
         cols: [
             {name: 'todo', title: '待处理'},
             {name: 'doing', title: '进行中'},
             {name: 'done', title: '已完成'},
         ],
         items: [
-            {id: 'docs', lane: 'team', col: 'todo', title: '完善文档'},
-            {id: 'build', lane: 'team', col: 'doing', title: '验证构建'},
+            {id: 'docs', lane: 'team', col: 'todo', title: '补充客户门户使用指南'},
+            {id: 'build', lane: 'team', col: 'doing', title: '验证客户门户发布包'},
         ],
     },
     onSelect(selected) {
@@ -103,12 +103,12 @@ const kanbanOptions = {
 
 ```js
 const data = {
-    lanes: [{name: 'team', title: '发布'}],
+    lanes: [{name: 'team', title: '九月发布'}],
     cols: [{name: 'todo', title: '待处理'}, {name: 'done', title: '已完成'}],
     items: {
         team: {
-            todo: [{id: 'docs', title: '完善文档'}],
-            done: [{id: 'build', title: '验证构建'}],
+            todo: [{id: 'docs', title: '补充客户门户使用指南'}],
+            done: [{id: 'build', title: '验证客户门户发布包'}],
         },
     },
 };
@@ -199,8 +199,8 @@ kanban.render({
 
 ```js
 kanban.$?.load();
-await kanban.$?.updateItem({id: 'docs', title: '文档已补齐'});
-await kanban.$?.addItem({id: 'publish', lane: 'team', col: 'todo', title: '发布版本'});
+await kanban.$?.updateItem({id: 'docs', title: '客户门户使用指南已补齐'});
+await kanban.$?.addItem({id: 'publish', lane: 'team', col: 'todo', title: '发布客户门户九月版本'});
 await kanban.$?.deleteItem('publish');
 const item = kanban.$?.getItem('docs');
 kanban.$?.updateLayout();
@@ -254,7 +254,7 @@ Preact 的 `render` 从 `preact` 引入，调用形式为 `render(<KanbanView da
 
 ## 综合示例
 
-以下保留多个看板、泳道和连线的组合示例。
+以客户门户发布、移动端工单和团队知识库为例，分别展示任务依赖、跨团队泳道，以及“进行中”下的父子列。卡片包含明确的工作目标；连线表示前置任务，拖动可体验本地状态流转。
 
 <Example>
   <div id="kanbanList"></div>
