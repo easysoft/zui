@@ -4,7 +4,7 @@
 
 ## 使用方法
 
-通过 `new zui.Calendar(element, options)` 在指定容器内渲染一个日历，最少只需要传入 `events` 数据。
+通过 `new zui.Calendar(element, options)` 在指定容器内渲染一个日历，最少只需要传入 `events` 数据。示例以今天为起点安排日程，会议固定在 09:30 开始，全天事件用于表示发布日或出差。
 
 <Example>
   <div id="calendarBasic"></div>
@@ -17,9 +17,9 @@
 new zui.Calendar('#calendarBasic', {
     headerTitle: '我的日程',
     events: [
-        {id: '1', title: '项目周会',  start: Date.now()},
-        {id: '2', title: '提交版本',  start: Date.now() + 86400000, allDay: true},
-        {id: '3', title: '客户拜访',  start: Date.now() + 2 * 86400000, color: 'var(--color-warning-500)'},
+        {id: '1', title: '客户门户迭代周会',  start: new Date().setHours(9, 30, 0, 0)},
+        {id: '2', title: '客户门户版本发布日',  start: new Date().setHours(9, 30, 0, 0) + 86400000, allDay: true},
+        {id: '3', title: '客户工单流程访谈',  start: new Date().setHours(9, 30, 0, 0) + 2 * 86400000, color: 'var(--color-warning-500)'},
     ],
 });
 </script>
@@ -60,7 +60,7 @@ new zui.Calendar('#calendarHeader', {
         {text: '新建日程', btnType: 'primary'},
     ],
     events: [
-        {id: '1', title: '需求评审', start: Date.now()},
+        {id: '1', title: '移动端工单需求评审', start: new Date().setHours(9, 30, 0, 0)},
     ],
 });
 </script>
@@ -86,9 +86,9 @@ new zui.Calendar('#calendarCategories', {
         {id: 'travel',   name: '出行', color: 'var(--color-warning-500)'},
     ],
     events: [
-        {id: '1', title: '版本发布',   category: 'work',     start: Date.now()},
-        {id: '2', title: '健身',       category: 'personal', start: Date.now() + 86400000},
-        {id: '3', title: '出差北京',   category: 'travel',   start: Date.now() + 2 * 86400000, allDay: true},
+        {id: '1', title: '版本发布',   category: 'work',     start: new Date().setHours(9, 30, 0, 0)},
+        {id: '2', title: '下班后游泳',       category: 'personal', start: new Date().setHours(19, 0, 0, 0) + 86400000},
+        {id: '3', title: '北京客户现场调研',   category: 'travel',   start: new Date().setHours(9, 30, 0, 0) + 2 * 86400000, allDay: true},
     ],
 });
 </script>
@@ -101,8 +101,8 @@ new zui.Calendar('#calendarCategories', {
 ```js
 new zui.Calendar('#calendar', {
     events: [
-        {id: '1', title: '提醒',  start: Date.now(), icon: 'icon-bell', color: 'var(--color-danger-500)'},
-        {id: '2', title: '完成',  start: Date.now(), background: 'var(--color-success-500)', color: '#fff'},
+        {id: '1', title: '提交发布验收报告',  start: new Date().setHours(9, 30, 0, 0), icon: 'icon-bell', color: 'var(--color-danger-500)'},
+        {id: '2', title: '客户门户验收通过',  start: new Date().setHours(9, 30, 0, 0), background: 'var(--color-success-500)', color: '#fff'},
     ],
 });
 ```
@@ -147,7 +147,7 @@ new zui.Calendar('#calendar', {
 <script setup>
 import {onMounted} from 'vue';
 
-const today = Date.now();
+const today = new Date().setHours(9, 30, 0, 0);
 const day = 86400000;
 
 onMounted(() => {
@@ -155,9 +155,9 @@ onMounted(() => {
         new zui.Calendar('#calendarBasic', {
             headerTitle: '我的日程',
             events: [
-                {id: '1', title: '项目周会', start: today},
-                {id: '2', title: '提交版本', start: today + day, allDay: true},
-                {id: '3', title: '客户拜访', start: today + 2 * day, color: 'var(--color-warning-500)'},
+                {id: '1', title: '客户门户迭代周会', start: today},
+                {id: '2', title: '客户门户版本发布日', start: today + day, allDay: true},
+                {id: '3', title: '客户工单流程访谈', start: today + 2 * day, color: 'var(--color-warning-500)'},
             ],
         });
         new zui.Calendar('#calendarHeader', {
@@ -167,7 +167,7 @@ onMounted(() => {
                 {text: '新建日程', btnType: 'primary'},
             ],
             events: [
-                {id: '1', title: '需求评审', start: today},
+                {id: '1', title: '移动端工单需求评审', start: today},
             ],
         });
         new zui.Calendar('#calendarCategories', {
@@ -179,8 +179,8 @@ onMounted(() => {
             ],
             events: [
                 {id: '1', title: '版本发布', category: 'work',     start: today},
-                {id: '2', title: '健身',     category: 'personal', start: today + day},
-                {id: '3', title: '出差北京', category: 'travel',   start: today + 2 * day, allDay: true},
+                {id: '2', title: '下班后游泳',     category: 'personal', start: new Date().setHours(19, 0, 0, 0) + day},
+                {id: '3', title: '北京客户现场调研', category: 'travel',   start: today + 2 * day, allDay: true},
             ],
         });
     });
