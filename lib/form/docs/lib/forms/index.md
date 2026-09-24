@@ -98,18 +98,18 @@
   <form class="form form-horz">
     <div class="form-row">
       <div class="w-1/2 form-group">
-        <label class="form-label" for="smallInput">小型框</label>
-        <input class="form-control" type="text" id="smallInput" placeholder="输入框或选择框（10个字符以内）">
-        <div class="form-tip">可以放在同一行的字段满足：可连着填写，字段意义上有相似性</div>
+        <label class="form-label" for="smallInput">项目代号</label>
+        <input class="form-control" type="text" id="smallInput" placeholder="例如 PORTAL">
+        <div class="form-tip">项目代号用于编号，项目简称用于列表展示。</div>
       </div>
       <div class="w-1/2 form-group">
-        <label class="form-label" for="middleInput">中型框</label>
+        <label class="form-label" for="middleInput">项目简称</label>
         <input class="form-control" type="text" id="middleInput">
       </div>
     </div>
     <div class="form-row">
       <div class="w-1/2 form-group">
-        <label class="form-label" for="startDate">输入组</label>
+        <label class="form-label" for="startDate">计划周期</label>
         <div class="input-group">
           <div class="input-control has-suffix-icon">
             <input id="startDate" type="text" class="rounded-r-none form-control" placeholder="开始时间">
@@ -133,21 +133,21 @@
     </div>
     <div class="form-row">
       <div class="w-1/2 form-group has-error">
-        <label class="form-label" for="shortTitle">短标题类</label>
+        <label class="form-label" for="shortTitle">项目名称</label>
         <input id="shortTitle" type="text" class="form-control" placeholder="">
-        <div class="form-tip">此表单项为必填</div>
+        <div class="form-tip">请填写项目名称，便于团队识别。</div>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label" for="longTitle">长标题类</label>
+        <label class="form-label" for="longTitle">交付目标</label>
         <input id="longTitle" type="text" class="form-control" placeholder="">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label" for="longTitle">编辑器</label>
-        <textarea rows="5" class="form-control" placeholder="输入一些文本" >Hello, world!</textarea>
+        <label class="form-label" for="projectDescription">项目说明</label>
+        <textarea id="projectDescription" rows="5" class="form-control" placeholder="说明项目目标、交付范围和验收标准" >为客户提供工单进度查询、历史记录检索和附件下载功能。</textarea>
       </div>
     </div>
     <div class="form-row">
@@ -155,20 +155,20 @@
         <label class="form-label" for="linkProduct">关联产品</label>
         <select class="form-control" data-placeholder="选择一个产品..." id="linkProduct">
           <option value=""></option>
-          <option value="cat">小猫</option>
-          <option value="fish">金鱼</option>
-          <option value="dragon">龙</option>
-          <option value="mammoth">猛犸</option>
+          <option value="portal">客户门户</option>
+          <option value="tickets">工单服务</option>
+          <option value="knowledge">团队知识库</option>
+          <option value="mobile">移动工作台</option>
         </select>
       </div>
       <div class="w-1/2 form-group">
         <label class="form-label" for="linkPlan">关联计划</label>
         <select class="rounded form-control" data-placeholder="选择一个计划..." id="linkPlan">
           <option value=""></option>
-          <option value="cat">小猫</option>
-          <option value="fish">金鱼</option>
-          <option value="dragon">龙</option>
-          <option value="mammoth">猛犸</option>
+          <option value="september">九月版本</option>
+          <option value="october">十月版本</option>
+          <option value="q4">第四季度优化</option>
+          <option value="backlog">后续规划</option>
         </select>
       </div>
     </div>
@@ -178,18 +178,18 @@
         <div class="input-group">
           <select class="form-control" id="manager">
             <option value=""></option>
-            <option value="cat">小猫</option>
-            <option value="fish">金鱼</option>
-            <option value="dragon">龙</option>
-            <option value="mammoth">猛犸</option>
+            <option value="linyue">林悦</option>
+            <option value="chenchen">陈晨</option>
+            <option value="wangning">王宁</option>
+            <option value="lihang">李航</option>
           </select>
           <label class="input-group-addon" for="productManager">产品负责人</label>
           <select class="rounded-r-none form-control" id="productManager">
             <option value=""></option>
-            <option value="cat">小猫</option>
-            <option value="fish">金鱼</option>
-            <option value="dragon">龙</option>
-            <option value="mammoth">猛犸</option>
+            <option value="linyue">林悦</option>
+            <option value="chenchen">陈晨</option>
+            <option value="wangning">王宁</option>
+            <option value="lihang">李航</option>
           </select>
         </div>
       </div>
@@ -198,21 +198,21 @@
           <label class="rounded-l-none input-group-addon" for="testManager">测试负责人</label>
           <select class="form-control" id="testManager">
             <option value=""></option>
-            <option value="cat">小猫</option>
-            <option value="fish">金鱼</option>
-            <option value="dragon">龙</option>
-            <option value="mammoth">猛犸</option>
+            <option value="linyue">林悦</option>
+            <option value="chenchen">陈晨</option>
+            <option value="wangning">王宁</option>
+            <option value="lihang">李航</option>
           </select>
           <label class="input-group-addon" for="releaseManager">发布负责人</label>
           <select class="form-control" id="releaseManager">
             <option value=""></option>
-            <option value="cat">小猫</option>
-            <option value="fish">金鱼</option>
-            <option value="dragon">龙</option>
-            <option value="mammoth">猛犸</option>
+            <option value="linyue">林悦</option>
+            <option value="chenchen">陈晨</option>
+            <option value="wangning">王宁</option>
+            <option value="lihang">李航</option>
           </select>
         </div>
-        <div class="form-tip text-success">强关联字段，有灰色底色进行连接，3个以上框的自适应宽度</div>
+        <div class="form-tip text-success">分别指定产品、测试与发布负责人，便于后续协作。</div>
       </div>
     </div>
     <div class="form-row">
@@ -223,10 +223,10 @@
           <label class="input-group-addon" for="priList">优先级</label>
           <select class="w-40 form-control" id="priList">
             <option value=""></option>
-            <option value="cat">小猫</option>
-            <option value="fish">金鱼</option>
-            <option value="dragon">龙</option>
-            <option value="mammoth">猛犸</option>
+            <option value="1">紧急</option>
+            <option value="2">高</option>
+            <option value="3">中</option>
+            <option value="4">低</option>
           </select>
           <label class="input-group-addon" for="taskEst">预计</label>
           <div class="input-control has-suffix-icon">
@@ -238,7 +238,7 @@
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label" for="inlineRadio">是否继续</label>
+        <label class="form-label" for="inlineRadio">保存后继续创建</label>
         <div class="check-list-inline">
           <div class="radio-primary">
             <input type="radio" name="primaryRadioGroup1" id="primaryradio1">
@@ -275,17 +275,17 @@
         <label class="form-label" for="halfExample2">发现环节</label>
         <select class="form-control" id="halfExample2">
             <option value=""></option>
-            <option value="cat">小猫</option>
-            <option value="fish">金鱼</option>
-            <option value="dragon">龙</option>
-            <option value="mammoth">猛犸</option>
+            <option value="review">需求评审</option>
+            <option value="development">开发自测</option>
+            <option value="test">系统测试</option>
+            <option value="acceptance">用户验收</option>
           </select>
       </div>
     </div>
     <div class="form-row">
       <div class="gap-4 form-group">
         <button type="submit" class="btn primary">提交</button>
-        <button type="submit" class="btn">取消</button>
+        <button type="button" class="btn">取消</button>
       </div>
     </div>
   </form>
@@ -297,18 +297,18 @@
 <form class="form form-horz">
   <div class="form-row">
     <div class="w-1/2 form-group">
-      <label class="form-label" for="smallInput">小型框</label>
-      <input class="form-control" type="text" id="smallInput" placeholder="输入框或选择框（10个字符以内）">
-      <div class="form-tip">可以放在同一行的字段满足：可连着填写，字段意义上有相似性</div>
+      <label class="form-label" for="smallInput">项目代号</label>
+      <input class="form-control" type="text" id="smallInput" placeholder="例如 PORTAL">
+      <div class="form-tip">项目代号用于编号，项目简称用于列表展示。</div>
     </div>
     <div class="w-1/2 form-group">
-      <label class="form-label" for="middleInput">中型框</label>
+      <label class="form-label" for="middleInput">项目简称</label>
       <input class="form-control" type="text" id="middleInput">
     </div>
   </div>
   <div class="form-row">
     <div class="w-1/2 form-group">
-      <label class="form-label" for="startDate">输入组</label>
+      <label class="form-label" for="startDate">计划周期</label>
       <div class="input-group">
         <div class="input-control has-suffix-icon">
           <input id="startDate" type="text" class="rounded-r-none form-control" placeholder="开始时间">
@@ -332,21 +332,21 @@
   </div>
   <div class="form-row">
     <div class="w-1/2 form-group has-error">
-      <label class="form-label" for="shortTitle">短标题类</label>
+      <label class="form-label" for="shortTitle">项目名称</label>
       <input id="shortTitle" type="text" class="form-control" placeholder="">
-      <div class="form-tip">此表单项为必填</div>
+      <div class="form-tip">请填写项目名称，便于团队识别。</div>
     </div>
   </div>
   <div class="form-row">
     <div class="form-group">
-      <label class="form-label" for="longTitle">长标题类</label>
+      <label class="form-label" for="longTitle">交付目标</label>
       <input id="longTitle" type="text" class="form-control" placeholder="">
     </div>
   </div>
   <div class="form-row">
     <div class="form-group">
-      <label class="form-label" for="longTitle">编辑器</label>
-      <textarea rows="5" class="form-control" placeholder="输入一些文本" >Hello, world!</textarea>
+      <label class="form-label" for="projectDescription">项目说明</label>
+      <textarea id="projectDescription" rows="5" class="form-control" placeholder="说明项目目标、交付范围和验收标准" >为客户提供工单进度查询、历史记录检索和附件下载功能。</textarea>
     </div>
   </div>
   <div class="form-row">
@@ -354,20 +354,20 @@
       <label class="form-label" for="linkProduct">关联产品</label>
       <select class="form-control" data-placeholder="选择一个产品..." id="linkProduct">
         <option value=""></option>
-        <option value="cat">小猫</option>
-        <option value="fish">金鱼</option>
-        <option value="dragon">龙</option>
-        <option value="mammoth">猛犸</option>
+        <option value="portal">客户门户</option>
+        <option value="tickets">工单服务</option>
+        <option value="knowledge">团队知识库</option>
+        <option value="mobile">移动工作台</option>
       </select>
     </div>
     <div class="w-1/2 form-group">
       <label class="form-label" for="linkPlan">关联计划</label>
       <select class="rounded form-control" data-placeholder="选择一个计划..." id="linkPlan">
         <option value=""></option>
-        <option value="cat">小猫</option>
-        <option value="fish">金鱼</option>
-        <option value="dragon">龙</option>
-        <option value="mammoth">猛犸</option>
+        <option value="september">九月版本</option>
+        <option value="october">十月版本</option>
+        <option value="q4">第四季度优化</option>
+        <option value="backlog">后续规划</option>
       </select>
     </div>
   </div>
@@ -377,18 +377,18 @@
       <div class="input-group">
         <select class="form-control" id="manager">
           <option value=""></option>
-          <option value="cat">小猫</option>
-          <option value="fish">金鱼</option>
-          <option value="dragon">龙</option>
-          <option value="mammoth">猛犸</option>
+          <option value="linyue">林悦</option>
+          <option value="chenchen">陈晨</option>
+          <option value="wangning">王宁</option>
+          <option value="lihang">李航</option>
         </select>
         <label class="input-group-addon" for="productManager">产品负责人</label>
         <select class="rounded-r-none form-control" id="productManager">
           <option value=""></option>
-          <option value="cat">小猫</option>
-          <option value="fish">金鱼</option>
-          <option value="dragon">龙</option>
-          <option value="mammoth">猛犸</option>
+          <option value="linyue">林悦</option>
+          <option value="chenchen">陈晨</option>
+          <option value="wangning">王宁</option>
+          <option value="lihang">李航</option>
         </select>
       </div>
     </div>
@@ -397,21 +397,21 @@
         <label class="rounded-l-none input-group-addon" for="testManager">测试负责人</label>
         <select class="form-control" id="testManager">
           <option value=""></option>
-          <option value="cat">小猫</option>
-          <option value="fish">金鱼</option>
-          <option value="dragon">龙</option>
-          <option value="mammoth">猛犸</option>
+          <option value="linyue">林悦</option>
+          <option value="chenchen">陈晨</option>
+          <option value="wangning">王宁</option>
+          <option value="lihang">李航</option>
         </select>
         <label class="input-group-addon" for="releaseManager">发布负责人</label>
         <select class="form-control" id="releaseManager">
           <option value=""></option>
-          <option value="cat">小猫</option>
-          <option value="fish">金鱼</option>
-          <option value="dragon">龙</option>
-          <option value="mammoth">猛犸</option>
+          <option value="linyue">林悦</option>
+          <option value="chenchen">陈晨</option>
+          <option value="wangning">王宁</option>
+          <option value="lihang">李航</option>
         </select>
       </div>
-      <div class="form-tip text-success">强关联字段，有灰色底色进行连接，3个以上框的自适应宽度</div>
+      <div class="form-tip text-success">分别指定产品、测试与发布负责人，便于后续协作。</div>
     </div>
   </div>
   <div class="form-row">
@@ -422,10 +422,10 @@
         <label class="input-group-addon" for="priList">优先级</label>
         <select class="w-40 form-control" id="priList">
           <option value=""></option>
-          <option value="cat">小猫</option>
-          <option value="fish">金鱼</option>
-          <option value="dragon">龙</option>
-          <option value="mammoth">猛犸</option>
+          <option value="1">紧急</option>
+          <option value="2">高</option>
+          <option value="3">中</option>
+          <option value="4">低</option>
         </select>
         <label class="input-group-addon" for="taskEst">预计</label>
         <div class="input-control has-suffix-icon">
@@ -437,7 +437,7 @@
   </div>
   <div class="form-row">
     <div class="form-group">
-      <label class="form-label" for="inlineRadio">是否继续</label>
+      <label class="form-label" for="inlineRadio">保存后继续创建</label>
       <div class="check-list-inline">
         <div class="radio-primary">
           <input type="radio" name="primaryRadioGroup1" id="primaryradio1">
@@ -474,17 +474,17 @@
       <label class="form-label" for="halfExample2">发现环节</label>
       <select class="form-control" id="halfExample2">
           <option value=""></option>
-          <option value="cat">小猫</option>
-          <option value="fish">金鱼</option>
-          <option value="dragon">龙</option>
-          <option value="mammoth">猛犸</option>
+          <option value="review">需求评审</option>
+          <option value="development">开发自测</option>
+          <option value="test">系统测试</option>
+          <option value="acceptance">用户验收</option>
         </select>
     </div>
   </div>
   <div class="form-row">
     <div class="gap-4 form-group">
       <button type="submit" class="btn primary">提交</button>
-      <button type="submit" class="btn">取消</button>
+      <button type="button" class="btn">取消</button>
     </div>
   </div>
 </form>
@@ -536,10 +536,10 @@
       </label>
       <select class="form-control" id="manager">
         <option value=""></option>
-        <option value="cat">小猫</option>
-        <option value="fish">金鱼</option>
-        <option value="dragon">龙</option>
-        <option value="mammoth">猛犸</option>
+        <option value="linyue">林悦</option>
+        <option value="chenchen">陈晨</option>
+        <option value="wangning">王宁</option>
+        <option value="lihang">李航</option>
       </select>
     </div>
     <div class="form-group w-1/2">
@@ -563,11 +563,11 @@
       <label class="form-label required" for="days">
         项目描述
       </label>
-      <textarea rows="5" class="form-control" placeholder="输入一些文本">Hello, world!</textarea>
+      <textarea rows="5" class="form-control" placeholder="说明项目目标、交付范围和验收标准">为客户提供工单进度查询、历史记录检索和附件下载功能。</textarea>
     </div>
     <div class="form-actions">
       <button type="submit" class="btn primary">提交</button>
-      <button type="submit" class="btn">取消</button>
+      <button type="button" class="btn">取消</button>
     </div>
   </form>
 </Example>
@@ -620,17 +620,17 @@
 <Example>
   <form class="form">
     <div class="form-group has-success">
-      <label class="form-label" for="inputSuccess1">输入框（success）</label>
-      <input type="text" class="form-control" id="inputSuccess1">
-      <label class="form-tip" for="inputSuccess1">这是帮助性提示文本。</label>
+      <label class="form-label" for="inputSuccess1">项目代号</label>
+      <input type="text" class="form-control" id="inputSuccess1" value="PORTAL">
+      <label class="form-tip" for="inputSuccess1">项目代号可用。</label>
     </div>
     <div class="form-group has-warning">
-      <label class="form-label" for="inputWarning1">输入框（warning）</label>
-      <input type="text" class="form-control" id="inputWarning1">
+      <label class="form-label" for="inputWarning1">交付目标</label>
+      <input type="text" class="form-control" id="inputWarning1" value="优化客户服务" placeholder="建议补充可验收的目标">
     </div>
     <div class="form-group has-error">
-      <label class="form-label" for="inputError1">输入框（error）</label>
-      <input type="text" class="form-control" id="inputError1">
+      <label class="form-label" for="inputError1">项目名称</label>
+      <input type="text" class="form-control" id="inputError1" placeholder="项目名称不能为空">
     </div>
   </form>
 </Example>
@@ -640,17 +640,17 @@
 ```html
 <form class="form">
   <div class="form-group has-success">
-    <label class="form-label" for="inputSuccess1">输入框（success）</label>
-    <input type="text" class="form-control" id="inputSuccess1">
-    <label class="form-tip" for="inputSuccess1">这是帮助性提示文本。</label>
+    <label class="form-label" for="inputSuccess1">项目代号</label>
+    <input type="text" class="form-control" id="inputSuccess1" value="PORTAL">
+    <label class="form-tip" for="inputSuccess1">项目代号可用。</label>
   </div>
   <div class="form-group has-warning">
-    <label class="form-label" for="inputWarning1">输入框（warning）</label>
-    <input type="text" class="form-control" id="inputWarning1">
+    <label class="form-label" for="inputWarning1">交付目标</label>
+    <input type="text" class="form-control" id="inputWarning1" value="优化客户服务" placeholder="建议补充可验收的目标">
   </div>
   <div class="form-group has-error">
-    <label class="form-label" for="inputError1">输入框（error）</label>
-    <input type="text" class="form-control" id="inputError1">
+    <label class="form-label" for="inputError1">项目名称</label>
+    <input type="text" class="form-control" id="inputError1" placeholder="项目名称不能为空">
   </div>
 </form>
 ```
@@ -679,13 +679,13 @@
       </div>
     </fieldset>
     <fieldset>
-      <legend><div class="form-title">额外内容</div></legend>
+      <legend><div class="form-title">通知偏好</div></legend>
       <div class="check-list">
         <label class="radio">
-          <input type="radio" name="exampleRadioOption2"> 使用默认选项
+          <input type="radio" name="exampleRadioOption2"> 接收全部项目通知
         </label>
         <label class="radio">
-          <input type="radio" name="exampleRadioOption2"> 让我自定义选项
+          <input type="radio" name="exampleRadioOption2"> 仅接收与我相关的通知
         </label>
       </div>
     </fieldset>
@@ -711,13 +711,13 @@
     </div>
   </fieldset>
   <fieldset>
-    <legend><div class="form-title">额外内容</div></legend>
+    <legend><div class="form-title">通知偏好</div></legend>
     <div class="check-list">
       <label class="radio">
-        <input type="radio" name="exampleRadioOption2"> 使用默认选项
+        <input type="radio" name="exampleRadioOption2"> 接收全部项目通知
       </label>
       <label class="radio">
-        <input type="radio" name="exampleRadioOption2"> 让我自定义选项
+        <input type="radio" name="exampleRadioOption2"> 仅接收与我相关的通知
       </label>
     </div>
   </fieldset>
