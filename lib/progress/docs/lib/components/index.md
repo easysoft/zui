@@ -2,13 +2,14 @@
 
 ## 使用方法
 
-使用 CSS 类 `.progress` 和 `.progress-bar` 来创建进度条，通过为 `.progress-bar` 设置 CSS `width` 来展示进度。
+使用 CSS 类 `.progress` 和 `.progress-bar` 来创建进度条，通过为 `.progress-bar` 设置 CSS `width` 来展示进度。下面以 20 项验收任务为例，完成 8 项时进度为 40%。
 
 ::: tabs
 
 == 示例
 
 <Example>
+  <p>验收进度：已完成 8 / 20 项（40%）</p>
   <div class="progress">
     <div class="progress-bar" style="width: 40%"></div>
   </div>
@@ -17,6 +18,7 @@
 == HTML
 
 ```html
+<p>验收进度：已完成 8 / 20 项（40%）</p>
 <div class="progress">
   <div class="progress-bar"  style="width: 40%"></div>
 </div>
@@ -30,7 +32,7 @@
 
 ```js
 const progress = new zui.ProgressBar('#progressBarExample', {
-    percent: 65,
+    percent: 65, // 已完成 13 / 20 项。
     height: 20,
     width: 320,
 });
@@ -144,7 +146,7 @@ import {ProgressBar} from '@zui/progress/react';
 
 ### 堆叠效果
 
-给 `.progress` 元素添加多个 `progress-bar` 元素，使多个进度条堆叠展示。
+给 `.progress` 元素添加多个 `progress-bar` 元素，使多个进度条堆叠展示。下面的 20 项任务中，8 项已完成（40%）、4 项待复核（20%）、2 项受阻（10%），其余 6 项尚未开始（30%）。
 
 ::: tabs
 
