@@ -102,7 +102,7 @@
   <menu class="menu has-icons w-32">
     <li class="menu-item"><a><i class="item-icon icon icon-copy"></i> <div class="item-content">复制</div></a></li>
     <li class="menu-item"><a><i class="item-icon icon icon-paste"></i> <div class="item-content">粘贴</div></a></li>
-    <li class="menu-item"><a><i class="item-icon"></i><div class="item-content">粘贴</div></a></li>
+    <li class="menu-item"><a><i class="item-icon"></i><div class="item-content">剪切</div></a></li>
   </menu>
 </Example>
 
@@ -245,8 +245,8 @@
     <li class="row items-center gap-2 py-1 px-2">
       <div class="avatar circle flex-none"><img src="/assets/avatar/avatar.png"></div>
       <div class="flex-auto">
-        <div>张三</div>
-        <div class="text-gray text-sm">zhangsan</div>
+        <div>林悦</div>
+        <div class="text-gray text-sm">linyue</div>
       </div>
     </li>
     <li class="divider"></li>
@@ -265,8 +265,8 @@
   <li class="row items-center gap-2 py-1 px-2">
     <div class="avatar circle flex-none"><img src="/assets/avatar/avatar.png"></div>
     <div class="flex-auto">
-      <div>张三</div>
-      <div class="text-gray text-sm">zhangsan</div>
+      <div>林悦</div>
+      <div class="text-gray text-sm">linyue</div>
     </div>
   </li>
   <li class="divider"></li>
