@@ -91,6 +91,8 @@ fileList.render({items: [{...fileInfo, thumbnail: '/covers/report.png'}]});
 
 设置列表选项 `thumbnail: false` 可关闭所有缩略图并恢复 `fileIcon` 配置，也不会调用 `getThumbnail`。组件会复用自己生成的预览 URL，并在不再使用或组件销毁时释放；调用方提供的 URL 由调用方管理。
 
+缩略图在列表项实际渲染时解析和生成。使用 `maxVisibleItems` 分批展示时，尚未展开的文件不会生成预览 URL，也不会调用 `getThumbnail`；点击“显示更多”后再按需加载。
+
 ```ts
 fileList.render({items: [{file: imageFile}], thumbnail: false});
 ```

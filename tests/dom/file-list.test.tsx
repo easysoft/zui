@@ -381,6 +381,71 @@ describe('FileList', () => {
         expect(host.querySelector('img')).toBeNull();
     });
 
+    it('creates previews only for displayed batches and releases collapsed previews', () => {
+        const createObjectURL = vi.fn((file: File) => `blob:${file.name}`);
+        const revokeObjectURL = vi.fn();
+        vi.stubGlobal('URL', class extends URL {
+            static createObjectURL = createObjectURL;
+            static revokeObjectURL = revokeObjectURL;
+        });
+        const items = Array.from({length: 100}, (_, index) => ({file: new File(['image'], `${index}.png`, {type: 'image/png'})}));
+        const getThumbnail = vi.fn(() => '');
+        const options = {items, getThumbnail, maxVisibleItems: 2, showMoreStep: 3, showMoreText: 'More {count}'};
+        const {container, getByRole, rerender, unmount} = render(<FileListView {...options} />);
+
+        expect(container.querySelectorAll('img')).toHaveLength(2);
+        expect(createObjectURL).toHaveBeenCalledTimes(2);
+        expect(getThumbnail).toHaveBeenCalledTimes(2);
+        fireEvent.click(getByRole('button', {name: 'More 98'}));
+        expect(container.querySelectorAll('img')).toHaveLength(5);
+        expect(createObjectURL).toHaveBeenCalledTimes(5);
+        expect(revokeObjectURL).not.toHaveBeenCalled();
+
+        rerender(<FileListView {...options} mode="cards" />);
+        expect(container.querySelectorAll('img')).toHaveLength(5);
+        expect(createObjectURL).toHaveBeenCalledTimes(5);
+        rerender(<FileListView {...options} items={items.slice()} />);
+        expect(container.querySelectorAll('img')).toHaveLength(2);
+        expect(revokeObjectURL.mock.calls).toEqual([['blob:2.png'], ['blob:3.png'], ['blob:4.png']]);
+
+        getThumbnail.mockClear();
+        rerender(<FileListView {...options} thumbnail={false} fileIcon="file-image" />);
+        expect(container.querySelector('img')).toBeNull();
+        expect(container.querySelectorAll('.icon-file-image')).toHaveLength(2);
+        expect(getThumbnail).not.toHaveBeenCalled();
+        expect(revokeObjectURL).toHaveBeenCalledTimes(5);
+        rerender(<FileListView {...options} />);
+        expect(createObjectURL).toHaveBeenCalledTimes(7);
+        unmount();
+        expect(revokeObjectURL).toHaveBeenCalledTimes(7);
+    });
+
+    it('does not resolve previews for filtered items or custom icon and item renderers', () => {
+        const createObjectURL = vi.fn((file: File) => `blob:${file.name}`);
+        const revokeObjectURL = vi.fn();
+        vi.stubGlobal('URL', class extends URL {
+            static createObjectURL = createObjectURL;
+            static revokeObjectURL = revokeObjectURL;
+        });
+        const items = ['hidden', 'filtered', 'visible', 'later'].map(title => ({id: title, title, hidden: title === 'hidden', file: new File(['image'], `${title}.png`)}));
+        const getThumbnail = vi.fn(() => '');
+        const options: FileListProps = {items, getThumbnail, maxVisibleItems: 1, getItem: item => item.id === 'filtered' ? false : undefined};
+        const {container, rerender} = render(<FileListView {...options} />);
+        expect(container.querySelector('img')).toHaveAttribute('src', 'blob:visible.png');
+        expect(createObjectURL).toHaveBeenCalledTimes(1);
+        expect(getThumbnail).toHaveBeenCalledTimes(1);
+
+        getThumbnail.mockClear();
+        const itemProps = {title: 'Custom icon', icon: 'paper-clip'};
+        rerender(<FileListView {...options} itemProps={itemProps} />);
+        expect(container.querySelector('.icon-paper-clip')).not.toBeNull();
+        expect(revokeObjectURL).toHaveBeenCalledExactlyOnceWith('blob:visible.png');
+        rerender(<FileListView {...options} itemRender={file => <span>{file.title}</span>} />);
+        expect(container.querySelector('img')).toBeNull();
+        expect(getThumbnail).not.toHaveBeenCalled();
+        expect(createObjectURL).toHaveBeenCalledTimes(1);
+    });
+
     it('registers both component forms and supports vanilla updates and cleanup', async () => {
         expect(Component.map.get('filelist')).toBe(FileList);
         expect(getReactComponent('FileList')).toBe(FileListView);

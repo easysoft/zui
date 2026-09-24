@@ -18,6 +18,11 @@ class FileThumbnail extends Component<{src: string; fallback: () => IconType | n
     }
 }
 
+function FilePreview({getSource, fallback}: {getSource: () => string | undefined; fallback: () => IconType | null}) {
+    const src = getSource();
+    return src ? <FileThumbnail key={src} src={src} fallback={fallback} /> : <Icon className="item-icon text-gray" icon={fallback() || undefined} />;
+}
+
 export class FileList<T extends FileListProps = FileListProps, S extends ListState = ListState> extends List<T, S> {
     static NAME = 'file-list';
 
@@ -41,10 +46,25 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
 
     protected _objectURLs = new Map<File, string>();
 
+    protected _thumbnailFiles = new Set<File>();
+
+    protected _sourceFiles?: FileInfoLike[];
+
     componentWillUnmount(): void {
         this._objectURLs.forEach(url => URL.revokeObjectURL(url));
         this._objectURLs.clear();
+        this._thumbnailFiles.clear();
         super.componentWillUnmount();
+    }
+
+    protected _afterRender(firstRender: boolean) {
+        this._objectURLs.forEach((url, file) => {
+            if (!this._thumbnailFiles.has(file)) {
+                URL.revokeObjectURL(url);
+                this._objectURLs.delete(file);
+            }
+        });
+        super._afterRender(firstRender);
     }
 
     protected _getFileInfo(fileInfo: FileInfoLike, usedIds: Set<string>, reuseFileId: boolean): FileInfo {
@@ -115,8 +135,12 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
 
     protected _getItems(props: RenderableProps<T>): Item[] {
         const files = super._getItems(props) as FileInfoLike[];
-        const {fileIcon, fileSizeFormat, itemProps, heading, fileUrl, fileActions, mode, thumbnail, getThumbnail} = props;
-        const thumbnailFiles = new Set<File>();
+        const {fileIcon, fileSizeFormat, itemProps, heading, fileUrl, fileActions, mode} = props;
+        this._thumbnailFiles.clear();
+        // Keep the source identity so List can retain its show-more count across renders.
+        const items = files === this._sourceFiles ? this._items : [];
+        this._sourceFiles = files;
+        items.length = 0;
         const usedIds = new Set(files.filter(file => file.id !== undefined && file.id !== '').map(file => String(file.id)));
         const fileCounts = new Map<File, number>();
         files.forEach(({file}) => {
@@ -124,18 +148,8 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
                 fileCounts.set(file, (fileCounts.get(file) || 0) + 1);
             }
         });
-        const items: Item[] = files.map((fileInfo) => {
+        files.forEach((fileInfo) => {
             const file = this._getFileInfo(fileInfo, usedIds, !fileInfo.file || fileCounts.get(fileInfo.file) === 1);
-            const originFile = file.file;
-            let thumbnailUrl = thumbnail ? getThumbnail?.call(this, file) || file.thumbnail : undefined;
-            if (thumbnail && !thumbnailUrl && originFile && (originFile.type.startsWith('image/') || (this.constructor as typeof FileList).fileIconOfTypes['file-image'].includes(file.extension.toLowerCase()))) {
-                thumbnailUrl = this._objectURLs.get(originFile);
-                if (!thumbnailUrl) {
-                    thumbnailUrl = URL.createObjectURL(originFile);
-                    this._objectURLs.set(originFile, thumbnailUrl);
-                }
-                thumbnailFiles.add(originFile);
-            }
             let subtitle = null;
             if (typeof file.size === 'number') {
                 subtitle = formatBytes(file.size);
@@ -143,26 +157,18 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
                     subtitle = formatString(fileSizeFormat, {size: subtitle});
                 }
             }
-            return mergeProps({
+            items.push(mergeProps({
                 ...file,
                 key: `${file.id}`,
                 className: mode === 'cards' ? 'file-list-card' : mode === 'cards-inline' ? 'file-list-card-inline' : mode === 'covers' ? 'file-list-cover' : undefined,
-                icon: thumbnailUrl
-                    ? <FileThumbnail key={thumbnailUrl} src={thumbnailUrl} fallback={() => (this.constructor as typeof FileList).getFileIcon(file, fileIcon)} />
-                    : (this.constructor as typeof FileList).getFileIcon(file, fileIcon),
+                icon: <FilePreview getSource={() => this._getThumbnail(file, props)} fallback={() => (this.constructor as typeof FileList).getFileIcon(file, fileIcon)} />,
                 iconClass: 'text-gray',
                 title: file.title,
                 subtitle,
                 multiline: false,
                 url: typeof fileUrl === 'function' ? fileUrl.call(this, file) : (fileUrl ? formatString(fileUrl, file) : undefined),
                 actions: fileActions ? fileActions.call(this, file) : undefined,
-            }, itemProps);
-        });
-        this._objectURLs.forEach((url, file) => {
-            if (!thumbnailFiles.has(file)) {
-                URL.revokeObjectURL(url);
-                this._objectURLs.delete(file);
-            }
+            }, itemProps));
         });
         if (heading) {
             items.unshift({
@@ -173,6 +179,21 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
             });
         }
         return items;
+    }
+
+    protected _getThumbnail(file: FileInfo, props: RenderableProps<T>): string | undefined {
+        const {thumbnail, getThumbnail} = props;
+        const originFile = file.file;
+        let url = thumbnail ? getThumbnail?.call(this, file) || file.thumbnail : undefined;
+        if (thumbnail && !url && originFile && (originFile.type.startsWith('image/') || (this.constructor as typeof FileList).fileIconOfTypes['file-image'].includes(file.extension.toLowerCase()))) {
+            url = this._objectURLs.get(originFile);
+            if (!url) {
+                url = URL.createObjectURL(originFile);
+                this._objectURLs.set(originFile, url);
+            }
+            this._thumbnailFiles.add(originFile);
+        }
+        return url;
     }
 
     protected _getRenderedItem(_props: RenderableProps<T>, renderedItem: Item): Item {
