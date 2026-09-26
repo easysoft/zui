@@ -40,7 +40,9 @@ export interface FileListProps<T extends FileInfoLike = FileInfoLike> extends Li
     };
     /** Override the thumbnail URL. An empty string falls back to the file's thumbnail or native image preview. */
     getThumbnail?: FileCallback<T, string>;
-    fileSizeFormat?: string;
+    fileSizeFormat?: false | string;
+    gridCellWidth?: number;
+    gridGap?: number;
     fileUrl?: string | FileCallback<T, string>;
     fileActions?: FileCallback<T, ListitemProps['actions']>;
 }

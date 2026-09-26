@@ -6,3 +6,6 @@
 .avatar > img {
   @apply -m-0 -w-full -h-full -object-cover;
 }
+.avatar > .icon {
+  font-size: inherit;
+}

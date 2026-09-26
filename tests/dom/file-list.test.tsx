@@ -68,6 +68,29 @@ describe('FileList', () => {
         expect(onDownload).toHaveBeenCalledTimes(1);
     });
 
+    it('preserves an explicitly configured zero grid gap', () => {
+        const {container} = render(<FileListView items={files} mode="grid" gridGap={0} />);
+        const root = container.querySelector<HTMLElement>('.file-list')!;
+
+        expect(root.style.getPropertyValue('--file-list-grid-gap')).toBe('0px');
+    });
+
+    it('updates grid dimensions without mutating a reused style object', () => {
+        const style = {maxWidth: '600px'};
+        const {container, rerender} = render(<FileListView items={files} mode="grid" thumbnail fileIcon="file-pdf" style={style} />);
+        const root = container.querySelector<HTMLElement>('.file-list')!;
+
+        expect(root.style.getPropertyValue('--file-list-grid-cell-width')).toBe('120px');
+        expect(root.style.getPropertyValue('--file-list-grid-gap')).toBe('8px');
+        rerender(<FileListView items={files} mode="grid" thumbnail fileIcon="file-pdf" style={style} gridCellWidth={160} gridGap={16} />);
+
+        expect(root.style.getPropertyValue('--file-list-grid-cell-width')).toBe('160px');
+        expect(root.style.getPropertyValue('--file-list-grid-gap')).toBe('16px');
+        expect(root.style.maxWidth).toBe('600px');
+        expect(container.querySelector<HTMLElement>('.item-avatar')!.style.width).toBe('160px');
+        expect(style).toEqual({maxWidth: '600px'});
+    });
+
     it('accepts optional icon names, extension maps and callbacks', () => {
         const {container, rerender, getByRole} = render(<FileListView items={files} fileIcon="paper-clip" />);
         expect(container.querySelector('.icon-paper-clip')).not.toBeNull();

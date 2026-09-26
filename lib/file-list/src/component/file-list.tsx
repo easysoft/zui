@@ -3,7 +3,7 @@ import {List} from '@zui/list/react';
 import {Popover, type PopoverOptions} from '@zui/popover';
 
 import type {RenderableProps} from 'preact';
-import {$, mergeProps, nextGid, type ClassNameLike, type IconType} from '@zui/core';
+import {$, mergeProps, nextGid, toCssSize, type ClassNameLike, type IconType} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {ListState} from '@zui/list';
 import type {FileIconGetter, FileIconMap, FileInfo, FileInfoLike, FileListProps} from '../types';
@@ -14,6 +14,8 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
     static defaultProps = {
         ...List.defaultProps,
         fileSizeFormat: '{size}',
+        gridCellWidth: 120,
+        gridGap: 8,
         fileIcon: false,
         thumbnail: false,
         thumbnailPreview: false,
@@ -198,6 +200,19 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
         ];
     }
 
+    protected _getProps(props: RenderableProps<T>): Record<string, unknown> {
+        const finalProps = super._getProps(props);
+        const {gridCellWidth, gridGap, mode} = props;
+        if (mode === 'grid') {
+            finalProps.style = {
+                ...(finalProps.style as FileListProps['style']),
+                '--file-list-grid-cell-width': toCssSize(gridCellWidth || FileList.defaultProps.gridCellWidth),
+                '--file-list-grid-gap': toCssSize(gridGap ?? FileList.defaultProps.gridGap),
+            };
+        }
+        return finalProps;
+    }
+
     protected _getFileIcon(file: FileInfo, fileIconSetting?: FileListProps['fileIcon']): IconType | null {
         if (!fileIconSetting) {
             return null;
@@ -215,7 +230,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
 
     protected _getItems(props: RenderableProps<T>): Item[] {
         const files = super._getItems(props) as FileInfoLike[];
-        const {fileIcon, fileSizeFormat, itemProps, heading, fileUrl, fileActions, mode, thumbnail, multiline = false} = props;
+        const {fileIcon, fileSizeFormat, itemProps, heading, fileUrl, fileActions, mode, thumbnail, multiline = false, gridCellWidth = 120} = props;
         this._thumbnailFiles.clear();
         // Keep the source identity so List can retain its show-more count across renders.
         const items = files === this._sourceFiles ? this._items : [];
@@ -228,6 +243,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
                 fileCounts.set(file, (fileCounts.get(file) || 0) + 1);
             }
         });
+        const isGrid = mode === 'grid';
         files.forEach((fileInfo) => {
             const file = this._getFileInfo(fileInfo, usedIds, !fileInfo.file || fileCounts.get(fileInfo.file) === 1);
             let subtitle = null;
@@ -242,7 +258,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
                 key: `${file.id}`,
                 className: {
                     'file-list-card': mode === 'cards' || mode === 'cards-inline',
-                    'file-list-grid': mode === 'grid',
+                    'file-list-grid-cell': isGrid,
                     'has-thumbnail': thumbnail,
                 },
                 icon: thumbnail ? undefined : (this.constructor as typeof FileList).getFileIcon(file, fileIcon),
@@ -258,7 +274,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
                         icon,
                         className: 'text-gray',
                         code: file.extension,
-                        size: 'md',
+                        size: isGrid ? gridCellWidth : (multiline ? 'md' : 'sm'),
                         ...(typeof thumbnail === 'object' ? thumbnail : {}),
                     } : undefined;
                 } : undefined,

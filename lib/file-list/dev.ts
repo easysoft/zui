@@ -151,7 +151,9 @@ onPageUpdate(() => {
         fileIcon: FileListView.getFileIconMap(),
         mode: 'grid',
         thumbnail: true,
-        thumbnailPreview: true,
+        fileActions,
+        multiline: true,
+        hoverItemActions: true,
     });
     fileListImages = new FileList('#fileListImages', {
         items: [],

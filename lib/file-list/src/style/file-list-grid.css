@@ -1,0 +1,25 @@
+.file-list-grid {
+    @apply -flex -flex-row -flex-wrap;
+    --avatar-radius: var(--radius-md);
+    gap: var(--file-list-grid-gap);
+}
+.file-list-grid-cell > .listitem {
+    @apply -flex-col -p-0 -gap-1 -relative;
+    width: var(--file-list-grid-cell-width);
+}
+.file-list-grid-cell .item-content {
+    @apply -w-full;
+}
+.file-list-grid-cell .item-title {
+    @apply -max-w-full;
+}
+.file-list-grid-cell .item-actions {
+    @apply -absolute -top-0 -right-0 -rounded-lg -bg-inverse/30 -text-canvas;
+}
+.with-hover-actions .file-list-grid-cell .item-actions {
+    @apply -opacity-0 -transition-opacity;
+}
+.with-hover-actions .file-list-grid-cell:hover .item-actions,
+.with-hover-actions .file-list-grid-cell:focus-within .item-actions {
+    @apply -opacity-100;
+}
