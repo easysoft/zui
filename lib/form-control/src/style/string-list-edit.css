@@ -8,8 +8,7 @@
     @apply -mt-3;
 }
 .string-list-edit-item-value {
-    width: var(--string-list-edit-item-width);
-    flex: auto;
+    @apply -w-[--string-list-edit-item-width] -flex-auto;
 }
 .string-list-edit-item-actions {
     @apply -flex -flex-row -items-center -gap-2;

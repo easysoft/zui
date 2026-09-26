@@ -9,12 +9,10 @@
     @apply -mt-3;
 }
 .map-edit-item-key {
-    width: var(--map-edit-key-width);
-    flex: none;
+    @apply -w-[--map-edit-key-width] -flex-none;
 }
 .map-edit-item-value {
-    width: var(--map-edit-value-width);
-    flex: auto;
+    @apply -w-[--map-edit-value-width] -flex-auto;
 }
 .map-edit-item-actions {
     @apply -flex -flex-row -items-center -gap-2;
