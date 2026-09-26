@@ -1,4 +1,3 @@
 .has-icons > .menu-item > a > .item-icon {
-  @apply -flex -w-4 -h-4 -items-center -justify-center;
-  opacity: var(--menu-icon-opacity);
+  @apply -flex -w-4 -h-4 -items-center -justify-center -opacity-[--menu-icon-opacity];
 }

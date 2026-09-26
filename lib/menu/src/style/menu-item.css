@@ -7,14 +7,14 @@
 }
 .menu-item > .selected {
     background: var(--menu-selected-bg);
-    color: var(--menu-selected-color);
+    @apply -text-[--menu-selected-color];
 }
 .menu-item > a:hover,
 .menu-item > a.hover,
 .menu-item > .active,
 .menu-item > .active {
     background: var(--menu-active-bg);
-    color: var(--menu-active-color);
+    @apply -text-[--menu-active-color];
 }
 .menu-item > a.no-hover:hover,
 .menu-item > a.no-hover.hover {
