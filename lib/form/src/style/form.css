@@ -3,8 +3,7 @@
 }
 
 .form-label {
-  @apply -relative -h-8 -flex -flex-row -items-center -truncate -gap-1;
-  color: var(--form-label-color);
+  @apply -relative -h-8 -flex -flex-row -items-center -truncate -gap-1 -text-[--form-label-color];
 }
 .form-label.required::after {
   content: '*';
@@ -24,8 +23,7 @@
 }
 
 .form-tip {
-  @apply -mt-1 -block;
-  color: var(--form-tip-color);
+  @apply -mt-1 -block -text-[--form-tip-color];
 }
 .has-error .form-tip {@apply -text-danger-500;}
 .has-warning .form-tip {@apply -text-warning-500;}
