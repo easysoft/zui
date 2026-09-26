@@ -4,7 +4,7 @@
 
 ## 示例
 
-默认不显示文件类型图标；提供封面 URL 时显示缩略图。
+默认不显示文件类型图标和缩略图。
 
 ```html:example
 <div id="fileList"></div>
@@ -26,6 +26,14 @@
 | 字符串 | 所有文件使用同一图标 |
 | 映射表 | 按文件扩展名指定图标，未命中时使用 `file` |
 | `(file) => icon` | 按文件数据动态选择图标 |
+
+## 缩略图示例
+
+显式设置 `thumbnail: true` 后，通过 Avatar 显示文件封面；没有封面或图片加载失败时显示 `fileIcon` 图标。也可以将 `thumbnail` 设为 Avatar 选项对象，例如 `{size: 'lg'}`，自定义缩略图外观。
+
+```html:example
+<div id="fileListThumbnails"></div>
+```
 
 ## 卡片模式
 
@@ -81,10 +89,10 @@ fileList.render({
 
 ### 图片缩略图
 
-文件默认在图标位置显示缩略图，即使 `fileIcon` 为 `false` 也会显示。没有原生 `File` 的记录可通过自身的 `thumbnail` 字段提供封面 URL，PDF 等非图片文件也可使用封面。
+缩略图默认关闭，设置列表选项 `thumbnail: true` 后启用，即使 `fileIcon` 为 `false` 也会显示缩略图。没有原生 `File` 的记录可通过自身的 `thumbnail` 字段提供封面 URL，PDF 等非图片文件也可使用封面。
 
 ```ts
-fileList.render({items: [{...fileInfo, thumbnail: '/covers/report.png'}]});
+fileList.render({items: [{...fileInfo, thumbnail: '/covers/report.png'}], thumbnail: true});
 ```
 
 缩略图优先使用同步回调 `getThumbnail(file)` 返回的 URL，其次是文件的 `thumbnail` 字段；都为空时，才为原生图片生成预览。原生图片按 MIME 类型或图片扩展名识别，没有缩略图或图片加载失败时使用 `fileIcon`；更换缩略图 URL 后会重新尝试加载。

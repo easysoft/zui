@@ -2,6 +2,7 @@ import type {IconType} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {ListProps, ListitemProps} from '@zui/list';
 import type {FileInfo, OriginFileInfo} from './file-info';
+import type {AvatarOptions} from '@zui/avatar';
 
 export type FileIconGetter = (file: FileInfo) => IconType;
 
@@ -18,6 +19,7 @@ type FileCallback<T extends FileInfoLike, Result> = {
 }['bivarianceHack'];
 
 export interface FileListProps<T extends FileInfoLike = FileInfoLike> extends ListProps<T> {
+    itemProps?: Partial<T> & ListitemProps;
     getItem?: ListProps<T & FileInfo & Item>['getItem'];
     itemRender?: ListProps<T & FileInfo & Item>['itemRender'];
     beforeRenderItem?: ListProps<T & FileInfo & Item>['beforeRenderItem'];
@@ -26,8 +28,8 @@ export interface FileListProps<T extends FileInfoLike = FileInfoLike> extends Li
     heading?: ListitemProps;
     /** File icons are disabled by default. Load any required icon library separately. */
     fileIcon?: FileIconSetting;
-    /** Show file thumbnails in place of icons. Defaults to true. */
-    thumbnail?: boolean;
+    /** Use avatars to show file thumbnails and fallback icons. Defaults to false. Pass Avatar options to customize. */
+    thumbnail?: boolean | Partial<AvatarOptions>;
     /** Override the thumbnail URL. An empty string falls back to the file's thumbnail or native image preview. */
     getThumbnail?: FileCallback<T, string>;
     fileSizeFormat?: string;

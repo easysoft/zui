@@ -1,27 +1,11 @@
 import {formatBytes, formatString} from '@zui/helpers';
 import {List} from '@zui/list/react';
 
-import {Component, type RenderableProps} from 'preact';
-import {Icon, mergeProps, nextGid, type ClassNameLike, type IconType} from '@zui/core';
+import type {RenderableProps} from 'preact';
+import {mergeProps, nextGid, type ClassNameLike, type IconType} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {ListState} from '@zui/list';
 import type {FileIconGetter, FileIconMap, FileInfo, FileInfoLike, FileListProps} from '../types';
-
-class FileThumbnail extends Component<{src: string; fallback: () => IconType | null}, {failed: boolean}> {
-    state = {failed: false};
-
-    render() {
-        const {src, fallback} = this.props;
-        return this.state.failed
-            ? <Icon className="item-icon text-gray" icon={fallback() || undefined} />
-            : <img className="item-icon file-list-thumbnail w-8 h-8 rounded object-cover" src={src} alt="" onError={() => this.setState({failed: true})} />;
-    }
-}
-
-function FilePreview({getSource, fallback}: {getSource: () => string | undefined; fallback: () => IconType | null}) {
-    const src = getSource();
-    return src ? <FileThumbnail key={src} src={src} fallback={fallback} /> : <Icon className="item-icon text-gray" icon={fallback() || undefined} />;
-}
 
 export class FileList<T extends FileListProps = FileListProps, S extends ListState = ListState> extends List<T, S> {
     static NAME = 'file-list';
@@ -30,7 +14,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
         ...List.defaultProps,
         fileSizeFormat: '{size}',
         fileIcon: false,
-        thumbnail: true,
+        thumbnail: false,
     };
 
     static TAG = 'div';
@@ -135,7 +119,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
 
     protected _getItems(props: RenderableProps<T>): Item[] {
         const files = super._getItems(props) as FileInfoLike[];
-        const {fileIcon, fileSizeFormat, itemProps, heading, fileUrl, fileActions, mode} = props;
+        const {fileIcon, fileSizeFormat, itemProps, heading, fileUrl, fileActions, mode, thumbnail} = props;
         this._thumbnailFiles.clear();
         // Keep the source identity so List can retain its show-more count across renders.
         const items = files === this._sourceFiles ? this._items : [];
@@ -161,8 +145,23 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
                 ...file,
                 key: `${file.id}`,
                 className: mode === 'cards' ? 'file-list-card' : mode === 'cards-inline' ? 'file-list-card-inline' : mode === 'covers' ? 'file-list-cover' : undefined,
-                icon: <FilePreview getSource={() => this._getThumbnail(file, props)} fallback={() => (this.constructor as typeof FileList).getFileIcon(file, fileIcon)} />,
+                icon: thumbnail ? undefined : (this.constructor as typeof FileList).getFileIcon(file, fileIcon),
                 iconClass: 'text-gray',
+                avatar: thumbnail ? (item: Item) => {
+                    if (item.icon !== undefined) {
+                        return;
+                    }
+                    const src = this._getThumbnail(file, props);
+                    const icon = (this.constructor as typeof FileList).getFileIcon(file, fileIcon) || undefined;
+                    return src || icon ? {
+                        src,
+                        icon,
+                        className: 'text-gray',
+                        code: file.extension,
+                        size: 'sm',
+                        ...(typeof thumbnail === 'object' ? thumbnail : {}),
+                    } : undefined;
+                } : undefined,
                 title: file.title,
                 subtitle,
                 multiline: false,

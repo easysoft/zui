@@ -998,6 +998,9 @@ importers:
 
   lib/file-list:
     dependencies:
+      '@zui/avatar':
+        specifier: workspace:*
+        version: link:../avatar
       '@zui/common-list':
         specifier: workspace:*
         version: link:../common-list

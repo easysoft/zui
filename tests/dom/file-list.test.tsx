@@ -62,6 +62,7 @@ describe('FileList', () => {
         expect(getByText('2.00KB')).toBeInTheDocument();
         expect(getByRole('link', {name: /Guide.pdf/})).toHaveAttribute('href', '/files/1');
         expect(container.querySelector('.item-icon')).toBeNull();
+        expect(container.querySelector('.item-avatar')).toBeNull();
         fireEvent.click(getByRole('button', {name: 'Download'}));
         expect(onDownload).toHaveBeenCalledTimes(1);
     });
@@ -179,7 +180,7 @@ describe('FileList', () => {
         const host = document.createElement('div');
         document.body.append(host);
         const onClickItem = vi.fn();
-        const list = new FileList(host, {items: [first, second, first], onClickItem});
+        const list = new FileList(host, {items: [first, second, first], onClickItem, thumbnail: true});
         await flushAnimationFrame();
         const keys = () => Array.from(host.querySelectorAll('[z-type="item"]'), item => item.getAttribute('z-key')!);
         const initialKeys = keys();
@@ -217,7 +218,7 @@ describe('FileList', () => {
         expect(getByText('7.00B')).toBeInTheDocument();
     });
 
-    it('shows native image thumbnails by default and restores configured icons when disabled', () => {
+    it('keeps native thumbnails disabled by default and restores configured icons when disabled again', () => {
         const createObjectURL = vi.fn((file: File) => `blob:${file.name}`);
         const revokeObjectURL = vi.fn();
         vi.stubGlobal('URL', class extends URL {
@@ -227,9 +228,18 @@ describe('FileList', () => {
         const image = new File(['image'], 'photo.bin', {type: 'image/png'});
         const untypedImage = new File(['image'], 'photo.JPG');
         const items = [{file: image}, {file: untypedImage}, {file: new File(['text'], 'notes.txt')}, {...files[0], title: 'remote.png', extension: 'png'}];
-        const {container, rerender} = render(<FileListView items={items} />);
+        const getThumbnail = vi.fn(() => '');
+        const {container, rerender} = render(<FileListView items={items} getThumbnail={getThumbnail} fileIcon="paper-clip" />);
 
-        const thumbnails = container.querySelectorAll('img.item-icon');
+        expect(container.querySelector('img')).toBeNull();
+        expect(container.querySelector('.item-avatar')).toBeNull();
+        expect(container.querySelectorAll('.item-icon.icon-paper-clip')).toHaveLength(4);
+        expect(createObjectURL).not.toHaveBeenCalled();
+        expect(getThumbnail).not.toHaveBeenCalled();
+
+        rerender(<FileListView items={items} thumbnail />);
+
+        const thumbnails = container.querySelectorAll('.item-avatar > img');
         expect(thumbnails).toHaveLength(2);
         expect(thumbnails[0]).toHaveAttribute('src', 'blob:photo.bin');
         expect(thumbnails[0]).toHaveAttribute('alt', '');
@@ -238,22 +248,24 @@ describe('FileList', () => {
         expect(createObjectURL).toHaveBeenCalledWith(image);
         expect(createObjectURL).toHaveBeenCalledWith(untypedImage);
 
-        rerender(<FileListView items={items} fileIcon="paper-clip" />);
-        expect(container.querySelectorAll('img.item-icon')).toHaveLength(2);
-        expect(container.querySelectorAll('.icon-paper-clip')).toHaveLength(2);
+        rerender(<FileListView items={items} fileIcon="paper-clip" thumbnail />);
+        expect(container.querySelectorAll('.item-avatar > img')).toHaveLength(2);
+        expect(container.querySelectorAll('.item-avatar .icon-paper-clip')).toHaveLength(2);
+        expect(container.querySelector('.item-icon')).toBeNull();
         expect(createObjectURL).toHaveBeenCalledTimes(2);
 
         rerender(<FileListView items={items} fileIcon="paper-clip" thumbnail={false} />);
         expect(container.querySelector('img')).toBeNull();
-        expect(container.querySelectorAll('.icon-paper-clip')).toHaveLength(4);
+        expect(container.querySelector('.item-avatar')).toBeNull();
+        expect(container.querySelectorAll('.item-icon.icon-paper-clip')).toHaveLength(4);
         expect(revokeObjectURL.mock.calls).toEqual([['blob:photo.bin'], ['blob:photo.JPG']]);
 
         rerender(<FileListView items={items} fileIcon={false} thumbnail={false} />);
         expect(container.querySelector('.item-icon')).toBeNull();
         expect(createObjectURL).toHaveBeenCalledTimes(2);
 
-        rerender(<FileListView items={items} />);
-        expect(container.querySelectorAll('img.item-icon')).toHaveLength(2);
+        rerender(<FileListView items={items} thumbnail />);
+        expect(container.querySelectorAll('.item-avatar > img')).toHaveLength(2);
         expect(createObjectURL).toHaveBeenCalledTimes(4);
     });
 
@@ -267,14 +279,16 @@ describe('FileList', () => {
         const file = Object.freeze({...files[0], thumbnail: '/covers/guide.png'});
         const {container, rerender, unmount} = render(<FileListView items={[file]} />);
 
-        expect(container.querySelector('img.item-icon')).toHaveAttribute('src', '/covers/guide.png');
+        expect(container.querySelector('img')).toBeNull();
+        rerender(<FileListView items={[file]} thumbnail />);
+        expect(container.querySelector('.item-avatar > img')).toHaveAttribute('src', '/covers/guide.png');
         rerender(<FileListView items={[file]} thumbnail={false} fileIcon="paper-clip" />);
         expect(container.querySelector('img')).toBeNull();
         expect(container.querySelector('.icon-paper-clip')).not.toBeNull();
 
-        rerender(<FileListView items={[{...file, thumbnail: 'blob:caller-cover'}]} />);
-        expect(container.querySelector('img.item-icon')).toHaveAttribute('src', 'blob:caller-cover');
-        rerender(<FileListView items={[{...file, thumbnail: ''}]} fileIcon="paper-clip" />);
+        rerender(<FileListView items={[{...file, thumbnail: 'blob:caller-cover'}]} thumbnail />);
+        expect(container.querySelector('.item-avatar > img')).toHaveAttribute('src', 'blob:caller-cover');
+        rerender(<FileListView items={[{...file, thumbnail: ''}]} fileIcon="paper-clip" thumbnail />);
         expect(container.querySelector('img')).toBeNull();
         expect(container.querySelector('.icon-paper-clip')).not.toBeNull();
         unmount();
@@ -284,21 +298,21 @@ describe('FileList', () => {
 
     it('falls back after thumbnail errors and retries when the source changes', () => {
         const file = {...files[0], thumbnail: '/covers/broken.png'};
-        const {container, rerender} = render(<FileListView items={[file]} fileIcon="file-pdf" />);
+        const {container, rerender} = render(<FileListView items={[file]} fileIcon="file-pdf" thumbnail />);
         fireEvent.error(container.querySelector('img')!);
         expect(container.querySelector('img')).toBeNull();
-        expect(container.querySelector('.item-icon.icon-file-pdf')).not.toBeNull();
+        expect(container.querySelector('.item-avatar .icon-file-pdf')).not.toBeNull();
 
-        rerender(<FileListView items={[file]} fileIcon={() => 'paper-clip'} />);
+        rerender(<FileListView items={[file]} fileIcon={() => 'paper-clip'} thumbnail />);
         expect(container.querySelector('img')).toBeNull();
-        expect(container.querySelector('.item-icon.icon-paper-clip')).not.toBeNull();
+        expect(container.querySelector('.item-avatar .icon-paper-clip')).not.toBeNull();
 
-        rerender(<FileListView items={[{...file, thumbnail: '/covers/replaced.png'}]} />);
+        rerender(<FileListView items={[{...file, thumbnail: '/covers/replaced.png'}]} thumbnail />);
         expect(container.querySelector('img')).toHaveAttribute('src', '/covers/replaced.png');
         fireEvent.error(container.querySelector('img')!);
         expect(container.querySelector('.item-icon')).toBeNull();
 
-        rerender(<FileListView items={[file]} fileIcon="file-pdf" />);
+        rerender(<FileListView items={[file]} fileIcon="file-pdf" thumbnail />);
         expect(container.querySelector('img')).toHaveAttribute('src', '/covers/broken.png');
     });
 
@@ -310,10 +324,10 @@ describe('FileList', () => {
             static revokeObjectURL = revokeObjectURL;
         });
         const items = [{file: new File(['invalid image'], 'invalid.png', {type: 'image/png'})}];
-        const {container, rerender} = render(<FileListView items={items} fileIcon="file-image" />);
+        const {container, rerender} = render(<FileListView items={items} fileIcon="file-image" thumbnail />);
         fireEvent.error(container.querySelector('img')!);
         expect(container.querySelector('.icon-file-image')).not.toBeNull();
-        rerender(<FileListView items={items} fileIcon="file-image" />);
+        rerender(<FileListView items={items} fileIcon="file-image" thumbnail />);
         expect(container.querySelector('img')).toBeNull();
         expect(createObjectURL).toHaveBeenCalledTimes(1);
         rerender(<FileListView items={[]} />);
@@ -324,14 +338,14 @@ describe('FileList', () => {
         const file = new File(['image'], 'local.png', {type: 'image/png'});
         const items = [{file, thumbnail: '/covers/local.png'}];
         const getThumbnail = vi.fn(() => '/covers/custom.png');
-        const {container, rerender} = render(<FileListView items={items} getThumbnail={getThumbnail} />);
+        const {container, rerender} = render(<FileListView items={items} getThumbnail={getThumbnail} thumbnail />);
 
-        expect(container.querySelector('img.item-icon')).toHaveAttribute('src', '/covers/custom.png');
+        expect(container.querySelector('.item-avatar > img')).toHaveAttribute('src', '/covers/custom.png');
         expect(getThumbnail).toHaveBeenCalledWith(expect.objectContaining({file, title: 'local.png', extension: 'png', id: expect.any(String)}));
 
         getThumbnail.mockReturnValue('');
-        rerender(<FileListView items={items} getThumbnail={getThumbnail} />);
-        expect(container.querySelector('img.item-icon')).toHaveAttribute('src', '/covers/local.png');
+        rerender(<FileListView items={items} getThumbnail={getThumbnail} thumbnail />);
+        expect(container.querySelector('.item-avatar > img')).toHaveAttribute('src', '/covers/local.png');
 
         getThumbnail.mockClear();
         rerender(<FileListView items={items} getThumbnail={getThumbnail} thumbnail={false} fileIcon="paper-clip" />);
@@ -353,7 +367,7 @@ describe('FileList', () => {
         const host = document.createElement('div');
         document.body.append(host);
         const beforeDestroy = vi.fn();
-        const list = new FileList(host, {items: [{id: 'image', file: first}], beforeDestroy});
+        const list = new FileList(host, {items: [{id: 'image', file: first}], beforeDestroy, thumbnail: true});
         await flushAnimationFrame();
 
         expect(host.querySelector('img')).toHaveAttribute('src', 'blob:preview-1');
@@ -390,7 +404,7 @@ describe('FileList', () => {
         });
         const items = Array.from({length: 100}, (_, index) => ({file: new File(['image'], `${index}.png`, {type: 'image/png'})}));
         const getThumbnail = vi.fn(() => '');
-        const options = {items, getThumbnail, maxVisibleItems: 2, showMoreStep: 3, showMoreText: 'More {count}'};
+        const options = {items, getThumbnail, maxVisibleItems: 2, showMoreStep: 3, showMoreText: 'More {count}', thumbnail: true};
         const {container, getByRole, rerender, unmount} = render(<FileListView {...options} />);
 
         expect(container.querySelectorAll('img')).toHaveLength(2);
@@ -420,7 +434,7 @@ describe('FileList', () => {
         expect(revokeObjectURL).toHaveBeenCalledTimes(7);
     });
 
-    it('does not resolve previews for filtered items or custom icon and item renderers', () => {
+    it('does not resolve previews for filtered items or custom icon, avatar and item renderers', () => {
         const createObjectURL = vi.fn((file: File) => `blob:${file.name}`);
         const revokeObjectURL = vi.fn();
         vi.stubGlobal('URL', class extends URL {
@@ -429,7 +443,7 @@ describe('FileList', () => {
         });
         const items = ['hidden', 'filtered', 'visible', 'later'].map(title => ({id: title, title, hidden: title === 'hidden', file: new File(['image'], `${title}.png`)}));
         const getThumbnail = vi.fn(() => '');
-        const options: FileListProps = {items, getThumbnail, maxVisibleItems: 1, getItem: item => item.id === 'filtered' ? false : undefined};
+        const options: FileListProps = {items, getThumbnail, maxVisibleItems: 1, getItem: item => item.id === 'filtered' ? false : undefined, thumbnail: true};
         const {container, rerender} = render(<FileListView {...options} />);
         expect(container.querySelector('img')).toHaveAttribute('src', 'blob:visible.png');
         expect(createObjectURL).toHaveBeenCalledTimes(1);
@@ -440,6 +454,11 @@ describe('FileList', () => {
         rerender(<FileListView {...options} itemProps={itemProps} />);
         expect(container.querySelector('.icon-paper-clip')).not.toBeNull();
         expect(revokeObjectURL).toHaveBeenCalledExactlyOnceWith('blob:visible.png');
+        const avatar = vi.fn(() => ({text: 'Custom'}));
+        rerender(<FileListView {...options} itemProps={{avatar}} />);
+        expect(avatar).toHaveBeenCalledWith(expect.objectContaining({id: 'visible'}));
+        expect(container.querySelector('.item-avatar')).toHaveTextContent('C');
+        expect(container.querySelector('.item-icon')).toBeNull();
         rerender(<FileListView {...options} itemRender={file => <span>{file.title}</span>} />);
         expect(container.querySelector('img')).toBeNull();
         expect(getThumbnail).not.toHaveBeenCalled();

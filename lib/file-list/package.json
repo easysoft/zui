@@ -10,6 +10,7 @@
         "./react": "./src/main-react.ts"
     },
     "dependencies": {
+        "@zui/avatar": "workspace:*",
         "@zui/common-list": "workspace:*",
         "@zui/core": "workspace:*",
         "@zui/helpers": "workspace:*",

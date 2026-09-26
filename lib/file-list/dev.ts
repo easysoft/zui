@@ -6,6 +6,7 @@ import {FileList as FileListView} from './src/main-react';
 
 let fileList: FileList | undefined;
 let fileListWithIcons: FileList | undefined;
+let fileListThumbnails: FileList | undefined;
 let fileListCards: FileList | undefined;
 let fileListCardsInline: FileList | undefined;
 let fileListImages: FileList | undefined;
@@ -13,6 +14,7 @@ let fileListImages: FileList | undefined;
 onPageUpdate(() => {
     fileList?.destroy();
     fileListWithIcons?.destroy();
+    fileListThumbnails?.destroy();
     fileListCards?.destroy();
     fileListCardsInline?.destroy();
     fileListImages?.destroy();
@@ -65,6 +67,12 @@ onPageUpdate(() => {
         fileUrl: '#file?id={id}',
         fileIcon: FileListView.getFileIconMap(),
     });
+    fileListThumbnails = new FileList('#fileListThumbnails', {
+        items: fileList.options.items,
+        fileUrl: '#file?id={id}',
+        fileIcon: FileListView.getFileIconMap(),
+        thumbnail: true,
+    });
     fileListCards = new FileList('#fileListCards', {
         items: fileList.options.items,
         fileUrl: '#file?id={id}',
@@ -80,6 +88,7 @@ onPageUpdate(() => {
     fileListImages = new FileList('#fileListImages', {
         items: [],
         fileIcon: FileListView.getFileIconMap(),
+        thumbnail: true,
     });
     const imageInput = document.querySelector<HTMLInputElement>('#fileListImageInput');
     const thumbnailToggle = document.querySelector<HTMLInputElement>('#fileListThumbnailToggle');
