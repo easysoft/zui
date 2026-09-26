@@ -1,6 +1,5 @@
 ::-webkit-scrollbar {
-    height: var(--scrollbar-size);
-    width: var(--scrollbar-size);
+    @apply -h-[--scrollbar-size] -w-[--scrollbar-size];
 }
 
 ::-webkit-scrollbar-track {
@@ -14,9 +13,9 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    border-radius: var(--scrollbar-radius);
+    @apply -rounded-[--scrollbar-radius];
     background: var(--scrollbar-bar-bg);
-    min-height: var(--scrollbar-size);
+    @apply -min-h-[--scrollbar-size];
     transition: var(--scrollbar-duration);
     transition-property: background-color;
 }
@@ -45,13 +44,13 @@
 .scrollbar-hover::-webkit-scrollbar,
 .scrollbar-hover::-webkit-scrollbar-thumb,
 .scrollbar-hover::-webkit-scrollbar-track {
-    visibility: hidden;
+    @apply -invisible;
 }
 
 .scrollbar-hover:hover::-webkit-scrollbar,
 .scrollbar-hover:hover::-webkit-scrollbar-thumb,
 .scrollbar-hover:hover::-webkit-scrollbar-track {
-    visibility: visible;
+    @apply -visible;
 }
 
 .scrollbar-light {
