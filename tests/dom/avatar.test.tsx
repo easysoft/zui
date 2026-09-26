@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import {render, screen, within} from '@testing-library/preact';
+import {fireEvent, render, screen, within} from '@testing-library/preact';
 import {describe, expect, it} from 'vitest';
 import {Avatar as AvatarView} from '@zui/avatar/src/component/avatar';
 import {Avatar as AvatarComponent} from '@zui/avatar/src/vanilla';
@@ -29,6 +29,63 @@ describe('Avatar', () => {
         expect(icon.container.querySelector('.avatar')).toHaveClass('has-icon');
         expect(icon.container.querySelector('.icon-user')).not.toBeNull();
         expect(within(icon.container as HTMLElement).queryByText('User')).not.toBeInTheDocument();
+    });
+
+    it('falls back to icons and text with their normal colors and sizing after image errors', () => {
+        const props = {src: '/broken.png', text: '韩梅梅', size: 20, circle: true};
+        const {container, rerender, getByText} = render(<AvatarView {...props} icon="user"><span>Online</span></AvatarView>);
+        const avatar = container.querySelector<HTMLElement>('.avatar')!;
+
+        fireEvent.error(container.querySelector('img')!);
+        expect(container.querySelector('img')).toBeNull();
+        expect(avatar).toHaveClass('has-icon', 'circle');
+        expect(avatar).not.toHaveClass('has-img');
+        expect(avatar.querySelector('.icon-user')).not.toBeNull();
+        expect(avatar.style.background).not.toBe('');
+        expect(avatar.style.color).not.toBe('');
+        expect(getByText('Online')).toBeInTheDocument();
+
+        rerender(<AvatarView {...props} icon="star" />);
+        expect(avatar.querySelector('.icon-star')).not.toBeNull();
+        expect(container.querySelector('img')).toBeNull();
+
+        rerender(<AvatarView {...props} />);
+        expect(avatar).toHaveClass('has-text', 'has-text-2');
+        expect(avatar).not.toHaveClass('has-icon');
+        expect(getByText('梅梅').style.transform).toBe('scale(0.625)');
+
+        rerender(<AvatarView {...props} text={undefined} displayText="AB" background="#ffffff" foreColor="#123456" />);
+        expect(getByText('AB')).toBeInTheDocument();
+        expect(avatar.style.background).toBe('rgb(255, 255, 255)');
+        expect(avatar.style.color).toBe('rgb(18, 52, 86)');
+
+        rerender(<AvatarView src={props.src} />);
+        expect(avatar).toBeEmptyDOMElement();
+    });
+
+    it('retries changed image URLs, including a previously failed URL, and ignores old image errors', () => {
+        const {container, rerender} = render(<AvatarView src="/first.png" text="User" />);
+        const firstImage = container.querySelector('img')!;
+        fireEvent.error(firstImage);
+        expect(container.querySelector('.avatar')).toHaveClass('has-text');
+
+        rerender(<AvatarView src="/second.png" text="User" />);
+        expect(container.querySelector('img')).toHaveAttribute('src', '/second.png');
+        expect(container.querySelector('.avatar')).toHaveClass('has-img');
+        expect(container.querySelector<HTMLElement>('.avatar')!.style.background).toBe('');
+        fireEvent.error(firstImage);
+        expect(container.querySelector('img')).toHaveAttribute('src', '/second.png');
+        fireEvent.error(container.querySelector('img')!);
+        fireEvent.error(firstImage);
+        expect(container.querySelector('img')).toBeNull();
+        expect(container.querySelector('.avatar')).toHaveClass('has-text');
+
+        rerender(<AvatarView src="/first.png" text="User" />);
+        expect(container.querySelector('img')).toHaveAttribute('src', '/first.png');
+        fireEvent.error(container.querySelector('img')!);
+        rerender(<AvatarView text="User" />);
+        rerender(<AvatarView src="/first.png" text="User" />);
+        expect(container.querySelector('img')).toHaveAttribute('src', '/first.png');
     });
 
     it('applies numeric sizing, shape precedence, and text scaling without layout reads', () => {

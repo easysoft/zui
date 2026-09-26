@@ -17,6 +17,7 @@ export interface AvatarOptions {
     saturation?: number;
     lightness?: number;
     hueDistance?: number;
+    /** Image URL. Falls back to icon, then text/displayText, if loading fails. */
     src?: string;
     children?: ComponentChildren | (() => ComponentChildren);
 }

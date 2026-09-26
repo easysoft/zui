@@ -1,5 +1,5 @@
 import {Component, ComponentChildren, JSX} from 'preact';
-import {classes, Icon} from '@zui/core';
+import {classes, Icon, signal} from '@zui/core';
 import {contrastColor, getUniqueCode, hslToRgb} from '@zui/helpers';
 import {AvatarOptions} from '../types/';
 
@@ -14,6 +14,14 @@ function getAvatarText(text: string, maxTextLength: number) {
 }
 
 export class Avatar extends Component<AvatarOptions> {
+    protected _failedSrc = signal<string>();
+
+    componentWillReceiveProps({src}: AvatarOptions) {
+        if (src !== this.props.src) {
+            this._failedSrc.value = undefined;
+        }
+    }
+
     render() {
         const {
             className,
@@ -64,10 +72,23 @@ export class Avatar extends Component<AvatarOptions> {
             }
         }
 
+        const hasImage = !!src && this._failedSrc.value !== src;
         let content: ComponentChildren | undefined;
-        if (src) {
+        if (hasImage) {
             finalClass.push('has-img');
-            content = <img className="avatar-img" src={src} alt={text || ''} />;
+            content = (
+                <img
+                    key={src}
+                    className="avatar-img"
+                    src={src}
+                    alt={text || ''}
+                    onError={() => {
+                        if (this.props.src === src) {
+                            this._failedSrc.value = src;
+                        }
+                    }}
+                />
+            );
         } else if (icon) {
             finalClass.push('has-icon');
             content = <Icon icon={icon} />;
@@ -83,7 +104,7 @@ export class Avatar extends Component<AvatarOptions> {
             content = <div data-actualSize={actualSize} className="avatar-text" style={textStyle}>{finalDisplayText}</div>;
         }
 
-        if (!src) {
+        if (!hasImage) {
             if (background === undefined) {
                 const avatarCode = (code ?? text ?? displayText) || '';
                 const hue = (typeof avatarCode === 'number' ? avatarCode : getUniqueCode(avatarCode)) * hueDistance % 360;
