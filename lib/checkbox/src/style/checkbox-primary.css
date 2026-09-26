@@ -32,8 +32,7 @@
 .radio-primary > label::after {
   @apply  -bg-[--checkbox-color] -rounded-full -opacity-0;
   --checkbox-radio-size: calc(var(--checkbox-size) * 2 / 3);
-  width: var(--checkbox-radio-size);
-  height: var(--checkbox-radio-size);
+  @apply -w-[--checkbox-radio-size] -h-[--checkbox-radio-size];
   top: calc((20px - var(--checkbox-radio-size)) / 2);
   left: calc((var(--checkbox-size) - var(--checkbox-radio-size)) / 2);
 }

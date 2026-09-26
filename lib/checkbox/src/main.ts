@@ -1,3 +1,3 @@
 export * from './types';
 export * from './vanilla';
-import './style/index.css';
+import './style';
