@@ -35,7 +35,7 @@
 
 .tree-item > .active {
   background: var(--menu-active-bg);
-  color: var(--menu-active-color);
+  @apply -text-[--menu-active-color];
 }
 .tree-item > .selected {
   background: var(--menu-selected-bg);
