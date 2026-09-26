@@ -59,13 +59,14 @@ class TestWrapper extends ComponentFromReact<ViewProps, TestView> {
 
 interface ReplaceViewProps extends HElementProps {
     label?: string;
+    onChildUnmount?: () => void;
 }
 
 class ReplaceView extends HElement<ReplaceViewProps> {
     static NAME = 'ReplaceView';
 
     protected _getChildren(props: RenderableProps<ReplaceViewProps>) {
-        return props.label;
+        return [props.label, props.onChildUnmount ? <TestView label="nested" onUnmount={props.onChildUnmount} /> : null];
     }
 }
 
@@ -139,6 +140,52 @@ describe('ComponentFromReact', () => {
         expect(replacement.classList.contains('original')).toBe(true);
         expect(replacement.dataset.source).toBe('markup');
         expect(replacement.hasAttribute(`z-gid-${wrapper.$?.gid}`)).toBe(true);
+    });
+
+    it.each([undefined, true, false])('unmounts its own tree and preserves siblings ($replace=%s)', async (replace) => {
+        const parent = document.createElement('div');
+        const host = document.createElement('section');
+        const siblingHost = document.createElement('section');
+        const untouched = document.createElement('span');
+        untouched.textContent = 'untouched';
+        parent.append(host, siblingHost, untouched);
+        document.body.append(parent);
+
+        const onUnmount = vi.fn();
+        const onChildUnmount = vi.fn();
+        const onSiblingUnmount = vi.fn();
+        const wrapper = new ReplaceWrapper(host, {
+            $replace: replace,
+            label: 'first',
+            onUnmount,
+            onChildUnmount,
+        });
+        const sibling = new ReplaceWrapper(siblingHost, {label: 'sibling', onUnmount: onSiblingUnmount});
+        await flushAnimationFrame();
+        const view = wrapper.$;
+        wrapper.render({label: 'updated'});
+        expect(wrapper.$).toBe(view);
+        expect(within(parent).getByText('nested:0')).toBeInTheDocument();
+        expect(onChildUnmount).not.toHaveBeenCalled();
+
+        wrapper.destroy();
+        wrapper.destroy();
+
+        expect(onUnmount).toHaveBeenCalledOnce();
+        expect(onChildUnmount).toHaveBeenCalledOnce();
+        expect(wrapper.$).toBeNull();
+        expect(Component.ALL.get(host)).toBeUndefined();
+        expect(within(parent).queryByText('updated')).not.toBeInTheDocument();
+        expect(within(parent).queryByText('nested:0')).not.toBeInTheDocument();
+        expect(host.isConnected).toBe(replace === false);
+        expect(onSiblingUnmount).not.toHaveBeenCalled();
+        expect(untouched).toBeInTheDocument();
+        sibling.render({label: 'sibling updated'});
+        expect(within(parent).getByText('sibling updated')).toBeInTheDocument();
+
+        sibling.destroy();
+        expect(onSiblingUnmount).toHaveBeenCalledOnce();
+        expect(untouched).toBeInTheDocument();
     });
 
     it('can render component HTML without creating a vanilla instance', () => {

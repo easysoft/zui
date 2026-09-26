@@ -71,7 +71,9 @@ export class ComponentFromReact<O extends object = object, C extends ComponentRe
     destroy() {
         // Unmount the whole Preact tree so nested components run their cleanup (componentWillUnmount, effect teardown) instead of leaking.
         if (this._renderContainer) {
-            render(null, this._renderContainer);
+            // Preact stores a replacement tree on the replaced node.
+            const replaceNode = this._renderContainer === this.element ? undefined : this.element;
+            render(null, this._renderContainer, replaceNode);
             this._renderContainer = undefined;
         }
         this._ref.current = null;
