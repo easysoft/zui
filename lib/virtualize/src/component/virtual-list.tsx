@@ -1,7 +1,7 @@
 import {HElement, classes} from '@zui/core';
 import {createVirtualizer} from '../virtualizer';
 import '@zui/utilities';
-import '../style/virtual-list.css';
+import '../style';
 
 import type {ComponentChildren, JSX, RenderableProps} from 'preact';
 import type {Virtualizer, ScrollToOptions, VirtualItem} from '@tanstack/virtual-core';

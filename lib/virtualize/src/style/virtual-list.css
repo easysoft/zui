@@ -5,5 +5,5 @@
 
 .virtual-list-item {
     /* A core size includes the item's border and padding, even without base.css. */
-    box-sizing: border-box;
+    @apply -box-border;
 }
