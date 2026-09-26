@@ -107,6 +107,9 @@
 .file-selector-grid  .file-selector-rename-text {
   @apply -w-full;
 }
+.file-selector-grid  .file-selector-rename > .item-title {
+  @apply -hidden;
+}
 .is-dragging .file-selector-grid {
   @apply -bg-primary-50 -border -border-primary-400;
 }
