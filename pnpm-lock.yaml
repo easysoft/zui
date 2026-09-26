@@ -1050,6 +1050,9 @@ importers:
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
+      '@zui/file-list':
+        specifier: workspace:*
+        version: link:../file-list
       '@zui/form-control':
         specifier: workspace:^0.0.1
         version: link:../form-control

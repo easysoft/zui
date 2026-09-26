@@ -2,17 +2,16 @@ import {createRef} from 'preact';
 import {CustomContent, HElement, classes, mergeProps, nextGid, $, toCssSize} from '@zui/core';
 import {formatBytes, convertBytes, formatString} from '@zui/helpers';
 import {Button} from '@zui/button/react';
-import {Listitem} from '@zui/list/react';
+import {FileList as FileListView} from '@zui/file-list/react';
 import {Modal} from '@zui/modal';
 import i18nData from '../i18n';
 
 import type {ComponentChildren, RefObject, RenderableProps, JSX} from 'preact';
-import type {ClassNameLike, CustomContentType, IconType} from '@zui/core';
+import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {ButtonProps} from '@zui/button';
 import type {ModalAlertOptions, ModalConfirmOptions} from '@zui/modal';
 import type {Item} from '@zui/common-list';
 import type {ToolbarSetting} from '@zui/toolbar';
-import type {AvatarOptions} from '@zui/avatar';
 import type {FileInfo, FileSelectorProps, FileSelectorState, StaticFileInfo} from '../types';
 
 /**
@@ -45,9 +44,6 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     protected _id = `file-selector-input-${nextGid()}`;
 
     protected _data: DataTransfer = new DataTransfer();
-
-    /** Object URLs created for local image previews. */
-    protected _objectURLs = new Map<File, string>();
 
     protected _skipAddMore?: boolean;
 
@@ -117,12 +113,6 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             initFiles.forEach(file => this._data.items.add(file));
             this._syncFiles();
         }
-    }
-
-    componentWillUnmount(): void {
-        this._objectURLs.forEach(url => URL.revokeObjectURL(url));
-        this._objectURLs.clear();
-        super.componentWillUnmount();
     }
 
     getFile(id: string) {
@@ -349,7 +339,6 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             this._data.items.remove(dataIndex);
         }
         this._data.items.add(newFile);
-        this._revokeObjectURL(originFile);
         this._syncFiles(true);
         return newFile;
     }
@@ -430,7 +419,6 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             if (dataIndex >= 0) {
                 this._data.items.remove(dataIndex);
             }
-            this._revokeObjectURL(fileInfo.file);
         }
 
         if (this.state.files.includes(fileInfo)) {
@@ -462,27 +450,12 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     }
 
     protected _rebuildData(files: FileInfo[]) {
-        const nextFiles = new Set(files.flatMap(file => file.file ? [file.file] : []));
-        this._objectURLs.forEach((url, file) => {
-            if (!nextFiles.has(file)) {
-                URL.revokeObjectURL(url);
-                this._objectURLs.delete(file);
-            }
-        });
         this._data = new DataTransfer();
         files.forEach((file) => {
             if (file.file) {
                 this._data.items.add(file.file);
             }
         });
-    }
-
-    protected _revokeObjectURL(file: File) {
-        const url = this._objectURLs.get(file);
-        if (url) {
-            URL.revokeObjectURL(url);
-            this._objectURLs.delete(file);
-        }
     }
 
     protected _showAlert(tip: string | ModalAlertOptions, formatData?: Record<string, unknown>) {
@@ -628,52 +601,6 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         return views;
     }
 
-    protected _getIcon(file: FileInfo): IconType | undefined {
-        let {fileIcons} = this.props;
-        if (!fileIcons) {
-            return;
-        }
-        if (typeof fileIcons === 'string') {
-            fileIcons = {default: fileIcons};
-        }
-        return fileIcons[file.ext] ?? fileIcons.default;
-    }
-
-    protected _getThumbnail(file: FileInfo) {
-        if ((file.file || file.url) && this.props.thumbnail && this.constructor.isImage(file)) {
-            if (file.url) {
-                return file.url;
-            }
-            const localFile = file.file!;
-            let url = this._objectURLs.get(localFile);
-            if (!url) {
-                url = URL.createObjectURL(localFile);
-                this._objectURLs.set(localFile, url);
-            }
-            return url;
-        }
-    }
-
-    protected _getAvatar(file: FileInfo): AvatarOptions | undefined {
-        const thumbnail = this._getThumbnail(file);
-        let avatar: AvatarOptions | undefined;
-        if (thumbnail) {
-            avatar = {src: thumbnail};
-        } else {
-            const icon = this._getIcon(file);
-            if (icon) {
-                avatar = {icon};
-            }
-        }
-        if (avatar) {
-            return {
-                size: this.props.mode === 'grid' ? undefined : 'sm',
-                ...avatar,
-            };
-        }
-        return avatar;
-    }
-
     protected _getFileActions(file: FileInfo): ToolbarSetting<[Item]> | undefined {
         if (this.props.disabled) {
             return;
@@ -712,20 +639,15 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         return actions;
     }
 
-    protected _renderFile(file: FileInfo) {
+    protected _getFileItemProps(file: FileInfo) {
         const {itemProps} = this.props;
-        const finalItemProps = mergeProps({
+        const renaming = file.id === this.state.renaming;
+        return mergeProps({
             className: this.props.mode === 'grid' ? 'file-selector-grid-item' : 'file-selector-item',
-            multiline: false,
-            title: file.name,
             subtitle: formatBytes(file.size, 1),
-            avatar: this._getAvatar(file),
-            actions: this._getFileActions(file),
+            actions: renaming ? undefined : this._getFileActions(file),
             'z-id': file.id,
-        }, typeof itemProps === 'function' ? itemProps.call(this, file) : itemProps);
-        return (
-            <Listitem key={file.id} {...finalItemProps} />
-        );
+        }, renaming ? this._getFileRenameProps(file) : undefined, typeof itemProps === 'function' ? itemProps.call(this, file) : itemProps);
     }
 
     protected _handleRenameChange = (event: Event) => {
@@ -734,8 +656,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         });
     };
 
-    protected _renderFileRename(file: FileInfo) {
-        const {itemProps} = this.props;
+    protected _getFileRenameProps(file: FileInfo) {
         const {newName = file.name} = this.state;
         const isGrid = this.props.mode === 'grid';
         const renameText = (
@@ -744,21 +665,18 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
                 <input type="text" defaultValue={file.name} className="form-control size-sm select-all file-selector-rename-input" autofocus onBlur={isGrid ? this.stopRenameFile : undefined} onChange={this._handleRenameChange} onInput={this._handleRenameChange} />
             </div>
         );
-        const finalItemProps = mergeProps({
-            className: `${isGrid ? 'file-selector-grid-item' : 'file-selector-item'} is-renaming`,
-            multiline: false,
-            avatar: this._getAvatar(file),
-            'z-id': file.id,
+        return {
+            className: 'is-renaming',
+            title: undefined,
+            subtitle: undefined,
+            actions: undefined,
             contentClass: 'file-selector-rename',
             content: isGrid ? renameText : [
                 renameText,
                 <Button icon="check" text={this.i18n('confirm')} type="primary-pale" size="sm" onClick={this.stopRenameFile} />,
                 <Button icon="close" text={this.i18n('cancel')} type="gray-pale" size="sm" onClick={this.cancelRenameFile} />,
             ],
-        }, typeof itemProps === 'function' ? itemProps.call(this, file) : itemProps);
-        return (
-            <Listitem key={file.id} {...finalItemProps} />
-        );
+        };
     }
 
     protected _handleClick = (event: MouseEvent) => {
@@ -778,29 +696,44 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         }
     };
 
-    protected _renderList(_props: RenderableProps<P>) {
-        const {files, renaming} = this.state;
-        return (
-            <div key="list" className={`file-selector-list${files.length ? '' : ' is-empty'}`} onClick={this._handleClick}>
-                {files.map(file => file.id === renaming ? this._renderFileRename(file) : this._renderFile(file))}
-            </div>
-        );
-    }
-
-    protected _renderGrid(props: RenderableProps<P>) {
-        const draggableProps = this._getDraggableProps();
-        const {gridWidth = 120, gridHeight = 148, gridGap = 12} = props;
-        const style = {
+    protected _renderList(props: RenderableProps<P>) {
+        const {mode, thumbnail, fileIcons, gridWidth = 120, gridHeight = 148, gridGap = 12} = props;
+        const isGrid = mode === 'grid';
+        const {files} = this.state;
+        const style = isGrid ? {
             '--file-selector-grid-width': toCssSize(gridWidth),
             '--file-selector-grid-height': toCssSize(gridHeight),
             '--file-selector-grid-gap': toCssSize(gridGap),
-        };
-        const {files, renaming} = this.state;
+        } : undefined;
         return (
-            <div key="grid" className="file-selector-grid" style={style as unknown as JSX.CSSProperties} onClick={this._handleClick} {...draggableProps}>
-                {files.map(file => file.id === renaming ? this._renderFileRename(file) : this._renderFile(file))}
-                {this._renderUpload(props)}
-            </div>
+            <FileListView
+                key="list"
+                className={isGrid ? 'file-selector-grid' : `file-selector-list${files.length ? '' : ' is-empty'}`}
+                style={style as JSX.CSSProperties}
+                onClick={this._handleClick}
+                {...(isGrid ? this._getDraggableProps() : {})}
+                items={files.map((file) => {
+                    const showThumbnail = thumbnail && this.constructor.isImage(file);
+                    return {
+                        id: file.id,
+                        title: file.name,
+                        extension: file.ext,
+                        size: file.size,
+                        pathname: '',
+                        addedBy: '',
+                        addedDate: '',
+                        file: showThumbnail ? file.file : undefined,
+                        thumbnail: showThumbnail ? file.url : undefined,
+                    };
+                })}
+                fileIcon={({extension}) => typeof fileIcons === 'string' ? fileIcons : (fileIcons?.[extension] ?? fileIcons?.default ?? '')}
+                thumbnail={{size: isGrid ? undefined : 'sm'}}
+                beforeRenderItem={(item, index) => {
+                    mergeProps(item, this._getFileItemProps(files[index]));
+                }}
+            >
+                {isGrid ? this._renderUpload(props) : null}
+            </FileListView>
         );
     }
 
@@ -812,7 +745,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         const isGrid = props.mode === 'grid';
         return [
             isGrid ? null : this._renderUpload(props),
-            isGrid ? this._renderGrid(props) : this._renderList(props),
+            this._renderList(props),
             this._renderInput(props),
             this._renderForForm(props),
         ];
