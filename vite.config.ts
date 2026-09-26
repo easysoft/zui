@@ -4,7 +4,6 @@ import {execSync} from 'child_process';
 import glob from 'fast-glob';
 import {defineConfig, mergeConfig, type UserConfig, type LibraryOptions} from 'vite';
 import {blue} from 'colorette';
-import eslint from 'vite-plugin-eslint';
 import {viteZip} from 'vite-plugin-zip-file';
 import preact from '@preact/preset-vite';
 import configDevServer from './scripts/dev/config-server';
@@ -117,7 +116,6 @@ export default defineConfig(async ({mode}) => {
 
     viteConfig = mergeConfig(viteConfig, {
         plugins: [
-            eslint(),
             ...(mode === 'development' ? [
                 preact(),
                 configDevServer({

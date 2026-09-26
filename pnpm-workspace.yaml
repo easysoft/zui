@@ -6,3 +6,13 @@ packages:
   - "!exts"
 allowBuilds:
   esbuild: true
+overrides:
+  # Keep the legacy transforms on the patched PostCSS API used by the build.
+  "postcss-inset@1.0.0>postcss": "^8.5.28"
+  "postcss-rem-to-pixel@4.1.2>postcss": "^8.5.28"
+  # VitePress 1.x pins an unsupported Vite 5; plugin-vue 5 supports Vite 6.
+  "vitepress@1.6.4>vite": "6.4.3"
+patchedDependencies:
+  # Preserve plugin behavior while aligning their declarations with MarkdownIt 14.
+  "markdown-it-anchor@8.6.7": "patches/markdown-it-anchor@8.6.7.patch"
+  "markdown-it-toc-done-right@4.2.0": "patches/markdown-it-toc-done-right@4.2.0.patch"

@@ -37,7 +37,7 @@
         "./src/**/*"
     ],
     "devDependencies": {
-        "@faker-js/faker": "^8.4.1",
+        "@faker-js/faker": "^10.5.0",
         "@zui/button": "workspace:^0.0.1",
         "@zui/dropdown": "workspace:^0.0.1",
         "@zui/form": "workspace:^0.0.1",

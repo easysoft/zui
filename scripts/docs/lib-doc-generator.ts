@@ -1,7 +1,7 @@
 import MarkdownIt from 'markdown-it';
 import markdownItAnchor from 'markdown-it-anchor';
 import markdownItTocDoneRight from 'markdown-it-toc-done-right';
-import Token from 'markdown-it/lib/token';
+import type Token from 'markdown-it/lib/token.mjs';
 import hljs from 'highlight.js';
 
 const markdownIt: MarkdownIt = new MarkdownIt('default', {

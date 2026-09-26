@@ -53,6 +53,10 @@ gh api repos/easysoft/zui/rules/branches/main
 
 ## 本地验证
 
+PR、main/夜间检查和 dev 文档部署在安装锁定依赖后运行 `pnpm audit --audit-level=high`，发现 high/critical 漏洞或审计服务失败时阻止后续检查和部署。审计覆盖开发依赖；不使用忽略名单或 `--ignore-registry-errors`。CI 使用 Node.js 22 系列最新补丁，pnpm 版本继续固定为仓库约定的 12.5.1。
+
+pnpm 安装 Action 固定为支持 pnpm 12 原生发行方式的 `pnpm/action-setup` 6.1.0，并锁定完整提交 SHA。升级时需同时验证安装、缓存路径和 frozen-lockfile 行为。
+
 按变更范围运行 `pnpm check`、`pnpm test:build`、文档构建和 Chromium 检查。构建、文档及浏览器验证会写入生成目录，应在隔离副本中执行，避免覆盖已有 `build/`、`dist/`、`docs/_` 和测试报告。
 
 本地通过用于提交前验证，不能冒充或替代 GitHub 必需检查的状态。

@@ -1,0 +1,9 @@
+diff --git a/types/index.d.ts b/types/index.d.ts
+--- a/types/index.d.ts
++++ b/types/index.d.ts
+@@ -2 +2 @@
+-    import MarkdownIt from 'markdown-it/lib'
++    import type { PluginWithOptions } from 'markdown-it' with { 'resolution-mode': 'import' }
+@@ -25 +25 @@
+-    const markdownItTocDoneRight: MarkdownIt.PluginWithOptions<Partial<TocOptions>>
++    const markdownItTocDoneRight: PluginWithOptions<Partial<TocOptions>>

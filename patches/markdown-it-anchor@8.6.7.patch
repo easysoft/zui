@@ -1,0 +1,10 @@
+diff --git a/types/index.d.ts b/types/index.d.ts
+--- a/types/index.d.ts
++++ b/types/index.d.ts
+@@ -1,3 +1,3 @@
+-import MarkdownIt = require('markdown-it');
+-import Token = require('markdown-it/lib/token');
+-import State = require('markdown-it/lib/rules_core/state_core');
++import type MarkdownIt from 'markdown-it' with { 'resolution-mode': 'import' };
++import type Token from 'markdown-it/lib/token.mjs';
++import type State from 'markdown-it/lib/rules_core/state_core.mjs';

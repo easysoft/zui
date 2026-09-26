@@ -12,7 +12,7 @@ ZUI 3 是一个不依赖 JavaScript 框架的 Web UI 组件库。以 pnpm worksp
 pnpm install               # 安装依赖
 pnpm dev                   # 启动开发服务器，自动遍历 lib/* 生成左侧导航
 pnpm dev:exts              # 带扩展库 (exts/) 一起开发
-pnpm lint                  # 运行 ESLint（vite 也会通过 vite-plugin-eslint 实时检查）
+pnpm lint                  # 独立运行 ESLint（开发和构建不隐式执行 lint）
 pnpm typecheck             # 检查源码、工具和测试的 TypeScript 类型
 pnpm test                  # 运行 Vitest 单元测试与 jsdom 组件测试
 pnpm test:coverage         # 运行单元/DOM 测试并生成覆盖率
@@ -101,7 +101,7 @@ build/、dist/、publish/   构建中间产物 / 最终产物（gitignored）
 
 ## 代码风格与约定
 
-- ESLint 配置 `eslint.config.js`：基于 `@stylistic` 自定义化 —— **4 空格缩进**、**末尾分号**、**1tbs 大括号**、对象大括号紧贴（`{a: 1}` 而非 `{ a: 1 }`）、`quoteProps: as-needed`。提交前跑 `pnpm lint` 或依赖 vite-plugin-eslint。
+- ESLint 配置 `eslint.config.js`：基于 `@stylistic` 自定义化 —— **4 空格缩进**、**末尾分号**、**1tbs 大括号**、对象大括号紧贴（`{a: 1}` 而非 `{ a: 1 }`）、`quoteProps: as-needed`。提交前跑 `pnpm lint`；开发和构建不隐式执行 lint。
 - 未使用变量以 `_` 开头可豁免（`argsIgnorePattern: '^_'`）。
 - TS 严格模式开启，但 `noImplicitReturns: false`；类型路径走 `@zui/*` 别名。
 
