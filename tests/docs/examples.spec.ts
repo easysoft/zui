@@ -154,8 +154,36 @@ async function exercise(page: Page, key: string) {
                 await list.getByRole('link', {name: /使用指南\.pdf/}).click();
                 await expect(page).toHaveURL(/#filesIcons$/);
             }
+            if (key === 'files-multiline') {
+                await expect(list.locator('.listitem')).toHaveClass(/multiline/);
+                await expect(list.locator('.item-content')).toHaveCSS('flex-direction', 'column');
+                await expect(list.locator('.item-subtitle')).toHaveText('大小：2.00KB');
+                await expect(list.locator('.avatar')).toBeVisible();
+            }
             if (key === 'files-cards' || key === 'files-inline') {
                 await expect(list.locator('.file-list')).toHaveClass(/file-list-cards/);
+            }
+            if (key === 'files-grid') {
+                await expect(list.locator('.file-list-grid')).toHaveCSS('gap', '12px');
+                await expect(list.locator('.file-list-grid')).toHaveCSS('flex-wrap', 'wrap');
+                await expect(list.locator('.file-list-grid-cell > .listitem').first()).toHaveCSS('width', '132px');
+                await expect(list.locator('.avatar').first()).toHaveCSS('width', '132px');
+                const actions = list.locator('.item-actions').first();
+                const button = list.getByRole('button', {name: /查看$/}).first();
+                await page.mouse.move(0, 0);
+                await expect(actions).toHaveCSS('opacity', '0');
+                await button.focus();
+                await expect(actions).toHaveCSS('opacity', '1');
+                await button.press('Enter');
+                await expect(page.locator('#filesGridResult')).toHaveText('已选择：使用指南.pdf');
+            }
+            if (key === 'files-limited') {
+                await expect(list.locator('.file-list-item')).toHaveCount(2);
+                await expect(list.getByText('会议记录.txt', {exact: true})).toHaveCount(0);
+                await list.getByRole('button', {name: '显示更多（剩余 1 个）'}).click();
+                await expect(list.locator('.file-list-item')).toHaveCount(3);
+                await expect(list.getByText('会议记录.txt', {exact: true})).toBeVisible();
+                await expect(list.locator('.list-show-more')).toHaveCount(0);
             }
             if (key === 'files-actions') {
                 await expect(list.locator('.file-list-item')).toHaveCount(1);
