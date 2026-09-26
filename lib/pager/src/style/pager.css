@@ -21,8 +21,8 @@
 }
 
 zui-pager {
-  display: block;
+  @apply -block;
 }
 zui-pager > .zui-webc-mount {
-  display: contents;
+  @apply -contents;
 }
