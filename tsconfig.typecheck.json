@@ -28,7 +28,8 @@
         "./vite.config.ts",
         "./vite.shared.ts",
         "./vitest.config.ts",
-        "./playwright.config.ts"
+        "./playwright.config.ts",
+        "./playwright.docs.config.ts"
     ],
     "exclude": [
         "./build",

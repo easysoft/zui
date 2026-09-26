@@ -20,6 +20,7 @@ pnpm test:skills           # 验证仓库内 ZUI 技能脚本
 pnpm test:build            # 验证 ESM/UMD/CSS/source map/ZIP/--noCash 构建消费契约
 pnpm test:e2e              # 使用 Chromium 运行 Playwright（需先安装浏览器）
 pnpm test:e2e:all          # 使用 Chromium、Firefox、WebKit 运行 Playwright
+pnpm test:docs             # 用 Chromium 验收已构建的官网示例（先运行 docs:build）
 pnpm check                 # lint + typecheck + 单元/DOM + skills 的常用提交前检查
 pnpm build                 # 走自定义构建管线 scripts/build/index.ts，会汇总 lib/*、生成临时 build/ 目录后再调 build:vite
 pnpm build:vite            # tsc 类型检查 + 单次 vite build（一般不直接用，由 scripts/build 调用）

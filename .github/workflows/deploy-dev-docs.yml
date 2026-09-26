@@ -34,6 +34,20 @@ jobs:
         run: pnpm check
       - name: Build
         run: BASE_PATH=/zui/dev/ pnpm docs:build
+      - name: Install Chromium for documentation checks
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Verify documentation examples
+        run: BASE_PATH=/zui/dev/ pnpm test:docs --workers=1 --fail-on-flaky-tests
+      - name: Upload documentation diagnostics
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: dev-docs-results
+          path: |
+            playwright-report/docs/
+            test-results/docs/
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Upload documentation
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:

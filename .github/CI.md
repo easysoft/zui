@@ -60,3 +60,15 @@ pnpm 安装 Action 固定为支持 pnpm 12 原生发行方式的 `pnpm/action-se
 按变更范围运行 `pnpm check`、`pnpm test:build`、文档构建和 Chromium 检查。构建、文档及浏览器验证会写入生成目录，应在隔离副本中执行，避免覆盖已有 `build/`、`dist/`、`docs/_` 和测试报告。
 
 本地通过用于提交前验证，不能冒充或替代 GitHub 必需检查的状态。
+
+## 官网示例门禁
+
+PR 的 `Distribution and documentation builds` 在文档构建后运行 `pnpm test:docs --workers=1 --fail-on-flaky-tests`，检查构建后的快速上手、Tree、SearchBox 和 FileList 页面。main 和 dev 也在上传文档产物之前运行同一检查，失败时不上传用于部署的站点。必需检查名称保持不变。
+
+本地先运行 `pnpm docs:build`，再运行 `pnpm test:docs`。浏览器检查不隐式重建文档；默认在端口 4174 临时预览产物，结束后关闭自身服务。端口被占用时会失败，不能停止不属于本任务的服务。
+
+构建和检查必须使用相同的 `BASE_PATH`。例如，main 使用 `BASE_PATH=/zui/3/`，dev 使用 `BASE_PATH=/zui/dev/`；两步都要传入该变量。截图和 trace 位于 `test-results/docs/`，HTML 报告位于 `playwright-report/docs/`，CI 会上传诊断产物。
+
+部署后，可通过 `PLAYWRIGHT_DOCS_BASE_URL=https://实际站点/部署目录/ pnpm test:docs --workers=1` 复测。URL 以斜杠结尾，指向网站根目录；此模式不启动本地服务。部署验收须使用与产物对应的源码快照，核对四页内容和同一次 CI 的部署产物。复制代码检查只将新页面导航定向到测试生成的独立 HTML，不写入远程网站。
+
+新增示例遵循现有 `<Example>`、`<ZUI>` 和代码标签写法，完整运行示例用 `data-doc-example` 标识。官网测试直接提取页面代码，不复制到独立 fixture；新增标识时同时补充行为断言。第三方 CDN 在修改版本或地址时单独检查，不成为 PR 的网络依赖。

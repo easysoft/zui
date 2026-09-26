@@ -35,6 +35,7 @@
     "test:skills": "node --test skills/zui/scripts/inspect-zui-project.test.mjs tests/skills/*.test.mjs",
     "test:build": "vitest run --project build",
     "test:e2e": "playwright test",
+    "test:docs": "playwright test --config playwright.docs.config.ts",
     "test:e2e:all": "tsx ./scripts/tests/e2e-all.ts",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm test:skills",
     "docs:dev-fast": "cd docs && pnpm dev",
