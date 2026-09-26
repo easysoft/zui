@@ -1,321 +1,184 @@
 # 树形菜单
 
-## 一般用法
+用层级菜单展示组织、目录和导航。以下示例以已按[快速上手](/guide/start/)加载 ZUI 为前提。
 
-以团队组织结构为例：技术中心下设研发、测试与运维团队，客户端研发继续区分桌面端和移动端。展开节点可查看下级团队。
+## 基础用法
+
+点击技术中心左侧的箭头展开或折叠团队。
+<div id="tree-basic" data-doc-example="tree-basic">
+
+::: tabs
+
+== 示例
 
 <Example>
- <div id="treeExample"></div>
+  <ZUI id="treeBasic" use="tree" :options="treeBasicOptions" />
 </Example>
 
+== HTML
+
 ```html
-<div id="treeExample"></div>
+<div id="treeBasic"></div>
 
 <script>
-const tree = new zui.Tree('#treeExample', {
-    items: [
-        {
-            text: '技术中心',
-            url: '#技术中心',
-            items: [
-                {text: '前端研发', url: '#前端研发'},
-                {
-                    text: '客户端研发',
-                    url: '#客户端研发',
-                    items: [
-                        {text: '桌面端', url: '#桌面端'},
-                        {text: '移动端', url: '#移动端'},
-                    ]
-                },
-                {text: '测试', url: '#测试'},
-                {text: '运维', url: '#运维'},
-            ]
-        },
-        {text: '市场', url: '#市场'},
-        {text: '技术支持', url: '#技术支持'},
-        {text: '财务', url: '#财务'},
-        {text: '行政', url: '#行政'},
-    ],
-});
+const instance = new zui.Tree('#treeBasic', {items: [{id: 'team', text: '技术中心', items: [{id: 'dev', text: '研发团队'}, {id: 'qa', text: '测试团队'}]}]});
 </script>
 ```
 
-## 添加图标
+:::
+
+</div>
+
+## 节点图标
+
+图标名称来自 ZUI 图标库；定制构建时需包含 icons。
+<div id="tree-icons" data-doc-example="tree-icons">
+
+::: tabs
+
+== 示例
 
 <Example>
- <div id="treeWithIcons"></div>
+  <ZUI id="treeIcons" use="tree" :options="treeIconsOptions" />
 </Example>
 
+== HTML
+
 ```html
-<div id="treeWithIcons"></div>
+<div id="treeIcons"></div>
 
 <script>
-const tree = new zui.Tree('#treeExample', {
-    collapsedIcon: 'folder',
-    expandedIcon: 'folder-open',
-    normalIcon: 'file',
-    items: [...],
-});
+const instance = new zui.Tree('#treeIcons', {items: [{id: 'team', text: '技术中心', items: [{id: 'dev', text: '研发团队'}, {id: 'qa', text: '测试团队'}]}], collapsedIcon: 'folder-close', expandedIcon: 'folder-open', normalIcon: 'file'});
 </script>
 ```
 
-## 鼠标悬停效果
+:::
+
+</div>
+
+## 悬停与连接线
+
+可同时启用悬停效果、连接线和默认展开。
+<div id="tree-hover" data-doc-example="tree-hover">
+
+::: tabs
+
+== 示例
 
 <Example>
- <div id="treeHover"></div>
+  <ZUI id="treeHover" use="tree" :options="treeHoverOptions" />
 </Example>
+
+== HTML
 
 ```html
 <div id="treeHover"></div>
 
 <script>
-const tree = new zui.Tree('#treeHover', {
-    collapsedIcon: 'folder',
-    expandedIcon: 'folder-open',
-    normalIcon: 'file',
-    hover: true,
-    items: [...],
-});
+const instance = new zui.Tree('#treeHover', {items: [{id: 'team', text: '技术中心', items: [{id: 'dev', text: '研发团队'}, {id: 'qa', text: '测试团队'}]}], hover: true, lines: true, defaultNestedShow: true});
 </script>
 ```
 
-## 添加工具栏
+:::
 
-通过选项 `itemActions` 来设置工具栏，可用选项参考 [工具栏](/lib/components/toolbar/) 文档。
+</div>
+
+## 工具栏与事件
+
+条目点击回调接收一个包含 item、index、event 的对象；onToggle 返回 false 可以取消本次展开或折叠。
+<div id="tree-actions" data-doc-example="tree-actions">
+
+::: tabs
+
+== 示例
 
 <Example>
- <div id="treeWithActions"></div>
+  <ZUI id="treeActions" use="tree" :options="treeActionsOptions" />
+<output id="treeActionsResult" aria-live="polite">等待操作</output>
 </Example>
 
+== HTML
+
 ```html
-<div id="treeWithActions"></div>
+<div id="treeActions"></div>
+<output id="treeActionsResult" aria-live="polite">等待操作</output>
 
 <script>
-const tree = new zui.Tree('#treeWithActions', {
-    collapsedIcon: 'folder',
-    expandedIcon: 'folder-open',
-    normalIcon: 'file',
-    hover: true,
-    itemActions: {
-        items: [
-            {
-                key: 'edit',
-                icon: 'edit',
-                hint: '编辑',
-                onClick: (e) => console.log(e),
-            },
-            {
-                key: 'delete',
-                icon: 'trash',
-                hint: '删除',
-                onClick: (e) => console.log(e),
-            },
-            {
-                type: 'dropdown',
-                key: 'more',
-                icon: 'ellipsis-v',
-                caret: false,
-                hint: '更多操作',
-                dropdown: {
-                    placement: 'bottom-end',
-                    items: [
-                        {text: '分享', key: 'share'},
-                        {text: '下载', key: 'download'},
-                    ],
-                },
-            },
-        ],
-        onClick: (event, item, index) => console.log('你点击了', {event, item, index}),
+const instance = new zui.Tree('#treeActions', {
+    items: [{id: 'docs', text: '项目文档', items: [{id: 'guide', text: '使用指南'}]}],
+    defaultNestedShow: true,
+    itemActions: [{icon: 'edit', text: '编辑', onClick() {
+        document.querySelector('#treeActionsResult').textContent = '已点击编辑';
+    }}],
+    onClickItem({item}) {
+        document.querySelector('#treeActionsResult').textContent = '选择：' + item.text;
     },
-    items: [...],
+    onToggle(key, expanded) {
+        document.querySelector('#treeActionsResult').textContent = key + (expanded ? ' 已展开' : ' 已折叠');
+    },
 });
 </script>
 ```
 
-<script setup>
-import {onMounted} from 'vue';
+:::
 
-const items = [
-    {
-        text: '技术中心',
-        url: '#技术中心',
-        items: [
-            {text: '前端研发', url: '#前端研发'},
-            {
-                text: '客户端研发',
-                url: '#客户端研发',
-                items: [
-                    {text: '桌面端', url: '#桌面端'},
-                    {text: '移动端', url: '#移动端'},
-                ]
-            },
-            {text: '测试', url: '#测试'},
-            {text: '运维', url: '#运维'},
-        ]
-    },
-    {text: '市场', url: '#市场'},
-    {text: '技术支持', url: '#技术支持'},
-    {text: '财务', url: '#财务'},
-    {text: '行政', url: '#行政'},
-];
-
-const actions = [
-    {
-        key: 'edit',
-        icon: 'edit',
-        hint: '编辑',
-        onClick: (e) => console.log(e),
-    },
-    {
-        key: 'delete',
-        icon: 'trash',
-        hint: '删除',
-        onClick: (e) => console.log(e),
-    },
-    {
-        type: 'dropdown',
-        key: 'more',
-        icon: 'ellipsis-v',
-        caret: false,
-        hint: '更多操作',
-        dropdown: {
-            placement: 'bottom-end',
-            items: [
-                {text: '分享', key: 'share'},
-                {text: '下载', key: 'download'},
-            ],
-        },
-    },
-];
-
-onMounted(() => {
-    onZUIReady(() => {
-        new zui.Tree('#treeExample', {
-            items
-        });
-
-        new zui.Tree('#treeWithIcons', {
-            items,
-            collapsedIcon: 'folder',
-            expandedIcon: 'folder-open',
-            normalIcon: 'file',
-        });
-
-        new zui.Tree('#treeHover', {
-            hover: true,
-            items,
-            collapsedIcon: 'folder',
-            expandedIcon: 'folder-open',
-            normalIcon: 'file',
-        });
-
-        new zui.Tree('#treeWithActions', {
-            hover: true,
-            items,
-            itemActions: {
-                items: actions,
-                onClick: (event, item, index) => console.log('你点击了', {event, item, index}),
-            },
-            collapsedIcon: 'folder',
-            expandedIcon: 'folder-open',
-            normalIcon: 'file',
-        });
-    });
-});
-</script>
+</div>
 
 ## 选项
 
-| 名称 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| `items` | `array` | `null` | 树的数据 |
-| `collapsedIcon` | `string` | `null` | 折叠图标 |
-| `expandedIcon` | `string` | `null` | 展开图标 |
-| `normalIcon` | `string` | `null` | 普通图标 |
-| `hover` | `boolean` | `false` | 鼠标悬停效果 |
-| `itemActions` | `array` `object` `function` | `null` | 工具栏选项，可用选项参考 [工具栏](/lib/components/toolbar/) 文档 |
-| `defaultNestedShow` | `object` | `null` | 默认的折叠状态 |
-| `indent` | `number` | `20` | 缩进大小 |
-| `onClickItem` | `function` | `null` | 点击菜单项的回调函数 |
-| `className` | `string` | `null` | 类名 |
-| `style` | `object` | `null` | 自定义 CSS 样式 |
+Tree 继承 [Menu](/lib/components/menu/) 和 [List](/lib/components/list/) 的选项。常用选项如下；未列出的默认值表示未显式设置。
 
-其中 `itemActions` 可以为工具栏按钮定义列表或工具栏对象或通过函数返回工具栏对象，函数接收参数为当前节点的数据。
+<Props>
+/** 节点数组；子节点通过节点的 items 提供。 */
+items?: NestedListItem[];
+/** 每级缩进，单位像素。 */
+indent?: number = 12;
+/** 是否显示连接线。 */
+lines?: boolean;
+/** 节点工具栏，使用 ListitemProps 的 actions 配置。 */
+itemActions?: ListitemProps['actions'];
+collapsedIcon?: IconType; // 折叠节点图标。
+expandedIcon?: IconType; // 展开节点图标。
+normalIcon?: IconType; // 叶节点图标。
+hover?: boolean; // 鼠标悬停效果。
+defaultNestedShow?: boolean | Record&lt;ItemKey, boolean&gt;; // 非受控展开状态的初始值。
+nestedShow?: boolean | Record&lt;ItemKey, boolean&gt;; // 受控展开状态，由调用方更新。
+</Props>
 
-## 菜单条目定义
+## 事件与节点数据
 
-```ts
-type TreeItemOptions = {
-    /** 作为链接的 URL。 */
-    url?: string;
+- `onClickItem({item, index, event, renderedItem, relativeTarget})`：点击条目；`item` 是节点数据，`event` 是鼠标事件。
+- `onToggle(key, expanded, reset?)`：展开状态变化前调用；返回 `false` 取消变更。使用 `nestedShow` 时，需要调用方更新状态。
+- 节点通过 `id` 标识，`text` 指定文本，`items` 指定子节点；链接使用 `url`，工具栏使用 `actions`。完整结构见 [List 节点类型](/lib/components/list/)。
 
-    /** 作为链接的目标。 */
-    target?: string;
+## 更新与销毁
 
-    /** 是否禁用。 */
-    disabled?: boolean;
+保存 `new zui.Tree(...)` 返回的实例，调用 `instance.render({items: nextItems})` 更新数据；容器移除前调用 `instance.destroy()`。这里的 `nextItems` 是业务提供的新节点数组。
 
-    /** 是否激活。 */
-    active?: boolean;
+框架组件中的创建、更新和清理方式见[在 React 中使用 ZUI vanilla 组件](/lib/basic/core/use-zui-in-react.html)。
 
-    /** 图标。 */
-    icon?: IconType;
+## 键盘与限制
 
-    /** 是否选中。 */
-    checked?: boolean;
+本组件沿用菜单条目的交互。需要键盘访问的节点应提供可聚焦链接或按钮，并为图标操作提供文字或提示；这里不承诺 ARIA tree 的完整方向键导航。工具栏配置参见[工具栏](/lib/components/toolbar/)。
 
-    /** 菜单项文本。 */
-    text?: ComponentChildren;
+<script setup>
+const treeBasicOptions = {items: [{id: 'team', text: '技术中心', items: [{id: 'dev', text: '研发团队'}, {id: 'qa', text: '测试团队'}]}]};
 
-    /** 尾部图标。 */
-    trailingIcon?: IconType;
+const treeIconsOptions = {items: [{id: 'team', text: '技术中心', items: [{id: 'dev', text: '研发团队'}, {id: 'qa', text: '测试团队'}]}], collapsedIcon: 'folder-close', expandedIcon: 'folder-open', normalIcon: 'file'};
 
-    /** 提示文本。 */
-    hint?: string;
+const treeHoverOptions = {items: [{id: 'team', text: '技术中心', items: [{id: 'dev', text: '研发团队'}, {id: 'qa', text: '测试团队'}]}], hover: true, lines: true, defaultNestedShow: true};
 
-    /** 根元素类名。 */
-    rootClass?: ClassNameLike;
-
-    /** 根元素属性。 */
-    rootAttrs?: JSX.HTMLAttributes<HTMLLIElement>;
-
-    /** 根元素样式。 */
-    rootStyle?: JSX.CSSProperties;
-
-    /** 菜单项组件名称。 */
-    component?: string | ComponentType;
-
-    /** 内部键。 */
-    key?: ActionMenuItemKey;
-
-    /** 菜单项类型。 */
-    type?: string;
-
-    /** 菜单项元素属性。 */
-    attrs?: JSX.HTMLAttributes<HTMLElement> & {[key: `data-${string}`]: unknown};
-
-    /** 菜单项元素类名。 */
-    className?: ClassNameLike;
-
-    /** 菜单项元素样式。 */
-    style?: JSX.CSSProperties;
-
-    /** 菜单项自定义内容。 */
-    content?: CustomContentType<[ActionBasicProps]>;
-
-    /** 菜单项点击事件。 */
-    onClick?: JSX.MouseEventHandler<HTMLAnchorElement>;
-
-    /** 菜单项关联数据。 */
-    data?: Record<string, unknown>;
-
-    /** 是否默认展开。 */
-    show?: boolean;
-
-    /** 子级菜单列表。 */
-    items?: T[] | ((currentItem: ActionNestedItemProps<T>, menu: ActionMenuNested<T>) => T[])
-
-    /** 工具栏定义。 */
-    actions?: ToolbarOptions | ToolbarItemOptions[];
+const treeActionsOptions = {
+    items: [{id: 'docs', text: '项目文档', items: [{id: 'guide', text: '使用指南'}]}],
+    defaultNestedShow: true,
+    itemActions: [{icon: 'edit', text: '编辑', onClick() {
+        document.querySelector('#treeActionsResult').textContent = '已点击编辑';
+    }}],
+    onClickItem({item}) {
+        document.querySelector('#treeActionsResult').textContent = '选择：' + item.text;
+    },
+    onToggle(key, expanded) {
+        document.querySelector('#treeActionsResult').textContent = key + (expanded ? ' 已展开' : ' 已折叠');
+    },
 };
-```
+</script>
