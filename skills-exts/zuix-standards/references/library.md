@@ -29,6 +29,7 @@
 - 与项目命名规则一致的目录和 `PACKAGE_NAME`；
 - 项目约定的初始版本与描述；
 - 真实存在的主入口，通常是 `src/main.ts`；
+- 使用 `src/style/` 时提供汇集该目录全部 CSS 的 `src/style/index.ts`，并由实际样式消费入口接入；CSS 声明与入口接线遵循 [布局与样式规范](component.md#布局与样式)；
 - 必要且真实的 `files`、`exports`、`browser` 或 `module`；
 - 准确的 `zui.type`、`displayName`、`contributes`，以及确有需要的 `name`、`replace`、`publicPath`；
 - 只包含真实导入和发布类型解析需要的依赖；

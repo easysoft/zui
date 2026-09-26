@@ -41,7 +41,8 @@ ignored 文件不属于默认未提交范围，用户点名时才纳入。显式
    - listener、timer、observer、portal、实例、缓存及其他资源的初始化、更新与销毁不对称；
    - 安全、数据损坏、无障碍、国际化及有可复现场景的性能退化；
    - Preact 组件违反[状态与副作用规范](../zuix-standards/references/component.md#preact-状态与副作用)：使用 hooks（含 signals hooks），或未在卸载/销毁时清理 `effect`；
-   - ZUI 的 Preact/vanilla 双形态、组件注册、`contributes`、[辅助类优先](../zuix-standards/references/component.md#布局与样式)、Tailwind 前导 `-`、主题和 HMR 约定；
+   - ZUI 的 Preact/vanilla 双形态、组件注册、`contributes`、主题和 HMR 约定；
+   - 按 [布局与样式规范](../zuix-standards/references/component.md#布局与样式) 检查辅助类优先、组件 CSS 中等价 `@apply` 的使用，以及 `src/style/index.ts` 是否显式导入该目录全部 CSS 并接入实际样式消费入口；核实扩展与宿主配置的 Tailwind 前缀、生成效果、层叠顺序及重复导入，保留合理的原生 CSS 和无样式入口契约。仅书写方式可优化时，不据此判定运行时缺陷；
    - 扩展兄弟包与宿主库的真实公开 package name、依赖协议和导出契约，不通过相对路径或宿主 `exts/` 软链接跨包导入；从实际 package 与宿主实现核对 `ZUI_NAME`、`PUBLIC_PATH`、WIP/notReady 及资源加载、构建消费关系，不从目录名、包 scope 或注册组猜测；
    - 生成文件与 source-of-truth 不一致。遇到生成产物时找到生成器或映射并审查源头，不只评审生成结果。
 3. 搜索相关符号、成熟实现和调用点来验证判断，优先扩展项目，需要时再读取宿主。发现看似异常的代码时，先确认是否为现有约定、兼容处理或基线问题。宿主源码和范围外调用方仅作为判断依据，不把它们的独立改动或历史缺陷纳入 findings。

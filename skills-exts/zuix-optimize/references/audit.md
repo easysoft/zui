@@ -102,6 +102,7 @@
 - Preact、Cash、路径别名和跨包公开 import 是否符合当前上下文；
 - CSS 根类、变量、Tailwind prefix、主题和 dark mode 是否与 `EXT_ROOT` 配置及宿主合并结果一致；
 - 组件、调试页和文档示例是否遵循 [辅助类优先规范](../../zuix-standards/references/component.md#布局与样式)：自定义 CSS 或静态内联样式能否用当前宿主已核实的 `@zui/utilities` 公开类快捷实现，所用辅助类是否进入实际消费产物；等价替换作为维护性改进，不仅凭存在 CSS 就判定缺陷；
+- `src/style/*.css` 是否按 [布局与样式规范](../../zuix-standards/references/component.md#布局与样式) 尽可能使用配置支持且语义等价的 `@apply`，保留必要原生 CSS；`src/style/index.ts` 是否显式导入该目录全部 CSS，实际样式消费入口是否统一接入，是否保持层叠顺序、避免重复导入并保留无样式入口契约；
 - 是否存在无关迁移、格式化或隐式公共契约破坏。
 
 ## 范围策略
