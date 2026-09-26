@@ -1,6 +1,5 @@
 .article {
-  @apply -text-[--font-size-article] -break-words -whitespace-pre-wrap;
-  hyphens: auto;
+  @apply -text-[--font-size-article] -break-words -whitespace-pre-wrap -hyphens-auto;
 }
 .article h1,
 .article h2,
@@ -21,16 +20,15 @@
 .article table,
 .article pre,
 .article img {
-  @apply -my-[--article-p-space];
-  text-wrap: pretty;
+  @apply -my-[--article-p-space] -text-pretty;
 }
 
 .article p {
-  min-height: 1em;
+  @apply -min-h-[1em];
 }
 .article p:empty::before {
   content: ' ';
-  display: inline-block;
+  @apply -inline-block;
 }
 
 .article hr {

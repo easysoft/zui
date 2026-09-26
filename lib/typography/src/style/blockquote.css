@@ -1,6 +1,5 @@
 blockquote, .blockquote {
-    @apply -border-l-4 -pl-3 -text-md;
-    text-wrap: pretty;
+    @apply -border-l-4 -pl-3 -text-md -text-pretty;
 }
 blockquote figcaption , .blockquote figcaption {
     @apply -text-gray-500 -text-sm;

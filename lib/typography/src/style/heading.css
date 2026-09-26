@@ -4,8 +4,7 @@ h3, .h3,
 h4, .h4,
 h5, .h5,
 h6, .h6 {
-    @apply -leading-normal -font-bold;
-    text-wrap: balance;
+    @apply -leading-normal -font-bold -text-balance;
 }
 h1, .h1 {
     @apply -text-h1;
