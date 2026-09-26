@@ -22,9 +22,9 @@
 }
 .details:not(.no-transition)::details-content {
   block-size: 0;
-  overflow: hidden;
+  @apply -overflow-hidden;
   transition-property: block-size, content-visibility;
-  transition-duration: var(--details-duration);
+  @apply -duration-[--details-duration];
   transition-behavior: allow-discrete;
 }
 .details:not(.no-transition)[open]::details-content {
