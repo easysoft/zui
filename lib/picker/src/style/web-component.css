@@ -1,7 +1,7 @@
 zui-picker {
-    display: block;
+    @apply -block;
 }
 
 zui-picker > .zui-webc-mount {
-    display: contents;
+    @apply -contents;
 }
