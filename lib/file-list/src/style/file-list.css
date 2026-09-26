@@ -1,0 +1,3 @@
+.file-list-item .item-title {
+    @apply -truncate -max-w-96;
+}

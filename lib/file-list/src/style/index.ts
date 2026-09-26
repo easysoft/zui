@@ -1,4 +1,2 @@
-import '@zui/avatar/css';
-import '@zui/list';
-import '@zui/utilities';
+import './file-list.css';
 import './file-list-cards.css';

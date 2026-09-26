@@ -10,7 +10,7 @@ export type FileIconMap = Record<string, IconType>;
 
 export type FileIconSetting = false | string | FileIconMap | FileIconGetter;
 
-export type FileListMode = 'list' | 'cards' | 'cards-inline' | 'covers';
+export type FileListMode = 'list' | 'cards' | 'cards-inline' | 'grid';
 
 export type FileInfoLike = FileInfo | OriginFileInfo;
 

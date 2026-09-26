@@ -95,11 +95,13 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
 
     protected _getClassName(props: RenderableProps<T>): ClassNameLike {
         const className = super._getClassName(props);
-        const {mode} = props;
-        if (mode && mode !== 'list') {
-            return [className, `file-list-${mode}`];
-        }
-        return className;
+        const {mode, thumbnail} = props;
+        return [
+            className,
+            thumbnail ? 'has-thumbnails' : undefined,
+            mode && mode !== 'list' ? `file-list-${mode}` : undefined,
+            mode === 'cards-inline' ? 'file-list-cards' : undefined,
+        ];
     }
 
     protected _getFileIcon(file: FileInfo, fileIconSetting?: FileListProps['fileIcon']): IconType | null {
@@ -144,7 +146,11 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
             items.push(mergeProps({
                 ...file,
                 key: `${file.id}`,
-                className: mode === 'cards' ? 'file-list-card' : mode === 'cards-inline' ? 'file-list-card-inline' : mode === 'covers' ? 'file-list-cover' : undefined,
+                className: {
+                    'file-list-card': mode === 'cards' || mode === 'cards-inline',
+                    'file-list-grid': mode === 'grid',
+                    'has-thumbnail': thumbnail,
+                },
                 icon: thumbnail ? undefined : (this.constructor as typeof FileList).getFileIcon(file, fileIcon),
                 iconClass: 'text-gray',
                 avatar: thumbnail ? (item: Item) => {

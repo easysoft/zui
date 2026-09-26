@@ -1,0 +1,16 @@
+.file-list-cards {
+    @apply -flex -flex-col -gap-2;
+}
+.file-list-card > .listitem {
+    @apply -py-1 -px-2 -border -rounded-lg -shadow -whitespace-nowrap hover:-border-border-strong hover:-shadow-md;
+}
+.file-list-card.has-thumbnail > .listitem {
+    @apply -pl-1;
+}
+
+.file-list-cards-inline {
+    @apply -flex-row -flex-wrap;
+}
+.file-list-cards-inline .item-title {
+    @apply -max-w-56;
+}
