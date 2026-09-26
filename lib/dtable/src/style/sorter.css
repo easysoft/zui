@@ -7,8 +7,7 @@
 }
 .dtable-sort::before,
 .dtable-sort::after {
-  @apply -content-[''] -absolute -w-0 -h-0 -border-solid -border-transparent -left-0 -opacity-40;
-  border-width: var(--dtable-sorter-size);
+  @apply -content-[''] -absolute -w-0 -h-0 -border-solid -border-transparent -left-0 -opacity-40 -border-[length:var(--dtable-sorter-size)];
 }
 .dtable-sort::before {
   @apply -top-0 -border-t-0 -border-b-current;
