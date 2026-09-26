@@ -10,8 +10,7 @@
   @apply -flex-wrap;
 }
 .list-show-more {
-  @apply -w-full -shrink-0 -list-none;
-  grid-column: 1 / -1;
+  @apply -w-full -shrink-0 -list-none -col-span-full;
 }
 .list-show-more > .listitem {
   @apply -w-full -h-auto -whitespace-normal -text-left;
