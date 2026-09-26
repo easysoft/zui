@@ -30,6 +30,8 @@ export interface FileListProps<T extends FileInfoLike = FileInfoLike> extends Li
     fileIcon?: FileIconSetting;
     /** Use avatars to show file thumbnails and fallback icons. Defaults to false. Pass Avatar options to customize. */
     thumbnail?: boolean | Partial<AvatarOptions>;
+    /** Preview thumbnail images on hover. Requires thumbnail; defaults to false. Maximum dimensions are in pixels, each defaulting to 200. */
+    thumbnailPreview?: boolean | {maxWidth?: number; maxHeight?: number};
     /** Override the thumbnail URL. An empty string falls back to the file's thumbnail or native image preview. */
     getThumbnail?: FileCallback<T, string>;
     fileSizeFormat?: string;

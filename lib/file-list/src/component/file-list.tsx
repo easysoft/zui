@@ -1,8 +1,9 @@
 import {formatBytes, formatString} from '@zui/helpers';
 import {List} from '@zui/list/react';
+import {Popover, type PopoverOptions} from '@zui/popover';
 
 import type {RenderableProps} from 'preact';
-import {mergeProps, nextGid, type ClassNameLike, type IconType} from '@zui/core';
+import {$, mergeProps, nextGid, type ClassNameLike, type IconType} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {ListState} from '@zui/list';
 import type {FileIconGetter, FileIconMap, FileInfo, FileInfoLike, FileListProps} from '../types';
@@ -15,6 +16,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
         fileSizeFormat: '{size}',
         fileIcon: false,
         thumbnail: false,
+        thumbnailPreview: false,
     };
 
     static TAG = 'div';
@@ -34,7 +36,11 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
 
     protected _sourceFiles?: FileInfoLike[];
 
+    protected _thumbnailPreview?: Popover;
+
     componentWillUnmount(): void {
+        this._destroyThumbnailPreview();
+        this.element?.removeEventListener('error', this._handleThumbnailError, true);
         this._objectURLs.forEach(url => URL.revokeObjectURL(url));
         this._objectURLs.clear();
         this._thumbnailFiles.clear();
@@ -42,6 +48,21 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
     }
 
     protected _afterRender(firstRender: boolean) {
+        if (firstRender) {
+            $(this.element)
+                .on(`mouseenter${this.namespace}`, '.item-avatar > img.avatar-img', this._handleThumbnailEnter)
+                .on(`mouseleave${this.namespace}`, '.item-avatar > img.avatar-img', this._handleThumbnailLeave);
+            this.element?.addEventListener('error', this._handleThumbnailError, true);
+        }
+        const preview = this._thumbnailPreview;
+        if (preview) {
+            const image = preview.element as HTMLImageElement;
+            if (!this.props.thumbnail || !this.props.thumbnailPreview || !this.element?.contains(image)) {
+                this._destroyThumbnailPreview();
+            } else {
+                preview.render({content: this._getThumbnailPreviewContent(image)});
+            }
+        }
         this._objectURLs.forEach((url, file) => {
             if (!this._thumbnailFiles.has(file)) {
                 URL.revokeObjectURL(url);
@@ -50,6 +71,76 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
         });
         super._afterRender(firstRender);
     }
+
+    protected _getThumbnailPreviewContent(image: HTMLImageElement) {
+        const {thumbnailPreview} = this.props;
+        const {maxWidth = 200, maxHeight = 200} = typeof thumbnailPreview === 'object' ? thumbnailPreview : {};
+        return (
+            <img
+                className="block w-auto h-auto object-contain"
+                src={image.currentSrc || image.src}
+                alt={image.alt}
+                style={{maxWidth: `min(${maxWidth}px, calc(100vw - 24px))`, maxHeight: `min(${maxHeight}px, calc(100vh - 24px))`}}
+                onLoad={() => this._thumbnailPreview?.updateLayout()}
+                onError={this._destroyThumbnailPreview}
+            />
+        );
+    }
+
+    protected _handleThumbnailEnter = (event: MouseEvent) => {
+        const {thumbnail, thumbnailPreview} = this.props;
+        const image = event.target;
+        if (!thumbnail || !thumbnailPreview || !(image instanceof HTMLImageElement) || !image.src || image.closest('.file-list') !== this.element) {
+            return;
+        }
+        if (this._thumbnailPreview?.element === image) {
+            return;
+        }
+        this._destroyThumbnailPreview();
+        this._thumbnailPreview = new Popover<PopoverOptions>(image, {
+            trigger: 'hover',
+            show: true,
+            placement: 'right',
+            strategy: 'fixed',
+            shift: {padding: 8, crossAxis: true},
+            offset: 8,
+            arrow: false,
+            closeBtn: false,
+            mask: false,
+            animation: false,
+            hideNewOnHide: false,
+            className: 'file-list-thumbnail-preview',
+            contentClass: 'p-1',
+            content: this._getThumbnailPreviewContent(image),
+            onHidden: this._destroyThumbnailPreview,
+        });
+        document.addEventListener('keydown', this._handleThumbnailKeyDown);
+    };
+
+    protected _handleThumbnailLeave = (event: MouseEvent) => {
+        // Popover binds its hover handlers on the next frame; cancel an earlier leave.
+        if (this._thumbnailPreview?.element === event.target && !this._thumbnailPreview.inited) {
+            this._destroyThumbnailPreview();
+        }
+    };
+
+    protected _handleThumbnailError = (event: Event) => {
+        if (event.target === this._thumbnailPreview?.element) {
+            this._destroyThumbnailPreview();
+        }
+    };
+
+    protected _handleThumbnailKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+            this._destroyThumbnailPreview();
+        }
+    };
+
+    protected _destroyThumbnailPreview = () => {
+        this._thumbnailPreview?.destroy();
+        this._thumbnailPreview = undefined;
+        document.removeEventListener('keydown', this._handleThumbnailKeyDown);
+    };
 
     protected _getFileInfo(fileInfo: FileInfoLike, usedIds: Set<string>, reuseFileId: boolean): FileInfo {
         const file = fileInfo.file;

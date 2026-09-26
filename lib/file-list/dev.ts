@@ -12,6 +12,7 @@ let fileListThumbnails: FileList | undefined;
 let fileListMultiline: FileList | undefined;
 let fileListCards: FileList | undefined;
 let fileListCardsInline: FileList | undefined;
+let fileListGrid: FileList | undefined;
 let fileListImages: FileList | undefined;
 
 const itemsWithThumbnails = [
@@ -98,6 +99,7 @@ onPageUpdate(() => {
     fileListMultiline?.destroy();
     fileListCards?.destroy();
     fileListCardsInline?.destroy();
+    fileListGrid?.destroy();
     fileListImages?.destroy();
     fileList = new FileList('#fileList', {
         heading: {title: '附件', icon: 'paper-clip'},
@@ -116,6 +118,7 @@ onPageUpdate(() => {
         fileUrl: '#file?id={id}',
         fileIcon: FileListView.getFileIconMap(),
         thumbnail: true,
+        thumbnailPreview: true,
     });
     fileListMultiline = new FileList('#fileListMultiline', {
         items: itemsWithThumbnails,
@@ -131,6 +134,7 @@ onPageUpdate(() => {
         fileIcon: FileListView.getFileIconMap(),
         mode: 'cards',
         thumbnail: true,
+        thumbnailPreview: {maxWidth: 320, maxHeight: 240},
         fileActions,
     });
     fileListCardsInline = new FileList('#fileListCardsInline', {
@@ -139,11 +143,21 @@ onPageUpdate(() => {
         fileIcon: FileListView.getFileIconMap(),
         mode: 'cards-inline',
         thumbnail: true,
+        thumbnailPreview: true,
+    });
+    fileListGrid = new FileList('#fileListGrid', {
+        items: itemsWithThumbnails,
+        fileUrl: '#file?id={id}',
+        fileIcon: FileListView.getFileIconMap(),
+        mode: 'grid',
+        thumbnail: true,
+        thumbnailPreview: true,
     });
     fileListImages = new FileList('#fileListImages', {
         items: [],
         fileIcon: FileListView.getFileIconMap(),
         thumbnail: true,
+        thumbnailPreview: true,
     });
     const imageInput = document.querySelector<HTMLInputElement>('#fileListImageInput');
     const thumbnailToggle = document.querySelector<HTMLInputElement>('#fileListThumbnailToggle');

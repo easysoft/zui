@@ -35,6 +35,15 @@
 <div id="fileListThumbnails"></div>
 ```
 
+本例启用 `thumbnailPreview: true`，悬停缩略图可查看同一图片的完整内容，最大宽高默认为 `200 × 200px`，保持比例且不放大小图。移入浮层可继续查看，离开后延迟 150ms 关闭，也可按 Escape 关闭。
+
+```ts
+fileList.render({thumbnail: true, thumbnailPreview: true});
+fileList.render({thumbnailPreview: {maxWidth: 320, maxHeight: 240}});
+```
+
+`thumbnailPreview` 默认关闭，需同时启用 `thumbnail`。对象中未指定的宽或高仍为 `200px`；文件名、图标及加载失败的占位内容不触发预览。
+
 ## 两行显示
 
 设置 `multiline: true` 后，文件标题和文件大小分两行显示；默认保持单行显示。本例同时启用缩略图和文件操作。
@@ -45,7 +54,7 @@
 
 ## 卡片模式
 
-卡片模式下，文件列表显示为卡片样式，每个文件显示为一张卡片，卡片上显示文件名称、大小、链接和操作按钮。
+卡片模式下，文件列表显示为卡片样式，每个文件显示为一张卡片，卡片上显示文件名称、大小、链接和操作按钮。本例将悬停预览的最大尺寸设为 `320 × 240px`。
 
 ```html:example
 <div id="fileListCards"></div>
@@ -55,6 +64,14 @@
 
 ```html:example
 <div id="fileListCardsInline"></div>
+```
+
+## 网格模式
+
+设置 `mode: 'grid'` 显示网格，本例同时启用缩略图悬停预览。
+
+```html:example
+<div id="fileListGrid"></div>
 ```
 
 ## 使用

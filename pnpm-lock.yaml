@@ -1019,6 +1019,9 @@ importers:
       '@zui/list':
         specifier: workspace:*
         version: link:../list
+      '@zui/popover':
+        specifier: workspace:*
+        version: link:../popover
       '@zui/utilities':
         specifier: workspace:*
         version: link:../utilities

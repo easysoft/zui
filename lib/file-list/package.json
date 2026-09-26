@@ -15,6 +15,7 @@
         "@zui/core": "workspace:*",
         "@zui/helpers": "workspace:*",
         "@zui/list": "workspace:*",
+        "@zui/popover": "workspace:*",
         "@zui/utilities": "workspace:*",
         "preact": "^10.27.2"
     },

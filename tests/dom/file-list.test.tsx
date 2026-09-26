@@ -3,6 +3,7 @@ import {describe, expect, expectTypeOf, it, vi} from 'vitest';
 import {Component, getReactComponent} from '@zui/core';
 import {FileList, type FileInfo, type FileInfoLike, type FileListProps, type OriginFileInfo} from '@zui/file-list';
 import {FileList as FileListView} from '@zui/file-list/react';
+import {Popover} from '@zui/popover';
 import {flushAnimationFrame} from '../setup/dom';
 
 const files: FileInfo[] = [{
@@ -463,6 +464,154 @@ describe('FileList', () => {
         expect(container.querySelector('img')).toBeNull();
         expect(getThumbnail).not.toHaveBeenCalled();
         expect(createObjectURL).toHaveBeenCalledTimes(1);
+    });
+
+    describe('thumbnail hover previews', () => {
+        const items = [{...files[0], thumbnail: '/covers/guide.png'}];
+        const preview = () => document.querySelector('.file-list-thumbnail-preview');
+        const hover = async (element: Element) => {
+            fireEvent.mouseOver(element);
+            await vi.advanceTimersByTimeAsync(60);
+        };
+
+        it('is opt-in and only opens for actual thumbnail images', async () => {
+            const onClickItem = vi.fn();
+            const options = {items, thumbnail: true, fileIcon: 'file-pdf', fileUrl: '#file', onClickItem};
+            const {container, rerender, getByRole} = render(<FileListView {...options} />);
+            await hover(container.querySelector('img')!);
+            expect(preview()).toBeNull();
+
+            rerender(<FileListView {...options} thumbnailPreview />);
+            await hover(container.querySelector('.item-title')!);
+            expect(preview()).toBeNull();
+            await hover(container.querySelector('.item-avatar')!);
+            expect(preview()).toBeNull();
+            const image = container.querySelector('img')!;
+            await hover(image);
+            expect(preview()?.querySelector('img')).toHaveAttribute('src', image.src);
+            expect(preview()?.querySelector('img')).toHaveStyle({maxWidth: '200px', maxHeight: '200px'});
+            fireEvent.click(getByRole('link', {name: /Guide.pdf/}));
+            expect(onClickItem).toHaveBeenCalledTimes(1);
+            expect(getByRole('link', {name: /Guide.pdf/})).toHaveAttribute('href', '#file');
+
+            fireEvent.error(image);
+            expect(preview()).toBeNull();
+            await hover(container.querySelector('.icon-file-pdf')!);
+            expect(preview()).toBeNull();
+            rerender(<FileListView {...options} thumbnail={false} thumbnailPreview />);
+            await hover(container.querySelector('.icon-file-pdf')!);
+            expect(preview()).toBeNull();
+        });
+
+        it('uses the displayed source and updates independent size limits while open', async () => {
+            const getThumbnail = vi.fn(() => '/covers/custom.png');
+            const options = {items, getThumbnail, thumbnail: true, thumbnailPreview: {maxWidth: 320}};
+            const {container, rerender} = render(<FileListView {...options} />);
+            const image = container.querySelector('img')!;
+            await hover(image);
+            expect(preview()?.querySelector('img')).toHaveAttribute('src', image.src);
+            expect(getThumbnail).toHaveBeenCalledTimes(1);
+            expect(preview()?.querySelector('img')).toHaveStyle({maxWidth: '320px', maxHeight: '200px'});
+
+            rerender(<FileListView {...options} thumbnailPreview={{maxHeight: 240}} />);
+            expect(preview()?.querySelector('img')).toHaveStyle({maxWidth: '200px', maxHeight: '240px'});
+            rerender(<FileListView {...options} thumbnail={{src: '/covers/avatar-override.png'}} />);
+            expect(preview()).toBeNull();
+            await hover(container.querySelector('img')!);
+            expect(preview()?.querySelector('img')).toHaveAttribute('src', container.querySelector('img')!.src);
+            fireEvent.error(preview()!.querySelector('img')!);
+            expect(preview()).toBeNull();
+            expect(container.querySelector('img')).not.toBeNull();
+        });
+
+        it('keeps the preview open across the gap and hides 150ms after leaving', async () => {
+            const {container} = render(<FileListView items={items} thumbnail thumbnailPreview />);
+            const image = container.querySelector('img')!;
+            await hover(image);
+            const panel = preview()!;
+            fireEvent.mouseOut(image);
+            await vi.advanceTimersByTimeAsync(100);
+            fireEvent.mouseOver(panel);
+            await vi.advanceTimersByTimeAsync(200);
+            expect(preview()).toBe(panel);
+            fireEvent.mouseOut(panel);
+            await vi.advanceTimersByTimeAsync(149);
+            expect(preview()).toBe(panel);
+            await vi.advanceTimersByTimeAsync(2);
+            expect(preview()).toBeNull();
+            expect(Popover.get(image)).toBeUndefined();
+        });
+
+        it('cancels a quick pass before initialization and supports Escape and reopening', async () => {
+            const {container} = render(<FileListView items={items} thumbnail thumbnailPreview />);
+            const image = container.querySelector('img')!;
+            fireEvent.mouseOver(image);
+            fireEvent.mouseOut(image);
+            await vi.advanceTimersByTimeAsync(500);
+            expect(preview()).toBeNull();
+            expect(Popover.get(image)).toBeUndefined();
+
+            await hover(image);
+            fireEvent.keyDown(document, {key: 'Escape'});
+            expect(preview()).toBeNull();
+            await hover(image);
+            expect(preview()).not.toBeNull();
+        });
+
+        it('keeps one instance and cleans up when disabled, replaced, removed or unmounted', async () => {
+            const options = {items: [...items, {...items[0], id: 2, thumbnail: '/covers/other.png'}], thumbnail: true, thumbnailPreview: true};
+            const {container, rerender, unmount} = render(<FileListView {...options} />);
+            const [first, second] = container.querySelectorAll('img');
+            await hover(first);
+            const firstInstance = Popover.get(first)!;
+            await hover(second);
+            expect(firstInstance.destroyed).toBe(true);
+            expect(document.querySelectorAll('.file-list-thumbnail-preview')).toHaveLength(1);
+
+            rerender(<FileListView {...options} thumbnailPreview={false} />);
+            expect(preview()).toBeNull();
+            expect(Popover.get(second)).toBeUndefined();
+            rerender(<FileListView {...options} />);
+            await hover(first);
+            rerender(<FileListView {...options} items={[{...items[0], thumbnail: '/covers/replaced.png'}]} />);
+            expect(preview()).toBeNull();
+            await hover(container.querySelector('img')!);
+            rerender(<FileListView {...options} items={[]} />);
+            expect(preview()).toBeNull();
+
+            rerender(<FileListView {...options} />);
+            const image = container.querySelector('img')!;
+            await hover(image);
+            const instance = Popover.get(image)!;
+            unmount();
+            expect(instance.destroyed).toBe(true);
+            expect(preview()).toBeNull();
+            await vi.advanceTimersByTimeAsync(500);
+            expect(preview()).toBeNull();
+        });
+
+        it('closes native file previews before revoking their URLs, including vanilla destruction', async () => {
+            const createObjectURL = vi.fn(() => 'blob:local-image');
+            const revokeObjectURL = vi.fn(() => expect(preview()).toBeNull());
+            vi.stubGlobal('URL', class extends URL {
+                static createObjectURL = createObjectURL;
+                static revokeObjectURL = revokeObjectURL;
+            });
+            const host = document.createElement('div');
+            document.body.append(host);
+            const options = {items: [{file: new File(['image'], 'local.png', {type: 'image/png'})}], thumbnail: true, thumbnailPreview: true};
+            const list = new FileList(host, options);
+            await flushAnimationFrame();
+            await hover(host.querySelector('img')!);
+            expect(createObjectURL).toHaveBeenCalledTimes(1);
+            list.render({items: []});
+            expect(revokeObjectURL).toHaveBeenCalledExactlyOnceWith('blob:local-image');
+            list.render(options);
+            await hover(host.querySelector('img')!);
+            list.destroy();
+            expect(revokeObjectURL).toHaveBeenCalledTimes(2);
+            expect(preview()).toBeNull();
+        });
     });
 
     it('registers both component forms and supports vanilla updates and cleanup', async () => {
