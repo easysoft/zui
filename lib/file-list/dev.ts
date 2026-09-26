@@ -9,6 +9,7 @@ import {FileInfo, FileList as FileListView} from './src/main-react';
 let fileList: FileList | undefined;
 let fileListWithIcons: FileList | undefined;
 let fileListThumbnails: FileList | undefined;
+let fileListMultiline: FileList | undefined;
 let fileListCards: FileList | undefined;
 let fileListCardsInline: FileList | undefined;
 let fileListImages: FileList | undefined;
@@ -94,6 +95,7 @@ onPageUpdate(() => {
     fileList?.destroy();
     fileListWithIcons?.destroy();
     fileListThumbnails?.destroy();
+    fileListMultiline?.destroy();
     fileListCards?.destroy();
     fileListCardsInline?.destroy();
     fileListImages?.destroy();
@@ -114,6 +116,14 @@ onPageUpdate(() => {
         fileUrl: '#file?id={id}',
         fileIcon: FileListView.getFileIconMap(),
         thumbnail: true,
+    });
+    fileListMultiline = new FileList('#fileListMultiline', {
+        items: itemsWithThumbnails,
+        fileUrl: '#file?id={id}',
+        fileIcon: FileListView.getFileIconMap(),
+        thumbnail: true,
+        multiline: true,
+        fileActions,
     });
     fileListCards = new FileList('#fileListCards', {
         items: itemsWithThumbnails,

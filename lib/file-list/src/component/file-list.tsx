@@ -121,7 +121,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
 
     protected _getItems(props: RenderableProps<T>): Item[] {
         const files = super._getItems(props) as FileInfoLike[];
-        const {fileIcon, fileSizeFormat, itemProps, heading, fileUrl, fileActions, mode, thumbnail} = props;
+        const {fileIcon, fileSizeFormat, itemProps, heading, fileUrl, fileActions, mode, thumbnail, multiline = false} = props;
         this._thumbnailFiles.clear();
         // Keep the source identity so List can retain its show-more count across renders.
         const items = files === this._sourceFiles ? this._items : [];
@@ -164,13 +164,13 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
                         icon,
                         className: 'text-gray',
                         code: file.extension,
-                        size: 'sm',
+                        size: 'md',
                         ...(typeof thumbnail === 'object' ? thumbnail : {}),
                     } : undefined;
                 } : undefined,
                 title: file.title,
                 subtitle,
-                multiline: false,
+                multiline,
                 url: typeof fileUrl === 'function' ? fileUrl.call(this, file) : (fileUrl ? formatString(fileUrl, file) : undefined),
                 actions: fileActions ? fileActions.call(this, file) : undefined,
             }, itemProps));

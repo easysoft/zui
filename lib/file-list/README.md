@@ -29,10 +29,18 @@
 
 ## 缩略图示例
 
-显式设置 `thumbnail: true` 后，通过 Avatar 显示文件封面；没有封面或图片加载失败时显示 `fileIcon` 图标。也可以将 `thumbnail` 设为 Avatar 选项对象，例如 `{size: 'lg'}`，自定义缩略图外观。
+显式设置 `thumbnail: true` 后，通过 Avatar 显示文件封面，默认大小为 `md`；没有封面或图片加载失败时显示 `fileIcon` 图标。也可以将 `thumbnail` 设为 Avatar 选项对象，例如 `{size: 'lg'}`，自定义缩略图外观。
 
 ```html:example
 <div id="fileListThumbnails"></div>
+```
+
+## 两行显示
+
+设置 `multiline: true` 后，文件标题和文件大小分两行显示；默认保持单行显示。本例同时启用缩略图和文件操作。
+
+```html:example
+<div id="fileListMultiline"></div>
 ```
 
 ## 卡片模式
