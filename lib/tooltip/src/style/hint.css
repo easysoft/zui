@@ -41,7 +41,7 @@
 
 /* Bottom. */
 .hint-bottom::before {
-  margin-bottom: auto;
+  @apply -mb-auto;
   margin-top: calc(0px - var(--tooltip-arrow));
   border-width: 0 var(--tooltip-arrow) var(--tooltip-arrow) var(--tooltip-arrow);
   border-color: transparent transparent var(--tooltip-bg) transparent;
@@ -53,7 +53,7 @@
 
 /* Left. */
 .hint-left::before {
-  margin-bottom: auto;
+  @apply -mb-auto;
   margin-right: calc(0px - var(--tooltip-arrow));
   border-width: var(--tooltip-arrow) 0 var(--tooltip-arrow) var(--tooltip-arrow);
   border-color: transparent transparent transparent var(--tooltip-bg);
@@ -65,7 +65,7 @@
 
 /* Right. */
 .hint-right::before {
-  margin-bottom: auto;
+  @apply -mb-auto;
   margin-left: calc(0px - var(--tooltip-arrow));
   border-width: var(--tooltip-arrow) var(--tooltip-arrow) var(--tooltip-arrow) 0;
   border-color: transparent var(--tooltip-bg) transparent;
