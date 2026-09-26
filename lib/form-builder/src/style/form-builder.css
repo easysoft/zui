@@ -3,7 +3,7 @@
 }
 
 .form-builder-item {
-  flex-basis: var(--form-item-width, 100%);
+  @apply -basis-[var(--form-item-width,100%)];
 }
 .form-builder-item .form-hint {
   @apply -text-gray-500 -px-2;
@@ -63,5 +63,5 @@
   @apply -flex-col;
 }
 .form-builder-items.form-column > .form-builder-item {
-  width: var(--form-item-width, 100%);
+  @apply -w-[var(--form-item-width,100%)];
 }
