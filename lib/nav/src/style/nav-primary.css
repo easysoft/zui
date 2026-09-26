@@ -12,17 +12,15 @@
 }
 .nav-primary > .nav-item:first-child > a,
 .nav-primary > .nav-item:has(.nav-heading) + .nav-item > a {
-    border-top-left-radius: var(--nav-radius);
-    border-bottom-left-radius: var(--nav-radius);
+    @apply -rounded-tl-[--nav-radius] -rounded-bl-[--nav-radius];
 }
 .nav-primary > .nav-item:last-child > a {
-    border-top-right-radius: var(--nav-radius);
-    border-bottom-right-radius: var(--nav-radius);
+    @apply -rounded-tr-[--nav-radius] -rounded-br-[--nav-radius];
 }
 .nav-primary > .nav-item > .active {
     @apply -text-canvas;
     background: var(--nav-active-color);
-    border-color: var(--nav-active-color);
+    @apply -border-[--nav-active-color];
 }
 .nav-primary > .nav-divider {
     @apply -hidden;

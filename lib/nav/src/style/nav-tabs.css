@@ -2,9 +2,7 @@
     @apply -relative -rounded-b-none;
 }
 .nav-tabs > .nav-item > a::after {
-    @apply -content-[''] -block -absolute --inset-px -border -border-transparent -border-b-border -pointer-events-none;
-    border-top-left-radius: inherit;
-    border-top-right-radius: inherit;
+    @apply -content-[''] -block -absolute --inset-px -border -border-transparent -border-b-border -pointer-events-none -rounded-tl-[inherit] -rounded-tr-[inherit];
 }
 .nav-tabs > .nav-item > .active::after {
     @apply -border-border -border-b-transparent;

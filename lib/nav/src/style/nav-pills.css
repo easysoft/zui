@@ -4,5 +4,5 @@
 .nav-pills > .nav-item > .active {
     @apply -text-canvas;
     background: var(--nav-active-color);
-    border-color: var(--nav-active-color);
+    @apply -border-[--nav-active-color];
 }

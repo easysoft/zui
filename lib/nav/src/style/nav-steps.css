@@ -12,15 +12,14 @@
 .nav-steps > .nav-item > a::after {
   @apply -content-[''] -absolute -w-0 -h-0 -border-solid -left-full -z-[2];
   border-width: calc(var(--nav-item-height) / 2);
-  border-right-width: 0;
+  @apply -border-r-[0];
   border-left-width: calc(var(--nav-item-height) / 3);
-  border-color: transparent;
+  @apply -border-transparent;
   border-left-color: var(--nav-item-bg, var(--color-canvas));
 }
 
 .nav-steps > .nav-item > a::before {
-  @apply -z-[1] !-opacity-100 -right-auto -bottom-auto !-bg-transparent -transform-none;
-  border-left-color: var(--color-border);
+  @apply -z-[1] !-opacity-100 -right-auto -bottom-auto !-bg-transparent -transform-none -border-l-[--color-border];
   left: calc(100% + 5.5px);
   top: 0.4rem;
   --nav-item-height: 1.2rem;

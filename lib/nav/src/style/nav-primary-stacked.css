@@ -5,12 +5,10 @@
     @apply -ml-0 --mt-px;
 }
 .nav-primary.nav-stacked > .nav-item:first-child > a {
-    border-top-left-radius: var(--nav-radius);
-    border-top-right-radius: var(--nav-radius);
+    @apply -rounded-tl-[--nav-radius] -rounded-tr-[--nav-radius];
     border-bottom-left-radius: 0;
 }
 .nav-primary.nav-stacked > .nav-item:last-child > a {
     border-top-right-radius: 0;
-    border-bottom-left-radius: var(--nav-radius);
-    border-bottom-right-radius: var(--nav-radius);
+    @apply -rounded-bl-[--nav-radius] -rounded-br-[--nav-radius];
 }
