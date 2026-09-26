@@ -1,8 +1,7 @@
 zui-button {
-    display: inline-block;
-    vertical-align: middle;
+    @apply -inline-block -align-middle;
 }
 
 zui-button > .zui-webc-mount {
-    display: contents;
+    @apply -contents;
 }
