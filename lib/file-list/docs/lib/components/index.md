@@ -223,7 +223,7 @@ mode?: 'list' | 'cards' | 'cards-inline' | 'grid'; // 省略时显示普通列�
 heading?: ListitemProps; // 列表标题。
 fileIcon?: false | string | FileIconMap | FileIconGetter = false; // 文件图标。
 thumbnail?: boolean | Partial&lt;AvatarOptions&gt; = false; // 显示缩略图，并可配置 Avatar。
-thumbnailPreview?: boolean | {maxWidth?: number; maxHeight?: number; placement?: PopoverOptions['placement']} = false; // 悬停预览，需启用 thumbnail；最大宽高单位为 px，各自默认 200，位置默认 left-start。
+thumbnailPreview?: boolean | {maxWidth?: number; maxHeight?: number; placement?: PopoverOptions['placement']} = false; // 悬停预览，需启用 thumbnail；最大宽高单位为 px，各自默认 200，位置默认 top-start。
 getThumbnail?: (file: FileInfo) => string; // 同步返回封面 URL；空字符串使用默认来源。
 fileSizeFormat?: string = "{size}"; // 格式化大小文本，{size} 为自动格式化后的大小。
 fileUrl?: string | ((file: FileInfo) => string); // 链接模板支持 {id} 等文件字段。
@@ -233,7 +233,7 @@ itemProps?: Partial&lt;FileInfoLike&gt; &amp; ListitemProps; // 列表项外观�
 
 缩略图来源顺序为 getThumbnail(file)、文件的 thumbnail、原生图片生成的预览。thumbnail: false 会禁用上述解析。getThumbnail、fileUrl、fileActions 以及列表条目回调取得的是补齐元信息后的数据，原生文件仍保留在 file 字段中。
 
-`thumbnailPreview` 复用缩略图实际显示的图片地址，保持原始比例、不放大小图。默认在缩略图左侧顶部对齐（`left-start`），可通过 `placement` 调整偏好位置；组件会根据屏幕空间调整尺寸与位置。移入预览浮层时保持显示，离开缩略图和浮层后延迟 150ms 隐藏，按 Escape 可立即关闭。
+`thumbnailPreview` 复用缩略图实际显示的图片地址，保持原始比例、不放大小图。默认在缩略图上方并左对齐（`top-start`），可通过 `placement` 调整偏好位置；组件会根据屏幕空间调整尺寸与位置。移入预览浮层时保持显示，离开缩略图和浮层后延迟 150ms 隐藏，按 Escape 可立即关闭。
 
 ```js
 zui.FileList.get('#filesThumbnails').render({thumbnailPreview: {maxWidth: 320, maxHeight: 240, placement: 'right-start'}});

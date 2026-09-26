@@ -524,14 +524,14 @@ describe('FileList', () => {
             expect(container.querySelector('img')).not.toBeNull();
         });
 
-        it('defaults to left-start and updates placement without replacing the open preview', async () => {
+        it('defaults to top-start and updates placement without replacing the open preview', async () => {
             const options = {items, thumbnail: true, thumbnailPreview: true};
             const {container, rerender} = render(<FileListView {...options} />);
             const image = container.querySelector('img')!;
             await hover(image);
             const instance = Popover.get(image)!;
             const panel = preview();
-            expect(instance.options.placement).toBe('left-start');
+            expect(instance.options.placement).toBe('top-start');
 
             rerender(<FileListView {...options} thumbnailPreview={{placement: 'bottom-end'}} />);
             expect(instance.options.placement).toBe('bottom-end');
@@ -539,7 +539,7 @@ describe('FileList', () => {
             expect(preview()?.querySelector('img')).toHaveStyle({maxWidth: '200px', maxHeight: '200px'});
 
             rerender(<FileListView {...options} thumbnailPreview={{maxWidth: 320}} />);
-            expect(instance.options.placement).toBe('left-start');
+            expect(instance.options.placement).toBe('top-start');
             expect(preview()).toBe(panel);
             expect(preview()?.querySelector('img')).toHaveStyle({maxWidth: '320px', maxHeight: '200px'});
         });

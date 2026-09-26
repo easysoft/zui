@@ -35,7 +35,7 @@ export interface FileListProps<T extends FileInfoLike = FileInfoLike> extends Li
     thumbnailPreview?: boolean | {
         maxWidth?: number;
         maxHeight?: number;
-        /** Preferred placement; defaults to left-start (left side, aligned at the top). */
+        /** Preferred placement; defaults to top-start (above, aligned at the left). */
         placement?: PopoverOptions['placement'];
     };
     /** Override the thumbnail URL. An empty string falls back to the file's thumbnail or native image preview. */

@@ -75,7 +75,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
 
     protected _getThumbnailPreviewOptions(image: HTMLImageElement): Pick<PopoverOptions, 'placement' | 'content'> {
         const {thumbnailPreview} = this.props;
-        const {maxWidth = 200, maxHeight = 200, placement = 'left-start'} = typeof thumbnailPreview === 'object' ? thumbnailPreview : {};
+        const {maxWidth = 200, maxHeight = 200, placement = 'top-start'} = typeof thumbnailPreview === 'object' ? thumbnailPreview : {};
         return {
             placement,
             content: (

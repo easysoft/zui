@@ -25,11 +25,11 @@ test('positions thumbnail previews and keeps them proportional and inside the vi
     await expect(image).toHaveCSS('display', 'block');
     await expect(image).toHaveCSS('width', '80px');
     await expect(image).toHaveCSS('height', '240px');
-    await expect(thumbnail).toHaveAttribute('data-pop-placement', 'left');
+    await expect(thumbnail).toHaveAttribute('data-pop-placement', 'top');
     const initialThumbnailBox = (await thumbnail.boundingBox())!;
     const initialPreviewBox = (await preview.boundingBox())!;
-    expect(initialPreviewBox.x + initialPreviewBox.width).toBeLessThan(initialThumbnailBox.x);
-    expect(initialPreviewBox.y).toBeCloseTo(initialThumbnailBox.y, 0);
+    expect(initialPreviewBox.y + initialPreviewBox.height).toBeLessThan(initialThumbnailBox.y);
+    expect(initialPreviewBox.x).toBeCloseTo(initialThumbnailBox.x, 0);
 
     await page.evaluate(async () => {
         const modulePath = '/lib/file-list/src/main.ts';
