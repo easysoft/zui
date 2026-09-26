@@ -1,8 +1,7 @@
 .avatar {
-  @apply -w-8 -inline-flex -items-center -justify-center -overflow-hidden;
-  border-radius: var(--avatar-radius);
+  @apply -w-8 -inline-flex -items-center -justify-center -overflow-hidden -rounded-[--avatar-radius];
   background: var(--avatar-bg);
-  aspect-ratio: 1 / 1;
+  @apply -aspect-square;
 }
 .avatar > img {
   @apply -m-0 -w-full -h-full -object-cover;
