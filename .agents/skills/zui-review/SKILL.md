@@ -39,6 +39,7 @@ ignored 文件不属于默认未提交范围，用户点名时才纳入。显式
    - Preact 组件违反[状态与副作用规范](../zui-standards/references/component.md#preact-状态与副作用)：使用 hooks（含 signals hooks），或未在卸载/销毁时清理 `effect`；
    - Web Component 变更按 [专用规范](../zui-standards/references/web-component.md) 核对具体组件定义是否实际位于 `lib/<lib-name>/src/web-component/`、是否经目录 `index.ts` 和 `src/main.ts` 导出，以及注册时机、渲染目标推导、配置缓存、属性反射及断开清理；
    - ZUI 的 Preact/vanilla 双形态、组件注册、`@zui/*` 跨库导入、`contributes`、主题和 HMR 约定；
+   - 组件 CSS 与样式入口变更按 [布局与样式规范](../zui-standards/references/component.md#布局与样式) 核实 `@apply` 优先、`style/index.ts` 导入完整性、层叠顺序及消费入口；遵循原生 CSS 的适用情形，不把等价写法差异当作运行时缺陷；
    - 布局或示例类名变更按 [CSS utilities 核实流程](../zui-standards/references/utilities.md) 检查：是否照搬未公开的 Tailwind 类、变体或任意值，误用同名类的默认值或语义，或依赖仅在开发/文档环境生成的样式；结合组件自定义样式和实际消费入口确认影响，不能仅因 utilities 中没有该类就报告缺陷；
    - 生成文件与 source-of-truth 不一致。遇到生成产物时找到生成器或映射并审查源头，不只评审生成结果。
 3. 搜索相关符号、相似成熟实现和调用点来验证判断。发现看似异常的代码时，先确认是否为现有约定、兼容处理或基线问题。

@@ -78,6 +78,9 @@ Vanilla 子类必须提供稳定的 `static NAME`。`ComponentFromReact` 子类�
 - 使用稳定的组件根类，并让状态/元素类从根语义派生；复用辅助类时保留既有 DOM/CSS 公开契约。
 - 公共可定制值使用 `--<component>-*` CSS 变量，提供合理默认值；确需运行时计算的值可通过 CSS 变量或 `style` 传入。
 - 避免泄漏全局样式，复核 dark mode、响应式、RTL（若相关）及主题变量。
+- 在 `lib/<lib-name>/src/style/*.css` 中定义样式时，尽可能使用当前 Tailwind 配置支持且语义等价的 `@apply`，保留仓库 `-` 前缀；CSS 变量定义、媒体查询、关键帧及无法清晰表达的声明按需使用原生 CSS。内部 `@apply` 不受公开 utilities 类清单限制，但须核实当前配置与实际生成效果。
+- 使用 `src/style/` 时，该目录下所有 CSS 文件必须由 `src/style/index.ts` 逐个显式副作用导入，例如 `import './vars.css';`，保持变量、基础规则和变体所需的层叠顺序。普通 CSS 不需要额外 `export`。
+- 提供样式的实际消费入口统一接入该 `style/index.ts` 模块，例如在 `src/main.ts` 或相应样式入口中使用 `import './style';`。新增、删除或重命名 CSS 文件时同步维护导入清单；调整已有聚合入口时保留公开入口和层叠行为，清理重复的 CSS 导入链，不以调试页或文档的直接导入代替生产入口接线。
 
 ## 无障碍
 
@@ -95,4 +98,5 @@ Vanilla 子类必须提供稳定的 `static NAME`。`ComponentFromReact` 子类�
 - 键盘、焦点和 ARIA；
 - 事件顺序、方法、重复初始化与 destroy；
 - 类型和目标库构建；
+- 样式导入清单完整、层叠顺序正确，并从承诺的消费入口可达；
 - 调试页中的主要交互及正式示例（若纳入范围）。

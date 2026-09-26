@@ -83,6 +83,7 @@
 - 新代码是否遵循当前 `AGENTS.md`、ESLint、Preact 和路径别名规则；
 - 已有库的合理局部结构是否被保留；
 - CSS 根类、变量、Tailwind `-` 前缀、主题和 dark mode 是否一致；
+- 组件 CSS 是否遵循 [布局与样式规范](../../zui-standards/references/component.md#布局与样式) 中的 `@apply` 优先和 `style/index.ts` 统一入口要求，核对目录内 CSS 的导入完整性、层叠顺序与实际消费入口；区分规范缺口和已确认的样式回归；
 - 组件、调试页和文档示例按 [CSS utilities 核实流程](../../zui-standards/references/utilities.md) 检查公开类、实际值与消费产物，识别照搬 Tailwind 类名、变体、任意值或默认语义，以及开发/文档环境掩盖的样式缺失；先核对组件自定义样式，不能仅因 utilities 中没有该类就判定缺陷；
 - 现有自定义 CSS 或静态内联样式能否用已核实的公开类快捷实现；等价替换作为维护性改进，不仅凭存在 CSS 就判定缺陷，也不禁止必要的自定义 CSS 或合法的内部 `@apply`；
 - 是否存在无关迁移、格式化或对公共契约的隐式破坏。
