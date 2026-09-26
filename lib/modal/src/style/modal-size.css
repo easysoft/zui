@@ -4,13 +4,13 @@
 }
 .modal-dialog.size-sm,
 .modal-dialog[data-size="sm"] {
-  width: var(--modal-sm);
+  @apply -w-[--modal-sm];
 }
 .modal-dialog.size-lg,
 .modal-dialog[data-size="lg"] {
-  width: var(--modal-lg);
+  @apply -w-[--modal-lg];
 }
 .modal-dialog.size-xl,
 .modal-dialog[data-size="xl"] {
-  width: var(--modal-xl);
+  @apply -w-[--modal-xl];
 }

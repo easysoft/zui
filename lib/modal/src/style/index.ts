@@ -1,0 +1,10 @@
+import './vars.css';
+import './modal.css';
+import './modal-dialog.css';
+import './modal-header.css';
+import './modal-body.css';
+import './modal-footer.css';
+import './modal-size.css';
+import './modal-builder.css';
+import './modal-trans.css';
+import './modal-alert.css';
