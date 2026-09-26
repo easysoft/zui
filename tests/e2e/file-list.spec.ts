@@ -1,6 +1,6 @@
 import {expect, test} from '@playwright/test';
 
-test('keeps thumbnail previews proportional and inside the viewport', async ({page}) => {
+test('positions thumbnail previews and keeps them proportional and inside the viewport', async ({page}) => {
     await page.goto('/file-list/');
     await page.locator('#libPage.is-loaded').waitFor();
     await page.evaluate(async () => {
@@ -15,7 +15,7 @@ test('keeps thumbnail previews proportional and inside the viewport', async ({pa
                 thumbnail: `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="900"><rect width="100%" height="100%" fill="#2474eb"/></svg>')}`,
             }],
         });
-        list.element.style.cssText = 'position:fixed;right:8px;bottom:8px;width:60px;z-index:1';
+        list.element.style.cssText = 'position:fixed;left:50%;top:35%;width:60px;z-index:1';
     });
 
     const thumbnail = page.locator('#fileListThumbnails .avatar-img');
@@ -25,6 +25,32 @@ test('keeps thumbnail previews proportional and inside the viewport', async ({pa
     await expect(image).toHaveCSS('display', 'block');
     await expect(image).toHaveCSS('width', '80px');
     await expect(image).toHaveCSS('height', '240px');
+    await expect(thumbnail).toHaveAttribute('data-pop-placement', 'left');
+    const initialThumbnailBox = (await thumbnail.boundingBox())!;
+    const initialPreviewBox = (await preview.boundingBox())!;
+    expect(initialPreviewBox.x + initialPreviewBox.width).toBeLessThan(initialThumbnailBox.x);
+    expect(initialPreviewBox.y).toBeCloseTo(initialThumbnailBox.y, 0);
+
+    await page.evaluate(async () => {
+        const modulePath = '/lib/file-list/src/main.ts';
+        const {FileList} = await import(modulePath) as typeof import('@zui/file-list');
+        FileList.get('#fileListThumbnails')!.render({
+            thumbnailPreview: {maxWidth: 320, maxHeight: 240, placement: 'bottom-end'},
+        });
+    });
+    await expect(thumbnail).toHaveAttribute('data-pop-placement', 'bottom');
+    const updatedPreviewBox = (await preview.boundingBox())!;
+    expect(updatedPreviewBox.y).toBeGreaterThan(initialThumbnailBox.y + initialThumbnailBox.height);
+    expect(updatedPreviewBox.x + updatedPreviewBox.width).toBeCloseTo(initialThumbnailBox.x + initialThumbnailBox.width, 0);
+
+    await page.evaluate(async () => {
+        const modulePath = '/lib/file-list/src/main.ts';
+        const {FileList} = await import(modulePath) as typeof import('@zui/file-list');
+        const list = FileList.get('#fileListThumbnails')!;
+        list.element.style.cssText = 'position:fixed;right:8px;bottom:8px;width:60px;z-index:1';
+        list.render({thumbnailPreview: {maxWidth: 320, maxHeight: 240, placement: 'right'}});
+    });
+    await thumbnail.hover();
     await expect(thumbnail).toHaveAttribute('data-pop-placement', 'left');
     await preview.hover();
     await expect(preview).toBeVisible();

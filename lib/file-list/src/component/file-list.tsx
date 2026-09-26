@@ -60,7 +60,8 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
             if (!this.props.thumbnail || !this.props.thumbnailPreview || !this.element?.contains(image)) {
                 this._destroyThumbnailPreview();
             } else {
-                preview.render({content: this._getThumbnailPreviewContent(image)});
+                preview.render(this._getThumbnailPreviewOptions(image));
+                preview.updateLayout();
             }
         }
         this._objectURLs.forEach((url, file) => {
@@ -72,19 +73,22 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
         super._afterRender(firstRender);
     }
 
-    protected _getThumbnailPreviewContent(image: HTMLImageElement) {
+    protected _getThumbnailPreviewOptions(image: HTMLImageElement): Pick<PopoverOptions, 'placement' | 'content'> {
         const {thumbnailPreview} = this.props;
-        const {maxWidth = 200, maxHeight = 200} = typeof thumbnailPreview === 'object' ? thumbnailPreview : {};
-        return (
-            <img
-                className="block w-auto h-auto object-contain"
-                src={image.currentSrc || image.src}
-                alt={image.alt}
-                style={{maxWidth: `min(${maxWidth}px, calc(100vw - 24px))`, maxHeight: `min(${maxHeight}px, calc(100vh - 24px))`}}
-                onLoad={() => this._thumbnailPreview?.updateLayout()}
-                onError={this._destroyThumbnailPreview}
-            />
-        );
+        const {maxWidth = 200, maxHeight = 200, placement = 'left-start'} = typeof thumbnailPreview === 'object' ? thumbnailPreview : {};
+        return {
+            placement,
+            content: (
+                <img
+                    className="block w-auto h-auto object-contain"
+                    src={image.currentSrc || image.src}
+                    alt={image.alt}
+                    style={{maxWidth: `min(${maxWidth}px, calc(100vw - 24px))`, maxHeight: `min(${maxHeight}px, calc(100vh - 24px))`}}
+                    onLoad={() => this._thumbnailPreview?.updateLayout()}
+                    onError={this._destroyThumbnailPreview}
+                />
+            ),
+        };
     }
 
     protected _handleThumbnailEnter = (event: MouseEvent) => {
@@ -100,7 +104,6 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
         this._thumbnailPreview = new Popover<PopoverOptions>(image, {
             trigger: 'hover',
             show: true,
-            placement: 'right',
             strategy: 'fixed',
             shift: {padding: 8, crossAxis: true},
             offset: 8,
@@ -111,7 +114,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
             hideNewOnHide: false,
             className: 'file-list-thumbnail-preview',
             contentClass: 'p-1',
-            content: this._getThumbnailPreviewContent(image),
+            ...this._getThumbnailPreviewOptions(image),
             onHidden: this._destroyThumbnailPreview,
         });
         document.addEventListener('keydown', this._handleThumbnailKeyDown);

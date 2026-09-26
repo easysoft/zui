@@ -134,7 +134,7 @@ onPageUpdate(() => {
         fileIcon: FileListView.getFileIconMap(),
         mode: 'cards',
         thumbnail: true,
-        thumbnailPreview: {maxWidth: 320, maxHeight: 240},
+        thumbnailPreview: {maxWidth: 320, maxHeight: 240, placement: 'right-start'},
         fileActions,
     });
     fileListCardsInline = new FileList('#fileListCardsInline', {

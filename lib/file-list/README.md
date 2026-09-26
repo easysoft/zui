@@ -35,14 +35,16 @@
 <div id="fileListThumbnails"></div>
 ```
 
-本例启用 `thumbnailPreview: true`，悬停缩略图可查看同一图片的完整内容，最大宽高默认为 `200 × 200px`，保持比例且不放大小图。移入浮层可继续查看，离开后延迟 150ms 关闭，也可按 Escape 关闭。
+本例启用 `thumbnailPreview: true`，悬停缩略图可查看同一图片的完整内容，默认显示在左上方（`left-start`，左侧、顶部对齐），最大宽高默认为 `200 × 200px`，保持比例且不放大小图。移入浮层可继续查看，离开后延迟 150ms 关闭，也可按 Escape 关闭。
 
 ```ts
 fileList.render({thumbnail: true, thumbnailPreview: true});
-fileList.render({thumbnailPreview: {maxWidth: 320, maxHeight: 240}});
+fileList.render({thumbnailPreview: {maxWidth: 320, maxHeight: 240, placement: 'right-start'}});
 ```
 
 `thumbnailPreview` 默认关闭，需同时启用 `thumbnail`。对象中未指定的宽或高仍为 `200px`；文件名、图标及加载失败的占位内容不触发预览。
+
+`placement` 沿用 Popover 的位置选项：`top`、`right`、`bottom`、`left`，以及各方向的 `-start`、`-end` 对齐方式，例如 `top-start`、`bottom-end`。省略时使用 `left-start`；浮层打开后更新此选项会立即重新定位，空间不足时仍会自动翻转、调整位置。
 
 ## 两行显示
 
@@ -54,7 +56,7 @@ fileList.render({thumbnailPreview: {maxWidth: 320, maxHeight: 240}});
 
 ## 卡片模式
 
-卡片模式下，文件列表显示为卡片样式，每个文件显示为一张卡片，卡片上显示文件名称、大小、链接和操作按钮。本例将悬停预览的最大尺寸设为 `320 × 240px`。
+卡片模式下，文件列表显示为卡片样式，每个文件显示为一张卡片，卡片上显示文件名称、大小、链接和操作按钮。本例将悬停预览的最大尺寸设为 `320 × 240px`，位置设为右侧顶部对齐（`right-start`）。
 
 ```html:example
 <div id="fileListCards"></div>

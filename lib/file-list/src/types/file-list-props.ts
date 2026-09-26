@@ -3,6 +3,7 @@ import type {Item} from '@zui/common-list';
 import type {ListProps, ListitemProps} from '@zui/list';
 import type {FileInfo, OriginFileInfo} from './file-info';
 import type {AvatarOptions} from '@zui/avatar';
+import type {PopoverOptions} from '@zui/popover';
 
 export type FileIconGetter = (file: FileInfo) => IconType;
 
@@ -31,7 +32,12 @@ export interface FileListProps<T extends FileInfoLike = FileInfoLike> extends Li
     /** Use avatars to show file thumbnails and fallback icons. Defaults to false. Pass Avatar options to customize. */
     thumbnail?: boolean | Partial<AvatarOptions>;
     /** Preview thumbnail images on hover. Requires thumbnail; defaults to false. Maximum dimensions are in pixels, each defaulting to 200. */
-    thumbnailPreview?: boolean | {maxWidth?: number; maxHeight?: number};
+    thumbnailPreview?: boolean | {
+        maxWidth?: number;
+        maxHeight?: number;
+        /** Preferred placement; defaults to left-start (left side, aligned at the top). */
+        placement?: PopoverOptions['placement'];
+    };
     /** Override the thumbnail URL. An empty string falls back to the file's thumbnail or native image preview. */
     getThumbnail?: FileCallback<T, string>;
     fileSizeFormat?: string;
