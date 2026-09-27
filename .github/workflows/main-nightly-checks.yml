@@ -1,5 +1,5 @@
 name: Lightsail runner validation
-run-name: Lightsail ZUI build and browser validation
+run-name: Lightsail Firefox WebGL environment verification
 
 on:
   workflow_dispatch:
@@ -12,130 +12,62 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  validate:
+  probe:
     runs-on: zui-lightsail-validation-20260927
-    timeout-minutes: 90
+    timeout-minutes: 10
     env:
       CI: 'true'
+      PLAYWRIGHT_ALL_BROWSERS: '1'
       PLAYWRIGHT_SKIP_VISUAL: '1'
       NODE_OPTIONS: --max-old-space-size=2048
-      BASE_PATH: /zui/3/
     steps:
-      - name: Check out the current main commit
-        id: checkout
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           ref: 0bbc93aa26719d3b05f3149b6b307a07c3f63cd8
           persist-credentials: false
-
-      - name: Set up pnpm
-        id: pnpm
-        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413
         with:
           version: 12.5.1
-
-      - name: Set up Node.js and dependency cache
-        id: node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '22'
-          check-latest: true
-          cache: pnpm
+      - run: pnpm install --frozen-lockfile
 
-      - name: Install dependencies
-        id: install
-        run: /usr/bin/time -v pnpm install --frozen-lockfile
-
-      - name: Audit dependency security
-        id: audit
-        continue-on-error: true
-        run: /usr/bin/time -v pnpm audit --audit-level=high
-
-      - name: Run lint
-        id: lint
-        continue-on-error: true
-        run: /usr/bin/time -v pnpm lint
-
-      - name: Run type checks
-        id: types
-        continue-on-error: true
-        run: /usr/bin/time -v pnpm typecheck
-
-      - name: Run skills tests
-        id: skills
-        continue-on-error: true
-        run: /usr/bin/time -v pnpm test:skills
-
-      - name: Run tests with coverage using one worker
-        id: coverage
-        continue-on-error: true
-        run: /usr/bin/time -v pnpm test:coverage --maxWorkers=1 --no-file-parallelism
-
-      - name: Verify representative distributions
-        id: distributions
-        continue-on-error: true
-        run: /usr/bin/time -v pnpm test:build
-
-      - name: Build and verify the complete distribution
-        id: build
-        continue-on-error: true
+      - name: Compare Firefox WebGL support with and without Xvfb
         run: |
-          /usr/bin/time -v pnpm build -- --lib=zui --name=zui --outDir=dist/zui --ignoreNotReady
-          test -s dist/zui/zui.js
-          test -s dist/zui/zui.esm.js
-          test -s dist/zui/zui.css
+          cat > "$RUNNER_TEMP/firefox-webgl.cjs" <<'JS'
+          const {firefox} = require(process.env.GITHUB_WORKSPACE + '/node_modules/@playwright/test');
+          (async () => {
+            const headless = process.env.HEADLESS === 'true';
+            const browser = await firefox.launch({headless});
+            try {
+              const page = await browser.newPage();
+              const contexts = await page.evaluate(() => Object.fromEntries(
+                ['webgl', 'webgl2'].map(type => [type, Boolean(document.createElement('canvas').getContext(type))])
+              ));
+              console.log(JSON.stringify({headless, ...contexts}));
+            } finally {
+              await browser.close();
+            }
+          })().catch(error => { console.error(error); process.exitCode = 1; });
+          JS
+          HEADLESS=true node "$RUNNER_TEMP/firefox-webgl.cjs"
+          HEADLESS=false xvfb-run --auto-servernum node "$RUNNER_TEMP/firefox-webgl.cjs"
 
-      - name: Install Playwright browsers
-        id: browser_install
-        continue-on-error: true
-        run: /usr/bin/time -v pnpm exec playwright install chromium firefox webkit
+      - name: Recheck the failed Firefox background test under Xvfb
+        run: |
+          xvfb-run --auto-servernum pnpm exec playwright test tests/e2e/dev-catalog.spec.ts \
+            --project=firefox --grep 'renders the background' --headed --workers=1 --retries=0 --fail-on-flaky-tests
 
-      - name: Run Chromium browser contracts
-        id: chromium
-        continue-on-error: true
-        run: /usr/bin/time -v pnpm test:e2e:all --project=chromium --workers=1 --fail-on-flaky-tests
+      - name: Measure the slow Firefox rendering case with a diagnostic timeout
+        if: ${{ !cancelled() }}
+        run: |
+          pnpm exec playwright test tests/e2e/list-limit.spec.ts:26 \
+            --project=firefox --workers=1 --retries=0 --timeout=120000 --fail-on-flaky-tests
 
-      - name: Run Firefox browser contracts
-        id: firefox
-        continue-on-error: true
-        run: /usr/bin/time -v pnpm test:e2e:all --project=firefox --workers=1 --fail-on-flaky-tests
-
-      - name: Run WebKit browser contracts
-        id: webkit
-        continue-on-error: true
-        run: /usr/bin/time -v pnpm test:e2e:all --project=webkit --workers=1 --fail-on-flaky-tests
-
-      - name: Build documentation
-        id: docs_build
-        continue-on-error: true
-        run: /usr/bin/time -v pnpm docs:build
-
-      - name: Verify documentation examples
-        id: docs_test
-        continue-on-error: true
-        run: /usr/bin/time -v pnpm test:docs --workers=1 --fail-on-flaky-tests
-
-      - name: Preserve results on the VPS and summarize outcomes
+      - name: Preserve Firefox probe diagnostics on the VPS
         if: always()
-        env:
-          VALIDATION_STEPS: ${{ toJSON(steps) }}
         run: |
-          python3 - <<'PY'
-          import json, os, pathlib, sys, tarfile
-          steps = json.loads(os.environ['VALIDATION_STEPS'])
-          result = pathlib.Path.home() / 'validation-results' / os.environ['GITHUB_RUN_ID']
-          result.mkdir(parents=True, exist_ok=True)
-          outcomes = {name: step['outcome'] for name, step in steps.items()}
-          (result / 'outcomes.json').write_text(json.dumps(outcomes, indent=2) + '\n')
-          with tarfile.open(result / 'results.tar.gz', 'w:gz') as archive:
-              for name in ['coverage', 'dist/zui', 'playwright-report', 'test-results']:
-                  if pathlib.Path(name).exists():
-                      archive.add(name)
-          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
-              summary.write('| Check | Result |\n|---|---|\n')
-              for name, outcome in outcomes.items():
-                  summary.write(f'| {name} | {outcome} |\n')
-          print(json.dumps(outcomes, indent=2))
-          print(f'Results saved on VPS: {result}')
-          sys.exit(any(value != 'success' for value in outcomes.values()))
-          PY
+          result="$HOME/validation-results/$GITHUB_RUN_ID"
+          mkdir -p "$result"
+          tar -czf "$result/firefox-probe.tar.gz" playwright-report test-results
