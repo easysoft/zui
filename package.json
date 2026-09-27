@@ -25,6 +25,7 @@
     "dev:exts": "tsx ./scripts/dev/index.ts",
     "build:vite": "tsc && vite build",
     "build": "tsx ./scripts/build",
+    "build:npm": "pnpm build -- --lib=zui --name=zui --outDir=dist/zui --ignoreNotReady && tsx ./scripts/build/npm-types.ts",
     "preview": "vite preview",
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint . --max-warnings=0",
@@ -48,7 +49,7 @@
     "docs:prepare": "tsx ./scripts/docs/prepare.ts",
     "extend-lib": "tsx ./scripts/libs/extend-lib.ts",
     "lib:keywords": "tsx ./scripts/libs/check-keywords.ts",
-    "publish:npm": "pnpm build -- --ignoreNotReady && tsx ./scripts/build/publish.ts && cd ./publish && npm publish"
+    "publish:npm": "pnpm build:npm && tsx ./scripts/build/publish.ts && cd ./publish && npm publish"
   },
   "dependencies": {
     "@floating-ui/core": "^1.7.3",

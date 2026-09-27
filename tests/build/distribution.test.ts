@@ -1,6 +1,7 @@
 import {execFile} from 'node:child_process';
 import {promises as fs} from 'node:fs';
 import {createRequire} from 'node:module';
+import {tmpdir} from 'node:os';
 import Path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {promisify} from 'node:util';
@@ -219,10 +220,11 @@ describe('external Cash distribution', () => {
     });
 });
 
-test('installs the npm tarball with working ESM, CommonJS, UMD, and CSS entries', async () => {
+test('installs the npm tarball with working runtime entries and strict TypeScript declarations', async ({onTestFinished}) => {
     const publishFixture = Path.join(outputRoot, 'publish-project');
     const publishPath = Path.join(publishFixture, 'publish');
-    const consumerPath = Path.join(outputRoot, 'consumer');
+    const consumerPath = await fs.mkdtemp(Path.join(tmpdir(), 'zui-npm-consumer-'));
+    onTestFinished(() => fs.rm(consumerPath, {recursive: true, force: true}));
     const npmCache = Path.join(outputRoot, 'npm-cache');
 
     await runBuild([
@@ -231,6 +233,10 @@ test('installs the npm tarball with working ESM, CommonJS, UMD, and CSS entries'
         `--outDir=${Path.join(publishFixture, 'dist/zui')}`,
         '--ignoreNotReady',
     ]);
+    await execFileAsync(process.execPath, ['--import', 'tsx', Path.join(projectRoot, 'scripts/build/npm-types.ts'), Path.join(publishFixture, 'dist/zui')], {
+        cwd: projectRoot,
+        maxBuffer: 20 * 1024 * 1024,
+    });
     await fs.mkdir(publishPath, {recursive: true});
     for (const file of ['package.json', 'publish/package.json', 'README.md', 'LICENSE']) {
         await fs.copyFile(Path.join(projectRoot, file), Path.join(publishFixture, file));
@@ -243,16 +249,105 @@ test('installs the npm tarball with working ESM, CommonJS, UMD, and CSS entries'
     ], {cwd: publishPath});
     const [{filename}] = JSON.parse(stdout) as {filename: string}[];
 
-    await fs.mkdir(consumerPath, {recursive: true});
     await fs.writeFile(Path.join(consumerPath, 'package.json'), JSON.stringify({private: true, type: 'module'}));
     await execFileAsync(npmCommand, [
-        'install', '--offline', '--ignore-scripts', '--no-audit', '--no-fund', '--package-lock=false',
+        'install', '--ignore-scripts', '--no-audit', '--no-fund', '--package-lock=false',
         '--cache', npmCache, Path.join(outputRoot, filename),
     ], {cwd: consumerPath});
     const entryPath = Path.join(consumerPath, 'entry.mjs');
     await fs.writeFile(entryPath, 'export * from \'zui\';\n');
     const packageRequire = createRequire(Path.join(consumerPath, 'package.json'));
     const installedPackage = Path.join(consumerPath, 'node_modules/zui');
+
+    const typeConsumer = `
+import 'zui/css';
+import {
+    $, Picker, Pager, Modal, ProgressCircle, definePicker, signal, computed,
+    type PickerOptions, type ReadonlySignal, type Cash,
+    type FileListFileInfo, type FileSelectorFileInfo,
+    type DashboardBlockProps, type DTableBlockProps, type DTableCustomRenderResult,
+} from 'zui';
+
+const options: PickerOptions = {
+    items: [{value: 'apple', text: 'Apple'}],
+    onChange(value, previous) {
+        value.toUpperCase();
+        previous.toUpperCase();
+        // @ts-expect-error Picker change values are strings.
+        const invalid: number = value;
+    },
+};
+const picker = new Picker(document.createElement('div'), options);
+picker.render({disabled: true});
+picker.destroy();
+new Pager(document.createElement('div'), {
+    recTotal: 100,
+    onChange({info, event}) {
+        info.page.toFixed();
+        event.preventDefault();
+        // @ts-expect-error Page numbers are numeric.
+        info.page.toUpperCase();
+    },
+});
+new ProgressCircle(document.createElement('div'), {percent: 50});
+Modal.confirm('Continue?').then(confirmed => { const result: boolean = confirmed; });
+const cash: Cash = $('body').z({answer: 42});
+const count = signal(1);
+const doubled: ReadonlySignal<number> = computed(() => count.value * 2);
+definePicker();
+document.createElement('zui-picker').value = 'apple';
+const listFile: FileListFileInfo = {title: 'Notes', extension: 'txt', size: 1, pathname: '/notes', addedBy: 'me', addedDate: ''};
+const selectedFile: FileSelectorFileInfo = {id: 'notes', name: 'Notes', size: 1, type: 'text/plain', ext: 'txt'};
+const dashboardBlock: Partial<DashboardBlockProps> = {};
+const tableBlock: Partial<DTableBlockProps> = {};
+const renderCell: DTableCustomRenderResult = 'cell';
+
+// @ts-expect-error Invalid option values must not silently become any.
+new Picker(document.body, {items: [], multiple: 'many'});
+// @ts-expect-error Instance methods must retain their parameter types.
+picker.render({disabled: 'yes'});
+// @ts-expect-error Nonexistent instance methods must be rejected.
+picker.nonexistentMethod();
+// @ts-expect-error Cash is a type-only export, not a runtime constructor.
+new Cash();
+`;
+    await fs.writeFile(Path.join(consumerPath, 'consumer.mts'), typeConsumer);
+    await fs.writeFile(Path.join(consumerPath, 'consumer.cts'), `${typeConsumer}
+import zui = require('zui');
+const pickerFromRequire: import('zui', {with: {'resolution-mode': 'import'}}).Picker = new zui.Picker(document.body, {items: []});
+`);
+    await fs.writeFile(Path.join(consumerPath, 'consumer.ts'), typeConsumer);
+    for (const mode of ['Node16', 'NodeNext', 'Bundler']) {
+        await fs.writeFile(Path.join(consumerPath, 'tsconfig.json'), JSON.stringify({
+            compilerOptions: {
+                strict: true,
+                skipLibCheck: false,
+                noEmit: true,
+                noUncheckedSideEffectImports: true,
+                types: [],
+                target: 'ES2022',
+                module: mode === 'Bundler' ? 'ESNext' : mode,
+                moduleResolution: mode,
+            },
+            files: mode === 'Bundler' ? ['consumer.ts'] : ['consumer.mts', 'consumer.cts'],
+        }));
+        await execFileAsync(process.execPath, [Path.join(projectRoot, 'node_modules/typescript/bin/tsc'), '-p', 'tsconfig.json'], {
+            cwd: consumerPath,
+            maxBuffer: 20 * 1024 * 1024,
+        }).catch((error) => {
+            throw new Error(`TypeScript ${mode} consumer failed:\n${error.stdout}\n${error.stderr}`);
+        });
+    }
+
+    for (const file of await fs.readdir(Path.join(installedPackage, 'dist'), {recursive: true})) {
+        if (!file.endsWith('.d.ts') && !file.endsWith('.d.cts')) {
+            continue;
+        }
+        const declaration = await fileContents(Path.join(installedPackage, 'dist', file));
+        expect(declaration, file).not.toMatch(/(?:from\s*|import\s*\(?)["']@zui\//);
+        expect(declaration, file).not.toContain(projectRoot);
+        expect(declaration, file).not.toContain('.pnpm/');
+    }
 
     await withBrowserGlobals(async (dom) => {
         const distribution = await import(pathToFileURL(entryPath).href) as Record<string, unknown>;

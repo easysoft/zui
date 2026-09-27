@@ -3,6 +3,7 @@
     "description": "ZUI progress-circle",
     "version": "0.0.1",
     "keywords": ["js", "zui:control"],
+    "main": "src/main.ts",
     "module": "src/main.ts",
     "files": [
         "./src/**/*"

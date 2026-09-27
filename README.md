@@ -89,6 +89,34 @@ import {Messager} from 'zui';
 Messager.show('ZUI 3 已就绪！');
 ```
 
+### 在 TypeScript 中使用
+
+npm 包包含选项、事件、实例方法和 Web Components 的类型声明，无需配置 `@zui/*` 路径别名或安装 `@types/zui`。公开类型引用的第三方依赖会随包自动安装。
+
+页面准备一个 `<div id="productPicker"></div>`，即可在客户端初始化组件：
+
+```ts
+import 'zui/css';
+import {Picker, type PickerOptions} from 'zui';
+
+const options: PickerOptions = {
+    items: [{value: 'zui', text: 'ZUI'}],
+    onChange(value, oldValue) {
+        // value 和 oldValue 均推断为 string。
+        console.log(value, oldValue);
+    },
+};
+
+const picker = new Picker('#productPicker', options);
+picker.render({disabled: true});
+// 页面或宿主组件卸载时清理实例。
+picker.destroy();
+```
+
+已使用 TypeScript 5.9 在 `strict: true`、`skipLibCheck: false` 下验收 `Bundler`、`Node16` 和 `NodeNext` 模块解析，包括 ESM、CommonJS 和 `zui/css` 入口。运行时仍需要浏览器 DOM，SSR 应用应在客户端加载并初始化组件。
+
+同名类型可通过明确的名称导入：`FileListFileInfo` / `FileSelectorFileInfo`、`DashboardBlockProps` / `DTableBlockProps`。`FileInfo`、`BlockProps` 分别对应 FileList、Dashboard；通用 `CustomRenderResult` 系列来自 core，DTable 的版本使用 `DTableCustomRenderResult`、`DTableCustomRenderResultGenerator` 和 `DTableCustomRenderResultList`。
+
 完整的引入方式、组件 API 与示例请查看 [ZUI 文档](https://openzui.com/)。
 
 ## 源码开发
@@ -119,11 +147,12 @@ pnpm dev
 | `pnpm typecheck` | 检查源码、工具与测试的 TypeScript 类型 |
 | `pnpm test` | 运行 Vitest 单元和 DOM 组件测试 |
 | `pnpm test:coverage` | 运行单元和 DOM 测试并生成覆盖率报告 |
-| `pnpm test:build` | 验证代表性 ESM、UMD、CSS、source map、ZIP 与外置 Cash 产物 |
+| `pnpm test:build` | 验证代表性分发产物，并在仓库外安装 npm 包验收运行时与严格 TypeScript 消费 |
 | `pnpm test:e2e` | 使用 Chromium 运行 Playwright 浏览器测试 |
 | `pnpm test:e2e:all` | 使用 Chromium、Firefox 和 WebKit 运行浏览器测试 |
 | `pnpm check` | 运行 lint、typecheck、单元/DOM 测试和技能测试 |
 | `pnpm build` | 构建完整的 ZUI 产物 |
+| `pnpm build:npm` | 构建用于 npm 发布的 `dist/zui` 及 TypeScript 声明，不执行发布 |
 | `pnpm docs:dev` | 准备并启动 VitePress 文档服务 |
 | `pnpm docs:build` | 构建文档站点 |
 

@@ -33,7 +33,7 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
     /**
      * List items, can be an array or a function that returns an array.
      */
-    items?: ItemsSetting<T> | unknown;
+    items?: unknown;
 
     /**
      * Item common properties.
