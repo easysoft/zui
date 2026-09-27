@@ -1,5 +1,5 @@
 name: Lightsail runner validation
-run-name: Lightsail runner smoke test
+run-name: Lightsail ZUI build and browser validation
 
 on:
   workflow_dispatch:
@@ -12,32 +12,130 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  smoke:
+  validate:
     runs-on: zui-lightsail-validation-20260927
-    timeout-minutes: 10
+    timeout-minutes: 90
+    env:
+      CI: 'true'
+      PLAYWRIGHT_SKIP_VISUAL: '1'
+      NODE_OPTIONS: --max-old-space-size=2048
+      BASE_PATH: /zui/3/
     steps:
-      - name: Verify runner dispatch and isolation
-        run: |
-          set -euo pipefail
-          test "$(id -un)" = gh-runner
-          test ! -r /etc/x-ui/x-ui.db
-          id
-          uname -m
-          free -m
-          printf 'GitHub dispatched a job to the Singapore VPS.\n' | tee "$RUNNER_TEMP/lightsail-smoke.txt"
-          cat /sys/fs/cgroup/system.slice/zui-runner-validation.service/memory.max
-          cat /sys/fs/cgroup/system.slice/zui-runner-validation.service/cpu.max
-
       - name: Check out the current main commit
+        id: checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           ref: 0bbc93aa26719d3b05f3149b6b307a07c3f63cd8
           persist-credentials: false
 
-      - name: Verify artifact upload
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - name: Set up pnpm
+        id: pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413
         with:
-          name: lightsail-runner-smoke
-          path: ${{ runner.temp }}/lightsail-smoke.txt
-          if-no-files-found: error
-          retention-days: 1
+          version: 12.5.1
+
+      - name: Set up Node.js and dependency cache
+        id: node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+          check-latest: true
+          cache: pnpm
+
+      - name: Install dependencies
+        id: install
+        run: /usr/bin/time -v pnpm install --frozen-lockfile
+
+      - name: Audit dependency security
+        id: audit
+        continue-on-error: true
+        run: /usr/bin/time -v pnpm audit --audit-level=high
+
+      - name: Run lint
+        id: lint
+        continue-on-error: true
+        run: /usr/bin/time -v pnpm lint
+
+      - name: Run type checks
+        id: types
+        continue-on-error: true
+        run: /usr/bin/time -v pnpm typecheck
+
+      - name: Run skills tests
+        id: skills
+        continue-on-error: true
+        run: /usr/bin/time -v pnpm test:skills
+
+      - name: Run tests with coverage using one worker
+        id: coverage
+        continue-on-error: true
+        run: /usr/bin/time -v pnpm test:coverage --maxWorkers=1 --no-file-parallelism
+
+      - name: Verify representative distributions
+        id: distributions
+        continue-on-error: true
+        run: /usr/bin/time -v pnpm test:build
+
+      - name: Build and verify the complete distribution
+        id: build
+        continue-on-error: true
+        run: |
+          /usr/bin/time -v pnpm build -- --lib=zui --name=zui --outDir=dist/zui --ignoreNotReady
+          test -s dist/zui/zui.js
+          test -s dist/zui/zui.esm.js
+          test -s dist/zui/zui.css
+
+      - name: Install Playwright browsers
+        id: browser_install
+        continue-on-error: true
+        run: /usr/bin/time -v pnpm exec playwright install chromium firefox webkit
+
+      - name: Run Chromium browser contracts
+        id: chromium
+        continue-on-error: true
+        run: /usr/bin/time -v pnpm test:e2e:all --project=chromium --workers=1 --fail-on-flaky-tests
+
+      - name: Run Firefox browser contracts
+        id: firefox
+        continue-on-error: true
+        run: /usr/bin/time -v pnpm test:e2e:all --project=firefox --workers=1 --fail-on-flaky-tests
+
+      - name: Run WebKit browser contracts
+        id: webkit
+        continue-on-error: true
+        run: /usr/bin/time -v pnpm test:e2e:all --project=webkit --workers=1 --fail-on-flaky-tests
+
+      - name: Build documentation
+        id: docs_build
+        continue-on-error: true
+        run: /usr/bin/time -v pnpm docs:build
+
+      - name: Verify documentation examples
+        id: docs_test
+        continue-on-error: true
+        run: /usr/bin/time -v pnpm test:docs --workers=1 --fail-on-flaky-tests
+
+      - name: Preserve results on the VPS and summarize outcomes
+        if: always()
+        env:
+          VALIDATION_STEPS: ${{ toJSON(steps) }}
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib, sys, tarfile
+          steps = json.loads(os.environ['VALIDATION_STEPS'])
+          result = pathlib.Path.home() / 'validation-results' / os.environ['GITHUB_RUN_ID']
+          result.mkdir(parents=True, exist_ok=True)
+          outcomes = {name: step['outcome'] for name, step in steps.items()}
+          (result / 'outcomes.json').write_text(json.dumps(outcomes, indent=2) + '\n')
+          with tarfile.open(result / 'results.tar.gz', 'w:gz') as archive:
+              for name in ['coverage', 'dist/zui', 'playwright-report', 'test-results']:
+                  if pathlib.Path(name).exists():
+                      archive.add(name)
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              summary.write('| Check | Result |\n|---|---|\n')
+              for name, outcome in outcomes.items():
+                  summary.write(f'| {name} | {outcome} |\n')
+          print(json.dumps(outcomes, indent=2))
+          print(f'Results saved on VPS: {result}')
+          sys.exit(any(value != 'success' for value in outcomes.values()))
+          PY
