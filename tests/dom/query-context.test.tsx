@@ -3,7 +3,6 @@ import {act, render, screen} from '@testing-library/preact';
 import {describe, expect, expectTypeOf, it, vi} from 'vitest';
 import {
     HElement,
-    HElementSignals,
     QueryClient,
     QueryClientContext,
     QueryClientProvider,
@@ -45,8 +44,8 @@ describe('query context', () => {
         client.clear();
     });
 
-    it('passes context through HElementSignals and custom constructors', () => {
-        class SignalView extends HElementSignals<HElementProps> {
+    it('passes context through HElement and custom constructors', () => {
+        class ContextView extends HElement<HElementProps> {
             static contextType = QueryClientContext;
 
             declare context: QueryClient | undefined;
@@ -59,8 +58,8 @@ describe('query context', () => {
             }
         }
         const client = new QueryClient();
-        const ref = createRef<SignalView>();
-        const view = render(<QueryClientProvider client={client}><SignalView ref={ref} /></QueryClientProvider>);
+        const ref = createRef<ContextView>();
+        const view = render(<QueryClientProvider client={client}><ContextView ref={ref} /></QueryClientProvider>);
         expect(ref.current?.client).toBe(client);
         view.unmount();
     });
@@ -169,10 +168,10 @@ describe('HElement.createQuery', () => {
         client.clear();
     });
 
-    it('is inherited by HElementSignals and preserves component lifecycle callbacks', async () => {
+    it('preserves component lifecycle callbacks and renders query signals', async () => {
         const client = new QueryClient({defaultOptions: {queries: {gcTime: Infinity}}});
         const queryFn = vi.fn(async () => 'signals query');
-        class SignalQueryView extends HElementSignals<HElementProps> {
+        class SignalQueryView extends HElement<HElementProps> {
             static contextType = QueryClientContext;
 
             query = this.createQuery({queryKey: ['signals'], queryFn});

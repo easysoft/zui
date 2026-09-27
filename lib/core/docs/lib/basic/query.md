@@ -67,7 +67,7 @@ const users = zui.createQuery(client, {
 
 ## Preact Context
 
-模块开发时从 `@zui/core` 导入。`QueryClientProvider` 管理客户端的挂载与卸载；`HElement` 和 `HElementSignals` 的实例方法 `createQuery(options)` 从 Context 获取客户端，并自动随组件挂载、销毁查询。以下示例使用模拟数据，可直接挂到页面中的容器：
+模块开发时从 `@zui/core` 导入。`QueryClientProvider` 管理客户端的挂载与卸载；`HElement` 的实例方法 `createQuery(options)` 从 Context 获取客户端，并自动随组件挂载、销毁查询。以下示例使用模拟数据，可直接挂到页面中的容器：
 
 ```tsx
 import {
@@ -134,7 +134,7 @@ render(
 
 `this.createQuery(options, client?)` 按“第二参数 → `props.queryClient` → `QueryClientContext`”取得客户端，找不到时抛出错误。使用 Context 时声明 `static contextType = QueryClientContext`；通过 `queryClient` prop 或第二参数指定客户端时，不需要声明 Context。组件可以继续使用自己的其他 Context。
 
-实例方法返回与独立 `createQuery()` 相同的控制器，保留类型推导、`result`、`setOptions()` 和 `refetch()`。`HElementSignals` 直接继承此方法。
+实例方法返回与独立 `createQuery()` 相同的控制器，保留类型推导、`result`、`setOptions()` 和 `refetch()`。
 
 - 在类字段或构造函数中创建的查询，会延迟到组件挂载时订阅。
 - 挂载后创建的查询会立即订阅，卸载时统一销毁。
@@ -144,7 +144,7 @@ render(
 
 查询创建后绑定原客户端；修改 `queryClient` prop 时也需重建查询。客户端本身的生命周期仍由应用或 Provider 管理。非 `HElement` 组件可继续使用独立 `createQuery(client, options)` 和 `resolveQueryClient(explicitClient?, contextClient?)`，并自行配对查询的挂载、销毁。
 
-`HElement` 和 `HElementSignals` 会透传构造函数的 context，因此没有自定义构造函数时，可以直接在类字段初始化中使用 `this.context`。子类如有自定义构造函数，须把第二个参数传给 `super(props, context)`；中间基类也须继续透传。
+`HElement` 会透传构造函数的 context，因此没有自定义构造函数时，可以直接在类字段初始化中使用 `this.context`。子类如有自定义构造函数，须把第二个参数传给 `super(props, context)`；中间基类也须继续透传。
 
 函数组件可以通过 `QueryClientContext.Consumer` 读取客户端，再把它交给拥有生命周期的子组件；不要在每次 render 的 Consumer 回调内创建查询或发起请求：
 

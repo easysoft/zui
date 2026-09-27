@@ -1,12 +1,12 @@
 import {ComponentChildren, RenderableProps} from 'preact';
-import {HElementSignals, computed, effect} from '@zui/core';
+import {HElement, signal, computed, effect, batch, untracked} from '@zui/core';
 import {createDate, type DateLike, formatDate, getDateTime} from '@zui/helpers';
-import type {CalendarCategory, CalendarEvent, CalendarProps, CalendarState} from '../types';
+import type {CalendarCategory, CalendarEvent, CalendarProps} from '../types';
 import {CalendarHeader} from './calendar-header';
 import {CalendarMonthView} from './calendar-month-view';
 import {mergeCategories, mergeEvents} from '../helpers';
 
-export class Calendar<P extends CalendarProps = CalendarProps> extends HElementSignals<P, CalendarState> {
+export class Calendar<P extends CalendarProps = CalendarProps> extends HElement<P> {
     static NAME = 'Calendar';
 
     static defaultProps = {
@@ -14,40 +14,52 @@ export class Calendar<P extends CalendarProps = CalendarProps> extends HElementS
         maxEventCount: 5,
     };
 
+    protected _props$ = signal(this.props);
+
+    protected _date$ = signal(getDateTime(this.props.date));
+
+    protected _mode$ = signal(this.props.view || 'month');
+
+    protected _readonly$ = signal(this.props.readonly ?? false);
+
+    protected _modifiedCategories$ = signal<CalendarCategory[]>([]);
+
+    protected _modifiedEvents$ = signal<CalendarEvent[]>([]);
+
     protected _categories$ = computed(() => {
         return mergeCategories([
-            ...this.props.categories || [],
-            ...this.signals.modifidCategories.value,
+            ...this._props$.value.categories || [],
+            ...this._modifiedCategories$.value,
         ], this.defaultCategoryID);
     });
 
     protected _events$ = computed(() => {
         return mergeEvents([
-            ...this.props.events || [],
+            ...this._props$.value.events || [],
             ...this.categories.reduce((acc, category) => [...acc, ...category.events || []], [] as CalendarEvent[]),
-            ...this.signals.modifiedEvents.value,
+            ...this._modifiedEvents$.value,
         ], this.defaultCategoryID);
     });
 
     protected _dateEffect = effect(() => {
         const {date, mode} = this;
-        this.props.onSwitchDate?.call(this, createDate(date), mode);
+        untracked(() => this._props$.peek().onSwitchDate?.call(this, createDate(date), mode));
     });
 
     get defaultCategoryID() {
-        return this.props.defaultCategory ?? 'DEFAULT';
+        return this._props$.value.defaultCategory ?? 'DEFAULT';
     }
 
     get date() {
-        return this.signals.date.value;
+        return this._date$.value;
     }
 
     get mode() {
-        return this.signals.mode.value;
+        return this._mode$.value;
     }
 
     get readonly() {
-        return this.state.readonly;
+        return this._readonly$.value;
     }
 
     get categories$() {
@@ -66,26 +78,27 @@ export class Calendar<P extends CalendarProps = CalendarProps> extends HElementS
         return this._events$.value;
     }
 
-    getDefaultState(props: RenderableProps<P>): CalendarState {
-        return {
-            date: getDateTime(props.date),
-            mode: props.view || 'month',
-            readonly: props.readonly ?? false,
-            modifidCategories: [],
-            modifiedEvents: [],
-        };
+    resetState(props: RenderableProps<P> = this.props) {
+        batch(() => {
+            this._props$.value = props;
+            this._date$.value = getDateTime(props.date);
+            this._mode$.value = props.view || 'month';
+            this._readonly$.value = props.readonly ?? false;
+            this._modifiedCategories$.value = [];
+            this._modifiedEvents$.value = [];
+        });
     }
 
     switchDate(date: DateLike) {
-        this.changeState({date: getDateTime(date)});
+        this._date$.value = getDateTime(date);
     }
 
     modifyEvents(events: CalendarEvent[]) {
-        this.changeState({modifiedEvents: mergeEvents([...this.signals.modifiedEvents.value, ...events])});
+        this._modifiedEvents$.value = mergeEvents([...this._modifiedEvents$.value, ...events]);
     }
 
     modifyCategories(categories: CalendarCategory[]) {
-        this.changeState({modifidCategories: mergeCategories([...this.signals.modifidCategories.value, ...categories])});
+        this._modifiedCategories$.value = mergeCategories([...this._modifiedCategories$.value, ...categories]);
     }
 
     clickEvent(eventID: string, mouseEvent: MouseEvent) {
@@ -121,19 +134,19 @@ export class Calendar<P extends CalendarProps = CalendarProps> extends HElementS
     }
 
     componentDidUpdate(previousProps: Readonly<P>): void {
-        const state: Partial<CalendarState> = {};
-        if (this.props.date !== undefined && previousProps.date !== this.props.date) {
-            state.date = getDateTime(this.props.date);
-        }
-        if (this.props.view !== undefined && previousProps.view !== this.props.view) {
-            state.mode = this.props.view;
-        }
-        if (this.props.readonly !== undefined && previousProps.readonly !== this.props.readonly) {
-            state.readonly = this.props.readonly;
-        }
-        if (Object.keys(state).length) {
-            this.changeState(state);
-        }
+        const {props} = this;
+        batch(() => {
+            this._props$.value = props;
+            if (props.date !== undefined && props.date !== previousProps.date) {
+                this._date$.value = getDateTime(props.date);
+            }
+            if (props.view !== undefined && props.view !== previousProps.view) {
+                this._mode$.value = props.view;
+            }
+            if (props.readonly !== undefined && props.readonly !== previousProps.readonly) {
+                this._readonly$.value = props.readonly;
+            }
+        });
     }
 
     protected _renderHeader(props: RenderableProps<P>): ComponentChildren {
