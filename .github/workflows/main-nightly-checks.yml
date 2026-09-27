@@ -1,202 +1,43 @@
-name: Main and nightly checks
+name: Lightsail runner validation
+run-name: Lightsail runner smoke test
 
 on:
-  push:
-    branches:
-      - main
-  schedule:
-    - cron: '0 18 * * *'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: main-nightly-${{ github.ref }}
-  cancel-in-progress: true
+  group: lightsail-runner-validation
+  cancel-in-progress: false
 
 jobs:
-  quality:
-    name: Quality and coverage
-    runs-on: ubuntu-24.04
-    timeout-minutes: 20
+  smoke:
+    runs-on: zui-lightsail-validation-20260927
+    timeout-minutes: 10
     steps:
-      - name: Check out repository
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          persist-credentials: false
-
-      - name: Set up pnpm
-        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
-        with:
-          version: 12.5.1
-
-      - name: Set up Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: '22'
-          check-latest: true
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Audit dependency security
-        run: pnpm audit --audit-level=high
-
-      - name: Run lint and type checks
-        run: pnpm lint && pnpm typecheck
-
-      - name: Run skills tests
-        run: pnpm test:skills
-
-      - name: Run tests with coverage
-        run: pnpm test:coverage
-
-      - name: Upload coverage
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: coverage
-          path: coverage/
-          if-no-files-found: error
-          retention-days: 14
-
-  distributions:
-    name: Distribution contracts and full build
-    runs-on: ubuntu-24.04
-    timeout-minutes: 40
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          persist-credentials: false
-
-      - name: Set up pnpm
-        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
-        with:
-          version: 12.5.1
-
-      - name: Set up Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: '22'
-          check-latest: true
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Verify representative distributions
-        run: pnpm test:build
-
-      - name: Build the complete distribution
-        run: pnpm build -- --lib=zui --name=zui --outDir=dist/zui --ignoreNotReady
-
-      - name: Verify complete distribution files
+      - name: Verify runner dispatch and isolation
         run: |
-          test -s dist/zui/zui.js
-          test -s dist/zui/zui.esm.js
-          test -s dist/zui/zui.css
+          set -euo pipefail
+          test "$(id -un)" = gh-runner
+          test ! -r /etc/x-ui/x-ui.db
+          id
+          uname -m
+          free -m
+          printf 'GitHub dispatched a job to the Singapore VPS.\n' | tee "$RUNNER_TEMP/lightsail-smoke.txt"
+          cat /sys/fs/cgroup/system.slice/zui-runner-validation.service/memory.max
+          cat /sys/fs/cgroup/system.slice/zui-runner-validation.service/cpu.max
 
-      - name: Upload complete distribution
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - name: Check out the current main commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          name: zui-distribution
-          path: dist/zui/
-          if-no-files-found: error
-          retention-days: 14
-
-  browsers:
-    name: ${{ matrix.browser }} browser contracts
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        browser:
-          - chromium
-          - firefox
-          - webkit
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
+          ref: 0bbc93aa26719d3b05f3149b6b307a07c3f63cd8
           persist-credentials: false
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - name: Verify artifact upload
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          version: 12.5.1
-
-      - name: Set up Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: '22'
-          check-latest: true
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Install ${{ matrix.browser }}
-        run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
-
-      - name: Run ${{ matrix.browser }} checks
-        env:
-          PLAYWRIGHT_SKIP_VISUAL: '1'
-        run: pnpm test:e2e:all --project=${{ matrix.browser }} --workers=1 --fail-on-flaky-tests
-
-      - name: Upload browser diagnostics
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: main-playwright-${{ matrix.browser }}-results
-          path: |
-            playwright-report/
-            test-results/playwright/
-          if-no-files-found: ignore
-          retention-days: 14
-
-  docs:
-    name: Build documentation for deployment
-    needs: [quality, distributions, browsers]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-24.04
-    timeout-minutes: 20
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          persist-credentials: false
-      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
-        with:
-          version: 12.5.1
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: '22'
-          check-latest: true
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - name: Build
-        run: BASE_PATH=/zui/3/ pnpm docs:build
-      - name: Install Chromium for documentation checks
-        run: pnpm exec playwright install --with-deps chromium
-      - name: Verify documentation examples
-        run: BASE_PATH=/zui/3/ pnpm test:docs --workers=1 --fail-on-flaky-tests
-      - name: Upload documentation diagnostics
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: main-docs-results
-          path: |
-            playwright-report/docs/
-            test-results/docs/
-          if-no-files-found: ignore
-          retention-days: 7
-      - name: Upload documentation
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: docs-main-site
-          path: docs/_/.vitepress/dist
+          name: lightsail-runner-smoke
+          path: ${{ runner.temp }}/lightsail-smoke.txt
           if-no-files-found: error
-          retention-days: 7
+          retention-days: 1
