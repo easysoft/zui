@@ -1,5 +1,5 @@
 import {Component, type ComponentType, type RenderableProps, type JSX} from 'preact';
-import {classes, ClassNameLike, mergeProps, nextGid, Component as ZUIComponent, ZUI} from '@zui/core';
+import {classes, ClassNameLike, mergeProps, nextGid, Component as ZUIComponent, ZUI, getReactComponent} from '@zui/core';
 import {Checkbox, CheckList} from '@zui/checkbox/react';
 import type {CheckboxProps, CheckListProps} from '@zui/checkbox';
 import {Select} from './select';
@@ -152,6 +152,11 @@ export class FormControl extends Component<FormControlProps> {
 
         if (widget === 'stringList') {
             return this._renderStringList(finalWidgetProps);
+        }
+
+        const ZUIReactComponent = getReactComponent(widget);
+        if (ZUIReactComponent) {
+            return <ZUIReactComponent {...finalWidgetProps} />;
         }
 
         return <ZUI $use={widget} $options={finalWidgetProps} />;
