@@ -168,6 +168,43 @@ describe('List automatic incremental display', () => {
         expect(getByRole('button', {name: 'More 3'})).toBeInTheDocument();
     });
 
+    it('requires both viewport visibility and clipping inside a fixed scroller', async () => {
+        const {container, getByRole, unmount} = render(
+            <div style={{position: 'fixed', overflow: 'auto'}}>
+                <List items={makeItems(7)} maxVisibleItems={2} autoShowMore showMoreText="More {count}" />
+            </div>,
+        );
+        const button = getByRole('button', {name: 'More 5'});
+        const viewport = observers.find(instance => instance.root === null)!;
+        const clipping = observers.find(instance => instance.root === container.firstElementChild)!;
+        expect(viewport.observe).toHaveBeenCalledWith(button);
+        expect(clipping.observe).toHaveBeenCalledWith(button);
+
+        viewport.emit(button, true);
+        clipping.emit(button, false);
+        await flushFrame();
+        expect(container.querySelectorAll('[z-item]')).toHaveLength(2);
+
+        viewport.emit(button, false);
+        clipping.emit(button, true);
+        await flushFrame();
+        expect(container.querySelectorAll('[z-item]')).toHaveLength(2);
+
+        viewport.emit(button, true);
+        clipping.emit(button, false);
+        await flushFrame();
+        expect(container.querySelectorAll('[z-item]')).toHaveLength(2);
+
+        clipping.emit(button, true);
+        await flushFrame();
+        expect(container.querySelectorAll('[z-item]')).toHaveLength(4);
+
+        unmount();
+        for (const observer of observers) {
+            expect(observer.disconnect).toHaveBeenCalled();
+        }
+    });
+
     it('does not append if the prompt becomes hidden before the queued frame runs', async () => {
         const {container, getByRole} = render(<List items={makeItems(7)} maxVisibleItems={2} autoShowMore showMoreText="More {count}" />);
         const button = getByRole('button', {name: 'More 5'});

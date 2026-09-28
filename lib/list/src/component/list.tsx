@@ -52,7 +52,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     protected _autoShowMoreFrame?: number;
 
-    protected _autoShowMoreObserver?: {observer: IntersectionObserver; element: HTMLButtonElement; revision: number; count: number};
+    protected _autoShowMoreObserver?: {observer: IntersectionObserver; clippingObserver?: IntersectionObserver; element: HTMLButtonElement; revision: number; count: number};
 
     protected _activeSet = new Computed<Set<string>>(() => {
         const map = new Set<string>();
@@ -468,6 +468,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
     protected _disconnectAutoShowMore() {
         this._cancelAutoShowMoreFrame();
         this._autoShowMoreObserver?.observer.disconnect();
+        this._autoShowMoreObserver?.clippingObserver?.disconnect();
         this._autoShowMoreObserver = undefined;
     }
 
@@ -485,17 +486,32 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
             return;
         }
         this._disconnectAutoShowMore();
+        let clippingRoot: HTMLElement | undefined;
+        let fixedAncestor = false;
+        for (let parent = element.parentElement; parent; parent = parent.parentElement) {
+            const style = getComputedStyle(parent);
+            if (/(auto|scroll|hidden|clip)/.test(`${style.overflow} ${style.overflowX} ${style.overflowY}`)) {
+                clippingRoot = parent;
+            }
+            if (style.position === 'fixed') {
+                fixedAncestor = true;
+                break;
+            }
+        }
         // Recheck after each batch so short lists can fill the viewport, one batch per animation frame.
-        const observer = new IntersectionObserver((entries) => {
+        const intersections = new Set<IntersectionObserver>();
+        const onIntersection: IntersectionObserverCallback = (entries, source) => {
             if (this._autoShowMoreObserver?.observer !== observer) {
                 return;
             }
             const entry = entries.at(-1);
             if (!entry || entry.target !== element || !entry.isIntersecting || entry.intersectionRatio <= 0) {
+                intersections.delete(source);
                 this._cancelAutoShowMoreFrame();
                 return;
             }
-            if (this._autoShowMoreFrame !== undefined || this._showMorePending) {
+            intersections.add(source);
+            if (intersections.size < (clippingObserver ? 2 : 1) || this._autoShowMoreFrame !== undefined || this._showMorePending) {
                 return;
             }
             this._autoShowMoreFrame = requestAnimationFrame(() => {
@@ -505,9 +521,14 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
                     this._showMore();
                 }
             });
-        }, {root: null, threshold: 0.01});
-        this._autoShowMoreObserver = {observer, element, revision, count};
+        };
+        const observer = new IntersectionObserver(onIntersection, {root: null, threshold: 0.01});
+        // Firefox can ignore overflow below fixed ancestors for an implicit root.
+        // Observe that clipping container too, while retaining the viewport check.
+        const clippingObserver = fixedAncestor && clippingRoot ? new IntersectionObserver(onIntersection, {root: clippingRoot, threshold: 0.01}) : undefined;
+        this._autoShowMoreObserver = {observer, clippingObserver, element, revision, count};
         observer.observe(element);
+        clippingObserver?.observe(element);
     }
 
     protected _renderShowMore(props: RenderableProps<P>): ComponentChild {

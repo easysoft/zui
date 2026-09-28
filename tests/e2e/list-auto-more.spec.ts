@@ -76,8 +76,13 @@ test('waits for a hidden list to become visible and fills only the visible area'
     await scroller.evaluate((element) => {
         element.style.display = 'block';
     });
-    await expect.poll(() => items.count()).toBeGreaterThan(1);
-    await expect(scroller.locator('.list-show-more button')).not.toBeInViewport();
+    await expect(items).toHaveCount(6);
+    // Firefox's viewport observer ignores clipping by fixed scrollers.
+    await expect.poll(async () => {
+        const prompt = (await scroller.locator('.list-show-more button').boundingBox())!;
+        const viewport = (await scroller.boundingBox())!;
+        return prompt.y - viewport.y - viewport.height;
+    }).toBeGreaterThanOrEqual(0);
     const count = await items.count();
     expect(count).toBeLessThan(40);
     await waitForObserverFrames(page);
@@ -138,7 +143,11 @@ for (const [name, lib] of [['NestedList', 'list'], ['Tree', 'tree'], ['Menu', 'm
         await expect(grandchildItems).toHaveCount(3);
         await waitForObserverFrames(page);
         await expect(grandchildItems).toHaveCount(3);
-        await expect(grandchild.getByRole('button', {name: 'More 3', exact: true})).not.toBeInViewport();
+        await expect.poll(async () => {
+            const prompt = (await grandchild.getByRole('button', {name: 'More 3', exact: true}).boundingBox())!;
+            const viewport = (await fixture.boundingBox())!;
+            return prompt.y - viewport.y - viewport.height;
+        }).toBeGreaterThanOrEqual(0);
         await expect(root.locator(':scope > [z-item]')).toHaveCount(2);
         await expect(child.locator(':scope > [z-item]')).toHaveCount(2);
     });
