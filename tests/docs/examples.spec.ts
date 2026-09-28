@@ -170,7 +170,9 @@ async function exercise(page: Page, key: string) {
                 await expect(list.locator('.avatar').first()).toHaveCSS('width', '132px');
                 const actions = list.locator('.item-actions').first();
                 const button = list.getByRole('button', {name: /查看$/}).first();
-                await page.mouse.move(0, 0);
+                // Copied examples can place the first card at the viewport origin.
+                const viewport = page.viewportSize()!;
+                await page.mouse.move(viewport.width - 1, viewport.height - 1);
                 await expect(actions).toHaveCSS('opacity', '0');
                 await button.focus();
                 await expect(actions).toHaveCSS('opacity', '1');
@@ -265,7 +267,10 @@ test('FileList is reachable through navigation and local search', async ({page})
     await page.goto('lib/components/tree/');
     await page.locator('.VPSidebar').getByRole('link', {name: '文件列表', exact: true}).click();
     await expect(page.locator('h1')).toHaveText('文件列表');
+    // The search index is loaded lazily and can exceed the assertion timeout on CI.
+    const searchIndex = page.waitForResponse(response => response.url().includes('/@localSearchIndex'));
     await page.getByRole('button', {name: '搜索文档'}).click();
+    await (await searchIndex).finished();
     await page.locator('#localsearch-input').fill('文件列表');
     await expect(page.locator('.VPLocalSearchBox').getByText('文件列表', {exact: true}).first()).toBeVisible();
     await page.locator('.VPLocalSearchBox a').first().click();

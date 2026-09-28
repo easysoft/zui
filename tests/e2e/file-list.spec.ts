@@ -66,6 +66,9 @@ test('positions thumbnail previews and keeps them proportional and inside the vi
     await expect(image).toHaveCSS('width', '320px');
     await expect(image).toHaveCSS('height', '160px');
     await page.setViewportSize({width: 180, height: 160});
+    // Follow the moved thumbnail, even when the resized preview overlaps it.
+    const resizedThumbnailBox = (await thumbnail.boundingBox())!;
+    await page.mouse.move(resizedThumbnailBox.x + resizedThumbnailBox.width / 2, resizedThumbnailBox.y + resizedThumbnailBox.height / 2);
     await preview.hover();
     await expect.poll(async () => {
         const box = await preview.boundingBox();

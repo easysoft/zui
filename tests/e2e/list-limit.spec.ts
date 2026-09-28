@@ -24,6 +24,8 @@ test('shows a large list in batches with keyboard focus and a wrapping footer', 
 });
 
 test('records browser rendering cost for 10,000 items and a 100-item batch', async ({page}, testInfo) => {
+    // The unbounded render is a measurement, including on CPU-limited CI runners.
+    test.slow();
     await page.goto('/list/');
     await expect(page.locator('#largeList [z-item]')).toHaveCount(100);
     const measurements = await page.evaluate(async ({corePath, listPath}) => {
