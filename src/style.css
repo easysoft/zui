@@ -205,7 +205,7 @@ body:has(> .dev-background)::before { display: none; }
 .dev-recent > * { flex-shrink: 0; }
 .dev-recent a { padding: 1px 5px; border: 1px solid transparent; border-radius: 3px; background: var(--dev-surface); opacity: .8; }
 .dev-recent a:hover, .dev-recent a:focus-visible { border-color: var(--dev-accent); color: var(--dev-accent); opacity: 1; }
-.dev-search input:focus ~ .dev-recent, .dev-search input:not(:placeholder-shown) ~ .dev-recent { display: none; }
+.dev-search input:focus ~ .dev-recent { display: none; }
 @container (max-width: 320px) {
     .dev-recent { display: none; }
 }

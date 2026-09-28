@@ -126,7 +126,6 @@ async function initCatalog() {
     }
     const recent = recentNames.map(name => entries.find(entry => entry.name === name)).filter(entry => entry && entry !== current);
     const recentElement = document.querySelector<HTMLElement>('#recentLibs')!;
-    recentElement.hidden = !recent.length;
     recentElement.innerHTML = recent.map(entry => `<a href="${entry!.href}">${escapeHTML(entry!.title)}</a>`).join('');
 
     for (const [type, group] of groupedLibs) {
@@ -137,6 +136,7 @@ async function initCatalog() {
     }
 
     function renderResults() {
+        recentElement.hidden = !recent.length || search.value !== '';
         const terms = normalizeSearchText(search.value).split(/\s+/).filter(Boolean);
         const filtered = entries
             .filter(entry => (!typeSelect.value || entry.type === typeSelect.value) && (!source.value || entry.sourceType === source.value))

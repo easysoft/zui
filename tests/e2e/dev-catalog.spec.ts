@@ -1,8 +1,11 @@
 import {expect, test} from '@playwright/test';
 
 test.describe('development library catalog', () => {
-    test('renders the background, respects reduced motion, and works without WebGL', async ({page}) => {
+    test('renders the background, respects reduced motion, and works without WebGL', async ({page}, testInfo) => {
         await page.addInitScript(() => {
+            if (typeof WebGL2RenderingContext === 'undefined') {
+                return;
+            }
             const drawArrays = WebGL2RenderingContext.prototype.drawArrays;
             WebGL2RenderingContext.prototype.drawArrays = function (...args) {
                 document.documentElement.dataset.backgroundDraws = String(Number(document.documentElement.dataset.backgroundDraws ?? 0) + 1);
@@ -13,17 +16,29 @@ test.describe('development library catalog', () => {
         await page.goto('/');
         const background = page.locator('canvas.dev-background');
         const drawCount = () => page.evaluate(() => Number(document.documentElement.dataset.backgroundDraws));
-        await expect(background).toBeVisible();
-        await expect(background).toHaveAttribute('aria-hidden', 'true');
-        await expect.poll(drawCount).toBeGreaterThan(1);
+        await expect(page.locator('#libSearch')).toBeEnabled();
+        const hasWebGL = await page.evaluate(() => {
+            const context = document.createElement('canvas').getContext('webgl2');
+            context?.getExtension('WEBGL_lose_context')?.loseContext();
+            return !!context;
+        });
+        if (hasWebGL) {
+            await expect(background).toBeVisible();
+            await expect(background).toHaveAttribute('aria-hidden', 'true');
+            await expect.poll(drawCount).toBeGreaterThan(1);
 
-        await page.emulateMedia({reducedMotion: 'reduce'});
-        await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => resolve())));
-        const pausedCount = await drawCount();
-        await page.waitForTimeout(200);
-        expect(await drawCount()).toBe(pausedCount);
-        await page.emulateMedia({reducedMotion: 'no-preference'});
-        await expect.poll(drawCount).toBeGreaterThan(pausedCount);
+            await page.emulateMedia({reducedMotion: 'reduce'});
+            await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => resolve())));
+            const pausedCount = await drawCount();
+            await page.waitForTimeout(200);
+            expect(await drawCount()).toBe(pausedCount);
+            await page.emulateMedia({reducedMotion: 'no-preference'});
+            await expect.poll(drawCount).toBeGreaterThan(pausedCount);
+        } else {
+            testInfo.annotations.push({type: 'WebGL2 unavailable', description: 'This browser uses the CSS background fallback.'});
+            await expect(background).toHaveCount(0);
+            await expect.poll(() => page.locator('body').evaluate(body => getComputedStyle(body, '::before').backgroundImage)).not.toBe('none');
+        }
 
         await page.goto('/button/');
         await expect(page.locator('#libPage.is-loaded')).toBeVisible();
@@ -206,7 +221,8 @@ test.describe('development library catalog', () => {
         await expect(cards.nth(5)).toBeFocused();
         await page.keyboard.press('ArrowDown');
         await expect(cards.nth(6)).toBeFocused();
-        await expect(cards.nth(6)).toBeInViewport({ratio: 1});
+        // IntersectionObserver ratios can round just below 1 for fully visible cards.
+        await expect(cards.nth(6)).toBeInViewport({ratio: 0.999});
         await page.keyboard.press('ArrowUp');
         await expect(cards.nth(5)).toBeFocused();
 
