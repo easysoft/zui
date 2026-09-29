@@ -178,7 +178,11 @@ export class FormHelper {
         if (fieldInfo.control) {
             return fieldInfo.control.setVal(value);
         }
-        fieldInfo.$field.val(value as string);
+        if (fieldInfo.$field.hasClass('pick-value')) {
+            fieldInfo.$field.trigger('syncValue', {setValue: value, silent: false});
+        } else {
+            fieldInfo.$field.val(value as string);
+        }
         return true;
     }
 
@@ -200,7 +204,7 @@ export class FormHelper {
                 return;
             }
             const instance = (isPickerLike ? $picker.zui() : $picker.data('zui.Picker')) as Picker;
-            if (!instance) {
+            if (!instance || typeof instance.$?.setValue !== 'function') {
                 return;
             }
             return {

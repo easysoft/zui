@@ -174,6 +174,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             readonly: props.readonly,
             clickType: props.clickType,
             onRenderValue: props.onRenderValue,
+            onSetValue: (value, silent) => this.setValue(value, silent),
             onClick: props.onClick,
             changeState: this.changeState,
             togglePop: this.toggle,

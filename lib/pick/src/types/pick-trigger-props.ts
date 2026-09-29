@@ -13,6 +13,8 @@ export interface PickTriggerProps<S extends PickState = PickState> {
     onClick?: (event: MouseEvent) => void | boolean;
     clickType?: 'toggle' | 'open';
     onRenderValue?: (value: unknown, props: PickTriggerProps<S>) => ComponentChildren;
+    /** Commit external values through the picker's validation and normalization. */
+    onSetValue?: (value: string | string[], silent?: boolean) => void;
 
     name?: string;
 
