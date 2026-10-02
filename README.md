@@ -153,10 +153,14 @@ pnpm dev
 | `pnpm check` | 运行 lint、typecheck、单元/DOM 测试和技能测试 |
 | `pnpm build` | 构建完整的 ZUI 产物 |
 | `pnpm build:npm` | 构建用于 npm 发布的 `dist/zui` 及 TypeScript 声明，不执行发布 |
+| `pnpm pack:npm` | 独立构建并打包 npm 候选包，输出 `.tgz` 与摘要清单 |
+| `pnpm publish:npm --tarball <file>` | 检查并验证指定包的私有快照，通过后发布同一文件 |
 | `pnpm docs:dev` | 准备并启动 VitePress 文档服务 |
 | `pnpm docs:build` | 构建文档站点 |
 
 本项目以各库的 `dev.ts` 作为交互调试入口。修改 `lib/<lib-name>/` 后，应在对应的单库页面验证功能与样式。
+
+`pack:npm` 默认输出到 `dist/npm/run-*`，可通过 `--out-dir <directory>` 指定目录；版本读取根 `package.json`，发布模板保持只读，打包失败保留旧包。生成候选包或持有 `artifact.json` 摘要清单不代表通过发布检查。`publish:npm` 必须显式指定 `.tgz`，执行 `check` 和消费该文件的 `test:build` 后发布同字节快照，不重新构建或打包该候选包。CI 保存本次验证过的 npm 包与摘要，不自动发布。完整流程见[打包与发布指南](./docs/docs/guide/customize/build.md#npm-候选包与发布)。
 
 测试分层、浏览器安装和视觉基线更新方式请查看[自动化测试指南](./docs/docs/guide/customize/testing.md)。
 

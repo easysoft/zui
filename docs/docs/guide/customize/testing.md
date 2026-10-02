@@ -8,7 +8,7 @@ ZUI 3 使用分层测试覆盖纯逻辑、DOM 组件、发布产物和真实浏�
 | --- | --- | --- | --- |
 | 单元测试 | `tests/unit/**/*.test.ts` | Vitest + Node.js | 纯函数、配置解析、状态转换和无 DOM 的工具代码 |
 | DOM 组件测试 | `tests/dom/**/*.test.tsx` | Vitest + jsdom | Preact 渲染、原生 Component 生命周期、事件和公开 DOM 行为 |
-| 构建消费测试 | `tests/build/**/*.test.ts` | Vitest + Node.js/jsdom | 定制构建、ESM/UMD/CSS、source map、ZIP 和外置 Cash 契约 |
+| 构建消费测试 | `tests/build/**/*.test.ts` | Vitest + Node.js/jsdom | 定制构建、ESM/UMD/CSS、source map、ZIP、外置 Cash 和 npm 包消费契约 |
 | 浏览器测试 | `tests/e2e/**/*.spec.ts` | Playwright | 开发页 smoke、真实布局与交互、可访问性扫描和视觉回归 |
 
 优先把测试放在成本最低、仍能覆盖风险的层级。例如，数据转换用单元测试，组件输入和事件用 DOM 测试；只有依赖真实布局、焦点或浏览器引擎的行为才进入 Playwright。一个回归可以同时需要多个层级，但不要在 E2E 中重复所有单元测试分支。
@@ -34,13 +34,13 @@ pnpm exec playwright install chromium firefox webkit
 | `pnpm test:watch` | 监听单元测试和 DOM 组件测试 |
 | `pnpm test:coverage` | 生成 `coverage/` 覆盖率报告 |
 | `pnpm test:skills` | 验证仓库内 ZUI 技能脚本 |
-| `pnpm test:build` | 构建并消费代表性 ESM、UMD、CSS、ZIP 和外置 Cash 产物 |
+| `pnpm test:build` | 构建并消费代表性 ESM、UMD、CSS、ZIP、外置 Cash 产物，并验证 npm 包运行时与严格 TypeScript 消费 |
 | `pnpm test:e2e` | 使用 Chromium 运行 Playwright 测试 |
 | `pnpm test:e2e:all` | 使用 Chromium、Firefox 和 WebKit 运行 Playwright 测试 |
 | `pnpm typecheck` | 对源码、工具和测试做 TypeScript 检查 |
 | `pnpm check` | 运行 lint、typecheck、单元/DOM 测试和技能测试 |
 
-构建消费测试的临时产物写入 `test-results/build/`；Playwright 报告、trace、截图和视频写入 `playwright-report/` 与 `test-results/playwright/`。这些目录不会提交到 Git。
+构建消费测试的临时产物写入 `test-results/build/`，npm 候选包与 `artifact.json` 单独保存在 `test-results/npm-package/`；Playwright 报告、trace、截图和视频写入 `playwright-report/` 与 `test-results/playwright/`。这些目录不会提交到 Git。
 
 ## 编写单元与 DOM 测试
 
@@ -53,7 +53,7 @@ pnpm exec playwright install chromium firefox webkit
 
 ## 构建消费测试
 
-构建测试必须把生成目录显式放在 `test-results/build/`，并从最终文件验证契约，而不是只检查构建命令退出码。代表性检查至少应覆盖：
+定制构建测试必须把生成目录显式放在 `test-results/build/`，并从最终文件验证契约，而不是只检查构建命令退出码。代表性检查至少应覆盖：
 
 - ESM 和 UMD 都能在浏览器式 DOM 环境中加载，公开导出存在；
 - CSS、source map 和 ZIP 文件名及归档路径稳定；
@@ -61,6 +61,16 @@ pnpm exec playwright install chromium firefox webkit
 - `--no-sourcemap` 或 JSON `"sourcemap": false` 不生成 map，也不留下 `sourceMappingURL`。
 
 不要把面向浏览器的 ZUI 产物直接裸导入 Node.js，然后把缺少 `window` 或 `document` 当成分发缺陷。消费测试应先安装最小 jsdom 全局，或在真实浏览器中加载产物。
+
+`tests/build/npm-consumer.test.ts` 默认调用与 `pack:npm` 相同的打包流程，创建一次候选包，再在仓库外安装并验证 ESM、CommonJS、UMD、CSS 和严格 TypeScript 消费。PR 和 main/nightly CI 在测试成功后保存这份 `.tgz` 与 `artifact.json`，不重新打包，保留期分别为 7 天和 14 天。
+
+验证已有候选包时，指定其绝对路径：
+
+```sh
+ZUI_NPM_TARBALL=/absolute/path/zui-3.0.0.tgz pnpm exec vitest run --project build tests/build/npm-consumer.test.ts
+```
+
+指定 `ZUI_NPM_TARBALL` 后，npm 消费测试只安装该文件，不构建或打包。发布入口 `pnpm publish:npm --tarball <file>` 会自动将私有快照传给该测试，同时执行完整的 `check` 和 `test:build` 门禁；单独消费测试通过或持有摘要清单均不能跳过发布门禁。
 
 ## 浏览器、可访问性与视觉测试
 

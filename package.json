@@ -25,6 +25,7 @@
     "dev:exts": "tsx ./scripts/dev/index.ts",
     "build": "tsx ./scripts/build",
     "build:npm": "tsx ./scripts/build/npm.ts",
+    "pack:npm": "tsx ./scripts/build/pack.ts",
     "preview": "vite preview",
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint . --max-warnings=0",
@@ -48,7 +49,7 @@
     "docs:prepare": "tsx ./scripts/docs/prepare.ts",
     "extend-lib": "tsx ./scripts/libs/extend-lib.ts",
     "lib:keywords": "tsx ./scripts/libs/check-keywords.ts",
-    "publish:npm": "pnpm check && pnpm test:build && pnpm build:npm && tsx ./scripts/build/publish.ts && cd ./publish && npm publish"
+    "publish:npm": "tsx ./scripts/build/publish.ts"
   },
   "dependencies": {
     "@floating-ui/core": "^1.7.3",

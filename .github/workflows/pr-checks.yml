@@ -81,6 +81,21 @@ jobs:
       - name: Verify representative distributions
         run: pnpm test:build
 
+      - name: Verify npm package artifact files
+        run: |
+          test -s test-results/npm-package/artifact.json
+          test -s test-results/npm-package/*.tgz
+
+      - name: Upload verified npm package
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: pr-npm-package
+          path: |
+            test-results/npm-package/*.tgz
+            test-results/npm-package/artifact.json
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Build documentation
         run: pnpm docs:build
       - name: Install Chromium for documentation checks

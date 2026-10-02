@@ -17,17 +17,18 @@ pnpm typecheck             # 检查源码、工具和测试的 TypeScript 类型
 pnpm test                  # 运行 Vitest 单元测试与 jsdom 组件测试
 pnpm test:coverage         # 运行单元/DOM 测试并生成覆盖率
 pnpm test:skills           # 验证仓库内 ZUI 技能脚本
-pnpm test:build            # 验证 ESM/UMD/CSS/source map/ZIP/外置 Cash 构建消费契约
+pnpm test:build            # 验证 ESM/UMD/CSS/source map/ZIP/外置 Cash 及 npm 包消费契约
 pnpm test:e2e              # 使用 Chromium 运行 Playwright（需先安装浏览器）
 pnpm test:e2e:all          # 使用 Chromium、Firefox、WebKit 运行 Playwright
 pnpm test:docs             # 用 Chromium 验收已构建的官网示例（先运行 docs:build）
 pnpm check                 # lint + typecheck + 单元/DOM + skills 的常用提交前检查
 pnpm build                 # CLI/JSON → BuildPlan → 独立 build/run-* 入口 → 暂存产物 → 更新输出，不隐式执行类型检查
 pnpm build:npm             # 同一次构建生成 npm 运行时与声明，全部成功后更新 dist/zui
+pnpm pack:npm              # 独立构建并打包 npm 候选包，默认输出 dist/npm/run-* 的 tgz 与摘要
 pnpm docs:dev              # 准备并启动 VitePress 文档站；docs:dev-fast 跳过预处理
 pnpm docs:build            # 构建文档（CI 中使用 .github/workflows/deploy-docs.yml）
 pnpm extend-lib <path>     # 通过软链将外部目录加入 exts/ 并写入 exts/libs.json
-pnpm publish:npm           # check + test:build 后构建并发布到 npm
+pnpm publish:npm --tarball <file> # check + test:build 验证指定包的私有快照后发布同一文件
 ```
 
 ### 开发服务管理
@@ -53,6 +54,12 @@ pnpm publish:npm           # check + test:build 后构建并发布到 npm
 占用检查将路径大小写变体视为同一资源，实际输出路径的大小写保持原样。
 
 `pnpm build:npm --out-dir <directory>` 可指定 npm 产物目录，运行时与声明来自同一个入口。声明阶段不再单独读取遗留的 `build/main.ts`；普通 `build` 不生成声明。
+
+`pnpm pack:npm [--out-dir <directory>]` 在独立工作目录构建、组装并调用一次 `npm pack`，输出目录仅包含 `.tgz` 和 `artifact.json`（`filename`、`name`、`version`、`size`、SHA-512 `integrity`）。默认输出到 `dist/npm/run-*`；版本读取根 `package.json`，`publish/package.json` 保持只读，不消费已有 `dist/zui` 或 `publish/dist`，失败保留旧包。候选包及摘要清单不是通过发布门禁的凭据。
+
+`pnpm publish:npm --tarball <file>` 必须显式指定已有包。命令创建同字节私有快照，执行 `check` 和 `test:build`（npm 消费测试使用该快照），再核对摘要并通过 `npm publish --ignore-scripts` 发布同一快照；不重建或重新打包该候选包，不允许跳过门禁，不自动递增版本或创建 Git tag。单独验证已有包使用 `ZUI_NPM_TARBALL=/absolute/path/package.tgz pnpm exec vitest run --project build tests/build/npm-consumer.test.ts`。
+
+普通 `test:build` 通过相同打包流程创建并验证 npm 候选包，保存在独立的 `test-results/npm-package/`。PR 和 main/nightly CI 在测试成功后上传同一 `.tgz` 与摘要清单（分别保留 7 天和 14 天），不额外构建或自动发布；原浏览器分发和文档流程保持独立。
 
 单库本地调试：直接 `pnpm dev`，浏览器访问 `/<lib-name>/` 即可加载该 lib 的 `dev.ts`（见 `index.html` + `src/main.ts` + `src/libs.ts`，会按 `lib/*/package.json` 自动发现）。自动化测试分为 `tests/unit`（Node 纯逻辑）、`tests/dom`（Vitest + jsdom）、`tests/build`（最终分发消费）和 `tests/e2e`（Playwright 真实浏览器）；调试页继续用于人工交互和样式验证。
 

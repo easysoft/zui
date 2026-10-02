@@ -14,7 +14,7 @@ pnpm build
 pnpm build --lib utilities --lib dtable --name zui-table
 ```
 
-以上产物位于 `dist/zui-table/`，包含 ESM、UMD、CSS、资源和默认启用的 source map。UMD 全局名保持为 `zui`。`build` 不执行类型检查；使用 `pnpm check` 检查源码，使用 `pnpm test:build` 验证分发消费契约。`pnpm publish:npm` 在发布前自动执行这两项检查。
+以上产物位于 `dist/zui-table/`，包含 ESM、UMD、CSS、资源和默认启用的 source map。UMD 全局名保持为 `zui`。`build` 不执行类型检查；使用 `pnpm check` 检查源码，使用 `pnpm test:build` 验证分发消费契约。`pnpm publish:npm --tarball <file>` 在发布指定 npm 包前自动执行这两项检查。
 
 ### npm 运行时与声明
 
@@ -24,6 +24,33 @@ pnpm build:npm --out-dir ./dist/npm-preview
 ```
 
 该命令使用完整 npm 预设，排除未就绪库，默认输出到 `dist/zui/`。运行时代码和 TypeScript 声明在同一次构建中生成，全部成功后更新输出目录。普通 `pnpm build` 继续只生成浏览器产物；不再单独执行声明脚本或读取上次构建留下的入口。
+
+### npm 候选包与发布
+
+创建可以安装验证的 npm 候选包：
+
+```sh
+pnpm pack:npm
+pnpm pack:npm --out-dir ./dist/npm-candidate
+```
+
+`pack:npm` 在独立工作目录完成本次运行时与声明构建、组装，并只调用一次 `npm pack`。默认输出到 `dist/npm/run-*`；指定 `--out-dir` 可选择输出目录。输出仅包含 `.tgz` 和 `artifact.json`，清单记录 `filename`、`name`、`version`、`size` 及 SHA-512 `integrity`。版本取自根 `package.json`，`publish/package.json` 只作为只读模板；已有 `dist/zui` 和 `publish/dist` 不作为打包输入。打包失败保留输出目录中的旧包。
+
+打包成功表示候选包已生成，摘要清单用于核对文件，不代表包已通过检查。单独验证已有候选包可运行：
+
+```sh
+ZUI_NPM_TARBALL=/absolute/path/zui-3.0.0.tgz pnpm exec vitest run --project build tests/build/npm-consumer.test.ts
+```
+
+将示例路径替换为本次输出的实际 `.tgz` 路径。确认需要发布后，显式传入该文件：
+
+```sh
+pnpm publish:npm --tarball ./dist/npm-candidate/zui-3.0.0.tgz
+```
+
+发布命令先创建指定文件的同字节私有快照，执行 `pnpm check` 和 `pnpm test:build`，其中 npm 消费测试安装该快照。检查通过并再次核对摘要后，命令通过 `npm publish --ignore-scripts` 上传同一快照。该流程不重新构建或打包候选包，不提供跳过检查的参数，也不会自动递增版本或创建 Git tag；缺少 `--tarball` 时不会发布。
+
+PR 和 main/nightly CI 保存 `test:build` 本次生成并验证的同一候选包与摘要清单，分别保留 7 天和 14 天，不自动发布到 npm。下载 CI 包后仍须通过上述发布命令的检查。
 
 ### 工作目录、并发与失败处理
 
