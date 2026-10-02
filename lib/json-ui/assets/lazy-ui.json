@@ -1,0 +1,11 @@
+{
+    "tag": "section",
+    "children": [
+        {"tag": "p", "children": "这段界面来自异步 JSON。"},
+        {
+            "component": "Button",
+            "props": {"text": "异步保存", "type": "primary"},
+            "events": {"onClick": "saveProfile"}
+        }
+    ]
+}
