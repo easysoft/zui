@@ -19,7 +19,7 @@ test.describe.configure({mode: 'default'});
 test.beforeAll(async ({browserName: _browserName}, info) => {
     test.setTimeout(120_000);
     const output = Path.join(root, 'test-results/web-components/browser-zui', info.project.name);
-    await run('pnpm', ['build', '--', '--lib=zui', '--name=zui', '--ignoreNotReady', `--outDir=${output}`], {cwd: root, maxBuffer: 20 * 1024 * 1024});
+    await run('pnpm', ['build', '--name=zui', '--exclude-not-ready', `--out-dir=${output}`], {cwd: root, maxBuffer: 20 * 1024 * 1024});
     server = createServer(async (request, response) => {
         const path = new URL(request.url!, 'http://localhost').pathname;
         if (path === '/') {

@@ -23,9 +23,8 @@
   "scripts": {
     "dev": "vite --host",
     "dev:exts": "tsx ./scripts/dev/index.ts",
-    "build:vite": "tsc && vite build",
     "build": "tsx ./scripts/build",
-    "build:npm": "pnpm build -- --lib=zui --name=zui --outDir=dist/zui --ignoreNotReady && tsx ./scripts/build/npm-types.ts",
+    "build:npm": "pnpm build --name zui --out-dir dist/zui --exclude-not-ready && tsx ./scripts/build/npm-types.ts",
     "preview": "vite preview",
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint . --max-warnings=0",
@@ -40,16 +39,16 @@
     "test:e2e:all": "tsx ./scripts/tests/e2e-all.ts",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm test:skills",
     "docs:dev-fast": "cd docs && pnpm dev",
-    "docs:dev": "pnpm docs:prepare -- --copy && pnpm docs:dev-fast & pnpm docs:watch",
-    "docs:dev:exts": "pnpm docs:prepare -- --copy --exts --lib=zui*exts && pnpm docs:dev-fast & pnpm docs:watch -- --exts",
+    "docs:dev": "pnpm docs:prepare --copy && pnpm docs:dev-fast & pnpm docs:watch",
+    "docs:dev:exts": "pnpm docs:prepare --copy --extensions && pnpm docs:dev-fast & pnpm docs:watch -- --exts",
     "docs:watch": "tsx ./scripts/docs/watch.ts",
-    "docs:build": "pnpm docs:prepare -- --copy --ignoreNotReady && cd docs && pnpm build",
-    "docs:build:exts": "pnpm docs:prepare -- --copy --exts --lib=zui*exts && cd docs && pnpm build",
+    "docs:build": "pnpm docs:prepare --copy --exclude-not-ready && cd docs && pnpm build",
+    "docs:build:exts": "pnpm docs:prepare --copy --extensions && cd docs && pnpm build",
     "docs:serve": "cd docs && pnpm serve",
     "docs:prepare": "tsx ./scripts/docs/prepare.ts",
     "extend-lib": "tsx ./scripts/libs/extend-lib.ts",
     "lib:keywords": "tsx ./scripts/libs/check-keywords.ts",
-    "publish:npm": "pnpm build:npm && tsx ./scripts/build/publish.ts && cd ./publish && npm publish"
+    "publish:npm": "pnpm check && pnpm test:build && pnpm build:npm && tsx ./scripts/build/publish.ts && cd ./publish && npm publish"
   },
   "dependencies": {
     "@floating-ui/core": "^1.7.3",

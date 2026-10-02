@@ -81,7 +81,7 @@ description: "将已经可用的 UMD/IIFE 资源封装为 ZUI 主仓库的 lib/*
 ```sh
 git diff --check
 pnpm exec eslint lib/<name>
-pnpm build -- --lib=<name> --noMinify
+pnpm build --lib <name> --no-minify
 ```
 
 根据本次涉及的类型、文档或交互补充必要检查，并按共享工作流完成范围内修复和复验。开发服务管理遵循共享工作流及 `AGENTS.md`，按归属和临时验证/持续预览用途处理。

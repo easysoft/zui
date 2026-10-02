@@ -17,7 +17,7 @@ const pnpmCommand = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
 const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 
 async function runBuild(args: string[]): Promise<void> {
-    await execFileAsync(pnpmCommand, ['build', '--', ...args], {
+    await execFileAsync(pnpmCommand, ['build', ...args], {
         cwd: projectRoot,
         env: {...process.env, CI: '1'},
         maxBuffer: 20 * 1024 * 1024,
@@ -123,19 +123,20 @@ beforeAll(async () => {
     await fs.mkdir(outputRoot, {recursive: true});
 
     await runBuild([
-        '--lib=button avatar tabs dropdown modal',
+        '--lib', 'button', '--lib', 'avatar', '--lib', 'tabs', '--lib', 'dropdown', '--lib', 'modal',
         '--name=zui-test',
-        `--outDir=${bundledOutput}`,
-        '--zip=zui-test.zip',
-        `--zipOut=${outputRoot}`,
+        `--out-dir=${bundledOutput}`,
+        `--zip=${Path.join(outputRoot, 'zui-test.zip')}`,
     ]);
-    await runBuild([
-        '--lib=tabs dropdown modal',
-        '--name=zui-test-external',
-        `--outDir=${externalOutput}`,
-        '--noCash',
-        '--noSourceMap',
-    ]);
+    const externalConfigPath = Path.join(outputRoot, 'external.json');
+    await fs.writeFile(externalConfigPath, JSON.stringify({
+        libs: ['tabs', 'dropdown', 'modal'],
+        name: 'zui-test-external',
+        outDir: externalOutput,
+        externals: {'cash-dom': '$'},
+        sourcemap: false,
+    }));
+    await runBuild(['--config', externalConfigPath]);
 }, 120_000);
 
 afterAll(async () => {
@@ -228,10 +229,9 @@ test('installs the npm tarball with working runtime entries and strict TypeScrip
     const npmCache = Path.join(outputRoot, 'npm-cache');
 
     await runBuild([
-        '--lib=zui',
         '--name=zui',
-        `--outDir=${Path.join(publishFixture, 'dist/zui')}`,
-        '--ignoreNotReady',
+        `--out-dir=${Path.join(publishFixture, 'dist/zui')}`,
+        '--exclude-not-ready',
     ]);
     await execFileAsync(process.execPath, ['--import', 'tsx', Path.join(projectRoot, 'scripts/build/npm-types.ts'), Path.join(publishFixture, 'dist/zui')], {
         cwd: projectRoot,

@@ -59,10 +59,12 @@ pnpm dev:exts -- --lib=buildIn,<EXTS_NAME>
 宿主构建通常同时需要发现来源和选择目标：
 
 ```sh
-pnpm build -- --exts=buildIn,<EXTS_NAME> --lib='<ZUI_NAME>' --noMinify
+pnpm build --extension <EXTS_NAME> --lib '<PACKAGE_NAME>' --no-minify
 ```
 
-`--exts` 选择候选来源，`--lib` 使用准确 `ZUI_NAME`；不能用 `LIB_FOLDER` 或 `PACKAGE_NAME` 猜测替代。WIP/notReady 按宿主实际参数显式加入。
+`--extension` 选择注册组或目录，可重复；`--lib` 使用 `package.json#name` 的完整包名，不使用目录名或自定义 `ZUI_NAME`。内置库始终可供选择；未指定 `--lib` 时构建符合筛选规则的内置库及所选扩展。`--extensions` 加载全部已注册扩展，与 `--extension` 互斥。也可使用 `--extension <TARGET_LIB_ROOT 的绝对路径>` 指定单库，或传入集合目录；CLI 来源整体覆盖 JSON 的 `extensions`。
+
+显式 `--lib` 可以选择 `zui.wip` 和独立库；全量构建用 `--include-wip` 纳入 WIP，`--exclude-not-ready` 排除未就绪库。`--dry-run` 可查看归一化计划而不改动构建目录。
 
 正式文档通过宿主扩展脚本同步和构建，例如：
 

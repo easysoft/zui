@@ -8,7 +8,7 @@ ZUI 3 使用分层测试覆盖纯逻辑、DOM 组件、发布产物和真实浏�
 | --- | --- | --- | --- |
 | 单元测试 | `tests/unit/**/*.test.ts` | Vitest + Node.js | 纯函数、配置解析、状态转换和无 DOM 的工具代码 |
 | DOM 组件测试 | `tests/dom/**/*.test.tsx` | Vitest + jsdom | Preact 渲染、原生 Component 生命周期、事件和公开 DOM 行为 |
-| 构建消费测试 | `tests/build/**/*.test.ts` | Vitest + Node.js/jsdom | 定制构建、ESM/UMD/CSS、source map、ZIP 和 `--noCash` 契约 |
+| 构建消费测试 | `tests/build/**/*.test.ts` | Vitest + Node.js/jsdom | 定制构建、ESM/UMD/CSS、source map、ZIP 和外置 Cash 契约 |
 | 浏览器测试 | `tests/e2e/**/*.spec.ts` | Playwright | 开发页 smoke、真实布局与交互、可访问性扫描和视觉回归 |
 
 优先把测试放在成本最低、仍能覆盖风险的层级。例如，数据转换用单元测试，组件输入和事件用 DOM 测试；只有依赖真实布局、焦点或浏览器引擎的行为才进入 Playwright。一个回归可以同时需要多个层级，但不要在 E2E 中重复所有单元测试分支。
@@ -57,8 +57,8 @@ pnpm exec playwright install chromium firefox webkit
 
 - ESM 和 UMD 都能在浏览器式 DOM 环境中加载，公开导出存在；
 - CSS、source map 和 ZIP 文件名及归档路径稳定；
-- `--noCash` 构建确实包含依赖 Cash 的组件，并把 `cash-dom` 保持为外部依赖；
-- `--noSourceMap` 不生成 map，也不留下 `sourceMappingURL`。
+- JSON 配置 `"externals": {"cash-dom": "$"}` 的构建确实包含依赖 Cash 的组件，并把 `cash-dom` 保持为外部依赖；
+- `--no-sourcemap` 或 JSON `"sourcemap": false` 不生成 map，也不留下 `sourceMappingURL`。
 
 不要把面向浏览器的 ZUI 产物直接裸导入 Node.js，然后把缺少 `window` 或 `document` 当成分发缺陷。消费测试应先安装最小 jsdom 全局，或在真实浏览器中加载产物。
 

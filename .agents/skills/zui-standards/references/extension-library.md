@@ -79,16 +79,19 @@ pnpm dev:exts -- --lib=<扩展组名>
 
 ```sh
 # 内置库 + 所有已注册扩展库
-pnpm build -- --exts=buildIn,exts --lib='zui*exts' --noMinify
+pnpm build --extensions --no-minify
 
 # 内置库 + 一个扩展组
-pnpm build -- --exts=buildIn,<扩展组名> --lib='zui*<扩展组名>' --noMinify
+pnpm build --extension <扩展组名> --no-minify
+
+# 直接指定单库或集合目录，不要求预先注册
+pnpm build --extension <扩展目录的绝对路径> --no-minify
 
 # 已发现范围中的单个扩展库
-pnpm build -- --exts=buildIn,<扩展组名> --lib='<准确的 zui.name>' --noMinify
+pnpm build --extension <扩展组名> --lib '<准确的 package.json#name>' --no-minify
 ```
 
-引号用于防止 shell 展开 `*`。`--exts` 只控制候选库来源，`--lib` 控制最终构建集合；缺少任一侧都可能导致扩展库未被发现或未被选中。
+`--extension` 可重复，接受注册组名或目录，与 `--extensions` 互斥。内置库始终可供选择，未指定 `--lib` 时默认构建符合筛选规则的内置库及已启用扩展；指定后只选择列出的入口。扩展库使用完整包名，CLI 来源整体覆盖 JSON 的 `extensions`。用 `--dry-run` 可查看计划而不写入构建目录。
 
 需要把已注册扩展库的正式文档和资源一起同步、监听或构建时使用：
 

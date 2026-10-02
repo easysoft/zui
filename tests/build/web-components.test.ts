@@ -14,19 +14,26 @@ const pagerElementOutput = Path.join(projectRoot, 'test-results/web-components/p
 const pickerOutput = Path.join(projectRoot, 'test-results/web-components/picker');
 
 beforeAll(async () => {
-    await run('pnpm', ['build', '--', '--lib=button', '--name=zui-webc-button', `--outDir=${output}`], {
+    await run('pnpm', ['build', '--lib=button', '--name=zui-webc-button', `--out-dir=${output}`], {
         cwd: projectRoot,
         maxBuffer: 20 * 1024 * 1024,
     });
-    await run('pnpm', ['build', '--', '--lib=pager', '--name=zui-webc-pager', `--outDir=${pagerOutput}`], {
+    await run('pnpm', ['build', '--lib=pager', '--name=zui-webc-pager', `--out-dir=${pagerOutput}`], {
         cwd: projectRoot,
         maxBuffer: 20 * 1024 * 1024,
     });
-    await run('pnpm', ['build', '--', '--lib=pager~web-component', '--name=zui-pager-element', `--outDir=${pagerElementOutput}`], {
+    const pagerConfigPath = Path.join(projectRoot, 'test-results/web-components/pager-element.json');
+    await fs.writeFile(pagerConfigPath, JSON.stringify({
+        libs: ['pager'],
+        name: 'zui-pager-element',
+        outDir: pagerElementOutput,
+        exports: {pager: [{path: 'web-component'}]},
+    }));
+    await run('pnpm', ['build', '--config', pagerConfigPath], {
         cwd: projectRoot,
         maxBuffer: 20 * 1024 * 1024,
     });
-    await run('pnpm', ['build', '--', '--lib=picker', '--name=zui-webc-picker', `--outDir=${pickerOutput}`], {
+    await run('pnpm', ['build', '--lib=picker', '--name=zui-webc-picker', `--out-dir=${pickerOutput}`], {
         cwd: projectRoot,
         maxBuffer: 20 * 1024 * 1024,
     });

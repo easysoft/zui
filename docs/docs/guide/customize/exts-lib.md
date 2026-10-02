@@ -26,7 +26,7 @@ $ pnpm extend-lib -- <ext_lib_path> <lib_name>
 $ pnpm extend-lib -- /Users/TaiJi/Projects/zui3_exts/lib/ zentao
 ```
 
-执行上述命令之后，会将组件库目录文件拷贝到 `zui3/lib_name` 目录下，同时会在 `zui3/exts/libs.json` 文件中记录此扩展库的名称和路径。
+执行上述命令之后，会在 `zui3/exts/zentao` 创建指向组件库目录的符号链接，同时在 `zui3/exts/libs.json` 中记录此扩展组的名称和路径。
 
 ```json
 {
@@ -60,26 +60,28 @@ $ pnpm docs:dev:exts
 
 ## 打包
 
-打包时如果需要将扩展库中的组件也进行打包，则需要添加 `--exts` 参数，然后就可以在需要打包的组件清单中指定扩展库中的组件名称：
+使用 `--extensions` 加载全部已注册扩展来源，构建符合筛选规则的内置库和扩展库：
 
 ```shell
-$ pnpm build -- label @zentao/status-label --exts
+$ pnpm build --extensions --name zentao
 ```
 
-如果不指定名称，则默认打包仍然只打包内置组件库的组件，例如下面的命令仍然相当于 `pnpm build`：
+只需要指定的扩展组时，重复使用 `--extension`：
 
 ```shell
-$ pnpm build -- --exts
+$ pnpm build --extension zentao --extension another-group
 ```
 
-如果需要将所有内置组件库和扩展库中的所有组件一并打包，可以使用如下命令：
+也可以直接传入单库或扩展集合目录，无须先注册：
 
 ```shell
-$ pnpm build -- zui+exts --exts --name=zentao
+$ pnpm build --extension ../zui_exts/zentao
 ```
 
-当添加了多个扩展库时，上述命令会包含所有扩展库，有时只需要包含特定的扩展库，只需要自定义 `--exts` 参数即可：
+内置库始终可供选择。指定 `--lib` 后，仅以列出的库作为构建入口；扩展库使用 `package.json#name` 的完整包名：
 
 ```shell
-$ pnpm build -- zui+exts --exts=zui,zentao
+$ pnpm build --extension zentao --lib label --lib @zentao/status-label
 ```
+
+`--extensions` 与 `--extension` 互斥。CLI 扩展来源整体覆盖 JSON 中的 `extensions`；CLI 相对路径以工作目录为基准，JSON 相对路径以配置文件目录为基准。完整参数和旧 DSL 迁移表见 [打包指南](/guide/customize/build)。

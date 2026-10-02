@@ -90,7 +90,7 @@ jobs:
         run: pnpm test:build
 
       - name: Build the complete distribution
-        run: pnpm build -- --lib=zui --name=zui --outDir=dist/zui --ignoreNotReady
+        run: pnpm build --name zui --out-dir dist/zui --exclude-not-ready
 
       - name: Verify complete distribution files
         run: |

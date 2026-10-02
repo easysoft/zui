@@ -1,6 +1,6 @@
 import Path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import type {UserConfig} from 'vite';
+import type {Alias, ResolverFunction, UserConfig} from 'vite';
 import type {LibInfo} from './scripts/libs/lib-info';
 import packageJson from './package.json';
 
@@ -10,6 +10,8 @@ export interface SharedViteConfigOptions {
     mode?: string;
     rootPath?: string;
     libsCache?: Record<string, LibInfo>;
+    /** Packages allowed to replace other libraries; omitted enables all discovered extensions. */
+    replacementLibs?: string[];
     buildHash?: string;
     buildTime?: number;
     appVersion?: string;
@@ -25,8 +27,8 @@ function getLibByPath(path: string, libsCache: Record<string, LibInfo>): LibInfo
     return Object.values(libsCache).find(x => path.startsWith(`${x.zui.path}${Path.sep}`));
 }
 
-/** Resolve `@zui/<lib>/...` through package exports when a matching subpath is declared. */
-function resolveZuiExportPath(updatedId: string, libsCache: Record<string, LibInfo>): string | undefined {
+/** Resolve library aliases through package exports when a subpath is declared. */
+function resolveLibExportPath(updatedId: string, libsCache: Record<string, LibInfo>): string | undefined {
     const lib = Object.values(libsCache).find(x => updatedId === x.zui.path || updatedId.startsWith(`${x.zui.path}${Path.sep}`));
     if (!lib) {
         return;
@@ -50,10 +52,35 @@ export function createSharedViteConfig(options: SharedViteConfigOptions = {}): U
         mode = 'test',
         rootPath = projectRoot,
         libsCache = {},
+        replacementLibs,
         buildHash = 'test',
         buildTime = 0,
         appVersion = packageJson.version,
     } = options;
+
+    const resolveLibraryAlias: ResolverFunction = function (source, importer, resolveOptions) {
+        const exportResolved = resolveLibExportPath(source, libsCache);
+        if (exportResolved) {
+            return exportResolved;
+        }
+        return this.resolve(source, importer, Object.assign({skipSelf: true}, resolveOptions)).then(resolved => resolved || {id: source});
+    };
+    const replacements = replacementLibs ? new Set(replacementLibs) : undefined;
+    const replacementAliases: Alias[] = [];
+    const extensionAliases: Alias[] = [];
+    Object.values(libsCache).forEach((lib) => {
+        if (lib.zui.sourceType !== 'exts') {
+            return;
+        }
+        const alias = {replacement: lib.zui.path, customResolver: resolveLibraryAlias};
+        extensionAliases.push({find: lib.name, ...alias});
+        if (!replacements || replacements.has(lib.name)) {
+            (lib.zui.replace ?? '').split(',').map(name => name.trim()).filter(Boolean).forEach((name) => {
+                const target = libsCache[name]?.name ?? (name.startsWith('@') ? name : `@zui/${name}`);
+                replacementAliases.push({find: target, ...alias});
+            });
+        }
+    });
 
     return {
         esbuild: {
@@ -64,16 +91,12 @@ export function createSharedViteConfig(options: SharedViteConfigOptions = {}): U
         resolve: {
             preserveSymlinks: true,
             alias: [
+                ...replacementAliases,
+                ...extensionAliases,
                 {
                     find: /^@zui\/(.+)$/,
                     replacement: `${rootPath}/lib/$1`,
-                    customResolver(source, importer, resolveOptions) {
-                        const exportResolved = resolveZuiExportPath(source, libsCache);
-                        if (exportResolved) {
-                            return exportResolved;
-                        }
-                        return this.resolve(source, importer, Object.assign({skipSelf: true}, resolveOptions)).then(resolved => resolved || {id: source});
-                    },
+                    customResolver: resolveLibraryAlias,
                 },
                 {find: 'zui-dev', replacement: `${rootPath}/dev`},
                 {find: 'zui-config', replacement: `${rootPath}/config`},
@@ -95,15 +118,6 @@ export function createSharedViteConfig(options: SharedViteConfigOptions = {}): U
                         return Path.join(lib.zui.path, source);
                     },
                 },
-                ...Object.values(libsCache).reduce<{find: string; replacement: string}[]>((aliasList, info) => {
-                    if (info.zui.sourceType === 'exts') {
-                        aliasList.push({find: info.name, replacement: info.zui.path});
-                        if (info.zui.replace) {
-                            aliasList.push({find: info.zui.replace, replacement: info.zui.path});
-                        }
-                    }
-                    return aliasList;
-                }, []),
             ],
         },
         define: {

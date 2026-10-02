@@ -165,10 +165,10 @@ pnpm dev
 构建命令可以按需组合多个库：
 
 ```sh
-pnpm build -- --lib="button dropdown" --name=zui-custom
+pnpm build --lib button --lib dropdown --name zui-custom
 ```
 
-产物将输出到 `dist/zui-custom/`。更多构建选项请查看 [定制构建文档](https://easysoft.github.io/zui/dev/guide/customize/build.html)。
+产物将输出到 `dist/zui-custom/`。通过 `--extensions` 包含全部已注册扩展，或用可重复的 `--extension <组名或目录>` 指定扩展来源；`--lib` 选择其中的入口。构建不隐式执行类型检查，发布前使用 `pnpm check` 和 `pnpm test:build` 验证。更多选项和旧参数迁移表请查看 [定制构建文档](https://easysoft.github.io/zui/dev/guide/customize/build.html)。
 
 ## 仓库结构
 

@@ -109,7 +109,9 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
         libs[libInfo.zui.name] = libInfo;
     }
 
-    await setLibsCache(libPath, libs, beginTime);
+    if (cache) {
+        await setLibsCache(libPath, libs, beginTime);
+    }
     return libs;
 }
 
@@ -128,13 +130,6 @@ export function getAllLibs() {
 export async function getLibList(libPath: string | string[] = '', options: {root?: string; sourceType?: LibSourceType; cache?: boolean; idx?: number} = {}) {
     const libs = await getLibs(libPath, options);
     return Object.values(libs).sort((a, b) => a.zui.order - b.zui.order);
-}
-
-export function sortLibList(libList: LibInfo[]) {
-    return libList.map((lib, idx) => {
-        lib.zui.order = ((lib.zui.order ?? libTypeOrders[lib.zui.type]) * 1000000000) + (lib.zui.sourceType === 'build-in' ? 10000000 : 11000000) + idx;
-        return lib;
-    }).sort((a, b) => a.zui.order - b.zui.order);
 }
 
 export function createLibFromPackageJson(packageJson: Record<string, unknown>, options: {sourceType?: LibSourceType; path: string; idx?: number; workspace?: boolean; packageJsonPath: string; tailwindConfigPath?: string; extsName?: string}): LibInfo {

@@ -1,462 +1,359 @@
-import Path from 'path';
+import Path from 'node:path';
+import {execFile} from 'node:child_process';
+import {promisify} from 'node:util';
 import fs from 'fs-extra';
-import {getLibs, sortLibList} from '../libs/query';
+import {getLibs} from '../libs/query';
 import {LibInfo} from '../libs/lib-info';
 import {LibType} from '../libs/lib-type';
 
-/**
- * Libs like string - 构建库（或组件）定义字符串
- * @example
- * - `button dropdown` 使用空格拼接多个依赖来定义一个构建库（或组件）
- * - `zui +clipboard +jquery@^3.0` 使用 + 来引用 npm 上的第三方包
- * - `!icons` 使用 !来取消内置和扩展组件库中的包
- */
-export type LibsLike = string;
+export interface BuildExport {
+    path?: string;
+    targets?: Record<string, string>;
+    sideEffect?: boolean;
+}
 
-/**
- * Build config options - 构建配置选项
- */
-export interface BuildConfigOptions {
-    /** Build name - 构建名称 */
+/** Declarative input shared by JSON configuration and the CLI. */
+export interface BuildOptions {
+    libs?: string[];
+    exclude?: string[];
     name?: string;
-
-    /** Build version - 构建版本 */
     version?: string;
-
-    /** Extra config file path - 构建库（或组件）字符串或配置文件路径 */
-    libs?: LibsLike;
-
-    /** Output directory - 输出目录 */
     outDir?: string;
-
-    /** Extentions - 扩展库 */
-    exts?: string | string[];
-
-    exports?: string | string[];
-
-    /** Ignored libs */
-    ignoreLibs?: string | string[];
-
-    /** Whether to include not ready libs. */
-    ignoreNotReady?: boolean;
-
-    /** Whether to include wip libs. */
+    extensions?: boolean | string[];
+    dependencies?: Record<string, string>;
+    exports?: Record<string, BuildExport[]>;
+    externals?: Record<string, string>;
+    css?: {minify?: boolean; remToPx?: boolean; preflight?: boolean};
+    minify?: boolean;
+    sourcemap?: boolean;
+    zip?: string;
     includeWip?: boolean;
-
-    /** Whether to minify the build output. */
-    noMinify?: boolean;
-}
-
-export interface BuildLibExportTarget {
-    name: string;
-    alias?: string;
-}
-
-export interface BuildLibExport {
-    type: 'export' | 'import';
-    targets: BuildLibExportTarget[];
-    path: string;
+    excludeNotReady?: boolean;
+    viteConfig?: string;
 }
 
 export interface BuildLibInfo extends LibInfo {
-    /** exports paths */
-    exportList?: BuildLibExport[];
+    exportList?: BuildExport[];
 }
 
-/**
- * Build config - 构建配置
- */
-export interface BuildConfig {
-    /** Build name - 构建名称 */
+/** Fully resolved, serializable build input. Resolving a plan never writes files. */
+export interface BuildPlan {
+    rootDir: string;
+    buildDir: string;
+    outDir: string;
+    entry: string;
+    publicDir: string;
+    fileName: string;
     name: string;
-
-    /** Build version - 构建版本 */
-    version?: string;
-
-    /** Build lib list - 构建库（或组件）清单 */
+    version: string;
     libs: BuildLibInfo[];
-
-    defaultExports?: BuildLibExport[];
-
-    /** Whether to include not ready libs. */
-    ignoreNotReady?: boolean;
+    libsMap: Record<string, LibInfo>;
+    sources: string[];
+    entries: string[];
+    dependencies: Record<string, string>;
+    tailwindConfigs: string[];
+    minify: boolean;
+    sourcemap: boolean;
+    css: {minify: boolean; remToPx: boolean; preflight: boolean};
+    externals: Record<string, string>;
+    zip?: string;
+    viteConfig?: string;
 }
 
-/**
- * Check a string wheather is a valid path 检查一个字符串是否为路径
- * @param pathLike Path like string - 路径字符串
- * @returns If the string is a valid path then return true - 如果为路径返回 true
- */
-function isPathLike(pathLike: string): boolean {
-    return /^(\.?\.?|~)\//.test(pathLike);
+export const BUILD_MIGRATION = 'Use repeated --lib button --lib dropdown, --extension <group-or-directory>, or --config ./build.json. See --help.';
+const optionKeys = ['libs', 'exclude', 'name', 'version', 'outDir', 'extensions', 'dependencies', 'exports', 'externals', 'css', 'minify', 'sourcemap', 'zip', 'includeWip', 'excludeNotReady', 'viteConfig'];
+const execFileAsync = promisify(execFile);
+const identifier = /^[A-Za-z_$][\w$]*$/;
+const packageName = /^(?:@[a-z0-9][\w.-]*\/)?[a-z0-9][\w.-]*$/;
+
+function record(value: unknown, label: string): asserts value is Record<string, unknown> {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) {
+        throw new Error(`${label} must be an object. ${BUILD_MIGRATION}`);
+    }
 }
 
-function isExportPathInLib(path: string, lib: LibInfo) {
-    if (!path.startsWith('/')) {
-        path = `./${path}`;
+function keys(value: Record<string, unknown>, allowed: string[], label: string) {
+    const unknown = Object.keys(value).find(key => !allowed.includes(key));
+    if (unknown) {
+        throw new Error(`Unknown ${label} field "${unknown}". ${BUILD_MIGRATION}`);
     }
-    if (lib.exports && Object.keys(lib.exports).some(x => path.startsWith(x))) {
-        return true;
-    }
-    if (lib.files && lib.files.some(x => path.startsWith(x.replace('**/*', '')))) {
-        return true;
-    }
-
-    return false;
 }
 
-/**
- * @example
- * -                            // export * from 'lib-name';
- * - jquery                     // export * from 'lib-name/jquery';
- * - *:jqueryLib@jquery         // export * as jqueryLib from 'lib-name/jquery';
- * - {default:jqueryLib}@jquery // export {default as jqueryLib} from 'lib-name/jquery';
- * - {jQuery}@jquery            // export {jQuery} from 'lib-name/jquery';
- * - {jQuery:$}@jquery          // export {jQuery as $} from 'lib-name/jquery';
- * - {jQuery,ajax:$ajax}@jquery // export {jQuery, ajax as $ajax} from 'lib-name/jquery';
- * - src/main-jquery.ts         // export * from 'lib-name/src/main-jquery.ts';
- * - >src/style.css             // import 'lib-name/src/style.css';
- */
-function parseLibExport(statement: string, lib?: LibInfo): BuildLibExport {
-    const info: BuildLibExport = {
-        type: 'export',
-        targets: [],
-        path: '',
-    };
-    statement = statement.trim();
-    if (statement[0] === '>') {
-        info.type = 'import';
-        statement = statement.substring(1);
+function nonempty(value: unknown, label: string): asserts value is string {
+    if (typeof value !== 'string' || !value.trim() || value !== value.trim()) {
+        throw new Error(`${label} must be a non-empty string without surrounding whitespace.`);
     }
-    if (statement.includes('@')) {
-        const [targetsPath, path] = statement.split('@');
-        const targets = targetsPath.trim().replace(/(^{)|(}$)/g, '').split(',');
-        targets.forEach((item) => {
-            const [name, alias] = item.trim().split(':');
-            info.targets.push({name, alias});
-        });
-        info.path = path.startsWith('./') ? path.substring(2) : path;
-    } else {
-        if (statement.startsWith('./')) {
-            if (lib && lib.exports && lib.exports[statement]) {
-                info.path = lib.exports[statement];
-            } else {
-                info.path = statement.substring(2);
-            }
-        } else {
-            if (lib && lib.exports && lib.exports[`./${statement}`]) {
-                info.path = lib.exports[`./${statement}`];
-            } else {
-                info.path = statement;
-            }
-        }
-        info.targets.push({
-            name: '*',
-        });
-    }
-
-    if (lib && lib.zui.sourceType !== 'npm' && info.path.length && !isExportPathInLib(info.path, lib)) {
-        throw new Error(`Build Error: export path "${info.path}" is not in lib "${lib.name}", check the properties "files" and "exports" in package.json file "${lib.zui.packageJsonPath}".`);
-    }
-
-    return info;
 }
 
-function parseLibExportList(statement: string | string[], lib?: LibInfo): BuildLibExport[] {
-    const statements = Array.isArray(statement) ? [...statement] : [statement];
-    return statements.map(x => parseLibExport(x, lib));
+function stringArray(value: unknown, label: string): asserts value is string[] {
+    if (!Array.isArray(value)) {
+        throw new Error(`${label} must be an array of strings. ${BUILD_MIGRATION}`);
+    }
+    value.forEach(item => nonempty(item, label));
 }
 
-function createLibExportStatement(exportInfo: BuildLibExport, libName: string): string {
-    const parts = [
-        exportInfo.type === 'import' ? 'import' : 'export',
-    ];
-
-    const targets: string[] = [];
-    if (exportInfo.targets?.length) {
-        const generalExport = exportInfo.targets.find(x => x.name === '*');
-        if (generalExport) {
-            targets.push(`*${generalExport.alias ? ` as ${generalExport.alias}` : ''}`);
-        }
-        const namingExports: string[] = [];
-        exportInfo.targets.forEach((target) => {
-            if (target.name === '*') {
-                return;
-            }
-            namingExports.push(`${target.name}${target.alias ? ` as ${target.alias}` : ''}`);
-        });
-        if (namingExports.length) {
-            targets.push(`{${namingExports.join(',')}}`);
-        }
-    } else if (exportInfo.type === 'export') {
-        targets.push('*');
-    }
-
-    if (targets.length) {
-        parts.push(targets.join(','), 'from');
-    }
-
-    let path = libName;
-    if (exportInfo.path) {
-        if (!exportInfo.path.startsWith('/')) {
-            path += '/';
-        }
-        path += exportInfo.path;
-    }
-    parts.push(JSON.stringify(path));
-    return parts.join(' ');
-}
-
-/**
- * Parse a string to a BuildLib - 解析一个字符串为构建库（或组件）
- * @param libLike Lib - 构建库（或组件）定义字符串，例如 zui, button, +jquery, @zui/button@1.1.0, dtable~jquery
- * @param libsMap Libs map - 所有可用的库
- * @returns Build lib - 构建库（或组件）
- */
-function parseBuildLib(libLike: string | '@zui' | 'zui', libsMap: Record<string, LibInfo>): BuildLibInfo[] {
-    if (libLike === 'zui' || libLike === '@zui' || libLike === '*zui') {
-        return Object.values(libsMap).filter(x => x.zui.sourceType === 'build-in').sort((a, b) => a.zui.order - b.zui.order);
-    } else if (libLike === 'zui+exts' || libLike === 'zui*exts') {
-        return Object.values(libsMap).filter(x => x.zui.sourceType === 'build-in' || x.zui.sourceType === 'exts').sort((a, b) => a.zui.order - b.zui.order);
-    } else if (libLike.startsWith('zui*')) {
-        const extsLibs = new Set(libLike.replace('zui*', '').split('*'));
-        return Object.values(libsMap).filter(x => x.zui.sourceType === 'build-in' || (x.zui.sourceType === 'exts' && x.zui.extsName && extsLibs.has(x.zui.extsName))).sort((a, b) => a.zui.order - b.zui.order);
-    } else if (libLike.startsWith('*')) {
-        const extsLibs = new Set(libLike.replace('*', '').split('*'));
-        return Object.values(libsMap).filter(x => x.zui.sourceType === 'build-in' || (x.zui.extsName && extsLibs.has(x.zui.extsName))).sort((a, b) => a.zui.order - b.zui.order);
-    }
-
-    let exports: string[] | undefined;
-    if (libLike.includes('~')) {
-        const [namePart, ...importParts] = libLike.split('~');
-        libLike = namePart;
-        exports = importParts;
-    }
-
-    const isNpmLib = libLike.startsWith('+');
-    if (isNpmLib) {
-        libLike = libLike.substring(1);
-    }
-    const startWithAt = libLike.startsWith('@');
-    const [namePart, version] = (startWithAt ? libLike.substring(1) : libLike).split('@');
-    const name = `${startWithAt ? '@' : ''}${namePart}`;
-    if (isNpmLib) {
-        const libInfo: BuildLibInfo = {
-            name,
-            version,
-            zui: {
-                name,
-                displayName: name,
-                type: LibType.other,
-                sourceType: 'npm',
-                order: 0,
-                path: '',
-            },
-            exportList: exports ? parseLibExportList(exports) : undefined,
-        };
-
-        return [libInfo];
-    }
-
-    const shortName = name.startsWith('@zui/') ? name.substring('@zui/'.length) : name;
-    const libInfo = libsMap[shortName];
-    if (!libInfo) {
-        throw new Error(`Build Error: cannot find a lib named "${name}".`);
-    }
-    if (!exports && libInfo.zui.defaultExport) {
-        exports = [libInfo.zui.defaultExport];
-    }
-
-    return [{
-        ...libInfo,
-        exportList: exports ? parseLibExportList(exports, libInfo) : undefined,
-    }];
-}
-
-/**
- * Parse a string to a build libs - 解析一个字符串为构建库（或组件）列表
- * @param libsLike Libs like string - 构建库（或组件）字符串
- * @param libsMap Libs map - 所有可用的库
- * @returns 构建库（或组件）列表和名称
- */
-export function parseBuildLibs(libsLike: LibsLike, libsMap: Record<string, LibInfo>): BuildLibInfo[] {
-    const libs: LibInfo[] = [];
-    libsLike.split(' ').forEach((libLike) => {
-        if (!libLike.length) {
-            return;
-        }
-        libs.push(...parseBuildLib(libLike.trim(), libsMap));
-    });
-    return sortLibList(libs);
-}
-
-export function getBuildLibPaths(exts?: string | string[] | boolean): string[] {
-    if (typeof exts === 'string') {
-        if (exts !== 'no') {
-            exts = exts.split(',').map(ext => ext.trim());
-        }
-    } else if (exts) {
-        exts = Array.isArray(exts) ? exts : ['buildIn', 'exts'];
-    } else {
-        exts = 'buildIn';
-    }
-    return Array.isArray(exts) ? exts : [exts];
-}
-
-/**
- * Create build config for vite - 创建 Vite 构建配置
- * @param options Build config options - 构建配置选项
- * @returns 构建配置
- */
-export async function createBuildConfig(options: BuildConfigOptions): Promise<BuildConfig> {
-    const {
-        libs: configFileOrLibs = 'zui',
-        name = '',
-        version,
-        ignoreLibs,
-        ignoreNotReady,
-        includeWip,
-    } = options;
-
-    const exts = getBuildLibPaths(options.exts);
-    const libsMap = await getLibs(exts, {cache: false});
-
-    // Skip wip and separately libs
-    const libsSetting = configFileOrLibs.split(' ');
-    Object.keys(libsMap).forEach((libName) => {
-        const lib = libsMap[libName];
-        if (((lib.zui.wip && !includeWip) || lib.zui.separately) && !exts.includes(libName) && !exts.includes(lib.zui.name) && libsSetting.every(x => x !== libName && !x.startsWith(`${libName}~`))) {
-            delete libsMap[libName];
-        }
-    });
-
-    const buildConfig: BuildConfig = {
-        name,
-        version,
-        libs: [],
-        ignoreNotReady,
-        defaultExports: options.exports ? parseLibExportList(options.exports) : undefined,
-    };
-
-    if (configFileOrLibs && isPathLike(configFileOrLibs)) {
-        const configFromFile = await fs.readJSON(Path.isAbsolute(configFileOrLibs) ? configFileOrLibs : Path.resolve(process.cwd(), configFileOrLibs));
-        Object.assign(buildConfig, configFromFile);
-    } else {
-        const results = parseBuildLibs(configFileOrLibs || 'zui', libsMap);
-        buildConfig.libs.push(...results);
-        if (!buildConfig.name.length) {
-            if (buildConfig.libs.length === 1) {
-                buildConfig.name = results[0].zui.name;
-            } else if (!configFileOrLibs) {
-                buildConfig.name = 'zui';
-            }
+/** Validate JSON before it can influence a build or its output directories. */
+export function validateBuildOptions(value: unknown): asserts value is BuildOptions {
+    record(value, 'Build options');
+    keys(value, optionKeys, 'build option');
+    for (const key of ['name', 'version', 'outDir', 'zip', 'viteConfig']) {
+        if (value[key] !== undefined) {
+            nonempty(value[key], key);
         }
     }
-
-    if (!buildConfig.libs.length) {
-        throw new Error('Build Error: Cannot build without any specific lib.');
+    for (const key of ['minify', 'sourcemap', 'includeWip', 'excludeNotReady']) {
+        if (value[key] !== undefined && typeof value[key] !== 'boolean') {
+            throw new Error(`${key} must be a boolean.`);
+        }
     }
-
-    const ignoreLibsSet = buildConfig.libs.reduce((set, lib) => {
-        if (lib.zui.sourceType === 'exts' && lib.zui.replace) {
-            lib.zui.replace.split(',').forEach((x) => {
-                x = x.trim();
-                if (x.length) {
-                    set.add(x);
+    for (const key of ['libs', 'exclude']) {
+        if (value[key] !== undefined) {
+            stringArray(value[key], key);
+        }
+    }
+    if (value.extensions !== undefined && typeof value.extensions !== 'boolean') {
+        stringArray(value.extensions, 'extensions');
+    }
+    for (const key of ['dependencies', 'externals']) {
+        if (value[key] !== undefined) {
+            record(value[key], key);
+            Object.entries(value[key]).forEach(([name, item]) => {
+                if (!packageName.test(name)) {
+                    throw new Error(`Invalid package name "${name}" in ${key}.`);
                 }
+                nonempty(item, `${key}.${name}`);
             });
         }
-        return set;
-    }, new Set<string>());
-    if (ignoreLibs?.length) {
-        (typeof ignoreLibs === 'string' ? ignoreLibs.split(',') : ignoreLibs).reduce((set, libName) => {
-            if (libName.length) {
-                set.add(libName);
+    }
+    if (value.css !== undefined) {
+        record(value.css, 'css');
+        keys(value.css, ['minify', 'remToPx', 'preflight'], 'css');
+        for (const [key, item] of Object.entries(value.css)) {
+            if (typeof item !== 'boolean') {
+                throw new Error(`css.${key} must be a boolean.`);
             }
-            return set;
-        }, ignoreLibsSet);
+        }
     }
-    if (ignoreLibsSet.size) {
-        buildConfig.libs = buildConfig.libs.filter(lib => !(ignoreLibsSet.has(lib.name) || ignoreLibsSet.has(lib.zui.name)));
+    if (value.exports !== undefined) {
+        record(value.exports, 'exports');
+        for (const [name, items] of Object.entries(value.exports)) {
+            if (!Array.isArray(items) || !items.length) {
+                throw new Error(`exports.${name} must be a non-empty array.`);
+            }
+            for (const item of items) {
+                record(item, `exports.${name}`);
+                keys(item, ['path', 'targets', 'sideEffect'], 'export');
+                if (item.path !== undefined) {
+                    nonempty(item.path, 'Export path');
+                    const path = item.path.replace(/^\.\//, '');
+                    if (Path.isAbsolute(path) || /[\\?#]/.test(path) || path.split('/').some(part => !part || part === '.' || part === '..')) {
+                        throw new Error(`Invalid export path "${item.path}".`);
+                    }
+                }
+                if (item.sideEffect !== undefined && typeof item.sideEffect !== 'boolean') {
+                    throw new Error('sideEffect must be a boolean.');
+                }
+                if (item.targets !== undefined) {
+                    record(item.targets, 'Export targets');
+                    if (item.sideEffect || !Object.keys(item.targets).length) {
+                        throw new Error('Export targets must be non-empty and cannot be combined with sideEffect.');
+                    }
+                    for (const [target, alias] of Object.entries(item.targets)) {
+                        if ((target !== '*' && !identifier.test(target)) || typeof alias !== 'string' || !identifier.test(alias)) {
+                            throw new Error(`Invalid export target "${target}" or alias "${String(alias)}".`);
+                        }
+                    }
+                    if ('*' in item.targets && Object.keys(item.targets).length !== 1) {
+                        throw new Error('A namespace export cannot be combined with named exports.');
+                    }
+                }
+            }
+        }
     }
-
-    if (!buildConfig.version) {
-        const zuiPackageJson = await fs.readJSON(Path.resolve(process.cwd(), './package.json'));
-        buildConfig.version = zuiPackageJson.version;
-    }
-
-    if (!buildConfig.name.length) {
-        buildConfig.name = 'zui-custom';
-    }
-
-    return buildConfig;
 }
 
-/**
- * Prepare build files - 准备构建相关文件
- * @param config Build config
- */
-export async function prepareBuildFiles(config: BuildConfig, buildDir: string) {
+/** Only package metadata retains the old defaultExport notation. */
+function defaultExport(statement: string): BuildExport {
+    if (statement.startsWith('>')) {
+        return {path: statement.slice(1).replace(/^\.\//, ''), sideEffect: true};
+    }
+    if (!statement.includes('@')) {
+        return statement ? {path: statement.replace(/^\.\//, '')} : {};
+    }
+    const [targetPart, path] = statement.split('@');
+    if (targetPart === '*') {
+        return {path: path || undefined};
+    }
+    const targets = Object.fromEntries(targetPart.replace(/^{|}$/g, '').split(',').map((target) => {
+        const [name, alias] = target.trim().split(':');
+        return [name, alias ?? name];
+    }));
+    return {path: path || undefined, targets};
+}
+
+function exportStatement(item: BuildExport, lib: LibInfo) {
+    const path = item.path?.replace(/^\.\//, '');
+    if (path && lib.zui.sourceType !== 'npm') {
+        const exported = lib.exports && Object.keys(lib.exports).some(key => key === `./${path}` || (key.includes('*') && path.startsWith(key.slice(2).split('*')[0])));
+        const inFiles = lib.files?.some((file) => {
+            const prefix = file.replace(/^\.\//, '').split('*')[0].replace(/\/$/, '');
+            return path === prefix || path.startsWith(`${prefix}/`);
+        });
+        if (!exported && !inFiles) {
+            throw new Error(`Export path "${path}" is not in lib "${lib.name}"; check files and exports in ${lib.zui.packageJsonPath}.`);
+        }
+    }
+    const specifier = JSON.stringify(`${lib.name}${path ? `/${path}` : ''}`);
+    if (item.sideEffect) {
+        return `import ${specifier};`;
+    }
+    if (!item.targets) {
+        return `export * from ${specifier};`;
+    }
+    if (item.targets['*']) {
+        return `export * as ${item.targets['*']} from ${specifier};`;
+    }
+    const targets = Object.entries(item.targets).map(([name, alias]) => name === alias ? name : `${name} as ${alias}`);
+    return `export {${targets.join(', ')}} from ${specifier};`;
+}
+
+function isWithin(path: string, directory: string) {
+    const relative = Path.relative(directory, path);
+    return relative === '' || (!relative.startsWith(`..${Path.sep}`) && relative !== '..' && !Path.isAbsolute(relative));
+}
+
+async function canonical(path: string): Promise<string> {
+    if (await fs.pathExists(path)) {
+        return fs.realpath(path);
+    }
+    return Path.join(await canonical(Path.dirname(path)), Path.basename(path));
+}
+
+async function validateDirectories(plan: BuildPlan) {
+    const protectedPaths = await Promise.all([plan.rootDir, ...plan.sources, ...['src', 'scripts', 'config', 'dev', 'docs/docs', 'docs/_/.vitepress', 'docs/package.json', 'docs/tsconfig.json', 'docs/tailwind.config.cjs', 'docs/postcss.config.mjs', 'tests', 'node_modules', '.git', '.agents', '.codex', '.github', '.claude', '.codex-plugin', '.vscode', 'licenses', 'patches', 'public', 'publish', 'skills', 'skills-exts'].map(path => Path.join(plan.rootDir, path))].map(canonical));
+    const [buildDir, outDir] = await Promise.all([plan.buildDir, plan.outDir].map(canonical));
+    // Track additional source locations without blocking existing untracked output directories.
+    const trackedFiles = await fs.pathExists(Path.join(plan.rootDir, '.git'))
+        ? (await execFileAsync('git', ['ls-files', '-z'], {cwd: plan.rootDir, maxBuffer: 10 * 1024 * 1024})).stdout.split('\0').filter(Boolean).map(file => Path.resolve(protectedPaths[0], file))
+        : [];
+    for (const destination of [buildDir, outDir]) {
+        if (protectedPaths.some((source, index) => isWithin(source, destination) || (index > 0 && isWithin(destination, source))) || trackedFiles.some(file => isWithin(file, destination))) {
+            throw new Error(`Unsafe build directory "${destination}": overlaps the project or source files.`);
+        }
+        if (await fs.pathExists(destination) && !(await fs.stat(destination)).isDirectory()) {
+            throw new Error(`Build directory "${destination}" is not a directory.`);
+        }
+    }
+    if (isWithin(buildDir, outDir) || isWithin(outDir, buildDir)) {
+        throw new Error('Build and output directories must not overlap.');
+    }
+    if (plan.viteConfig) {
+        const input = await canonical(plan.viteConfig);
+        if (isWithin(input, buildDir) || isWithin(input, outDir)) {
+            throw new Error('Vite configuration must not be inside a build output directory.');
+        }
+        if (!(await fs.pathExists(plan.viteConfig)) || !(await fs.stat(plan.viteConfig)).isFile()) {
+            throw new Error(`Vite configuration file does not exist: ${plan.viteConfig}`);
+        }
+    }
+    if (plan.zip) {
+        const zip = await canonical(plan.zip);
+        if (trackedFiles.includes(zip) || (plan.viteConfig && zip === await canonical(plan.viteConfig)) || protectedPaths.some((source, index) => index > 0 && isWithin(zip, source)) || isWithin(zip, buildDir) || zip === outDir || (Path.dirname(zip) === plan.rootDir && await fs.pathExists(zip))) {
+            throw new Error(`Unsafe ZIP output "${plan.zip}".`);
+        }
+    }
+}
+
+export async function resolveBuildPlan(options: BuildOptions, rootDir = process.cwd()): Promise<BuildPlan> {
+    validateBuildOptions(options);
+    rootDir = Path.resolve(rootDir);
+    const sources = [Path.join(rootDir, 'lib')];
+    const libsMap = await getLibs('buildIn', {root: rootDir, cache: false});
+    if (options.extensions) {
+        const registryPath = Path.join(rootDir, 'exts/libs.json');
+        const registry: Record<string, string> = await fs.pathExists(registryPath) ? await fs.readJSON(registryPath) : {};
+        record(registry, 'Extension registry');
+        const selected = options.extensions === true ? Object.keys(registry) : options.extensions;
+        for (const source of selected) {
+            let path = registry[source];
+            if (path !== undefined) {
+                nonempty(path, `Extension ${source}`);
+                path = Path.resolve(rootDir, path.replace(/[/\\]\*$/, ''));
+            } else {
+                path = Path.resolve(rootDir, source);
+                if (!(await fs.pathExists(path))) {
+                    throw new Error(`Unknown extension group or directory "${source}".`);
+                }
+            }
+            if (!(await fs.pathExists(path)) || !(await fs.stat(path)).isDirectory()) {
+                throw new Error(`Invalid extension directory "${path}".`);
+            }
+            if (sources.includes(path)) {
+                continue;
+            }
+            const packagePath = Path.join(path, 'package.json');
+            const pkg = await fs.pathExists(packagePath) ? await fs.readJSON(packagePath) : undefined;
+            const collectionPath = Path.join(path, 'lib');
+            const discoveryPath = !pkg?.zui && await fs.pathExists(collectionPath) && (await fs.stat(collectionPath)).isDirectory() ? collectionPath : path;
+            const extensions = await getLibs(discoveryPath, {root: rootDir, cache: false, sourceType: 'exts', extsName: source, hasSubs: !pkg?.zui, idx: sources.length});
+            if (!Object.keys(extensions).length) {
+                throw new Error(`No extension libraries found in "${path}".`);
+            }
+            Object.assign(libsMap, extensions);
+            sources.push(path);
+        }
+    }
+    const byName = Object.fromEntries(Object.values(libsMap).map(lib => [lib.zui.sourceType === 'build-in' ? lib.zui.name : lib.name, lib]));
+    const lookup = (name: string) => {
+        if (!Object.hasOwn(byName, name)) {
+            throw new Error(`Unknown library "${name}". Built-in libraries use short names; extensions use full package names. ${BUILD_MIGRATION}`);
+        }
+        return byName[name];
+    };
+    const excluded = new Set((options.exclude ?? []).map(name => lookup(name).name));
+    let libs: BuildLibInfo[] = (options.libs ? options.libs.map(lookup) : Object.values(libsMap).filter(lib => (!lib.zui.wip || options.includeWip) && !lib.zui.separately)).filter(lib => !excluded.has(lib.name) && !(options.excludeNotReady && lib.zui.notReady));
+    const replaced = new Set(libs.flatMap(lib => lib.zui.sourceType === 'exts' ? (lib.zui.replace ?? '').split(',').map(name => name.trim()) : []));
+    libs = [...new Map(libs.filter(lib => !replaced.has(lib.name) && !replaced.has(lib.zui.name)).map(lib => [lib.name, {...lib, zui: {...lib.zui}}])).values()].sort((a, b) => a.zui.order - b.zui.order);
+    for (const [name, version] of Object.entries(options.dependencies ?? {})) {
+        if (Object.values(libsMap).some(lib => lib.name === name)) {
+            throw new Error(`Dependency "${name}" is already a discovered library; select it using libs.`);
+        }
+        libs.push({name, version, zui: {name, displayName: name, type: LibType.other, sourceType: 'npm', path: '', order: 0}});
+    }
+    if (!libs.length) {
+        throw new Error('Cannot build an empty library selection.');
+    }
+    for (const name of Object.keys(options.exports ?? {})) {
+        if (!libs.some(lib => (lib.zui.sourceType === 'build-in' ? lib.zui.name : lib.name) === name)) {
+            throw new Error(`Export override "${name}" does not match a selected library.`);
+        }
+    }
+    const packageJson = await fs.readJSON(Path.join(rootDir, 'package.json'));
+    const name = options.name ?? (options.libs ? (libs.length === 1 ? libs[0].zui.name.replace(/^@/, '').replace(/\//g, '-') : 'zui-custom') : 'zui');
+    if (!/^[a-zA-Z0-9][a-zA-Z0-9._-]*$/.test(name)) {
+        throw new Error(`Invalid build name "${name}": use a filename without path separators.`);
+    }
+    const version: string = options.version ?? packageJson.version;
+    nonempty(version, 'Build version');
+    const buildDir = Path.join(rootDir, 'build');
     const dependencies: Record<string, string> = {};
-    const entryFileLines: string[] = [];
-    const publicPath = Path.join(buildDir, 'public');
-
-    for (const lib of config.libs) {
-        if (lib.zui.notReady && config.ignoreNotReady) {
-            continue;
-        }
-        dependencies[lib.name] = lib.zui.workspace ? `link:${Path.relative(buildDir, lib.zui.path)}` : lib.version;
-        if (lib.exportList) {
-            lib.exportList.forEach((item) => {
-                entryFileLines.push(createLibExportStatement(item, lib.name));
-            });
-        } else if (lib.zui.sourceType !== 'npm' && config.defaultExports?.length) {
-            config.defaultExports.forEach((item) => {
-                if (isExportPathInLib(item.path, lib)) {
-                    entryFileLines.push(createLibExportStatement(item, lib.name));
-                } else {
-                    entryFileLines.push(`export * from ${JSON.stringify(lib.name)};`);
-                }
-            });
-        } else {
-            entryFileLines.push(`export * from ${JSON.stringify(lib.name)};`);
-        }
-        if (lib.zui.sourceType !== 'npm') {
-            const libPublicPath = Path.join(lib.zui.path, 'public');
-            if (lib.zui.publicPath !== false && fs.existsSync(libPublicPath)) {
-                await fs.copy(libPublicPath, Path.join(publicPath, lib.zui.publicPath || lib.zui.name));
-            }
-        }
+    const entries: string[] = [];
+    for (const lib of libs) {
+        nonempty(lib.version, `Version for ${lib.name}`);
+        dependencies[lib.name] = lib.zui.sourceType === 'npm' ? lib.version : `link:${Path.relative(buildDir, lib.zui.path)}`;
+        const key = lib.zui.sourceType === 'build-in' ? lib.zui.name : lib.name;
+        lib.exportList = options.exports?.[key] ?? (lib.zui.defaultExport ? [defaultExport(lib.zui.defaultExport)] : [{}]);
+        entries.push(...lib.exportList.map(item => exportStatement(item, lib)));
     }
-
-    const entryFile = Path.join(buildDir, 'main.ts');
-    await fs.outputFile(entryFile, entryFileLines.join('\n'));
-    await fs.outputFile(Path.join(buildDir, 'pnpm-workspace.yaml'), '');
-
-    const packageJson = {
-        name: config.name,
-        version: config.version,
-        dependencies,
-        main: 'main.ts',
+    const minify = options.minify ?? true;
+    const plan: BuildPlan = {
+        rootDir, buildDir, outDir: Path.resolve(rootDir, options.outDir ?? `dist/${name}`), entry: Path.join(buildDir, 'main.ts'), publicDir: Path.join(buildDir, 'public'),
+        name, version, fileName: name.includes('zui') ? name : `zui.${name}`, libs, libsMap, sources, entries, dependencies,
+        tailwindConfigs: libs.flatMap(lib => lib.zui.tailwindConfigPath ? [lib.zui.tailwindConfigPath] : []),
+        minify, sourcemap: options.sourcemap ?? true,
+        css: {minify: minify && (options.css?.minify ?? true), remToPx: options.css?.remToPx ?? false, preflight: options.css?.preflight ?? true},
+        externals: options.externals ?? {}, zip: options.zip ? Path.resolve(rootDir, options.zip) : undefined, viteConfig: options.viteConfig ? Path.resolve(rootDir, options.viteConfig) : undefined,
     };
-    await fs.outputJSON(Path.join(buildDir, 'package.json'), packageJson, {spaces: 4});
-}
-
-/**
- * Create vite config file - 创建 Vite 配置文件
- * @param config Build config - 构建配置
- * @return Vite config - Vite 配置
- */
-export function createViteConfig(config: BuildConfig, options: {buildDir: string; outDir?: string}) {
-    return {
-        build: {
-            lib: {
-                entry: Path.join(options.buildDir, 'main.ts'),
-                name: 'zui',
-                fileName: !config.name.includes('zui') ? `zui.${config.name}` : config.name,
-            },
-            outDir: options.outDir ?? `dist/${config.name}`,
-        },
-        publicDir: Path.join(options.buildDir, 'public'),
-    };
+    await validateDirectories(plan);
+    return plan;
 }

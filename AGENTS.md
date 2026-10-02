@@ -17,17 +17,16 @@ pnpm typecheck             # 检查源码、工具和测试的 TypeScript 类型
 pnpm test                  # 运行 Vitest 单元测试与 jsdom 组件测试
 pnpm test:coverage         # 运行单元/DOM 测试并生成覆盖率
 pnpm test:skills           # 验证仓库内 ZUI 技能脚本
-pnpm test:build            # 验证 ESM/UMD/CSS/source map/ZIP/--noCash 构建消费契约
+pnpm test:build            # 验证 ESM/UMD/CSS/source map/ZIP/外置 Cash 构建消费契约
 pnpm test:e2e              # 使用 Chromium 运行 Playwright（需先安装浏览器）
 pnpm test:e2e:all          # 使用 Chromium、Firefox、WebKit 运行 Playwright
 pnpm test:docs             # 用 Chromium 验收已构建的官网示例（先运行 docs:build）
 pnpm check                 # lint + typecheck + 单元/DOM + skills 的常用提交前检查
-pnpm build                 # 走自定义构建管线 scripts/build/index.ts，会汇总 lib/*、生成临时 build/ 目录后再调 build:vite
-pnpm build:vite            # tsc 类型检查 + 单次 vite build（一般不直接用，由 scripts/build 调用）
+pnpm build                 # CLI/JSON → BuildPlan → 临时 build/ 入口 → Vite JS API，不隐式执行类型检查
 pnpm docs:dev              # 准备并启动 VitePress 文档站；docs:dev-fast 跳过预处理
 pnpm docs:build            # 构建文档（CI 中使用 .github/workflows/deploy-docs.yml）
 pnpm extend-lib <path>     # 通过软链将外部目录加入 exts/ 并写入 exts/libs.json
-pnpm publish:npm           # 构建并发布到 npm
+pnpm publish:npm           # check + test:build 后构建并发布到 npm
 ```
 
 ### 开发服务管理
@@ -41,10 +40,12 @@ pnpm publish:npm           # 构建并发布到 npm
 
 `pnpm build` 支持的关键参数（透传给 `scripts/build/index.ts`）：
 
-- `--lib=zui`、`--name=mybuild`、`--version=1.0.0`：定制构建名/版本；`--lib` 支持 `button dropdown +clipboard !icons` 这样的库组合 DSL（见 `scripts/build/config.ts` 注释）。
-- `--exts=buildIn,exts`、`--ignoreNotReady`、`--includeWip`：控制是否纳入扩展库 / 未就绪 / WIP 的库。
-- `--noMinify`、`--noSourceMap`、`--noCash`（cash-dom 外置）、`--zip=xx.zip`：构建产物细节。
-- `--saveConfig[=path]`：把解析后的 build config 写到文件，便于排查。
+- 无参数构建符合筛选规则的全部内置库；重复 `--lib button --lib dropdown` 精确选择入口，重复 `--exclude icons` 排除入口。内置库使用短名，扩展库使用完整包名，不支持旧组合 DSL、位置参数或短别名。
+- `--extensions` 包含全部已注册扩展；重复 `--extension zentao --extension ../other-libs` 指定注册组名或单库／集合目录，与 `--extensions` 互斥。内置库始终可供选择，未指定 `--lib` 时也构建已启用扩展。
+- `--name mybuild`、`--version 1.0.0`、`--out-dir dist/mybuild` 指定产物信息；`--include-wip` 包含 WIP，`--exclude-not-ready` 排除未就绪库。
+- `--no-minify` 同时关闭 JS/CSS 压缩；`--no-sourcemap` 关闭 source map；`--zip ./dist/mybuild.zip` 指定完整 ZIP 输出路径。
+- `--config ./custom-build.json` 加载声明式配置；高级导出、npm 依赖、外置依赖（例如 `"externals": {"cash-dom": "$"}`）、CSS 和自定义 Vite 配置通过 JSON 指定。
+- `--dry-run` 只输出归一化 BuildPlan，不执行安装、prebuild 或清理目录；`--help` 查看参数。CLI 路径相对工作目录，JSON 路径相对配置文件；CLI 标量和 libs/扩展来源覆盖 JSON，exclude 合并。
 
 单库本地调试：直接 `pnpm dev`，浏览器访问 `/<lib-name>/` 即可加载该 lib 的 `dev.ts`（见 `index.html` + `src/main.ts` + `src/libs.ts`，会按 `lib/*/package.json` 自动发现）。自动化测试分为 `tests/unit`（Node 纯逻辑）、`tests/dom`（Vitest + jsdom）、`tests/build`（最终分发消费）和 `tests/e2e`（Playwright 真实浏览器）；调试页继续用于人工交互和样式验证。
 
@@ -72,7 +73,7 @@ build/、dist/、publish/   构建中间产物 / 最终产物（gitignored）
 
 - `type` 决定其在构建/导航中的归类与排序（`config` → `css-base` → `control` → `js-helpers` → `component` → `js-ui` → `css-utilities` → `js-lib`）。
 - `contributes.css = ['class', 'var']` 表示该 lib 输出 CSS 类与 CSS 变量；`contributes.js = ['class','var','method','module','component']` 表示输出哪些 JS 形态。`scripts/build` 会据此决定如何生成 `build/` 下的入口聚合代码与 tailwind 配置合并。
-- `wip: true` / `zui.notReady: true` 会被默认排除，除非 `--includeWip` / `--ignoreNotReady`。
+- 顶层 `wip: true` 不参与发现；`zui.wip: true` 和 `zui.separately: true` 默认不进入全量构建，显式 `--lib` 可选择，`--include-wip` 可纳入前者。`zui.notReady: true` 在使用 `--exclude-not-ready` 时排除。
 
 ### Vanilla / React 双形态组件
 

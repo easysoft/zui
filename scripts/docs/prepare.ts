@@ -1,48 +1,45 @@
-import path from 'path';
+import Path from 'node:path';
 import fs from 'fs-extra';
-import minimist from 'minimist';
-import {exec} from '../utilities/exec';
-import {getLibs} from '../libs/query';
+import {BUILD_HELP, loadBuildOptions, parseBuildArgs} from '../build/cli';
+import {resolveBuildPlan} from '../build/config';
+import {runBuild} from '../build/run';
+import {loadCustomViteConfig} from '../build/vite';
 import {syncLibDocs, emptySidebarLibDocs} from './sync';
-import {parseBuildLibs} from '../build/config';
 import {version} from '../../package.json';
 
-const argv = minimist(process.argv.slice(2).filter((x, i) => i || x !== '--'));
-const docsDir = path.resolve(process.cwd(), 'docs/_');
-const docsPublicDir = path.join(docsDir, 'public');
-
-await fs.emptyDir(docsPublicDir);
-
-const exts = argv.exts === true ? 'buildIn,exts' : argv.exts;
-const libSetting = argv.lib;
-if (argv.build !== 'no') {
-    const params = ['build', '--', '--outDir=docs/_/public/zui', '--name=zui', `--zip=zui-${version}.zip`];
-    if (exts) {
-        params.push(`--exts=${exts}`);
-    }
-    if (libSetting) {
-        params.push(`--lib=${libSetting}`);
-    }
-    if (argv.ignoreNotReady) {
-        params.push('--ignoreNotReady');
-    }
-    if (argv.includeWip) {
-        params.push('--includeWip');
-    }
-    await exec('pnpm', params);
-}
-
-await fs.copyFile(path.resolve(process.cwd(), './favicon.svg'), path.resolve(docsPublicDir, './favicon.svg'));
-
-const libsMap = await getLibs(exts?.split(',') ?? 'buildIn');
-const libs = parseBuildLibs(libSetting ?? 'zui', libsMap);
-
-await fs.outputJSON(path.resolve(docsPublicDir, './zui-libs.json'), libs, {spaces: 4});
-await fs.outputFile(path.resolve(docsPublicDir, './zui-libs.js'), `export default ${JSON.stringify(libs, null, 4)};`);
-
-if (argv.copy) {
-    await emptySidebarLibDocs();
-    for (const lib of libs) {
-        await syncLibDocs(lib);
+const rawArgs = process.argv.slice(2);
+const copy = rawArgs.includes('--copy');
+const skipBuild = rawArgs.includes('--build=no');
+const args = parseBuildArgs(rawArgs.filter(arg => arg !== '--copy' && arg !== '--build=no'));
+if (args.help) {
+    console.log(`${BUILD_HELP}\nDocumentation preparation also accepts --copy and --build=no.`);
+} else {
+    const docsDir = Path.resolve('docs/_');
+    const docsPublicDir = Path.join(docsDir, 'public');
+    const options = await loadBuildOptions(args);
+    const plan = await resolveBuildPlan({
+        ...options,
+        name: 'zui',
+        outDir: Path.join(docsPublicDir, 'zui'),
+        zip: Path.join(docsPublicDir, `zui-${version}.zip`),
+    });
+    if (args.dryRun) {
+        console.log(JSON.stringify(plan, null, 4));
+    } else {
+        const viteConfig = skipBuild ? undefined : await loadCustomViteConfig(plan);
+        await fs.emptyDir(docsPublicDir);
+        if (!skipBuild) {
+            await runBuild(plan, viteConfig);
+        }
+        await fs.copyFile(Path.resolve('favicon.svg'), Path.join(docsPublicDir, 'favicon.svg'));
+        const libs = plan.libs.filter(lib => lib.zui.sourceType !== 'npm');
+        await fs.outputJSON(Path.join(docsPublicDir, 'zui-libs.json'), libs, {spaces: 4});
+        await fs.outputFile(Path.join(docsPublicDir, 'zui-libs.js'), `export default ${JSON.stringify(libs, null, 4)};`);
+        if (copy) {
+            await emptySidebarLibDocs();
+            for (const lib of libs) {
+                await syncLibDocs(lib);
+            }
+        }
     }
 }

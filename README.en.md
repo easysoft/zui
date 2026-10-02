@@ -133,13 +133,13 @@ See the [automated testing guide](./docs/docs/guide/customize/testing.md) for th
 
 ### Custom Builds
 
-Pass a space-separated list of libraries to create a custom bundle:
+Repeat `--lib` to select the libraries for a custom bundle:
 
 ```sh
-pnpm build -- --lib="button dropdown" --name=zui-custom
+pnpm build --lib button --lib dropdown --name zui-custom
 ```
 
-The generated files are written to `dist/zui-custom/`. See the [custom build documentation](https://easysoft.github.io/zui/dev/guide/customize/build.html) for additional options.
+The generated files are written to `dist/zui-custom/`. Use `--extensions` for all registered extensions, or repeat `--extension <group-or-directory>` to choose sources; `--lib` selects entries from those sources. Builds do not implicitly type-check: run `pnpm check` and `pnpm test:build` before publishing. See the [custom build documentation](https://easysoft.github.io/zui/dev/guide/customize/build.html) for options and migration examples.
 
 ## Repository Layout
 

@@ -118,7 +118,7 @@
 通过源码、package 解析、`git diff` 和相关检查记录基线。只读审计不刷新 `build/`、`dist/`、`docs/_` 或仓库缓存；实施任务所需验证按共享工作流安排并保护用户已有产物。选择尚未被有效结果覆盖的相关验证：
 
 - 目标文件 ESLint 与 TypeScript；
-- `pnpm build -- --lib=<name> --noMinify`；
+- `pnpm build --lib <name> --no-minify`；
 - helper 的临时可执行边界检查；
 - `pnpm docs:prepare -- --copy --build=no` 和必要的 `pnpm docs:build`；
 - `pnpm dev` + `/<lib-name>/` 的首次加载、HMR 和主要交互；
