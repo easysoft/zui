@@ -39,7 +39,13 @@ beforeAll(async () => {
     const viteConfig = Path.join(fixtureDir, 'custom.vite.mjs');
     await fs.writeFile(viteConfig, 'export default {resolve: {dedupe: ["custom-runtime"]}};');
     const plan = await resolveBuildPlan({libs: ['button'], viteConfig}, rootDir);
-    const config = await createBuildViteConfig(plan);
+    const context = {
+        workDir: Path.join(fixtureDir, 'work'),
+        entry: Path.join(fixtureDir, 'work/main.ts'),
+        publicDir: Path.join(fixtureDir, 'work/public'),
+        outDir: Path.join(fixtureDir, '.output-staging'),
+    };
+    const config = await createBuildViteConfig(plan, context);
     expect(config.resolve!.dedupe).toContain('custom-runtime');
     resolveWithoutDedupe = (await resolveConfig({
         ...config,
@@ -53,7 +59,7 @@ beforeAll(async () => {
     const entry = Path.join(buildDir, 'main.ts');
     await fs.outputFile(entry, 'export {};');
     await createRuntimePackages(buildDir, '1.2.3');
-    const explicitConfig = await createBuildViteConfig({...explicitPlan, buildDir, entry});
+    const explicitConfig = await createBuildViteConfig(explicitPlan, {...context, workDir: buildDir, entry});
     resolveExplicitRuntime = (await resolveConfig(explicitConfig, 'build')).createResolver();
 });
 

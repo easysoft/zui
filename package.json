@@ -24,7 +24,7 @@
     "dev": "vite --host",
     "dev:exts": "tsx ./scripts/dev/index.ts",
     "build": "tsx ./scripts/build",
-    "build:npm": "pnpm build --name zui --out-dir dist/zui --exclude-not-ready && tsx ./scripts/build/npm-types.ts",
+    "build:npm": "tsx ./scripts/build/npm.ts",
     "preview": "vite preview",
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint . --max-warnings=0",
@@ -99,6 +99,7 @@
     "highlight.js": "^11.11.1",
     "jquery": "^3.7.1",
     "jsdom": "30.0.1",
+    "jszip": "3.10.1",
     "markdown-it": "^14.3.2",
     "markdown-it-anchor": "^8.6.7",
     "markdown-it-toc-done-right": "^4.2.0",
@@ -113,7 +114,6 @@
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.68.0",
     "vite": "7.3.6",
-    "vite-plugin-zip-file": "^2.2.0",
     "vitest": "4.1.11",
     "zui-dev": "workspace:*"
   }

@@ -5,6 +5,7 @@ import fs from 'fs-extra';
 import {getLibs} from '../libs/query';
 import {LibInfo} from '../libs/lib-info';
 import {LibType} from '../libs/lib-type';
+import {canonical, isWithin} from './paths';
 
 export interface BuildExport {
     path?: string;
@@ -39,10 +40,7 @@ export interface BuildLibInfo extends LibInfo {
 /** Fully resolved, serializable build input. Resolving a plan never writes files. */
 export interface BuildPlan {
     rootDir: string;
-    buildDir: string;
     outDir: string;
-    entry: string;
-    publicDir: string;
     fileName: string;
     name: string;
     version: string;
@@ -217,21 +215,9 @@ function exportStatement(item: BuildExport, lib: LibInfo) {
     return `export {${targets.join(', ')}} from ${specifier};`;
 }
 
-function isWithin(path: string, directory: string) {
-    const relative = Path.relative(directory, path);
-    return relative === '' || (!relative.startsWith(`..${Path.sep}`) && relative !== '..' && !Path.isAbsolute(relative));
-}
-
-async function canonical(path: string): Promise<string> {
-    if (await fs.pathExists(path)) {
-        return fs.realpath(path);
-    }
-    return Path.join(await canonical(Path.dirname(path)), Path.basename(path));
-}
-
-async function validateDirectories(plan: BuildPlan) {
+export async function validateDirectories(plan: BuildPlan) {
     const protectedPaths = await Promise.all([plan.rootDir, ...plan.sources, ...['src', 'scripts', 'config', 'dev', 'docs/docs', 'docs/_/.vitepress', 'docs/package.json', 'docs/tsconfig.json', 'docs/tailwind.config.cjs', 'docs/postcss.config.mjs', 'tests', 'node_modules', '.git', '.agents', '.codex', '.github', '.claude', '.codex-plugin', '.vscode', 'licenses', 'patches', 'public', 'publish', 'skills', 'skills-exts'].map(path => Path.join(plan.rootDir, path))].map(canonical));
-    const [buildDir, outDir] = await Promise.all([plan.buildDir, plan.outDir].map(canonical));
+    const [buildDir, outDir] = await Promise.all([Path.join(plan.rootDir, 'build'), plan.outDir].map(canonical));
     // Track additional source locations without blocking existing untracked output directories.
     const trackedFiles = await fs.pathExists(Path.join(plan.rootDir, '.git'))
         ? (await execFileAsync('git', ['ls-files', '-z'], {cwd: plan.rootDir, maxBuffer: 10 * 1024 * 1024})).stdout.split('\0').filter(Boolean).map(file => Path.resolve(protectedPaths[0], file))
@@ -260,6 +246,12 @@ async function validateDirectories(plan: BuildPlan) {
         const zip = await canonical(plan.zip);
         if (trackedFiles.includes(zip) || (plan.viteConfig && zip === await canonical(plan.viteConfig)) || protectedPaths.some((source, index) => index > 0 && isWithin(zip, source)) || isWithin(zip, buildDir) || zip === outDir || (Path.dirname(zip) === plan.rootDir && await fs.pathExists(zip))) {
             throw new Error(`Unsafe ZIP output "${plan.zip}".`);
+        }
+        if (isWithin(outDir, zip) || (await fs.pathExists(zip) && !(await fs.stat(zip)).isFile())) {
+            throw new Error(`ZIP output "${plan.zip}" must be a file outside the output directory's ancestors.`);
+        }
+        if (isWithin(plan.zip, plan.outDir) && (!isWithin(zip, outDir) || Path.relative(plan.outDir, plan.zip) !== Path.relative(outDir, zip))) {
+            throw new Error('ZIP output cannot use symbolic links inside the output directory.');
         }
     }
 }
@@ -335,19 +327,17 @@ export async function resolveBuildPlan(options: BuildOptions, rootDir = process.
     }
     const version: string = options.version ?? packageJson.version;
     nonempty(version, 'Build version');
-    const buildDir = Path.join(rootDir, 'build');
-    const dependencies: Record<string, string> = {};
+    const dependencies = {...options.dependencies};
     const entries: string[] = [];
     for (const lib of libs) {
         nonempty(lib.version, `Version for ${lib.name}`);
-        dependencies[lib.name] = lib.zui.sourceType === 'npm' ? lib.version : `link:${Path.relative(buildDir, lib.zui.path)}`;
         const key = lib.zui.sourceType === 'build-in' ? lib.zui.name : lib.name;
         lib.exportList = options.exports?.[key] ?? (lib.zui.defaultExport ? [defaultExport(lib.zui.defaultExport)] : [{}]);
         entries.push(...lib.exportList.map(item => exportStatement(item, lib)));
     }
     const minify = options.minify ?? true;
     const plan: BuildPlan = {
-        rootDir, buildDir, outDir: Path.resolve(rootDir, options.outDir ?? `dist/${name}`), entry: Path.join(buildDir, 'main.ts'), publicDir: Path.join(buildDir, 'public'),
+        rootDir, outDir: Path.resolve(rootDir, options.outDir ?? `dist/${name}`),
         name, version, fileName: name.includes('zui') ? name : `zui.${name}`, libs, libsMap, sources, entries, dependencies,
         tailwindConfigs: libs.flatMap(lib => lib.zui.tailwindConfigPath ? [lib.zui.tailwindConfigPath] : []),
         minify, sourcemap: options.sourcemap ?? true,

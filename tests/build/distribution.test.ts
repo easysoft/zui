@@ -6,7 +6,7 @@ import Path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {promisify} from 'node:util';
 import {JSDOM} from 'jsdom';
-import {afterAll, beforeAll, describe, expect, test, vi} from 'vitest';
+import {beforeAll, describe, expect, test, vi} from 'vitest';
 
 const execFileAsync = promisify(execFile);
 const projectRoot = Path.resolve(import.meta.dirname, '../..');
@@ -139,10 +139,6 @@ beforeAll(async () => {
     await runBuild(['--config', externalConfigPath]);
 }, 120_000);
 
-afterAll(async () => {
-    await fs.rm(Path.join(projectRoot, 'build'), {force: true, recursive: true});
-});
-
 describe('bundled library distribution', () => {
     const baseName = 'zui-test';
     const cssPath = Path.join(bundledOutput, `${baseName}.css`);
@@ -155,10 +151,13 @@ describe('bundled library distribution', () => {
             await expectFile(path);
         }
 
-        const esmMap = JSON.parse(await fileContents(`${esmPath}.map`)) as {sources?: string[]; version?: number};
+        const esmMap = JSON.parse(await fileContents(`${esmPath}.map`)) as {sources?: string[]; sourcesContent?: string[]; version?: number};
         const umdMap = JSON.parse(await fileContents(`${umdPath}.map`)) as {sources?: string[]; version?: number};
         expect(esmMap.version).toBe(3);
         expect(esmMap.sources?.length).toBeGreaterThan(0);
+        expect(esmMap.sourcesContent?.length).toBe(esmMap.sources?.length);
+        expect(JSON.stringify(esmMap)).not.toMatch(/build\/run-[A-Za-z0-9_-]+/);
+        expect(JSON.stringify(umdMap)).not.toMatch(/build\/run-[A-Za-z0-9_-]+/);
         expect(umdMap.version).toBe(3);
         expect(umdMap.sources?.length).toBeGreaterThan(0);
     });
@@ -228,12 +227,7 @@ test('installs the npm tarball with working runtime entries and strict TypeScrip
     onTestFinished(() => fs.rm(consumerPath, {recursive: true, force: true}));
     const npmCache = Path.join(outputRoot, 'npm-cache');
 
-    await runBuild([
-        '--name=zui',
-        `--out-dir=${Path.join(publishFixture, 'dist/zui')}`,
-        '--exclude-not-ready',
-    ]);
-    await execFileAsync(process.execPath, ['--import', 'tsx', Path.join(projectRoot, 'scripts/build/npm-types.ts'), Path.join(publishFixture, 'dist/zui')], {
+    await execFileAsync(process.execPath, ['--import', 'tsx', Path.join(projectRoot, 'scripts/build/npm.ts'), '--out-dir', Path.join(publishFixture, 'dist/zui')], {
         cwd: projectRoot,
         maxBuffer: 20 * 1024 * 1024,
     });
@@ -347,7 +341,10 @@ const pickerFromRequire: import('zui', {with: {'resolution-mode': 'import'}}).Pi
         expect(declaration, file).not.toMatch(/(?:from\s*|import\s*\(?)["']@zui\//);
         expect(declaration, file).not.toContain(projectRoot);
         expect(declaration, file).not.toContain('.pnpm/');
+        expect(declaration, file).not.toMatch(/build[/\\]run-/);
     }
+
+    await expectFile(Path.join(installedPackage, 'dist/types/build/npm-types.d.ts'));
 
     await withBrowserGlobals(async (dom) => {
         const distribution = await import(pathToFileURL(entryPath).href) as Record<string, unknown>;

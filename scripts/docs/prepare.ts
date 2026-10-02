@@ -27,9 +27,9 @@ if (args.help) {
         console.log(JSON.stringify(plan, null, 4));
     } else {
         const viteConfig = skipBuild ? undefined : await loadCustomViteConfig(plan);
-        await fs.emptyDir(docsPublicDir);
+        await fs.ensureDir(docsPublicDir);
         if (!skipBuild) {
-            await runBuild(plan, viteConfig);
+            await runBuild(plan, {config: viteConfig});
         }
         await fs.copyFile(Path.resolve('favicon.svg'), Path.join(docsPublicDir, 'favicon.svg'));
         const libs = plan.libs.filter(lib => lib.zui.sourceType !== 'npm');

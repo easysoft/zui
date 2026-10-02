@@ -314,6 +314,9 @@ importers:
       jsdom:
         specifier: 30.0.1
         version: 30.0.1
+      jszip:
+        specifier: 3.10.1
+        version: 3.10.1
       markdown-it:
         specifier: ^14.3.2
         version: 14.3.2
@@ -356,9 +359,6 @@ importers:
       vite:
         specifier: 7.3.6
         version: 7.3.6(@types/node@22.20.1)(jiti@1.21.7)(tsx@4.23.12)(yaml@2.9.1)
-      vite-plugin-zip-file:
-        specifier: ^2.2.0
-        version: 2.2.0
       vitest:
         specifier: 4.1.11
         version: 4.1.11(@types/node@22.20.1)(@vitest/coverage-v8@4.1.11)(jsdom@30.0.1)(vite@7.3.6(@types/node@22.20.1)(jiti@1.21.7)(tsx@4.23.12)(yaml@2.9.1))
@@ -5195,9 +5195,6 @@ packages:
   vhtml@2.2.0:
     resolution: {integrity: sha512-TPXrXrxBOslRUVnlVkiAqhoXneiertIg86bdvzionrUYhEuiROvyPZNiiP6GIIJ2Q7oPNVyEtIx8gMAZZE9lCQ==}
 
-  vite-plugin-zip-file@2.2.0:
-    resolution: {integrity: sha512-RaAIlmp/NB2z4R1VhXfW8+GyAKobsC41jkpwmyEMWjzP/LlEQzb9R1ManpybYL0FGogzSq6P9Xr9F4WyDDFP/w==}
-
   vite-prerender-plugin@0.5.12:
     resolution: {integrity: sha512-EiwhbMn+flg14EysbLTmZSzq8NGTxhytgK3bf4aGRF1evWLGwZiHiUJ1KZDvbxgKbMf2pG6fJWGEa3UZXOnR1g==}
     peerDependencies:
@@ -8494,10 +8491,6 @@ snapshots:
       vfile-message: 4.0.3
 
   vhtml@2.2.0: {}
-
-  vite-plugin-zip-file@2.2.0:
-    dependencies:
-      jszip: 3.10.1
 
   vite-prerender-plugin@0.5.12(vite@7.3.6(@types/node@22.20.1)(jiti@1.21.7)(tsx@4.23.12)(yaml@2.9.1)):
     dependencies:

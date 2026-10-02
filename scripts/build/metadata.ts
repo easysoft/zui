@@ -29,6 +29,18 @@ export async function ensureExtsTsconfig(rootDir: string) {
     const extsDir = Path.join(rootDir, 'exts');
     const tsconfigPath = Path.join(extsDir, 'tsconfig.json');
     if (await fs.pathExists(extsDir) && !await fs.pathExists(tsconfigPath)) {
-        await fs.writeFile(tsconfigPath, `${JSON.stringify({extends: '../tsconfig.json'}, null, 4)}\n`);
+        const temporary = await fs.mkdtemp(Path.join(extsDir, '.tsconfig-'));
+        try {
+            const source = Path.join(temporary, 'tsconfig.json');
+            await fs.writeFile(source, `${JSON.stringify({extends: '../tsconfig.json'}, null, 4)}\n`);
+            // Publish a complete file without replacing a config owned by another caller.
+            await fs.link(source, tsconfigPath).catch((error: NodeJS.ErrnoException) => {
+                if (error.code !== 'EEXIST') {
+                    throw error;
+                }
+            });
+        } finally {
+            await fs.remove(temporary);
+        }
     }
 }

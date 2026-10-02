@@ -5,6 +5,7 @@ import fs from 'fs-extra';
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 import {loadBuildOptions, parseBuildArgs} from '../../scripts/build/cli';
 import {resolveBuildPlan, validateBuildOptions} from '../../scripts/build/config';
+import {canonical} from '../../scripts/build/paths';
 import {getLibs} from '../../scripts/libs/query';
 import * as cache from '../../scripts/libs/libs-cache';
 
@@ -102,7 +103,7 @@ describe('resolved build plans', () => {
         expect(plan.libs.map(item => item.name).sort()).toEqual(['@zui/button', '@zui/dropdown', '@zui/not-ready']);
         expect(plan.name).toBe('zui');
         expect(plan.version).toBe('3.0.0');
-        expect(plan.dependencies['@zui/button']).toBe('link:../lib/button');
+        expect(plan.dependencies).toEqual({});
         expect(plan.css).toEqual({minify: true, remToPx: false, preflight: true});
         expect((await resolveBuildPlan({libs: ['wip', 'separate']}, root)).libs).toHaveLength(2);
         expect((await resolveBuildPlan({includeWip: true, excludeNotReady: true}, root)).libs.map(item => item.name).sort()).toEqual(['@zui/button', '@zui/dropdown', '@zui/wip']);
@@ -123,7 +124,7 @@ describe('resolved build plans', () => {
         const all = await resolveBuildPlan({extensions: true}, root);
         expect(all.libs.map(item => item.name)).toEqual(expect.arrayContaining(['@zui/button', '@example/one', '@example/single']));
         expect((await resolveBuildPlan({extensions: ['group', 'single'], libs: ['@example/one', '@example/single']}, root)).libs).toHaveLength(2);
-        expect((await resolveBuildPlan({extensions: ['./extensions/single'], libs: ['@example/single']}, root)).dependencies['@example/single']).toBe('link:../extensions/single');
+        expect((await resolveBuildPlan({extensions: ['./extensions/single'], libs: ['@example/single']}, root)).libs[0].zui.path).toBe(Path.join(root, 'extensions/single'));
         expect((await resolveBuildPlan({extensions: [Path.join(root, 'extensions/group')], libs: ['@example/one']}, root)).libs).toHaveLength(1);
         await expect(resolveBuildPlan({extensions: ['group'], libs: ['one']}, root)).rejects.toThrow(/Unknown library/);
     });
@@ -162,7 +163,7 @@ describe('resolved build plans', () => {
             'import "@zui/button/src/style.css";',
             'export * as Clipboard from "clipboard";',
         ]);
-        expect(plan.dependencies.clipboard).toBe('^2.0.11');
+        expect(plan.dependencies).toEqual({clipboard: '^2.0.11'});
         await lib(Path.join(root, 'lib/default'), '@zui/default', {defaultExport: '{default:Default}@extra'});
         expect((await resolveBuildPlan({libs: ['default']}, root)).entries).toEqual(['export {default as Default} from "@zui/default/extra";']);
     });
@@ -192,6 +193,10 @@ describe('resolved build plans', () => {
         expect(readCache).not.toHaveBeenCalled();
         expect(await fs.pathExists(Path.join(root, 'build'))).toBe(false);
         expect(() => JSON.stringify(second)).not.toThrow();
+        expect(second).not.toHaveProperty('buildDir');
+        expect(second).not.toHaveProperty('entry');
+        expect(second).not.toHaveProperty('publicDir');
+        expect(await resolveBuildPlan({}, root)).toEqual(second);
     });
 
     it('allows generated documentation outputs and protects documentation sources', async () => {
@@ -210,6 +215,47 @@ describe('resolved build plans', () => {
         await fs.outputFile(Path.join(root, 'custom-output/old.js'), 'old build');
         expect((await resolveBuildPlan({outDir: 'custom-output'}, root)).outDir).toBe(Path.join(root, 'custom-output'));
         expect((await resolveBuildPlan({outDir: 'custom-output'}, root)).outDir).toBe(Path.join(root, 'custom-output'));
+    });
+
+    it('accepts a safe output symlink and resolves missing children through its real target', async () => {
+        const destination = Path.join(root, 'output-real');
+        const link = Path.join(root, 'output-link');
+        await fs.ensureDir(destination);
+        await fs.symlink(destination, link, 'dir');
+        const plan = await resolveBuildPlan({outDir: link, zip: Path.join(link, 'nested/build.zip')}, root);
+        const realDestination = await fs.realpath(destination);
+        expect(await canonical(plan.outDir)).toBe(realDestination);
+        expect(await canonical(plan.zip!)).toBe(Path.join(realDestination, 'nested/build.zip'));
+        expect((await fs.lstat(link)).isSymbolicLink()).toBe(true);
+        expect(await fs.pathExists(Path.join(destination, 'nested'))).toBe(false);
+    });
+
+    it.each(['outside', 'inside'])('rejects ZIP paths traversing an output symlink to %s', async (kind) => {
+        const outDir = Path.join(root, 'output');
+        const destination = Path.join(kind === 'outside' ? root : outDir, 'archive-target');
+        await fs.ensureDir(destination);
+        await fs.ensureDir(outDir);
+        await fs.symlink(destination, Path.join(outDir, 'archive-link'), 'dir');
+        await expect(resolveBuildPlan({outDir, zip: Path.join(outDir, 'archive-link/build.zip')}, root)).rejects.toThrow(/symbolic links inside the output directory/);
+    });
+
+    it('rejects dangling links as targets or ancestors before creating paths', async () => {
+        const dangling = Path.join(root, 'dangling');
+        await fs.symlink(Path.join(root, 'missing-target'), dangling, 'dir');
+        await expect(canonical(dangling)).rejects.toThrow(/dangling symbolic links/);
+        await expect(canonical(Path.join(dangling, 'child'))).rejects.toThrow(/dangling symbolic links/);
+        await expect(resolveBuildPlan({outDir: dangling}, root)).rejects.toThrow(/dangling symbolic links/);
+        await expect(resolveBuildPlan({zip: Path.join(dangling, 'build.zip')}, root)).rejects.toThrow(/dangling symbolic links/);
+        expect(await fs.pathExists(Path.join(root, 'missing-target'))).toBe(false);
+    });
+
+    it('rejects a ZIP directory or an ancestor of the output, including missing ancestors', async () => {
+        const directory = Path.join(root, 'archives');
+        await fs.ensureDir(directory);
+        await expect(resolveBuildPlan({zip: directory}, root)).rejects.toThrow(/must be a file|Unsafe ZIP/);
+        await expect(resolveBuildPlan({outDir: Path.join(directory, 'output'), zip: directory}, root)).rejects.toThrow(/must be a file|Unsafe ZIP/);
+        const missing = Path.join(root, 'missing-archive');
+        await expect(resolveBuildPlan({outDir: Path.join(missing, 'output'), zip: missing}, root)).rejects.toThrow(/must be a file/);
     });
 
     it('rejects destructive output overlaps, symlinks and Vite input files inside outputs', async () => {

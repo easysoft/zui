@@ -22,7 +22,8 @@ pnpm test:e2e              # 使用 Chromium 运行 Playwright（需先安装浏
 pnpm test:e2e:all          # 使用 Chromium、Firefox、WebKit 运行 Playwright
 pnpm test:docs             # 用 Chromium 验收已构建的官网示例（先运行 docs:build）
 pnpm check                 # lint + typecheck + 单元/DOM + skills 的常用提交前检查
-pnpm build                 # CLI/JSON → BuildPlan → 临时 build/ 入口 → Vite JS API，不隐式执行类型检查
+pnpm build                 # CLI/JSON → BuildPlan → 独立 build/run-* 入口 → 暂存产物 → 更新输出，不隐式执行类型检查
+pnpm build:npm             # 同一次构建生成 npm 运行时与声明，全部成功后更新 dist/zui
 pnpm docs:dev              # 准备并启动 VitePress 文档站；docs:dev-fast 跳过预处理
 pnpm docs:build            # 构建文档（CI 中使用 .github/workflows/deploy-docs.yml）
 pnpm extend-lib <path>     # 通过软链将外部目录加入 exts/ 并写入 exts/libs.json
@@ -46,6 +47,12 @@ pnpm publish:npm           # check + test:build 后构建并发布到 npm
 - `--no-minify` 同时关闭 JS/CSS 压缩；`--no-sourcemap` 关闭 source map；`--zip ./dist/mybuild.zip` 指定完整 ZIP 输出路径。
 - `--config ./custom-build.json` 加载声明式配置；高级导出、npm 依赖、外置依赖（例如 `"externals": {"cash-dom": "$"}`）、CSS 和自定义 Vite 配置通过 JSON 指定。
 - `--dry-run` 只输出归一化 BuildPlan，不执行安装、prebuild 或清理目录；`--help` 查看参数。CLI 路径相对工作目录，JSON 路径相对配置文件；CLI 标量和 libs/扩展来源覆盖 JSON，exclude 合并。
+
+每次执行只清理自己创建的 `build/run-*` 工作目录和暂存资源；构建、声明及 ZIP 全部完成后再更新最终目标，普通错误会保留或回滚旧产物。ZIP 可以位于输出目录内或外，但不能覆盖生成文件。不同输出的内置库构建可并行；同一目标、父子输出目录、共享 ZIP 或共享扩展源码集合被占用时立即报错，并显示占用进程与锁路径。锁注册表位于当前用户的系统临时目录，异常退出后的残留锁须确认相关进程已结束后手动清理；不自动恢复强杀或断电。目录与外置 ZIP 的替换不保证对并发读取者原子可见。
+
+占用检查将路径大小写变体视为同一资源，实际输出路径的大小写保持原样。
+
+`pnpm build:npm --out-dir <directory>` 可指定 npm 产物目录，运行时与声明来自同一个入口。声明阶段不再单独读取遗留的 `build/main.ts`；普通 `build` 不生成声明。
 
 单库本地调试：直接 `pnpm dev`，浏览器访问 `/<lib-name>/` 即可加载该 lib 的 `dev.ts`（见 `index.html` + `src/main.ts` + `src/libs.ts`，会按 `lib/*/package.json` 自动发现）。自动化测试分为 `tests/unit`（Node 纯逻辑）、`tests/dom`（Vitest + jsdom）、`tests/build`（最终分发消费）和 `tests/e2e`（Playwright 真实浏览器）；调试页继续用于人工交互和样式验证。
 
@@ -114,7 +121,7 @@ build/、dist/、publish/   构建中间产物 / 最终产物（gitignored）
 ## 容易踩的坑
 
 - 修改某 lib 后想看效果：用 `pnpm dev` + 浏览器访问 `/<lib-name>/`，不要去找全局 demo 页；HMR 走自定义事件 `zui:lib-page-updated`（见 `src/main.ts`）。
-- 想看打包后的整体结果：跑 `pnpm build`，输出在 `dist/dev/`（默认 outDir）。`build/` 是中间目录，每次构建会被清空。
+- 想看打包后的整体结果：跑 `pnpm build`，默认输出在 `dist/zui/`。`build/` 下每次分配独立工作目录，不要手工清空其他构建仍在使用的目录。
 - 引用其他 lib 走 `@zui/<name>`，**不要写相对路径**穿过 lib 边界，否则 build config 解析（`isExportPathInLib`）会拒绝。
 - `lib/<name>/dev.ts` 里使用的 `onPageLoad`/`onPageUpdate` 是 `dev/` 注入的全局函数，仅在开发模式生效。
 - exts/ 是 gitignored，CI 上没有；写代码不要硬依赖某个 ext lib 的存在。

@@ -1,14 +1,15 @@
 import Path from 'node:path';
 import {loadConfigFromFile, mergeConfig, type InlineConfig, type ResolverFunction, type UserConfig} from 'vite';
-import {viteZip} from 'vite-plugin-zip-file';
 import {createSharedViteConfig} from '../../vite.shared';
 import {createPostcssConfig} from './css-config.cjs';
 import {getBuildMetadata} from './metadata';
 import type {BuildPlan} from './config';
+import type {BuildContext} from './context';
+import {isWithin} from './paths';
 
 export {ensureExtsTsconfig} from './metadata';
 
-function checkCustomConfig(config: UserConfig) {
+export function checkCustomConfig(config: UserConfig) {
     const managedFields = [
         'root', 'base', 'publicDir', 'configFile', 'mode',
         'build.lib', 'build.outDir', 'build.emptyOutDir', 'build.write', 'build.watch',
@@ -42,12 +43,13 @@ export async function loadCustomViteConfig(plan: BuildPlan): Promise<UserConfig>
 }
 
 /** Create the distribution configuration after library prebuilds have prepared their presets. */
-export async function createBuildViteConfig(plan: BuildPlan, customConfig?: UserConfig): Promise<InlineConfig> {
+export async function createBuildViteConfig(plan: BuildPlan, context: BuildContext, customConfig?: UserConfig): Promise<InlineConfig> {
     customConfig ??= await loadCustomViteConfig(plan);
+    checkCustomConfig(customConfig);
     const metadata = await getBuildMetadata(plan.rootDir, Object.values(plan.libsMap));
     const sharedRuntimes = ['preact', '@preact/signals', '@preact/signals-core', 'cash-dom'];
     const resolveExplicitRuntime: ResolverFunction = function (source, _importer, options) {
-        return this.resolve(source, plan.entry, {...options, skipSelf: true});
+        return this.resolve(source, context.entry, {...options, skipSelf: true});
     };
     const config: InlineConfig = mergeConfig(createSharedViteConfig({
         mode: 'production',
@@ -61,7 +63,7 @@ export async function createBuildViteConfig(plan: BuildPlan, customConfig?: User
         root: plan.rootDir,
         mode: 'production',
         base: './',
-        publicDir: plan.publicDir,
+        publicDir: context.publicDir,
         resolve: {
             dedupe: sharedRuntimes.filter(name => !plan.dependencies[name]),
             alias: sharedRuntimes.filter(name => plan.dependencies[name]).map(name => ({
@@ -71,10 +73,11 @@ export async function createBuildViteConfig(plan: BuildPlan, customConfig?: User
             })),
         },
         build: {
-            outDir: plan.outDir,
+            outDir: context.outDir,
+            emptyOutDir: true,
             target: ['chrome107', 'edge107', 'firefox104', 'safari16'],
             lib: {
-                entry: plan.entry,
+                entry: context.entry,
                 name: 'zui',
                 formats: ['es', 'umd'],
                 fileName: (format: string) => `${plan.fileName}${format === 'umd' ? '' : `.${format === 'es' ? 'esm' : format}`}.js`,
@@ -85,6 +88,14 @@ export async function createBuildViteConfig(plan: BuildPlan, customConfig?: User
                 output: {
                     globals: plan.externals,
                     assetFileNames: (chunkInfo: {name?: string}) => chunkInfo.name ?? 'noname',
+                    sourcemapPathTransform(source: string, mapPath: string) {
+                        const absolute = Path.resolve(Path.dirname(mapPath), source);
+                        if (!isWithin(absolute, context.workDir)) {
+                            return source;
+                        }
+                        const stable = Path.join(plan.rootDir, 'build', Path.relative(context.workDir, absolute));
+                        return Path.relative(Path.dirname(mapPath), stable).replace(/\\/g, '/');
+                    },
                 },
             },
             assetsInlineLimit: 256,
@@ -98,7 +109,6 @@ export async function createBuildViteConfig(plan: BuildPlan, customConfig?: User
                 return type === 'public' ? `./${filename}` : {relative: true};
             },
         },
-        plugins: plan.zip ? [viteZip({folderPath: plan.outDir, outPath: Path.dirname(plan.zip), zipName: Path.basename(plan.zip)})] : [],
     });
     return mergeConfig(config, customConfig);
 }

@@ -16,6 +16,25 @@ pnpm build --lib utilities --lib dtable --name zui-table
 
 以上产物位于 `dist/zui-table/`，包含 ESM、UMD、CSS、资源和默认启用的 source map。UMD 全局名保持为 `zui`。`build` 不执行类型检查；使用 `pnpm check` 检查源码，使用 `pnpm test:build` 验证分发消费契约。`pnpm publish:npm` 在发布前自动执行这两项检查。
 
+### npm 运行时与声明
+
+```sh
+pnpm build:npm
+pnpm build:npm --out-dir ./dist/npm-preview
+```
+
+该命令使用完整 npm 预设，排除未就绪库，默认输出到 `dist/zui/`。运行时代码和 TypeScript 声明在同一次构建中生成，全部成功后更新输出目录。普通 `pnpm build` 继续只生成浏览器产物；不再单独执行声明脚本或读取上次构建留下的入口。
+
+### 工作目录、并发与失败处理
+
+每次构建在 `build/run-*` 中准备入口、依赖和资源，结束后只清理自己的工作目录。编译、声明和 ZIP 先在独立暂存路径完成，再更新最终目录；中途失败会保留旧产物，替换失败会尝试恢复备份。ZIP 返回成功时已经完成写入，归档根目录始终使用最终输出目录名。ZIP 可以位于输出目录内部，但不能覆盖其他生成文件，也不会把自身归档进去。
+
+不同输出的内置库构建可以并行。同一输出、父子输出目录、共享 ZIP 或共享扩展源码集合被另一构建占用时，命令会立即报错，显示占用进程和锁路径；等待该构建结束后重试。扩展 prebuild 依次执行，资源复制与编译使用它完成后生成的文件。
+
+为保持跨平台行为一致，占用检查将路径的大小写变体视为同一资源，即使当前文件系统区分大小写；实际输出路径的大小写保持原样。
+
+锁位于当前用户的系统临时目录。强杀或断电后的锁不会自动抢占，须确认相关进程已结束后，按报错路径处理残留。此流程不提供崩溃自动恢复，也不保证输出目录与外置 ZIP 对并发读取者同时切换；恢复失败时会保留备份并报告路径，提交后的备份清理失败只提示残留。
+
 ### 常用参数
 
 | 参数 | 用途 |
@@ -121,4 +140,4 @@ CLI 显式值优先于 JSON，再使用默认值。重复 `--lib` 整体替换 J
 pnpm docs:build
 ```
 
-包含全部已注册扩展文档使用 `pnpm docs:build:exts`。需要限定扩展来源或入口时，先执行 `pnpm docs:prepare --copy --extension zentao --lib @zentao/status-label`，再在 `docs/` 执行 `pnpm build`。文档准备与组件构建共用选择规则，`--build=no` 可只同步文档而跳过产物构建。
+包含全部已注册扩展文档使用 `pnpm docs:build:exts`。需要限定扩展来源或入口时，先执行 `pnpm docs:prepare --copy --extension zentao --lib @zentao/status-label`，再在 `docs/` 执行 `pnpm build`。文档准备与组件构建共用选择规则，不提前清空 public 目录；`--build=no` 可只同步文档而跳过产物构建，并保留已有 ZUI 产物与 ZIP。文档清单和图标在构建成功后更新，整个文档站不作为一个事务替换。

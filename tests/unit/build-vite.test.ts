@@ -8,6 +8,7 @@ import type {Plugin, UserConfig} from 'vite';
 import {createBuildViteConfig} from '../../scripts/build/vite';
 import {createPostcssConfig, createTailwindConfig} from '../../scripts/build/css-config.cjs';
 import type {BuildPlan} from '../../scripts/build/config';
+import type {BuildContext} from '../../scripts/build/context';
 import {createSharedViteConfig} from '../../vite.shared';
 import {LibType} from '../../scripts/libs/lib-type';
 import type {LibInfo} from '../../scripts/libs/lib-info';
@@ -26,10 +27,7 @@ afterAll(async () => {
 function createPlan(overrides: Partial<BuildPlan> = {}): BuildPlan {
     return {
         rootDir,
-        buildDir: Path.join(fixtureDir, 'build'),
         outDir: Path.join(fixtureDir, 'dist'),
-        entry: Path.join(fixtureDir, 'build/main.ts'),
-        publicDir: Path.join(fixtureDir, 'build/public'),
         fileName: 'zui.controls',
         name: 'controls',
         version: '1.2.3',
@@ -47,11 +45,21 @@ function createPlan(overrides: Partial<BuildPlan> = {}): BuildPlan {
     };
 }
 
+function createContext(): BuildContext {
+    return {
+        workDir: Path.join(fixtureDir, 'build'),
+        entry: Path.join(fixtureDir, 'build/main.ts'),
+        publicDir: Path.join(fixtureDir, 'build/public'),
+        outDir: Path.join(fixtureDir, '.dist-staging'),
+    };
+}
+
 test('keeps the distribution contract without preparing directories', async () => {
-    const config = await createBuildViteConfig(createPlan({externals: {'cash-dom': '$'}}));
+    const config = await createBuildViteConfig(createPlan({externals: {'cash-dom': '$'}}), createContext());
     expect(config.configFile).toBe(false);
     expect(config.define?.__APP_VERSION__).toBe('"1.2.3"');
     expect(config.build).toMatchObject({
+        outDir: Path.join(fixtureDir, '.dist-staging'),
         minify: true,
         cssMinify: false,
         sourcemap: true,
@@ -59,7 +67,7 @@ test('keeps the distribution contract without preparing directories', async () =
         rollupOptions: {external: ['cash-dom'], output: {globals: {'cash-dom': '$'}}},
     });
     const lib = config.build!.lib;
-    expect(lib).toMatchObject({name: 'zui', formats: ['es', 'umd'], cssFileName: 'zui.controls'});
+    expect(lib).toMatchObject({entry: Path.join(fixtureDir, 'build/main.ts'), name: 'zui', formats: ['es', 'umd'], cssFileName: 'zui.controls'});
     if (!lib || typeof lib.fileName !== 'function') {
         throw new Error('Missing library filename function');
     }
@@ -76,7 +84,7 @@ test('loads asynchronous Vite config while preserving plugins and resolver funct
         plugins: [{name: 'custom-plugin', transform(code) { return code + '\\n// custom'; }}],
         resolve: {alias: [{find: /^custom$/, replacement: 'virtual:custom', customResolver(source) { return source + ':resolved'; }}]},
     });`);
-    const config = await createBuildViteConfig(createPlan({viteConfig}));
+    const config = await createBuildViteConfig(createPlan({viteConfig}), createContext());
     expect(config.define?.CUSTOM_BUILD).toBe('"build:production"');
     const plugins = config.plugins as Plugin[];
     expect(typeof plugins.find(plugin => plugin.name === 'custom-plugin')?.transform).toBe('function');
@@ -97,7 +105,7 @@ test.each([
 ])('rejects custom overrides of managed field %s', async (field, value) => {
     const viteConfig = Path.join(fixtureDir, `${field}.mjs`);
     await fs.writeFile(viteConfig, `export default ${value};`);
-    await expect(createBuildViteConfig(createPlan({viteConfig}))).rejects.toThrow(field);
+    await expect(createBuildViteConfig(createPlan({viteConfig}), createContext())).rejects.toThrow(field);
 });
 
 test('fresh Tailwind configurations preserve preset functions without retaining mutations', async () => {
@@ -150,7 +158,7 @@ test('explicit CSS flags apply per call, independent of earlier plans', async ()
     expect(compact.css).toContain('top:16px');
     expect(plain.css).toContain('padding: 2rem');
     expect(plain.css).toContain('top: 1rem');
-    const unminified = await createBuildViteConfig(createPlan({minify: false, css: {minify: false, remToPx: false, preflight: true}}));
+    const unminified = await createBuildViteConfig(createPlan({minify: false, css: {minify: false, remToPx: false, preflight: true}}), createContext());
     expect(unminified.build!.minify).toBe(false);
 });
 
@@ -209,11 +217,11 @@ test('extension replacements precede builtin aliases and retain subpath exports'
 test('only selected extensions activate replacements while all package aliases remain available', async () => {
     const libsMap = replacementFixture();
     const extension = libsMap['@example/controls'];
-    const excluded = await createBuildViteConfig(createPlan({libsMap, libs: [libsMap.button]}));
+    const excluded = await createBuildViteConfig(createPlan({libsMap, libs: [libsMap.button]}), createContext());
     expect(findAlias(excluded, '@zui/button').path).toBe(Path.join(rootDir, 'lib/button'));
     expect(findAlias(excluded, '@zui/menu').path).toBe(Path.join(rootDir, 'lib/menu'));
     expect(findAlias(excluded, '@example/controls').path).toBe(extension.zui.path);
-    const included = await createBuildViteConfig(createPlan({libsMap, libs: [extension]}));
+    const included = await createBuildViteConfig(createPlan({libsMap, libs: [extension]}), createContext());
     expect(findAlias(included, '@zui/button').path).toBe(extension.zui.path);
     expect(findAlias(included, '@zui/menu').path).toBe(extension.zui.path);
 });

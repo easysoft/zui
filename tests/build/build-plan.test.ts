@@ -40,6 +40,9 @@ beforeAll(async () => {
         module.exports = ({config}) => {Object.assign(config.theme.extend.colors, colors);};`);
     await write(Path.join(extensions, 'alpha/generate-theme.cjs'), `require('node:fs').writeFileSync('./tailwind-theme/colors.js', 'module.exports = {extensionOnly: "#13579b"};');`);
     await write(Path.join(extensions, 'alpha/src/style.css'), '.build-fixture { @apply -p-3; color: red; background-color: theme("colors.extensionOnly"); }');
+    const localPackage = Path.join(fixture, 'local-package');
+    await write(Path.join(localPackage, 'package.json'), JSON.stringify({name: '@build-fixture/local-value', version: '1.0.0', type: 'module', exports: './index.js'}));
+    await write(Path.join(localPackage, 'index.js'), 'export const localValue = "from-local-package";');
     await write(Path.join(fixture, 'custom.vite.mjs'), `export default async ({command, mode}) => ({
         resolve: {alias: [{find: 'fixture-value', replacement: 'virtual:fixture-value', customResolver() {return '\\0fixture-value';}}]},
         plugins: [{
@@ -56,7 +59,11 @@ beforeAll(async () => {
         outDir: './output',
         minify: false,
         sourcemap: false,
-        exports: {'@build-fixture/alpha': [{}, {path: 'skin', sideEffect: true}]},
+        dependencies: {'@build-fixture/local-value': `file:${localPackage}`},
+        exports: {
+            '@build-fixture/alpha': [{}, {path: 'skin', sideEffect: true}],
+            '@build-fixture/local-value': [{targets: {localValue: 'localNpmValue'}}],
+        },
         viteConfig: './custom.vite.mjs',
     }));
     await execFileAsync(pnpm, ['build', '--config', Path.join(fixture, 'build.json'), '--extension', Path.relative(root, extensions)], {
@@ -73,6 +80,7 @@ afterAll(async () => {
 test('builds a CLI extension source with structured exports and executable Vite configuration', async () => {
     const module = await import(pathToFileURL(Path.join(output, 'zui-plan-test.esm.js')).href);
     expect(module.alpha).toBe('from-resolver');
+    expect(module.localNpmValue).toBe('from-local-package');
     expect(module.beta).toBeUndefined();
     expect(await fs.readFile(Path.join(output, 'plugin-proof.txt'), 'utf8')).toBe('build:production');
     expect(await fs.readFile(Path.join(output, 'alpha/proof.txt'), 'utf8')).toBe('alpha');
