@@ -3,7 +3,9 @@ import type {FetcherSetting} from '../../ajax';
 import type {ClassNameLike} from '../../helpers';
 import type {CustomContentType} from './custom-content-type';
 
-export type LazyContentProps<T = string | CustomContentType, A extends unknown[] = unknown[], THIS = unknown> = {
+export interface LazyContentProps<T = string | CustomContentType, A extends unknown[] = unknown[], THIS = unknown> {
+    /** Native tag used by the loading container. Defaults to div. */
+    tag?: keyof HTMLElementTagNameMap;
     id?: string;
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
@@ -16,9 +18,13 @@ export type LazyContentProps<T = string | CustomContentType, A extends unknown[]
     clearBeforeLoad?: boolean;
     loadingContent?: CustomContentType;
     fetcher: FetcherSetting<T, A, THIS>;
-    fetcherArgs: A;
+    fetcherArgs?: A;
     fetcherThis?: THIS;
     loadingText?: string;
     errorText?: string;
     type?: 'html' | 'text' | 'custom';
-};
+    /** Defaults to true for legacy HTML rendering outside a content policy. */
+    executeScript?: boolean;
+    /** Synchronous host transformation; failures use the normal loading error state. */
+    transformContent?: (content: T) => CustomContentType;
+}

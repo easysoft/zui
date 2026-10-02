@@ -220,7 +220,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = object>
 
         const {ItemComponents} = this.constructor;
         let ItemComponent = ItemComponents[type!];
-        if (!ItemComponent && item.component) {
+        if (!ItemComponent && (item.component || item.tag)) {
             return <CustomContent key={itemKey} z-key={item.key} z-item={index} z-type={type} content={{...item}} />;
         }
         ItemComponent = ItemComponent || ItemComponents.default || HElement;
@@ -358,6 +358,6 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = object>
      * @returns React component type.
      */
     protected _getComponent(props: RenderableProps<P>): ComponentType | keyof JSX.IntrinsicElements {
-        return props.component || (this.constructor.TAG as keyof JSX.IntrinsicElements);
+        return props.tag ? super._getComponent(props) : props.component || (this.constructor.TAG as keyof JSX.IntrinsicElements);
     }
 }

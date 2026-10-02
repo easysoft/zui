@@ -38,7 +38,7 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
     }
 
     protected _getComponent(props: RenderableProps<P>) {
-        return props.component || (props.url ? 'a' : 'button');
+        return props.tag ? super._getComponent(props) : props.component || (props.url ? 'a' : 'button');
     }
 
     protected _getProps(props: RenderableProps<P>) {

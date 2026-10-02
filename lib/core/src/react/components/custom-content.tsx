@@ -3,6 +3,7 @@ import {HtmlContent} from './html-content';
 import {HElement} from './h-element';
 import {LazyContent} from './lazy-content';
 import {mergeProps} from '../../helpers';
+import {ContentRenderContext, renderContentError, type ContentRenderPolicy} from './content-render-context';
 
 import type {ComponentChildren, VNode} from 'preact';
 import type {HtmlContentProps, HElementProps, CustomContentType, CustomContentGenerator, CustomContentProps, LazyContentProps} from '../types';
@@ -15,33 +16,34 @@ import type {HtmlContentProps, HElementProps, CustomContentType, CustomContentGe
  * @param generatorArgs  The arguments to pass to the generator.
  * @returns The rendered content.
  */
-export function renderCustomContent(props: CustomContentProps): ComponentChildren {
+export function renderCustomContent(props: CustomContentProps, policy?: ContentRenderPolicy): ComponentChildren {
     const {content: contentSetting, generatorArgs, generatorThis, ...others} = props;
     let content = contentSetting;
     if (typeof content === 'function') {
         content = (content as CustomContentGenerator).call(generatorThis, ...(generatorArgs || []));
     }
+    content = policy?.resolveContent ? policy.resolveContent(content) : content;
     if (Array.isArray(content)) {
-        return content.map(x => renderCustomContent({...others, content: x, generatorThis, generatorArgs}));
+        return content.map(x => renderCustomContent({...others, content: x, generatorThis, generatorArgs}, policy));
     }
     if ((typeof content === 'string' || typeof content === 'number')) {
         if (Object.keys(others).length) {
-            return <div {...others}>{content}</div>;
+            return policy ? <HElement tag="div" props={others}>{content}</HElement> : <div {...others}>{content}</div>;
         }
         return content;
     }
-    if (content && typeof content === 'object' && (typeof (content as HtmlContentProps).html === 'string' || (content as HtmlContentProps).component || (content as LazyContentProps).fetcher)) {
+    if (content && typeof content === 'object' && (typeof (content as HtmlContentProps).html === 'string' || (content as HElementProps).tag || (content as HElementProps).component || (content as LazyContentProps).fetcher)) {
         if ((content as LazyContentProps).fetcher) {
-            return <LazyContent {...(mergeProps(others, content) as unknown as LazyContentProps)} />;
+            return <LazyContent {...(mergeProps(others, content) as unknown as LazyContentProps)} key={(content as HElementProps).key} />;
         }
-        if ((content as HtmlContentProps).html) {
-            return <HtmlContent {...(mergeProps(others, content) as unknown as HtmlContentProps)} />;
+        if (typeof (content as HtmlContentProps).html === 'string') {
+            return <HtmlContent {...(mergeProps(others, content) as unknown as HtmlContentProps)} key={(content as HElementProps).key} />;
         }
         const {children, ...contentOthers} = content as HElementProps;
-        if (children) {
-            content = mergeProps({children: ((Array.isArray(children) ? children : [children]) as CustomContentType[]).map(x => renderCustomContent({...others, content: x, generatorThis, generatorArgs}))}, contentOthers);
+        if (children !== undefined) {
+            content = mergeProps({children: ((Array.isArray(children) ? children : [children]) as CustomContentType[]).map(x => renderCustomContent({...others, content: x, generatorThis, generatorArgs}, policy))}, contentOthers);
         }
-        return <HElement {...(mergeProps(others, content) as unknown as HElementProps)} />;
+        return <HElement {...(mergeProps(others, content) as unknown as HElementProps)} key={(content as HElementProps).key} />;
     }
     if (isValidElement(content)) {
         return content;
@@ -62,14 +64,17 @@ export function renderCustomContent(props: CustomContentProps): ComponentChildre
  * @returns Custom content.
  */
 export function CustomContent(props: CustomContentProps): VNode | null {
-    const result = renderCustomContent(props);
-    if (result === undefined || result === null || typeof result === 'boolean') {
-        return null;
-    }
-    if (isValidElement(result)) {
-        return result;
-    }
-    return <>{result}</>;
+    return (
+        <ContentRenderContext.Consumer>
+            {(policy) => {
+                try {
+                    return renderCustomContent(props, policy);
+                } catch (error) {
+                    return renderContentError(policy, error);
+                }
+            }}
+        </ContentRenderContext.Consumer>
+    );
 }
 
 export class CustomContentClass extends Component<CustomContentProps> {

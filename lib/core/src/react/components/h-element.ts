@@ -7,6 +7,7 @@ import {i18n} from '../../i18n';
 import {bindCommands, unbindCommands, type CommandContext} from '../../helpers';
 import {createQuery} from '../../query/create-query';
 import {QueryClientContext, resolveQueryClient} from '../../query/query-client-context';
+import {ContentRenderContext, preparedHTML, renderContentError} from './content-render-context';
 
 import type {JSX, ComponentType, RenderableProps, ComponentChildren} from 'preact';
 import type {DefaultError, QueryClient, QueryKey, QueryObserverOptions} from '@tanstack/query-core';
@@ -255,7 +256,7 @@ export class HElement<P extends HElementProps, S = object> extends Component<P, 
      * @returns     The merged props object to spread onto the rendered element.
      */
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
-        const {className, attrs, props: componentProps, data, forwardRef, children, component, style, class: classNameAlt, commands, onCommand, ...others} = props;
+        const {className, attrs, props: componentProps, data, forwardRef, children, component, tag, style, class: classNameAlt, commands, onCommand, ...others} = props;
         const customProps = new Set((this.constructor as typeof HElement).customProps);
         const strDangerouslySetInnerHTML = 'dangerouslySetInnerHTML';
         const other = Object.keys(others).reduce<Record<string, unknown>>((map, key) => {
@@ -277,7 +278,10 @@ export class HElement<P extends HElementProps, S = object> extends Component<P, 
      * @returns     The resolved component type or intrinsic HTML tag name.
      */
     protected _getComponent(props: RenderableProps<P>): ComponentType | keyof JSX.IntrinsicElements {
-        const {component = 'div'} = props;
+        const {component = 'div', tag} = props;
+        if (tag) {
+            return tag as keyof JSX.IntrinsicElements;
+        }
         return (typeof component === 'string' ? getReactComponent(component as string) : component) || component;
     }
 
@@ -353,6 +357,23 @@ export class HElement<P extends HElementProps, S = object> extends Component<P, 
         if (renderResult) {
             [component, componentProps, children] = renderResult;
         }
-        return h(component as ComponentType, componentProps, children);
+        return h(ContentRenderContext.Consumer, {children: (policy) => {
+            try {
+                const html = componentProps.dangerouslySetInnerHTML;
+                const isPreparedHTML = !!html && typeof html === 'object' && preparedHTML.has(html);
+                const policyProps = isPreparedHTML ? {...componentProps} : componentProps;
+                if (isPreparedHTML) {
+                    delete policyProps.dangerouslySetInnerHTML;
+                }
+                const prepared = policy?.prepareElement?.(component, policyProps);
+                const finalProps: Record<string, unknown> = {
+                    ...(prepared?.props ?? componentProps),
+                    ...(isPreparedHTML ? {dangerouslySetInnerHTML: html} : {}),
+                };
+                return h((prepared?.component ?? component) as ComponentType<Record<string, unknown>>, finalProps, children === undefined ? finalProps.children as ComponentChildren : children);
+            } catch (error) {
+                return renderContentError(policy, error);
+            }
+        }});
     }
 }

@@ -537,7 +537,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         const {showMoreText} = props;
         const content = typeof showMoreText === 'function' ? showMoreText.call(this, count)
             : typeof showMoreText === 'string' ? showMoreText.replaceAll('{count}', String(count)) : this.i18n('showMore', {count});
-        const tag = props.component || this.constructor.TAG;
+        const tag = this._getComponent(props);
         const component = typeof tag === 'string' && ['ul', 'ol', 'menu'].includes(tag) ? 'li' : 'div';
         return (
             <Listitem

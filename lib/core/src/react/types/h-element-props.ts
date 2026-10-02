@@ -13,6 +13,9 @@ export interface HElementProps extends PreactDOMAttributes, Attributes {
      */
     component?: ComponentType | keyof JSX.IntrinsicElements;
 
+    /** Explicit native HTML tag; bypasses registered component names. */
+    tag?: keyof HTMLElementTagNameMap;
+
     /**
      * The class name of the element.
      */

@@ -1,5 +1,7 @@
 export * from './h-element';
 export * from './html-content';
+export * from './lazy-content';
+export {ContentRenderContext, type ContentRenderPolicy} from './content-render-context';
 export * from './custom-render';
 export * from './custom-content';
 export * from './icon';
