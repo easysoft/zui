@@ -58,7 +58,7 @@
 
 ## JavaScript 组件
 
-页面已加载 ZUI 后，可以创建 `zui.Collapsible`。`defaultCollapsed` 设置初始状态，`content` 设置内容。
+页面已加载 ZUI 后，可以创建 `zui.Collapsible`。组件渲染为 `<details class="details collapsible">`，首个子元素为 `<summary>`，复用 `.details` 的显隐和过渡样式。`defaultCollapsed` 设置初始状态，`content` 设置内容。
 
 ::: tabs
 
@@ -89,14 +89,15 @@ const collapsible = new zui.Collapsible('#advancedSettings', {
 
 :::
 
-默认点击标题区域或切换按钮均可折叠。标题内的链接和其他按钮不会触发标题点击折叠；设置 `toggleOnClickHeader: false` 后只通过切换按钮操作。
+默认点击标题区域或切换按钮均由浏览器执行原生折叠。标题内的链接、工具栏和其他交互控件保留自身行为，不触发折叠；设置 `toggleOnClickHeader: false` 后只通过切换按钮操作。切换按钮始终保留，可配置按钮属性和展开、收起图标。
 
 ### 状态与内容生命周期
 
-- `defaultCollapsed` 只决定初始状态，后续状态由组件维护。
+- `defaultCollapsed` 只决定初始状态，后续状态以原生 `details.open` 为准，组件通过 `toggle` 事件同步按钮与内容。
 - 传入 `collapsed` 后进入受控模式。用户操作触发 `onChange`，调用方需要更新 `collapsed` 才会改变显示状态。
-- `onChange(collapsed)` 中的 `true` 表示将要收起，返回 `false` 可阻止切换。
-- `onlyHideOnCollapsed` 默认为 `true`，收起后保留内容及内部状态；设为 `false` 会卸载内容，展开时重新挂载。
+- `onChange(collapsed)` 在用户操作或调用 `toggle()` 切换前触发，`true` 表示将要收起，返回 `false` 可阻止切换。
+- 直接修改 DOM 的 `open` 不触发 `onChange`。非受控模式接纳该状态；受控模式恢复为 `collapsed` 指定的状态。
+- `onlyHideOnCollapsed` 默认为 `true`，收起后保留内容及内部状态；设为 `false` 后，在原生 `toggle` 事件中卸载或重新挂载内容。快速连续切换以浏览器最终状态为准，卸载模式不保证收起动画。
 
 ```html
 <div id="controlledSettings"></div>
@@ -162,4 +163,4 @@ import {Collapsible as CollapsibleView} from '@zui/collapsible/react';
 
 ## 键盘操作
 
-原生 `<summary>` 支持 Tab 聚焦以及 Enter、空格切换。JS 组件的切换按钮可通过 `toggleButton.attrs` 设置描述操作的 `aria-label`，键盘用户可聚焦按钮后切换内容。需要原生展开状态语义时，优先使用 `<details>`。
+纯 HTML 用法中的 `<summary>` 支持 Tab 聚焦以及 Enter、空格切换。JS 组件使用独立切换按钮作为键盘入口，标题不额外占用 Tab 停靠点；聚焦按钮后可按 Enter 或空格切换。通过 `toggleButton.attrs` 设置描述操作的 `aria-label`，按钮的 `aria-expanded` 会随展开状态更新。

@@ -2,7 +2,10 @@
   @apply -rounded-md;
 }
 .collapsible-header {
-  @apply -p-1 -pb-0 -flex -items-center -gap-2;
+  @apply -p-1;
+}
+.details.collapsible > summary::before {
+  @apply -hidden;
 }
 .collapsible-toggle-btn {
   @apply -opacity-50 hover:-opacity-100 --mr-1;
@@ -19,15 +22,9 @@
 .collapsible-body {
   @apply -py-2 -px-2.5;
 }
-.collapsible.is-collapsed .collapsible-body {
-  @apply -hidden;
-}
 .collapsible.bordered {
   @apply -border;
 }
-.collapsible .collapsible-header {
-  @apply -pb-1;
-}
-.collapsible.bordered .collapsible-body {
+.collapsible.bordered > .collapsible-body {
   @apply -border-t;
 }
