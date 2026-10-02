@@ -4,6 +4,8 @@
 
 标题和切换按钮使用原生 `<details>` 切换，复用 `.details` 的显隐与过渡样式。标题工具栏保留自身操作。
 
+动画默认开启，设置 `animation: false` 可禁用；调用 `collapsible.render({animation: true})` 可恢复。
+
 ```html:example
 <div id="collapsibleExample"></div>
 ```

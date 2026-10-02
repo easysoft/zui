@@ -7,5 +7,5 @@ export class Collapsible extends ComponentFromReact<CollapsibleProps, Collapsibl
 
     static Component = CollapsibleReact;
 
-    static replace = true;
+    static replace = 'details';
 }

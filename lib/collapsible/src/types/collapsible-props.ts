@@ -5,6 +5,7 @@ import type {ToolbarSetting} from '@zui/toolbar';
 export interface CollapsibleProps extends HElementProps {
     collapsed?: boolean;
     defaultCollapsed?: boolean;
+    animation?: boolean;
     bordered?: boolean;
     disabled?: boolean;
     title?: CustomContentType;

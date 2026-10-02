@@ -132,8 +132,21 @@ test('reuses details transitions and honors reduced motion without duplicate arr
     await page.emulateMedia({reducedMotion: 'reduce'});
     if (styles.supported) {
         await expect.poll(() => details.evaluate(element => getComputedStyle(element, '::details-content').transitionDuration)).toBe('0s');
-        await page.emulateMedia({reducedMotion: 'no-preference'});
-        await details.evaluate(element => element.classList.add('no-transition'));
-        await expect.poll(() => details.evaluate(element => getComputedStyle(element, '::details-content').transitionDuration)).toBe('0s');
+    }
+
+    await page.emulateMedia({reducedMotion: 'no-preference'});
+    const preview = page.locator('#collapsibleExample > details');
+    for (const animation of [false, true]) {
+        await page.evaluate(async (enabled) => {
+            const modulePath = '/lib/collapsible/src/main.ts';
+            const {Collapsible} = await import(modulePath) as typeof import('@zui/collapsible');
+            Collapsible.get('#collapsibleExample')!.render({animation: enabled});
+        }, animation);
+        await expect(preview).toHaveClass(animation ? /^(?!.*no-transition)/ : /no-transition/);
+        if (styles.supported) {
+            await expect.poll(() => preview.evaluate(element => getComputedStyle(element, '::details-content').transitionDuration)).toBe(animation ? '0.2s' : '0s');
+        }
+        await preview.locator(':scope > summary .collapsible-toggle-btn').click();
+        await expect(preview.locator('.collapsible-body')).toBeVisible({visible: animation});
     }
 });

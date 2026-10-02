@@ -10,6 +10,7 @@ export class Collapsible extends HElement<CollapsibleProps, CollapsibleState> {
     static customProps = ['onChange'];
 
     static defaultProps = {
+        animation: true,
         toggleOnClickHeader: true,
         onlyHideOnCollapsed: true,
     };
@@ -52,6 +53,8 @@ export class Collapsible extends HElement<CollapsibleProps, CollapsibleState> {
         const {onToggle} = elementProps;
         return {
             ...elementProps,
+            // Reapply state classes after attributes copied from a reused details host.
+            className: classes(elementProps.className as ClassNameLike, this._getClassName(props)),
             open: !this.collapsed,
             onToggle: (event: Event) => {
                 this._handleToggle(event);
@@ -63,10 +66,11 @@ export class Collapsible extends HElement<CollapsibleProps, CollapsibleState> {
     }
 
     protected _getClassName(props: RenderableProps<CollapsibleProps>): ClassNameLike {
-        const {disabled, bordered} = props;
+        const {disabled, bordered, animation} = props;
         return [props.className, 'details collapsible', {
             disabled,
             bordered,
+            'no-transition': animation === false,
         }];
     }
 

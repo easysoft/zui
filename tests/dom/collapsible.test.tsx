@@ -4,7 +4,9 @@ import {act, fireEvent, render} from '@testing-library/preact';
 import {createRef, Fragment} from 'preact';
 import {describe, expect, it, vi} from 'vitest';
 import {Collapsible} from '@zui/collapsible/src/components/collapsible';
+import {Collapsible as VanillaCollapsible} from '@zui/collapsible/src/vanilla/collapsible';
 import type {CollapsibleProps} from '@zui/collapsible/src/types';
+import {flushAnimationFrame} from '../setup/dom';
 
 function mount(props: CollapsibleProps = {}) {
     const ref = createRef<Collapsible>();
@@ -266,5 +268,37 @@ describe('Collapsible native details', () => {
         expect(onAction).toHaveBeenCalledTimes(1);
         expect(details.open).toBe(true);
         expect(onChange).not.toHaveBeenCalled();
+    });
+});
+
+describe('Collapsible vanilla hosts', () => {
+    it.each(['div', 'details'] as const)('keeps instance lookup, updates and cleanup attached to its %s host', async (tag) => {
+        const host = document.createElement(tag);
+        host.id = 'vanilla-collapsible';
+        document.body.append(host);
+        const onUnmount = vi.fn();
+        const instance = new VanillaCollapsible(host, {title: 'Vanilla section', content: 'Vanilla body', onUnmount});
+        await flushAnimationFrame();
+        const details = document.querySelector('details')!;
+        const view = instance.$;
+        expect(instance.element).toBe(host);
+        expect(VanillaCollapsible.get('#vanilla-collapsible')).toBe(instance);
+        expect(details).not.toHaveClass('no-transition');
+
+        instance.render({animation: false});
+        expect(document.querySelector('details')).toBe(details);
+        expect(instance.$).toBe(view);
+        expect(details).toHaveClass('no-transition');
+        instance.render({animation: true});
+        expect(document.querySelector('details')).toBe(details);
+        expect(VanillaCollapsible.get(host)).toBe(instance);
+        expect(details).not.toHaveClass('no-transition');
+
+        instance.destroy();
+        expect(onUnmount).toHaveBeenCalledOnce();
+        expect(instance.$).toBeNull();
+        expect(VanillaCollapsible.get(host)).toBeUndefined();
+        expect(document.querySelector('details')).toBeNull();
+        expect(host.isConnected).toBe(tag === 'div');
     });
 });

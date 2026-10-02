@@ -60,6 +60,8 @@
 
 页面已加载 ZUI 后，可以创建 `zui.Collapsible`。组件渲染为 `<details class="details collapsible">`，首个子元素为 `<summary>`，复用 `.details` 的显隐和过渡样式。`defaultCollapsed` 设置初始状态，`content` 设置内容。
 
+使用 `<div>` 作为初始化目标时保留宿主，在内部渲染折叠区域；使用 `<details>` 时直接复用该元素。
+
 ::: tabs
 
 == 示例
@@ -90,6 +92,8 @@ const collapsible = new zui.Collapsible('#advancedSettings', {
 :::
 
 默认点击标题区域或切换按钮均由浏览器执行原生折叠。标题内的链接、工具栏和其他交互控件保留自身行为，不触发折叠；设置 `toggleOnClickHeader: false` 后只通过切换按钮操作。切换按钮始终保留，可配置按钮属性和展开、收起图标。
+
+动画默认开启。设置 `animation: false` 可禁用，也可通过 `collapsible.render({animation: false})` 动态关闭，设为 `true` 恢复。该选项复用 `.no-transition` 样式，不影响原生展开和收起操作。
 
 ### 状态与内容生命周期
 
@@ -126,6 +130,7 @@ content?: CustomContentType; // 折叠区内容。
 actions?: ToolbarSetting; // 标题区工具栏。
 collapsed?: boolean; // 受控的折叠状态。
 defaultCollapsed?: boolean = false; // 初始折叠状态。
+animation?: boolean = true; // 是否启用展开和收起动画。
 bordered?: boolean = false; // 显示边框。
 disabled?: boolean = false; // 禁止用户通过标题和按钮切换。
 toggleOnClickHeader?: boolean = true; // 点击标题区域时切换。
