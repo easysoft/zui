@@ -1,0 +1,31 @@
+{
+    "name": "@zui/json-ui",
+    "version": "0.0.1",
+    "description": "Render JSON UI descriptions with registered ZUI components.",
+    "main": "src/main.ts",
+    "keywords": ["zui:component"],
+    "files": ["./src/**/*"],
+    "exports": {
+        ".": "./src/main.ts",
+        "./react": "./src/main-react.ts"
+    },
+    "dependencies": {
+        "@zui/core": "workspace:*",
+        "dompurify": "^3.4.16",
+        "preact": "^10.27.2"
+    },
+    "devDependencies": {
+        "@zui/button": "workspace:*",
+        "@zui/menu": "workspace:*",
+        "@zui/form-control": "workspace:*",
+        "@zui/utilities": "workspace:*",
+        "zui-dev": "workspace:*"
+    },
+    "zui": {
+        "type": "component",
+        "displayName": "JSON UI",
+        "contributes": {
+            "js": ["class", "method", "component"]
+        }
+    }
+}
