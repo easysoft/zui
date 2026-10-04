@@ -133,13 +133,13 @@ const cols = [
         title: '项目名称',
 
         /* 使用字符串进行格式化，{0} 表示单元格的原始值。 */
-        format: '<strong class="text-primary">{0}</strong>',
+        html: '<strong class="text-primary">{0}</strong>',
     }, {
         name: 'status',
         title: '状态',
 
         /* 使用函数动态生成 HTML。 */
-        format: (value, info) => `<span class="label">${value}</span>`,
+        html: (value, info) => `<span class="label">${value}</span>`,
     }, {
         name: 'actions',
         title: '操作',
