@@ -5,14 +5,14 @@
   @apply -absolute -transition-[left,top];
 }
 .dashboard-block {
-  @apply -absolute -transition-opacity -bg-canvas -rounded;
+  @apply -absolute -flex -flex-col -transition-opacity -bg-canvas -rounded;
   inset: calc(var(--dashboard-gap, 16px) / 2);
 }
 .dashboard-block.is-dragging {
   @apply -opacity-0 -z-overlay;
 }
 .dashboard-block-header {
-  @apply -absolute -top-0 -left-0 -right-0 -flex -flex-row -items-center -justify-between -p-3 -rounded-t -pointer-events-none -z-10;
+  @apply -relative -flex-none -flex -flex-row -items-center -justify-between -p-3 -rounded-t -pointer-events-none -z-10;
 }
 .dashboard-block-header > * {
   @apply -pointer-events-auto;
@@ -20,11 +20,12 @@
 .dashboard-block-title {
   @apply -font-bold -text-md;
 }
+/* Keep the body static so full panels fill the block behind its actions. */
 .dashboard-block-body {
-  @apply -absolute -inset-0;
+  @apply -static -min-h-0 -flex-auto -overflow-y-auto -p-3;
 }
 .dashboard-block-body > .panel {
-  @apply -w-full -h-full -flex -flex-col;
+  @apply -absolute -inset-0 -w-full -h-full -flex -flex-col;
   --tw-shadow: 0px 6px 16px rgba(202, 215, 235, 0.25);
 }
 .dashboard-block-body .panel-heading {

@@ -27,6 +27,8 @@ const dashboard = new zui.Dashboard('#dashboardExample', {
 </script>
 ```
 
+纯文本、Preact 节点或普通 HTML 内容会显示在 `title` 和工具栏下方，超出区块高度时可滚动。也可以传入以 `.panel` 为根元素的完整[面板](/lib/components/panel/)；面板会铺满区块，此时通过 `.panel-heading`、`.panel-title` 和 `.panel-body` 自行组织标题和正文，省略区块的 `title`，避免重复显示标题。
+
 ## 选项
 
 通过选项来定义仪表盘上显示的区块或进行其他设置，选项对象支持的属性包括：
