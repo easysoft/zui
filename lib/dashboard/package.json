@@ -1,7 +1,7 @@
 {
     "name": "@zui/dashboard",
     "description": "ZUI dashboard",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "keywords": [
         "js",
         "cs",
@@ -10,14 +10,14 @@
     "main": "src/main.ts",
     "module": "src/main.ts",
     "dependencies": {
-        "@zui/core": "workspace:^0.0.1",
-        "@zui/helpers": "workspace:^0.0.1",
-        "@zui/menu": "workspace:^0.0.1",
-        "@zui/store": "workspace:^0.0.1",
-        "@zui/contextmenu": "workspace:^0.0.1",
-        "@zui/css-icons": "workspace:^0.0.1",
-        "@zui/dnd": "workspace:^0.0.1",
-        "@zui/toolbar": "workspace:^0.0.1"
+        "@zui/core": "workspace:^3.1.0",
+        "@zui/helpers": "workspace:^3.1.0",
+        "@zui/menu": "workspace:^3.1.0",
+        "@zui/store": "workspace:^3.1.0",
+        "@zui/contextmenu": "workspace:^3.1.0",
+        "@zui/css-icons": "workspace:^3.1.0",
+        "@zui/dnd": "workspace:^3.1.0",
+        "@zui/toolbar": "workspace:^3.1.0"
     },
     "exports": {
         ".": "./src/main.ts",
@@ -28,10 +28,10 @@
         "./src/**/*"
     ],
     "devDependencies": {
-        "@zui/dtable": "workspace:^0.0.1",
-        "@zui/panel": "workspace:^0.0.1",
-        "@zui/table": "workspace:^0.0.1",
-        "zui-dev": "workspace:^0.0.1"
+        "@zui/dtable": "workspace:^3.1.0",
+        "@zui/panel": "workspace:^3.1.0",
+        "@zui/table": "workspace:^3.1.0",
+        "zui-dev": "workspace:^3.1.0"
     },
     "zui": {
         "type": "js-ui",

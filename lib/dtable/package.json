@@ -1,7 +1,7 @@
 {
     "name": "@zui/dtable",
     "description": "ZUI datatable",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "keywords": [
         "js",
         "cs",
@@ -11,20 +11,20 @@
     "module": "src/main.ts",
     "browser": "src/main.ts",
     "dependencies": {
-        "@zui/avatar": "workspace:^0.0.1",
-        "@zui/list": "workspace:^0.0.1",
-        "@zui/core": "workspace:^0.0.1",
-        "@zui/helpers": "workspace:^0.0.1",
-        "@zui/scrollbar": "workspace:^0.0.1",
-        "@zui/store": "workspace:^0.0.1",
-        "@zui/checkbox": "workspace:^0.0.1",
-        "@zui/contextmenu": "workspace:^0.0.1",
-        "@zui/menu": "workspace:^0.0.1",
-        "@zui/css-icons": "workspace:^0.0.1",
-        "@zui/toolbar": "workspace:^0.0.1",
-        "@zui/progress": "workspace:^0.0.1",
-        "@zui/progress-circle": "workspace:^0.0.1",
-        "@zui/pager": "workspace:^0.0.1"
+        "@zui/avatar": "workspace:^3.1.0",
+        "@zui/list": "workspace:^3.1.0",
+        "@zui/core": "workspace:^3.1.0",
+        "@zui/helpers": "workspace:^3.1.0",
+        "@zui/scrollbar": "workspace:^3.1.0",
+        "@zui/store": "workspace:^3.1.0",
+        "@zui/checkbox": "workspace:^3.1.0",
+        "@zui/contextmenu": "workspace:^3.1.0",
+        "@zui/menu": "workspace:^3.1.0",
+        "@zui/css-icons": "workspace:^3.1.0",
+        "@zui/toolbar": "workspace:^3.1.0",
+        "@zui/progress": "workspace:^3.1.0",
+        "@zui/progress-circle": "workspace:^3.1.0",
+        "@zui/pager": "workspace:^3.1.0"
     },
     "exports": {
         ".": "./src/main.ts",
@@ -38,15 +38,15 @@
     ],
     "devDependencies": {
         "@faker-js/faker": "^10.5.0",
-        "@zui/button": "workspace:^0.0.1",
-        "@zui/dropdown": "workspace:^0.0.1",
-        "@zui/form": "workspace:^0.0.1",
-        "@zui/input-control": "workspace:^0.0.1",
-        "@zui/label": "workspace:^0.0.1",
-        "@zui/icons": "workspace:^0.0.1",
-        "@zui/popover": "workspace:^0.0.1",
-        "@zui/tooltip": "workspace:^0.0.1",
-        "zui-dev": "workspace:^0.0.1"
+        "@zui/button": "workspace:^3.1.0",
+        "@zui/dropdown": "workspace:^3.1.0",
+        "@zui/form": "workspace:^3.1.0",
+        "@zui/input-control": "workspace:^3.1.0",
+        "@zui/label": "workspace:^3.1.0",
+        "@zui/icons": "workspace:^3.1.0",
+        "@zui/popover": "workspace:^3.1.0",
+        "@zui/tooltip": "workspace:^3.1.0",
+        "zui-dev": "workspace:^3.1.0"
     },
     "zui": {
         "type": "js-ui",

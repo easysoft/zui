@@ -1,7 +1,7 @@
 {
     "name": "@zui/checkbox",
     "description": "ZUI checkbox",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "keywords": ["css", "components", "zui:control"],
     "main": "src/main.ts",
     "exports": {
@@ -14,7 +14,7 @@
     },
     "dependencies": {
         "@zui/base": "workspace:*",
-        "@zui/core": "workspace:^0.0.1"
+        "@zui/core": "workspace:^3.1.0"
     },
     "files": [
     ],

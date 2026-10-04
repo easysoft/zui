@@ -1,6 +1,6 @@
 {
     "name": "@zui/form-builder",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "keywords": ["zui:component"],
     "main": "src/main.ts",
     "exports": {
@@ -36,7 +36,7 @@
         "@zui/menu": "workspace:*",
         "@zui/panel": "workspace:*",
         "@zui/search-box": "workspace:*",
-        "zui-dev": "workspace:^0.0.1",
+        "zui-dev": "workspace:^3.1.0",
         "js-yaml": "^4.3.2",
         "@types/js-yaml": "^4.0.9",
         "highlight.js": "^11.11.1"

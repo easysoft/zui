@@ -1,7 +1,7 @@
 {
     "name": "@zui/event-bus",
     "description": "ZUI event bus for browser",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "keywords": ["zui:js-helpers"],
     "type": "module",
     "main": "src/main.ts",

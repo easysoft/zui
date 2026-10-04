@@ -1,27 +1,27 @@
 {
     "name": "@zui/pager",
     "description": "ZUI pager",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "keywords": ["css", "components", "zui:component"],
     "main": "src/main.ts",
     "dependencies": {
-      "@zui/button": "workspace:^0.0.1",
-      "@zui/btn-group": "workspace:^0.0.1",
-      "@zui/list": "workspace:^0.0.1",
-      "@zui/toolbar": "workspace:^0.0.1",
-      "@zui/helpers": "workspace:^0.0.1",
-      "@zui/common-list": "workspace:^0.0.1",
-      "@zui/core": "workspace:^0.0.1",
-      "@zui/dropdown": "workspace:^0.0.1",
-      "@zui/menu": "workspace:^0.0.1"
+      "@zui/button": "workspace:^3.1.0",
+      "@zui/btn-group": "workspace:^3.1.0",
+      "@zui/list": "workspace:^3.1.0",
+      "@zui/toolbar": "workspace:^3.1.0",
+      "@zui/helpers": "workspace:^3.1.0",
+      "@zui/common-list": "workspace:^3.1.0",
+      "@zui/core": "workspace:^3.1.0",
+      "@zui/dropdown": "workspace:^3.1.0",
+      "@zui/menu": "workspace:^3.1.0"
     },
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*",
-        "@zui/form": "workspace:0.0.1",
-        "@zui/icons": "workspace:0.0.1",
-        "zui-dev": "workspace:^0.0.1",
-        "@zui/input-group": "workspace:^0.0.1"
+        "@zui/form": "workspace:3.1.0",
+        "@zui/icons": "workspace:3.1.0",
+        "zui-dev": "workspace:^3.1.0",
+        "@zui/input-group": "workspace:^3.1.0"
     },
     "files": [
          "./src/**/*"

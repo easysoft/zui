@@ -1,6 +1,6 @@
 {
     "name": "@zui/json-ui",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "description": "Render JSON UI descriptions with registered ZUI components.",
     "main": "src/main.ts",
     "keywords": ["zui:component"],

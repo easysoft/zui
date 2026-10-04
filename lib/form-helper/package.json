@@ -1,6 +1,6 @@
 {
     "name": "@zui/form-helper",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "keywords": ["zui:js-helpers"],
     "main": "src/main.ts",
     "exports": {
@@ -16,7 +16,7 @@
         "@zui/form-control": "workspace:*"
     },
     "devDependencies": {
-        "zui-dev": "workspace:^0.0.1",
+        "zui-dev": "workspace:^3.1.0",
         "@zui/button": "workspace:*",
         "@zui/color-picker": "workspace:*",
         "@zui/datetime-picker": "workspace:*",

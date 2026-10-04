@@ -1,7 +1,7 @@
 {
     "name": "@zui/base",
     "description": "ZUI basic settings",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "keywords": ["css", "zui:css-base"],
     "main": "src/main.ts",
     "files": [

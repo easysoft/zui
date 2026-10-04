@@ -1,12 +1,12 @@
 {
     "name": "@zui/css-icons",
     "description": "ZUI css icons",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "keywords": ["css", "zui:css-utilities"],
     "main": "src/main.ts",
     "devDependencies": {
         "@zui/base": "workspace:*",
-        "@zui/button": "workspace:^0.0.1"
+        "@zui/button": "workspace:^3.1.0"
     },
     "files": [
         "./src/**/*"

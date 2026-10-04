@@ -1,7 +1,7 @@
 {
     "name": "@zui/virtualize",
     "description": "TanStack Virtual adapters and virtual lists for ZUI and Preact",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "keywords": ["zui:component"],
     "main": "src/main.ts",
     "exports": {

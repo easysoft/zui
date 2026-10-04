@@ -1,7 +1,7 @@
 {
     "name": "@zui/dnd",
     "description": "ZUI draggable and dropable plugins",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "keywords": [
         "js",
         "zui:js-helpers"
@@ -21,10 +21,10 @@
         }
     },
     "dependencies": {
-        "@zui/core": "workspace:^0.0.1"
+        "@zui/core": "workspace:^3.1.0"
     },
     "devDependencies": {
-        "zui-dev": "workspace:^0.0.1",
-        "@zui/menu": "workspace:^0.0.1"
+        "zui-dev": "workspace:^3.1.0",
+        "@zui/menu": "workspace:^3.1.0"
     }
 }

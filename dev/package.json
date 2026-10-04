@@ -1,7 +1,7 @@
 {
     "name": "zui-dev",
     "description": "ZUI dev helpers",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "type": "module",
     "main": "src/main.ts"
 }

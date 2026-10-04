@@ -1,7 +1,7 @@
 {
     "name": "@zui/split",
     "description": "split.js plugin from https://split.js.org/",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "browser": "src/main.ts",
     "keywords": ["zui:js-helpers"],
     "main": "src/main.ts",
@@ -22,13 +22,13 @@
         }
     },
     "dependencies": {
-        "@zui/core": "workspace:^0.0.1",
-        "@zui/css-icons": "workspace:^0.0.1",
+        "@zui/core": "workspace:^3.1.0",
+        "@zui/css-icons": "workspace:^3.1.0",
         "split.js": "^1.6.5"
     },
     "devDependencies": {
-        "zui-dev": "workspace:^0.0.1",
-        "@zui/button": "workspace:^0.0.1",
-        "@zui/menu": "workspace:^0.0.1"
+        "zui-dev": "workspace:^3.1.0",
+        "@zui/button": "workspace:^3.1.0",
+        "@zui/menu": "workspace:^3.1.0"
     }
 }

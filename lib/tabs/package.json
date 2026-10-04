@@ -1,6 +1,6 @@
 {
     "name": "@zui/tabs",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "main": "src/main.ts",
     "browser": "src/main.ts",
     "browserslist": "",
@@ -20,7 +20,7 @@
     },
     "devDependencies": {
         "@zui/base": "workspace:*",
-        "@zui/nav": "workspace:^0.0.1",
+        "@zui/nav": "workspace:^3.1.0",
         "@zui/utilities": "workspace:*",
         "zui-dev": "workspace:*"
     },

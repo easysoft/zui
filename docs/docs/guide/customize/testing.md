@@ -67,7 +67,7 @@ pnpm exec playwright install chromium firefox webkit
 验证已有候选包时，指定其绝对路径：
 
 ```sh
-ZUI_NPM_TARBALL=/absolute/path/zui-3.0.0.tgz pnpm exec vitest run --project build tests/build/npm-consumer.test.ts
+ZUI_NPM_TARBALL=/absolute/path/zui-3.1.0.tgz pnpm exec vitest run --project build tests/build/npm-consumer.test.ts
 ```
 
 指定 `ZUI_NPM_TARBALL` 后，npm 消费测试只安装该文件，不构建或打包。发布入口 `pnpm publish:npm --tarball <file>` 会自动将私有快照传给该测试，同时执行完整的 `check` 和 `test:build` 门禁；单独消费测试通过或持有摘要清单均不能跳过发布门禁。

@@ -1,6 +1,6 @@
 {
     "name": "@zui/search-box",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "main": "src/main.ts",
     "browserslist": "",
     "keywords": [
@@ -18,8 +18,8 @@
     "dependencies": {
         "@zui/base": "workspace:*",
         "@zui/button": "workspace:*",
-        "@zui/core": "workspace:^0.0.1",
-        "@zui/css-icons": "workspace:^0.0.1",
+        "@zui/core": "workspace:^3.1.0",
+        "@zui/css-icons": "workspace:^3.1.0",
         "@zui/input-control": "workspace:*"
     },
     "devDependencies": {

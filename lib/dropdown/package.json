@@ -1,6 +1,6 @@
 {
     "name": "@zui/dropdown",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "main": "src/main.ts",
     "browser": "src/main.ts",
     "browserslist": "",
@@ -27,7 +27,7 @@
     "dependencies": {
         "@zui/core": "workspace:*",
         "@zui/button": "workspace:*",
-        "@zui/btn-group": "workspace:^0.0.1",
+        "@zui/btn-group": "workspace:^3.1.0",
         "@zui/popover": "workspace:*",
         "@zui/css-icons": "workspace:*",
         "@zui/list": "workspace:*",

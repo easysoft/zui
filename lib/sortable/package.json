@@ -1,7 +1,7 @@
 {
     "name": "@zui/sortable",
     "description": "Sortable JS plugin from https://github.com/SortableJS/Sortable",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "keywords": [
         "js",
         "zui:js-helpers"
@@ -25,19 +25,19 @@
         }
     },
     "dependencies": {
-        "@zui/core": "workspace:^0.0.1",
-        "@zui/common-list": "workspace:^0.0.1",
-        "@zui/list": "workspace:^0.0.1",
-        "@zui/menu": "workspace:^0.0.1",
-        "@zui/tree": "workspace:^0.0.1"
+        "@zui/core": "workspace:^3.1.0",
+        "@zui/common-list": "workspace:^3.1.0",
+        "@zui/list": "workspace:^3.1.0",
+        "@zui/menu": "workspace:^3.1.0",
+        "@zui/tree": "workspace:^3.1.0"
     },
     "devDependencies": {
         "sortablejs": "^1.15.0",
-        "zui-dev": "workspace:^0.0.1",
+        "zui-dev": "workspace:^3.1.0",
         "@types/sortablejs": "^1.15.1",
-        "@zui/avatar": "workspace:^0.0.1",
-        "@zui/button": "workspace:^0.0.1",
-        "@zui/checkbox": "workspace:^0.0.1",
-        "@zui/icons": "workspace:^0.0.1"
+        "@zui/avatar": "workspace:^3.1.0",
+        "@zui/button": "workspace:^3.1.0",
+        "@zui/checkbox": "workspace:^3.1.0",
+        "@zui/icons": "workspace:^3.1.0"
     }
 }

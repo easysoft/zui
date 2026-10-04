@@ -1,6 +1,6 @@
 {
     "name": "@zui/tooltip",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "main": "src/main.ts",
     "browser": "src/main.ts",
     "browserslist": "",
@@ -22,8 +22,8 @@
     },
     "dependencies": {
         "@zui/core": "workspace:*",
-        "@zui/button": "workspace:0.0.1",
-        "@zui/css-icons": "workspace:^0.0.1",
+        "@zui/button": "workspace:3.1.0",
+        "@zui/css-icons": "workspace:^3.1.0",
         "@zui/popover": "workspace:*"
 
     },

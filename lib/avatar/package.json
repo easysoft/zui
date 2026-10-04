@@ -1,7 +1,7 @@
 {
     "name": "@zui/avatar",
     "description": "ZUI avatar",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "main": "src/main.ts",
     "browserslist": "",
     "keywords": ["zui:component"],

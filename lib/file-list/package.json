@@ -1,7 +1,7 @@
 {
     "name": "@zui/file-list",
     "description": "ZUI file attachment list with configurable icons and actions",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "main": "src/main.ts",
     "keywords": ["zui:component"],
     "files": ["./src/**/*"],

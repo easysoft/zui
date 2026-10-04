@@ -1,6 +1,6 @@
 {
     "name": "@zui/button",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "main": "src/main.ts",
     "browser": "src/main.ts",
     "browserslist": "",
@@ -14,15 +14,15 @@
         "./react": "./src/main-react.ts"
     },
     "devDependencies": {
-        "@zui/avatar": "workspace:^0.0.1",
+        "@zui/avatar": "workspace:^3.1.0",
         "@zui/base": "workspace:*",
-        "@zui/icons": "workspace:^0.0.1",
+        "@zui/icons": "workspace:^3.1.0",
         "@zui/utilities": "workspace:*",
-        "zui-dev": "workspace:^0.0.1"
+        "zui-dev": "workspace:^3.1.0"
     },
     "dependencies": {
-        "@zui/core": "workspace:^0.0.1",
-        "@zui/css-icons": "workspace:^0.0.1",
+        "@zui/core": "workspace:^3.1.0",
+        "@zui/css-icons": "workspace:^3.1.0",
         "preact": "^10.27.2"
     },
     "zui": {

@@ -1,6 +1,6 @@
 {
     "name": "@zui/datetime-picker",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "main": "src/main.ts",
     "browserslist": "",
     "keywords": [
@@ -22,8 +22,8 @@
         "@zui/toolbar": "workspace:*",
         "@zui/base": "workspace:*",
         "@zui/button": "workspace:*",
-        "@zui/core": "workspace:^0.0.1",
-        "@zui/css-icons": "workspace:^0.0.1",
+        "@zui/core": "workspace:^3.1.0",
+        "@zui/css-icons": "workspace:^3.1.0",
         "@zui/checkbox": "workspace:*",
         "@zui/form-control": "workspace:*",
         "@zui/input-control": "workspace:*",
@@ -32,8 +32,8 @@
     },
     "devDependencies": {
         "zui-dev": "workspace:*",
-        "@zui/button": "workspace:0.0.1",
-        "@zui/list": "workspace:0.0.1",
+        "@zui/button": "workspace:3.1.0",
+        "@zui/list": "workspace:3.1.0",
         "@zui/utilities": "workspace:*"
     },
     "zui": {

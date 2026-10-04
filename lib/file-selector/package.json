@@ -1,6 +1,6 @@
 {
     "name": "@zui/file-selector",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "main": "src/main.ts",
     "exports": {
         ".": "./src/main.ts",
@@ -16,22 +16,22 @@
         "./src/**/*"
     ],
     "dependencies": {
-        "@zui/button": "workspace:^0.0.1",
-        "@zui/icons": "workspace:0.0.1",
-        "@zui/helpers": "workspace:^0.0.1",
-        "@zui/modal": "workspace:^0.0.1",
-        "@zui/core": "workspace:^0.0.1",
+        "@zui/button": "workspace:^3.1.0",
+        "@zui/icons": "workspace:3.1.0",
+        "@zui/helpers": "workspace:^3.1.0",
+        "@zui/modal": "workspace:^3.1.0",
+        "@zui/core": "workspace:^3.1.0",
         "@zui/file-list": "workspace:*",
-        "@zui/avatar": "workspace:^0.0.1",
-        "@zui/form-control": "workspace:^0.0.1",
-        "@zui/list": "workspace:^0.0.1",
-        "@zui/common-list": "workspace:^0.0.1",
-        "@zui/toolbar": "workspace:^0.0.1"
+        "@zui/avatar": "workspace:^3.1.0",
+        "@zui/form-control": "workspace:^3.1.0",
+        "@zui/list": "workspace:^3.1.0",
+        "@zui/common-list": "workspace:^3.1.0",
+        "@zui/toolbar": "workspace:^3.1.0"
     },
     "devDependencies": {
         "zui-dev": "workspace:*",
-        "@zui/input-control": "workspace:^0.0.1",
-        "@zui/menu": "workspace:^0.0.1"
+        "@zui/input-control": "workspace:^3.1.0",
+        "@zui/menu": "workspace:^3.1.0"
     },
     "zui": {
         "type": "component",

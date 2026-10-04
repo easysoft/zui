@@ -1,7 +1,7 @@
 {
     "name": "@zui/progress-circle",
     "description": "ZUI progress-circle",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "keywords": ["js", "zui:control"],
     "main": "src/main.ts",
     "module": "src/main.ts",

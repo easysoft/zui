@@ -1,6 +1,6 @@
 {
     "name": "@zui/upload-imgs",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "main": "src/main.ts",
     "browser": "src/main.ts",
     "exports": {
@@ -13,17 +13,17 @@
         "zui:component"
     ],
     "dependencies": {
-        "@zui/button": "workspace:^0.0.1",
-        "@zui/icons": "workspace:0.0.1",
-        "@zui/helpers": "workspace:^0.0.1",
-        "@zui/input-group": "workspace:^0.0.1",
-        "@zui/btn-group": "workspace:^0.0.1",
-        "@zui/core": "workspace:^0.0.1",
-        "@zui/upload": "workspace:^0.0.1",
-        "@zui/tooltip": "workspace:^0.0.1"
+        "@zui/button": "workspace:^3.1.0",
+        "@zui/icons": "workspace:3.1.0",
+        "@zui/helpers": "workspace:^3.1.0",
+        "@zui/input-group": "workspace:^3.1.0",
+        "@zui/btn-group": "workspace:^3.1.0",
+        "@zui/core": "workspace:^3.1.0",
+        "@zui/upload": "workspace:^3.1.0",
+        "@zui/tooltip": "workspace:^3.1.0"
     },
     "devDependencies": {
-        "zui-dev": "workspace:^0.0.1"
+        "zui-dev": "workspace:^3.1.0"
     },
     "files": [
         "./src/**/*"

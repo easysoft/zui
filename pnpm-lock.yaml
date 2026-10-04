@@ -401,7 +401,7 @@ importers:
         specifier: workspace:*
         version: link:../base
       '@zui/icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../icons
       '@zui/utilities':
         specifier: workspace:*
@@ -429,7 +429,7 @@ importers:
   lib/avatar-group:
     dependencies:
       '@zui/avatar':
-        specifier: workspace:0.0.1
+        specifier: workspace:3.1.0
         version: link:../avatar
     devDependencies:
       '@zui/base':
@@ -453,26 +453,26 @@ importers:
   lib/btn-group:
     dependencies:
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/common-list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../common-list
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
     devDependencies:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
       '@zui/dropdown':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../dropdown
       '@zui/icons':
         specifier: workspace:*
         version: link:../icons
       '@zui/menu':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../menu
       '@zui/utilities':
         specifier: workspace:*
@@ -484,103 +484,103 @@ importers:
   lib/button:
     dependencies:
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       preact:
         specifier: ^10.27.2
         version: 10.28.2
     devDependencies:
       '@zui/avatar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../avatar
       '@zui/base':
         specifier: workspace:*
         version: link:../base
       '@zui/icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../icons
       '@zui/utilities':
         specifier: workspace:*
         version: link:../utilities
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/calendar:
     dependencies:
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/datetime-picker':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../datetime-picker
       '@zui/helpers':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../helpers
       '@zui/list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../list
       '@zui/toolbar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../toolbar
     devDependencies:
       '@zui/btn-group':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../btn-group
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/cards:
     dependencies:
       '@zui/avatar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../avatar
       '@zui/common-list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../common-list
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/helpers':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../helpers
       '@zui/list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../list
       '@zui/menu':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../menu
       '@zui/toolbar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../toolbar
     devDependencies:
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/dropdown':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../dropdown
       '@zui/icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../icons
       '@zui/label':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../label
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/checkbox:
@@ -589,7 +589,7 @@ importers:
         specifier: workspace:*
         version: link:../base
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
     devDependencies:
       '@zui/utilities':
@@ -602,29 +602,29 @@ importers:
         specifier: workspace:*
         version: link:../base
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/panel':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../panel
       '@zui/toolbar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../toolbar
     devDependencies:
       '@zui/icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../icons
       '@zui/list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../list
       '@zui/menu':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../menu
       '@zui/utilities':
         specifier: workspace:*
@@ -642,10 +642,10 @@ importers:
         specifier: workspace:*
         version: link:../button
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/pick':
         specifier: workspace:*
@@ -667,26 +667,26 @@ importers:
   lib/common-list:
     dependencies:
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
     devDependencies:
       '@zui/avatar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../avatar
       '@zui/base':
         specifier: workspace:*
         version: link:../base
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/checkbox':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../checkbox
       '@zui/icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../icons
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/contextmenu:
@@ -705,10 +705,10 @@ importers:
         specifier: workspace:*
         version: link:../base
       '@zui/button':
-        specifier: workspace:0.0.1
+        specifier: workspace:3.1.0
         version: link:../button
       '@zui/icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../icons
       '@zui/list':
         specifier: workspace:*
@@ -717,7 +717,7 @@ importers:
         specifier: workspace:*
         version: link:../utilities
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/copy-btn:
@@ -767,47 +767,47 @@ importers:
         specifier: workspace:*
         version: link:../base
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
 
   lib/dashboard:
     dependencies:
       '@zui/contextmenu':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../contextmenu
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/dnd':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../dnd
       '@zui/helpers':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../helpers
       '@zui/menu':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../menu
       '@zui/store':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../store
       '@zui/toolbar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../toolbar
     devDependencies:
       '@zui/dtable':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../dtable
       '@zui/panel':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../panel
       '@zui/table':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../table
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/datetime-picker:
@@ -822,10 +822,10 @@ importers:
         specifier: workspace:*
         version: link:../checkbox
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/form-control':
         specifier: workspace:*
@@ -850,7 +850,7 @@ importers:
         version: link:../toolbar
     devDependencies:
       '@zui/list':
-        specifier: workspace:0.0.1
+        specifier: workspace:3.1.0
         version: link:../list
       '@zui/utilities':
         specifier: workspace:*
@@ -862,20 +862,20 @@ importers:
   lib/dnd:
     dependencies:
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
     devDependencies:
       '@zui/menu':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../menu
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/dropdown:
     dependencies:
       '@zui/btn-group':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../btn-group
       '@zui/button':
         specifier: workspace:*
@@ -921,77 +921,77 @@ importers:
   lib/dtable:
     dependencies:
       '@zui/avatar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../avatar
       '@zui/checkbox':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../checkbox
       '@zui/contextmenu':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../contextmenu
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/helpers':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../helpers
       '@zui/list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../list
       '@zui/menu':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../menu
       '@zui/pager':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../pager
       '@zui/progress':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../progress
       '@zui/progress-circle':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../progress-circle
       '@zui/scrollbar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../scrollbar
       '@zui/store':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../store
       '@zui/toolbar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../toolbar
     devDependencies:
       '@faker-js/faker':
         specifier: ^10.5.0
         version: 10.6.0
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/dropdown':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../dropdown
       '@zui/form':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../form
       '@zui/icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../icons
       '@zui/input-control':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../input-control
       '@zui/label':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../label
       '@zui/popover':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../popover
       '@zui/tooltip':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../tooltip
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/event-bus:
@@ -1040,44 +1040,44 @@ importers:
   lib/file-selector:
     dependencies:
       '@zui/avatar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../avatar
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/common-list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../common-list
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/file-list':
         specifier: workspace:*
         version: link:../file-list
       '@zui/form-control':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../form-control
       '@zui/helpers':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../helpers
       '@zui/icons':
-        specifier: workspace:0.0.1
+        specifier: workspace:3.1.0
         version: link:../icons
       '@zui/list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../list
       '@zui/modal':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../modal
       '@zui/toolbar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../toolbar
     devDependencies:
       '@zui/input-control':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../input-control
       '@zui/menu':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../menu
       zui-dev:
         specifier: workspace:*
@@ -1190,7 +1190,7 @@ importers:
         specifier: ^4.3.2
         version: 4.3.2
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/form-control:
@@ -1252,7 +1252,7 @@ importers:
         specifier: workspace:*
         version: link:../search-box
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/helpers:
@@ -1279,14 +1279,14 @@ importers:
   lib/input-control:
     dependencies:
       '@zui/form-control':
-        specifier: workspace:0.0.1
+        specifier: workspace:3.1.0
         version: link:../form-control
     devDependencies:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
       '@zui/icons':
-        specifier: workspace:0.0.1
+        specifier: workspace:3.1.0
         version: link:../icons
       '@zui/utilities':
         specifier: workspace:*
@@ -1302,22 +1302,22 @@ importers:
         specifier: workspace:*
         version: link:../base
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/checkbox':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../checkbox
       '@zui/dropdown':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../dropdown
       '@zui/icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../icons
       '@zui/list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../list
       '@zui/menu':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../menu
       '@zui/utilities':
         specifier: workspace:*
@@ -1354,50 +1354,50 @@ importers:
   lib/kanban:
     dependencies:
       '@zui/cards':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../cards
       '@zui/common-list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../common-list
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/dnd':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../dnd
       '@zui/helpers':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../helpers
       '@zui/list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../list
       '@zui/menu':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../menu
       '@zui/scrollbar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../scrollbar
       '@zui/toolbar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../toolbar
     devDependencies:
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/checkbox':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../checkbox
       '@zui/dropdown':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../dropdown
       '@zui/icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../icons
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/label:
@@ -1406,7 +1406,7 @@ importers:
         specifier: workspace:*
         version: link:../base
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/utilities':
         specifier: workspace:*
@@ -1415,106 +1415,106 @@ importers:
   lib/list:
     dependencies:
       '@zui/avatar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../avatar
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/checkbox':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../checkbox
       '@zui/common-list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../common-list
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/store':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../store
       '@zui/toolbar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../toolbar
     devDependencies:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
       '@zui/icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../icons
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/menu:
     dependencies:
       '@zui/common-list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../common-list
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/helpers':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../helpers
       '@zui/list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../list
       '@zui/search-box':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../search-box
     devDependencies:
       '@zui/avatar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../avatar
       '@zui/base':
         specifier: workspace:*
         version: link:../base
       '@zui/checkbox':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../checkbox
       '@zui/form-control':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../form-control
       '@zui/icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../icons
       '@zui/input-control':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../input-control
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/messager:
     dependencies:
       '@zui/alert':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../alert
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
     devDependencies:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/icons':
         specifier: workspace:*
         version: link:../icons
       '@zui/toolbar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../toolbar
       '@zui/utilities':
         specifier: workspace:*
@@ -1529,20 +1529,20 @@ importers:
         specifier: workspace:*
         version: link:../base
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/toolbar':
         specifier: workspace:*
         version: link:../toolbar
     devDependencies:
       '@zui/icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../icons
       '@zui/utilities':
         specifier: workspace:*
@@ -1554,90 +1554,90 @@ importers:
   lib/nav:
     dependencies:
       '@zui/common-list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../common-list
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/dropdown':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../dropdown
       '@zui/list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../list
     devDependencies:
       '@zui/avatar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../avatar
       '@zui/base':
         specifier: workspace:*
         version: link:../base
       '@zui/btn-group':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../btn-group
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../icons
       '@zui/menu':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../menu
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/pager:
     dependencies:
       '@zui/btn-group':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../btn-group
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/common-list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../common-list
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/dropdown':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../dropdown
       '@zui/helpers':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../helpers
       '@zui/list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../list
       '@zui/menu':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../menu
       '@zui/toolbar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../toolbar
     devDependencies:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
       '@zui/form':
-        specifier: workspace:0.0.1
+        specifier: workspace:3.1.0
         version: link:../form
       '@zui/icons':
-        specifier: workspace:0.0.1
+        specifier: workspace:3.1.0
         version: link:../icons
       '@zui/input-group':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../input-group
       '@zui/utilities':
         specifier: workspace:*
         version: link:../utilities
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/panel:
@@ -1649,7 +1649,7 @@ importers:
         specifier: workspace:*
         version: link:../icons
       '@zui/table':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../table
       '@zui/toolbar':
         specifier: workspace:*
@@ -1670,10 +1670,10 @@ importers:
         specifier: workspace:*
         version: link:../checkbox
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/form-control':
         specifier: workspace:*
@@ -1701,10 +1701,10 @@ importers:
         specifier: workspace:*
         version: link:../checkbox
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/form-control':
         specifier: workspace:*
@@ -1750,17 +1750,17 @@ importers:
   lib/popover:
     dependencies:
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
     devDependencies:
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/progress:
@@ -1792,29 +1792,29 @@ importers:
   lib/responsive-nav:
     dependencies:
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/dropdown':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../dropdown
       '@zui/nav':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../nav
     devDependencies:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/form-control':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../form-control
       '@zui/menu':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../menu
       '@zui/utilities':
         specifier: workspace:*
@@ -1823,7 +1823,7 @@ importers:
   lib/scrollbar:
     dependencies:
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
     devDependencies:
       '@zui/base':
@@ -1845,10 +1845,10 @@ importers:
         specifier: workspace:*
         version: link:../button
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/input-control':
         specifier: workspace:*
@@ -1892,63 +1892,63 @@ importers:
   lib/sortable:
     dependencies:
       '@zui/common-list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../common-list
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../list
       '@zui/menu':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../menu
       '@zui/tree':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../tree
     devDependencies:
       '@types/sortablejs':
         specifier: ^1.15.1
         version: 1.15.1
       '@zui/avatar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../avatar
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/checkbox':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../checkbox
       '@zui/icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../icons
       sortablejs:
         specifier: ^1.15.0
         version: 1.15.0
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/split:
     dependencies:
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       split.js:
         specifier: ^1.6.5
         version: 1.6.5
     devDependencies:
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/menu':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../menu
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/store:
@@ -1979,7 +1979,7 @@ importers:
         specifier: workspace:*
         version: link:../base
       '@zui/nav':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../nav
       '@zui/utilities':
         specifier: workspace:*
@@ -1991,10 +1991,10 @@ importers:
   lib/time-span:
     dependencies:
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/helpers':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../helpers
     devDependencies:
       '@zui/base':
@@ -2007,50 +2007,50 @@ importers:
   lib/toolbar:
     dependencies:
       '@zui/btn-group':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../btn-group
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/common-list':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../common-list
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
     devDependencies:
       '@zui/avatar':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../avatar
       '@zui/base':
         specifier: workspace:*
         version: link:../base
       '@zui/dropdown':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../dropdown
       '@zui/icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../icons
       '@zui/menu':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../menu
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/tooltip:
     dependencies:
       '@zui/button':
-        specifier: workspace:0.0.1
+        specifier: workspace:3.1.0
         version: link:../button
       '@zui/core':
         specifier: workspace:*
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/popover':
         specifier: workspace:*
@@ -2078,10 +2078,10 @@ importers:
         specifier: workspace:*
         version: link:../checkbox
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../css-icons
       '@zui/list':
         specifier: workspace:*
@@ -2115,7 +2115,7 @@ importers:
         specifier: workspace:*
         version: link:../base
       '@zui/icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../icons
       '@zui/utilities':
         specifier: workspace:*
@@ -2124,60 +2124,60 @@ importers:
   lib/upload:
     dependencies:
       '@zui/btn-group':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../btn-group
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/helpers':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../helpers
       '@zui/icons':
-        specifier: workspace:0.0.1
+        specifier: workspace:3.1.0
         version: link:../icons
       '@zui/input-group':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../input-group
       '@zui/tooltip':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../tooltip
     devDependencies:
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/upload-imgs:
     dependencies:
       '@zui/btn-group':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../btn-group
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
       '@zui/helpers':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../helpers
       '@zui/icons':
-        specifier: workspace:0.0.1
+        specifier: workspace:3.1.0
         version: link:../icons
       '@zui/input-group':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../input-group
       '@zui/tooltip':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../tooltip
       '@zui/upload':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../upload
     devDependencies:
       zui-dev:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../../dev
 
   lib/utilities:
@@ -2186,10 +2186,10 @@ importers:
         specifier: workspace:*
         version: link:../base
       '@zui/button':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../button
       '@zui/core':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^3.1.0
         version: link:../core
 
   lib/virtualize:

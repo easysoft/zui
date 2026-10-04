@@ -159,9 +159,9 @@ CDN 使用 npm 上已发布的固定版本。将下载示例中的 CSS、UMD 脚
 
 | 资源 | jsDelivr | unpkg |
 | --- | --- | --- |
-| CSS | https://cdn.jsdelivr.net/npm/zui@3.0.0/dist/zui.css | https://unpkg.com/zui@3.0.0/dist/zui.css |
-| UMD | https://cdn.jsdelivr.net/npm/zui@3.0.0/dist/zui.js | https://unpkg.com/zui@3.0.0/dist/zui.js |
-| ESM | https://cdn.jsdelivr.net/npm/zui@3.0.0/dist/zui.esm.js | https://unpkg.com/zui@3.0.0/dist/zui.esm.js |
+| CSS | https://cdn.jsdelivr.net/npm/zui@3.1.0/dist/zui.css | https://unpkg.com/zui@3.1.0/dist/zui.css |
+| UMD | https://cdn.jsdelivr.net/npm/zui@3.1.0/dist/zui.js | https://unpkg.com/zui@3.1.0/dist/zui.js |
+| ESM | https://cdn.jsdelivr.net/npm/zui@3.1.0/dist/zui.esm.js | https://unpkg.com/zui@3.1.0/dist/zui.esm.js |
 
 本站下载构建可能包含尚未发布到 npm 的修复和组件；体验本站示例时优先使用本站下载包。不要混用不同版本的 JS、CSS 和图标资源。
 
@@ -170,7 +170,7 @@ CDN 使用 npm 上已发布的固定版本。将下载示例中的 CSS、UMD 脚
 在支持 ESM 和 CSS 导入的构建工具项目中安装：
 
 ```sh
-npm install zui@3.0.0
+npm install zui@3.1.0
 ```
 
 在页面准备好 `<nav id="npmNav"></nav>` 后，在入口模块中使用公开入口：

@@ -1,6 +1,6 @@
 {
     "name": "@zui/panel",
-    "version": "0.0.1",
+    "version": "3.1.0",
     "main": "src/main.ts",
     "browser": "src/main.ts",
     "browserslist": "",
@@ -10,7 +10,7 @@
     ],
     "devDependencies": {
         "@zui/base": "workspace:*",
-        "@zui/table": "workspace:^0.0.1",
+        "@zui/table": "workspace:^3.1.0",
         "@zui/utilities": "workspace:*",
         "@zui/icons": "workspace:*",
         "@zui/toolbar": "workspace:*"

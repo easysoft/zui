@@ -39,13 +39,13 @@ pnpm pack:npm --out-dir ./dist/npm-candidate
 打包成功表示候选包已生成，摘要清单用于核对文件，不代表包已通过检查。单独验证已有候选包可运行：
 
 ```sh
-ZUI_NPM_TARBALL=/absolute/path/zui-3.0.0.tgz pnpm exec vitest run --project build tests/build/npm-consumer.test.ts
+ZUI_NPM_TARBALL=/absolute/path/zui-3.1.0.tgz pnpm exec vitest run --project build tests/build/npm-consumer.test.ts
 ```
 
 将示例路径替换为本次输出的实际 `.tgz` 路径。确认需要发布后，显式传入该文件：
 
 ```sh
-pnpm publish:npm --tarball ./dist/npm-candidate/zui-3.0.0.tgz
+pnpm publish:npm --tarball ./dist/npm-candidate/zui-3.1.0.tgz
 ```
 
 发布命令先创建指定文件的同字节私有快照，执行 `pnpm check` 和 `pnpm test:build`，其中 npm 消费测试安装该快照。检查通过并再次核对摘要后，命令通过 `npm publish --ignore-scripts` 上传同一快照。该流程不重新构建或打包候选包，不提供跳过检查的参数，也不会自动递增版本或创建 Git tag；缺少 `--tarball` 时不会发布。
