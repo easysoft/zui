@@ -96,7 +96,7 @@
                 {name: 'bg-gray-200'},
                 {name: 'bg-gray-300'},
                 {name: 'bg-gray-400'},
-                {name: 'bg-gray-500', label: 'gray', alias: 'bg-gray', hint: true},
+                {name: 'bg-gray-500', label: 'bg-gray', alias: 'bg-gray', hint: true},
                 {name: 'bg-gray-600'},
                 {name: 'bg-gray-700'},
                 {name: 'bg-gray-800'},

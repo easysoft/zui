@@ -96,7 +96,7 @@
                 {name: 'text-gray-200'},
                 {name: 'text-gray-300'},
                 {name: 'text-gray-400'},
-                {name: 'text-gray-500', label: 'gray', alias: 'text-gray', hint: true},
+                {name: 'text-gray-500', label: 'text-gray', alias: 'text-gray', hint: true},
                 {name: 'text-gray-600'},
                 {name: 'text-gray-700'},
                 {name: 'text-gray-800'},

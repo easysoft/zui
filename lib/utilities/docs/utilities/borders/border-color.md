@@ -76,7 +76,7 @@
                 {name: 'border-gray-200'},
                 {name: 'border-gray-300'},
                 {name: 'border-gray-400'},
-                {name: 'border-gray-500', label: 'gray', alias: 'border-gray', hint: true},
+                {name: 'border-gray-500', label: 'border-gray', alias: 'border-gray', hint: true},
                 {name: 'border-gray-600'},
                 {name: 'border-gray-700'},
                 {name: 'border-gray-800'},
