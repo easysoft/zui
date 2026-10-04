@@ -106,17 +106,10 @@ jobs:
         run: bash scripts/ci/preserve-results.sh distributions test-results/npm-package dist/zui
 
   browsers:
-    name: ${{ matrix.browser }} browser contracts
+    name: Chromium, Firefox and WebKit browser contracts
     needs: distributions
     runs-on: zui-lightsail-validation-20260927
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        browser:
-          - chromium
-          - firefox
-          - webkit
+    timeout-minutes: 60
     steps:
       - name: Check out repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -137,19 +130,17 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Install ${{ matrix.browser }}
-        run: pnpm exec playwright install ${{ matrix.browser }}
+      - name: Install Chromium, Firefox and WebKit
+        run: pnpm exec playwright install chromium firefox webkit
 
-      - name: Run ${{ matrix.browser }} checks
+      - name: Run all browser checks
         env:
           PLAYWRIGHT_SKIP_VISUAL: '1'
-        run: pnpm test:e2e:all --project=${{ matrix.browser }} --workers=1 --fail-on-flaky-tests
+        run: pnpm test:e2e:all --workers=1 --fail-on-flaky-tests
 
       - name: Preserve browser diagnostics on runner
         if: ${{ !cancelled() }}
-        env:
-          ZUI_BROWSER: ${{ matrix.browser }}
-        run: bash scripts/ci/preserve-results.sh "browsers-$ZUI_BROWSER" playwright-report test-results/playwright
+        run: bash scripts/ci/preserve-results.sh browsers playwright-report test-results/playwright
 
   docs:
     name: Build documentation for deployment

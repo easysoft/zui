@@ -55,6 +55,8 @@ gh api repos/easysoft/zui/rules/branches/main
 
 在已推送的功能分支上手动执行 `PR checks` 或 `Main and nightly checks` 可以验收迁移；后者的手动运行也构建并验证文档，但不会部署官网。合并到 `main` 后，完整分发及三种浏览器检查通过才会构建部署文档，`Deploy` 仅接受本仓库 `main` 的成功 push 运行。始终分别核实 runner 在线、job 实际执行、检查通过和部署成功。
 
+main/nightly 的 Chromium、Firefox、WebKit 在同一 job 中以单 worker 顺序执行，复用一次安装和 Vite 开发服务；浏览器报告包含全部三个 project。PR 继续使用独立的 `Chromium browser contracts` 必需检查名称。
+
 ## 本地产物
 
 `scripts/ci/preserve-results.sh` 将报告、npm 候选包、分发文件和文档保存在 runner 用户的 `$HOME/zui-ci-results/<run-id>/<run-attempt>/<job>/`。每份归档包含 `results.tar.gz` 和 `commit`，路径会写入 Job Summary；通过服务器下载，不再出现在 GitHub Artifacts 列表。清理只针对这一专用目录中的过期运行，保留当前运行及最近 14 天的结果，不清理其他工作区或 runner 的资料。
