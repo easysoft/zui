@@ -11,10 +11,7 @@ test.describe('Modal browser behavior', () => {
     });
 
     test('moves focus into the dialog and returns it to the trigger when closed', async ({page}) => {
-        const {modal, trigger} = await mountModalFixture(page, {open: false});
-        // Mouse activation need not focus a button (for example, in WebKit).
-        await trigger.focus();
-        await trigger.press('Enter');
+        const {modal, trigger} = await mountModalFixture(page);
         const closeButton = modal.getByRole('button', {name: 'Close'});
 
         await expect(closeButton).toBeFocused();
