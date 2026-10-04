@@ -77,12 +77,14 @@ pnpm 安装 Action 固定为支持 pnpm 12 原生发行方式的 `pnpm/action-se
 
 ## 官网示例门禁
 
-PR 的 `Distribution and documentation builds` 在文档构建后运行 `pnpm test:docs --workers=1 --fail-on-flaky-tests`，检查构建后的快速上手、Tree、SearchBox 和 FileList 页面。main 和 dev 也运行同一检查，失败时只留存诊断，不执行部署。必需检查名称保持不变。
+PR 的 `Distribution and documentation builds` 在文档构建后运行 `pnpm test:docs --workers=1 --fail-on-flaky-tests`。基础巡检从构建产物自动发现全部文档页面，检查页面内容、站内链接与锚点、资源加载和页面脚本错误；同时保留快速上手、Tree、SearchBox 和 FileList 的深度验收，并覆盖 DTable 客户端切页、懒加载及 Dashboard 复制代码和布局回归。main 和 dev 也运行同一检查，失败时只留存诊断，不执行部署。必需检查名称保持不变。
 
 本地先运行 `pnpm docs:build`，再运行 `pnpm test:docs`。浏览器检查不隐式重建文档；默认在端口 4174 临时预览产物，结束后关闭自身服务。端口被占用时会失败，不能停止不属于本任务的服务。
 
 构建和检查必须使用相同的 `BASE_PATH`。例如，main 使用 `BASE_PATH=/zui/3/`，dev 使用 `BASE_PATH=/zui/dev/`；两步都要传入该变量。截图和 trace 位于 `test-results/docs/`，HTML 报告位于 `playwright-report/docs/`，CI 将诊断归档到上述服务器本地目录。
 
-部署后，可通过 `PLAYWRIGHT_DOCS_BASE_URL=https://实际站点/部署目录/ pnpm test:docs --workers=1` 复测。URL 以斜杠结尾，指向网站根目录；此模式不启动本地服务。部署验收须使用与产物对应的源码快照，核对四页内容和同一次 CI 的部署产物。复制代码检查只将新页面导航定向到测试生成的独立 HTML，不写入远程网站。
+部署后，可通过 `PLAYWRIGHT_DOCS_BASE_URL=https://实际站点/部署目录/ pnpm test:docs --workers=1` 复测。URL 以斜杠结尾，指向网站根目录；此模式不启动本地服务。部署验收须保留同一次构建的本地 `docs/_/.vitepress/dist` 和对应源码，作为页面清单及内容核对依据。复制代码检查只将新页面导航定向到测试生成的独立 HTML，不写入远程网站。
 
 新增示例遵循现有 `<Example>`、`<ZUI>` 和代码标签写法，完整运行示例用 `data-doc-example` 标识。官网测试直接提取页面代码，不复制到独立 fixture；新增标识时同时补充行为断言。第三方 CDN 在修改版本或地址时单独检查，不成为 PR 的网络依赖。
+
+基础巡检不把示例容器中的示意链接当作文档导航，也不验证外部站点的可用性。它覆盖全部页面的加载与基础完整性，不等同于所有组件交互、版本及发布文案均已验收；已有资源路径缺陷仍会使对应部署路径的检查失败。
