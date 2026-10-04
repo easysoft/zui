@@ -231,7 +231,7 @@ const dropdown = new zui.Dropdown('#myDropdownBtn', {
 == 示例
 
 <Example>
-  <button class="btn" type="button" data-zui="dropdown" :data-items="JSON.stringify(nestedMenuItems)">多级菜单按钮 <span class="caret"></span></button>
+  <button class="btn" type="button" zui-create="dropdown" :data-items="JSON.stringify(nestedMenuItems)">多级菜单按钮 <span class="caret"></span></button>
 </Example>
 
 == HTML

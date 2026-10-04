@@ -16,10 +16,10 @@ import {ref, computed, onUnmounted, StyleValue} from 'vue';
 const props = defineProps<{
   name: string;
   title?: string | boolean;
-  tileClass?: string;
+  tileClass?: string | string[];
   noNameClass?: boolean;
   tileStyle?: StyleValue;
-  labelClass?: string;
+  labelClass?: string | string[];
   alias?: string;
   hint?: string | false;
   label?: string | boolean;

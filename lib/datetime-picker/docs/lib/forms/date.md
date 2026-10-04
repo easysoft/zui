@@ -7,7 +7,7 @@
 == 示例
 
 <Example>
-  <div data-zui="datePicker"></div>
+  <div zui-create="datePicker"></div>
 </Example>
 
 == HTML
@@ -33,8 +33,8 @@ const datePicker = new zui.DatePicker('#datePicker');
 == 示例
 
 <Example className="row gap-3">
-  <div data-zui="datePicker" data-default-value="2026-09-30"></div>
-  <div data-zui="datePicker" data-default-value="today"></div>
+  <div zui-create="datePicker" data-default-value="2026-09-30"></div>
+  <div zui-create="datePicker" data-default-value="today"></div>
 </Example>
 
 == HTML
@@ -64,7 +64,7 @@ const datePicker2 = new zui.DatePicker('#datePicker2', {
 == 示例
 
 <Example>
-  <div data-zui="datePicker" data-format="yyyy/M/d"></div>
+  <div zui-create="datePicker" data-format="yyyy/M/d"></div>
 </Example>
 
 == HTML
@@ -121,7 +121,7 @@ const dateRangePicker = new zui.DatePicker('#dateRangePicker', {
 == 示例
 
 <Example>
-  <div data-zui="datePicker" data-menu='{"items":[{"text": "一周之后", "data-set-date": "today+1week"},{"text": "一个月之后", "data-set-date": "today+1month"}, {"text": "两个月之后", "data-set-date": "today+2month"}, {"text": "一年之后", "data-set-date": "today+1year"}]}'></div>
+  <div zui-create="datePicker" data-menu='{"items":[{"text": "一周之后", "data-set-date": "today+1week"},{"text": "一个月之后", "data-set-date": "today+1month"}, {"text": "两个月之后", "data-set-date": "today+2month"}, {"text": "一年之后", "data-set-date": "today+1year"}]}'></div>
 </Example>
 
 == HTML
@@ -153,7 +153,7 @@ const datePicker = new zui.DatePicker('#datePicker', {
 == 示例
 
 <Example>
-  <div data-zui="datePicker" data-actions='{"items":[{"text": "一周", "data-set-date": "today+1week"},{"text": "一个月", "data-set-date": "today+1month"}, {"text": "两个月", "data-set-date": "today+2month"}, {"text": "清除", "data-set-date": ""}]}'></div>
+  <div zui-create="datePicker" data-actions='{"items":[{"text": "一周", "data-set-date": "today+1week"},{"text": "一个月", "data-set-date": "today+1month"}, {"text": "两个月", "data-set-date": "today+2month"}, {"text": "清除", "data-set-date": ""}]}'></div>
 </Example>
 
 == HTML
