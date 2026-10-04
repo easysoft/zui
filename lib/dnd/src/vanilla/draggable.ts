@@ -34,10 +34,10 @@ export class Draggable extends Component<DraggableOptions> {
     protected _needClean = false;
 
     /** 拖拽事件监听容器的 Cash 包装。Cash-wrapped drag event container. */
-    protected declare _$dragContainer: Cash;
+    protected declare _$dragContainer?: Cash;
 
     /** 放置事件监听容器的 Cash 包装。Cash-wrapped drop event container. */
-    protected declare _$dropContainer: Cash;
+    protected declare _$dropContainer?: Cash;
 
     /** 获取当前拖放状态。Get the current drag/drop state. */
     get state() {
@@ -84,8 +84,8 @@ export class Draggable extends Component<DraggableOptions> {
     destroy(): void {
         this._clean();
         $(document).off(this.namespace);
-        this._$dragContainer.off(this.namespace);
-        this._$dropContainer.off(this.namespace);
+        this._$dragContainer?.off(this.namespace);
+        this._$dropContainer?.off(this.namespace);
         super.destroy();
     }
 
