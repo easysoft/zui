@@ -37,7 +37,7 @@
 使用 `animate-pulse` 给元素添加脉冲动画。
 
 <Example>
-  <div class="animate-pulse rounded w-full max-auto flex px-4 py-4">
+  <div class="animate-pulse rounded w-full flex px-4 py-4">
     <div class="w-16 h-16 bg-primary circle">
     </div>
     <div class="flex-1 h-16 px-4 ">
@@ -49,7 +49,7 @@
 </Example>
 
 ```html
-<div class="animate-pulse rounded w-full max-auto flex px-4 py-4">
+<div class="animate-pulse rounded w-full flex px-4 py-4">
   <div class="w-16 h-16 bg-primary circle">
   </div>
   <div class="flex-1 h-16 px-4 ">
