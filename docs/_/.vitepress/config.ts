@@ -27,7 +27,7 @@ export default defineConfig({
     },
     head: [
         ['link', {rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg`}],
-        ['link', {rel: 'stylesheet', href: `${base}zui/zui.css?v=${Date.now() % 10000}`}],
+        ['link', {id: 'zui-stylesheet', rel: 'stylesheet', href: `${base}zui/zui.css?v=${Date.now() % 10000}`}],
         ['script', {src: `${base}zui/zui.js?v=${Date.now() % 10000}`}],
     ],
     lastUpdated: true,
