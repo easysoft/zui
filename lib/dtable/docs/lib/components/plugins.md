@@ -540,7 +540,7 @@ const cols = [
         title: '产品经理',
 
         /* 将单元格渲染为头像。 */
-        type: 'avatar'
+        type: 'avatar',
 
         /* 从 managerAvatar 属性上获取当前头像的图片路径。 */
         avatarKey: 'managerAvatar',
@@ -562,7 +562,7 @@ const cols = [
         title: '产品经理',
 
         /* 将单元格渲染为头像和名称。 */
-        type: 'avatarName'
+        type: 'avatarName',
 
         /* 从 managerAvatar 属性上获取当前头像的图片路径。 */
         avatarKey: 'managerAvatar',
@@ -584,7 +584,7 @@ const cols = [
         title: '产品经理',
 
         /* 将单元格渲染为头像按钮。 */
-        type: 'avatarBtn'
+        type: 'avatarBtn',
 
         /* 从 managerAvatar 属性上获取当前头像的图片路径。 */
         avatarKey: 'managerAvatar',
