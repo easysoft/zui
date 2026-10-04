@@ -2191,28 +2191,6 @@ importers:
         specifier: workspace:^0.0.1
         version: link:../core
 
-  lib/virtual-grid:
-    dependencies:
-      '@zui/base':
-        specifier: workspace:*
-        version: link:../base
-      '@zui/core':
-        specifier: workspace:^0.0.1
-        version: link:../core
-      '@zui/css-icons':
-        specifier: workspace:^0.0.1
-        version: link:../css-icons
-    devDependencies:
-      '@zui/button':
-        specifier: workspace:0.0.1
-        version: link:../button
-      '@zui/utilities':
-        specifier: workspace:*
-        version: link:../utilities
-      zui-dev:
-        specifier: workspace:*
-        version: link:../../dev
-
   lib/virtualize:
     dependencies:
       '@tanstack/virtual-core':
