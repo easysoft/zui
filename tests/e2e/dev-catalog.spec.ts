@@ -397,7 +397,9 @@ test.describe('development library catalog', () => {
         }
 
         const openCatalog = page.locator('#openCatalog');
-        await openCatalog.click();
+        // Native dialogs restore the previously focused element in every browser.
+        await openCatalog.focus();
+        await openCatalog.press('Enter');
         await expect(dialog).toBeVisible();
         await page.keyboard.press('Escape');
         await expect(dialog).toBeHidden();
