@@ -115,8 +115,8 @@
                 {name: 'text-surface-light', hint: '轻量的控件'},
                 {name: 'text-surface', hint: '控件'},
                 {name: 'text-surface-strong', hint: '加重的控件'},
-                {name: 'text-fore', hint: '前景色作为背景'},
-                {name: 'text-focus', hint: '焦点色作为背景'},
+                {name: 'text-fore', hint: '前景色作为文本颜色'},
+                {name: 'text-focus', hint: '焦点色作为文本颜色'},
             ],
         },{
             name: 'special',

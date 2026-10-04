@@ -205,7 +205,7 @@
 
 ### 始终垂直滚动
 
-如果需要，使用工具类 `overflow-y-scroll` 来允许水平滚动。
+使用工具类 `overflow-y-scroll` 来允许垂直滚动。
 
 ::: tabs
 == 示例
@@ -232,7 +232,7 @@
 
 ### 在所有方向上滚动
 
-如果需要，使用工具类 `overflow-scroll` 来允许水平滚动。
+使用工具类 `overflow-scroll` 来允许水平和垂直滚动。
 
 ::: tabs
 == 示例

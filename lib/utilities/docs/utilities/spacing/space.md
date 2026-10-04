@@ -2,7 +2,7 @@
 
 ## 定义
 
-通过工具类 `space-x-*` 来为元素内的所有子元素之间设置水平间距；通过工具类 `space-y-*` 来为元素内的所有子元素之间设置水平间距，所有可用的工具类定义如下：
+通过工具类 `space-x-*` 来为元素内的所有子元素之间设置水平间距；通过工具类 `space-y-*` 来为元素内的所有子元素之间设置垂直间距，所有可用的工具类定义如下：
 
 <Example padding="p-0" class="overflow-auto" style="max-height: 400px">
   <table class="table">

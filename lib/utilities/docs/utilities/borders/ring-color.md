@@ -24,7 +24,7 @@
 
 ## 环颜色透明度
 
-使用工具类 `ring-opacity-*` 给元素添加背景色透明度。
+使用工具类 `ring-opacity-*` 设置元素的环颜色透明度。
 
 <Example class="col gap-6" background="light-grid">
   <div class="row flex-wrap gap-4">
