@@ -29,6 +29,10 @@ export class LibLoader<T = unknown> {
         registerLib(this._name, options);
     }
 
+    /**
+     * 加载并缓存模块，默认静默处理失败。
+     * @param options - throwError 为 true 时抛出本次或已缓存的错误；noCache 为 true 时绕过加载器缓存重试。
+     */
     async load(options?: {throwError?: boolean; noCache?: boolean}) {
         const {throwError, noCache} = options || {};
         if (!noCache) {
@@ -36,6 +40,9 @@ export class LibLoader<T = unknown> {
                 return this._module;
             }
             if (this._error) {
+                if (throwError) {
+                    throw this._error;
+                }
                 return;
             }
         }
