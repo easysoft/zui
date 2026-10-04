@@ -1,45 +1,36 @@
 # Web Component 使用与开发
 
-ZUI 的自定义元素提供 HTML 标签、attribute/property 和 DOM 事件接口。本页先介绍已有元素的使用，再说明如何为组件编写适配层。
+ZUI 3.1 标准发布构建提供 Web Components 通用封装能力，由应用定义 HTML 标签、attribute/property 和 DOM 事件接口；不导出按钮、分页器、下拉选择器等具体组件的 Web Component 封装。本页介绍如何使用 core 的工厂、元素基类和属性映射为应用组件编写适配层。
 
 使用 `new zui.Nav(...)` 等原生实例 API 时，阅读 [组件基类](/lib/basic/core/component.html)；组件内部的 Preact 实现与包装关系见 [Preact 组件与原生包装层](/lib/basic/core/react.html)。
 
 ## 通过自定义元素使用组件
 
-Web Component 由对应组件库提供，共用 `@zui/core` 的元素运行时。普通 ZUI 构建可以直接使用这些导出：
+加载 ZUI 后，可以用通用工厂定义应用自己的元素。以下示例将计数视图注册为 `<app-count>`：
 
 ```js
-zui.defineButton();
-zui.definePicker();
-// Pager 的独立 Web Component 模块在加载时注册标签。
+zui.defineWebComponent(({count}) => String(count), {
+    tagName: 'app-count',
+    properties: {count: zui.property.number('count', 0)},
+});
 ```
 
 ```html
-<zui-button text="保存" type="primary"></zui-button>
-<zui-pager rec-total="120" rec-per-page="20"></zui-pager>
-<zui-picker name="owner" placeholder="请选择负责人"></zui-picker>
+<app-count count="3"></app-count>
 ```
 
-源码模块按所属库引入：
+注册后可通过 property 更新：
 
 ```js
-import {defineButton} from '@zui/button';
-import {definePicker} from '@zui/picker';
-import '@zui/pager';
-
-defineButton();
-definePicker();
+const counter = document.querySelector('app-count');
+counter.count = 5;
 ```
 
-| 组件 | 元素及注册方式 | 使用说明 |
-| --- | --- | --- |
-| Button | `ZuiButtonElement`、`defineButton()` | [按钮](/lib/components/button/index.html#web-component) |
-| Pager | `ZuiPagerElement`，加载时自动注册 | [分页](/lib/components/pager/js.html#web-component) |
-| Picker | `ZuiPickerElement`、`definePicker()` | [下拉选择器](/lib/forms/picker/index.html#web-component) |
+标准发布的 npm 包从 `zui` 具名导入 `defineWebComponent`、`createWebComponent` 和 `property`；使用源码 workspace 时从 `@zui/core` 导入。以下 TypeScript 示例采用源码入口。应用负责定义标签、属性、事件和所需样式，加载标准发布构建不会自动注册具体组件的标签。
 
 重复调用同一实现的注册方法安全。复杂值通过 JavaScript property 设置，注册前赋值在升级时保留；属性更新按微任务合并。`ready` 只表示当前连接首次渲染完成，不代表远程数据加载完成。持续移出文档后释放资源，同一轮 DOM 移动保留实例。
 
-组件采用 Light DOM，样式随所属库提供。运行时在浏览器中使用，Picker 还依赖 `ElementInternals` 的表单关联能力；类型可通过 `import type` 引入。
+元素采用 Light DOM，不提供 Shadow DOM 样式隔离。运行时需要浏览器的 Custom Elements API；类型可通过 `import type` 引入。表单关联等专属行为需要应用另行实现。
 
 ## 在组件外定义 Web Component
 
@@ -63,11 +54,11 @@ class ExternalCounter extends Component<ExternalCounterOptions> {
     }
 }
 
-const externalConfig = {properties: {count: property.number('count', 0)}};
+const externalConfig = {tagName: 'app-external-counter', properties: {count: property.number('count', 0)}};
 export const ExternalCounterElement = defineWebComponent(ExternalCounter, externalConfig);
 ```
 
-默认标签为 `<zui-external-counter>`。也可以直接使用 Preact 类或函数；没有 `NAME` 时，通过配置的 `tagName` 或第三个参数指定标签：
+该配置注册 `<app-external-counter>`。也可以直接使用 Preact 类或函数；没有 `NAME` 时，通过配置的 `tagName` 或第三个参数指定标签：
 
 ```ts
 defineWebComponent(
@@ -92,7 +83,7 @@ defineWebComponent({
 
 ## 由组件库声明 Web Component
 
-组件库可以在类上提供 `static WebComponent` 配置。`register()` 读取该配置，只有 `autoDefine: true` 时自动注册自定义元素；没有配置的组件保持原有注册行为。以下是供组件库源码使用的 TypeScript 示例：
+应用或扩展库的组件类也可以提供 `static WebComponent` 配置。`register()` 读取该配置，只有 `autoDefine: true` 时自动注册自定义元素；没有配置的组件保持原有注册行为。以下是应用自定义组件的 TypeScript 示例：
 
 ```ts
 import {Component, property} from '@zui/core';
@@ -105,6 +96,7 @@ class Counter extends Component<CounterOptions> {
 
     static WebComponent: WebComponentConfig<CounterOptions> = {
         autoDefine: true,
+        tagName: 'app-counter',
         properties: {
             count: property.number('count', 0),
         },
@@ -123,7 +115,7 @@ class Counter extends Component<CounterOptions> {
 Counter.register();
 ```
 
-加载该库后即可使用 `<zui-counter count="3"></zui-counter>`。标签默认由 `NAME` 转为 kebab-case 并添加 `zui-` 前缀，例如 `DatePicker` 对应 `zui-date-picker`；通过 `tagName` 可以显式指定名称。`register()` 的组件查找别名不改变自定义元素标签名。
+执行该应用模块后即可使用 `<app-counter count="3"></app-counter>`。未指定 `tagName` 时，标签默认由 `NAME` 转为 kebab-case 并添加 `zui-` 前缀。应用可通过 `tagName` 显式指定自己的命名空间；`register()` 的组件查找别名不改变自定义元素标签名。
 
 当 `Component.register()` 或工厂接收到所属组件类时，`WebComponent.component` 可以省略。渲染目标按以下优先级决定：
 
@@ -131,7 +123,7 @@ Counter.register();
 2. 所属类继承 `ComponentFromReact` 时使用其 `static Component`，直接渲染 Preact。
 3. 所属类继承普通 `Component` 时使用该类自身，保留原生实例生命周期。
 
-Pager 已将自定义元素定义放在独立模块中，通过 `defineWebComponent(PagerReact, config)` 接入；原生 Pager 类只负责自身注册。若需要保留 Pager wrapper 的参数处理和生命周期，可以显式配置 `component: Pager`。
+若需要保留 `ComponentFromReact` 包装层的参数处理和生命周期，可以在配置的 `component` 中显式传入该包装类。
 
 确定目标后，工厂自动选择渲染与清理方式，无需额外声明模式：
 
@@ -142,6 +134,8 @@ Pager 已将自定义元素定义放在独立模块中，通过 `defineWebCompon
 | Preact 组件类或函数 | 直接将转换后的 props 交给 Preact | 卸载整个 Preact 树 |
 
 直接调用 `createWebComponent(config)` 或 `defineWebComponent(config, tagName)` 时没有所属类上下文，配置中必须提供 `component`，否则会报错。`ComponentFromReact` 未声明 `static Component` 且配置中未指定目标时也会报错。
+
+需要额外的元素方法或生命周期时，可以扩展 core 导出的 `ZuiElement`、`ComponentElement` 或 `PreactElement`。它们分别提供通用元素运行时、原生组件实例管理和 Preact 渲染支持；应用负责实现专属行为，并保留基类的资源清理。
 
 ### 配置与类型
 
@@ -157,7 +151,7 @@ Pager 已将自定义元素定义放在独立模块中，通过 `defineWebCompon
 | `getters` | 按名称提供 `(props) => value`，生成只读 property |
 | `options` | `(props, context) => options`；属性可直接传给原组件时可以省略 |
 
-`property.string()`、`property.boolean()` 和 `property.number()` 声明标量转换；`property.booleanOrNumber()` 声明布尔值或正整数的联合属性，例如 Picker 的 `multiple`。`property<T>()` 声明仅供 JavaScript 使用的数组、对象或函数属性，未指定默认值时初始值为 `undefined`；此时 `T` 应包含 `undefined`。属性名不能覆盖元素已有的属性或方法，例如 `title`、`focus`、`ready`。
+`property.string()`、`property.boolean()` 和 `property.number()` 声明标量转换；`property.booleanOrNumber()` 声明布尔值或正整数的联合属性。`property<T>()` 声明仅供 JavaScript 使用的数组、对象或函数属性，未指定默认值时初始值为 `undefined`；此时 `T` 应包含 `undefined`。属性名不能覆盖元素已有的属性或方法，例如 `title`、`focus`、`ready`。
 
 `options()` 中的 `context` 提供以下能力：
 
@@ -190,8 +184,8 @@ function SectionView({heading, children, actions}: SectionProps) {
     );
 }
 
-export const ZuiSectionElement = defineWebComponent(SectionView, {
-    tagName: 'zui-section',
+export const AppSectionElement = defineWebComponent(SectionView, {
+    tagName: 'app-section',
     properties: {},
     slots: {'': 'children', heading: 'heading', actions: 'actions'},
     options: () => ({heading: '项目详情'}),
@@ -199,12 +193,12 @@ export const ZuiSectionElement = defineWebComponent(SectionView, {
 ```
 
 ```html
-<zui-section>
+<app-section>
     <strong slot="heading">基本信息</strong>
     <span slot="heading"> · 可编辑</span>
     <p>客户门户计划于周五发布，当前已完成附件预览验收。</p>
     <button slot="actions" type="button">编辑</button>
-</zui-section>
+</app-section>
 ```
 
 - 只收集宿主的直属文本和元素节点；无 `slot` 或 `slot=""` 的节点使用默认插槽。嵌套内容里的 `slot` 由其所属组件处理。
@@ -220,14 +214,14 @@ export const ZuiSectionElement = defineWebComponent(SectionView, {
 
 ### 手动创建与注册
 
-若希望由使用方决定注册时机，在组件库中将 `autoDefine` 设为 `false`，然后调用工厂。以下代码继续使用上面的 Counter 配置：
+若希望由应用决定注册时机，在自定义组件中将 `autoDefine` 设为 `false`，然后调用工厂。以下代码继续使用上面的 Counter 配置：
 
 ```ts
 import {createWebComponent, defineWebComponent} from '@zui/core';
 
 // 创建并导出构造器，暂不注册标签。
-export const ZuiCounterElement = createWebComponent(Counter);
-export type ZuiCounterElement = InstanceType<typeof ZuiCounterElement>;
+export const AppCounterElement = createWebComponent(Counter);
+export type AppCounterElement = InstanceType<typeof AppCounterElement>;
 
 // 由使用方显式注册，默认使用配置的 tagName 或由 NAME 推导。
 // 也可以调用 defineWebComponent(Counter, 'app-counter') 指定名称。
@@ -238,16 +232,16 @@ defineWebComponent(Counter);
 
 配置对象应在模块初始化时创建并保持稳定。修改配置、渲染目标或标签名后应重新加载页面；导入后关闭 `autoDefine` 不会撤销已完成的注册。
 
-工厂生成 property 的类型，无需手写 `declare count`。需要让 `document.createElement()` 识别标签类型时，由组件库增加静态声明：
+工厂生成 property 的类型，无需手写 `declare count`。需要让 `document.createElement()` 识别标签类型时，由应用增加静态声明：
 
 ```ts
 declare global {
     interface HTMLElementTagNameMap {
-        'zui-counter': ZuiCounterElement;
+        'app-counter': AppCounterElement;
     }
 }
 ```
 
-元素采用 Light DOM，工厂在宿主内部创建 `.zui-webc-mount` 挂载容器。组件库负责提供宿主及挂载容器的样式，例如 Counter 使用 `zui-counter { display: block; }` 和 `zui-counter > .zui-webc-mount { display: contents; }`。依赖宿主已有 DOM 的增强型组件需要额外适配。内容插槽需通过 `slots` 显式声明；表单关联和组件专属交互仍由专门适配器提供。
+元素采用 Light DOM，工厂在宿主内部创建 `.zui-webc-mount` 挂载容器。应用负责提供宿主及挂载容器的样式，例如 Counter 使用 `app-counter { display: block; }` 和 `app-counter > .zui-webc-mount { display: contents; }`。依赖宿主已有 DOM 的增强型组件需要额外适配。内容插槽需通过 `slots` 显式声明；表单关联和组件专属交互需要应用编写专门的适配器。
 
 没有 Custom Elements API 时，`Component.register()` 跳过自动定义并继续原有组件注册。工厂的实际注册和渲染需要浏览器环境，这不代表支持服务端渲染。

@@ -28,7 +28,7 @@ async function mountPicker(page: Page) {
         document.querySelector('form')!.addEventListener('submit', event => event.preventDefault());
         definePicker();
         await element.ready;
-    }, '/lib/picker/src/main.ts');
+    }, '/lib/picker/src/web-component/index.ts');
 }
 
 async function formValues(page: Page) {

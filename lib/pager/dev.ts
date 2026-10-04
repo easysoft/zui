@@ -4,6 +4,7 @@ import '@zui/icons';
 import '@zui/button';
 import '@zui/input-group';
 import {Pager} from './src/main';
+import './src/web-component';
 import 'zui-dev';
 
 onPageUpdate(() => {

@@ -15,7 +15,7 @@
 | --- | --- |
 | 在普通网页中创建、更新组件 | [组件基类](/lib/basic/core/component.html)、[便捷组件声明](/lib/basic/core/zui-create.html) |
 | 在 React 应用中接入 | [在 React 中使用 ZUI vanilla 组件](/lib/basic/core/use-zui-in-react.html) |
-| 通过自定义 HTML 元素使用组件 | [Web Component 使用与开发](/lib/basic/core/web-component.html) |
+| 将应用组件封装为自定义 HTML 元素 | [Web Component 使用与开发](/lib/basic/core/web-component.html) |
 | 开发 ZUI 内部的 Preact 组件 | [Preact 组件与原生包装层](/lib/basic/core/react.html) |
 
 ## 全局配置

@@ -26,4 +26,4 @@
 
 - 使用原生 JavaScript：从[创建组件实例](/lib/basic/core/component.html#创建组件实例)开始。
 - 在 React 应用中接入：使用 [React 集成指南](/lib/basic/core/use-zui-in-react.html)中的生命周期桥接方式。
-- 使用自定义元素：查看 [Web Component 使用与开发](/lib/basic/core/web-component.html)及具体组件的标签说明。
+- 将应用组件封装为自定义元素：查看 [Web Component 使用与开发](/lib/basic/core/web-component.html)。ZUI 3.1 标准发布构建提供通用封装能力，不导出具体组件的 Web Component 封装。

@@ -1,128 +1,68 @@
 import {execFile} from 'node:child_process';
 import {promises as fs} from 'node:fs';
 import Path from 'node:path';
-import {createRequire} from 'node:module';
 import {promisify} from 'node:util';
 import {JSDOM} from 'jsdom';
 import {beforeAll, describe, expect, it} from 'vitest';
 
 const run = promisify(execFile);
 const projectRoot = Path.resolve(import.meta.dirname, '../..');
-const output = Path.join(projectRoot, 'test-results/web-components/button');
-const pagerOutput = Path.join(projectRoot, 'test-results/web-components/pager');
-const pagerElementOutput = Path.join(projectRoot, 'test-results/web-components/pager-element');
-const pickerOutput = Path.join(projectRoot, 'test-results/web-components/picker');
+const output = Path.join(projectRoot, 'test-results/web-components/core');
 
 beforeAll(async () => {
-    await run('pnpm', ['build', '--lib=button', '--name=zui-webc-button', `--out-dir=${output}`], {
-        cwd: projectRoot,
-        maxBuffer: 20 * 1024 * 1024,
-    });
-    await run('pnpm', ['build', '--lib=pager', '--name=zui-webc-pager', `--out-dir=${pagerOutput}`], {
-        cwd: projectRoot,
-        maxBuffer: 20 * 1024 * 1024,
-    });
-    const pagerConfigPath = Path.join(projectRoot, 'test-results/web-components/pager-element.json');
-    await fs.writeFile(pagerConfigPath, JSON.stringify({
-        libs: ['pager'],
-        name: 'zui-pager-element',
-        outDir: pagerElementOutput,
-        exports: {pager: [{path: 'web-component'}]},
-    }));
-    await run('pnpm', ['build', '--config', pagerConfigPath], {
-        cwd: projectRoot,
-        maxBuffer: 20 * 1024 * 1024,
-    });
-    await run('pnpm', ['build', '--lib=picker', '--name=zui-webc-picker', `--out-dir=${pickerOutput}`], {
+    await run('pnpm', ['build', '--lib=core', '--lib=button', '--lib=pager', '--lib=picker', '--name=zui-webc', `--out-dir=${output}`], {
         cwd: projectRoot,
         maxBuffer: 20 * 1024 * 1024,
     });
 });
 
 describe('custom element distribution', () => {
-    it('includes the actual button rules in the component stylesheet', async () => {
-        const css = await fs.readFile(Path.join(output, 'zui-webc-button.css'), 'utf8');
-        expect(css).toMatch(/\.btn[\s,{.:]/);
-        expect(css).toContain('zui-button');
+    it('preserves button styles when building Picker independently', async () => {
+        const pickerOutput = Path.join(projectRoot, 'test-results/web-components/picker');
+        await run('pnpm', ['build', '--lib=picker', '--name=zui-picker', `--out-dir=${pickerOutput}`], {
+            cwd: projectRoot,
+            maxBuffer: 20 * 1024 * 1024,
+        });
+        const css = await fs.readFile(Path.join(pickerOutput, 'zui-picker.css'), 'utf8');
+        expect(css).toMatch(/\.picker[\s,{.:]/);
+        expect(css).toMatch(/(?:^|[},])\.btn\s*[{,]/);
     });
 
-    it('provides explicit registration from the built script', async () => {
-        const dom = new JSDOM('<!doctype html><zui-button text="Fallback"><strong>Save</strong></zui-button>', {
+    it('includes ordinary component styles', async () => {
+        const css = await fs.readFile(Path.join(output, 'zui-webc.css'), 'utf8');
+        for (const name of ['btn', 'pager', 'picker']) {
+            expect(css).toMatch(new RegExp(`\\.${name}[\\s,{.:]`));
+        }
+    });
+
+    it('lets consumers define custom elements without shipping component wrappers', async () => {
+        const dom = new JSDOM('<!doctype html><app-counter count="2"></app-counter>', {
             url: 'http://localhost/',
             runScripts: 'outside-only',
             pretendToBeVisual: true,
         });
         try {
-            const content = dom.window.document.querySelector('strong');
-            dom.window.eval(await fs.readFile(Path.join(output, 'zui-webc-button.js'), 'utf8'));
-            const exports = (dom.window as unknown as {zui: {defineButton: () => void}}).zui;
-            expect(dom.window.customElements.get('zui-button')).toBeUndefined();
-            exports.defineButton();
-            const element = dom.window.document.querySelector('zui-button') as HTMLElement & {ready: Promise<void>};
+            dom.window.eval(await fs.readFile(Path.join(output, 'zui-webc.js'), 'utf8'));
+            const api = (dom.window as unknown as {zui: typeof import('@zui/core') & Record<string, unknown>}).zui;
+            expect(api.Pager).toBeTypeOf('function');
+            expect(api.Picker).toBeTypeOf('function');
+            for (const name of ['Button', 'Pager', 'Picker']) {
+                expect(api[`Zui${name}Element`]).toBeUndefined();
+                expect(api[`define${name}`]).toBeUndefined();
+                expect(dom.window.customElements.get(`zui-${name.toLowerCase()}`)).toBeUndefined();
+            }
+            const CounterElement = api.defineWebComponent(({count}: {count: number}) => String(count), {
+                tagName: 'app-counter',
+                properties: {count: api.property.number('count', 0)},
+            });
+            expect(dom.window.customElements.get('app-counter')).toBe(CounterElement);
+            const element = dom.window.document.querySelector('app-counter') as InstanceType<typeof CounterElement>;
             await element.ready;
-            expect(element.querySelector('button')?.textContent).toBe('Save');
-            expect(element.querySelector('button strong')).toBe(content);
-        } finally {
-            dom.window.close();
-        }
-    });
-
-    it('automatically defines the pager from the ordinary Pager library build', async () => {
-        const dom = new JSDOM('<!doctype html><zui-pager rec-total="60" rec-per-page="20"></zui-pager>', {
-            url: 'http://localhost/',
-            runScripts: 'outside-only',
-            pretendToBeVisual: true,
-        });
-        try {
-            dom.window.eval(await fs.readFile(Path.join(pagerOutput, 'zui-webc-pager.js'), 'utf8'));
-            expect(dom.window.customElements.get('zui-pager')).toBeDefined();
-            const element = dom.window.document.querySelector('zui-pager') as HTMLElement & {ready: Promise<void>};
-            await element.ready;
-            expect(element.querySelectorAll('button')).toHaveLength(3);
-            expect(dom.window.customElements.get('zui-button')).toBeUndefined();
-            const css = await fs.readFile(Path.join(pagerOutput, 'zui-webc-pager.css'), 'utf8');
-            expect(css).toContain('zui-pager');
-            expect(css).toContain('.zui-webc-mount');
-            expect(css).toMatch(/\.pager[\s,{.:]/);
-            expect(css).toMatch(/\.btn[\s,{.:]/);
-        } finally {
-            dom.window.close();
-        }
-    });
-
-    it('resolves independent Pager entries and builds its standalone custom element', async () => {
-        const resolve = createRequire(Path.join(projectRoot, 'lib/pager/package.json')).resolve;
-        expect(resolve('@zui/pager/vanilla')).toBe(Path.join(projectRoot, 'lib/pager/src/vanilla/index.ts'));
-        expect(resolve('@zui/pager/web-component')).toBe(Path.join(projectRoot, 'lib/pager/src/web-component/index.ts'));
-        const dom = new JSDOM('<!doctype html><zui-pager rec-total="60" rec-per-page="20"></zui-pager>', {
-            url: 'http://localhost/', runScripts: 'outside-only', pretendToBeVisual: true,
-        });
-        try {
-            dom.window.eval(await fs.readFile(Path.join(pagerElementOutput, 'zui-pager-element.js'), 'utf8'));
-            const element = dom.window.document.querySelector('zui-pager') as HTMLElement & {ready: Promise<void>};
-            await element.ready;
-            expect(element.querySelectorAll('button')).toHaveLength(3);
-            const css = await fs.readFile(Path.join(pagerElementOutput, 'zui-pager-element.css'), 'utf8');
-            expect(css).toContain('zui-pager');
-            expect(css).toMatch(/\.pager[\s,{.:]/);
-        } finally {
-            dom.window.close();
-        }
-    });
-
-    it('provides explicit Picker registration from its ordinary library build', async () => {
-        const dom = new JSDOM('<!doctype html>', {url: 'http://localhost/', runScripts: 'outside-only'});
-        try {
-            dom.window.eval(await fs.readFile(Path.join(pickerOutput, 'zui-webc-picker.js'), 'utf8'));
-            const exports = (dom.window as unknown as {zui: {definePicker: () => void; ZuiPickerElement: CustomElementConstructor}}).zui;
-            expect(dom.window.customElements.get('zui-picker')).toBeUndefined();
-            exports.definePicker();
-            exports.definePicker();
-            expect(dom.window.customElements.get('zui-picker')).toBe(exports.ZuiPickerElement);
-            const css = await fs.readFile(Path.join(pickerOutput, 'zui-webc-picker.css'), 'utf8');
-            expect(css).toContain('zui-picker');
-            expect(css).toContain('.zui-webc-mount');
-            expect(css).toMatch(/\.picker[\s,{.:]/);
+            expect(element.textContent).toBe('2');
+            element.count = 3;
+            await Promise.resolve();
+            expect(element.textContent).toBe('3');
+            expect(element.getAttribute('count')).toBe('3');
         } finally {
             dom.window.close();
         }

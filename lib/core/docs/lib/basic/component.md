@@ -176,7 +176,7 @@ class Component {
 
 ## 通过自定义元素使用组件
 
-已有组件的标签、注册方式与浏览器要求见 [Web Component 基本使用](/lib/basic/core/web-component.html#通过自定义元素使用组件)。工厂和适配层的详细说明已移到独立指南：
+ZUI 3.1 标准发布构建提供通用封装能力，由应用定义和注册自定义元素，不导出具体组件的 Web Component 封装。基础示例见 [Web Component 基本使用](/lib/basic/core/web-component.html#通过自定义元素使用组件)，工厂和适配层的详细说明见：
 
 <a id="在组件外定义-web-component"></a>
 

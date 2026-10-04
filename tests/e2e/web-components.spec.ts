@@ -16,7 +16,7 @@ test('custom button preserves native keyboard and form behavior', async ({page})
             event.preventDefault();
             document.querySelector('output')!.textContent = 'Submitted';
         });
-    }, '/lib/button/src/main.ts');
+    }, '/lib/button/src/web-component/index.ts');
 
     const button = page.getByRole('button', {name: 'Save'});
     await expect(button).toBeVisible();
@@ -97,8 +97,8 @@ test('custom pager changes pages through the keyboard and reports the current st
         }
         const {ZuiPagerElement} = await import(elementPath);
         const aggregate = await import(mainPath);
-        if (customElements.get('zui-pager') !== ZuiPagerElement || aggregate.ZuiPagerElement !== ZuiPagerElement) {
-            throw new Error('Pager entries must share the standalone element definition');
+        if (customElements.get('zui-pager') !== ZuiPagerElement || aggregate.ZuiPagerElement !== undefined) {
+            throw new Error('Only the standalone entry may expose the element definition');
         }
         document.body.innerHTML = '<zui-pager rec-total="120" rec-per-page="20" aria-label="分页"></zui-pager><output></output>';
         document.querySelector('zui-pager')!.addEventListener('zui-change', (event) => {

@@ -79,8 +79,10 @@ test('installs the npm tarball with working runtime entries, assets, and strict 
 
     const typeConsumer = `
 import 'zui/css';
+// @ts-expect-error Standard packages do not expose component-specific elements.
+import {definePicker} from 'zui';
 import {
-    $, Picker, Pager, Modal, ProgressCircle, definePicker, signal, computed,
+    $, Picker, Pager, Modal, ProgressCircle, defineWebComponent, property, signal, computed,
     type PickerOptions, type ReadonlySignal, type Cash,
     type FileListFileInfo, type FileSelectorFileInfo,
     type DashboardBlockProps, type DTableBlockProps, type DTableCustomRenderResult,
@@ -112,7 +114,15 @@ Modal.confirm('Continue?').then(confirmed => { const result: boolean = confirmed
 const cash: Cash = $('body').z({answer: 42});
 const count = signal(1);
 const doubled: ReadonlySignal<number> = computed(() => count.value * 2);
-definePicker();
+const CounterElement = defineWebComponent(({count}: {count: number}) => String(count), {
+    tagName: 'app-counter',
+    properties: {count: property.number('count', 0)},
+});
+const counter = new CounterElement();
+counter.count = 2;
+// @ts-expect-error Custom element properties retain their declared types.
+counter.count = 'two';
+// @ts-expect-error Standard packages do not declare component-specific tags.
 document.createElement('zui-picker').value = 'apple';
 const listFile: FileListFileInfo = {title: 'Notes', extension: 'txt', size: 1, pathname: '/notes', addedBy: 'me', addedDate: ''};
 const selectedFile: FileSelectorFileInfo = {id: 'notes', name: 'Notes', size: 1, type: 'text/plain', ext: 'txt'};

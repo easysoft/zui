@@ -25,10 +25,8 @@ test.beforeAll(async ({browserName: _browserName}, info) => {
         if (path === '/') {
             response.setHeader('Content-Type', 'text/html');
             response.end(`<!doctype html><html lang="en"><head><title>Web Components distribution</title><link rel="stylesheet" href="/zui.css"></head><body>
-                <form><label for="owner" id="owner-label">Owner</label>
-                <zui-picker id="owner" name="owner" value="hao"></zui-picker>
-                <zui-button text="Save" type="primary" btn-type="submit"></zui-button></form>
-                <zui-pager rec-total="60" rec-per-page="20" aria-label="Pages"></zui-pager>
+                <form><app-counter count="2"><input name="note" aria-label="Note" value="Initial"></app-counter></form>
+                <output></output>
             </body></html>`);
             return;
         }
@@ -54,60 +52,60 @@ test.afterAll(async () => {
 });
 
 for (const mode of ['esm', 'umd']) {
-    test(`ordinary ZUI ${mode} build supports custom elements without the development server`, async ({page}) => {
+    test(`ordinary ZUI ${mode} build supports consumer-defined custom elements`, async ({page}) => {
         const errors: string[] = [];
         page.on('pageerror', error => errors.push(error.message));
         await page.goto(address);
         await page.evaluate(() => {
-            document.querySelector('zui-picker')!.items = [{value: 'hao', text: 'Hao'}, {value: 'tom', text: 'Tom'}];
-            document.querySelector('form')!.addEventListener('submit', event => event.preventDefault());
+            (document.querySelector('app-counter') as HTMLElement & {count: number}).count = 3;
         });
         if (mode === 'umd') {
             await page.addScriptTag({url: `${address}/zui.js`});
         }
         await page.evaluate(async ({mode, address}) => {
-            const api = mode === 'esm' ? await import(`${address}/zui.esm.js`) : (window as unknown as {zui: Record<string, unknown>}).zui;
-            if (customElements.get('zui-button') || customElements.get('zui-picker')) {
-                throw new Error('Import must leave explicit element registration to the consumer');
-            }
-            if (customElements.get('zui-pager') !== api.ZuiPagerElement) {
-                throw new Error('Pager must apply its automatic registration configuration');
-            }
-            const defineButton = api.defineButton as () => void;
-            const definePicker = api.definePicker as () => void;
-            defineButton();
-            definePicker();
-            defineButton();
-            definePicker();
-            for (const tag of ['zui-button', 'zui-picker', 'zui-pager']) {
-                if (!(document.querySelector(tag) instanceof (api.ZuiElement as typeof HTMLElement))) {
-                    throw new Error('Component libraries do not share the core element runtime');
+            const api = (mode === 'esm' ? await import(`${address}/zui.esm.js`) : (window as unknown as {zui: unknown}).zui) as typeof import('@zui/core') & Record<string, unknown>;
+            for (const name of ['Button', 'Pager', 'Picker']) {
+                if (customElements.get(`zui-${name.toLowerCase()}`) || api[`Zui${name}Element`] || api[`define${name}`]) {
+                    throw new Error('The distribution must leave component wrappers to consumers');
                 }
             }
+            const {h, defineWebComponent, property} = api;
+            defineWebComponent(({count, onClick, children}: {count: number; onClick: () => void; children?: import('preact').ComponentChildren}) => h('section', null,
+                h('button', {type: 'button', className: 'btn primary', onClick}, `Count ${count}`), children), {
+                tagName: 'app-counter',
+                properties: {count: property.number('count', 0)},
+                slots: {'': 'children'},
+                options: ({count}, context) => ({
+                    count,
+                    onClick: () => {
+                        context.set({count: count + 1});
+                        context.emit('app-change', {count: count + 1});
+                    },
+                }),
+            });
+            const element = document.querySelector('app-counter') as HTMLElement & {ready: Promise<void>};
+            element.addEventListener('app-change', (event) => {
+                document.querySelector('output')!.textContent = String((event as CustomEvent).detail.count);
+            });
+            if (!(element instanceof api.ZuiElement)) {
+                throw new Error('Consumer elements must use the distributed core runtime');
+            }
+            await element.ready;
         }, {mode, address});
-        await page.evaluate(async () => {
-            await Promise.all([...document.querySelectorAll('zui-button, zui-picker, zui-pager')].map(element => (element as HTMLElement & {ready: Promise<void>}).ready));
-        });
-        const button = page.getByRole('button', {name: 'Save'});
+        const button = page.getByRole('button', {name: 'Count 3'});
         await expect(button).toBeVisible();
         await expect(button).toHaveCSS('display', 'inline-flex');
         const primary = await button.evaluate(element => `rgb(${getComputedStyle(element).getPropertyValue('--color-primary-500-rgb').split(',').map(value => value.trim()).join(', ')})`);
         await expect(button).toHaveCSS('background-color', primary);
-        await expect(page.getByRole('combobox', {name: 'Owner'})).not.toHaveCSS('box-shadow', 'none');
-        await expect(page.getByRole('navigation', {name: 'Pages'}).getByRole('button')).toHaveCount(3);
-        await page.getByRole('combobox', {name: 'Owner'}).click();
-        await page.getByRole('option', {name: 'Tom', exact: true}).click();
-        await expect(page.locator('zui-picker')).toContainText('Tom');
-        expect(await page.evaluate(() => [...new FormData(document.querySelector('form')!).entries()])).toEqual([['owner', 'tom']]);
-        await page.evaluate(() => {
-            const element = document.querySelector('zui-button')!;
-            element.loadingText = 'Saving';
-            element.loading = true;
-        });
-        await expect(page.getByRole('button', {name: 'Saving'})).toBeDisabled();
-        const spinner = page.locator('zui-button .spinner');
-        await expect(spinner).toBeVisible();
-        expect(await spinner.evaluate(element => getComputedStyle(element, '::before').animationName)).not.toBe('none');
+        const input = page.getByRole('textbox', {name: 'Note'});
+        await input.fill('User input');
+        await button.focus();
+        await page.keyboard.press('Enter');
+        await expect(page.getByRole('button', {name: 'Count 4'})).toBeFocused();
+        await expect(page.locator('app-counter')).toHaveAttribute('count', '4');
+        await expect(page.locator('output')).toHaveText('4');
+        await expect(input).toHaveValue('User input');
+        expect(await page.evaluate(() => new FormData(document.querySelector('form')!).get('note'))).toBe('User input');
         expect(errors).toEqual([]);
     });
 }

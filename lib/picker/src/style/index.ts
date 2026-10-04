@@ -1,3 +1,4 @@
+import '@zui/button/css';
 import './picker.css';
 import './picker-select.css';
 import './picker-menu.css';

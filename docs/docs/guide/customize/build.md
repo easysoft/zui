@@ -114,7 +114,7 @@ pnpm build --extension zentao --lib @zentao/status-label
   "outDir": "./dist/custom",
   "extensions": false,
   "exports": {
-    "pager": [{"path": "web-component"}]
+    "pager": [{"path": "react"}]
   },
   "externals": {"cash-dom": "$"},
   "sourcemap": true,
@@ -145,7 +145,7 @@ CLI 显式值优先于 JSON，再使用默认值。重复 `--lib` 整体替换 J
 | `--lib="zui !icons"`、`--ignore icons` | `--exclude icons` |
 | `--exts=buildIn,exts --lib=zui*exts` | `--extensions` |
 | `--exts=buildIn,zentao --lib=zui*zentao` | `--extension zentao` |
-| `--lib=pager~web-component` | JSON `"libs": ["pager"], "exports": {"pager": [{"path": "web-component"}]}` |
+| `--lib=pager~react` | JSON `"libs": ["pager"], "exports": {"pager": [{"path": "react"}]}` |
 | `+clipboard@^2.0.11` | JSON `"dependencies": {"clipboard": "^2.0.11"}` |
 | `--noCash` | JSON `"externals": {"cash-dom": "$"}` |
 | `--outDir`、`--noMinify`、`--noSourceMap` | `--out-dir`、`--no-minify`、`--no-sourcemap` |

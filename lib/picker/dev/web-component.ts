@@ -1,6 +1,6 @@
 import 'zui-dev';
-import {defineButton} from '@zui/button';
-import {definePicker} from '../src/main';
+import {defineButton} from '@zui/button/src/web-component';
+import {definePicker} from '../src/web-component';
 
 let controller: AbortController | undefined;
 let resetFrame = 0;

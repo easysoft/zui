@@ -1,5 +1,6 @@
 import 'zui-dev';
-import {defineButton} from './src/main';
+import './src/main';
+import {defineButton} from './src/web-component';
 
 function updateWebComponentExamples(): void {
     if (!customElements.get('zui-button')) {
