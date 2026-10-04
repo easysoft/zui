@@ -410,6 +410,31 @@ test.describe('development library catalog', () => {
         await expect(avatar).toBeVisible();
     });
 
+    test('restores focus after keyboard activation and shortcuts from a playground', async ({page}) => {
+        await page.goto('/button/');
+        await expect(page.locator('#libPage')).toHaveClass(/\bis-loaded\b/);
+        const openCatalog = page.locator('#openCatalog');
+        const dialog = page.locator('#catalogDialog');
+        const search = page.getByRole('searchbox', {name: '搜索组件库'});
+
+        await openCatalog.focus();
+        await page.keyboard.press('Enter');
+        await expect(search).toBeFocused();
+        await page.keyboard.press('Escape');
+        await expect(dialog).toBeHidden();
+        await expect(openCatalog).toBeFocused();
+
+        const themeToggle = page.locator('#themeToggle');
+        for (const shortcut of ['ControlOrMeta+k', '/']) {
+            await themeToggle.focus();
+            await page.keyboard.press(shortcut);
+            await expect(search).toBeFocused();
+            await page.keyboard.press('Escape');
+            await expect(dialog).toBeHidden();
+            await expect(themeToggle).toBeFocused();
+        }
+    });
+
     test('uses the full desktop width and keeps each library card on two lines', async ({page}) => {
         await page.setViewportSize({width: 1920, height: 1080});
         await page.goto('/');
@@ -436,7 +461,7 @@ test.describe('development library catalog', () => {
                     packageLines: countTextLines(detail.querySelector('.dev-lib-package')!),
                 };
             });
-            return {left: catalog.left, right: catalog.right, width: window.innerWidth, cards};
+            return {left: catalog.left, right: catalog.right, width: document.documentElement.clientWidth, cards};
         });
 
         expect(Math.abs(layout.left)).toBeLessThanOrEqual(1);
