@@ -529,7 +529,7 @@ interface PluginDTableOptions {
 * `avatarKey: string`：用于从行数据对象上获取头像图片地址的属性名；
 * `avatarCodeKey: string`：用于从行数据对象上获取头像 Code 的属性名；
 * `avatarNameKey: string`：用于从行数据对象上获取头像名称的属性名。
-* `avatarProps: Partial<AvatarProps> | ((row: RowInfo) => Partial<AvatarProps>)`：用于指定头像其他属性，或者通过函数动态返回。
+* `avatarProps: AvatarOptions | ((col: ColInfo, row: RowInfo) => AvatarOptions)`：用于指定头像其他属性，或者通过函数动态返回；第一个参数为列信息，第二个参数为行信息，可通过 `row.data` 读取行数据。
 
 下面为一个实际的例子：
 
