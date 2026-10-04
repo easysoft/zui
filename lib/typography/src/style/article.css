@@ -20,12 +20,12 @@
 .article table,
 .article pre,
 .article img,
-.article-block {
+.article .article-block {
   @apply -my-[--article-p-space] -text-pretty;
 }
 
 .article p,
-.article-block {
+.article .article-block {
   @apply -min-h-[1em];
 }
 .article p:empty::before {
