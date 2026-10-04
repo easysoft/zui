@@ -5,14 +5,8 @@
       <code v-for="t in type.split('|')" :key="t">{{ t.trim() }}</code>
     </td>
     <td class="text-center break-words">
-      <template v-if="optional">
-        <code v-if="defaultValue === undefined" class="opacity-50">null</code>
-        <code v-else>{{defaultValue}}</code>
-      </template>
-      <template v-else>
-        <code v-if="defaultValue !== undefined">{{ defaultValue }}</code>
-        <span v-else class="opacity-50">—</span>
-      </template>
+      <code v-if="defaultValue !== undefined">{{ defaultValue === null ? 'null' : defaultValue }}</code>
+      <span v-else class="opacity-50">—</span>
     </td>
     <td>
       <slot><span v-html="commentHtml" /></slot>

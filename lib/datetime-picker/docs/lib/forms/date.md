@@ -191,7 +191,7 @@ disabled?: boolean; // 是否禁用。
 readonly?: boolean; // 是否只读，不允许手动修改。
 required?: boolean; // 是否必须提供值（不能清除和选择空值）。
 placeholder?: string; // 输入框上占位文本。
-format?: string; // 日期格式，默认 yyyy-MM-dd。
+format?: string | ((date: Date) => string) = "yyyy-MM-dd"; // 日期格式。
 icon?: string | object; // 在输入框右侧显示的图标。
 weekNames?: string[]; // 星期名称，索引为 0 表示周日。
 monthNames?: string[]; // 月份名称，索引为 0 表示一月份。
