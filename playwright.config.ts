@@ -33,7 +33,8 @@ export default defineConfig({
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 0,
     workers: process.env.CI ? 1 : undefined,
-    timeout: 30_000,
+    // A cold Vite transform competes with the browser on the small CI runner.
+    timeout: process.env.CI ? 90_000 : 30_000,
     expect: {
         timeout: 5_000,
         toHaveScreenshot: {

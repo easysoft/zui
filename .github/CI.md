@@ -43,17 +43,31 @@ gh api repos/easysoft/zui/rules/branches/main
 
 规则由 GitHub 管理。提交 JSON 不会自动创建、更新或删除远程规则。
 
-## 恢复被账单阻止的 Actions
+## 自托管执行
 
-如果 job 在零个 step 的情况下失败，且 annotation 为 `The job was not started because your account is locked due to a billing issue.`，需要组织管理员在 GitHub 的 Billing & licensing 中处理账户状态。修改工作流、重复重跑或放宽分支规则不能解决这一问题。
+所有 job 使用 `lightsail-sgp-zui-validation` 的专用标签 `zui-lightsail-validation-20260927`。该 runner 没有默认的 `self-hosted`、`linux` 标签，不要额外添加这些匹配条件，也不要把 runner 显示名称当作标签。
 
-账户恢复后，在包含修复提交的功能分支发起指向 `main` 的 Pull Request，观察三个必需检查实际执行并全部通过。应使用 PR 分支提交本次及其他本地未推送改动，不能直接推送到已受保护的 `main`。
+该方案不使用 GitHub 托管 runner、Artifact 上传／下载或 GitHub 依赖缓存。代码、运行状态和日志仍由 GitHub Actions 管理；pnpm store 和浏览器下载保留在服务器上。自托管调度已能在托管 runner 被账单锁定时执行，但不会消除已有账单。
 
-还需观察合并后的 `Main and nightly checks`：完整分发、三种浏览器检查通过后才会构建部署文档；`Deploy` 只消费同一次成功运行生成的文档产物。确认账单恢复和远程全绿之前，应分别报告“规则已生效”和“CI 已成功执行”。
+服务器使用独立普通用户 `gh-runner`。启动前核对 `zui-runner-validation.service`、共享 `github-runners.slice` 的资源限制、swap 和其他 runner 状态，保留现有代理服务的隔离。单台 runner 按质量检查、分发构建、浏览器的顺序执行，前置失败时阻止后续昂贵检查。Vitest、Playwright 使用单 worker，PR 的单元／DOM 测试只在覆盖率步骤运行一次。CI 为冷编译及页面首次加载提供更长时间预算，仍以 `--fail-on-flaky-tests` 拒绝依靠重试通过。Playwright 系统依赖由管理员预装，job 只执行 `playwright install` 下载浏览器，不在受限服务中运行 sudo。
+
+持久 runner 只执行本仓库的受信任代码。必须把 `scripts/ci/allow-runner-job.sh` 安装为 root 所有、runner 不可写的 `/etc/zui-runner-validation/allow-job.sh`，并由服务的 `ACTIONS_RUNNER_HOOK_JOB_STARTED` 指向它。该 hook 在 checkout 前拒绝其他仓库、外部 fork PR、`pull_request_target` 和非成功主分支 push 的部署事件。仓库内 PR 还设有 job 条件；不能仅依赖可被 PR 修改的 YAML 条件。外部 fork 的自动检查会跳过，须由维护者审阅后导入本仓库分支重新验证，不能把跳过当作验收通过。
+
+在已推送的功能分支上手动执行 `PR checks` 或 `Main and nightly checks` 可以验收迁移；后者的手动运行也构建并验证文档，但不会部署官网。合并到 `main` 后，完整分发及三种浏览器检查通过才会构建部署文档，`Deploy` 仅接受本仓库 `main` 的成功 push 运行。始终分别核实 runner 在线、job 实际执行、检查通过和部署成功。
+
+main/nightly 的 Chromium、Firefox、WebKit 在同一 job 中以单 worker 顺序执行，复用一次安装和 Vite 开发服务；浏览器报告包含全部三个 project。PR 继续使用独立的 `Chromium browser contracts` 必需检查名称。
+
+## 本地产物
+
+`scripts/ci/preserve-results.sh` 将报告、npm 候选包、分发文件和文档保存在 runner 用户的 `$HOME/zui-ci-results/<run-id>/<run-attempt>/<job>/`。每份归档包含 `results.tar.gz` 和 `commit`，路径会写入 Job Summary；通过服务器下载，不再出现在 GitHub Artifacts 列表。清理只针对这一专用目录中的过期运行，保留当前运行及最近 14 天的结果，不清理其他工作区或 runner 的资料。
+
+PR 的 npm 包位于 `build` 归档，main/nightly 的包和完整分发位于 `distributions` 归档。归档保留测试生成的同一 `.tgz` 与 `artifact.json`，不为留存重新打包。失败任务也保留已生成的诊断，不能把存在归档作为验证成功的凭据。
+
+文档构建与部署继续使用不同权限的 job。main 部署读取上游成功运行的 ID、attempt 和 SHA，dev 部署读取本次运行的相同信息；核对 `commit` 后提取文档。部署任务不 checkout 或执行项目源代码，也不重新构建。两个任务必须路由到同一台持久 runner；若以后扩容为多台，需要先提供共享存储。取消后未完成的归档不得用于部署。
 
 ## 本地验证
 
-PR、main/夜间检查和 dev 文档部署在安装锁定依赖后运行 `pnpm audit --audit-level=high`，发现 high/critical 漏洞或审计服务失败时阻止后续检查和部署。审计覆盖开发依赖；不使用忽略名单或 `--ignore-registry-errors`。CI 使用 Node.js 22 系列最新补丁，pnpm 版本继续固定为仓库约定的 12.5.1。
+PR、main/夜间检查和 dev 文档部署在安装锁定依赖后运行 `pnpm audit --audit-level=high`，发现 high/critical 漏洞或审计服务失败时阻止后续检查和部署。审计覆盖开发依赖，不使用 `--ignore-registry-errors`。`pnpm-workspace.yaml` 中仅对已应用本地补丁的 `GHSA-vfj7-8cjw-p6xm` 设置带复核期限的例外，`tests/unit/braces-security.test.ts` 验证实际安装的补丁；不得删除补丁而保留例外。CI 使用 Node.js 22 系列最新补丁，pnpm 版本继续固定为仓库约定的 12.5.1。
 
 pnpm 安装 Action 固定为支持 pnpm 12 原生发行方式的 `pnpm/action-setup` 6.1.0，并锁定完整提交 SHA。升级时需同时验证安装、缓存路径和 frozen-lockfile 行为。
 
@@ -63,11 +77,11 @@ pnpm 安装 Action 固定为支持 pnpm 12 原生发行方式的 `pnpm/action-se
 
 ## 官网示例门禁
 
-PR 的 `Distribution and documentation builds` 在文档构建后运行 `pnpm test:docs --workers=1 --fail-on-flaky-tests`，检查构建后的快速上手、Tree、SearchBox 和 FileList 页面。main 和 dev 也在上传文档产物之前运行同一检查，失败时不上传用于部署的站点。必需检查名称保持不变。
+PR 的 `Distribution and documentation builds` 在文档构建后运行 `pnpm test:docs --workers=1 --fail-on-flaky-tests`，检查构建后的快速上手、Tree、SearchBox 和 FileList 页面。main 和 dev 也运行同一检查，失败时只留存诊断，不执行部署。必需检查名称保持不变。
 
 本地先运行 `pnpm docs:build`，再运行 `pnpm test:docs`。浏览器检查不隐式重建文档；默认在端口 4174 临时预览产物，结束后关闭自身服务。端口被占用时会失败，不能停止不属于本任务的服务。
 
-构建和检查必须使用相同的 `BASE_PATH`。例如，main 使用 `BASE_PATH=/zui/3/`，dev 使用 `BASE_PATH=/zui/dev/`；两步都要传入该变量。截图和 trace 位于 `test-results/docs/`，HTML 报告位于 `playwright-report/docs/`，CI 会上传诊断产物。
+构建和检查必须使用相同的 `BASE_PATH`。例如，main 使用 `BASE_PATH=/zui/3/`，dev 使用 `BASE_PATH=/zui/dev/`；两步都要传入该变量。截图和 trace 位于 `test-results/docs/`，HTML 报告位于 `playwright-report/docs/`，CI 将诊断归档到上述服务器本地目录。
 
 部署后，可通过 `PLAYWRIGHT_DOCS_BASE_URL=https://实际站点/部署目录/ pnpm test:docs --workers=1` 复测。URL 以斜杠结尾，指向网站根目录；此模式不启动本地服务。部署验收须使用与产物对应的源码快照，核对四页内容和同一次 CI 的部署产物。复制代码检查只将新页面导航定向到测试生成的独立 HTML，不写入远程网站。
 

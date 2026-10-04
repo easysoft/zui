@@ -147,6 +147,8 @@ test('picker has accessible closed and open states', async ({page}) => {
     expect(closed.violations).toEqual([]);
     await page.getByRole('combobox', {name: 'Owner'}).click();
     await expect(page.getByRole('option', {name: 'Tom', exact: true})).toBeVisible();
+    // Visibility includes the first translucent frame; audit the fully open state.
+    await expect(page.locator('.picker-menu')).toHaveCSS('opacity', '1');
     const opened = await new AxeBuilder({page}).include('zui-picker').include('.picker-menu-list').analyze();
     expect(opened.violations).toEqual([]);
 });

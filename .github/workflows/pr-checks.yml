@@ -2,18 +2,23 @@ name: PR checks
 
 on:
   pull_request:
+  workflow_dispatch:
+
+env:
+  NODE_OPTIONS: --max-old-space-size=2048
 
 permissions:
   contents: read
 
 concurrency:
-  group: pr-checks-${{ github.event.pull_request.number }}
+  group: pr-checks-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
   quality:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     name: Quality and coverage
-    runs-on: ubuntu-24.04
+    runs-on: zui-lightsail-validation-20260927
     timeout-minutes: 20
     steps:
       - name: Check out repository
@@ -31,7 +36,6 @@ jobs:
         with:
           node-version: '22'
           check-latest: true
-          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -39,23 +43,21 @@ jobs:
       - name: Audit dependency security
         run: pnpm audit --audit-level=high
 
-      - name: Run static and focused test checks
-        run: pnpm check
+      - name: Run static and skills checks
+        run: pnpm lint && pnpm typecheck && pnpm test:skills
 
       - name: Run tests with coverage
-        run: pnpm test:coverage
+        run: pnpm test:coverage --maxWorkers=1 --no-file-parallelism
 
-      - name: Upload coverage
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: pr-coverage
-          path: coverage/
-          if-no-files-found: error
-          retention-days: 7
+      - name: Preserve coverage on runner
+        if: ${{ !cancelled() }}
+        run: bash scripts/ci/preserve-results.sh quality coverage
 
   build:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     name: Distribution and documentation builds
-    runs-on: ubuntu-24.04
+    needs: quality
+    runs-on: zui-lightsail-validation-20260927
     timeout-minutes: 40
     steps:
       - name: Check out repository
@@ -73,7 +75,6 @@ jobs:
         with:
           node-version: '22'
           check-latest: true
-          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -86,36 +87,21 @@ jobs:
           test -s test-results/npm-package/artifact.json
           test -s test-results/npm-package/*.tgz
 
-      - name: Upload verified npm package
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: pr-npm-package
-          path: |
-            test-results/npm-package/*.tgz
-            test-results/npm-package/artifact.json
-          if-no-files-found: error
-          retention-days: 7
-
       - name: Build documentation
         run: pnpm docs:build
       - name: Install Chromium for documentation checks
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install chromium
       - name: Verify documentation examples
         run: pnpm test:docs --workers=1 --fail-on-flaky-tests
-      - name: Upload documentation diagnostics
+      - name: Preserve distributions and documentation diagnostics on runner
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: pr-docs-results
-          path: |
-            playwright-report/docs/
-            test-results/docs/
-          if-no-files-found: ignore
-          retention-days: 7
+        run: bash scripts/ci/preserve-results.sh build test-results/npm-package playwright-report/docs test-results/docs
 
   browser:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     name: Chromium browser contracts
-    runs-on: ubuntu-24.04
+    needs: build
+    runs-on: zui-lightsail-validation-20260927
     timeout-minutes: 30
     steps:
       - name: Check out repository
@@ -133,26 +119,18 @@ jobs:
         with:
           node-version: '22'
           check-latest: true
-          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Install Chromium
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install chromium
 
       - name: Run Chromium browser checks
         env:
           PLAYWRIGHT_SKIP_VISUAL: '1'
         run: pnpm test:e2e --workers=1 --fail-on-flaky-tests
 
-      - name: Upload browser diagnostics
+      - name: Preserve browser diagnostics on runner
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: pr-playwright-results
-          path: |
-            playwright-report/
-            test-results/playwright/
-          if-no-files-found: ignore
-          retention-days: 7
+        run: bash scripts/ci/preserve-results.sh browser playwright-report test-results/playwright

@@ -59,7 +59,7 @@ pnpm publish:npm --tarball <file> # check + test:build 验证指定包的私有�
 
 `pnpm publish:npm --tarball <file>` 必须显式指定已有包。命令创建同字节私有快照，执行 `check` 和 `test:build`（npm 消费测试使用该快照），再核对摘要并通过 `npm publish --ignore-scripts` 发布同一快照；不重建或重新打包该候选包，不允许跳过门禁，不自动递增版本或创建 Git tag。单独验证已有包使用 `ZUI_NPM_TARBALL=/absolute/path/package.tgz pnpm exec vitest run --project build tests/build/npm-consumer.test.ts`。
 
-普通 `test:build` 通过相同打包流程创建并验证 npm 候选包，保存在独立的 `test-results/npm-package/`。PR 和 main/nightly CI 在测试成功后上传同一 `.tgz` 与摘要清单（分别保留 7 天和 14 天），不额外构建或自动发布；原浏览器分发和文档流程保持独立。
+普通 `test:build` 通过相同打包流程创建并验证 npm 候选包，保存在独立的 `test-results/npm-package/`。PR 和 main/nightly CI 将同一 `.tgz` 与摘要清单保存在自托管 runner 的 `$HOME/zui-ci-results/<run-id>/<run-attempt>/<job>/`，保留 14 天，不使用 GitHub Artifact、不额外构建或自动发布；具体路径见 Job Summary 和 `.github/CI.md`。原浏览器分发和文档流程保持独立。
 
 单库本地调试：直接 `pnpm dev`，浏览器访问 `/<lib-name>/` 即可加载该 lib 的 `dev.ts`（见 `index.html` + `src/main.ts` + `src/libs.ts`，会按 `lib/*/package.json` 自动发现）。自动化测试分为 `tests/unit`（Node 纯逻辑）、`tests/dom`（Vitest + jsdom）、`tests/build`（最终分发消费）和 `tests/e2e`（Playwright 真实浏览器）；调试页继续用于人工交互和样式验证。
 

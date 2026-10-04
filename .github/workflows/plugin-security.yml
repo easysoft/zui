@@ -15,7 +15,8 @@ concurrency:
 
 jobs:
   scan:
-    runs-on: ubuntu-24.04
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: zui-lightsail-validation-20260927
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -23,6 +24,8 @@ jobs:
           persist-credentials: false
       - name: Verify reviewed scanner exceptions
         run: sha256sum --check --strict .github/plugin-scan-reviewed.sha256
+      - name: Prepare report directory
+        run: mkdir -p test-results
       - name: Scan plugin
         uses: hashgraph-online/ai-plugin-scanner-action@55616c962cf86368423f7673b2ecdfdbe613d1af # v1.2.515
         with:
@@ -30,13 +33,8 @@ jobs:
           min_score: 80
           fail_on_severity: high
           format: json
-          output: ${{ runner.temp }}/plugin-scan.json
+          output: test-results/plugin-scan.json
           pr_comment: off
-      - name: Upload scan details
+      - name: Preserve scan details on runner
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: plugin-scan
-          path: ${{ runner.temp }}/plugin-scan.json
-          if-no-files-found: ignore
-          retention-days: 14
+        run: bash scripts/ci/preserve-results.sh plugin-scan test-results/plugin-scan.json
