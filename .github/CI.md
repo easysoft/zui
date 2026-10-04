@@ -49,7 +49,7 @@ gh api repos/easysoft/zui/rules/branches/main
 
 该方案不使用 GitHub 托管 runner、Artifact 上传／下载或 GitHub 依赖缓存。代码、运行状态和日志仍由 GitHub Actions 管理；pnpm store 和浏览器下载保留在服务器上。自托管调度已能在托管 runner 被账单锁定时执行，但不会消除已有账单。
 
-服务器使用独立普通用户 `gh-runner`。启动前核对 `zui-runner-validation.service`、共享 `github-runners.slice` 的资源限制、swap 和其他 runner 状态，保留现有代理服务的隔离。Vitest、Playwright 使用单 worker，PR 的单元／DOM 测试只在覆盖率步骤运行一次。Playwright 系统依赖由管理员预装，job 只执行 `playwright install` 下载浏览器，不在受限服务中运行 sudo。
+服务器使用独立普通用户 `gh-runner`。启动前核对 `zui-runner-validation.service`、共享 `github-runners.slice` 的资源限制、swap 和其他 runner 状态，保留现有代理服务的隔离。单台 runner 按质量检查、分发构建、浏览器的顺序执行，前置失败时阻止后续昂贵检查。Vitest、Playwright 使用单 worker，PR 的单元／DOM 测试只在覆盖率步骤运行一次。CI 为冷编译及页面首次加载提供更长时间预算，仍以 `--fail-on-flaky-tests` 拒绝依靠重试通过。Playwright 系统依赖由管理员预装，job 只执行 `playwright install` 下载浏览器，不在受限服务中运行 sudo。
 
 持久 runner 只执行本仓库的受信任代码。必须把 `scripts/ci/allow-runner-job.sh` 安装为 root 所有、runner 不可写的 `/etc/zui-runner-validation/allow-job.sh`，并由服务的 `ACTIONS_RUNNER_HOOK_JOB_STARTED` 指向它。该 hook 在 checkout 前拒绝其他仓库、外部 fork PR、`pull_request_target` 和非成功主分支 push 的部署事件。仓库内 PR 还设有 job 条件；不能仅依赖可被 PR 修改的 YAML 条件。外部 fork 的自动检查会跳过，须由维护者审阅后导入本仓库分支重新验证，不能把跳过当作验收通过。
 

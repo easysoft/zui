@@ -61,6 +61,7 @@ jobs:
 
   distributions:
     name: Distribution contracts and full build
+    needs: quality
     runs-on: zui-lightsail-validation-20260927
     timeout-minutes: 40
     steps:
@@ -106,6 +107,7 @@ jobs:
 
   browsers:
     name: ${{ matrix.browser }} browser contracts
+    needs: distributions
     runs-on: zui-lightsail-validation-20260927
     timeout-minutes: 30
     strategy:

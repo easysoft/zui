@@ -56,6 +56,7 @@ jobs:
   build:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     name: Distribution and documentation builds
+    needs: quality
     runs-on: zui-lightsail-validation-20260927
     timeout-minutes: 40
     steps:
@@ -99,6 +100,7 @@ jobs:
   browser:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     name: Chromium browser contracts
+    needs: build
     runs-on: zui-lightsail-validation-20260927
     timeout-minutes: 30
     steps:
