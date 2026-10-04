@@ -2,7 +2,7 @@
 
 ## 效果
 
-使用 `justify-*` 应用 CSS `justify-content` 属性设置Flex容器中元素沿水平轴的对齐方式。
+使用 `justify-*` 设置 Flex 容器的 CSS `justify-content` 属性，控制项目沿主轴的对齐与剩余空间分配。在默认横向书写模式下，`.row` 的主轴为水平方向，`.col` 的主轴为垂直方向。
 
 <template v-for="item in arrayJustify">
   <h3><code>{{item}}</code></h3>

@@ -2,7 +2,7 @@
 
 ## 效果
 
-使用 `flex-*` 应用CSS `flex` 属性设置当前元素在 Grid 或 Flex 容器中的伸缩方式。
+使用 `flex-*` 设置 Flex 项目的 CSS `flex` 简写属性，组合控制增长、收缩和基准尺寸。
 
 <script setup>
   const flexJson = [

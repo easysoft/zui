@@ -2,7 +2,7 @@
 
 ## 效果
 
-使用 `basis-*` 应用 CSS `flex-basis` 属性设置当前元素在 Grid 或 Flex 容器中弹性盒伸缩的基准值。
+使用 `basis-*` 设置 Flex 项目的 CSS `flex-basis` 属性，定义项目分配剩余空间前沿主轴的初始尺寸。
 
 <Example class="flex flex-wrap gap-3">
   <div :class="'basis-' + item" v-for="(item,index) in basisJson" >
