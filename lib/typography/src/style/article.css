@@ -19,11 +19,13 @@
 .article audio,
 .article table,
 .article pre,
-.article img {
+.article img,
+.article-block {
   @apply -my-[--article-p-space] -text-pretty;
 }
 
-.article p {
+.article p,
+.article-block {
   @apply -min-h-[1em];
 }
 .article p:empty::before {
