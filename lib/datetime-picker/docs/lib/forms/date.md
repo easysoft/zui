@@ -90,16 +90,16 @@ const datePicker = new zui.DatePicker('#datePicker', {
 == 示例
 
 <Example>
-  <div data-zui="datetimePicker" :data-min-date="minDate" :data-max-date="maxDate"></div>
+  <div id="dateRangePicker" zui-create="datePicker" :data-min-date="minDate" :data-max-date="maxDate"></div>
 </Example>
 
 == HTML
 
 ```html-vue
-<div id="datetimePicker"></div>
+<div id="dateRangePicker"></div>
 
 <script>
-const datetimePicker = new zui.DatetimePicker('#datetimePicker', {
+const dateRangePicker = new zui.DatePicker('#dateRangePicker', {
     minDate: "{{new Date(minDate).toLocaleDateString()}}",
     maxDate: "{{new Date(maxDate).toLocaleDateString()}}",
 });
