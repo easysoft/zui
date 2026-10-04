@@ -4,6 +4,7 @@ test('edits JSON UI, dispatches registered actions, and keeps valid content afte
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto('/json-ui/');
+    await page.locator('#libPage.is-loaded').waitFor();
     const preview = page.locator('#jsonUIPreview');
     const source = page.locator('#jsonUISource');
     const apply = page.locator('#jsonUIApply');
@@ -29,6 +30,7 @@ test('edits JSON UI, dispatches registered actions, and keeps valid content afte
 
 test('requires HTML authorization and cleans event handlers and command links when enabled', async ({page}) => {
     await page.goto('/json-ui/');
+    await page.locator('#libPage.is-loaded').waitFor();
     await expect(page.locator('#jsonUISave')).toBeVisible();
     await page.locator('#jsonUISource').fill(JSON.stringify({
         html: '<p id="html-message">HTML 已加载</p><img src="/missing-json-ui-image" onerror="window.__jsonUIUnsafe = true"><a href="#!window~alert" zui-command="window~alert">链接</a><script>window.__jsonUIUnsafe = true</script>',
@@ -56,6 +58,7 @@ test('validates asynchronously loaded JSON and binds its events through the same
         }],
     }}));
     await page.goto('/json-ui/');
+    await page.locator('#libPage.is-loaded').waitFor();
     await expect(page.locator('#jsonUISave')).toBeVisible();
     await page.locator('#jsonUISource').fill(JSON.stringify({
         fetcher: '/json-ui-e2e-content.json',
