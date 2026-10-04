@@ -31,33 +31,33 @@
 
 ### 通过 CSS 变量
 
-你可以通过 CSS 变量来获取屏幕断点的值，下面为通过 CSS 变量实现 `.container` 工具类的示例：
+CSS 变量可以用于属性值，但不能用作媒体查询条件。下面使用默认断点的固定像素值判断屏幕宽度，并在 `max-width` 声明中读取对应变量：
 
 ```css
 .-container {
   width: 100%;
 }
-@media (min-width: var(--screen-sm)) {
+@media (min-width: 640px) {
   .-container {
     max-width: var(--screen-sm);
   }
 }
-@media (min-width: var(--screen-md)) {
+@media (min-width: 768px) {
   .-container {
     max-width: var(--screen-md);
   }
 }
-@media (min-width: var(--screen-lg)) {
+@media (min-width: 1024px) {
   .-container {
     max-width: var(--screen-lg);
   }
 }
-@media (min-width: var(--screen-xl)) {
+@media (min-width: 1280px) {
   .-container {
     max-width: var(--screen-xl);
   }
 }
-@media (min-width: var(--screen-2xl)) {
+@media (min-width: 1536px) {
   .-container {
     max-width: var(--screen-2xl);
   }
