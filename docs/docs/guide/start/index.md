@@ -6,7 +6,7 @@
 
 下载本站当前构建，将压缩包的全部内容放入项目的 zui 目录，保留图标字体等配套资源的相对位置。
 
-<a class="btn primary" :href="withBase(`/zui-${zui.version}.zip`)" download>下载本站构建</a>
+<a class="btn primary doc-download" :href="withBase(`/zui-${zui.version}.zip`)" download>下载本站构建</a>
 
 ```text
 项目/
@@ -193,3 +193,16 @@ zui 是发布包；@zui/* 是源码工作区的库名，不作为上述 npm 安�
 <script setup>
 import {withBase} from 'vitepress';
 </script>
+
+<style scoped>
+a.doc-download,
+a.doc-download:hover {
+    color: var(--color-white);
+    background-color: #2563eb;
+}
+
+a.doc-download:focus-visible {
+    outline: 2px solid var(--color-primary-600);
+    outline-offset: 3px;
+}
+</style>
