@@ -32,6 +32,6 @@
     {name: 'table-cell', desc: 'display: table-cell;'},
     {name: 'table-row', desc: 'display: table-row;'},
     {name: 'list-item', desc: 'display: list-item;'},
-    {name: 'hidden', desc: 'display: hidden;'},
+    {name: 'hidden', desc: 'display: none !important;'},
   ]
 </script>

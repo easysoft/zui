@@ -273,7 +273,7 @@
   const overflowList = [
     {name: 'overflow-auto', desc: 'overflow: auto;'},
     {name: 'overflow-hidden', desc: 'overflow: hidden;'},
-    {name: 'overflow-clip', desc: 'text-overflow: clip;'},
+    {name: 'overflow-clip', desc: 'overflow: clip;'},
     {name: 'overflow-visible', desc: 'overflow: visible;'},
     {name: 'overflow-scroll', desc: 'overflow: scroll;'},
     {name: 'overflow-x-auto', desc: 'overflow-x: auto;'},
