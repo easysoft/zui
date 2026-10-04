@@ -45,7 +45,12 @@ function focusSearch() {
     search.select();
 }
 
-document.querySelector('#openCatalog')!.addEventListener('click', focusSearch);
+document.querySelector('#openCatalog')!.addEventListener('click', (event) => {
+    if (!dialog.open) {
+        (event.currentTarget as HTMLElement).focus({preventScroll: true});
+    }
+    focusSearch();
+});
 document.querySelector('#closeCatalog')!.addEventListener('click', () => dialog.close());
 dialog.addEventListener('click', (event) => {
     if (event.target === dialog) {
