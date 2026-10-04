@@ -92,9 +92,9 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
     afterInit() {
         this.on('click', this._handleClick);
-        if (this.options.show) {
+        // Respect show/hide calls made before deferred initialization.
+        if (this.options.show && this._shown === undefined) {
             this.show();
-            this._observeResize();
         }
 
         this.on('hidden', (event) => {
@@ -121,6 +121,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
             }
         });
         if (this.shown) {
+            this._observeResize();
             $('html').disableScroll();
         }
     }

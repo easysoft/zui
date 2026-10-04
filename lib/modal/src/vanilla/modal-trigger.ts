@@ -24,7 +24,12 @@ export class ModalTrigger extends Component<ModalTriggerOptions> {
     }
 
     show() {
-        return this._initModal()?.show();
+        const modal = this._initModal();
+        if (modal && !modal.shown) {
+            // Mouse activation does not focus buttons in every browser.
+            this.element.focus({preventScroll: true});
+        }
+        return modal?.show();
     }
 
     hide() {
