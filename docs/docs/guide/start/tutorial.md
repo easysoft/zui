@@ -205,8 +205,8 @@ $('#myNavRenderBtn').on('click', () => {
 == 示例
 
 <Example>
-  <nav zui-create zui-create-nav="{items: [{text: 'Home'}, {text: 'Blog'}]}"></nav>
-  <button id="myNavRenderBtn1">重新渲染</button>
+  <ZUI use="nav" :options="{items: [{text: 'Home'}, {text: 'Blog'}]}" :ready="instance => navExample = instance" />
+  <button type="button" class="btn" :disabled="!navExample" @click="navExample.render({items: [{text: 'Home', url: '#home'}, {text: 'Blog'}, {text: 'About'}]})">重新渲染</button>
 </Example>
 
 :::
@@ -328,109 +328,176 @@ $(function() {
 
 ### 自定义 JS 组件
 
-自定义 JS 组件需要继承自 `Component` 类，然后实现组件的构造方法、渲染方法、销毁方法等，例如：
+自定义 JS 组件继承 `zui.Component`，使用唯一的 `NAME` 标识组件，通过 `DEFAULT` 设置默认配置。下面用一个点击计数器演示初始化、更新、事件和销毁。先点击计数按钮，再更新配置，最后销毁并重新初始化，观察每一步的结果。
 
-```js
-/** Steps editor component. */
-class StepsEditor extends zui.Component
-{
-    static NAME = 'StepsEditor';
+::: tabs
 
-    static DEFAULT =
-    {
-        name: 'steps',
-        expectsName: 'expects',
-        data: ['1', '2', '3'],
-        sameLevelIcon: 'plus',
-        subLevelIcon: 'split',
-        moveIcon: 'move',
-        deleteIcon: 'trash',
-        expectDisabledTip: '',
-        deleteStepTip: '',
-        dragNestedTip: '',
-        changeLevelByDrag: false,
-    };
+== 示例
 
-    init()
-    {
-        this.reset(this.options.data, true);
-    }
+<Example>
+  <div class="flex flex-wrap gap-2">
+    <button ref="counterElement" type="button" class="btn primary">次数：0</button>
+    <button type="button" class="btn" :disabled="!counterActive" @click="updateCounter">更新为 10，步长为 2</button>
+    <button type="button" class="btn" :disabled="!counterActive" @click="destroyCounter">销毁</button>
+    <button type="button" class="btn" :disabled="!counterReady || counterActive" @click="createCounter">重新初始化</button>
+  </div>
+  <p role="status">{{ counterStatus }}</p>
+</Example>
 
-    afterInit()
-    {
+== HTML
+
+```html
+<div class="flex flex-wrap gap-2">
+  <button id="tutorialCounterButton" type="button" class="btn primary">次数：0</button>
+  <button id="tutorialCounterUpdate" type="button" class="btn">更新为 10，步长为 2</button>
+  <button id="tutorialCounterDestroy" type="button" class="btn">销毁</button>
+  <button id="tutorialCounterCreate" type="button" class="btn" disabled>重新初始化</button>
+</div>
+<p id="tutorialCounterStatus" role="status"></p>
+
+<script type="module">
+class TutorialCounter extends zui.Component {
+    static NAME = 'TutorialCounter';
+    static DEFAULT = {count: 0, step: 1};
+
+    init() {
+        this.on('click', () => {
+            this.render({count: this.options.count + this.options.step});
+            this.emit('countChanged', this.options.count);
+        });
         this.render();
     }
 
-    _renderRow(item, $preRow, $list, $rows)
-    {
-    }
-
-    render()
-    {
-        const items = this._items;
-        let rootIndex = 0;
-        items.forEach(item =>
-        {
-            updateItemName(item);
-            if(item.level === 1)
-            {
-                item.index = rootIndex;
-                rootIndex++;
-                updateItemName(item, `${rootIndex}`);
-            }
-            if(item.children)
-            {
-                item.children.forEach((subItem, subIndex) =>
-                {
-                    subItem.index = subIndex;
-                    updateItemName(subItem, `${item.name}.${subIndex + 1}`);
-                });
-            }
-        });
-        items.sort((a, b) => a.order - b.order);
-
-        const $list = this.$element.find('.steps-editor-body');
-        const $rows = $list.find('.steps-editor-item').addClass('is-expired');
-        let $preRow = null;
-        items.forEach(item =>
-        {
-            $preRow = this._renderRow(item, $preRow, $list, $rows);
-        });
-        $rows.filter('.is-expired').remove();
-    }
-
-    deleteStep(name)
-    {
-    }
-
-    focus(name)
-    {
-    }
-
-    addSub(fromName)
-    {
-    }
-
-    addSib(fromName, focus = true)
-    {
-    }
-
-    moveAfter(fromName, toName)
-    {
-    }
-
-    moveBefore(fromName, toName)
-    {
+    render(options) {
+        super.render(options);
+        this.element.textContent = `次数：${this.options.count}`;
     }
 }
 
-/* Define $.fn.stepsEditor() helper. */
-StepsEditor.register(); // Register as jQuery plugin.
+const element = document.querySelector('#tutorialCounterButton');
+const status = document.querySelector('#tutorialCounterStatus');
+const updateButton = document.querySelector('#tutorialCounterUpdate');
+const destroyButton = document.querySelector('#tutorialCounterDestroy');
+const createButton = document.querySelector('#tutorialCounterCreate');
+let counter;
 
-/* Extend StepsEditor to zui object. */
-$.extend(zui, {StepsEditor});
+function createCounter() {
+    counter = new TutorialCounter(element);
+    counter.on('countChanged', (_event, [_instance, count]) => {
+        status.textContent = `收到 countChanged 事件：${count}`;
+    });
+    updateButton.disabled = destroyButton.disabled = false;
+    createButton.disabled = true;
+    status.textContent = '已初始化：次数为 0，步长为 1。';
+}
+
+updateButton.addEventListener('click', () => {
+    counter.render({count: 10, step: 2});
+    status.textContent = '已更新：次数为 10，步长为 2；再次点击计数按钮将变为 12。';
+});
+
+destroyButton.addEventListener('click', () => {
+    counter.destroy();
+    counter = undefined;
+    updateButton.disabled = destroyButton.disabled = true;
+    createButton.disabled = false;
+    status.textContent = `已销毁，get() 返回 ${TutorialCounter.get(element)}；点击计数按钮不再累加。`;
+});
+
+createButton.addEventListener('click', createCounter);
+createCounter();
+</script>
 ```
+
+:::
+
+#### 初始化与更新
+
+* `NAME` 应在应用内保持唯一；`DEFAULT` 中的 `count` 和 `step` 是这个组件自己定义的配置。
+* `new TutorialCounter(element, options)` 会同步调用 `init()`。此时可以读取 `this.options`、绑定事件并进行首次渲染，无需重写构造方法。上例未传入配置，因此从默认次数 `0` 和步长 `1` 开始。
+* `render(options)` 中先调用 `super.render(options)` 合并配置，再根据 `this.options` 更新元素。上例传入 `{count: 10, step: 2}` 后，下一次点击的次数为 `12`。
+* 如果需要在初始化后执行操作，可以重写 `afterInit()`；基类会在后续动画帧调用它，并在完成后触发 `inited` 事件。不要假定 `afterInit()` 在 `new` 返回前已执行。
+
+#### 事件与销毁
+
+`this.emit('countChanged', count)` 触发自定义事件。通过 `counter.on('countChanged', callback)` 监听时，回调的第一个参数是事件对象，第二个参数是数组 `[组件实例, count]`。本例仅在点击计数按钮时触发该事件；调用 `render()` 更新配置不会额外触发它。
+
+使用 `TutorialCounter.get(element)` 可以获取已创建的实例。调用继承的 `destroy()` 会移除实例关联以及通过 `this.on()` 绑定的事件；此后 `get()` 返回 `undefined`。元素及其文字仍保留，但点击不再累加，可以在同一元素上重新创建实例。
+
+本例没有额外资源，因此无需重写 `destroy()`。如果组件自行创建了计时器、观察器或绑定到 `window`、`document` 的监听器，应在覆写的 `destroy()` 中清理它们，并调用 `super.destroy()`。
+
+#### 按需注册
+
+直接使用 `new TutorialCounter(...)` 无需注册。只有希望通过组件名称使用 `zui.create()` 或声明式初始化时，才需要调用 `TutorialCounter.register()`。若需要 `$.fn.tutorialCounter()` 这样的 Cash 插件方法，另行调用 `TutorialCounter.defineFn()`；`register()` 本身不会创建该插件方法。
 
 ## 开发定制入门
 
 参考[打包](/guide/customize/build.html)、[开发](/guide/customize/dev.html)、[扩展](/guide/customize/exts-lib.html)文档。
+
+<script setup>
+import {onBeforeUnmount, onMounted, ref, shallowRef} from 'vue';
+
+const navExample = shallowRef();
+
+const counterElement = ref();
+const counterActive = ref(false);
+const counterReady = ref(false);
+const counterStatus = ref('正在初始化计数器……');
+let CounterClass;
+let counter;
+let disposed = false;
+
+function createCounter() {
+    counter = new CounterClass(counterElement.value);
+    counter.on('countChanged', (_event, [_instance, count]) => {
+        counterStatus.value = `收到 countChanged 事件：${count}`;
+    });
+    counterActive.value = true;
+    counterStatus.value = '已初始化：次数为 0，步长为 1。';
+}
+
+function updateCounter() {
+    counter.render({count: 10, step: 2});
+    counterStatus.value = '已更新：次数为 10，步长为 2；再次点击计数按钮将变为 12。';
+}
+
+function destroyCounter() {
+    counter.destroy();
+    counter = undefined;
+    counterActive.value = false;
+    counterStatus.value = `已销毁，get() 返回 ${CounterClass.get(counterElement.value)}；点击计数按钮不再累加。`;
+}
+
+onMounted(() => {
+    onZUIReady(() => {
+        if (disposed || !counterElement.value) {
+            return;
+        }
+        CounterClass = class TutorialCounter extends zui.Component {
+            static NAME = 'TutorialCounter';
+            static DEFAULT = {count: 0, step: 1};
+
+            init() {
+                this.on('click', () => {
+                    this.render({count: this.options.count + this.options.step});
+                    this.emit('countChanged', this.options.count);
+                });
+                this.render();
+            }
+
+            render(options) {
+                super.render(options);
+                this.element.textContent = `次数：${this.options.count}`;
+            }
+        };
+        counterReady.value = true;
+        createCounter();
+    });
+});
+
+onBeforeUnmount(() => {
+    disposed = true;
+    counter?.destroy();
+    counter = undefined;
+});
+</script>
