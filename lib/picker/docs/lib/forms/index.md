@@ -280,10 +280,10 @@ onSelect?: function;
 onClear?: () => void;
 /** 下拉面板容器元素。 */
 popContainer?: string | HTMLElement;
-/** 菜单宽度，如果设置为 `'100%'` 则与选择框宽度一致，默认 `'100%'`。 */
-popWidth: number | 'auto' | '100%';
-/** 菜单高度，默认 `'auto'`。 */
-popHeight: number | 'auto';
+/** 菜单宽度，默认 `'100%'`，与选择框宽度一致；也可传入返回像素值或 `'auto'` 的函数。 */
+popWidth?: number | 'auto' | '100%' | (() =&gt; number | 'auto') = "100%";
+/** 菜单高度，默认未设置（`undefined`），由内容决定高度；也可传入返回像素值或 `'auto'` 的函数。 */
+popHeight?: number | 'auto' | (() =&gt; number | 'auto') = undefined;
 /** 菜单最大高度，默认 `300`。 */
 popMaxHeight?: number;
 /** 菜单最小高度，默认 `32`。 */
