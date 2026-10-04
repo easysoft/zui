@@ -1,6 +1,6 @@
 # grow
 
-使用`grow`应用CSS`flex-grow`属性设置Flex容器中元素是否能放大。
+使用 `grow` 应用 CSS `flex-grow` 属性，设置 Flex 容器中子元素是否允许增长。
 
 <Example>
   <div class="flex gap-3 w-full surface">
