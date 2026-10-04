@@ -430,4 +430,4 @@ picker.addEventListener('zui-before-change', event => {
 
 组件采用 Light DOM。持续移出文档后会卸载内部组件并清理浮层，同一轮 DOM 移动保留实例，重新连接时重新挂载。运行时依赖浏览器的 Custom Elements 与 `ElementInternals` 表单关联能力；服务端项目在客户端挂载后加载运行时，类型可用 `import type` 引入。
 
-通用工厂和属性规则见[组件基类](/lib/basic/core/component.html#由组件库声明-web-component)。
+通用工厂和属性规则见[Web Component 使用与开发](/lib/basic/core/web-component.html#由组件库声明-web-component)。

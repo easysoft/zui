@@ -85,7 +85,7 @@ customPager.setOptions({recTotal: 60, page: 2});
 
 `page`、`recTotal`、`recPerPage` 可通过 property 或 HTML attribute 更新，`pageTotal` 是只读计算属性。`items` 和 `linkCreator` 使用 JavaScript property。用户换页时 `zui-change.detail` 包含 `PagerInfo` 和 `originalEvent`；直接设置属性不会触发该用户事件。默认导航配置为 `{type: 'nav', count: 7}`。
 
-模块化使用时，`@zui/pager/vanilla` 仅提供原生 Pager 类，`@zui/pager/react` 仅提供 Preact 组件，二者均不注册自定义元素。`@zui/pager/web-component` 导出 `ZuiPagerElement` 并注册标签；聚合入口 `@zui/pager` 同时包含原生类和自定义元素。自定义元素复用 Pager 样式，按组件库接入规范加载对应 CSS。独立定义与组件识别规则参见[组件基类](/lib/basic/core/component.html#在组件外定义-web-component)。
+模块化使用时，`@zui/pager/vanilla` 仅提供原生 Pager 类，`@zui/pager/react` 仅提供 Preact 组件，二者均不注册自定义元素。`@zui/pager/web-component` 导出 `ZuiPagerElement` 并注册标签；聚合入口 `@zui/pager` 同时包含原生类和自定义元素。自定义元素复用 Pager 样式，按组件库接入规范加载对应 CSS。独立定义与组件识别规则参见[Web Component 使用与开发](/lib/basic/core/web-component.html#在组件外定义-web-component)。
 
 ## 状态与数据请求
 

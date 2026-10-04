@@ -1,26 +1,32 @@
-# React 组件
+# Preact 组件与原生包装层
 
-在 ZUI3 中一些组件使用 Preact 开发，这些组件继承自 `ComponentFromReact` 类，`ComponentFromReact` 类本身继承自 `Component` 类，提供了一些额外的方法：
+<a id="react-组件"></a>
 
-```ts
-class ComponentFromReact extends Component {
-    /**
-     * 获取组件的 React 实例。
-     */
-    get $(): React.Component;
+ZUI 的部分界面使用 Preact 实现，`ComponentFromReact` 将这些 Preact 组件包装为可通过 `new zui.Nav(...)` 等方式调用的原生 JavaScript 组件。类名中的 `React` 是现有 API 名称，内部视图使用的是 Preact。
 
-    /**
-     * 将 React 组件渲染为 HTML。
-     *
-     * @param options 组件的配置选项。
-     */
-    static renderHTML(options: object): string;
-}
-```
+如果你正在 React 应用中接入 ZUI，请阅读 [在 React 中使用 ZUI vanilla 组件](/lib/basic/core/use-zui-in-react.html)。本页面向 ZUI 组件开发者，说明包装层与内部视图的关系。
 
-React 组件相比较普通的组件有如下特点：
+## 两层组件的职责
 
-* 组件采用 Preact 开发，当重新进行渲染时，只会更新组件的部分内容，而不是整个元素；
-* 组件对应的元素内部禁止直接进行修改，因为每次渲染时都会重新生成组件的内容。
+| 层次 | 职责 |
+| --- | --- |
+| 原生包装层 `ComponentFromReact` | 继承 [Component](/lib/basic/core/component.html)，负责 DOM 容器、配置、实例获取、事件与销毁 |
+| 内部 Preact 组件 | 由包装类的 `static Component` 指定，接收 props 并渲染界面 |
 
-React 组件实例上的 `$` 属性是组件的 React 实例，可以通过这个属性来访问组件的属性和方法。
+应用通常使用包装层公开的 `render()` 和 `destroy()` 等方法。重新渲染时由 Preact 协调更新 DOM；不要在外部直接修改它管理的子树，以免后续更新覆盖这些改动。
+
+## 访问内部实例
+
+包装实例的 `$` 属性返回内部 Preact 实例，类型为具体组件类型或 `null`。首次渲染前及销毁后可能为 `null`，需要访问时先检查实例是否存在，并以具体组件公开的属性和方法为准。
+
+`ComponentFromReact` 默认在初始化后的 `afterInit()` 阶段首次渲染。调用包装层的 `render(options)` 会合并配置，再将适用的选项传给内部 Preact 组件；调用 `destroy()` 会卸载内部 Preact 树并清空 `$`。
+
+## 渲染为 HTML
+
+具体包装类提供静态方法 `renderHTML(options)`，返回其渲染出的 HTML 字符串。该方法会创建 DOM 元素并调用渲染逻辑，需要浏览器的 `document`，不作为服务端渲染接口。
+
+## 关联用法
+
+- [组件基类](/lib/basic/core/component.html)：创建、获取和更新原生实例。
+- [在 React 中使用 ZUI vanilla 组件](/lib/basic/core/use-zui-in-react.html)：在 React 生命周期中创建、同步和清理 ZUI 实例。
+- [Web Component 使用与开发](/lib/basic/core/web-component.html)：将原生包装层或 Preact 视图接入自定义元素。

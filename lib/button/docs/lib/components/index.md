@@ -429,7 +429,7 @@ button.setOptions(options);
 
 有默认插槽内容时优先显示插槽；未提供内容或只有排版空白时回退到 `text`。设置 `loading` 会暂存内容并显示 `loading-text`，结束加载后恢复同一组节点。原节点引用和已有监听器会被保留；按钮内容应使用文本或短语内容，避免嵌套按钮、链接等交互控件。
 
-Button 只声明默认插槽。内容采用 Light DOM 投放，通用规则见[内容插槽](/lib/basic/core/component.html#内容插槽)。
+Button 只声明默认插槽。内容采用 Light DOM 投放，通用规则见[内容插槽](/lib/basic/core/web-component.html#内容插槽)。
 
 ### 属性与方法
 
@@ -447,4 +447,4 @@ Button 只声明默认插槽。内容采用 Light DOM 投放，通用规则见[�
 
 `focus()`、`click()` 委托内部按钮或链接；点击通过原生 `click` 事件传播。提交和重置由内部原生按钮完成。
 
-复杂属性通过 JavaScript property 设置，更新在同一轮合并；`await element.ready` 等待当前连接首次渲染完成。移出文档后会卸载内部组件，同一轮 DOM 移动保留实例。组件采用 Light DOM，需加载按钮库样式。通用机制见[组件基类](/lib/basic/core/component.html#由组件库声明-web-component)。
+复杂属性通过 JavaScript property 设置，更新在同一轮合并；`await element.ready` 等待当前连接首次渲染完成。移出文档后会卸载内部组件，同一轮 DOM 移动保留实例。组件采用 Light DOM，需加载按钮库样式。通用机制见[Web Component 使用与开发](/lib/basic/core/web-component.html#由组件库声明-web-component)。
