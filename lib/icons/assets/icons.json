@@ -1566,19 +1566,13 @@
     },
     "taobao": {
         "code": "e902",
-        "alias": ["alipay"],
-        "name": "Zhi Fu Bao",
-        "filter": ["taobao", "zhifubao", "alipay"],
+        "name": "Taobao",
+        "filter": ["taobao"],
         "categories": ["Brand Icons"]
     },
     "weibo": {
         "code": "e746",
         "name": "Weibo",
-        "categories": ["Brand Icons"]
-    },
-    "renren": {
-        "code": "e747",
-        "name": "Renren",
         "categories": ["Brand Icons"]
     },
     "chrome": {
