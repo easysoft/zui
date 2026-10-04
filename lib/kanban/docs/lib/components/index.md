@@ -11,7 +11,7 @@
 == 示例
 
 <Example>
-  <div class="kanban-list">
+  <div class="kanban-list kanban-doc-preview">
     <ZUI use="kanban" :options="kanbanOptions" />
   </div>
   <p class="text-sm text-gray mt-2" role="status">{{ kanbanStatus }}</p>
@@ -83,6 +83,12 @@ const kanbanOptions = {
     },
 };
 </script>
+
+<style scoped>
+.kanban-list.kanban-doc-preview {
+    height: 12rem;
+}
+</style>
 
 单独使用 `Kanban` 时，外层提供 `.kanban-list` 容器，供表头固定和尺寸测量使用。`KanbanList` 会自行提供此容器。
 
