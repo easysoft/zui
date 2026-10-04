@@ -84,7 +84,7 @@
 :root {
   --radius-none:    0px;
   --radius-sm:      0.125rem;
-  --radius-DEFAULT: 0.25rem;
+  --radius:         0.25rem;
   --radius-md:      0.375rem;
   --radius-lg:      0.5rem;
   --radius-xl:      0.75rem;
