@@ -38,10 +38,13 @@ async function startHeldBuild(name: string, options: BuildOptions) {
     const ready = Path.join(fixture, `${name}.ready`);
     const release = Path.join(fixture, `${name}.release`);
     const viteConfig = Path.join(fixture, `${name}.vite.mjs`);
-    await write(viteConfig, `import {writeFile, access} from 'node:fs/promises';
+    await write(viteConfig, `import {writeFile, access, rename} from 'node:fs/promises';
 import {setTimeout} from 'node:timers/promises';
 export default {plugins: [{name: 'controlled-build-barrier', async buildStart(options) {
-    await writeFile(${JSON.stringify(ready)}, String(options.input));
+    const ready = ${JSON.stringify(ready)};
+    // Publish complete contents before the parent can observe the ready file.
+    await writeFile(ready + '.tmp', String(options.input));
+    await rename(ready + '.tmp', ready);
     const deadline = Date.now() + 60000;
     while (true) {
         try { await access(${JSON.stringify(release)}); return; } catch {}
