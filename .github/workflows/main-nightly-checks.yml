@@ -8,6 +8,9 @@ on:
     - cron: '0 18 * * *'
   workflow_dispatch:
 
+env:
+  NODE_OPTIONS: --max-old-space-size=2048
+
 permissions:
   contents: read
 
@@ -18,7 +21,7 @@ concurrency:
 jobs:
   quality:
     name: Quality and coverage
-    runs-on: ubuntu-24.04
+    runs-on: zui-lightsail-validation-20260927
     timeout-minutes: 20
     steps:
       - name: Check out repository
@@ -36,7 +39,6 @@ jobs:
         with:
           node-version: '22'
           check-latest: true
-          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -51,19 +53,15 @@ jobs:
         run: pnpm test:skills
 
       - name: Run tests with coverage
-        run: pnpm test:coverage
+        run: pnpm test:coverage --maxWorkers=1 --no-file-parallelism
 
-      - name: Upload coverage
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: coverage
-          path: coverage/
-          if-no-files-found: error
-          retention-days: 14
+      - name: Preserve coverage on runner
+        if: ${{ !cancelled() }}
+        run: bash scripts/ci/preserve-results.sh quality coverage
 
   distributions:
     name: Distribution contracts and full build
-    runs-on: ubuntu-24.04
+    runs-on: zui-lightsail-validation-20260927
     timeout-minutes: 40
     steps:
       - name: Check out repository
@@ -81,7 +79,6 @@ jobs:
         with:
           node-version: '22'
           check-latest: true
-          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -94,16 +91,6 @@ jobs:
           test -s test-results/npm-package/artifact.json
           test -s test-results/npm-package/*.tgz
 
-      - name: Upload verified npm package
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: npm-package
-          path: |
-            test-results/npm-package/*.tgz
-            test-results/npm-package/artifact.json
-          if-no-files-found: error
-          retention-days: 14
-
       - name: Build the complete distribution
         run: pnpm build --name zui --out-dir dist/zui --exclude-not-ready
 
@@ -113,17 +100,13 @@ jobs:
           test -s dist/zui/zui.esm.js
           test -s dist/zui/zui.css
 
-      - name: Upload complete distribution
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: zui-distribution
-          path: dist/zui/
-          if-no-files-found: error
-          retention-days: 14
+      - name: Preserve distributions on runner
+        if: ${{ !cancelled() }}
+        run: bash scripts/ci/preserve-results.sh distributions test-results/npm-package dist/zui
 
   browsers:
     name: ${{ matrix.browser }} browser contracts
-    runs-on: ubuntu-24.04
+    runs-on: zui-lightsail-validation-20260927
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -148,35 +131,29 @@ jobs:
         with:
           node-version: '22'
           check-latest: true
-          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Install ${{ matrix.browser }}
-        run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
+        run: pnpm exec playwright install ${{ matrix.browser }}
 
       - name: Run ${{ matrix.browser }} checks
         env:
           PLAYWRIGHT_SKIP_VISUAL: '1'
         run: pnpm test:e2e:all --project=${{ matrix.browser }} --workers=1 --fail-on-flaky-tests
 
-      - name: Upload browser diagnostics
+      - name: Preserve browser diagnostics on runner
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: main-playwright-${{ matrix.browser }}-results
-          path: |
-            playwright-report/
-            test-results/playwright/
-          if-no-files-found: ignore
-          retention-days: 14
+        env:
+          ZUI_BROWSER: ${{ matrix.browser }}
+        run: bash scripts/ci/preserve-results.sh "browsers-$ZUI_BROWSER" playwright-report test-results/playwright
 
   docs:
     name: Build documentation for deployment
     needs: [quality, distributions, browsers]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-24.04
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    runs-on: zui-lightsail-validation-20260927
     timeout-minutes: 20
     steps:
       - name: Check out repository
@@ -190,28 +167,13 @@ jobs:
         with:
           node-version: '22'
           check-latest: true
-          cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Build
         run: BASE_PATH=/zui/3/ pnpm docs:build
       - name: Install Chromium for documentation checks
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install chromium
       - name: Verify documentation examples
         run: BASE_PATH=/zui/3/ pnpm test:docs --workers=1 --fail-on-flaky-tests
-      - name: Upload documentation diagnostics
+      - name: Preserve verified documentation and diagnostics on runner
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: main-docs-results
-          path: |
-            playwright-report/docs/
-            test-results/docs/
-          if-no-files-found: ignore
-          retention-days: 7
-      - name: Upload documentation
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: docs-main-site
-          path: docs/_/.vitepress/dist
-          if-no-files-found: error
-          retention-days: 7
+        run: bash scripts/ci/preserve-results.sh docs docs/_/.vitepress/dist playwright-report/docs test-results/docs

@@ -4,7 +4,7 @@ Reviewed on 2026-09-07 for [awesome-ai-plugins#241](https://github.com/hashgraph
 
 ## Workflow remediation
 
-All Actions are pinned to full commit SHAs. Checkouts do not persist credentials. Main documentation is built in the read-only checks workflow; deployment downloads only the `docs-main-site` artifact from that exact successful run. The deployment additionally requires a push to `main` in the same repository. Dev documentation also has separate read-only build and write-enabled publish jobs. Neither publish job checks out or executes project source.
+All Actions are pinned to full commit SHAs. Checkouts do not persist credentials. Main documentation is built in the read-only checks workflow; deployment reads the local archive for that exact successful run and attempt, and verifies its commit SHA. The deployment additionally requires a push to `main` in the same repository. Dev documentation also has separate read-only build and write-enabled publish jobs. Neither publish job checks out or executes project source. These archives are stored on the same persistent runner, whose root-owned job hook rejects external fork code before checkout; the workflow conditions provide an additional guard. See [CI maintenance](CI.md) for the runner trust boundary and storage layout.
 
 ## Reviewed findings
 
@@ -30,4 +30,4 @@ HOL 2.0.1116 supports exact-path exclusions but not rule-and-location-specific e
 
 To review a changed file, run an unfiltered scan with an empty config outside the repository, inspect the file-level JSON findings and relevant callers, then update the rationale and hashes only if the exception still applies. Preserve vendor provenance and resource checksums. New files remain fully scanned, and workflow files are not excluded. The catalog's centralized scan reads the exclusions; the source repository's Plugin security check additionally enforces the reviewed hashes.
 
-The configured JSON report is uploaded by the workflow even when scanning fails, so future findings have file-level evidence available for review.
+The configured JSON report is archived on the runner even when scanning fails, so future findings have file-level evidence available for review without depending on GitHub Artifact storage.

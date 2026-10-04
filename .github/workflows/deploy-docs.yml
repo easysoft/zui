@@ -9,7 +9,6 @@ on:
       - main
 
 permissions:
-  actions: read
   contents: write
 
 concurrency:
@@ -23,20 +22,22 @@ jobs:
       github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.head_branch == 'main' &&
       github.event.workflow_run.head_repository.full_name == github.repository
-    runs-on: ubuntu-latest
+    runs-on: zui-lightsail-validation-20260927
     timeout-minutes: 10
     steps:
-      - name: Download verified documentation
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
-        with:
-          name: docs-main-site
-          path: docs-site
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: ${{ github.event.workflow_run.id }}
+      - name: Read verified documentation from the successful run
+        env:
+          ZUI_SOURCE_RUN_ID: ${{ github.event.workflow_run.id }}
+          ZUI_SOURCE_RUN_ATTEMPT: ${{ github.event.workflow_run.run_attempt }}
+          ZUI_SOURCE_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          zui_results="$HOME/zui-ci-results/$ZUI_SOURCE_RUN_ID/$ZUI_SOURCE_RUN_ATTEMPT/docs"
+          test "$(cat "$zui_results/commit")" = "$ZUI_SOURCE_SHA"
+          mkdir -p "$RUNNER_TEMP/zui-docs"
+          tar -xzf "$zui_results/results.tar.gz" -C "$RUNNER_TEMP/zui-docs" docs/_/.vitepress/dist
       - name: Deploy
         uses: peaceiris/actions-gh-pages@329bcc8f12caed2cefe5a5b80781499a6f3b361b # v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs-site
+          publish_dir: ${{ runner.temp }}/zui-docs/docs/_/.vitepress/dist
           destination_dir: 3
