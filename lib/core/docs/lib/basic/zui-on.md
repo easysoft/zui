@@ -67,7 +67,7 @@
 | `once` | 是否只执行一次，默认 `false` |
 | `stop` | 是否阻止事件冒泡，相当于调用 `stopPropagation`，默认 `false` |
 | `prevent` | 是否阻止默认行为，相当于调用 `preventDefault`，默认 `false` |
-| `self` | 是否尽在点击自身时触发。 |
+| `self` | 是否仅在点击自身时触发。 |
 
 
 ## 内置参数
