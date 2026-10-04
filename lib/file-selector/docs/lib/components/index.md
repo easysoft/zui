@@ -599,23 +599,25 @@ const fileSelector = new zui.FileSelector('#fileSelector', {
 
 ### 操作拦截
 
-通过设置 `onRename`、`onRemove`、`onAdd`、`onRemove` 选项设置回调函数可以拦截文件操作，通常在回调函数中返回 `false` 可以阻止继续操作，相关回调函数定义参加选项和 API。
+通过设置 `onRename`、`onRemove`、`onAdd`、`onSelect` 选项设置回调函数可以拦截文件操作，通常在回调函数中返回 `false` 可以阻止继续操作，相关回调函数定义参见选项和 API。下面示例在控制台记录操作。
 
 ::: tabs
 
 == 示例
 
 <Example>
-  <div zui-create="fileSelector" data-on-rename="RAWJS<(file)=>console.log('> Rename file', file)>RAWJS" data-on-remove="RAWJS<(file)=>console.log('> Remove file', file)>RAWJS" data-on-add="RAWJS<(file)=>console.log('> On add file', file)>RAWJS" data-on-select="RAWJS<(file)=>console.log('> On select file', file)>RAWJS"></div>
+  <ZUI id="fileSelectorOperations" use="fileSelector" :options="operationOptions" />
 </Example>
 
 == HTML
 
 ```html
-<div id="fileSelector"></div>
+<div id="fileSelectorOperations"></div>
 
 <script>
-const fileSelector = new zui.FileSelector('#fileSelector', {
+const fileSelector = new zui.FileSelector('#fileSelectorOperations', {
+    multiple: true,
+    maxFileSize: '10MB',
     onRename: (newName, oldName, file) => {
         console.log('Rename file', file);
     },
@@ -636,23 +638,27 @@ const fileSelector = new zui.FileSelector('#fileSelector', {
 
 ### 文件限制拦截
 
-通过设置 `onDuplicated`、`onExceededSize`、`onExceededTotalSize` 和 `onExceededCount` 选项可以在触发文件限制时拦截文件操作，通过在回调函数中返回 `true` 来忽略文件限制，相关回调函数定义参加选项和 API。
+通过设置 `onDuplicated`、`onExceededSize`、`onExceededTotalSize` 和 `onExceededCount` 选项，可以在触发文件限制时获得通知。下面示例在控制台记录回调，最多选择 2 个文件，单个文件不超过 4KB，总大小不超过 5KB。
 
 ::: tabs
 
 == 示例
 
 <Example>
-  <div zui-create="fileSelector" data-on-duplicated="RAWJS<(name, currentFile, existFile)=>console.log('> Duplicated file', name, currentFile, existFile)>RAWJS" data-on-exceeded-size="RAWJS<(limit, file)=>console.log('> Exceeded size', limit, file)>RAWJS" data-on-exceeded-total-size="RAWJS<(limit, file)=>console.log('> Exceeded total size', limit, file)>RAWJS" data-on-exceeded-count="RAWJS<(limit, file)=>console.log('> Exceeded count', limit, file)>RAWJS"></div>
+  <ZUI id="fileSelectorLimits" use="fileSelector" :options="limitOptions" />
 </Example>
 
 == HTML
 
 ```html
-<div id="fileSelector"></div>
+<div id="fileSelectorLimits"></div>
 
 <script>
-const fileSelector = new zui.FileSelector('#fileSelector', {
+const fileSelector = new zui.FileSelector('#fileSelectorLimits', {
+    multiple: true,
+    maxFileCount: 2,
+    maxFileSize: '4KB',
+    totalFileSize: '5KB',
     onDuplicated: (name, currentFile, existFile) => {
         console.log('Duplicated file', name, currentFile, existFile);
     },
@@ -821,4 +827,39 @@ const presetFiles = [
     {name: '验收报告.pdf', size: 286720},
     {name: '成员头像.png', size: 12279, url: withBase('/assets/avatar/avatar.png')},
 ];
+
+const operationOptions = {
+    multiple: true,
+    maxFileSize: '10MB',
+    onRename: (newName, oldName, file) => {
+        console.log('Rename file', file);
+    },
+    onRemove: (file) => {
+        console.log('Remove file', file);
+    },
+    onAdd: (file) => {
+        console.log('On add file', file);
+    },
+    onSelect: (files) => {
+        console.log('On select file', files);
+    },
+};
+const limitOptions = {
+    multiple: true,
+    maxFileCount: 2,
+    maxFileSize: '4KB',
+    totalFileSize: '5KB',
+    onDuplicated: (name, currentFile, existFile) => {
+        console.log('Duplicated file', name, currentFile, existFile);
+    },
+    onExceededSize: (limit, file) => {
+        console.log('Exceeded size', limit, file);
+    },
+    onExceededTotalSize: (limit, file) => {
+        console.log('Exceeded total size', limit, file);
+    },
+    onExceededCount: (limit, file) => {
+        console.log('Exceeded count', limit, file);
+    },
+};
 </script>
