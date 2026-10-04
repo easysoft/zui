@@ -16,10 +16,10 @@ $ pnpm dev
 
 ### 组件开发目录
 
-ZUI3 每个组件在一个独立的目录内，拥有自己的 `package.json` 文件，使得组件可以独立作为 npm 包来使用，也可以单独作为子项目进行开发维护。
+ZUI 3 的各个库在独立目录中维护，并通过各自的 `package.json` 注册为源码工作区包，便于单独开发调试和按需构建。
 
 ::: tip 提示
-通常组件通过在 `package.json` 文件中设置属性 `private: true` 来让包仅在 zui3 [工作空间](https://pnpm.io/zh/workspaces)内可用，但组件仍然拥有作为公开的包发布到 npm 上进行独立使用。
+`@zui/*` 是 ZUI 源码[工作区](https://pnpm.io/zh/workspaces)中的库名，不作为独立发布包供应用安装。普通应用使用 `zui` 发布包，接入方式见[快速上手](/guide/start/)；按需组合库见[定制打包](/guide/customize/build.html)。
 :::
 
 ## 文档开发服务

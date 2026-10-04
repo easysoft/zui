@@ -140,10 +140,12 @@
 
 ## 引入
 
-使用构建工具时可单独引入：
+在 ZUI 源码工作区内可通过库名引入：
 
 ```js
 import '@zui/typography';
 ```
+
+`@zui/typography` 是源码工作区包。普通应用按[快速上手](/guide/start/)加载 ZUI 样式；按需构建时包含 `typography` 库。
 
 基础元素规则会影响页面中的同名 HTML 元素，文章间距等增强规则仅作用于 `.article` 容器。
