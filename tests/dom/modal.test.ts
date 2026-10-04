@@ -1,10 +1,10 @@
 // @vitest-environment jsdom
 
-import {describe, expect, it} from 'vitest';
+import {describe, expect, it, vi} from 'vitest';
 import {ModalBase} from '@zui/modal/src/vanilla/modal-base';
 import {flushAnimationFrame} from '../setup/dom';
 
-function createModal(options: {keyboard?: boolean} = {}) {
+function createModal(options: {keyboard?: boolean; responsive?: boolean; show?: boolean} = {}) {
     const trigger = document.createElement('button');
     trigger.type = 'button';
     trigger.textContent = 'Open modal';
@@ -21,13 +21,49 @@ function createModal(options: {keyboard?: boolean} = {}) {
     const modal = new ModalBase(element, {
         animation: false,
         keyboard: options.keyboard ?? true,
-        responsive: false,
-        show: false,
+        responsive: options.responsive ?? false,
+        show: options.show ?? false,
     });
     return {element, modal, trigger};
 }
 
 describe('ModalBase keyboard and focus contracts', () => {
+    it('does not reopen a modal dismissed before deferred initialization', async () => {
+        const {element, modal, trigger} = createModal({show: true});
+        trigger.focus();
+        modal.show();
+        modal.hide();
+
+        await flushAnimationFrame();
+
+        expect(modal.shown).toBe(false);
+        expect(element).not.toHaveClass('show');
+        expect(trigger).toHaveFocus();
+    });
+
+    it('still opens an untouched modal during deferred initialization', async () => {
+        const {element, modal} = createModal({show: true});
+
+        await flushAnimationFrame();
+
+        expect(modal.shown).toBe(true);
+        expect(element).toHaveClass('show');
+    });
+
+    it('observes resizing when opened before deferred initialization', async () => {
+        const observe = vi.fn();
+        vi.stubGlobal('ResizeObserver', class {
+            observe = observe;
+            disconnect = vi.fn();
+        });
+        const {modal} = createModal({responsive: true, show: true});
+        modal.show();
+
+        await flushAnimationFrame();
+
+        expect(observe).toHaveBeenCalledWith(modal.dialog);
+    });
+
     it('closes the topmost keyboard-enabled modal with Escape and restores focus', async () => {
         const {element, modal, trigger} = createModal();
         trigger.focus();
