@@ -2,6 +2,84 @@
 
 表单助手（FormHelper）用于更方便地对表单内控件的值进行读取和修改。它会自动在指定的表单容器内按照 `name`、`id` 或自定义属性查找表单字段，并且支持与 Picker 等 ZUI 组件集成，统一读写接口。
 
+## 基本使用
+
+修改下面两个字段后点击“读取数据”，或点击“填入示例数据”同时更新字段和读取结果。
+
+::: tabs
+
+== 示例
+
+<Example class="col gap-3">
+  <form ref="formElement" class="col gap-3" @submit.prevent="readValues">
+    <label for="formHelperUsername">用户名
+      <input id="formHelperUsername" name="username" class="form-control" value="linyue">
+    </label>
+    <label for="formHelperNotification">通知方式
+      <select id="formHelperNotification" name="notification" class="form-control">
+        <option value="email">邮件通知</option>
+        <option value="desktop">桌面通知</option>
+      </select>
+    </label>
+    <div class="row gap-2">
+      <button type="button" class="btn" :disabled="!helperReady" @click="readValues">读取数据</button>
+      <button type="button" class="btn" :disabled="!helperReady" @click="fillValues">填入示例数据</button>
+    </div>
+  </form>
+  <pre class="p-3 surface rounded overflow-auto" role="status" aria-live="polite">{{result}}</pre>
+</Example>
+
+== HTML
+
+```html
+<form id="formHelperExample" class="col gap-3">
+  <label for="formHelperUsername">用户名
+    <input id="formHelperUsername" name="username" class="form-control" value="linyue">
+  </label>
+  <label for="formHelperNotification">通知方式
+    <select id="formHelperNotification" name="notification" class="form-control">
+      <option value="email">邮件通知</option>
+      <option value="desktop">桌面通知</option>
+    </select>
+  </label>
+  <div class="row gap-2">
+    <button id="formHelperRead" type="button" class="btn">读取数据</button>
+    <button id="formHelperFill" type="button" class="btn">填入示例数据</button>
+  </div>
+</form>
+<pre id="formHelperResult" class="p-3 surface rounded overflow-auto" role="status" aria-live="polite"></pre>
+```
+
+== JS
+
+```js
+const form = document.querySelector('#formHelperExample');
+const helper = zui.formHelper(form);
+const result = document.querySelector('#formHelperResult');
+
+function readValues() {
+    result.textContent = JSON.stringify({
+        username: helper.getFieldVal('username'),
+        notification: helper.getFieldVal('notification'),
+    }, null, 2);
+}
+
+function fillValues() {
+    helper.setFormData({username: 'chenxi', notification: 'desktop'});
+    readValues();
+}
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    readValues();
+});
+document.querySelector('#formHelperRead').addEventListener('click', readValues);
+document.querySelector('#formHelperFill').addEventListener('click', fillValues);
+readValues();
+```
+
+:::
+
 ## 创建实例
 
 通过 `new FormHelper(selector, options?)` 或工厂函数 `formHelper(selector, options?)` 创建实例。`selector` 为表单容器的选择器或 DOM 元素。
@@ -189,3 +267,47 @@ getVal: () => unknown;
 /** 设置控件值的方法，返回是否成功。 */
 setVal: (value: unknown) => boolean | undefined;
 </Props>
+
+<script setup>
+import {onBeforeUnmount, onMounted, ref} from 'vue';
+
+const formElement = ref();
+const helperReady = ref(false);
+const result = ref('正在加载表单助手…');
+let helper;
+let disposed = false;
+
+function readValues() {
+    if (!helper) {
+        return;
+    }
+    result.value = JSON.stringify({
+        username: helper.getFieldVal('username'),
+        notification: helper.getFieldVal('notification'),
+    }, null, 2);
+}
+
+function fillValues() {
+    if (!helper) {
+        return;
+    }
+    helper.setFormData({username: 'chenxi', notification: 'desktop'});
+    readValues();
+}
+
+onMounted(() => {
+    onZUIReady(() => {
+        if (disposed) {
+            return;
+        }
+        helper = zui.formHelper(formElement.value);
+        helperReady.value = true;
+        readValues();
+    });
+});
+
+onBeforeUnmount(() => {
+    disposed = true;
+    helper = undefined;
+});
+</script>

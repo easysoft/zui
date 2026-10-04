@@ -4,22 +4,62 @@
 
 ## 基本使用
 
+拖动中间的分隔条可以调整侧栏宽度，点击分隔条上的箭头按钮可以折叠或展开侧栏；双击分隔条恢复初始宽度。箭头按钮也支持通过 Tab 聚焦后按 Enter 或空格操作。
+
+::: tabs
+
+== 示例
+
+<Example>
+  <div class="row gap-3 h-40">
+    <ZUI use="sidebar" class="sidebar" :options="sidebarOptions">
+      <div class="p-3 surface rounded">
+        <strong>客户门户</strong>
+        <div>需求与任务</div>
+        <div>发布记录</div>
+      </div>
+    </ZUI>
+    <div class="flex-auto min-w-0 p-3">
+      <strong>本周迭代</strong>
+      <div>完善客户资料与工单流程。</div>
+    </div>
+  </div>
+</Example>
+
+== HTML
+
 ```html
-<div class="row" id="layout">
-  <aside class="sidebar" id="projectSidebar"><div class="sidebar-content">客户门户 · 需求、任务与发布记录</div></aside>
-  <main class="flex-auto">客户门户 · 本周迭代任务</main>
+<div class="row gap-3 h-40">
+  <aside class="sidebar" id="projectSidebar">
+    <div class="p-3 surface rounded">
+      <strong>客户门户</strong>
+      <div>需求与任务</div>
+      <div>发布记录</div>
+    </div>
+  </aside>
+  <main class="flex-auto min-w-0 p-3">
+    <strong>本周迭代</strong>
+    <div>完善客户资料与工单流程。</div>
+  </main>
 </div>
 ```
 
+== JS
+
 ```js
 const sidebar = new zui.Sidebar('#projectSidebar', {
-    width: 280,
-    minWidth: 180,
-    preserve: 'project-sidebar',
+    width: '40%',
+    minWidth: 96,
+    maxWidth: '65%',
+    $onInited() {
+        this.element.querySelector('.gutter-toggle').setAttribute('aria-label', '折叠或展开侧栏');
+    },
 });
 ```
 
-调用 `sidebar.toggle()` 可折叠或恢复侧栏，`sidebar.update(width)` 可设置像素宽度。启用 `dragToResize`（默认值）时，用户可以拖动 gutter 调整宽度；双击 gutter 默认恢复初始宽度。
+:::
+
+调用 `sidebar.toggle()` 可折叠或恢复侧栏，`sidebar.update(width)` 可设置像素宽度。设置 `preserve: 'project-sidebar'` 可在刷新页面后保留宽度；示例未启用持久化。
 
 ## 共享宽度
 
@@ -83,3 +123,14 @@ shareWidth?: string;
 onToggle?: (collapsed: boolean) => void;
 onResize?: (width: number) => void;
 </Props>
+
+<script setup>
+const sidebarOptions = {
+    width: '40%',
+    minWidth: 96,
+    maxWidth: '65%',
+    $onInited() {
+        this.element.querySelector('.gutter-toggle').setAttribute('aria-label', '折叠或展开侧栏');
+    },
+};
+</script>
