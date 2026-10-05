@@ -1,0 +1,54 @@
+ZenIcon: additional third-party glyph sources
+===========================================
+
+These notices record source attribution and unresolved license information.
+They are not a replacement for missing permission or a grant of new rights.
+
+The glyph paths in lib/icons/assets/selection.json match the named source
+sets in lib/icons/assets/zenicon.json. The selected glyphs are included in
+the ZenIcon fonts under lib/icons/public/.
+
+Brankic 1979
+------------
+Designer recorded in the source metadata: Brankic1979
+Project: http://www.brankic1979.com/
+Original license URL: http://brankic1979.com/icons/
+License recorded in the source metadata: Custom
+Glyphs: resize; collapse-full; yingyang (alias: taiji).
+
+The repository does not contain the original license text. The original
+license URL could not be retrieved during this audit on 2026-10-05.
+The applicable terms still need to be recovered from the original author
+or the original download. No standard open-source license is asserted here.
+
+Steadysets
+----------
+Designer recorded in the source metadata: Tommy Sähl
+Original designer URL: http://tommysahl.com/
+Original project and license URL:
+https://dribbble.com/shots/929153-Steady-set-of-icons
+License recorded in the source metadata: Custom
+Glyphs: window; window-alt; carousel.
+
+The referenced author's page, currently credited to Erik Sal, states:
+"Free of charge, free to use."
+
+That short statement does not supply a complete license text. The original
+download and its full terms are not present in the repository and still
+need to be recovered. No MIT, Apache or Creative Commons license is
+asserted here.
+
+Taobao
+------
+Designer recorded in the source metadata: taobao
+Original source URL: http://www.iconfont.cn/
+Glyphs: zhifubao-square (alias: alipay-square); zhifubao (alias: alipay);
+taobao.
+
+The source metadata has no license, license URL, individual icon IDs or
+author-specific download link. The applicable copyright and license terms
+cannot be determined from the generic source URL. The original download
+or permission record is still required; no open-source license is asserted.
+
+Font Awesome and IcoMoon Free have separate notices in
+LICENSE-font-awesome.txt and LICENSE-icomoon-free.txt.
