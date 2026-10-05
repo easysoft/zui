@@ -1,6 +1,6 @@
 # 通用辅助方法
 
-`@zui/helpers` 提供一组与框架无关的纯函数、常量和通用类型，涵盖日期、字符串、对象和颜色处理。所有方法均可在浏览器或 Node 环境中直接使用，不依赖 DOM。
+ZUI 源码工作区中的 `@zui/helpers` 提供一组与框架无关的纯函数、常量和通用类型，涵盖日期、字符串、对象和颜色处理。这些源码函数不依赖 DOM，在配置好 TypeScript 编译的工作区中可用于浏览器或 Node 环境。
 
 页面已加载 ZUI 时，通过全局对象 `zui` 访问这些方法：
 
@@ -36,10 +36,12 @@ zui.deepGet({tasks: [{estimate: 8}]}, 'tasks[0].estimate', 0); // 8
 zui.hslToRgb(120, 1, 0.5);                              // [0, 255, 0]
 ```
 
-## 模块引入（ESM / npm）
+## 源码工作区入口
 
-在构建工具或 Node 环境中，也可以从包根按名导入：
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*` 并编译 TypeScript，可按名导入所需方法：
 
 ```js
 import {formatDate, convertBytes, deepGet, hslToRgb} from '@zui/helpers';
 ```
+
+浏览器项目使用标准 npm 包时，从 `zui` 导入这些公开方法。聚合 `zui` 入口包含浏览器组件及 DOM 初始化逻辑；本库源码不依赖 DOM 的特性不代表聚合包可在无 DOM 的 Node 环境中直接加载。
