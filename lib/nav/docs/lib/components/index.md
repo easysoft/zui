@@ -93,10 +93,15 @@
     <li class="item nav-item disabled pointer-events-none"><a><span class="text">动态</span></a></li>
     <li class="divider"></li>
     <li class="item nav-item">
-      <a data-toggle="dropdown" href="#navDropdown">
+      <a data-toggle="dropdown" href="#navHeadingDropdown">
         <span class="text">更多</span><span class="caret"></span>
       </a>
     </li>
+  </menu>
+  <menu id="navHeadingDropdown" class="dropdown-menu menu">
+    <li class="menu-item"><a><span class="text">博客</span></a></li>
+    <li class="menu-item"><a><span class="text">项目</span></a></li>
+    <li class="menu-item"><a><span class="text">关于我们</span></a></li>
   </menu>
 </Example>
 
@@ -111,10 +116,15 @@
   <li class="item nav-item disabled pointer-events-none"><a><span class="text">动态</span></a></li>
   <li class="divider"></li>
   <li class="item nav-item">
-    <a data-toggle="dropdown" href="#navDropdown">
+    <a data-toggle="dropdown" href="#navHeadingDropdown">
       <span class="text">更多</span><span class="caret"></span>
     </a>
   </li>
+</menu>
+<menu id="navHeadingDropdown" class="dropdown-menu menu">
+  <li class="menu-item"><a><span class="text">博客</span></a></li>
+  <li class="menu-item"><a><span class="text">项目</span></a></li>
+  <li class="menu-item"><a><span class="text">关于我们</span></a></li>
 </menu>
 ```
 
@@ -146,10 +156,15 @@
       <a class="disabled"><span class="text">动态</span></a>
     </li>
     <li class="item nav-item">
-      <a data-toggle="dropdown" href="#navDropdown">
+      <a data-toggle="dropdown" href="#navPrimaryDropdown">
         <span class="text">更多</span><span class="caret"></span>
       </a>
     </li>
+  </menu>
+  <menu id="navPrimaryDropdown" class="dropdown-menu menu">
+    <li class="menu-item"><a><span class="text">博客</span></a></li>
+    <li class="menu-item"><a><span class="text">项目</span></a></li>
+    <li class="menu-item"><a><span class="text">关于我们</span></a></li>
   </menu>
 </Example>
 
@@ -157,7 +172,29 @@
 
 ```html
 <menu class="nav nav-primary">
-  ...
+  <li class="nav-heading">主要导航</li>
+  <li class="item nav-item">
+    <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+  </li>
+  <li class="item nav-item">
+    <a><span class="text">产品</span></a>
+  </li>
+  <li class="item nav-item">
+    <a><span class="text">价格</span></a>
+  </li>
+  <li class="item nav-item">
+    <a class="disabled"><span class="text">动态</span></a>
+  </li>
+  <li class="item nav-item">
+    <a data-toggle="dropdown" href="#navPrimaryDropdown">
+      <span class="text">更多</span><span class="caret"></span>
+    </a>
+  </li>
+</menu>
+<menu id="navPrimaryDropdown" class="dropdown-menu menu">
+  <li class="menu-item"><a><span class="text">博客</span></a></li>
+  <li class="menu-item"><a><span class="text">项目</span></a></li>
+  <li class="menu-item"><a><span class="text">关于我们</span></a></li>
 </menu>
 ```
 
@@ -185,10 +222,15 @@
       <a class="disabled"><span class="text">动态</span></a>
     </li>
     <li class="item nav-item">
-      <a data-toggle="dropdown" href="#navDropdown">
+      <a data-toggle="dropdown" href="#navSecondaryDropdown">
         <span class="text">更多</span><span class="caret"></span>
       </a>
     </li>
+  </menu>
+  <menu id="navSecondaryDropdown" class="dropdown-menu menu">
+    <li class="menu-item"><a><span class="text">博客</span></a></li>
+    <li class="menu-item"><a><span class="text">项目</span></a></li>
+    <li class="menu-item"><a><span class="text">关于我们</span></a></li>
   </menu>
 </Example>
 
@@ -196,7 +238,29 @@
 
 ```html
 <menu class="nav nav-secondary">
-  ...
+  <li class="nav-heading">次要导航</li>
+  <li class="item nav-item">
+    <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+  </li>
+  <li class="item nav-item">
+    <a><span class="text">产品</span></a>
+  </li>
+  <li class="item nav-item">
+    <a><span class="text">价格</span></a>
+  </li>
+  <li class="item nav-item">
+    <a class="disabled"><span class="text">动态</span></a>
+  </li>
+  <li class="item nav-item">
+    <a data-toggle="dropdown" href="#navSecondaryDropdown">
+      <span class="text">更多</span><span class="caret"></span>
+    </a>
+  </li>
+</menu>
+<menu id="navSecondaryDropdown" class="dropdown-menu menu">
+  <li class="menu-item"><a><span class="text">博客</span></a></li>
+  <li class="menu-item"><a><span class="text">项目</span></a></li>
+  <li class="menu-item"><a><span class="text">关于我们</span></a></li>
 </menu>
 ```
 
@@ -224,10 +288,15 @@
       <a class="disabled"><span class="text">动态</span></a>
     </li>
     <li class="item nav-item">
-      <a data-toggle="dropdown" href="#navDropdown">
+      <a data-toggle="dropdown" href="#navPillsDropdown">
         <span class="text">更多</span><span class="caret"></span>
       </a>
     </li>
+  </menu>
+  <menu id="navPillsDropdown" class="dropdown-menu menu">
+    <li class="menu-item"><a><span class="text">博客</span></a></li>
+    <li class="menu-item"><a><span class="text">项目</span></a></li>
+    <li class="menu-item"><a><span class="text">关于我们</span></a></li>
   </menu>
 </Example>
 
@@ -235,7 +304,29 @@
 
 ```html
 <menu class="nav nav-pills">
-  ...
+  <li class="nav-heading">圆点导航</li>
+  <li class="item nav-item">
+    <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+  </li>
+  <li class="item nav-item">
+    <a><span class="text">产品</span></a>
+  </li>
+  <li class="item nav-item">
+    <a><span class="text">价格</span></a>
+  </li>
+  <li class="item nav-item">
+    <a class="disabled"><span class="text">动态</span></a>
+  </li>
+  <li class="item nav-item">
+    <a data-toggle="dropdown" href="#navPillsDropdown">
+      <span class="text">更多</span><span class="caret"></span>
+    </a>
+  </li>
+</menu>
+<menu id="navPillsDropdown" class="dropdown-menu menu">
+  <li class="menu-item"><a><span class="text">博客</span></a></li>
+  <li class="menu-item"><a><span class="text">项目</span></a></li>
+  <li class="menu-item"><a><span class="text">关于我们</span></a></li>
 </menu>
 ```
 
@@ -263,10 +354,15 @@
       <a class="disabled"><span class="text">动态</span></a>
     </li>
     <li class="item nav-item">
-      <a data-toggle="dropdown" href="#navDropdown">
+      <a data-toggle="dropdown" href="#navTabsDropdown">
         <span class="text">更多</span><span class="caret"></span>
       </a>
     </li>
+  </menu>
+  <menu id="navTabsDropdown" class="dropdown-menu menu">
+    <li class="menu-item"><a><span class="text">博客</span></a></li>
+    <li class="menu-item"><a><span class="text">项目</span></a></li>
+    <li class="menu-item"><a><span class="text">关于我们</span></a></li>
   </menu>
 </Example>
 
@@ -274,7 +370,29 @@
 
 ```html
 <menu class="nav nav-tabs">
-  ...
+  <li class="nav-heading">标签导航</li>
+  <li class="item nav-item">
+    <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+  </li>
+  <li class="item nav-item">
+    <a><span class="text">产品</span></a>
+  </li>
+  <li class="item nav-item">
+    <a><span class="text">价格</span></a>
+  </li>
+  <li class="item nav-item">
+    <a class="disabled"><span class="text">动态</span></a>
+  </li>
+  <li class="item nav-item">
+    <a data-toggle="dropdown" href="#navTabsDropdown">
+      <span class="text">更多</span><span class="caret"></span>
+    </a>
+  </li>
+</menu>
+<menu id="navTabsDropdown" class="dropdown-menu menu">
+  <li class="menu-item"><a><span class="text">博客</span></a></li>
+  <li class="menu-item"><a><span class="text">项目</span></a></li>
+  <li class="menu-item"><a><span class="text">关于我们</span></a></li>
 </menu>
 ```
 
@@ -342,10 +460,15 @@
         <a class="disabled"><span class="text">动态</span></a>
       </li>
       <li class="item nav-item">
-        <a data-toggle="dropdown" href="#navDropdown">
+        <a data-toggle="dropdown" :href="'#navStackedDropdown-' + navType">
           <span class="text">更多</span><span class="caret"></span>
         </a>
       </li>
+    </menu>
+    <menu :id="'navStackedDropdown-' + navType" class="dropdown-menu menu">
+      <li class="menu-item"><a><span class="text">博客</span></a></li>
+      <li class="menu-item"><a><span class="text">项目</span></a></li>
+      <li class="menu-item"><a><span class="text">关于我们</span></a></li>
     </menu>
   </div>
 </Example>
@@ -353,9 +476,126 @@
 == HTML
 
 ```html
-<menu class="nav nav-stacked ...">
-  ...
-</menu>
+<div class="flex-1">
+  <div class="text-md pb-4 font-bold">
+    <code>.nav-primary</code>
+  </div>
+  <menu class="nav nav-stacked nav-primary">
+    <li class="nav-heading">主要导航</li>
+    <li class="item nav-item">
+      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+    </li>
+    <li class="item nav-item">
+      <a><span class="text">产品</span></a>
+    </li>
+    <li class="item nav-item">
+      <a><span class="text">价格</span></a>
+    </li>
+    <li class="item nav-item">
+      <a class="disabled"><span class="text">动态</span></a>
+    </li>
+    <li class="item nav-item">
+      <a data-toggle="dropdown" href="#navStackedDropdown-primary">
+        <span class="text">更多</span><span class="caret"></span>
+      </a>
+    </li>
+  </menu>
+  <menu id="navStackedDropdown-primary" class="dropdown-menu menu">
+    <li class="menu-item"><a><span class="text">博客</span></a></li>
+    <li class="menu-item"><a><span class="text">项目</span></a></li>
+    <li class="menu-item"><a><span class="text">关于我们</span></a></li>
+  </menu>
+</div>
+<div class="flex-1">
+  <div class="text-md pb-4 font-bold">
+    <code>.nav-secondary</code>
+  </div>
+  <menu class="nav nav-stacked nav-secondary">
+    <li class="nav-heading">次要导航</li>
+    <li class="item nav-item">
+      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+    </li>
+    <li class="item nav-item">
+      <a><span class="text">产品</span></a>
+    </li>
+    <li class="item nav-item">
+      <a><span class="text">价格</span></a>
+    </li>
+    <li class="item nav-item">
+      <a class="disabled"><span class="text">动态</span></a>
+    </li>
+    <li class="item nav-item">
+      <a data-toggle="dropdown" href="#navStackedDropdown-secondary">
+        <span class="text">更多</span><span class="caret"></span>
+      </a>
+    </li>
+  </menu>
+  <menu id="navStackedDropdown-secondary" class="dropdown-menu menu">
+    <li class="menu-item"><a><span class="text">博客</span></a></li>
+    <li class="menu-item"><a><span class="text">项目</span></a></li>
+    <li class="menu-item"><a><span class="text">关于我们</span></a></li>
+  </menu>
+</div>
+<div class="flex-1">
+  <div class="text-md pb-4 font-bold">
+    <code>.nav-pills</code>
+  </div>
+  <menu class="nav nav-stacked nav-pills">
+    <li class="nav-heading">圆点导航</li>
+    <li class="item nav-item">
+      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+    </li>
+    <li class="item nav-item">
+      <a><span class="text">产品</span></a>
+    </li>
+    <li class="item nav-item">
+      <a><span class="text">价格</span></a>
+    </li>
+    <li class="item nav-item">
+      <a class="disabled"><span class="text">动态</span></a>
+    </li>
+    <li class="item nav-item">
+      <a data-toggle="dropdown" href="#navStackedDropdown-pills">
+        <span class="text">更多</span><span class="caret"></span>
+      </a>
+    </li>
+  </menu>
+  <menu id="navStackedDropdown-pills" class="dropdown-menu menu">
+    <li class="menu-item"><a><span class="text">博客</span></a></li>
+    <li class="menu-item"><a><span class="text">项目</span></a></li>
+    <li class="menu-item"><a><span class="text">关于我们</span></a></li>
+  </menu>
+</div>
+<div class="flex-1">
+  <div class="text-md pb-4 font-bold">
+    <code>.nav-tabs</code>
+  </div>
+  <menu class="nav nav-stacked nav-tabs">
+    <li class="nav-heading">标签导航</li>
+    <li class="item nav-item">
+      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+    </li>
+    <li class="item nav-item">
+      <a><span class="text">产品</span></a>
+    </li>
+    <li class="item nav-item">
+      <a><span class="text">价格</span></a>
+    </li>
+    <li class="item nav-item">
+      <a class="disabled"><span class="text">动态</span></a>
+    </li>
+    <li class="item nav-item">
+      <a data-toggle="dropdown" href="#navStackedDropdown-tabs">
+        <span class="text">更多</span><span class="caret"></span>
+      </a>
+    </li>
+  </menu>
+  <menu id="navStackedDropdown-tabs" class="dropdown-menu menu">
+    <li class="menu-item"><a><span class="text">博客</span></a></li>
+    <li class="menu-item"><a><span class="text">项目</span></a></li>
+    <li class="menu-item"><a><span class="text">关于我们</span></a></li>
+  </menu>
+</div>
 ```
 
 :::
@@ -384,10 +624,15 @@
         <a class="disabled"><span class="text">动态</span></a>
       </li>
       <li class="item nav-item">
-        <a data-toggle="dropdown" href="#navDropdown">
+        <a data-toggle="dropdown" :href="'#navJustifiedDropdown-' + item.class">
           <span class="text">更多</span><span class="caret"></span>
         </a>
       </li>
+    </menu>
+    <menu :id="'navJustifiedDropdown-' + item.class" class="dropdown-menu menu">
+      <li class="menu-item"><a><span class="text">博客</span></a></li>
+      <li class="menu-item"><a><span class="text">项目</span></a></li>
+      <li class="menu-item"><a><span class="text">关于我们</span></a></li>
     </menu>
   </div>
 </Example>
@@ -395,9 +640,110 @@
 == HTML
 
 ```html
-<menu class="nav nav-justified">
-  ...
-</menu>
+<div>
+  <menu class="nav nav-justified nav-primary">
+    <li class="item nav-item">
+      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+    </li>
+    <li class="item nav-item">
+      <a><span class="text">产品</span></a>
+    </li>
+    <li class="item nav-item">
+      <a><span class="text">价格</span></a>
+    </li>
+    <li class="item nav-item">
+      <a class="disabled"><span class="text">动态</span></a>
+    </li>
+    <li class="item nav-item">
+      <a data-toggle="dropdown" href="#navJustifiedDropdown-primary">
+        <span class="text">更多</span><span class="caret"></span>
+      </a>
+    </li>
+  </menu>
+  <menu id="navJustifiedDropdown-primary" class="dropdown-menu menu">
+    <li class="menu-item"><a><span class="text">博客</span></a></li>
+    <li class="menu-item"><a><span class="text">项目</span></a></li>
+    <li class="menu-item"><a><span class="text">关于我们</span></a></li>
+  </menu>
+</div>
+<div>
+  <menu class="nav nav-justified nav-secondary">
+    <li class="item nav-item">
+      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+    </li>
+    <li class="item nav-item">
+      <a><span class="text">产品</span></a>
+    </li>
+    <li class="item nav-item">
+      <a><span class="text">价格</span></a>
+    </li>
+    <li class="item nav-item">
+      <a class="disabled"><span class="text">动态</span></a>
+    </li>
+    <li class="item nav-item">
+      <a data-toggle="dropdown" href="#navJustifiedDropdown-secondary">
+        <span class="text">更多</span><span class="caret"></span>
+      </a>
+    </li>
+  </menu>
+  <menu id="navJustifiedDropdown-secondary" class="dropdown-menu menu">
+    <li class="menu-item"><a><span class="text">博客</span></a></li>
+    <li class="menu-item"><a><span class="text">项目</span></a></li>
+    <li class="menu-item"><a><span class="text">关于我们</span></a></li>
+  </menu>
+</div>
+<div>
+  <menu class="nav nav-justified nav-tabs">
+    <li class="item nav-item">
+      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+    </li>
+    <li class="item nav-item">
+      <a><span class="text">产品</span></a>
+    </li>
+    <li class="item nav-item">
+      <a><span class="text">价格</span></a>
+    </li>
+    <li class="item nav-item">
+      <a class="disabled"><span class="text">动态</span></a>
+    </li>
+    <li class="item nav-item">
+      <a data-toggle="dropdown" href="#navJustifiedDropdown-tabs">
+        <span class="text">更多</span><span class="caret"></span>
+      </a>
+    </li>
+  </menu>
+  <menu id="navJustifiedDropdown-tabs" class="dropdown-menu menu">
+    <li class="menu-item"><a><span class="text">博客</span></a></li>
+    <li class="menu-item"><a><span class="text">项目</span></a></li>
+    <li class="menu-item"><a><span class="text">关于我们</span></a></li>
+  </menu>
+</div>
+<div>
+  <menu class="nav nav-justified nav-pills">
+    <li class="item nav-item">
+      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+    </li>
+    <li class="item nav-item">
+      <a><span class="text">产品</span></a>
+    </li>
+    <li class="item nav-item">
+      <a><span class="text">价格</span></a>
+    </li>
+    <li class="item nav-item">
+      <a class="disabled"><span class="text">动态</span></a>
+    </li>
+    <li class="item nav-item">
+      <a data-toggle="dropdown" href="#navJustifiedDropdown-pills">
+        <span class="text">更多</span><span class="caret"></span>
+      </a>
+    </li>
+  </menu>
+  <menu id="navJustifiedDropdown-pills" class="dropdown-menu menu">
+    <li class="menu-item"><a><span class="text">博客</span></a></li>
+    <li class="menu-item"><a><span class="text">项目</span></a></li>
+    <li class="menu-item"><a><span class="text">关于我们</span></a></li>
+  </menu>
+</div>
 ```
 
 :::
