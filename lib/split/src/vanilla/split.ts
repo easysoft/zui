@@ -1,6 +1,5 @@
 import SplitJS from 'split.js';
 import {Component, $, parseSize, SizeSetting, Cash} from '@zui/core';
-import '@zui/css-icons/src/icons/chevron.css';
 
 import type {SplitOptions} from '../types';
 
