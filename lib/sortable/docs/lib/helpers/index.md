@@ -149,7 +149,9 @@ const list = new zui.SortableList('#taskList', {
 
 `SortableTree` 接受 [树形菜单](/lib/components/tree/) 的选项。其 `onSort(event, orders, parentKey)` 和 `canSortTo(event, from, to, parentKey)` 额外给出父级键；`orders` 只包含本层级的直接子项。若应用还会重新渲染列表或树，应在排序回调中同步业务数据，避免后续渲染覆盖 DOM 排序结果。
 
-## 模块引入与键盘替代操作
+## 源码工作区入口与键盘替代操作
+
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*` 并编译 TypeScript；使用 JSX 时还需配置 Preact。标准 npm 包通过 `zui` 和 `zui/css` 接入，额外的排序资源按前文说明部署。
 
 ```ts
 import {Sortable, SortableList, SortableTree} from '@zui/sortable';
