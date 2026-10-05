@@ -13,6 +13,8 @@
 
 <script>
 const table = new zui.DTable('#myDtable', {
+    responsive: true,
+    'aria-label': '项目计划',
     cols: [
         {name: 'id', title: 'ID', width: 60},
         {name: 'project', title: '项目名称', flex: 1},
@@ -36,6 +38,8 @@ import {DTable} from 'zui';
 import 'zui/css';
 
 const table = new DTable('#myDtable', {
+    responsive: true,
+    'aria-label': '项目计划',
     cols: [
         {name: 'id', title: 'ID', width: 60},
         {name: 'project', title: '项目名称', flex: 1},
@@ -75,6 +79,10 @@ import '@zui/dtable/css';
 
 ## 示例
 
+基本功能和增强功能的“完整代码”可直接放入已接入 ZUI 的页面；两个示例可以独立运行。负责人头像使用 `/assets/avatar/avatar-1.png` 至 `avatar-4.png`，可下载[头像 1](/assets/avatar/avatar-1.png)、[头像 2](/assets/avatar/avatar-2.png)、[头像 3](/assets/avatar/avatar-3.png)、[头像 4](/assets/avatar/avatar-4.png) 放到对应路径，或将 `managerAvatar` 换成项目中的图片地址。
+
+本页示例随容器宽度重新布局；容器不足 600px 时取消固定列，使用表格下方的横向滚动条查看完整内容。键盘操作方式见[无障碍与键盘操作](#无障碍与键盘操作)。
+
 ### 基本功能
 
 下面的示例中展示了数据表格的基本功能，包括：
@@ -85,9 +93,87 @@ import '@zui/dtable/css';
 * 虚拟渲染（仅渲染可见范围内的单元格）；
 * 根据列设置调整单元格对齐方式。
 
+拖动表格底部的滚动条查看完整列；操作列链接仅演示入口，`#action=...` 需替换为项目中的实际地址。
+
+::: tabs
+
+== 示例
+
 <Example>
-  <div id="dtable-basic"></div>
+  <ZUI id="dtable-basic" use="dtable" data-dtable-managed :options="getExampleOptions('dtable-basic')" />
 </Example>
+
+== 完整代码
+
+```html
+<div id="dtable-basic"></div>
+
+<script>
+const cols = [
+    {name: 'id', title: 'ID', width: 60, fixed: 'left', checkbox: true},
+    {name: 'project', title: '项目名称', width: 200, fixed: 'left', type: 'link', sortType: false, nestedToggle: true},
+    {name: 'manager', title: '负责人', width: 60, sortType: false, flex: 1, type: 'avatar', avatarKey: 'managerAvatar', avatarWithName: true},
+    {name: 'progress', title: '进度', width: 65, align: 'center', sortType: false, type: 'progress'},
+    {name: 'storyPoints', title: '需求规模', width: 80, align: 'right', sortType: false, html: val => `${Number(val).toFixed(1)} <small class="text-gray">SP</small>`},
+    {name: 'executionCounts', title: '执行数', width: 70, align: 'center', sortType: false, html: '{0} <small>迭代</small>'},
+    {name: 'investedDays', title: '已投入', width: 70, align: 'center', sortType: false, html: '{0} <small>人天</small>'},
+    {name: 'startDate', title: '开始日期', width: 90, align: 'center', sortType: false, formatDate: 'yyyy年MM月dd日'},
+    {name: 'finishDate', title: '计划完成', width: 90, align: 'center', sortType: false, formatDate: 'yyyy年MM月dd日'},
+    {name: 'actions', title: '操作', width: 120, sortType: false, fixed: 'right', onRenderCell(_result, {col, row}) {
+        return [{
+            html: row.data[col.name].map((action) => {
+                const actionNames = {start: '开始', close: '关闭', edit: '编辑'};
+                return `<a href="#action=${action}">${actionNames[action] || action}</a>`;
+            }).join(' '),
+        }];
+    }},
+];
+
+const data = [
+    {id: '1', project: '客户服务门户', manager: '陈晨', storyPoints: 40, executionCounts: 3, investedDays: 30, startDate: '2026-09-01', finishDate: '2026-09-18', progress: 100, actions: ['edit', 'close']},
+    {id: '2', parent: '1', project: '门户 · 需求确认', manager: '林悦', storyPoints: 8, executionCounts: 1, investedDays: 6, startDate: '2026-09-01', finishDate: '2026-09-03', progress: 100, actions: ['edit']},
+    {id: '3', parent: '1', project: '门户 · 自助查询开发', manager: '陈晨', storyPoints: 20, executionCounts: 1, investedDays: 16, startDate: '2026-09-04', finishDate: '2026-09-14', progress: 100, actions: ['edit']},
+    {id: '4', parent: '1', project: '门户 · 验收与上线', manager: '王宁', storyPoints: 12, executionCounts: 1, investedDays: 8, startDate: '2026-09-15', finishDate: '2026-09-18', progress: 100, actions: ['edit']},
+    {id: '5', project: '移动端工单', manager: '周敏', storyPoints: 34, executionCounts: 3, investedDays: 18, startDate: '2026-09-14', finishDate: '2026-10-09', progress: 47, actions: ['edit']},
+    {id: '6', parent: '5', project: '工单 · 交互设计', manager: '周敏', storyPoints: 8, executionCounts: 1, investedDays: 8, startDate: '2026-09-14', finishDate: '2026-09-18', progress: 100, actions: ['edit']},
+    {id: '7', parent: '5', project: '工单 · 拍照上传开发', manager: '陈晨', storyPoints: 16, executionCounts: 1, investedDays: 10, startDate: '2026-09-21', finishDate: '2026-09-30', progress: 50, actions: ['edit']},
+    {id: '8', parent: '5', project: '工单 · 弱网验收', manager: '王宁', storyPoints: 10, executionCounts: 1, investedDays: 0, startDate: '2026-10-01', finishDate: '2026-10-09', progress: 0, actions: ['start', 'edit']},
+    {id: '9', project: '团队知识库', manager: '林悦', storyPoints: 40, executionCounts: 3, investedDays: 0, startDate: '2026-10-12', finishDate: '2026-10-30', progress: 0, actions: ['start', 'edit']},
+    {id: '10', parent: '9', project: '知识库 · 内容分类', manager: '林悦', storyPoints: 8, executionCounts: 1, investedDays: 0, startDate: '2026-10-12', finishDate: '2026-10-14', progress: 0, actions: ['start', 'edit']},
+    {id: '11', parent: '9', project: '知识库 · 全文检索', manager: '陈晨', storyPoints: 20, executionCounts: 1, investedDays: 0, startDate: '2026-10-15', finishDate: '2026-10-26', progress: 0, actions: ['start', 'edit']},
+    {id: '12', parent: '9', project: '知识库 · 权限验收', manager: '王宁', storyPoints: 12, executionCounts: 1, investedDays: 0, startDate: '2026-10-27', finishDate: '2026-10-30', progress: 0, actions: ['start', 'edit']},
+].map(row => ({
+    ...row,
+    managerAvatar: `/assets/avatar/avatar-${['林悦', '陈晨', '王宁', '周敏'].indexOf(row.manager) + 1}.png`,
+}));
+
+const responsiveExample = {
+    name: 'docs-responsive',
+    beforeLayout(options) {
+        // 两侧固定列共占约 400px，窄容器将所有列放入同一滚动区域。
+        if (this.parent.clientWidth < 600) {
+            return {cols: options.cols.map(col => ({...col, fixed: false}))};
+        }
+    },
+};
+
+const table = new zui.DTable('#dtable-basic', {
+    height: 400,
+    responsive: true,
+    scrollbarHover: false,
+    'aria-label': '项目计划示例',
+    cols,
+    data,
+    nested: false,
+    footer: false,
+    checkable: false,
+    striped: false,
+    plugins: [responsiveExample],
+});
+</script>
+```
+
+:::
 
 ### 增强功能
 
@@ -97,11 +183,89 @@ import '@zui/dtable/css';
 * 行选中交互；
 * 多层级数据结构，支持展开折叠；
 * 特殊交互和外观，包括：鼠标悬停效果、隔行变色、完整边框等；
-* 丰富的单元格渲染格式，包括链接、头像、环形进度条，格式化文本和操作按钮等。
+* 丰富的单元格渲染格式，包括头像、环形进度条、格式化文本和操作链接等。
+
+点击行或复选框选中项目，点击项目名前的箭头展开或折叠阶段。这里的排序标记用于展示状态，不会自动重排数据；需要点击表头排序时，使用[本地排序插件](/lib/components/dtable/plugins.html#本地排序-sort)。操作列的 `#action=...` 链接需替换为实际业务地址。
+
+::: tabs
+
+== 示例
 
 <Example>
-  <div id="dtable-advanced"></div>
+  <ZUI id="dtable-advanced" use="dtable" data-dtable-managed :options="getExampleOptions('dtable-advanced')" />
 </Example>
+
+== 完整代码
+
+```html
+<div id="dtable-advanced"></div>
+
+<script>
+const cols = [
+    {name: 'id', title: 'ID', width: 70, fixed: 'left', checkbox: true, sortType: 'down'},
+    {name: 'project', title: '项目名称', width: 200, fixed: 'left', type: 'link', sortType: false, nestedToggle: true},
+    {name: 'manager', title: '负责人', width: 90, sortType: true, flex: 1, type: 'avatar', avatarKey: 'managerAvatar', avatarWithName: true},
+    {name: 'progress', title: '进度', width: 65, align: 'center', sortType: false, type: 'progress'},
+    {name: 'storyPoints', title: '需求规模', width: 80, align: 'right', sortType: false, html: val => `${Number(val).toFixed(1)} <small class="text-gray">SP</small>`},
+    {name: 'executionCounts', title: '执行数', width: 70, align: 'right', sortType: true, html: '{0} <small>迭代</small>'},
+    {name: 'investedDays', title: '已投入', width: 70, align: 'right', sortType: false, html: '{0} <small>人天</small>'},
+    {name: 'startDate', title: '开始日期', width: 120, align: 'center', sortType: true, formatDate: 'yyyy年MM月dd日'},
+    {name: 'finishDate', title: '计划完成', width: 120, align: 'center', sortType: true, formatDate: 'yyyy年MM月dd日'},
+    {name: 'actions', title: '操作', width: 120, sortType: false, fixed: 'right', onRenderCell(_result, {col, row}) {
+        return [{
+            html: row.data[col.name].map((action) => {
+                const actionNames = {start: '开始', close: '关闭', edit: '编辑'};
+                return `<a href="#action=${action}">${actionNames[action] || action}</a>`;
+            }).join(' '),
+        }];
+    }},
+];
+
+const data = [
+    {id: '1', project: '客户服务门户', manager: '陈晨', storyPoints: 40, executionCounts: 3, investedDays: 30, startDate: '2026-09-01', finishDate: '2026-09-18', progress: 100, actions: ['edit', 'close']},
+    {id: '2', parent: '1', project: '门户 · 需求确认', manager: '林悦', storyPoints: 8, executionCounts: 1, investedDays: 6, startDate: '2026-09-01', finishDate: '2026-09-03', progress: 100, actions: ['edit']},
+    {id: '3', parent: '1', project: '门户 · 自助查询开发', manager: '陈晨', storyPoints: 20, executionCounts: 1, investedDays: 16, startDate: '2026-09-04', finishDate: '2026-09-14', progress: 100, actions: ['edit']},
+    {id: '4', parent: '1', project: '门户 · 验收与上线', manager: '王宁', storyPoints: 12, executionCounts: 1, investedDays: 8, startDate: '2026-09-15', finishDate: '2026-09-18', progress: 100, actions: ['edit']},
+    {id: '5', project: '移动端工单', manager: '周敏', storyPoints: 34, executionCounts: 3, investedDays: 18, startDate: '2026-09-14', finishDate: '2026-10-09', progress: 47, actions: ['edit']},
+    {id: '6', parent: '5', project: '工单 · 交互设计', manager: '周敏', storyPoints: 8, executionCounts: 1, investedDays: 8, startDate: '2026-09-14', finishDate: '2026-09-18', progress: 100, actions: ['edit']},
+    {id: '7', parent: '5', project: '工单 · 拍照上传开发', manager: '陈晨', storyPoints: 16, executionCounts: 1, investedDays: 10, startDate: '2026-09-21', finishDate: '2026-09-30', progress: 50, actions: ['edit']},
+    {id: '8', parent: '5', project: '工单 · 弱网验收', manager: '王宁', storyPoints: 10, executionCounts: 1, investedDays: 0, startDate: '2026-10-01', finishDate: '2026-10-09', progress: 0, actions: ['start', 'edit']},
+    {id: '9', project: '团队知识库', manager: '林悦', storyPoints: 40, executionCounts: 3, investedDays: 0, startDate: '2026-10-12', finishDate: '2026-10-30', progress: 0, actions: ['start', 'edit']},
+    {id: '10', parent: '9', project: '知识库 · 内容分类', manager: '林悦', storyPoints: 8, executionCounts: 1, investedDays: 0, startDate: '2026-10-12', finishDate: '2026-10-14', progress: 0, actions: ['start', 'edit']},
+    {id: '11', parent: '9', project: '知识库 · 全文检索', manager: '陈晨', storyPoints: 20, executionCounts: 1, investedDays: 0, startDate: '2026-10-15', finishDate: '2026-10-26', progress: 0, actions: ['start', 'edit']},
+    {id: '12', parent: '9', project: '知识库 · 权限验收', manager: '王宁', storyPoints: 12, executionCounts: 1, investedDays: 0, startDate: '2026-10-27', finishDate: '2026-10-30', progress: 0, actions: ['start', 'edit']},
+].map(row => ({
+    ...row,
+    managerAvatar: `/assets/avatar/avatar-${['林悦', '陈晨', '王宁', '周敏'].indexOf(row.manager) + 1}.png`,
+}));
+
+const responsiveExample = {
+    name: 'docs-responsive',
+    beforeLayout(options) {
+        // 两侧固定列共占约 400px，窄容器将所有列放入同一滚动区域。
+        if (this.parent.clientWidth < 600) {
+            return {cols: options.cols.map(col => ({...col, fixed: false}))};
+        }
+    },
+};
+
+const table = new zui.DTable('#dtable-advanced', {
+    height: 400,
+    responsive: true,
+    scrollbarHover: false,
+    'aria-label': '项目计划示例',
+    cols,
+    data,
+    checkOnClickRow: true,
+    striped: true,
+    colHover: 'header',
+    bordered: true,
+    plugins: ['checkable', 'nested', 'rich', responsiveExample],
+});
+</script>
+```
+
+:::
 
 ## 使用
 
@@ -154,53 +318,7 @@ const dtable = new zui.DTable(element, options);
 // dtable 为数据表格组件实例，后续可以调用相关方法
 ```
 
-**完整示例代码如下：**
-
-```html
-<div id="myDtable"></div>
-
-<script>
-// 获取一个 div 用于初始化数据表格
-const element = document.getElementById('myDtable');
-
-// 定义一个方法用于渲染操作列单元格内的操作按钮
-const renderActions = (result, {row, col}) => {
-    const rowData = row.data;
-    return [{
-        html: rowData[col.name].map(action => {
-            const actionNames = {start: '开始', close: '关闭', edit: '编辑'};
-            return `<a href="#action=${action}">${actionNames[action] || action}</a>`;
-        }).join(' '),
-    }];
-};
-
-// 定义数据表格初始化选项
-const options = {
-    height: 400,
-    width: '100%',
-    cols: [
-        {name: 'id', title: 'ID', width: 60, fixed: 'left'},
-        {name: 'project', title: '项目名称', width: 200, fixed: 'left'},
-        {name: 'manager', title: '负责人', width: 60, flex: 1},
-        {name: 'storyPoints', title: '需求规模', width: 80, align: 'center'},
-        {name: 'executionCounts', title: '执行数', width: 70, align: 'center'},
-        {name: 'investedDays', title: '已投入', width: 70, align: 'center'},
-        {name: 'startDate', title: '开始日期', width: 90, align: 'center'},
-        {name: 'finishDate', title: '计划完成', width: 90, align: 'center'},
-        {name: 'progress', title: '进度', width: 65, align: 'center'},
-        {name: 'actions', title: '操作', width: 100, fixed: 'right', onRenderCell: renderActions}, // renderActions 为单元格自定义渲染方法
-    ],
-    data: [
-        {id: 1, project: '移动端工单', manager: '周敏', storyPoints: 34, executionCounts: 3, investedDays: 18, startDate: '2026-09-14', finishDate: '2026-10-09', progress: 47, actions: ['edit']},
-        // 可继续添加项目记录。
-    ],
-    striped: false
-};
-
-// 初始化数据表格
-const dtable = new zui.DTable(element, options);
-</script>
-```
+上面的[基本功能](#基本功能)和[增强功能](#增强功能)均提供对应的“完整代码”标签，包含容器、全部数据、列配置与初始化代码。下面的选项说明只展示相关配置片段，可在完整示例中调整。
 
 ## 布局
 
@@ -246,6 +364,36 @@ new zui.DTable(element, {
 ::: tip 提示
 当启用响应式特性时，确保宽度或高度使用了响应式的特殊值，例如 `'100%'` 或通过函数动态确定。
 :::
+
+`responsive` 负责重新计算尺寸，不会自动取消固定列。左右固定列较多时，应为中间滚动区域保留空间。本页通过插件的 `beforeLayout` 在窄容器中取消固定列，恢复宽屏后沿用原来的配置：
+
+```js
+new zui.DTable(element, {
+    responsive: true,
+    scrollbarHover: false, // 始终显示需要的滚动条
+    cols,
+    data,
+    plugins: [{
+        name: 'responsive-columns',
+        beforeLayout(options) {
+            if (this.parent.clientWidth < 600) {
+                return {cols: options.cols.map(col => ({...col, fixed: false}))};
+            }
+        },
+    }],
+});
+```
+
+600px 是本页示例根据固定列宽度选择的阈值，实际项目应按自己的列宽调整。已有插件继续放在同一个 `plugins` 数组中。
+
+### 无障碍与键盘操作
+
+DTable 使用 `table`、`rowgroup`、`row`、`columnheader` 和 `cell` 语义，把同一行在固定区域与滚动区域中的单元格关联起来。通过 `aria-label` 为表格命名，或用 `aria-labelledby` 引用已有标题；补充说明可通过 `aria-describedby` 关联。
+
+* 使用 Tab 进入表格滚动区域，方向键滚动，Home / End 到达水平方向的起点 / 终点，PageUp / PageDown 上下翻页。
+* 继续按 Tab 访问表格中的链接、按钮和复选框；这些控件保留自身的键盘行为。聚焦被横向裁剪的单元格内控件时，会滚动到对应列。
+* 单元格采用表格浏览语义，不实现电子表格式的方向键选中。屏幕阅读器可使用其表格导航命令查看已渲染的行列。
+* 虚拟渲染时会提供总行列数和当前行列位置；未渲染的行需要滚动后才能浏览。小数据集需要一次呈现全部行时，可设置 `partialRender: false`；自定义表头和单元格内容仍需提供相应说明与可操作控件。
 
 ### 列宽
 

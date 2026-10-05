@@ -69,6 +69,58 @@ afterEach(() => {
 });
 
 describe('documentation DTable page lifecycle', () => {
+    it('keeps both complete copyable examples aligned with the preview configuration', () => {
+        const markdown = readFileSync(resolve(scripts, 'index.md'), 'utf8');
+        const snippets = [...markdown.matchAll(/```html\n([\s\S]*?)\n```/g)].map(match => match[1]);
+        const page = pages.index as {methods: {getExampleOptions: (id: string) => Record<string, unknown>}};
+        const serialize = (value: unknown) => JSON.parse(JSON.stringify(value, (_key, item) => typeof item === 'function' ? '[function]' : item));
+        for (const id of ['dtable-basic', 'dtable-advanced']) {
+            const snippet = snippets.find(code => code.includes(`new zui.DTable('#${id}'`))!;
+            expect(snippet).toContain(`<div id="${id}"></div>`);
+            let copied: Record<string, unknown> = {};
+            new Function('zui', snippet.match(/<script>([\s\S]*?)<\/script>/)![1])({DTable: function (selector: string, options: Record<string, unknown>) {
+                expect(selector).toBe(`#${id}`);
+                copied = options;
+            }});
+            const preview = page.methods.getExampleOptions(id);
+            expect(serialize(copied)).toEqual(serialize(preview));
+            const getActions = (options: Record<string, unknown>) => (options.cols as {name: string; onRenderCell: (result: unknown[], info: unknown) => unknown}[]).find(col => col.name === 'actions')!;
+            const row = {data: (preview.data as unknown[])[0]};
+            expect(getActions(copied).onRenderCell([], {row, col: {name: 'actions'}})).toEqual(getActions(preview).onRenderCell([], {row, col: {name: 'actions'}}));
+        }
+    });
+
+    it('leaves component-managed examples to their own mount and unmount lifecycle', () => {
+        const root = document.createElement('div');
+        root.innerHTML = '<div id="dtable-basic" data-dtable-managed></div><div id="dtable-row-height"></div>';
+        visible.add('dtable-basic');
+        visible.add('dtable-row-height');
+        const {mountDTables} = loadScript(resolve(scripts, 'examples.js')) as {mountDTables: (root: Element, getOptions: () => object) => () => void};
+        const dispose = mountDTables(root, () => ({}));
+        flushReady();
+        expect(created.map(item => item.element.id)).toEqual(['dtable-row-height']);
+        dispose();
+        expect(created[0].destroy).toHaveBeenCalledOnce();
+    });
+
+    it('reflows both pages without mutating fixed column settings when the container narrows', () => {
+        for (const page of ['index', 'plugins'] as const) {
+            const id = page === 'index' ? 'dtable-basic' : 'dtable-cellspan';
+            visible.add(id);
+            mount(page, [id]);
+            flushReady();
+            const {options} = created[created.length - 1];
+            expect(options.responsive).toBe(true);
+            expect(options.scrollbarHover).toBe(false);
+            const plugins = options.plugins as {name: string; beforeLayout: (this: {parent: {clientWidth: number}}, options: Record<string, unknown>) => {cols: {fixed: unknown}[]} | undefined}[];
+            const responsive = plugins.find(plugin => plugin.name === 'docs-responsive')!;
+            const columns = JSON.stringify(options.cols);
+            expect(responsive.beforeLayout.call({parent: {clientWidth: 310}}, options)?.cols.every(col => col.fixed === false)).toBe(true);
+            expect(responsive.beforeLayout.call({parent: {clientWidth: 800}}, options)).toBeUndefined();
+            expect(JSON.stringify(options.cols)).toBe(columns);
+        }
+    });
+
     it('does not let the basic page initialize plugin examples after SPA navigation', async () => {
         visible.add('dtable-basic');
         const basic = mount('index', ['dtable-basic', 'dtable-advanced']);
@@ -84,9 +136,9 @@ describe('documentation DTable page lifecycle', () => {
         document.dispatchEvent(new Event('scroll'));
         await vi.runAllTimersAsync();
         expect(created).toHaveLength(3);
-        expect(created[1].options.plugins).toEqual(['rich', 'cellspan']);
+        expect(created[1].options.plugins).toEqual(['rich', 'cellspan', expect.objectContaining({name: 'docs-responsive'})]);
         expect(created[1].options.getCellSpan).toBeTypeOf('function');
-        expect(created[2].options.plugins).toEqual(['sortable']);
+        expect(created[2].options.plugins).toEqual(['sortable', expect.objectContaining({name: 'docs-responsive'})]);
         expect(created[2].options.sortable).toBe(true);
         plugin.unmount();
         created.forEach(instance => expect(instance.destroy).toHaveBeenCalledOnce());
@@ -106,7 +158,7 @@ describe('documentation DTable page lifecycle', () => {
         flushReady();
         expect(created).toHaveLength(1);
         expect(created[0].element.id).toBe('dtable-cellspan');
-        expect(created[0].options.plugins).toEqual(['rich', 'cellspan']);
+        expect(created[0].options.plugins).toEqual(['rich', 'cellspan', expect.objectContaining({name: 'docs-responsive'})]);
         expect(document.getElementById('dtable-outside')!.className).toBe('');
     });
 
