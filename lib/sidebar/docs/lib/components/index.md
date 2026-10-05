@@ -114,7 +114,7 @@ dragToResize?: boolean;
 /** 是否启用过渡动画，或设置过渡时间（毫秒）。 */
 animation?: boolean | number;
 /** 双击 gutter 的行为。 */
-dbclick?: 'toggle' | 'reset';
+dblclick?: 'toggle' | 'reset';
 /** 持久化宽度的 Store 键。 */
 preserve?: string;
 /** 共享宽度的分组标识；相同非空标识的实例同步宽度，默认关闭。 */

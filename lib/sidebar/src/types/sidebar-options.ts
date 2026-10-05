@@ -10,7 +10,7 @@ export interface SidebarOptions {
     toggleBtn?: boolean;
     animation?: boolean | number;
     dragToResize?: boolean;
-    dbclick?: 'toggle' | 'reset';
+    dblclick?: 'toggle' | 'reset';
     preserve?: string;
     /** 共享宽度的分组标识；相同非空标识的实例同步宽度。 */
     shareWidth?: string;

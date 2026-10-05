@@ -31,7 +31,7 @@ export class Sidebar extends Component<SidebarOptions, {
         toggleBtn: true,
         animation: true,
         dragToResize: true,
-        dbclick: 'reset',
+        dblclick: 'reset',
     };
 
     declare _container: HTMLElement;
@@ -88,7 +88,7 @@ export class Sidebar extends Component<SidebarOptions, {
             minWidth = 0,
             maxWidth = Number.MAX_SAFE_INTEGER,
             toggleBtn,
-            dbclick,
+            dblclick,
         } = this.options;
         this._storeID = preserve ? `SIDEBAR:${preserve}:width` : '';
         this._side = side === 'right' ? 'right' : 'left';
@@ -111,9 +111,9 @@ export class Sidebar extends Component<SidebarOptions, {
             $element.on(`click${this.namespace}`, '.gutter-toggle', () => this.toggle());
         }
 
-        if (dbclick) {
+        if (dblclick) {
             $element.on(`dblclick${this.namespace}`, GUTTER_SELECTOR, () => {
-                if (dbclick === 'reset') {
+                if (dblclick === 'reset') {
                     this.update(this._defaultWidth);
                 } else {
                     this.toggle();

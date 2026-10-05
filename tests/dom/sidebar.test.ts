@@ -30,6 +30,23 @@ function mouse(target: EventTarget, type: string, clientX: number) {
     target.dispatchEvent(new MouseEvent(type, {bubbles: true, cancelable: true, buttons: type === 'mouseup' ? 0 : 1, clientX}));
 }
 
+describe('Sidebar double click', () => {
+    it('uses dblclick to toggle and restore a resized sidebar', async () => {
+        const sidebar = createSidebar({dblclick: 'toggle'});
+        await flushAnimationFrame();
+        sidebar.update(320, true);
+        const gutter = sidebar.element.querySelector('.sidebar-gutter')!;
+
+        gutter.dispatchEvent(new MouseEvent('dblclick', {bubbles: true}));
+        await flushAnimationFrame();
+        expect(sidebar.width).toBe(0);
+
+        gutter.dispatchEvent(new MouseEvent('dblclick', {bubbles: true}));
+        await flushAnimationFrame();
+        expect(sidebar.width).toBe(320);
+    });
+});
+
 describe('Sidebar shared width', () => {
     beforeEach(() => {
         vi.spyOn(console, 'log').mockImplementation(() => undefined);
