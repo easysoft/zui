@@ -11,12 +11,39 @@
 <Example>
   <article class="article">
     <h3>客户门户 v1.2 发布计划</h3>
-    <p>本次交付新增附件预览与消息通知，计划周五 18:00 发布。</p>
+    <p>本次交付新增<strong>附件预览</strong>与<strong>消息通知</strong>，计划<strong>周五 18:00</strong>发布。</p>
+    <h4>交付范围</h4>
     <ul>
       <li>完成图片与 PDF 预览验收。</li>
       <li>检查移动端上传和消息接收范围。</li>
     </ul>
     <blockquote>全部验收项通过后，由项目负责人确认发布。</blockquote>
+    <h4>验收安排</h4>
+    <table>
+      <thead>
+        <tr><th scope="col">功能</th><th scope="col">验收重点</th><th scope="col">状态</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>附件预览</td><td>图片缩放、PDF 翻页</td><td>已通过</td></tr>
+        <tr><td>消息通知</td><td>接收范围、未读计数</td><td>验证中</td></tr>
+        <tr><td>移动端上传</td><td>文件选择、上传进度</td><td>待验收</td></tr>
+      </tbody>
+    </table>
+    <h4>配置示例</h4>
+    <p>在 <code>releaseConfig</code> 中记录版本和功能开关，便于发布前核对。</p>
+    <pre><code>const releaseConfig = {
+    version: '1.2.0',
+    preview: true,
+    notifications: true,
+};</code></pre>
+    <h4>发布步骤</h4>
+    <ol>
+      <li>完成验收并备份当前配置。</li>
+      <li>更新资源，核对版本号与功能开关。</li>
+      <li>验证关键流程，确认消息通知正常。</li>
+    </ol>
+    <hr>
+    <p>操作说明参见<a href="/guide/start/">使用指南</a>。<em>发布后持续观察 30 分钟</em>，发现异常及时回滚。</p>
   </article>
 </Example>
 
@@ -25,12 +52,39 @@
 ```html
 <article class="article">
   <h3>客户门户 v1.2 发布计划</h3>
-  <p>本次交付新增附件预览与消息通知，计划周五 18:00 发布。</p>
+  <p>本次交付新增<strong>附件预览</strong>与<strong>消息通知</strong>，计划<strong>周五 18:00</strong>发布。</p>
+  <h4>交付范围</h4>
   <ul>
     <li>完成图片与 PDF 预览验收。</li>
     <li>检查移动端上传和消息接收范围。</li>
   </ul>
   <blockquote>全部验收项通过后，由项目负责人确认发布。</blockquote>
+  <h4>验收安排</h4>
+  <table>
+    <thead>
+      <tr><th scope="col">功能</th><th scope="col">验收重点</th><th scope="col">状态</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>附件预览</td><td>图片缩放、PDF 翻页</td><td>已通过</td></tr>
+      <tr><td>消息通知</td><td>接收范围、未读计数</td><td>验证中</td></tr>
+      <tr><td>移动端上传</td><td>文件选择、上传进度</td><td>待验收</td></tr>
+    </tbody>
+  </table>
+  <h4>配置示例</h4>
+  <p>在 <code>releaseConfig</code> 中记录版本和功能开关，便于发布前核对。</p>
+  <pre><code>const releaseConfig = {
+    version: '1.2.0',
+    preview: true,
+    notifications: true,
+};</code></pre>
+  <h4>发布步骤</h4>
+  <ol>
+    <li>完成验收并备份当前配置。</li>
+    <li>更新资源，核对版本号与功能开关。</li>
+    <li>验证关键流程，确认消息通知正常。</li>
+  </ol>
+  <hr>
+  <p>操作说明参见<a href="/guide/start/">使用指南</a>。<em>发布后持续观察 30 分钟</em>，发现异常及时回滚。</p>
 </article>
 ```
 
