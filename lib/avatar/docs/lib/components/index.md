@@ -67,9 +67,11 @@
 当使用文字或图标作为头像时，配合使用[CSS 工具类](/utilities/)来实现不同头像的外观。下面展示各种工具类的外观效果。
 
 
+### 常用
+
 ::: tabs
 
-== 常用
+== 示例
 
 <Example class="space-x-4">
   <div class="avatar primary">林</div>
@@ -78,19 +80,72 @@
   <div class="avatar inverse rounded-none">林</div>
 </Example>
 
-== 实心
+== HTML
+
+```html
+<div class="avatar primary">林</div>
+<div class="avatar primary-pale rounded-xl">林</div>
+<div class="avatar primary-outline rounded-full">林</div>
+<div class="avatar inverse rounded-none">林</div>
+```
+
+:::
+
+### 实心
+
+::: tabs
+
+== 示例
 
 <Example class="space-x-4">
   <div v-for="skin in skinList" class="avatar" :class="skin">林</div>
 </Example>
 
-== 轮廓
+== HTML
+
+```html
+<div class="avatar primary">林</div>
+<div class="avatar secondary">林</div>
+<div class="avatar success">林</div>
+<div class="avatar warning">林</div>
+<div class="avatar danger">林</div>
+<div class="avatar important">林</div>
+<div class="avatar special">林</div>
+<div class="avatar gray">林</div>
+```
+
+:::
+
+### 轮廓
+
+::: tabs
+
+== 示例
 
 <Example class="space-x-4">
   <div v-for="skin in skinList" class="avatar" :class="`${skin}-outline`">林</div>
 </Example>
 
-== 浅色
+== HTML
+
+```html
+<div class="avatar primary-outline">林</div>
+<div class="avatar secondary-outline">林</div>
+<div class="avatar success-outline">林</div>
+<div class="avatar warning-outline">林</div>
+<div class="avatar danger-outline">林</div>
+<div class="avatar important-outline">林</div>
+<div class="avatar special-outline">林</div>
+<div class="avatar gray-outline">林</div>
+```
+
+:::
+
+### 浅色
+
+::: tabs
+
+== 示例
 
 <Example class="space-x-4">
   <div v-for="skin in skinList" class="avatar" :class="`${skin}-pale`">林</div>
@@ -99,7 +154,14 @@
 == HTML
 
 ```html
-<div class="avatar primary">...</div>
+<div class="avatar primary-pale">林</div>
+<div class="avatar secondary-pale">林</div>
+<div class="avatar success-pale">林</div>
+<div class="avatar warning-pale">林</div>
+<div class="avatar danger-pale">林</div>
+<div class="avatar important-pale">林</div>
+<div class="avatar special-pale">林</div>
+<div class="avatar gray-pale">林</div>
 ```
 
 :::
@@ -132,11 +194,20 @@
 == HTML
 
 ```html
-<div class="avatar size-xs"><img src="/assets/avatar/avatar-1.png" alt="陈晨的头像"></div>
-<div class="avatar size-sm"><img src="/assets/avatar/avatar-2.png" alt="王宁的头像"></div>
-<div class="avatar"><img src="/assets/avatar/avatar-3.png" alt="周敏的头像"></div>
-<div class="avatar size-lg"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
-<div class="avatar size-xl"><img src="/assets/avatar/avatar-5.png" alt="何雨的头像"></div>
+<div class="flex flex-wrap items-end gap-4">
+  <div class="avatar size-xs"><img src="/assets/avatar/avatar-1.png" alt="陈晨的头像"></div>
+  <div class="avatar size-sm"><img src="/assets/avatar/avatar-2.png" alt="王宁的头像"></div>
+  <div class="avatar"><img src="/assets/avatar/avatar-3.png" alt="周敏的头像"></div>
+  <div class="avatar size-lg"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
+  <div class="avatar size-xl"><img src="/assets/avatar/avatar-5.png" alt="何雨的头像"></div>
+</div>
+<div class="flex flex-wrap items-end gap-4">
+  <div class="avatar size-xs">陈</div>
+  <div class="avatar size-sm">王</div>
+  <div class="avatar">林</div>
+  <div class="avatar size-lg">周敏</div>
+  <div class="avatar size-xl">李航</div>
+</div>
 ```
 :::
 
