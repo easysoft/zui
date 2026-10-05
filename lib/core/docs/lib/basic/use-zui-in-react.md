@@ -1,4 +1,4 @@
-# 在 React 中使用 ZUI vanilla 组件
+# 在 React 中使用 ZUI 组件
 
 通过 DOM 容器和 React 生命周期，可以在 React 18、19 应用中使用 ZUI vanilla 组件。React 负责容器和业务状态，ZUI 负责容器内部的渲染与交互。
 

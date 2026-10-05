@@ -4,7 +4,7 @@
 
 ZUI 的部分界面使用 Preact 实现，`ComponentFromReact` 将这些 Preact 组件包装为可通过 `new zui.Nav(...)` 等方式调用的原生 JavaScript 组件。类名中的 `React` 是现有 API 名称，内部视图使用的是 Preact。
 
-如果你正在 React 应用中接入 ZUI，请阅读 [在 React 中使用 ZUI vanilla 组件](/lib/basic/core/use-zui-in-react.html)。本页面向 ZUI 组件开发者，说明包装层与内部视图的关系。
+如果你正在 React 应用中接入 ZUI，请阅读 [在 React 中使用 ZUI 组件](/lib/basic/core/use-zui-in-react.html)。本页面向 ZUI 组件开发者，说明包装层与内部视图的关系。
 
 ## 两层组件的职责
 
@@ -28,5 +28,5 @@ ZUI 的部分界面使用 Preact 实现，`ComponentFromReact` 将这些 Preact 
 ## 关联用法
 
 - [组件基类](/lib/basic/core/component.html)：创建、获取和更新原生实例。
-- [在 React 中使用 ZUI vanilla 组件](/lib/basic/core/use-zui-in-react.html)：在 React 生命周期中创建、同步和清理 ZUI 实例。
+- [在 React 中使用 ZUI 组件](/lib/basic/core/use-zui-in-react.html)：在 React 生命周期中创建、同步和清理 ZUI 实例。
 - [Web Component 使用与开发](/lib/basic/core/web-component.html)：将原生包装层或 Preact 视图接入自定义元素。

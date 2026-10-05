@@ -229,7 +229,7 @@ onBlur?: (event: FocusEvent) => void; // 失去焦点。
 
 输入法组合期间不触发 onChange；组合结束后按 delay 通知最终值。输入框支持 Tab 聚焦；Enter 和 Escape 由 hotkeys 控制。为业务输入框提供可见 label，不要仅用 placeholder 作为名称。
 
-更多配置见[输入框](/lib/forms/input-control/)；框架生命周期接入见[在 React 中使用 ZUI vanilla 组件](/lib/basic/core/use-zui-in-react.html)。
+更多配置见[输入框](/lib/forms/input-control/)；框架生命周期接入见[在 React 中使用 ZUI 组件](/lib/basic/core/use-zui-in-react.html)。
 
 <script setup>
 const searchBasicOptions = {name: 'query', placeholder: '搜索项目名称或编号'};

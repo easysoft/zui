@@ -188,7 +188,7 @@ zui 是发布包；@zui/* 是源码工作区的库名，不作为上述 npm 安�
 
 保存构造器返回的实例，通过 `instance.render(options)` 更新支持该方法的组件；容器卸载前调用 `instance.destroy()`。具体选项、事件和方法以组件页为准。
 
-继续阅读[组件基类](/lib/basic/core/component.html)、[在 React 中使用 ZUI vanilla 组件](/lib/basic/core/use-zui-in-react.html)和[兼容性](/guide/start/compatibility.html)。
+继续阅读[组件基类](/lib/basic/core/component.html)、[在 React 中使用 ZUI 组件](/lib/basic/core/use-zui-in-react.html)和[兼容性](/guide/start/compatibility.html)。
 
 <script setup>
 import {withBase} from 'vitepress';

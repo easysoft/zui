@@ -443,7 +443,7 @@ zui.FileList.get('#filesThumbnails').render({thumbnailPreview: {maxWidth: 320, m
 
 文件操作优先提供 `text`；仅用图标时，通过 `hint` 提供提示，必要时使用 `attrs: {'aria-label': '下载文件'}` 指定可访问名称。网格操作按钮支持 Tab / Shift+Tab 聚焦，并在获得焦点时显示。缩略图悬停预览按 Escape 关闭，重要信息应同时以文件名或文字提供。
 
-选择文件的输入框通过 `label` 关联名称。框架接入见[在 React 中使用 ZUI vanilla 组件](/lib/basic/core/use-zui-in-react.html)。
+选择文件的输入框通过 `label` 关联名称。框架接入见[在 React 中使用 ZUI 组件](/lib/basic/core/use-zui-in-react.html)。
 
 <script setup>
 const filesBasicOptions = {items: [{id: 'guide', title: '使用指南.pdf', extension: 'pdf', size: 2048, pathname: 'guide.pdf', addedBy: '团队', addedDate: '2026-09-01'}]};

@@ -155,7 +155,7 @@ nestedShow?: boolean | Record&lt;ItemKey, boolean&gt;; // 受控展开状态，�
 
 保存 `new zui.Tree(...)` 返回的实例，调用 `instance.render({items: nextItems})` 更新数据；容器移除前调用 `instance.destroy()`。这里的 `nextItems` 是业务提供的新节点数组。
 
-框架组件中的创建、更新和清理方式见[在 React 中使用 ZUI vanilla 组件](/lib/basic/core/use-zui-in-react.html)。
+框架组件中的创建、更新和清理方式见[在 React 中使用 ZUI 组件](/lib/basic/core/use-zui-in-react.html)。
 
 ## 键盘与限制
 
