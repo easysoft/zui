@@ -172,8 +172,47 @@
 
 ```html
 <div class="btn-group">
-  <button class="btn primary">...</button>
-  <button class="btn secondary">...</button>
+  <button class="btn capitalize primary" type="button">primary</button>
+  <button class="btn capitalize secondary" type="button">secondary</button>
+  <button class="btn capitalize success" type="button">success</button>
+  <button class="btn capitalize warning" type="button">warning</button>
+  <button class="btn capitalize danger" type="button">danger</button>
+  <button class="btn capitalize important" type="button">important</button>
+  <button class="btn capitalize special" type="button">special</button>
+  <button class="btn capitalize gray" type="button">gray</button>
+</div>
+<div class="btn-group">
+  <button class="btn capitalize gray-50" type="button">gray-50</button>
+  <button class="btn capitalize gray-100" type="button">gray-100</button>
+  <button class="btn capitalize gray-200" type="button">gray-200</button>
+  <button class="btn capitalize gray-300" type="button">gray-300</button>
+  <button class="btn capitalize gray-400" type="button">gray-400</button>
+  <button class="btn capitalize gray-500" type="button">gray-500</button>
+  <button class="btn capitalize gray-600" type="button">gray-600</button>
+  <button class="btn capitalize gray-700" type="button">gray-700</button>
+  <button class="btn capitalize gray-800" type="button">gray-800</button>
+  <button class="btn capitalize gray-900" type="button">gray-900</button>
+  <button class="btn capitalize gray-950" type="button">gray-950</button>
+</div>
+<div class="btn-group">
+  <button class="btn capitalize outline" type="button">outline</button>
+  <button class="btn capitalize primary-outline" type="button">primary-outline</button>
+  <button class="btn capitalize secondary-outline" type="button">secondary-outline</button>
+  <button class="btn capitalize success-outline" type="button">success-outline</button>
+  <button class="btn capitalize warning-outline" type="button">warning-outline</button>
+  <button class="btn capitalize danger-outline" type="button">danger-outline</button>
+  <button class="btn capitalize important-outline" type="button">important-outline</button>
+  <button class="btn capitalize special-outline" type="button">special-outline</button>
+</div>
+<div class="btn-group">
+  <button class="btn capitalize ghost" type="button">ghost</button>
+  <button class="btn capitalize primary-ghost" type="button">primary-ghost</button>
+  <button class="btn capitalize secondary-ghost" type="button">secondary-ghost</button>
+  <button class="btn capitalize success-ghost" type="button">success-ghost</button>
+  <button class="btn capitalize warning-ghost" type="button">warning-ghost</button>
+  <button class="btn capitalize danger-ghost" type="button">danger-ghost</button>
+  <button class="btn capitalize important-ghost" type="button">important-ghost</button>
+  <button class="btn capitalize special-ghost" type="button">special-ghost</button>
 </div>
 ```
 
