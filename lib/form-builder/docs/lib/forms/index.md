@@ -398,13 +398,13 @@ form.setValidationErrors({}, true); // 清除全部错误
 - 映射支持 `keyPattern`、`valuePattern`。
 - `anyOf` 当前仅有类型声明，不解析或验证分支。
 
-公开类型可从 `@zui/form-builder` 导入，例如：
+标准 npm 项目从 `zui` 导入公开类型，例如：
 
 ```ts
-import type {FormBuilderOptions, FormSchema, FormWidgetMap, JSONSchema} from '@zui/form-builder';
+import type {FormBuilderOptions, FormSchema, FormWidgetMap, JSONSchema} from 'zui';
 ```
 
-控件映射类型为：
+在 ZUI 源码工作区中，上述类型也可从 `@zui/form-builder` 导入。以下控件映射类型说明使用工作区入口，需要解析 `@zui/*` 并编译 TypeScript；`/react` 入口导出的类型对应内部 Preact 组件：
 
 ```ts
 import type {FieldSchemaInfo, FormWidgetType} from '@zui/form-builder';
