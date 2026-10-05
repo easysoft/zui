@@ -41,6 +41,16 @@ input:focus, textarea:focus, select:focus {
 .VPNavBarMenu.menu {
   @apply -shadow-none -border-none -bg-transparent;
 }
+.VPNavBarExtra .appearance .label,
+.VPNavScreenAppearance .text {
+  @apply -hidden;
+}
+.VPNavBarExtra .item.appearance {
+  @apply -min-w-0;
+}
+.VPNavScreen .VPNavScreenAppearance {
+  @apply -justify-end;
+}
 
 .VPSidebarItem .text {
   @apply -flex -flex-row -justify-between -items-center;
