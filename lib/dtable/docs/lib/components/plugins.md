@@ -1,5 +1,88 @@
 # 数据表格插件
 
+插件用于扩展单元格展示、选择、排序和编辑能力。先在 `plugins` 中声明需要的插件，再设置插件的启用选项；仅设置 `checkable`、`headerGroup` 等选项不会自动加载对应插件。
+
+## 基础用法
+
+下面组合本地排序和行选中：点击“预计工时”表头排序，使用复选框选中行，表尾显示选中数量。
+
+::: tabs
+
+== 示例
+
+<Example>
+  <div id="dtable-plugin-basic"></div>
+</Example>
+
+== HTML
+
+```html
+<div id="myDtable"></div>
+```
+
+== JS
+
+```js
+const table = new zui.DTable('#myDtable', {
+    plugins: ['checkable'],
+    checkable: true,
+    sort: true,
+    height: 220,
+    cols: [
+        {name: 'id', title: 'ID', width: 80, checkbox: true},
+        {name: 'name', title: '任务', width: 200},
+        {name: 'estimate', title: '预计工时', width: 120, sort: 'number'},
+    ],
+    data: [
+        {id: '1', name: '需求确认', estimate: 8},
+        {id: '2', name: '功能开发', estimate: 24},
+        {id: '3', name: '验收测试', estimate: 12},
+    ],
+    footer: ['checkbox', 'checkedInfo'],
+    onCheckChange() {
+        console.log(this.getChecks());
+    },
+});
+```
+
+:::
+
+### 注册与启用
+
+| 接入方式 | 插件 | 使用方式 |
+| --- | --- | --- |
+| 内置插件 | `rich`、`sort-type`、`sort`、`avatar` | 自动加入实例；仍需配置对应列或启用选项，例如本地排序默认关闭。 |
+| 随 DTable 注册的可选插件 | `custom`、`checkable`、`nested`、`group`、`header-group`、`cellspan`、`sortable`、`pager` | 在 `plugins` 中指定注册名或插件对象。 |
+| 随依赖注册的辅助插件 | `store`、`mousemove`、`autoscroll` | 分别由 `nested`、`sortable` 的模块依赖注册；使用上层插件时会自动加入实例，也可以单独声明。 |
+| 需单独导入模块 | `actions`、`toolbar`、`resize`、`contextmenu`、`hotkey`、`selectable`、`filterable`、`moveable`、`datagrid`、`draft`、`editable`、`history`、`sort-col`、`custom-col` | 按对应章节导入模块，再将导出的插件传入 `plugins`。 |
+
+以上注册情况适用于 `zui.DTable` / `@zui/dtable` 原生入口。`@zui/dtable/react` 只导出组件和类型，使用时需要显式导入所用插件。
+
+`plugins` 接受注册名、插件对象或插件工厂，声明列表在创建实例时确定。已加入实例的插件可以通过其选项切换行为；要换一组插件，应销毁并重新创建表格。
+
+### 单独模块接入
+
+以下单独模块示例以当前 Vite 源码构建环境为例，需要处理 TypeScript、TSX 和 CSS；插件模块会同时引入它需要的样式与依赖插件。例如：
+
+```ts
+import {DTable} from '@zui/dtable';
+import '@zui/dtable/css';
+import {resize} from '@zui/dtable/plugins/resize/index.tsx';
+
+const table = new DTable('#myDtable', {
+    plugins: [resize],
+    colResize: true,
+    cols: [{name: 'name', title: '任务', width: 200}],
+    data: [{id: '1', name: '需求确认'}],
+});
+```
+
+这里使用 Vite 支持的插件目录映射，保留实际模块的 `index.ts` 或 `index.tsx` 文件名；当前包的目录导出不能通过 Node 原生模块解析直接使用。只加载 `zui.js` 时，这些未注册的插件不能直接用 `plugins: ['resize']` 等名称启用；需要先将插件模块纳入应用构建。
+
+### 调用插件方法
+
+本文的插件方法属于表格内部组件。在插件回调中可以通过 `this` 调用；使用 `new zui.DTable()` 返回的原生实例时，在渲染完成后通过 `table.$` 访问，例如 `table.$.getChecks()`。需要表格实例作为 `this` 的回调应使用普通函数或方法简写。
+
 ## 单元格格式插件 `rich`
 
 <Badge text="内置插件" />
@@ -22,8 +105,8 @@ const cols = [
         name: 'name',
         title: '项目名称',
 
-        /* 使用字符串进行格式化，{0} 表示单元格的原始值。 */
-        link: 'https://example.com/{0}',
+        /* 链接模板中的占位符来自当前行数据。 */
+        link: 'https://example.com/{name}',
     }, {
         name: 'url',
         title: '链接',
@@ -76,7 +159,7 @@ const cols = [
         name: 'product',
         title: '产品',
 
-        /* 使用字符串进行格式化，{name} 表示单元格的原始值对象中的 name 属性。 */
+        /* {id} 和 {name} 来自当前行数据，{0} 表示当前单元格值。 */
         format: '#{id} {name}',
     }
 ];
@@ -108,6 +191,7 @@ const cols = [
         title: '分类',
 
         /* 使用函数动态生成文本。 */
+        mapSplitter: '',
         map: (value, info) => (value === '' ? '无分类' : value),
     }, {
         name: 'product',
@@ -156,7 +240,7 @@ const cols = [
 
 * `true`：使用默认的 `'[yyyy-]MM-dd hh:mm'` 进行格式化；
 * `string`：使用字符串模版来格式化日期时间；
-* `(value: any, info: {row: any, col: ColInfo}) => string`：使用函数来动态生成日期时间。
+* `(value: any, info: {row: RowInfo, col: ColInfo}) => string`：返回日期格式字符串，再使用原始值进行格式化。
 
 当由行数据提供的日期不合法时，可以通过 `invalidDate` 属性提供一个默认的字符串用于替代显示。
 
@@ -181,11 +265,8 @@ const cols = [
         name: 'updatedAt',
         title: '更新时间',
 
-        /* 使用函数动态生成日期时间。 */
-        formatDate: (value, info) => {
-            const date = new Date(value);
-            return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-        },
+        /* 使用函数动态选择日期格式。 */
+        formatDate: (value, info) => info.row.data.showTime ? 'yyyy-MM-dd hh:mm' : 'yyyy-MM-dd',
     }, {
         name: 'actionsTime',
         title: '操作时间',
@@ -233,7 +314,7 @@ const cols = [
 
 在列定义上通过 `hint` 属性来启用悬停提示，支持以下值：
 
-* `true`：使用单元格原始值作为提示内容；
+* `true`：优先使用已格式化的字符串，否则使用单元格原始值；
 * `string`：使用字符串模版来生成提示内容；
 * `(info: {row: any, col: ColInfo}) => string`：使用函数来动态生成提示内容。
 
@@ -245,14 +326,14 @@ const cols = [
         name: 'name',
         title: '项目名称',
 
-        /* 使用字符串进行格式化，{0} 表示单元格的原始值。 */
-        hint: '项目名称：{0}',
+        /* 提示模板中的占位符来自当前行数据。 */
+        hint: '项目名称：{name}',
     }, {
         name: 'status',
         title: '状态',
 
         /* 使用函数动态生成提示内容。 */
-        hint: (info) => `项目状态：${info.row.status}`,
+        hint: (info) => `项目状态：${info.row.data.status}`,
     }, {
         name: 'actions',
         title: '操作',
@@ -304,11 +385,116 @@ const options = {
 };
 ```
 
+### 数值与多值格式
+
+使用 `digits` 保留小数位；通过 `mapSplitter` 将字符串拆分后映射，`mapJoiner` 控制显示时的连接符。`mapSplitter` 默认为 `','`；希望 `map` 函数直接接收字符串时，设置 `mapSplitter: ''`。
+
+```js
+const cols = [
+    {name: 'estimate', title: '预计工时', digits: 1, format: '{0} 小时'},
+    {
+        name: 'tags', title: '标签',
+        map: {ui: '界面', api: '接口'},
+        mapSplitter: ',',
+        mapJoiner: '、',
+    },
+];
+// 行数据示例：{id: '1', estimate: 12, tags: 'ui,api'}。
+```
+
+### 条形进度条
+
+`type: 'progress'` 默认显示环形进度。设置 `progressType: 'bar'` 可切换为条形进度，单元格值为百分比数值。
+
+```js
+const cols = [{
+    name: 'progress', title: '进度', type: 'progress',
+    progressType: 'bar',
+    barWidth: 80,
+    barHeight: 8,
+    barColor: 'var(--color-primary-500)',
+    barBgColor: 'var(--color-border)',
+}];
+```
+
+`barWidth` 和 `barHeight` 默认分别为 `64` 和 `6` 像素；未设置 `barColor` 时使用 `circleColor`。日期列也可直接使用 `type: 'date'`、`'datetime'`、`'time'`，对应格式分别为 `'yyyy-MM-dd'`、`'[yyyy-]MM-dd hh:mm'`、`'hh:mm'`。
+
+## 自定义单元格 `custom`
+
+使用 HTML 模板、原生元素或 Preact 组件替换单元格内容。通过 `plugins: ['custom']` 启用，在列定义的 `custom` 中指定渲染方式。
+
+### 定义自定义内容
+
+```js
+const options = {
+    plugins: ['custom'],
+    cols: [
+        {
+            name: 'name',
+            title: '名称',
+            width: 180,
+            custom: '<strong>{$value}</strong>',
+        },
+        {
+            name: 'status',
+            title: '状态',
+            width: 120,
+            custom: {
+                component: 'span',
+                props: ({value, row}) => ({
+                    children: value === 'done' ? '已完成' : '进行中',
+                    title: row.data.name,
+                }),
+            },
+        },
+    ],
+    data: [{id: '1', name: '接口联调', status: 'doing'}],
+};
+```
+
+以 `<` 开头的字符串按 HTML 模板渲染，`{$value}` 始终指向当前单元格值，`{name}` 等字段来自 `row.data`。`{value}` 也可访问单元格值，但行数据中同名的 `value` 字段会覆盖它。HTML 模板不会将数据自动转义为纯文本；显示文本时可以使用上例的 `props.children`。
+
+对象配置中的 `component` 可以是原生元素名称或 Preact 组件。`props` 支持对象和函数；函数接收 `{value, row, col}`，普通函数的 `this` 为表格组件实例。也可以将 `custom` 整体设为函数，按单元格返回配置对象，返回 `undefined` 时保留原内容。
+
+<Example>
+  <div id="dtable-plugin-custom"></div>
+</Example>
+
+### 复用元素属性
+
+初始化选项 `customMap` 可以按元素名称复用属性，列内的 `props` 会覆盖映射中的同名属性：
+
+```js
+const options = {
+    plugins: ['custom'],
+    customMap: {
+        span: {
+            component: 'span',
+            props: {title: '项目状态'},
+        },
+    },
+    cols: [
+        {
+            name: 'status',
+            title: '状态',
+            width: 120,
+            custom: {
+                component: 'span',
+                props: ({value}) => ({children: value}),
+            },
+        },
+    ],
+    data: [{id: '1', status: '进行中'}],
+};
+```
+
+当前实现最终使用列配置中的 `component`，不要用 `customMap` 将名称映射为另一个组件。虽然类型允许配置数组，但当前只保留最后一项的渲染结果；组合多个元素时，请在一个组件或 HTML 模板中完成。
+
 ## 按列排序 `sort-type`
 
 <Badge text="内置插件" />
 
-设置表格支持按列进行排序，在特定列上通过 `sortType` 属性启用列排序，列头将根据排序类型显示为链接，用户点击后可以更新表格。
+在列上设置 `sortType` 显示排序状态，配置 `sortLink` 后表头显示为可跳转的排序链接。该插件不直接重排行数据，适合由链接目标处理排序；只设置 `sortType` 时显示排序图标。表格启用本地 `sort` 后，此插件停止工作。
 
 ### 指定列的排序状态
 
@@ -342,11 +528,12 @@ const cols = [
 通过 `sortLink` 属性设置列排序链接，支持以下值：
 
 * `string`：通过字符串模版来设置排序链接；
-* `(col: ColInfo, sortType: string) => ColSortType`：通过函数来动态生成该列的排序链接。
+* `{url: string} & JSX.HTMLAttributes<HTMLAnchorElement>`：链接地址及锚点属性；
+* `(col: ColInfo, nextSortType: string, currentSortType: string) => string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>)`：动态生成链接。
 
 当通过字符串模版来设置排序链接时，可以在字符串模版中使用如下动态字段：
 
-* `"{sortType}"`：当前排序类型；
+* `"{sortType}"`：点击后将使用的排序方向；
 * `"{name}"`：当前列名称。
 
 下面为一个例子：
@@ -388,10 +575,8 @@ interface PluginColSetting {
     sortType?: ColSortType;
 
     /* 列排序链接模版或生成函数 */
-    sortLink?: string | ((this: DTableSortType, col: ColInfo, nextSortType: ColSortType, currentSortType: ColSortType) => string);
+    sortLink?: string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((this: DTableSortType, col: ColInfo, nextSortType: string, currentSortType: string) => string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>));
 
-    /* 列排序链接元素上的其他属性，可以指定为函数动态生成 */
-    sortAttrs?: JSX.HTMLAttributes | ((this: DTableSortType, col: ColInfo, sortType: ColSortType) => JSX.HTMLAttributes);
 }
 ```
 
@@ -399,8 +584,14 @@ interface PluginColSetting {
 
 ```ts
 interface PluginDTableOptions {
+    /* 是否显示排序状态，默认 true；仅在本地 sort 未启用时生效。 */
+    sortType?: boolean;
+
+    /* 按列名覆盖当前排序状态。 */
+    orderBy?: Record<string, ColSortType>;
+
     /* 列排序链接模版或生成函数 */
-    sortLink?: string | ((this: DTableSortType, col: ColInfo, nextSortType: ColSortType, currentSortType: ColSortType) => string);
+    sortLink?: string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((this: DTableSortType, col: ColInfo, nextSortType: string, currentSortType: string) => string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>));
 }
 ```
 
@@ -408,7 +599,7 @@ interface PluginDTableOptions {
 
 <Badge text="内置插件" />
 
-设置表格支持点击列头在本地进行排序，在特定列上通过 `sort` 属性启用列本地排序，列头将根据排序类型显示为链接，用户点击后可以根据改列的排序规则进行排序。
+先在表格初始化选项中设置 `sort: true`，再通过列的 `sort` 属性指定排序规则。仅配置列不会启用本地排序。点击列头依次切换升序、降序和取消排序；`multiSort: true` 时保留其他列的排序，并优先使用最近点击的列。
 
 ### 指定列的排序规则
 
@@ -455,11 +646,12 @@ const cols = [
 
 ### 指定通用排序规则
 
-通过初始化化选项 `sort` 属性设置通用排序规则，支持以下值：
+通过初始化选项 `sort` 属性设置通用排序规则，支持以下值：
 
 * `(row1: RowInfo, row2: RowInfo, col: ColInfo) => number`：指定默认排序规则比较行数；
-* `Record<string, (row1: RowInfo, row2: RowInfo, col: ColInfo) => number>`：指定列名到排序规则的映射；
-* `false`：禁用本地排序。
+* `Record<string, (row1: RowInfo, row2: RowInfo, col: ColInfo) => number>`：指定排序规则名称到比较函数的映射；
+* `true`：启用内置排序规则；
+* `false`：禁用本地排序（默认）。
 
 下面为一个例子：
 
@@ -519,7 +711,7 @@ interface PluginDTableOptions {
 
 <Badge text="内置插件" />
 
-设置表格支持在单元格内显示头像，通过在列定义上设置 `avatar` 属性或 `avatarBtn` 属性来启用该功能。
+设置表格支持在单元格内显示头像，通过列类型 `type: 'avatar'`、`'avatarName'` 或 `'avatarBtn'` 选择展示形式。
 
 ### 显示为头像
 
@@ -600,7 +792,7 @@ const cols = [
 
 ## 列分组 `group`
 
-在定义列时通过 `group` 属性为列分配一个组名，这样具有相同组名的列会视为一组。配合使用其他选项可以实现不同的效果。
+先声明 `plugins: ['group']`，再通过列的 `group` 属性分组。插件只在相邻分组间添加分隔线，不重新排列列；固定左列、中间列、固定右列分别处理。
 
 ### 分组间分割线
 
@@ -608,7 +800,9 @@ const cols = [
 
 ```js
 const options = {
-    /* 为相邻但不同属于不同分组的列添加分割线。 */
+    plugins: ['group'],
+
+    /* 为相邻但不同属于不同分组的列添加分割线，默认 true。 */
     groupDivider: true,
 
     /* 定义列。 */
@@ -639,11 +833,11 @@ const options = {
 
 上例中标题列和开始日期列相邻但属于不同的分组，会在它们之间添加一个分割线。
 
-## 列鼠标悬停效果 `col-hover`
+## 列鼠标悬停效果 `colHover`
 
-<Badge text="内置插件" />
+<Badge text="核心功能" />
 
-设置表格支持在鼠标悬停在列上时，高亮该列。
+`colHover` 是表格核心选项，用于高亮鼠标所在列，不需要声明插件；不存在名为 `col-hover` 的插件。
 
 ### 启用列鼠标悬停效果
 
@@ -666,12 +860,14 @@ const options = {
 
 ### 启用多层级
 
-要启用多层级功能，需要在数据表格初始化选项 `nested` 上设置 `true`。默认情况下会检查行数据上的 `parent` 属性来查找该行是否属于某个父级行，并会检查 `asParent` 属性来判断当前行是否应该视为父级行，可以通过初始化选项 `nestedParentKey` 和 `asParentKey` 分别来修改这两个属性名。
+先声明 `plugins: ['nested']`，再设置 `nested: true`。`nested` 默认为 `'auto'`，此时根据列上是否配置 `nestedToggle` 自动启用。默认情况下会检查行数据上的 `parent` 属性来查找该行是否属于某个父级行，并会检查 `asParent` 属性来判断当前行是否应该视为父级行，可以通过初始化选项 `nestedParentKey` 和 `asParentKey` 分别来修改这两个属性名。
 
 下面为一个初始化选项的例子：
 
 ```js
 const options = {
+    plugins: ['nested'],
+
     /* 启用多层级功能。 */
     nested: true,
 
@@ -768,8 +964,17 @@ interface PluginDTableOptions {
     /* 是否视为父级行的属性名。 */
     asParentKey?: string;
 
-    /* 缩进间距。 */
+    /* 缩进间距，默认 20。 */
     nestedIndent?: number;
+
+    /* 初始折叠状态，true 表示全部折叠，也可按行 ID 指定。 */
+    defaultNestedState?: Record<RowID, boolean> | boolean;
+
+    /* 是否保存折叠状态，默认 false；启用时应设置稳定的表格 id。 */
+    preserveNested?: boolean;
+
+    /* 是否关闭父子行勾选联动，默认 false；联动需要另行启用 checkable。 */
+    noNestedCheck?: boolean;
 
     /* 当层级折叠展开状态变更时的回调函数。 */
     onNestedChange?: () => void;
@@ -848,13 +1053,13 @@ interface PluginDTableMethods {
 
 ### 启用行选中
 
-要启用该插件，需要在初始化选项中设置 `checkable` 为 `true`。所有被选中的行会默认拥有背景高亮样式。通常情况下我们需要用户点击行的任何位置来切换选中行，此行为可以通过设置初始化选项 `checkOnClickRow` 为 `true` 来实现。
+先声明 `plugins: ['checkable']`，再设置 `checkable: true`。其默认值为 `'auto'`，会根据列的 `checkbox` 配置自动启用。所有被选中的行会默认拥有背景高亮样式。通常情况下我们需要用户点击行的任何位置来切换选中行，此行为可以通过设置初始化选项 `checkOnClickRow` 为 `true` 来实现。
 
 ### 显示 Checkbox
 
-默认情况下，行选中状态是通过行前的 checkbox 来显示的，要在特定列内显示 Checkbox 需要在对应列定义上设置 `checkbox` 为 `true`。如果要在多个列内显示 Checkbox，可以在多个列定义上设置 `checkable` 为 `true`。
+默认情况下，行选中状态是通过行前的 checkbox 来显示的，要在特定列内显示 Checkbox 需要在对应列定义上设置 `checkbox` 为 `true`。如果要在多个列内显示 Checkbox，可以在多个列定义上设置 `checkbox` 为 `true`。
 
-有时只需要在部分行内显示 Checkbox，可以在行数据中设置 `checkable` 为一个回调函数来动态返回是否需要显示，该方法定义如下：
+有时只需要在部分行内显示 Checkbox，可以将列定义中的 `checkbox` 设置为一个回调函数来动态返回是否需要显示，该方法定义如下：
 
 ```ts
 (this: DTableCheckable, rowID: string) => boolean;
@@ -883,7 +1088,7 @@ function toggleCheckRows(this: DTableCheckable, ids?: string | string[] | boolea
 * `ids`：要切换选中状态的行 ID，可以使用数组指定多个操作的行，如果不指定，则切换所有行的选中状态；
 * `checked`：要切换的选中状态，如果不指定，则自动切换选中状态。
 
-该方法会返回一个对象，该对象的键为行 ID，值为该行的选中状态。
+该方法返回本次发生变化的行状态映射，键为行 ID，值为变化后的选中状态。
 
 ### 判断行是否选中
 
@@ -901,10 +1106,10 @@ function isRowChecked(this: DTableCheckable, rowID: string): boolean;
 
 #### 判断所有行是否选中
 
-通过实例方法 `isAllChecked` 来判断所有行是否选中，该方法定义如下：
+通过实例方法 `isAllRowChecked` 来判断所有行是否选中，该方法定义如下：
 
 ```ts
-function isAllChecked(this: DTableCheckable): boolean;
+function isAllRowChecked(this: DTableCheckable): boolean;
 ```
 
 ### 在表尾显示 Checkbox 和选中信息
@@ -915,7 +1120,8 @@ function isAllChecked(this: DTableCheckable): boolean;
 
 ```js
 const options = {
-    /* 启用行选中插件。 */
+    /* 加入并启用行选中插件。 */
+    plugins: ['checkable'],
     checkable: true,
 
     /* 在表尾显示 Checkbox。 */
@@ -925,10 +1131,10 @@ const options = {
 
 ### 限制行是否可以被选中
 
-有时并非所有行可以被选中，此时可以通过初始化选项 `canRowCheckable` 指定一个回调函数来动态返回是否可以选中，如果在该函数中返回 `'disabled'` 则禁止通过点击复选框选中，但仍然可以通过方法选中。该回调函数定义如下：
+有时并非所有行可以被选中，此时可以通过初始化选项 `canRowCheckable` 指定一个回调函数来动态返回是否可以选中，返回 `false` 时不可选中；返回 `'disabled'` 时禁用复选框，默认也不可通过方法选中。设置 `allowCheckDisabled: true` 后才允许通过方法选中 `'disabled'` 行。该回调函数定义如下：
 
 ```ts
-function(this: DTableCheckable, rowID: string): boolean | 'disabled'
+type CanRowCheckable = (this: DTableCheckable, rowID: string) => boolean | 'disabled';
 ```
 
 其中参数定义如下：
@@ -954,7 +1160,7 @@ function toggleCheckable(this: DTableCheckable, checkable?: boolean): void;
 通过初始化选项 `onCheckChange` 可以监听行选中状态的变更，该回调函数定义如下：
 
 ```ts
-function(this: DTableCheckable, changes: Record<string, boolean>): void;
+type OnCheckChange = (this: DTableCheckable, changes: Record<string, boolean>) => void;
 ```
 
 其中参数定义如下：
@@ -963,22 +1169,23 @@ function(this: DTableCheckable, changes: Record<string, boolean>): void;
 
 ### 表尾显示选中信息
 
-通过在表尾引用名称 `"checkInfo"`，可以在表尾显示当前选中的行数，如果没有行被选中则显示所有行总数信息。下面为一个表尾配置示例：
+通过在表尾引用名称 `"checkedInfo"`，可以在表尾显示当前选中的行数，如果没有行被选中则显示所有行总数信息。下面为一个表尾配置示例：
 
 ```js
 const options = {
-    /* 启用行选中插件。 */
+    /* 加入并启用行选中插件。 */
+    plugins: ['checkable'],
     checkable: true,
 
     /* 在表尾显示 Checkbox 和 选中信息 */
-    footer: ['checkbox', 'checkInfo']
+    footer: ['checkbox', 'checkedInfo']
 };
 ```
 
-默认生成的选中信息为 `'已选择 {selected} 项'` 或 `'共 {total} 项'`，如果需要自定义选中信息可以通过初始化选项 `checkInfo` 指定回调函数动态生成，该函数定义如下：
+未选中时显示“共 N 项”，选中后显示“已选择 M 项, 共 N 项”。如果需要自定义选中信息，可以通过初始化选项 `checkInfo` 指定回调函数动态生成，该函数定义如下：
 
 ```ts
-function (this: DTableCheckable, checks: string[]): ComponentChildren;
+type CheckInfo = (this: DTableCheckable, checks: string[]) => ComponentChildren;
 ```
 
 其中参数定义如下：
@@ -1028,16 +1235,25 @@ interface PluginDTableOptions {
     checkInfo?: (this: DTableCheckable, checks: string[]) => ComponentChildren;
 
     /* 自定义判断行是否可以被选中。 */
-    canRowCheckable?: (this: DTableCheckable, rowID: string) => boolean;
+    canRowCheckable?: (this: DTableCheckable, rowID: string) => boolean | 'disabled';
+
+    /* 初始选中的行 ID。 */
+    checkedRows?: string[];
+
+    /* 是否允许通过方法选中 disabled 行，默认 false。 */
+    allowCheckDisabled?: boolean;
+
+    /* 表尾全选复选框文字。 */
+    checkboxLabel?: string;
 
     /* 选中行之前的回调函数，可以修改最终生效的选中状态。 */
-    beforeCheckRows?: (this: DTableCheckable, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => Record<string, boolean>;
+    beforeCheckRows?: (this: DTableCheckable, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => Record<string, boolean> | undefined;
 
     /* 行选中状态变更时的回调函数。 */
     onCheckChange?: (this: DTableCheckable, changes: Record<string, boolean>) => void;
 
     /* 自定义 Checkbox 渲染。 */
-    checkboxRender?: (this: DTableCheckable, checked: boolean, rowID: string) => CustomRenderResult;
+    checkboxRender?: (this: DTableCheckable, checked: boolean, rowID: string, disabled?: boolean) => CustomRenderResult;
 }
 ```
 
@@ -1070,11 +1286,27 @@ interface PluginDTableMethods {
 
 ## 操作列 `actions`
 
-支持方便的设定某列显示为一组操作按钮。操作按钮由 [工具栏](/lib/components/toolbar/js.html) 组件实现。
+支持将某列显示为一组操作按钮，由 [工具栏](/lib/components/toolbar/js.html) 组件实现。该插件需要模块接入：
+
+```ts
+import {actions} from '@zui/dtable/plugins/actions/index.tsx';
+
+const options = {
+    plugins: [actions],
+    cols: [{
+        name: 'actions', title: '操作', type: 'actions', width: 160,
+        actions: ['edit', 'delete'],
+        actionsMap: {edit: {text: '编辑'}, delete: {text: '删除'}},
+    }],
+    data: [{id: '1'}],
+};
+```
+
+行数据的同名字段优先于列上的 `actions`。
 
 ### 定义操作列
 
-要将某列作为操作列，只需要在该列定义上设置类型 `type` 为 `'actions'`，然后通过列定义配置 `actionsMap` 设定操作按钮的配置映射即可。
+将列的 `type` 设为 `'actions'`，用 `actionsMap` 定义可用按钮，再通过行数据的同名字段或列 `actions` 指定要显示的操作。`actionsMap` 本身不会生成按钮列表。
 
 ### 定义操作按钮
 
@@ -1118,7 +1350,7 @@ type ActionsColDataInRow = RowActionList;
 
 #### 通过列定义配置
 
-通过列定义配置 `actions` 指定改列上显示的操作按钮，例如：
+通过列定义配置 `actions` 指定该列上显示的操作按钮，例如：
 
 
 ```js
@@ -1188,7 +1420,7 @@ const rowData = {
 通过初始化选项 `actionItemCreator` 可以自定义生成操作按钮的函数，该函数定义如下：
 
 ```ts
-function actionItemCreator: (item: Partial<ToolbarItemOptions>, info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions;
+type ActionItemCreator = (item: Partial<ToolbarItemOptions>, info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions;
 ```
 
 其中参数定义如下：
@@ -1196,13 +1428,15 @@ function actionItemCreator: (item: Partial<ToolbarItemOptions>, info: {row: RowI
 * `item`：操作按钮的配置。
 * `info`：当前行和列的信息。
 
+`actionsCreator` 可以接管整个列表的生成，但只有行数据或列 `actions` 提供了非空操作列表后才会调用。它返回的列表不会再经过 `actionItemCreator`。
+
 ### 自定义操作工具栏配置
 
-操作按钮通过工具栏组件实现，可以通过初始化选项 `actionsSetting` 来定义操作工具栏的配置，该配置为工具栏组件的初始化选项 `ToolbarOptions`。
+操作按钮通过工具栏组件实现，可以通过列选项 `actionsSetting` 来定义操作工具栏的配置，该配置为工具栏组件的初始化选项 `ToolbarOptions`。
 
 ### 自动定义操作列宽度
 
-当列被定义操作列时，如果没有指定宽度 `width`，则会根据第一行实际按钮的个数自动计算宽度，需要注意的是确保所有行拥有相同的按钮个数，如果第一行按钮个数不是最大的，则会导致后面行的按钮显示不全，此时需要自行通过 `width` 指定宽度。
+当列被定义操作列时，如果没有指定宽度 `width`，会根据第一行数据中同名字段的操作项估算宽度，不读取列上的 `actions`，也不测量按钮文字。使用列级操作列表、长文字或各行按钮数量不一致时，应显式指定 `width`。
 
 ### API
 
@@ -1244,16 +1478,24 @@ interface ColActionsSetting {
 
 ## 底部工具栏 `toolbar`
 
-底部工具栏用于在表尾部显示一些操作按钮。
+底部工具栏用于在表尾显示操作按钮，需要先导入模块：
+
+```ts
+import {toolbar} from '@zui/dtable/plugins/toolbar/index.tsx';
+```
+
+以下选项在同一模块中使用。
 
 ### 定义底部工具栏
 
-可以通过初始化选项 `footToolbar` 来定义底部工具栏的配置，该配置为工具栏组件的初始化选项 `ToolbarOptions`。要启用底部工具栏还需要在表尾配置 `footer` 中对应位置引入 `'toolbar'`。
+通过 `footToolbar` 定义按钮数组、工具栏配置对象，或接收表格内部组件并返回上述配置的函数。要启用底部工具栏还需要在表尾配置 `footer` 中对应位置引入 `'toolbar'`。
 
 下面为一个实际的例子：
 
 ```js
 const options = {
+    plugins: [toolbar],
+
     /* 在表尾显示底部工具栏。 */
     footer: ['toolbar'],
 
@@ -1273,7 +1515,7 @@ const options = {
                 },
             ]
         },
-        {text: '刷新', icon: 'icon-refresh', onClick: refreshTable},
+        {text: '刷新', icon: 'icon-refresh', onClick: () => console.log('刷新')},
         {text: '移动', icon: 'icon-move', disabled: true},
     ]
 }
@@ -1281,7 +1523,7 @@ const options = {
 
 ### 仅在行选中时显示底部工具栏
 
-通常情况下我们仅需在表格内有行被选中时显示底部工具栏，这样方便用户对选中的行进行批量操作，可以通过初始化选项 `showToolbarOnChecked` 来启用。
+通常情况下我们仅需在表格内有行被选中时显示底部工具栏，这样方便用户对选中的行进行批量操作，可以设置 `showToolbarOnChecked: true`。此时必须同时声明 `plugins: [toolbar, 'checkable']` 并启用行选中。
 
 ### API
 
@@ -1290,7 +1532,7 @@ const options = {
 ```ts
 interface PluginDTableOptions {
     /* 指定一个用于创建底部工具栏的配置 */
-    footToolbar?: Partial<ToolbarOptions>;
+    footToolbar?: ToolbarSetting<[DTableWithToolbar]>;
 
     /* 仅在行选中时显示底部工具栏 */
     showToolbarOnChecked?: boolean;
@@ -1309,6 +1551,8 @@ interface PluginDTableOptions {
 
 ```js
 const options = {
+    plugins: ['pager'],
+
     /* 在表尾显示分页器。 */
     footer: ['pager'],
 
@@ -1331,6 +1575,31 @@ const options = {
 };
 ```
 
+### 本地分页
+
+设置 `localPager: true` 可以对已经加载的 `data` 分页，不发起数据请求。初始页码和每页数量可以通过 `footPager` 设置；总数由表格数据自动计算。默认从第 `1` 页开始，每页 `20` 行。
+
+```js
+const options = {
+    plugins: ['pager'],
+    localPager: true,
+    cols: [{name: 'name', title: '任务名称', width: 200}],
+    data: [
+        {id: '1', name: '需求确认'},
+        {id: '2', name: '功能开发'},
+        {id: '3', name: '验收测试'},
+    ],
+    footer: ['pager'],
+    footPager: {page: 1, recPerPage: 2},
+};
+```
+
+<Example>
+  <div id="dtable-plugin-pager"></div>
+</Example>
+
+`localPager` 也可以是 `PagerInfo` 对象，用于指定初始分页信息。未启用 `localPager` 时，`footPager` 只显示分页控件；链接跳转或重新加载数据需由应用处理。
+
 ### API
 
 #### 初始化选项
@@ -1338,13 +1607,16 @@ const options = {
 ```ts
 interface PluginDTableOptions {
     /* 指定一个用于创建分页器的配置。 */
-    footPager?: Partial<PagerOptions>;
+    footPager?: PagerOptions;
+
+    /* 对已加载数据进行本地分页，默认关闭。 */
+    localPager?: boolean | PagerInfo;
 }
 ```
 
 ## 跨行跨列 `cellspan`
 
-该插件允许表格中的单元格跨行或跨列展示，可以通过初始化选项 `cellspan` 来启用。
+通过 `plugins: ['cellspan']` 加入插件，并提供 `getCellSpan` 回调启用。没有名为 `cellspan` 的布尔开关。跨列范围限于当前固定左区、中间区或固定右区，不能跨区域；跨行范围限于当前展示的数据行。
 
 ### 定义单元格跨行跨列
 
@@ -1387,7 +1659,7 @@ const options = {
 
 ## 拖放排序 `sortable`
 
-改插件允许通过拖放来改变表格内行的顺序，可以通过初始化选项 `sortable` 来启用。
+该插件允许通过拖放来改变表格内行的顺序，可以通过初始化选项 `sortable` 来启用。
 
 该插件需要手动启用：
 
@@ -1396,6 +1668,8 @@ const options = {
     plugins: ['sortable'],
 };
 ```
+
+默认 `sortable: true`，拖动手柄为 `.dtable-cell`；依赖的 `mousemove` 和 `autoscroll` 会自动加入。插件只调整当前显示顺序，需要保存顺序时在 `onSort` 或 `onSortEnd` 中处理 `orders`。
 
 下面为一个实际例子：
 
@@ -1410,10 +1684,10 @@ const options = {
 ```ts
 interface PluginDTableOptions {
     /* 是否启用拖放排序。 */
-    sortable: boolean;
+    sortable?: boolean;
 
     /* 触发拖放排序的元素选择器。 */
-    sortHandler: string;
+    sortHandler?: string;
 
     /**
      * 使用回调函数给定是否能拖到指定行位置。
@@ -1421,9 +1695,9 @@ interface PluginDTableOptions {
      * @param from        拖动的行信息。
      * @param to          被拖动到的行信息。
      * @param sortingSide 拖动的行所在的位置（之前还是之后）。
-     * @returns 返回 false 可以紧致拖动到指定行。
+     * @returns 返回 false 可以禁止拖动到指定行。
      */
-    canSortTo: (this: DTableSortable, from: RowInfo, to: RowInfo, sortingSide: SortingSide) => boolean;
+    canSortTo?: (this: DTableSortable, from: RowInfo, to: RowInfo, sortingSide: SortingSide) => boolean;
 
     /**
      * 拖动开始时的回调函数。
@@ -1432,7 +1706,7 @@ interface PluginDTableOptions {
      * @param event 事件对象。
      * @returns 返回 false 可以阻止拖动。
      */
-    onSortStart: (this: DTableSortable, row: RowInfo, event: MouseEvent) => false | void;
+    onSortStart?: (this: DTableSortable, row: RowInfo, event: MouseEvent) => false | void;
 
     /**
      * 拖动结束时的回调函数。
@@ -1441,10 +1715,10 @@ interface PluginDTableOptions {
      * @param to          被拖动到的行信息。
      * @param sortingSide 拖动的行所在的位置（之前还是之后）。
      */
-    onSortEnd: (this: DTableSortable, from: RowInfo, to: RowInfo | undefined, sortingSide: SortingSide | undefined) => void;
+    onSortEnd?: (this: DTableSortable, from: RowInfo, to: RowInfo | undefined, sortingSide: SortingSide | undefined, orders: string[] | undefined) => void;
 
     /**
-     * 拖动过程中的回调函数。
+     * 提交拖放顺序前的回调函数。
      *
      * @param from        拖动的行信息。
      * @param to          被拖动到的行信息。
@@ -1452,13 +1726,32 @@ interface PluginDTableOptions {
      * @param orders      拖动后所有行的 ID 列表。
      * @returns 返回 false 可以取消拖动。
      */
-    onSort: (this: DTableSortable, from: RowInfo, to: RowInfo, sortingSide: SortingSide, orders: string[]) => void | false;
+    onSort?: (this: DTableSortable, from: RowInfo, to: RowInfo, sortingSide: SortingSide, orders: string[]) => void | false;
 }
 ```
 
 ## 表头分组 `header-group`
 
-改插件允许将多个列合并为一个表头分组，可以通过初始化选项 `headerGroup` 来启用，然后在需要进行合并的列定义上通过 `headerGroup` 属性定义相同的分组名称。
+先声明 `plugins: ['header-group']`，再在列上配置相同的 `headerGroup` 字符串，将多个列合并为一个表头分组。插件启用选项 `headerGroup` 默认为 `true`，会把同组列排列到一起。支持一层分组，同组列应放在同一个固定区域。未指定表头高度时默认使用两倍行高，也可通过 `headerHeight` 显式指定。
+
+### 分组示例
+
+```js
+const options = {
+    plugins: ['header-group'],
+    headerHeight: 70,
+    cols: [
+        {name: 'name', title: '任务', width: 180},
+        {name: 'start', title: '开始', width: 120, headerGroup: '计划日期'},
+        {name: 'end', title: '结束', width: 120, headerGroup: '计划日期'},
+    ],
+    data: [{id: '1', name: '需求确认', start: '2026-10-05', end: '2026-10-09'}],
+};
+```
+
+<Example>
+  <div id="dtable-plugin-header-group"></div>
+</Example>
 
 ### API
 
@@ -1466,8 +1759,8 @@ interface PluginDTableOptions {
 
 ```ts
 interface PluginDTableOptions {
-    /* 是否启用表头分组。 */
-    headerGroup: boolean;
+    /* 是否启用表头分组，默认 true。 */
+    headerGroup?: boolean;
 }
 ```
 
@@ -1480,20 +1773,535 @@ interface PluginColSetting {
 }
 ```
 
-## 更多插件开发中
+## 拖放改变列宽 `resize`
 
-* 拖放改变列宽 `resize`
-* 上下文菜单 `contextmenu`
-* 快捷键 `hotkey`
-* 鼠标移动事件支持 `mousemove`
-* 拖放选择 `selectable`
-* 过滤 `filter`
-* 拖放移动 `moveable`
-* 数据网格 `datagrid`
-* 编辑状态 `draft`
-* 可编辑 `editable`
-* 历史记录 `history`
-* 自动滚动 `autoscroll`
+拖动表头中的分隔线可以调整列宽，双击分隔线恢复该列的原始宽度。此插件需要单独引入，并通过 `colResize` 启用；依赖的 `mousemove` 插件会自动加载。
+
+```js
+import {resize} from '@zui/dtable/plugins/resize/index.tsx';
+
+const options = {
+    plugins: [resize],
+    colResize: true,
+    cols: [
+        {name: 'name', title: '名称', width: 180, minWidth: 100, maxWidth: 360},
+        {name: 'status', title: '状态', width: 100, colResize: false},
+    ],
+};
+```
+
+| 配置 | 说明 |
+| --- | --- |
+| `colResize` | 是否允许调整列宽，也可以设置为 `(colName) => boolean`。未设置时不启用插件。 |
+| 列配置 `colResize` | 覆盖表格级别的设置，支持相同的布尔值或函数。 |
+| 列配置 `extraWidth` | 在原始列宽上增加的宽度，单位为像素，也可以为负数。 |
+| `onColResize(colName, sizeChange, col)` | 拖动结束或双击恢复时调用；`sizeChange` 是相对于原始列宽的增量，不是最终宽度。 |
+
+调整后的宽度受列的 `minWidth`、`maxWidth` 限制。中间区域和右侧固定区域的最后一列不显示调整手柄。实例方法 `isColResizable(colName)` 可以检查某列是否允许调整。
+
+## 上下文菜单 `contextmenu`
+
+为表头或单元格提供右键菜单。此插件需要单独引入，并通过 `contextmenu` 提供菜单项；没有菜单项时保留浏览器原生右键菜单。
+
+```js
+import {contextmenu} from '@zui/dtable/plugins/contextmenu/index.ts';
+
+const options = {
+    plugins: [contextmenu],
+    contextmenu: {
+        header: [{text: '表头操作', onClick: () => console.log('表头操作')}],
+        cell(event, info) {
+            return [{
+                text: '查看单元格',
+                onClick: () => console.log(info.rowID, info.colName),
+            }];
+        },
+    },
+};
+```
+
+`contextmenu` 支持以下形式：
+
+* 菜单项数组：表头和数据单元格共用此菜单。
+* `(event, info) => items | undefined`：根据点击位置动态返回菜单项。
+* `{header, cell}`：分别设置表头和数据单元格菜单；两个属性都支持数组或函数。
+
+菜单项使用 `ListitemProps` 格式。回调中的 `info` 包含 `rowID`、`colName`、`cellElement` 等指针位置信息，表头的 `rowID` 为 `'HEADER'`；回调中的 `this` 为数据表格实例。实例方法 `getContextMenuItems(event, info)` 返回当前位置对应的菜单项。
+
+## 快捷键 `hotkey`
+
+将快捷键绑定到当前表格元素；表格销毁时自动解除绑定。此插件需要单独引入，并设置 `hotkeys`。
+
+```js
+import {hotkey} from '@zui/dtable/plugins/hotkey/index.ts';
+
+const options = {
+    plugins: [hotkey],
+    hotkeys: {
+        '$mod+enter': (event) => {
+            event.preventDefault();
+            console.log('执行表格操作');
+        },
+        'ArrowLeft,ArrowRight': (event) => console.log(event.key),
+    },
+};
+```
+
+`hotkeys` 是快捷键到 `KeyboardEvent` 回调的映射，同一回调的多个按键可以用逗号分隔。`$mod` 表示当前平台的主要修饰键。未设置 `hotkeys` 时不启用插件；它不提供全局快捷键，也不会为表格自动添加焦点入口，键盘事件需来自表格内的可聚焦元素。
+
+## 鼠标移动事件支持 `mousemove`
+
+将表格内和文档上的鼠标移动合并到动画帧中处理，为拖动类插件提供 `mousemovesmooth` 和 `document_mousemovesmooth` 事件。`resize`、`moveable`、`sortable`、`sort-col`、`autoscroll`、`selectable` 会按各自的依赖自动引入它，通常无需单独启用。
+
+开发自定义拖动插件时，可以将其声明为依赖：
+
+```js
+import {mousemove} from '@zui/dtable/plugins/mousemove/index.ts';
+
+const trackPointer = {
+    name: 'track-pointer',
+    plugins: [mousemove],
+    events: {
+        mousemovesmooth(event) {
+            console.log(event.clientX, event.clientY);
+        },
+    },
+};
+
+const options = {plugins: [trackPointer]};
+```
+
+此插件没有启用选项。提供的 `ignoreNextClick(timeout = 10)` 方法可以在拖动结束后短暂阻止下一次点击的默认行为；`timeout` 的单位为毫秒，不会阻止点击事件继续传播。
+
+## 拖放选择 `selectable`
+
+支持拖动选择单元格区域、通过表头选择整列，以及复制选区内容。此插件需要单独引入；当前实现还需要显式加入 `autoscroll`，以支持拖动时滚动和方向键切换选区。
+
+```js
+import {selectable} from '@zui/dtable/plugins/selectable/index.tsx';
+import {autoscroll} from '@zui/dtable/plugins/autoscroll/index.ts';
+
+const options = {
+    plugins: [autoscroll, selectable],
+    selectable: true,
+    selectOnClickCell: true,
+    copyHeader: true,
+    onSelectCells(cells) {
+        console.log(cells);
+    },
+};
+```
+
+| 配置 | 默认值 | 说明 |
+| --- | --- | --- |
+| `selectable` | `true` | 是否允许选择，也可以设置为 `({col, row}) => boolean` 限制可选单元格。 |
+| `selectOnClickCell` | 未设置 | 设置为 `true` 时单击即可选择；否则鼠标移动距离不足 4 像素时不产生新选区。 |
+| `copyHeader` | `true` | 复制单元格选区时是否包含对应表头。 |
+| `markSelectRange` | `true` | 是否在表头和名称为 `INDEX` 的列上标记选区范围。 |
+| `ignoreDeselectOn` | 未设置 | CSS 选择器；点击匹配元素时，不清空选区。点击表格以外的其他位置会清空选区。 |
+| `beforeSelectCells(cells)` | 未设置 | 在 `selectCells()` 更新选区前调用，可以返回调整后的坐标数组。 |
+| `onSelectCells(cells)` | 未设置 | `selectCells()` 完成选择时调用，参数为本次选择的单元格坐标。 |
+| `selectableHotkeys` | 默认快捷键映射 | 设置为 `false` 关闭插件添加的快捷键，或按下表覆盖单个操作；操作值可为按键字符串、`true`（使用默认键）或 `false`。 |
+
+坐标中的 `col` 和 `row` 均为从 `0` 开始的当前布局索引，不是列名或数据行 ID。
+
+| 快捷键操作 | 默认按键 |
+| --- | --- |
+| `selectAll` | `$mod+a` |
+| `copy` | `$mod+c` |
+| `selectRight` | `Tab,ArrowRight` |
+| `selectLeft` | `ArrowLeft` |
+| `selectDown` | `ArrowDown` |
+| `selectUp` | `ArrowUp` |
+
+### 实例方法
+
+| 方法 | 说明 |
+| --- | --- |
+| `selectCells(selections, options?)` | 设置选区。支持 `'C0R0'`（单元格）、`'C0'`（整列）、`'R0'`（整行）、`'C0R0:C2R3'`（区域），以及这些字符串或坐标对象的数组。 |
+| `selectNextCell(direction?)` | 向 `'right'`、`'left'`、`'down'` 或 `'up'` 选择相邻单元格，默认向右。 |
+| `selectAllCells()` / `deselectAllCells()` | 全选或清空选区。 |
+| `getSelectedCells()` / `getSelectedCellsSize()` | 获取选中的坐标数组或单元格数量。 |
+| `getSelectedCols()` / `getSelectedRows()` | 获取完整选中的列或行信息。 |
+| `isCellSelected(cell)` | 检查坐标对象或 `'C0R0'` 形式的单元格是否已选择。 |
+| `copySelections()` | 将选中的单元格以制表符和换行符分隔的文本写入剪贴板。 |
+| `copySelectedCols()` | 复制完整选中的列，始终包含表头。 |
+
+`selectCells()` 的 `options.clearBefore` 默认为 `true`，设置为 `false` 可以保留原选区。剪贴板功能使用浏览器 Clipboard API，需要安全上下文和浏览器授权；插件不提供粘贴功能。
+
+## 拖放移动 `moveable`
+
+按住表格中间滚动区域并拖动，可以改变滚动位置；它移动的是视口，不会改变行或列的顺序。此插件需要单独引入，安装后 `moveable` 默认为 `true`，依赖的 `mousemove` 会自动加载。
+
+```js
+import {moveable} from '@zui/dtable/plugins/moveable/index.ts';
+
+const options = {
+    plugins: [moveable],
+    moveable: 'header',
+};
+```
+
+`moveable: true` 允许在中间滚动区域拖动并同时改变横向和纵向滚动位置；`'header'` 将操作限制在中间区域的表头，且只横向滚动；`false` 关闭此功能。左右固定区域不作为拖动起点。拖动列宽分隔线时不会触发视口拖动。
+
+## 自动滚动 `autoscroll`
+
+为拖动过程提供随鼠标位置自动滚动，以及将指定行或列滚动到可见区域的能力。`sortable` 和 `sort-col` 会自动加载此插件；单独使用时按下面的方式引入。它没有启用选项，安装后需要调用方法开始滚动。
+
+```js
+import {autoscroll} from '@zui/dtable/plugins/autoscroll/index.ts';
+
+const options = {plugins: [autoscroll]};
+```
+
+| 方法 | 说明 |
+| --- | --- |
+| `scrollTo({col?, row?, extra?})` | 将指定列或行滚动到可见区域；`col` 支持列名、索引或列信息，`row` 支持行 ID、索引或行信息。`extra` 是附加边距，默认为 `2` 像素。找不到行和列时返回 `false`，否则返回 `true`。 |
+| `startScrollToMouse(options?)` | 开始监听鼠标位置并定时滚动；重复调用会替换当前滚动设置。 |
+| `stopScrollToMouse()` | 停止随鼠标自动滚动。 |
+
+`startScrollToMouse()` 的常用选项如下：
+
+| 选项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `interval` | `60` | 滚动检查间隔，单位为毫秒。 |
+| `delay` | `200` | 开始后的等待时间，单位为毫秒。 |
+| `speed` | `0.5` | 根据鼠标与边界的距离计算滚动量时使用的倍率。 |
+| `detectPadding` | `30` | 边界检测偏移，单位为像素。 |
+| `side` | 未设置 | 限制方向，支持 `'left'`、`'right'`、`'top'`、`'bottom'`、`'x'`、`'y'` 或这些值的数组。 |
+
+例如 `startScrollToMouse({side: 'x'})` 仅自动横向滚动。插件会在表格销毁时清理定时器。类型中的 `onlyInside` 当前未参与滚动判断，不应依靠它限制触发区域；`maxStep` 当前参与最小滚动距离计算，并非滚动上限。
+
+## 拖放调整列顺序 `sort-col`
+
+拖动表头可以调整同一固定区域内的列顺序。此插件需要单独引入，并通过 `sortCol` 启用；`mousemove` 和 `autoscroll` 依赖会自动加载。
+
+```js
+import {sortCol} from '@zui/dtable/plugins/sort-col/index.tsx';
+
+const options = {
+    plugins: [sortCol],
+    sortCol: true,
+    onSortColStart(col) {
+        if (col.name === 'id') return false;
+    },
+    onSortCol(from, to, side, orders) {
+        console.log(orders);
+    },
+};
+```
+
+| 配置 | 说明 |
+| --- | --- |
+| `sortCol` | 设置为 `true` 启用；未设置时不启用。 |
+| `onSortColStart(col, event)` | 开始拖动前调用，返回 `false` 阻止拖动该列。 |
+| `canSortColTo(from, to, side)` | 检查是否允许移动到目标列之前或之后，返回 `false` 禁止该目标位置。 |
+| `onSortCol(from, to, side, orders)` | 释放鼠标并产生新顺序时调用，返回 `false` 不应用本次顺序。`orders` 为当前区域的列名数组。 |
+| `onSortColEnd(from, to, side, orders)` | 拖动结束、状态更新后调用；没有有效目标或新顺序时，对应参数可能为 `undefined`。 |
+
+`side` 为 `'before'` 或 `'after'`。此插件不能跨左侧固定、中间滚动、右侧固定区域移动列，也不会自动保存顺序。
+
+`sortCol` 类型还允许列名数组或判断函数，但当前仅用于标记可拖动表头的样式，不能可靠阻止其他列拖动；需要限制拖动列时使用 `onSortColStart` 返回 `false`。
+
+## 自定义列 `custom-col`
+
+提供列分隔线和列显隐设置。此插件需要单独引入，并通过 `customCol` 启用；默认借助 `contextmenu` 在表头右键菜单中提供设置入口。
+
+```js
+import {customCol} from '@zui/dtable/plugins/custom-col/index.tsx';
+
+const options = {
+    plugins: [customCol],
+    customCol: true,
+    canSetColVisibility(colName, visible) {
+        return visible || colName !== 'id';
+    },
+    cols: [
+        {name: 'id', title: '编号', required: true},
+        {name: 'name', title: '名称'},
+    ],
+};
+```
+
+| 配置 | 说明 |
+| --- | --- |
+| `customCol` | 是否启用插件，未设置时不启用。 |
+| 列配置 `required` | 为 `true` 时禁用默认菜单中的隐藏操作。 |
+| `canSetColVisibility(colName, visible)` | 控制默认菜单中的隐藏操作；当前实现需要此回调明确返回 `true` 才允许隐藏。 |
+| `onSetColBorder(colName, border, colBorders)` | 修改分隔线后调用；`colBorders` 是本次设置后的列分隔线记录。 |
+| `onSetColVisibility(colName, visible)` | 调整列可见性后调用。 |
+
+### 实例方法
+
+* `getColBorder(colName, checkNeighbor = true)`：读取列分隔线，默认考虑相邻列共享的边界。
+* `setColBorder(colName, border)`：设置分隔线；`border` 可为 `'left'`、`'right'`、`true`（两侧）或 `false`（无）。
+* `setColVisibility(colName, visible)`：显示或隐藏列；恢复隐藏列可以使用 `setColVisibility(colName, true)`。
+
+已提供 `contextmenu` 时，插件不会再自动添加默认表头菜单。`required` 和 `canSetColVisibility` 只限制默认菜单入口，直接调用 `setColVisibility()` 不执行这些检查；调用方需要自行保证必需列可见。列设置保存在当前表格状态中，不会自动持久化。
+
+## 过滤候选菜单 `filterable`（开发中）
+
+源码位于 `plugins/filter`，导出名称和注册名称均为 `filterable`。当前实现可以根据列数据生成带搜索框和复选框的候选菜单，并重置输入与勾选状态；尚未实现确定操作、筛选条件回传和数据行过滤，不应作为完整过滤功能使用。
+
+```js
+import {filterable} from '@zui/dtable/plugins/filter/index.tsx';
+```
+
+将 `filterable` 加入 `plugins` 后，表格级别的 `filterable` 默认为 `true`，还需要在目标列设置 `filterable: true` 才渲染菜单入口。列配置 `filter.icon`、`filter.className` 分别指定图标和菜单类名。候选项搜索只影响菜单内容，不影响表格中的行；类型中声明的 `submit`、`reset` 等回调当前没有接入菜单事件。
+
+## 编辑草稿 `draft`
+
+将单元格修改保存在草稿中，分别管理待应用的 `stagingDraft` 和已应用的 `appliedDraft`。读取时依次使用待应用草稿、已应用草稿和原始数据；草稿不会自动写回原始 `data` 或提交到服务端。
+
+### 源码模块用法
+
+```js
+import {DTable} from '@zui/dtable';
+import {draft} from '@zui/dtable/plugins/draft/index.ts';
+
+const table = new DTable('#dtable-draft', {
+    plugins: [draft],
+    cols: [{name: 'name', title: '任务名称'}],
+    data: [{id: '1', name: '接口联调'}],
+    afterStageDraft(changes) {
+        console.log('本次草稿变化', changes);
+    },
+});
+
+/* 在表格挂载后，通过插件方法暂存修改。 */
+function updateName() {
+    table.$.stageDraft({'1': {name: '接口联调完成'}});
+}
+```
+
+草稿采用 `{[rowID]: {[colName]: value}}` 的格式，行 ID 使用字符串。表头对应特殊行 ID `'HEADER'`。
+
+### API
+
+| 初始化选项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `draft` | `true` | 是否启用草稿渲染。 |
+| `skipRenderDraftCell` | 未设置 | 设为 `true` 时由其他插件负责渲染，草稿方法仍可使用。 |
+| `onStageDraft(changes, stagingDraft)` | 未设置 | 暂存前调用，返回 `false` 阻止此次修改。 |
+| `afterStageDraft(changes, stagingDraft, oldStagingDraft, options)` | 未设置 | 暂存完成后调用，`options.skipUpdate` 表示此次是否跳过更新。 |
+| `afterApplyDraft(changes, appliedDraft, oldAppliedDraft)` | 未设置 | 应用草稿后调用。 |
+
+| 实例方法 | 说明 |
+| --- | --- |
+| `stageDraft(changes, options?)` | 合并待应用草稿。`options` 支持 `skipUpdate` 和 `callback`。 |
+| `applyDraft(changes, options?)` | 将修改合入已应用草稿，并清除待应用草稿中的相同值；不会保存到服务器。`options` 同上。 |
+| `getCellDraftValue(row, col)` | 获取包含草稿修改的单元格值；行、列可使用信息对象、名称或索引。 |
+| `getRowDraftData(row, options?)` | 获取一行的草稿数据；`includeIndexCol` 控制是否包含 `INDEX` 列，`emptyCellValue` 指定 `undefined` 的替代值。 |
+| `getColDraftData(col, options?)` | 按行 ID 返回一列的草稿数据；`includeHeaderRow` 控制是否包含表头，`emptyCellValue` 指定空值。 |
+
+## 单元格编辑 `editable`
+
+双击单元格进入文本编辑，依赖 `draft`，会自动引入草稿插件。编辑结果以字符串暂存到草稿，失去焦点或按 Enter 结束编辑；数据转换、校验和保存由业务代码处理。
+
+### 源码模块用法
+
+```js
+import {DTable} from '@zui/dtable';
+import {editable} from '@zui/dtable/plugins/editable/index.tsx';
+
+const table = new DTable('#dtable-editable', {
+    plugins: [editable],
+    cols: [
+        {name: 'id', title: 'ID'},
+        {name: 'name', title: '任务名称'},
+    ],
+    data: [{id: '1', name: '接口联调'}],
+    editable: (_rowID, colName) => colName === 'name',
+    onEditCell({value}) {
+        if (!String(value).trim()) {
+            return false;
+        }
+    },
+    afterStageDraft(changes) {
+        console.log('待保存修改', changes);
+    },
+});
+```
+
+### API
+
+| 初始化选项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `editable` | `true` | 布尔值或 `(rowID, colName) => boolean`，控制是否允许进入编辑。 |
+| `headerEditable` | 未设置 | 设为 `true` 允许编辑表头。 |
+| `selectAllOnFocus` | `true` | 编辑框获得焦点时选中全部文本。 |
+| `emptyCellValue` | `''` | 清空单元格时写入的值。 |
+| `onEditCell({rowID, colName, value, oldValue})` | 未设置 | 输入变化提交到草稿前调用，返回 `false` 阻止修改。 |
+| `onPasteToCell(event)` | 未设置 | 处理编辑框内的粘贴事件。 |
+
+| 实例方法 | 说明 |
+| --- | --- |
+| `editCell({rowID, colName})` | 进入指定单元格编辑；不传参数结束编辑。 |
+| `isCellEditing(rowID, colName)` | 判断单元格是否正在编辑。 |
+| `deleteCells(cells)` | 将 `{rowID, colName}[]` 中的单元格设为 `emptyCellValue`，返回是否产生修改。 |
+| `deleteRows(rows, options?)` | 将后续行的数据向前移动并写入草稿，不缩减表格行数；`options.skipUpdate` 可跳过更新。 |
+| `deleteCols(cols, options?)` | 将后续列的数据向前移动并清空尾列，不缩减表格列数；`options.skipUpdate` 可跳过更新。 |
+
+当前编辑器使用文本输入框，不提供列类型对应的日期、数值或下拉编辑器。结束编辑不会回滚已经写入的草稿，需要撤销能力时可配合 `history`。
+
+## 撤销与重做 `history`
+
+记录草稿变化，提供撤销和重做。插件自动引入 `draft` 与 `store`，默认跟踪待应用草稿；单独启用它不会提供编辑框或快捷键。
+
+### 源码模块用法
+
+```js
+import {DTable} from '@zui/dtable';
+import {editable} from '@zui/dtable/plugins/editable/index.tsx';
+import {history} from '@zui/dtable/plugins/history/index.ts';
+
+const table = new DTable('#dtable-history', {
+    plugins: [editable, history],
+    cols: [{name: 'name', title: '任务名称'}],
+    data: [{id: '1', name: '接口联调'}],
+    historyTarget: 'staging',
+    onHistoryApplied(changes) {
+        console.log('撤销或重做产生的修改', changes);
+    },
+});
+
+/* 可在撤销和重做按钮的点击事件中调用。 */
+function undo() {
+    table.$.undoHistory();
+}
+
+function redo() {
+    table.$.redoHistory();
+}
+```
+
+### API
+
+| 初始化选项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `history` | `true` | 是否记录草稿历史。 |
+| `historyTarget` | `'staging'` | `'staging'` 跟踪 `stageDraft`；`'applied'` 跟踪 `applyDraft`。 |
+| `historyThreshold` | `10` | 最近的记录保存在内存中，超过阈值的旧记录转入会话存储；不是历史记录总数上限。 |
+| `onHistoryApplied(changes, newDraft, oldDraft)` | 未设置 | 撤销或重做完成后调用。 |
+
+| 实例方法 | 说明 |
+| --- | --- |
+| `undoHistory(callback?)` | 撤销一次；没有可撤销记录时返回 `false`。 |
+| `redoHistory(callback?)` | 重做一次；没有可重做记录时返回 `false`。 |
+| `canUndoHistory()` / `canRedoHistory()` | 判断当前是否可撤销或重做。 |
+| `addHistory({before, after})` | 手动加入一条草稿差异记录。 |
+| `getHistory(cursor?)` | 获取指定游标处的历史记录，省略参数时读取当前游标。 |
+
+撤销后新增修改会清除后续可重做记录。历史游标和记录列表保存在当前表格实例中，不会在刷新页面后自动恢复。
+
+## 表格存储 `store`
+
+为插件提供按表格 `id` 隔离的 [本地存储](/lib/helpers/store/) 实例。`nested` 和 `history` 会自动引入它，通常无须单独配置。
+
+### 源码模块用法
+
+```js
+import {DTable} from '@zui/dtable';
+import {store} from '@zui/dtable/plugins/store/index.ts';
+
+const table = new DTable('#dtable-store', {
+    id: 'task-list',
+    plugins: [store],
+    cols: [{name: 'name', title: '任务名称'}],
+    data: [{id: '1', name: '接口联调'}],
+});
+
+/* 表格挂载后，可以保存与此表格关联的业务状态。 */
+function saveView(view) {
+    table.$.data.store.set('view', view);
+}
+```
+
+选项 `store` 默认为 `true`。存储实例通过表格组件的 `data.store` 访问，支持 `get(key)`、`set(key, value)`、`remove(key)`；通过 `data.store.session` 使用会话存储。需要跨次创建共享状态时应指定稳定的表格 `id`，不同表格使用不同的 `id`。该插件提供存储容器，不会自动保存全部表格数据、列配置或编辑草稿。
+
+## 数据网格 `datagrid`
+
+组合单元格编辑、区域选择、列宽调整、撤销重做和自动滚动，将二维数组显示为可编辑的数据网格。插件自动引入 `editable`、`selectable`、`hotkey`、`resize`、`history`、`autoscroll` 及它们的依赖。
+
+### 源码模块用法
+
+```js
+import {DTable} from '@zui/dtable';
+import {datagrid} from '@zui/dtable/plugins/datagrid/index.ts';
+
+const table = new DTable('#dtable-datagrid', {
+    plugins: [datagrid],
+    colResize: true,
+    datasource: {
+        cols: [
+            {name: 'C1', title: '任务名称', width: 180},
+            {name: 'C2', title: '负责人', width: 120},
+        ],
+        data: [
+            ['接口联调', '张三'],
+            ['整理文档', '李四'],
+        ],
+    },
+    minRows: 5,
+    minCols: 2,
+    extraRows: 0,
+    extraCols: 0,
+    height: 240,
+    afterStageDraft(changes) {
+        console.log('网格修改', changes);
+    },
+});
+```
+
+数据通过 `datasource.data` 的二维数组提供，`datasource.cols` 设置列信息。数据列名依次为 `C1`、`C2` 等，行 ID 从字符串 `'0'` 开始；默认增加名称为 `INDEX` 的行号列，该列不能进入编辑或调整宽度。网格会从数据源生成普通表格的 `cols` 和 `data`，不要同时用这两个选项定义另一份数据。
+
+### 网格尺寸与编辑
+
+| 初始化选项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `datasource` | 必填 | `{cols?: ColSetting[], data?: unknown[][]}`；空网格可传 `{data: []}`。 |
+| `minRows` / `minCols` | `20` / `10` | 最少数据行数和数据列数。 |
+| `extraRows` / `extraCols` | `5` / `5` | 在数据范围外预留的空行和空列。 |
+| `showRowIndex` | `true` | 是否显示行号列。 |
+| `colResize` | 未设置 | 设为 `true` 启用数据列宽度调整。 |
+| `headerEditable` | `true` | 是否允许编辑表头。 |
+| `autoExpandGrid` | `true` | 修改接近边缘时扩展网格；数值指定额外预留数量，`false` 关闭自动扩展。 |
+| `copyHeader` | `false` | 复制选区时是否附带表头。 |
+| `datagridHotkeys` | `{}` | 配置删除、粘贴、编辑、取消选区、剪切、重做和撤销快捷键；`false` 关闭网格自身的快捷键配置。 |
+| `onReadClipboardFail()` | 未设置 | 读取剪贴板失败时调用。 |
+
+`datagridHotkeys` 可配置 `delete`、`paste`、`focus`、`cancel`、`cut`、`redo`、`undo`，对应值为快捷键字符串、`true`（使用默认键）或 `false`（关闭）。默认键分别是 Delete/Backspace、`$mod+v`、Enter、Escape、`$mod+x`、`$mod+Shift+z`、`$mod+z`。Escape 取消选区，不表示撤销编辑。当前网格默认快捷键中的全选、复制及方向键处理尚未完整接入；需要这些操作时，可以调用 `selectable` 提供的实例方法。
+
+### 常用方法
+
+| 实例方法 | 说明 |
+| --- | --- |
+| `getGridSize()` | 返回 `{rowsCount, colsCount}`，不包含行号列。 |
+| `appendRows(countOrList?, options?)` | 追加空行，或追加 `RowData[]` / 二维数组中的行；默认追加一行。 |
+| `appendCols(countOrList?, options?)` | 追加空列，或按二维数组中的每一列追加数据；默认追加一列。 |
+| `expandGridSize({rowsCount, colsCount}, options?)` | 将网格扩展到至少指定尺寸，不缩小现有网格。 |
+| `deleteSelections()` / `cutSelections()` | 清空或剪切当前选区。 |
+| `deleteSelectedRows()` / `deleteSelectedCols()` | 将后续数据前移，保持网格尺寸。 |
+| `clearSelectedCols()` / `cutSelectedCols()` | 清空或剪切选中列，包含表头。 |
+| `pasteCells(targetCell, options?)` | 从指定单元格开始粘贴，返回 `Promise<boolean>`。 |
+| `pasteToSelection()` / `pasteToSelectedCol()` | 从当前选区起点或首个选中列的表头开始粘贴。 |
+
+追加方法的 `options` 支持 `autoScroll`、`select` 和 `skipUpdate`；扩展尺寸方法支持 `skipUpdate`。单元格目标可用 `{rowID, colName}` 或从零开始的表格索引 `{row, col}`；索引包含显示出来的行号列，因此第一列数据的索引通常为 `1`。
+
+粘贴文本按制表符和换行符拆分。可通过 `options.data` 直接提供文本；不提供时尝试读取系统剪贴板，需要浏览器支持并允许相应权限。`expandCells: false` 忽略超出网格的部分，`select: false` 不选中新粘贴的单元格：
+
+```js
+/* 在表格挂载后调用；此方式不读取系统剪贴板。 */
+async function pasteText() {
+    await table.$.pasteCells({rowID: '0', colName: 'C1'}, {
+        data: '更新接口\t张三\n补充测试\t李四',
+        expandCells: true,
+        select: true,
+    });
+}
+```
+
+编辑、删除和粘贴的结果保存在草稿中，不会自动写回 `datasource.data`。可用 `getRowDraftData` / `getColDraftData` 读取当前结果，并由业务代码保存。
 
 <script>
 import index from './plugins.js';
