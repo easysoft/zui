@@ -118,7 +118,9 @@ pick.destroy();
 
 `setValue(value, true)` 的静默参数用于抑制关联输入框的 `change` 事件，不会抑制 `onChange`。销毁原生实例会卸载触发区和弹出区。
 
-## 模块引入与键盘交互
+## 源码工作区入口与键盘交互
+
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*` 并编译 TypeScript；使用 JSX 时还需配置 Preact。标准 npm 包通过 `zui` 和 `zui/css` 接入。
 
 ```ts
 import {Pick} from '@zui/pick';
