@@ -17,6 +17,9 @@ export default defineConfig({
     description: 'Composable UI framework',
     cleanUrls: false,
     ignoreDeadLinks: false,
+    // public/ holds the built ZUI bundle, including Markdown license files.
+    // Those files must stay downloadable assets and must not become docs pages.
+    srcExclude: ['public/**'],
     transformPageData(page) {
         const sourcePath = resolveDocSourcePath(page.filePath, zuiLibs, root);
         if (sourcePath) {
