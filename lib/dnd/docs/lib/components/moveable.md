@@ -167,6 +167,10 @@ onUpdate?: (info: MoveableUpdateInfo, state: MoveableState) => void | false | ob
 
 ## 引入
 
+### 源码工作区
+
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*` 并编译 TypeScript。标准 npm 包从 `zui` 导入组件。
+
 ```js
 import {Moveable} from '@zui/dnd';
 
@@ -176,7 +180,9 @@ const moveable = new Moveable('#board', {
 });
 ```
 
-也可以通过全局对象 `zui` 使用：
+### 全局对象
+
+页面已按公共指引加载 ZUI 时，直接使用全局对象：
 
 ```js
 const moveable = new zui.Moveable('#board', options);
