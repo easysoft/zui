@@ -1,15 +1,15 @@
 # 颜色
 
-ZUI 的颜色体系基于 [TailwindCSS 调色板](https://tailwindcss.com/docs/customizing-colors) 实现，主要包含语义化调色板、界面颜色和特殊颜色。下面分别进行介绍。
+ZUI 的颜色体系基于 [Tailwind CSS 调色板](https://tailwindcss.com/docs/customizing-colors) 实现，主要包含语义化调色板、界面颜色和特殊颜色。下面分别进行介绍。
 
 ## 语义化调色板
 
-ZUI 内置了 {{semanticColors.length}} 种语义化调色板，每种类型都来自 TailwindCSS 内置的调色板，你可以根据产品中的需要来更换现有调色板。
+ZUI 内置了 {{semanticColors.length}} 种语义化调色板，每种类型都来自 Tailwind CSS 内置的调色板，你可以根据产品中的需要来更换现有调色板。
 
 <Example background="light-circle" class="space-y-4">
   <div v-for="color in semanticColors" :key="color.id">
     <div :class="`row gap-4 mb-2 items-center`">
-      <div data-toggle="tooltip" :data-title="`TailwindCSS 调色板名称：${color.tailwind}`"><strong :class="`text-${color.id}`">{{color.id.toUpperCase()}}</strong> <span class="muted">—</span> <span>{{color.name}}</span></div>
+      <div data-toggle="tooltip" :data-title="`Tailwind CSS 调色板名称：${color.tailwind}`"><strong :class="`text-${color.id}`">{{color.id.toUpperCase()}}</strong> <span class="muted">—</span> <span>{{color.name}}</span></div>
       <small class="text-sm muted">{{color.meaning}}</small>
     </div>
     <div class="justify-between gap-2 row">
@@ -84,7 +84,7 @@ Color Generator](https://uicolors.app/create) 等工具来生成调色板。
 
 ### 使用 CSS 工具类
 
-在 ZUI 中提供了大量 [CSS 工具类](/utilities/)，大部分定义与 TailwindCSS 的工具类一致。在这些工具类中为你提供了大量的颜色相关的工具类，你可以通过这些工具类来使用颜色。下面为使用 CSS 工具类的例子：
+在 ZUI 中提供了大量 [CSS 工具类](/utilities/)，大部分定义与 Tailwind CSS 的工具类一致。在这些工具类中为你提供了大量的颜色相关的工具类，你可以通过这些工具类来使用颜色。下面为使用 CSS 工具类的例子：
 
 <Example>
   <h4 class="text-primary">
@@ -107,7 +107,7 @@ Color Generator](https://uicolors.app/create) 等工具来生成调色板。
 * 在设计中使用 ZUI 的颜色体系，而不是使用设计工具自带的颜色体系；
 * 在设计工具中为颜色进行命名，命名方式与 ZUI 中的颜色名称一致，例如 `color-primary-500`；
 * 如果需要实现不同风格，推荐定义新的调色板实现，而不是只修改调色板中的某一个颜色；
-* 因为界面颜色来自调色版，不建议手动进行修改，除非主题需要实现对比度更明显的风格；
+* 因为界面颜色来自调色板，不建议手动进行修改，除非主题需要实现对比度更明显的风格；
 * 任何时候都不建议修改特殊颜色的定义。
 
 ## 自定义配色

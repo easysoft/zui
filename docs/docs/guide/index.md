@@ -31,5 +31,4 @@
 - [开发调试](/guide/customize/dev.html)：运行源码开发环境。
 - [自定义构建](/guide/customize/build.html)：按项目需要选择输出内容。
 - [扩展库](/guide/customize/exts-lib.html)：接入外部扩展。
-- [测试与验证](/guide/customize/testing.html)：了解测试层次与验证命令。
 - [第三方依赖](/guide/about/dependencies.html)：查看依赖及许可证。

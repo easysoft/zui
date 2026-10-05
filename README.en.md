@@ -129,7 +129,7 @@ The development server runs at `http://localhost:5173/` by default. Open `http:/
 
 Each library uses its `dev.ts` file as the interactive playground entry point. After changing `lib/<lib-name>/`, verify its behavior and styles on the corresponding library page.
 
-See the [automated testing guide](./docs/docs/guide/customize/testing.md) for the test layers, browser installation, and visual baseline workflow.
+See the [automated testing guide](./docs/docs/guide/contributes/testing.md) for the test layers, browser installation, and visual baseline workflow.
 
 ### Custom Builds
 

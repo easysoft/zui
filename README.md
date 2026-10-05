@@ -162,7 +162,7 @@ pnpm dev
 
 `pack:npm` 默认输出到 `dist/npm/run-*`，可通过 `--out-dir <directory>` 指定目录；版本读取根 `package.json`，发布模板保持只读，打包失败保留旧包。生成候选包或持有 `artifact.json` 摘要清单不代表通过发布检查。`publish:npm` 必须显式指定 `.tgz`，执行 `check` 和消费该文件的 `test:build` 后发布同字节快照，不重新构建或打包该候选包。CI 保存本次验证过的 npm 包与摘要，不自动发布。完整流程见[打包与发布指南](./docs/docs/guide/customize/build.md#npm-候选包与发布)。
 
-测试分层、浏览器安装和视觉基线更新方式请查看[自动化测试指南](./docs/docs/guide/customize/testing.md)。
+测试分层、浏览器安装和视觉基线更新方式请查看[自动化测试指南](./docs/docs/guide/contributes/testing.md)。
 
 ### 定制构建
 
