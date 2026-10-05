@@ -6,8 +6,9 @@
 
 1. 阅读[介绍](/guide/start/intro.html)，了解 ZUI 的组成与适用方式。
 2. 按[快速上手](/guide/start/)加载资源，运行第一个组件。
-3. 阅读[教程](/guide/start/tutorial.html)，学习实例更新、销毁和自定义组件。
-4. 对照[兼容性](/guide/start/compatibility.html)，确认项目的浏览器要求。
+3. 对照[兼容性](/guide/start/compatibility.html)，确认项目的浏览器要求。
+
+需要了解实例更新、销毁和自定义组件时，再阅读[教程](/guide/start/tutorial.html)。
 
 ## 选择接入方式
 
