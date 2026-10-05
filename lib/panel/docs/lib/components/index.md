@@ -87,7 +87,40 @@
 
 ```html
 <div class="panel primary">
-  ...
+  <div class="panel-heading">
+    <div class="panel-title">本周迭代</div>
+  </div>
+  <div class="panel-body">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
+</div>
+<div class="panel secondary-pale">
+  <div class="panel-heading">
+    <div class="panel-title">本周迭代</div>
+  </div>
+  <div class="panel-body">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
+</div>
+<div class="panel warning-outline">
+  <div class="panel-heading">
+    <div class="panel-title">本周迭代</div>
+  </div>
+  <div class="panel-body">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
+</div>
+<div class="panel ring-danger danger">
+  <div class="panel-heading">
+    <div class="panel-title">本周迭代</div>
+  </div>
+  <div class="panel-body canvas">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
+</div>
+<div class="panel black">
+  <div class="panel-heading">
+    <div class="panel-title">本周迭代</div>
+  </div>
+  <div class="panel-body">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
+</div>
+<div class="panel gray">
+  <div class="panel-heading">
+    <div class="panel-title">本周迭代</div>
+  </div>
+  <div class="panel-body">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
 </div>
 ```
 
@@ -191,9 +224,36 @@
 
 ```html
 <div class="panel">
-  <div class="panel-heading"><div class="panel-title">项目交付计划</div></div>
+  <div class="panel-heading gray-200"><div class="panel-title">项目交付计划</div></div>
   <table class="table">
-    ...
+    <thead>
+      <tr>
+        <th>项目名称</th>
+        <th>负责人</th>
+        <th>计划开始</th>
+        <th>计划完成</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>客户门户升级</td>
+        <td>陈晨</td>
+        <td>2026-09-01</td>
+        <td>2026-09-18</td>
+      </tr>
+      <tr>
+        <td>移动端工单</td>
+        <td>周敏</td>
+        <td>2026-09-14</td>
+        <td>2026-10-09</td>
+      </tr>
+      <tr>
+        <td>团队知识库</td>
+        <td>林悦</td>
+        <td>2026-10-12</td>
+        <td>2026-10-30</td>
+      </tr>
+    </tbody>
   </table>
 </div>
 ```
