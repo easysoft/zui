@@ -279,7 +279,9 @@ beforeDestroy?: () =&gt; void; // 卸载前回调。
 
 `onDrop` 的第三个参数 `restore` 可以保存为独立回调，在异步保存失败时调用，将看板数据恢复到本次拖放前的快照，包括此前已应用的本地修改。回滚会撤销快照之后的数据变化；允许连续操作时，应用需要协调保存请求和回滚顺序。本页保存示例采用先保存、再 `update()` 的流程。
 
-## 模块引入与销毁
+## 源码工作区入口与销毁
+
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*` 并编译 TypeScript；使用 JSX 时还需配置 Preact。标准 npm 包通过 `zui` 和 `zui/css` 接入。
 
 ```ts
 import {Kanban, KanbanList} from '@zui/kanban';
