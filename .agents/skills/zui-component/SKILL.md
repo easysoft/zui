@@ -11,7 +11,7 @@ description: "在 ZUI 主仓库的 lib/* 中设计、实现或修复组件及 We
 
 涉及自定义元素时，读取 [Web Component 规范](../zui-standards/references/web-component.md)。无论采用独立工厂配置还是元素子类，定义必须在 `lib/<lib-name>/src/web-component/` 内实现，并经该目录 `index.ts` 和库 `src/main.ts` 导出。
 
-阅读本次判断所需的目标源码；架构或公开契约尚不清楚时再检查相似实现。仅修改目标库，除非任务范围明确包含跨库依赖。
+阅读本次判断所需的目标源码；架构或公开契约尚不清楚时再检查相似实现。默认仅修改目标库；新增第三方依赖时，按[第三方依赖的版权与文档](../zui-standards/references/workflow.md#第三方依赖的版权与文档)将 `licenses/` 和公共依赖说明纳入必要文件集，其余跨库修改须在任务范围内。
 
 新增组件或能力前执行[先查找，再复用](../zui-standards/references/workflow.md#复用已有能力)，检索并核实可组合的已有组件和 helper；设计中说明所复用的 API 或必须新增的缺口。
 

@@ -27,6 +27,7 @@
 - `zui.type`、`displayName`、`contributes` 是否与真实产出一致；
 - `main`、`browser`、`module`、`exports`、`files` 的目标是否存在；
 - 运行时依赖和仅文档/调试依赖是否正确分类；
+- 按[第三方依赖的版权与文档](../../zui-standards/references/workflow.md#第三方依赖的版权与文档)核对审计范围内的版权文件和依赖说明；优化中引入新依赖时，同步完成版权与文档联动；
 - `src/main.ts`、局部 `index.ts` 与实际公共 API 是否一致；
 - 是否暴露了不稳定深层路径，或遗漏已有公共类型/类/方法；
 - 跨库导入是否使用 `@zui/*`，是否意外依赖 `exts/`。

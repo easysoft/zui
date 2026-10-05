@@ -61,12 +61,12 @@ description: "将已经可用的 UMD/IIFE 资源封装为独立 ZUI 扩展包，
 
 1. 当前模式允许编辑时检查 `gitRoot` 状态，按共享工作流复用或刷新受影响的上下文，仅修改任务范围。新库最小 package 建立后重新解析，把 `plannedTargetLibRoot` 升级为真实 `targetLibRoot` 并核对实际标识。
 2. 新包的 scope、版本、description、入口、exports、依赖协议和 `zui` 元数据从 `extensionRoot` 当前配置及成熟兄弟包推导；不用 `@zui/*`、`workspace:*`、`link:` 或固定版本模板代替事实。`publicPath` 只在宿主实际要求或非默认路径时声明。
-3. 将用户提供的 UMD/CSS/license 原样放入任务所需的 `targetLibRoot/public/`，或使用任务确定且版本固定的绝对 URL；不编辑、压缩、转译或生成第三方产物。
+3. 将用户提供的 UMD/CSS/license 原样放入任务所需的 `targetLibRoot/public/`，或使用任务确定且版本固定的绝对 URL。同时按[第三方依赖的版权与文档](../zuix-standards/references/workflow.md#第三方依赖的版权与文档)补齐 `extensionRoot` 内的版权文件与依赖说明，外置或远程加载也须覆盖；不编辑、压缩、转译或生成第三方产物。
 4. 在目标包私有 helper 中创建唯一 `LibLoader<T>`，显式配置 `src` 和 `check`。多个 facade 共享 loader，不在组件类维护第二份模块缓存。
 5. 优先使用与 UMD 全局形状一致的第三方类型声明；只使用 `import type`。没有可靠声明时手写 facade 实际需要的窄接口；公共类型引用第三方包时确保消费者可解析。
 6. 每次异步加载后检查模块结果和实例存活状态；定义加载前方法、失败和显式重试行为；`destroy()` 清理第三方实例、监听、DOM 及其他副作用。
 7. 只创建真实需要的入口、component/vanilla/helper/types/style 和注册副作用；沿用扩展项目合理局部目录风格，不公开私有 loader，不创建空目录。
-8. 任务范围包含调试页时，按扩展版 `zuix-dev` 完成调试源：生产入口先注册相对资源，再用相同注册名和 `check` 覆盖宿主实际 `/exts/<extsName>/<folderName>/public/...` 地址；`extsName` 未解析时不得写猜测值。HMR 重建前销毁旧实例。正式文档只在任务范围内实施。
+8. 任务范围包含调试页时，按扩展版 `zuix-dev` 完成调试源：生产入口先注册相对资源，再用相同注册名和 `check` 覆盖宿主实际 `/exts/<extsName>/<folderName>/public/...` 地址；`extsName` 未解析时不得写猜测值。HMR 重建前销毁旧实例。组件 API 文档按任务范围实施；新增第三方依赖说明按共享工作流随本次交付完成。
 9. 依赖和 lockfile 在 `extensionRoot` 按实际 pnpm 策略更新；不修改宿主依赖、锁文件或注册；宿主生成物和缓存写入遵循共享工作流的验证隔离与批准规则。
 
 ## 验证与交付

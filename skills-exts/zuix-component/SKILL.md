@@ -33,7 +33,7 @@ description: "在独立 ZUI 扩展项目中设计、实现或修复组件；区�
 - 公开消费方式、options/props、事件、方法、类型及导出；
 - 渲染、状态/数据流、生命周期、异步行为、清理、无障碍和 i18n；
 - 外部资源（若有）的 loader 所有权、注册名、资源/check/依赖、加载时机、失败重试和销毁竞态；
-- `targetLibRoot` 内的精确文件集、入口、样式及 package 元数据影响；
+- `targetLibRoot` 内的精确文件集、入口、样式及 package 元数据影响；新增第三方依赖时，按[版权与文档规则](../zuix-standards/references/workflow.md#第三方依赖的版权与文档)纳入 `extensionRoot` 的版权文件与依赖说明；
 - 在 `extensionRoot` 执行的依赖、lint、类型或测试，以及在 `zuiRoot` + `extsName` 执行的联合验证；
 - 正式文档和调试页是否纳入、剩余假设及任务范围。
 

@@ -38,6 +38,7 @@ ignored 文件不属于默认未提交范围，用户点名时才纳入。显式
 2. 重点检查本次变更是否引入或暴露以下问题：
    - 逻辑错误、错误恢复缺口、空值与边界条件、异步竞态、重复执行和状态不同步；
    - 公共 API、类型、事件、DOM/CSS、序列化、包元数据或向后兼容性回归；
+   - 本次新增、替换或升级的第三方依赖及资源，按[版权与文档规则](../zuix-standards/references/workflow.md#第三方依赖的版权与文档)核对 `EXT_ROOT` 的版权文件和依赖说明；保留开发依赖部分，不能用宿主中的文件代替扩展应交付的说明；
    - listener、timer、observer、portal、实例、缓存及其他资源的初始化、更新与销毁不对称；
    - 安全、数据损坏、无障碍、国际化及有可复现场景的性能退化；
    - Preact 组件违反[状态与副作用规范](../zuix-standards/references/component.md#preact-状态与副作用)：使用 hooks（含 signals hooks），或未在卸载/销毁时清理 `effect`；
