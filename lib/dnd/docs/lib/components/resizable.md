@@ -162,6 +162,10 @@ onUpdate?: (info: ResizableUpdateInfo, state: ResizableState) => void | false | 
 
 ## 引入
 
+### 源码工作区
+
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*` 并编译 TypeScript。标准 npm 包从 `zui` 导入组件。
+
 ```js
 import {Resizable} from '@zui/dnd';
 
@@ -172,7 +176,9 @@ const resizable = new Resizable('#panel', {
 });
 ```
 
-也可以通过全局对象 `zui` 使用：
+### 全局对象
+
+页面已按公共指引加载 ZUI 时，直接使用全局对象：
 
 ```js
 const resizable = new zui.Resizable('#panel', options);
