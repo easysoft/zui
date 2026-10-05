@@ -88,9 +88,41 @@ const kanbanOptions = {
 .kanban-list.kanban-doc-preview {
     height: 12rem;
 }
+.kanban-list.kanban-release-board {
+    height: 25rem;
+}
+.kanban-release-input {
+    flex: 1 1 12rem;
+    min-width: 0;
+}
 </style>
 
 单独使用 `Kanban` 时，外层提供 `.kanban-list` 容器，供表头固定和尺寸测量使用。`KanbanList` 会自行提供此容器。
+
+## 综合示例
+
+以下为客户门户发布的虚构任务看板，按前端、服务端两条泳道展示进展。可以拖动卡片调整状态或所属团队，也可以通过卡片按钮完成状态流转。
+
+<Example>
+  <div class="flex flex-wrap items-center justify-between gap-2">
+    <strong>客户门户发布</strong>
+    <span class="text-sm text-gray">{{ demoSummary }}</span>
+  </div>
+  <form class="flex flex-wrap items-center gap-2 mt-3 mb-3" @submit.prevent="addDemoTask">
+    <label for="kanbanDemoTaskTitle">任务名称</label>
+    <input id="kanbanDemoTaskTitle" v-model="demoTaskTitle" class="form-control kanban-release-input" placeholder="例如：补充上传失败提示" maxlength="60" :disabled="!demoReady" />
+    <button type="submit" class="btn primary" :disabled="!demoReady || !demoTaskTitle.trim()">新增任务</button>
+    <button type="button" class="btn" :disabled="!demoReady" @click="resetDemo">重置</button>
+  </form>
+  <div class="kanban-list kanban-release-board" tabindex="0" role="region" aria-label="客户门户发布看板，可横向滚动">
+    <div id="kanbanReleaseDemo"></div>
+  </div>
+  <p class="text-sm mt-3 break-words" role="status">{{ demoStatus }}</p>
+</Example>
+
+输入任务名称后按回车或点击“新增任务”，新卡片会加入“前端 / 待处理”。“重置”恢复初始的六项任务；所有修改仅保留在当前页面。窄屏下可以横向滚动看板，卡片上的按钮也支持键盘操作。
+
+示例使用 `onDrop` 应用拖放变更，通过 `addItem()` 新增卡片、`updateItem()` 切换状态。重置时销毁旧实例，再使用原配置和初始数据创建看板。标题和操作区放在看板外；如果使用 `KanbanList` 分区，则应将 `heading` 与包含看板配置的 `items` 配套传入。
 
 ## 数据结构
 
@@ -257,14 +289,6 @@ import type {KanbanProps, KanbanDataset, KanbanDropInfo} from '@zui/kanban';
 ```
 
 Preact 的 `render` 从 `preact` 引入，调用形式为 `render(<KanbanView data={data} />, element)`。移除看板时调用 `kanban.destroy()` 释放拖放、尺寸监听和组件实例。
-
-## 综合示例
-
-以客户门户发布、移动端工单和团队知识库为例，分别展示任务依赖、跨团队泳道，以及“进行中”下的父子列。卡片包含明确的工作目标；连线表示前置任务，拖动可体验本地状态流转。
-
-<Example>
-  <div id="kanbanList"></div>
-</Example>
 
 <script>
 import index from './index.js';
