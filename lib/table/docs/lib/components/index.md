@@ -90,7 +90,7 @@
 
 在 `<table class="table">` 上使用工具类 `.table-striped` 斑马纹表格外观（隔行变色）效果。
 
-:: tabs
+::: tabs
 
 == 示例
 
