@@ -5,13 +5,13 @@
 使用 `animate-spin` 给元素添加旋转动画效果。
 
 <Example>
-  <button type="button" class="btn primary">
+  <button type="button" class="btn">
     <i class="animate-spin icon icon-spinner-indicator"></i> 加载中
   </button>
 </Example>
 
 ```html
-<button type="button" class="btn primary">
+<button type="button" class="btn">
   <i class="animate-spin icon icon-spinner-indicator"></i> 加载中
 </button>
 ```
@@ -21,14 +21,14 @@
 使用 `animate-ping` 给元素添加水波纹动画。
 
 <Example>
-  <button type="button" class="btn primary">
-    <i class="animate-ping icon icon-thumbs-up"></i> 赞！
+  <button type="button" class="btn warning">
+    <i class="animate-ping icon icon-thumbs-up"></i>
   </button>
 </Example>
 
 ```html
-<button type="button" class="btn primary">
-  <i class="animate-ping icon icon-thumbs-up"></i> 赞！
+<button type="button" class="btn warning">
+  <i class="animate-ping icon icon-thumbs-up"></i>
 </button>
 ```
 
@@ -38,24 +38,24 @@
 
 <Example>
   <div class="animate-pulse rounded w-full flex px-4 py-4">
-    <div class="w-16 h-16 bg-primary circle">
+    <div class="w-16 h-16 gray-pale circle">
     </div>
     <div class="flex-1 h-16 px-4 ">
-      <div class="h-4 w-48 bg-primary mb-2 rounded"></div>
-      <div class="h-4 w-96 bg-primary mb-2 rounded"></div>
-      <div class="h-4 flex-1 bg-primary rounded"></div>
+      <div class="h-4 w-48 gray-pale mb-2 rounded"></div>
+      <div class="h-4 w-96 gray-pale mb-2 rounded"></div>
+      <div class="h-4 flex-1 gray-pale rounded"></div>
     </div>
   </div>
 </Example>
 
 ```html
 <div class="animate-pulse rounded w-full flex px-4 py-4">
-  <div class="w-16 h-16 bg-primary circle">
+  <div class="w-16 h-16 gray-pale circle">
   </div>
   <div class="flex-1 h-16 px-4 ">
-    <div class="h-4 w-48 bg-primary mb-2 rounded"></div>
-    <div class="h-4 w-96 bg-primary mb-2 rounded"></div>
-    <div class="h-4 flex-1 bg-primary rounded"></div>
+    <div class="h-4 w-48 gray-pale mb-2 rounded"></div>
+    <div class="h-4 w-96 gray-pale mb-2 rounded"></div>
+    <div class="h-4 flex-1 gray-pale rounded"></div>
   </div>
 </div>
 ```
@@ -65,13 +65,13 @@
 使用 `animate-bounce` 给元素添加弹跳动画。
 
 <Example>
-  <button type="button" class="btn primary">
+  <button type="button" class="btn success">
     <i class="bounce icon icon-arrow-down"></i> 下载
   </button>
 </Example>
 
 ```html
-<button type="button" class="btn primary">
+<button type="button" class="btn success">
   <i class="bounce icon icon-arrow-down"></i> 下载
 </button>
 ```
