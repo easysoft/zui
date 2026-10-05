@@ -202,9 +202,9 @@ onChange?: (virtualizer: Virtualizer, sync: boolean) =&gt; void; // 核心状态
 
 `renderItem` 收到的 `VirtualItem` 包含 `index`、`key`、`start`、`end`、`size` 和 `lane`。完整核心选项见 [TanStack Virtualizer API](https://tanstack.com/virtual/latest/docs/api/virtualizer)。
 
-## Preact 入口
+## Preact 入口（源码工作区）
 
-从 `/react` 引入同名类组件。项目使用 Preact，不需要 React 或 hooks。
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*`、编译 TypeScript/JSX 并配置 Preact，页面需加载 ZUI 样式。从 `@zui/virtualize/react` 引入同名类组件；无需 hooks。
 
 ```tsx
 import {VirtualList} from '@zui/virtualize/react';
@@ -221,14 +221,14 @@ import {VirtualList} from '@zui/virtualize/react';
 
 需要自定义 DOM 结构或自行组合多个虚拟器时，使用 `createVirtualizer`。它只管理核心实例和生命周期，由调用方渲染条目。
 
-其他组件或 ESM 项目可以从独立入口 `@zui/virtualize/virtualizer` 引入，不会加载 ZUI 列表组件、自动注册或样式：
+ZUI 源码工作区中的其他组件可以从独立入口 `@zui/virtualize/virtualizer` 引入，需要解析工作区包并编译 TypeScript。该入口不会加载 ZUI 列表组件、自动注册或样式：
 
 ```ts
 import {createVirtualizer, createWindowVirtualizer} from '@zui/virtualize/virtualizer';
 import type {ElementVirtualizerOptions, VirtualItem} from '@zui/virtualize/virtualizer';
 ```
 
-该入口也导出 `VirtualizerController`、`Virtualizer`、`defaultRangeExtractor` 和相关核心类型。使用整库脚本时，仍通过 `zui.createVirtualizer` 访问。
+该工作区入口也导出 `VirtualizerController`、`Virtualizer`、`defaultRangeExtractor` 和相关核心类型。标准 npm 包从 `zui` 导入 `createVirtualizer`、`createWindowVirtualizer` 等公开成员；使用整库脚本时通过 `zui.createVirtualizer` 访问。
 
 ```js
 const viewport = document.querySelector('#viewport');
