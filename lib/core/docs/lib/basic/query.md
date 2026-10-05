@@ -1,6 +1,6 @@
 # 远程查询
 
-Query 辅助层使用 TanStack Query Core 管理请求、缓存和失效，通过只读 signal 提供结果，支持 Preact 类组件和 vanilla 控制器，全程无需 hooks。
+Query 辅助层使用 TanStack Query Core 管理请求、缓存和失效，通过只读 signal 提供结果，支持 Preact 类组件和 vanilla 控制器。
 
 ## 基础用法
 
