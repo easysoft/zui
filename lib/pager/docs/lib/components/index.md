@@ -186,7 +186,7 @@
 
 <Example class="gap-2 col">
   <nav class="pager size-sm">
-    <a class="btn ghost square " title="第一页"><i class="icon icon-double-angle-left"></i></a>
+    <a class="btn ghost square" title="第一页"><i class="icon icon-double-angle-left"></i></a>
     <a class="btn ghost square" title="上一页"><i class="icon icon-angle-left"></i></a>
     <a class="btn ghost">1</a>
     <a class="btn ghost">2</a>
@@ -221,13 +221,34 @@
 
 ```html
 <nav class="pager size-sm">
-  ...
+  <a class="btn ghost square" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+  <a class="btn ghost square" title="上一页"><i class="icon icon-angle-left"></i></a>
+  <a class="btn ghost">1</a>
+  <a class="btn ghost">2</a>
+  <a class="btn ghost">3</a>
+  <a class="btn ghost">4</a>
+  <a class="btn ghost square" title="下一页"><i class="icon icon-angle-right"></i></a>
+  <a class="btn ghost square" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
 </nav>
 <nav class="pager">
-  ...
+  <a class="btn ghost square" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+  <a class="btn ghost square" title="上一页"><i class="icon icon-angle-left"></i></a>
+  <a class="btn ghost">1</a>
+  <a class="btn ghost">2</a>
+  <a class="btn ghost">3</a>
+  <a class="btn ghost">4</a>
+  <a class="btn ghost square" title="下一页"><i class="icon icon-angle-right"></i></a>
+  <a class="btn ghost square" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
 </nav>
 <nav class="pager size-lg">
-  ...
+  <a class="btn ghost square" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+  <a class="btn ghost square" title="上一页"><i class="icon icon-angle-left"></i></a>
+  <a class="btn ghost">1</a>
+  <a class="btn ghost">2</a>
+  <a class="btn ghost">3</a>
+  <a class="btn ghost">4</a>
+  <a class="btn ghost square" title="下一页"><i class="icon icon-angle-right"></i></a>
+  <a class="btn ghost square" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
 </nav>
 ```
 
