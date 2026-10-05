@@ -432,7 +432,7 @@ new zui.DTable(element, {
 
 **定制隔行背景色**
 
-通过 CSS 变量 `--dtable-striped-bg` 来设置鼠标悬停背景色。
+通过 CSS 变量 `--dtable-striped-bg` 来设置隔行背景色。
 
 <Example>
   <div id="dtable-striped-custom"></div>
