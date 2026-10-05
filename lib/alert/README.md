@@ -62,11 +62,11 @@
 <div class="alert warning">注意！看起来遇到一些问题。</div>
 <div class="alert danger">确实遇到了问题，请立即处理吧。</div>
 <div class="alert important">不要忘了勾选协议哦！</div>
-<div class="alert special">你可能还需要深入了解ZUI3。</div>
+<div class="alert special">你可能还需要深入了解 ZUI 3。</div>
 <div class="alert lighter">采用基础 + 组件库模式，按需使用。</div>
 <div class="alert light">丰富组件库，实现你的创意。</div>
 <div class="alert gray">深色模式，自定义主题，定制打包。</div>
-<div class="alert dark">ZUI3使用组件库来管理组件。</div>
+<div class="alert dark">ZUI 3 使用组件库来管理组件。</div>
 <div class="alert darker">库中的每个组件可以被独立打包和使用。</div>
 <div class="alert black">组件库采用 pnpm 的工作空间实现。</div>
 <div class="alert inverse">每个组件作为一个单独的包进行管理。</div>
@@ -80,11 +80,11 @@
 <div class="alert warning-pale">注意！看起来遇到一些问题。</div>
 <div class="alert danger-pale">确实遇到了问题，请立即处理吧。</div>
 <div class="alert important-pale">不要忘了勾选协议哦！</div>
-<div class="alert special-pale">你可能还需要深入了解ZUI3。</div>
+<div class="alert special-pale">你可能还需要深入了解 ZUI 3。</div>
 <div class="alert lighter-pale">采用基础 + 组件库模式，按需使用。</div>
 <div class="alert light-pale">丰富组件库，实现你的创意。</div>
 <div class="alert gray-pale">深色模式，自定义主题，定制打包。</div>
-<div class="alert dark-pale">欢迎使用ZUI3。</div>
+<div class="alert dark-pale">欢迎使用 ZUI 3。</div>
 ```
 ## Radius
 
@@ -95,7 +95,7 @@
 <div class="alert warning rounded-md">注意！看起来遇到一些问题。</div>
 <div class="alert danger rounded-lg">确实遇到了问题，请立即处理吧。</div>
 <div class="alert light rounded-xl">你可能需要了解一些内容。</div>
-<div class="alert important circle">欢迎使用ZUI3。</div>
+<div class="alert important circle">欢迎使用 ZUI 3。</div>
 
 ```
 

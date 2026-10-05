@@ -2,8 +2,8 @@
 
 ## 介绍
 
-本教程用于快速了解 ZUI3 的概念内容和及其方法，ZUI 3 本身的介绍请参考 [介绍](/guide/start/intro.html) 部分。
-如果仅仅想要快速上手 ZUI3，可以直接查看 [快速上手](/guide/start/index.html) 部分。
+本教程用于快速了解 ZUI 3 的概念内容和及其方法，ZUI 3 本身的介绍请参考 [介绍](/guide/start/intro.html) 部分。
+如果仅仅想要快速上手 ZUI 3，可以直接查看 [快速上手](/guide/start/index.html) 部分。
 
 ## 全局配置机制
 
@@ -26,11 +26,11 @@
 
 ## 使用 CSS 工具类
 
-ZUI3 基于 Tailwind CSS 提供了丰富的 CSS 工具类，包括特别的语义化外观工具类，轻松实现常见布局、文字排版、动画、外观定义。下面是一些使用 CSS 工具类的建议：
+ZUI 3 基于 Tailwind CSS 提供了丰富的 CSS 工具类，包括特别的语义化外观工具类，轻松实现常见布局、文字排版、动画、外观定义。下面是一些使用 CSS 工具类的建议：
 
-* 在使用 ZUI3 组件时，如果需要修改组件的外观样式，优先使用 CSS 工具类，而不是直接修改组件的样式；
+* 在使用 ZUI 3 组件时，如果需要修改组件的外观样式，优先使用 CSS 工具类，而不是直接修改组件的样式；
 * 使用 CSS 工具类还可以实现一些简单的自定义界面样式；
-* 当 CSS 工具类无法满足需求时，可以通过定义新的 CSS 工具类来实现，如果 ZUI3 中没有，但 Tailwind CSS 中有提供的情况下，可以直接定义 Tailwind CSS 同名类实现。
+* 当 CSS 工具类无法满足需求时，可以通过定义新的 CSS 工具类来实现，如果 ZUI 3 中没有，但 Tailwind CSS 中有提供的情况下，可以直接定义 Tailwind CSS 同名类实现。
 
 ## 使用 CSS 组件
 
@@ -61,7 +61,7 @@ zui.Messager.show('你好，今天是：' + zui.formatDate(new Date(), 'yyyy年M
 
 ### Component 类
 
-在 ZUI3 中所有 JS 组件继承自 `Component` 类，`Component` 类为组件提供了统一的属性和方法：
+在 ZUI 3 中所有 JS 组件继承自 `Component` 类，`Component` 类为组件提供了统一的属性和方法：
 
 ```ts
 /**
@@ -242,7 +242,7 @@ const nav = zui.Nav.get('#myNav');
 
 ### 点击触发调用
 
-在 ZUI3 中，一些组件支持通过 `data-toggle` 属性来定义点击或鼠标悬停时的切换行为，例如下拉菜单、工具提示、对话框等：
+在 ZUI 3 中，一些组件支持通过 `data-toggle` 属性来定义点击或鼠标悬停时的切换行为，例如下拉菜单、工具提示、对话框等：
 
 
 ```html
@@ -255,7 +255,7 @@ const nav = zui.Nav.get('#myNav');
 
 ### 元素属性前缀
 
-在使用 ZUI3 JS 组件时，可以通过 `zui-*` 属性来调用组件和配置组件行为，另外组件在渲染时也会自动添加一些属性，这些属性通常以 `z-` 为前缀，用于标识组件的状态、配置等信息。下面列举了一些常见的属性以及作用：
+在使用 ZUI 3 JS 组件时，可以通过 `zui-*` 属性来调用组件和配置组件行为，另外组件在渲染时也会自动添加一些属性，这些属性通常以 `z-` 为前缀，用于标识组件的状态、配置等信息。下面列举了一些常见的属性以及作用：
 
 - `zui-create` 和 `zui-create-*`：用于声明组件，通过 `zui-create` 属性声明组件，通过 `zui-create-<component>` 来定义组件初始化选项。
 - `zui-toggle` 和 `zui-toggle-*`：用于组件点击或鼠标悬停时的切换行为。
@@ -265,7 +265,7 @@ const nav = zui.Nav.get('#myNav');
 
 ## 初始化脚本
 
-在 ZUI3 中，可以通过元素 `zui-init` 属性来定义页面初始化脚本，这个脚本会在元素呈现到页面后自动执行，例如：
+在 ZUI 3 中，可以通过元素 `zui-init` 属性来定义页面初始化脚本，这个脚本会在元素呈现到页面后自动执行，例如：
 
 ```html
 <div zui-init="console.log('hello', $element)">hello</div>
@@ -288,7 +288,7 @@ $(function() {
 
 ## 使用 JS 辅助工具
 
-在 ZUI3 中提供了大量 JS 辅助工具，包括：
+在 ZUI 3 中提供了大量 JS 辅助工具，包括：
 
 * [本地存储](/lib/helpers/store/)
 * [日期辅助方法](/lib/helpers/helpers/date-helper.html)

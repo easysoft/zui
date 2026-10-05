@@ -64,7 +64,7 @@
 
 ## [3.0.0](https:///github.com/easysoft/zui/compare/v3.0.0-alpha.4...v3.0.0) (2024-07-26)
 
-ZUI3 正式版，欢迎使用！
+ZUI 3 正式版，欢迎使用！
 
 ## [3.0.0-alpha.4](https:///github.com/easysoft/zui/compare/v3.0.0-alpha.3...v3.0.0-alpha.4) (2024-02-07)
 

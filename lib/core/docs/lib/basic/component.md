@@ -112,7 +112,7 @@ const nav = zui.Nav.get('#myNav');
 
 ## Component 类
 
-在 ZUI3 中所有 JS 组件继承自 `Component` 类，`Component` 类为组件提供了统一的属性和方法：
+在 ZUI 3 中所有 JS 组件继承自 `Component` 类，`Component` 类为组件提供了统一的属性和方法：
 
 ```ts
 /**
