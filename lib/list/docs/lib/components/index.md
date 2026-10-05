@@ -277,7 +277,9 @@ list.destroy();
 
 `NestedList` 额外提供 `toggle(keyPath, show?)`、`toggleAll(show)` 和 `isExpanded(keyPath)`。删除容器前应调用原生实例的 `destroy()`。
 
-## 模块引入与键盘交互
+## 源码工作区入口与键盘交互
+
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*` 并编译 TypeScript；使用 JSX 时还需配置 Preact。标准 npm 包通过 `zui` 和 `zui/css` 接入。
 
 ```ts
 import {List, NestedList} from '@zui/list';
