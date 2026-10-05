@@ -131,6 +131,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
         this.on('click', this.#handleClick as DTableEventListener);
         this.on('keydown', this.#handleKeydown as DTableEventListener);
+        this.on('focusin', this.#handleFocusin as DTableEventListener);
 
         const {options} = this;
         if (options.rowHover || options.colHover) {
@@ -686,7 +687,16 @@ export class DTable extends Component<DTableOptions, DTableState> {
         if (this.options[renderCallbackName]) {
             renderCell(this.options[renderCallbackName] as CellRenderCallback, 'options');
         }
-        return result;
+        const {left, center} = this.layout.cols;
+        const colIndex = col.sideIndex + 1 + (col.side === 'left' ? 0 : left.list.length + (col.side === 'right' ? center.list.length : 0));
+        return [...(result || []), {
+            outer: true,
+            attrs: {
+                id: `${this.id}-cell-${row.index}-${col.index}`,
+                role: row.id === 'HEADER' ? 'columnheader' : 'cell',
+                'aria-colindex': colIndex,
+            },
+        }];
     };
 
     #handleScroll = (scrollOffset: number, type: 'horz' | 'vert') => {
@@ -726,9 +736,38 @@ export class DTable extends Component<DTableOptions, DTableState> {
     };
 
     #handleKeydown = (event: KeyboardEvent) => {
+        // Native controls and editing plugins keep their own keyboard behavior.
+        if ((event.target !== this.element && event.target !== this.element?.querySelector('.dtable-table')) || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+            return;
+        }
         const key = event.key.toLowerCase();
-        if (['pageup', 'pagedown', 'home', 'end'].includes(key)) {
-            return !this.scroll({to: key.replace('page', '') as Parameters<DTable['scroll']>[0]['to']});
+        if (key === 'arrowleft' || key === 'arrowright') {
+            return !this.scroll({offsetLeft: key === 'arrowleft' ? -40 : 40});
+        }
+        if (key === 'arrowup' || key === 'arrowdown') {
+            return !this.scroll({offsetTop: (key === 'arrowup' ? -1 : 1) * this.layout.rowHeight});
+        }
+        if (key === 'home' || key === 'end') {
+            return !this.scroll({to: key === 'home' ? 'begin' : 'end'});
+        }
+        if (key === 'pageup' || key === 'pagedown') {
+            return !this.scroll({to: key === 'pageup' ? 'up' : 'down'});
+        }
+    };
+
+    #handleFocusin = (event: FocusEvent) => {
+        const pointer = this.getPointerInfo(event);
+        if (!pointer) {
+            return;
+        }
+        const col = this.getColInfo(pointer.colName);
+        const {scrollLeft, cols: {center}} = this.layout;
+        if (col?.side === 'center') {
+            if (col.left < scrollLeft) {
+                this.scroll({scrollLeft: col.left});
+            } else if (col.left + col.realWidth > scrollLeft + center.width) {
+                this.scroll({scrollLeft: Math.min(col.left, col.left + col.realWidth - center.width)});
+            }
         }
     };
 
@@ -1027,6 +1066,32 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return layout;
     }
 
+    #renderTable(layout: DTableLayout) {
+        const {cols, visibleRows, rows, header} = layout;
+        const hasHeader = header === true && (!!rows.length || !this.options.emptyTip);
+        const colList = [...cols.left.list, ...cols.center.list, ...cols.right.list];
+        const ownCells = (rowIndex: number) => colList.map(col => `${this.id}-cell-${rowIndex}-${col.index}`).join(' ');
+        // Own the real cells from a separate semantic container so column partitions
+        // cannot also expose those cells as direct children of the table.
+        return (
+            <div
+                className="dtable-table"
+                role="table"
+                aria-label={this.options['aria-label']}
+                aria-labelledby={this.options['aria-labelledby']}
+                aria-describedby={this.options['aria-describedby']}
+                aria-rowcount={rows.length + (hasHeader ? 1 : 0)}
+                aria-colcount={colList.length}
+                tabIndex={0}
+            >
+                {hasHeader && <div role="rowgroup"><div role="row" aria-rowindex={1} aria-owns={ownCells(-1)} /></div>}
+                <div role="rowgroup">
+                    {visibleRows.map(row => <div key={row.id} role="row" aria-rowindex={row.index + (hasHeader ? 2 : 1)} aria-owns={ownCells(row.index)} />)}
+                </div>
+            </div>
+        );
+    }
+
     render() {
         let layout = this.#getLayout();
         const {className, rowHover, colHover, cellHover, bordered, striped, scrollbarHover, beforeRender, emptyTip, style} = this.options;
@@ -1120,6 +1185,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 ref={this.ref}
                 tabIndex={-1}
             >
+                {layout && this.#renderTable(layout)}
                 {children}
             </div>
         );

@@ -61,6 +61,9 @@ export interface DTableCallbackOptions {
 
 export interface DTableOptions<C = ColSetting> extends DTableDataOptions<C>, DTableLayoutOptions, DTableStyleOptions, DTableCallbackOptions {
     id?: string;
+    'aria-label'?: string;
+    'aria-labelledby'?: string;
+    'aria-describedby'?: string;
     lang?: string;
     i18n?: Record<string, Record<string, string | object>>;
     className?: ClassNameLike;

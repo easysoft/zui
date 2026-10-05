@@ -89,6 +89,7 @@ const cellspanPlugin: DTablePlugin<DTableCellSpanTypes> = {
             if (info) {
                 result.push({
                     outer: true,
+                    attrs: {'aria-colspan': info.colSpan, 'aria-rowspan': info.rowSpan},
                     style: {
                         width: info.width,
                         height: info.height,

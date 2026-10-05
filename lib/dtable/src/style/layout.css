@@ -1,6 +1,13 @@
 .dtable {
   @apply -relative -bg-canvas;
 }
+.dtable-table {
+  @apply -absolute -inset-0 -pointer-events-none;
+}
+.dtable:focus-visible,
+.dtable-table:focus-visible {
+  @apply -outline -outline-2 -outline-offset-2 -outline-[--color-primary-500];
+}
 .dtable.no-animation * {
   @apply !-transition-none;
 }

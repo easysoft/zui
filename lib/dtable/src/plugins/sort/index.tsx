@@ -136,13 +136,13 @@ const sortPlugin: DTablePlugin<DTableSortTypes> = {
         const sortTypeName = order || 'none';
         const sortIcon = <div className={`dtable-sort dtable-sort-${sortTypeName}`} />;
         result[0] = (
-            <a className="dtable-sort-link" href="javascript:;">
+            <button type="button" className="dtable-sort-link">
                 {result[0]}
                 {sortIcon}
-            </a>
+            </button>
         );
         result.push(
-            {outer: true, attrs: {'data-sort': sortTypeName}},
+            {outer: true, attrs: {'data-sort': sortTypeName, 'aria-sort': order === 'asc' ? 'ascending' : order === 'desc' ? 'descending' : undefined}},
         );
         return result;
     },

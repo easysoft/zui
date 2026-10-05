@@ -361,7 +361,18 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
         }
         if (nestedToggle && (info.children || info.parent)) {
             result.push(
-                this.options.onRenderNestedToggle?.call(this, info, rowID, col, rowData) ?? (<a className={`${nestedToggleClass} state${info.children ? '' : ' is-no-child'}`}><span className="toggle-icon"></span></a>),
+                this.options.onRenderNestedToggle?.call(this, info, rowID, col, rowData) ?? (
+                    <button
+                        type="button"
+                        className={`${nestedToggleClass} state${info.children ? '' : ' is-no-child'}`}
+                        aria-label={String(this.getCellValue(row, col) ?? rowID)}
+                        aria-expanded={info.children ? info.state !== NestedRowState.collapsed : undefined}
+                        aria-hidden={!info.children || undefined}
+                        disabled={!info.children}
+                    >
+                        <span className="toggle-icon" aria-hidden="true"></span>
+                    </button>
+                ),
                 {outer: true, className: `is-${info.state}`},
             );
         }
@@ -381,7 +392,11 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
         const {id: rowID} = row;
         if (col.setting.nestedToggle) {
             result.push(
-                this.options.onRenderNestedToggle?.call(this, undefined, rowID, col, undefined) ?? (<a className={`${nestedToggleClass} state`}><span className="toggle-icon"></span></a>),
+                this.options.onRenderNestedToggle?.call(this, undefined, rowID, col, undefined) ?? (
+                    <button type="button" className={`${nestedToggleClass} state`} aria-label={col.setting.title || col.name} aria-expanded={!this.isAllCollapsed()}>
+                        <span className="toggle-icon" aria-hidden="true"></span>
+                    </button>
+                ),
                 {outer: true, className: `is-${this.isAllCollapsed() ? NestedRowState.collapsed : NestedRowState.expanded}`},
             );
         }

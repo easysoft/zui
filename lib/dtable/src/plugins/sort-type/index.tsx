@@ -41,7 +41,7 @@ const sortTypePlugin: DTablePlugin<DTableSortTypeTypes, [DTableSortTypes]> = {
             const sortTypeName = sortTypeSetting === true ? 'none' : sortTypeSetting;
             const sortIcon = <div className={`dtable-sort dtable-sort-${sortTypeName}`} />;
             result.push(
-                {outer: true, attrs: {'data-sort': sortTypeName}},
+                {outer: true, attrs: {'data-sort': sortTypeName, 'aria-sort': sortTypeName === 'asc' ? 'ascending' : sortTypeName === 'desc' ? 'descending' : undefined}},
             );
             let {sortLink = defaultSortLink} = setting;
             if (sortLink) {
