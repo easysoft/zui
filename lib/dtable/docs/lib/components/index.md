@@ -377,7 +377,7 @@ new zui.DTable(element, {
 | `cellHover`      | 如果设置为 `true`，则对鼠标下的单元格启用鼠标悬停效果，默认为 `false` |
 
 <Example>
-  <div id="dtable-hover-effection"></div>
+  <div id="dtable-hover-effect"></div>
 </Example>
 
 ```js
@@ -399,11 +399,11 @@ new zui.DTable(element, {
 通过 CSS 变量 `--dtable-hover-bg` 来设置鼠标悬停背景色。
 
 <Example>
-  <div id="dtable-hover-effection-custom"></div>
+  <div id="dtable-hover-effect-custom"></div>
 </Example>
 
 <style>
-#dtable-hover-effection-custom {
+#dtable-hover-effect-custom .dtable {
   --dtable-hover-bg: rgba(255, 0, 255, .1);
 }
 </style>
