@@ -26,9 +26,11 @@
 
 配合丰富的[CSS 工具类](/utilities/)来实现不同标签的外观。
 
+### 常用
+
 ::: tabs
 
-== 常用
+== 示例
 
 <Example class="flex gap-4 flex-wrap" background="light-circle">
   <span class="label primary">进行中</span>
@@ -37,37 +39,170 @@
   <span class="label success-pale">已完成</span>
 </Example>
 
-== 实心
+== HTML
+
+```html
+<span class="label primary">进行中</span>
+<span class="label black rounded-none">已归档</span>
+<span class="label dark-outline rounded-full">外部协作</span>
+<span class="label success-pale">已完成</span>
+```
+
+:::
+
+### 实心
+
+::: tabs
+
+== 示例
 
 <Example class="row flex-wrap gap-3" background="light-circle">
   <span v-for="skin in zui.skin.accent" class="label capitalize" :class="skin">{{skin}}</span>
 </Example>
 
-== 灰度
+== HTML
+
+```html
+<span class="label capitalize primary">primary</span>
+<span class="label capitalize secondary">secondary</span>
+<span class="label capitalize success">success</span>
+<span class="label capitalize warning">warning</span>
+<span class="label capitalize danger">danger</span>
+<span class="label capitalize important">important</span>
+<span class="label capitalize special">special</span>
+<span class="label capitalize gray">gray</span>
+```
+
+:::
+
+### 灰度
+
+::: tabs
+
+== 示例
 
 <Example class="row flex-wrap gap-3" background="light-circle">
   <span v-for="skin in zui.skin.gray" class="label capitalize" :class="skin">{{skin}}</span>
 </Example>
 
-== 轮廓
+== HTML
+
+```html
+<span class="label capitalize gray-50">gray-50</span>
+<span class="label capitalize gray-100">gray-100</span>
+<span class="label capitalize gray-200">gray-200</span>
+<span class="label capitalize gray-300">gray-300</span>
+<span class="label capitalize gray-400">gray-400</span>
+<span class="label capitalize gray-500">gray-500</span>
+<span class="label capitalize gray-600">gray-600</span>
+<span class="label capitalize gray-700">gray-700</span>
+<span class="label capitalize gray-800">gray-800</span>
+<span class="label capitalize gray-900">gray-900</span>
+<span class="label capitalize gray-950">gray-950</span>
+```
+
+:::
+
+### 轮廓
+
+::: tabs
+
+== 示例
 
 <Example class="row flex-wrap gap-3" background="light-circle">
   <span v-for="skin in zui.skin.outline" class="label capitalize" :class="skin">{{skin}}</span>
 </Example>
 
-== 浅色
+== HTML
+
+```html
+<span class="label capitalize outline">outline</span>
+<span class="label capitalize primary-outline">primary-outline</span>
+<span class="label capitalize secondary-outline">secondary-outline</span>
+<span class="label capitalize success-outline">success-outline</span>
+<span class="label capitalize warning-outline">warning-outline</span>
+<span class="label capitalize danger-outline">danger-outline</span>
+<span class="label capitalize important-outline">important-outline</span>
+<span class="label capitalize special-outline">special-outline</span>
+```
+
+:::
+
+### 浅色
+
+::: tabs
+
+== 示例
 
 <Example class="row flex-wrap gap-3" background="light-circle">
   <span v-for="skin in zui.skin.pale" class="label capitalize" :class="skin">{{skin}}</span>
 </Example>
 
-== 浅色描边
+== HTML
+
+```html
+<span class="label capitalize primary-pale">primary-pale</span>
+<span class="label capitalize secondary-pale">secondary-pale</span>
+<span class="label capitalize success-pale">success-pale</span>
+<span class="label capitalize warning-pale">warning-pale</span>
+<span class="label capitalize danger-pale">danger-pale</span>
+<span class="label capitalize important-pale">important-pale</span>
+<span class="label capitalize special-pale">special-pale</span>
+<span class="label capitalize gray-50-pale">gray-50-pale</span>
+<span class="label capitalize gray-100-pale">gray-100-pale</span>
+<span class="label capitalize gray-200-pale">gray-200-pale</span>
+<span class="label capitalize gray-300-pale">gray-300-pale</span>
+<span class="label capitalize gray-400-pale">gray-400-pale</span>
+<span class="label capitalize gray-500-pale">gray-500-pale</span>
+<span class="label capitalize gray-600-pale">gray-600-pale</span>
+<span class="label capitalize gray-700-pale">gray-700-pale</span>
+<span class="label capitalize gray-800-pale">gray-800-pale</span>
+<span class="label capitalize gray-900-pale">gray-900-pale</span>
+<span class="label capitalize gray-950-pale">gray-950-pale</span>
+```
+
+:::
+
+### 浅色描边
+
+::: tabs
+
+== 示例
 
 <Example class="row flex-wrap gap-3" background="light-circle">
   <span v-for="skin in zui.skin.pale" class="label capitalize" :class="`${skin} ring-${skin.replace('-pale', '')}`">{{skin}}</span>
 </Example>
 
-== 透明
+== HTML
+
+```html
+<span class="label capitalize primary-pale ring-primary">primary-pale</span>
+<span class="label capitalize secondary-pale ring-secondary">secondary-pale</span>
+<span class="label capitalize success-pale ring-success">success-pale</span>
+<span class="label capitalize warning-pale ring-warning">warning-pale</span>
+<span class="label capitalize danger-pale ring-danger">danger-pale</span>
+<span class="label capitalize important-pale ring-important">important-pale</span>
+<span class="label capitalize special-pale ring-special">special-pale</span>
+<span class="label capitalize gray-50-pale ring-gray-50">gray-50-pale</span>
+<span class="label capitalize gray-100-pale ring-gray-100">gray-100-pale</span>
+<span class="label capitalize gray-200-pale ring-gray-200">gray-200-pale</span>
+<span class="label capitalize gray-300-pale ring-gray-300">gray-300-pale</span>
+<span class="label capitalize gray-400-pale ring-gray-400">gray-400-pale</span>
+<span class="label capitalize gray-500-pale ring-gray-500">gray-500-pale</span>
+<span class="label capitalize gray-600-pale ring-gray-600">gray-600-pale</span>
+<span class="label capitalize gray-700-pale ring-gray-700">gray-700-pale</span>
+<span class="label capitalize gray-800-pale ring-gray-800">gray-800-pale</span>
+<span class="label capitalize gray-900-pale ring-gray-900">gray-900-pale</span>
+<span class="label capitalize gray-950-pale ring-gray-950">gray-950-pale</span>
+```
+
+:::
+
+### 透明
+
+::: tabs
+
+== 示例
 
 <Example class="row flex-wrap gap-3" background="light-circle">
   <span v-for="skin in zui.skin.ghost" class="label capitalize" :class="skin">{{skin}}</span>
@@ -76,7 +211,14 @@
 == HTML
 
 ```html
-<span class="label primary">进行中</span>
+<span class="label capitalize ghost">ghost</span>
+<span class="label capitalize primary-ghost">primary-ghost</span>
+<span class="label capitalize secondary-ghost">secondary-ghost</span>
+<span class="label capitalize success-ghost">success-ghost</span>
+<span class="label capitalize warning-ghost">warning-ghost</span>
+<span class="label capitalize danger-ghost">danger-ghost</span>
+<span class="label capitalize important-ghost">important-ghost</span>
+<span class="label capitalize special-ghost">special-ghost</span>
 ```
 
 :::
