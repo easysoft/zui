@@ -43,5 +43,16 @@ for (const colorScheme of ['light', 'dark'] as const) {
             await page.keyboard.press('Enter');
             await expect(page).toHaveURL(/\/guide\/start\/$/);
         });
+
+        test(`ZUI-DOC-008: home cards stay readable in ${colorScheme} at ${width}px`, async ({page}) => {
+            await page.setViewportSize({width, height: 900});
+            await page.emulateMedia({colorScheme});
+            await page.goto('./');
+            await expect(page.locator('.VPFeature .title')).toHaveCount(3);
+            await expect(page.locator('.VPFeature .details')).toHaveCount(3);
+            await page.locator('.VPFeature').last().scrollIntoViewIfNeeded();
+            await expectTextContrast(page, '.VPFeatures');
+            expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
+        });
     }
 }
