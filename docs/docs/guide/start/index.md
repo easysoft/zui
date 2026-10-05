@@ -167,7 +167,7 @@ CDN 使用 npm 上已发布的固定版本。将下载示例中的 CSS、UMD 脚
 
 ## 使用 npm
 
-在支持 ESM 和 CSS 导入的构建工具项目中安装：
+在支持 ESM 和 CSS 导入的构建工具项目中安装已发布的固定版本：
 
 ```sh
 npm install zui@3.1.0
@@ -182,7 +182,7 @@ import 'zui/css';
 const nav = new Nav('#npmNav', {items: [{text: '首页'}, {text: '文档'}]});
 ```
 
-zui 是发布包；@zui/* 是源码工作区的库名，不作为上述 npm 安装方式的独立发布包使用。选择所需组件组合见[定制打包](/guide/customize/build.html)。
+`zui` 是发布包；`@zui/*` 是源码工作区的库名，不作为上述 npm 安装方式的独立发布包使用。npm/CDN 示例使用已发布的 3.0.0，本站下载构建与 npm 发布版可能不同；使用发布版时请核对所需组件和 API。选择所需组件组合见[定制打包](/guide/customize/build.html)。
 
 ## 更新、销毁与框架接入
 

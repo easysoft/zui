@@ -56,13 +56,13 @@ const table = new zui.DTable('#myDtable', {
 | 随依赖注册的辅助插件 | `store`、`mousemove`、`autoscroll` | 分别由 `nested`、`sortable` 的模块依赖注册；使用上层插件时会自动加入实例，也可以单独声明。 |
 | 需单独导入模块 | `actions`、`toolbar`、`resize`、`contextmenu`、`hotkey`、`selectable`、`filterable`、`moveable`、`datagrid`、`draft`、`editable`、`history`、`sort-col`、`custom-col` | 按对应章节导入模块，再将导出的插件传入 `plugins`。 |
 
-以上注册情况适用于 `zui.DTable` / `@zui/dtable` 原生入口。`@zui/dtable/react` 只导出组件和类型，使用时需要显式导入所用插件。
+以上注册情况适用于本站构建及对应源码工作区的原生入口；npm/CDN 发布版的插件集合以所用版本为准。源码工作区的 `@zui/dtable/react` 只导出组件和类型，使用时需要显式导入所用插件。浏览器、npm 和工作区的接入方式见[数据表格](/lib/components/dtable/#模块化入口)。
 
 `plugins` 接受注册名、插件对象或插件工厂，声明列表在创建实例时确定。已加入实例的插件可以通过其选项切换行为；要换一组插件，应销毁并重新创建表格。
 
 ### 单独模块接入
 
-以下单独模块示例以当前 Vite 源码构建环境为例，需要处理 TypeScript、TSX 和 CSS；插件模块会同时引入它需要的样式与依赖插件。例如：
+本页所有 `@zui/dtable/*` 导入示例均适用于 ZUI 源码工作区，需要先配置工作区包解析，并使用能处理 TypeScript、TSX 和 CSS 的构建工具（例如 Vite）。普通项目安装 `zui` 后不能直接使用这些路径；浏览器和 npm 用法可通过注册名启用所用版本中已注册的插件。插件模块会同时引入它需要的样式与依赖插件。例如：
 
 ```ts
 import {DTable} from '@zui/dtable';

@@ -4,9 +4,56 @@
 
 数据表格是一种展示二维数据的强大方式，相比较普通的[表格（`<table>`）组件](/lib/components/table/)，提供了更多的交互形式，并且拥有插件机制方便定制复杂交互的界面。
 
+## 基础用法
+
+按[快速上手](/guide/start/)接入 ZUI 后，浏览器脚本通过 `zui.DTable` 创建表格。将容器放在初始化脚本之前：
+
+```html
+<div id="myDtable"></div>
+
+<script>
+const table = new zui.DTable('#myDtable', {
+    cols: [
+        {name: 'id', title: 'ID', width: 60},
+        {name: 'project', title: '项目名称', flex: 1},
+    ],
+    data: [
+        {id: '1', project: '客户服务门户'},
+        {id: '2', project: '移动端工单'},
+    ],
+});
+</script>
+```
+
 ## 模块化入口
 
-使用包的公开入口导入原生组件、样式和 Preact 组件；不要依赖 `src/` 下的内部文件：
+### npm（普通项目）
+
+使用支持 ESM 和 CSS 导入的构建工具时，按[快速上手的 npm 说明](/guide/start/#使用-npm)安装 `zui`，从发布包导入组件和样式。在页面准备好 `<div id="myDtable"></div>` 后执行：
+
+```js
+import {DTable} from 'zui';
+import 'zui/css';
+
+const table = new DTable('#myDtable', {
+    cols: [
+        {name: 'id', title: 'ID', width: 60},
+        {name: 'project', title: '项目名称', flex: 1},
+    ],
+    data: [
+        {id: '1', project: '客户服务门户'},
+        {id: '2', project: '移动端工单'},
+    ],
+});
+```
+
+组件依赖浏览器 DOM；SSR 项目应在客户端加载并初始化。
+
+### 源码工作区与 Preact（进阶）
+
+以下 `@zui/*` 写法仅适用于已配置 ZUI 源码工作区包解析、支持 TypeScript、TSX 和 CSS 的构建环境。它们是源码工作区入口，不是普通项目安装 `zui` 后可用的子路径，也不作为独立发布包安装。
+
+工作区内可通过公开入口导入原生组件和样式，不要依赖 `src/` 下的内部文件：
 
 ```ts
 import {DTable} from '@zui/dtable';
@@ -15,13 +62,16 @@ import '@zui/dtable/css';
 new DTable('#myDtable', {cols: [], data: []});
 ```
 
+直接使用 Preact 组件时，还需将 JSX 编译配置为 Preact，并导入样式：
+
 ```tsx
 import {DTable} from '@zui/dtable/react';
+import '@zui/dtable/css';
 
 <DTable cols={[]} data={[]} />
 ```
 
-内置插件可从 `@zui/dtable/plugins` 导入；需要单独插件模块时使用 `@zui/dtable/plugins/<name>`。数值 `width` 会按像素宽度处理，`rowHeight` 必须为正数。
+源码工作区中的内置插件可从 `@zui/dtable/plugins` 导入；Preact 入口需要显式导入所用插件。其他插件模块及构建要求见[插件的单独模块接入](/lib/components/dtable/plugins.html#单独模块接入)。普通浏览器和 npm 用法通过 `plugins` 配置已注册的插件，参见[注册与启用](/lib/components/dtable/plugins.html#注册与启用)。
 
 ## 示例
 
@@ -166,6 +216,8 @@ const dtable = new zui.DTable(element, options);
 | `{min: number, max: number}`      | 仅高度可用，指定数据表格的最小和最大高度 |
 
 默认情况下宽度为 `'100%'`，高度为 `'auto'`。
+
+数值 `width` 会按像素宽度处理，`rowHeight` 必须为正数。
 
 下面的示例中，表格的宽度为 `'100%'`，高度为 `{min: 200, max: 300}`。
 
