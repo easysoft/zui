@@ -156,7 +156,9 @@ popover.destroy();
 
 移除触发元素前应销毁实例。面板内包含可操作内容时，调用方应根据场景管理焦点移动、返回和关闭快捷键；需要完整对话框交互时可以使用 [模态框](/lib/components/modal/)。
 
-## 模块引入
+## 源码工作区入口
+
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*` 并编译 TypeScript；使用 JSX 时还需配置 Preact。标准 npm 包通过 `zui` 和 `zui/css` 接入。
 
 ```ts
 import {Popover, PopoverPanel} from '@zui/popover';
