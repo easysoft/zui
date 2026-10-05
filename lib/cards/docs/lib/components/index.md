@@ -298,9 +298,11 @@ card.destroy();
 cardList.destroy();
 ```
 
-## 模块化与 Preact
+## 源码工作区与 Preact
 
-使用模块化构建时，原生组件从公开入口导入：
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*` 并编译 TypeScript；使用 JSX 时还需配置 Preact。普通项目按前文通过全局 `zui` 使用卡片，标准 npm 包的入口为 `zui` 和 `zui/css`。
+
+在源码工作区中，原生组件从库的公开入口导入：
 
 ```js
 import {Card, CardList} from '@zui/cards';
