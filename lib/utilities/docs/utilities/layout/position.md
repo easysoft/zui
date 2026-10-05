@@ -33,7 +33,7 @@
 <Example>
   <div class="static bg-surface h-20 mb-3">
     <p>Static 父元素</p>
-    <div class="absolute w-32 h-8 secondarytext-white text-center leading-8">
+    <div class="absolute w-32 h-8 secondary text-white text-center leading-8">
       <p>Absolute 子元素</p>
     </div>
   </div>
@@ -64,7 +64,7 @@
 <Example>
   <div class="relative bg-surface h-20">
     <p>Relative 父元素</p>
-    <div class="absolute bottom-0 left-0 w-32 h-8 secondarytext-white text-center leading-8">
+    <div class="absolute bottom-0 left-0 w-32 h-8 secondary text-white text-center leading-8">
       <p>Absolute 子元素</p>
     </div>
   </div>
