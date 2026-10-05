@@ -1,9 +1,11 @@
 import type {ComponentChildren} from 'preact';
+import type {ClassNameLike} from '@zui/core';
 import type {ContextMenuOptions} from '@zui/contextmenu';
 import type {BlockFetcher} from './block-fetcher';
 import type {BlockSetting} from './block-setting';
 import type {MenuItemOptions} from '@zui/menu';
 import type {BlockInfo} from './block-info';
+import type {BlockProps} from './block-props';
 
 export type DashboardOptions = {
     responsive?: boolean;
@@ -16,6 +18,8 @@ export type DashboardOptions = {
     blockDefaultSize?: [width: number, height: number] | {width: number; height: number};
     blockSizeMap?: Record<string, [width: number, height: number] | {width: number; height: number}>;
     blockMenu?: ContextMenuOptions;
+    blockClass?: ClassNameLike;
+    blockProps?: Partial<BlockProps> | ((block: BlockInfo) => Partial<BlockProps>);
     emptyBlockContent?: ComponentChildren | {html: string};
     onlyLoadVisible?: boolean;
     onClickMenu?: (info: {item: MenuItemOptions; event: MouseEvent}, block: BlockInfo) => void;

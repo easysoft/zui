@@ -5,6 +5,9 @@ import type {BlockContentSetting} from './block-info';
 export type BlockProps = {
     id: string;
     className?: ClassNameLike;
+    rootClass?: ClassNameLike;
+    headerClass?: ClassNameLike;
+    bodyClass?: ClassNameLike;
     left: number | string;
     top: number | string;
     index: number;

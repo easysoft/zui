@@ -8,7 +8,7 @@
 
 下面以项目工作台展示待办、发布安排、团队分工和公告；使用本地 `content`，复制后即可查看不同尺寸区块，无需准备远程接口。
 
-<Example>
+<Example className="surface">
   <div id="dashboardExample"></div>
 </Example>
 
@@ -23,6 +23,7 @@ const dashboard = new zui.Dashboard('#dashboardExample', {
         {id: 'team', title: '团队协作', size: 'xs', content: '林悦负责需求确认，陈晨负责开发，王宁负责验收，李航负责发布。'},
         {id: 'notice', title: '项目公告', size: 'smWide', content: '请在周四下班前补齐发布说明，并将验收记录附在对应任务中。'},
     ],
+    blockClass: 'panel',
 });
 </script>
 ```
@@ -85,7 +86,7 @@ blockSizeMap: {
 | `title` | `string` | 区块的标题，可选，默认为 `undefined` |
 | `toolbar` | `ToolbarOptions` | 区块的工具栏，可选，默认为 `undefined` |
 | `placeholder` | `ComponentChildren` | 区块的占位内容，可选，默认为 `undefined` |
-| `content` | `ComponentChildren` \| `{html: string}` | 区块的内容，可选，默认为 `undefined`，当设置为 `{html: string}` 时可以设置 HTML。 |
+| `content` | `CustomContentType` | 区块的内容，可选，默认为 `undefined`，当设置为 `{html: string}` 时可以设置 HTML。 |
 | `menu` | `ContextMenuOptions` | 区块的右键菜单，可选，默认为 `undefined` |
 
 ## 方法
@@ -206,6 +207,7 @@ onMounted(() => {
                 {id: 'team', title: '团队协作', size: 'xs', content: '林悦负责需求确认，陈晨负责开发，王宁负责验收，李航负责发布。'},
                 {id: 'notice', title: '项目公告', size: 'smWide', content: '请在周四下班前补齐发布说明，并将验收记录附在对应任务中。'},
             ],
+            blockClass: 'panel',
         });
     });
 });

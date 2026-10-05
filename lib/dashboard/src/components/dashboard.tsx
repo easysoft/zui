@@ -575,7 +575,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
 
     render() {
         const {blocks, height: dashboardHeight} = this._layout();
-        const {emptyBlockContent, gap: gapSetting = 0} = this.props;
+        const {emptyBlockContent, gap: gapSetting = 0, blockClass, blockProps} = this.props;
         const cellHeight = this._getCellHeight();
         const grid = this._getGrid();
         const gap = Number.isFinite(gapSetting) ? Math.max(0, gapSetting) : 0;
@@ -611,8 +611,12 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                                 loading={block.loading}
                                 toolbar={block.toolbar}
                                 title={title}
-                                className={classes(block.needLoad ? 'need-load' : '', content ? 'has-content' : '')}
+                                className={classes(blockClass, block.needLoad ? 'need-load' : '', content ? 'has-content' : '')}
                                 onMenuBtnClick={menu ? this._handleMenuClick : undefined}
+                                rootClass={block.rootClass}
+                                headerClass={block.headerClass}
+                                bodyClass={block.bodyClass}
+                                {...(typeof blockProps === 'function' ? blockProps(block) : blockProps)}
                             />
                         );
                     })}

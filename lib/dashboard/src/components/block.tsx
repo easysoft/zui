@@ -1,6 +1,7 @@
-import {$, HtmlContent, classes} from '@zui/core';
+import {$, CustomContent, HtmlContent, classes} from '@zui/core';
 import {Toolbar} from '@zui/toolbar/react';
 import '@zui/css-icons';
+import type {HtmlContentProps} from '@zui/core';
 import type {BlockProps} from '../types';
 
 export type BlockState = {
@@ -8,18 +9,19 @@ export type BlockState = {
 };
 
 export function Block(props: BlockProps) {
-    const {left, className, top, id, onMenuBtnClick, title, width, height, content, loading, draggable = true, toolbar} = props;
+    const {left, className, rootClass, headerClass, bodyClass, top, id, onMenuBtnClick, title, width, height, content, loading, draggable = true, toolbar} = props;
     const hasActions = !!toolbar || !!onMenuBtnClick;
     const hasTitle = title !== undefined && title !== null && title !== '';
+    const htmlContent = $.isPlainObject(content) && typeof (content as {html?: unknown}).html === 'string' ? content as HtmlContentProps : undefined;
     return (
-        <div className="dashboard-block-cell" style={{left, top, width, height}}>
+        <div className={classes('dashboard-block-cell', rootClass)} style={{left, top, width, height}}>
             <div
                 className={classes('dashboard-block load-indicator', (loading && !content) ? 'loading' : '', onMenuBtnClick ? 'has-more-menu' : '', className)}
                 draggable={draggable}
                 data-id={id}
             >
                 {hasTitle || hasActions ? (
-                    <div className="dashboard-block-header">
+                    <div className={classes('dashboard-block-header', headerClass)}>
                         <div className="dashboard-block-title">{title}</div>
                         {hasActions ? (
                             <div className="dashboard-block-actions">
@@ -29,8 +31,12 @@ export function Block(props: BlockProps) {
                         ) : null}
                     </div>
                 ) : null}
-                {$.isPlainObject(content) && typeof (content as {html?: unknown}).html === 'string' ? <HtmlContent className="dashboard-block-body" executeScript {...(content as {html: string})} /> : (
-                    <div className="dashboard-block-body">{content}</div>
+                {htmlContent ? (
+                    <HtmlContent executeScript {...htmlContent} className={classes('dashboard-block-body', bodyClass, htmlContent.className)} />
+                ) : (
+                    <div className={classes('dashboard-block-body', bodyClass)}>
+                        <CustomContent executeScript content={content} />
+                    </div>
                 )}
             </div>
         </div>
