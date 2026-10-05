@@ -84,7 +84,9 @@ new zui.Sidebar('#sharedSidebarRight', {side: 'right', shareWidth: 'workspace'})
 
 `shareWidth` 默认关闭，仅在当前页面的 Sidebar 实例间生效；跨刷新恢复继续使用 `preserve`。
 
-## React / Preact
+## Preact（源码工作区）
+
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*`、编译 TypeScript/JSX 并配置 Preact，同时加载 `@zui/sidebar/css` 或已有的 ZUI CSS。`/react` 是 Preact 实现的历史入口名；标准 npm 项目通过 `zui` 和 `zui/css` 接入，使用前文的原生实例 API。
 
 ```tsx
 import {Sidebar} from '@zui/sidebar/react';
