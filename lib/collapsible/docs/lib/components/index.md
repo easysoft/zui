@@ -157,7 +157,9 @@ collapsible.destroy();
 
 `$` 访问内部 Preact 组件实例。`toggle` 同样遵循 `onChange` 与受控状态约定；`disabled` 用于限制用户交互，不阻止调用方主动切换。
 
-## 模块引入
+## 源码工作区入口
+
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*` 并编译 TypeScript；使用 JSX 时还需配置 Preact。标准 npm 包通过 `zui` 和 `zui/css` 接入。
 
 ```ts
 import {Collapsible} from '@zui/collapsible';
