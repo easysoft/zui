@@ -21,7 +21,9 @@ async function createContextMenu(dynamic = false, mask = true) {
 
 async function openContextMenu(trigger: HTMLElement) {
     fireEvent.contextMenu(trigger, {clientX: 40, clientY: 60});
-    await act(async () => vi.advanceTimersByTimeAsync(250));
+    await act(async () => {
+        await vi.advanceTimersByTimeAsync(250);
+    });
 }
 
 describe('ContextMenu click dismissal', () => {
