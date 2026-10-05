@@ -29,10 +29,15 @@ new zui.Calendar('#calendarBasic', {
 
 ### 通过 npm
 
-```js
-import {Calendar} from '@zui/calendar';
+标准 npm 包从 `zui` 导入日历，并通过 `zui/css` 加载样式。以下示例沿用上方的 `#calendarBasic` 容器，与全局对象用法选择一种初始化方式即可。
 
-const calendar = new Calendar(element, options);
+```js
+import {Calendar} from 'zui';
+import 'zui/css';
+
+const calendar = new Calendar('#calendarBasic', {
+    events: [{id: 'meeting', title: '项目周会', start: new Date().setHours(9, 30, 0, 0)}],
+});
 ```
 
 ### 通过全局对象
