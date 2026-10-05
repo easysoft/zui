@@ -692,7 +692,7 @@ thumbnail?: boolean=true; // 是否显示缩略图。
 gridWidth?: string | number; // 网格模式的宽度。
 gridHeight?: string | number; // 网格模式的高度。
 gridGap?: string | number; // 网格模式的间距。
-defaultFiles?: DefaltFileInfo[]; // 默认显示的文件列表。
+defaultFiles?: (StaticFileInfo | FileInfo | File)[]; // 默认显示的文件列表。
 multiple?: boolean = true; // 是否允许在文件选择对话框中一次性选择多个文件（需要操作系统支持）。
 itemProps?: ButtonProps | FileButtonGenerator; // 文件项的属性。
 draggable?: boolean = true; // 是否允许拖拽。
@@ -753,14 +753,6 @@ url?: string; // 文件地址。
 
 ```ts
 type FileSize = number | `${number}${'B' | 'KB' | 'MB' | 'GB' | 'TB'}`;
-```
-
-### `DefaltFileInfo`
-
-默认文件信息对象。
-
-```ts
-type DefaltFileInfo = File | FileInfo | StaticFileInfo;
 ```
 
 ### `FileButtonGenerator`
