@@ -417,7 +417,13 @@ zui.FileList.get('#filesThumbnails').render({thumbnailPreview: {maxWidth: 320, m
 
 省略 `id` 或使用空字符串时，组件自动生成标识；数字 `0` 会保留。更新或排序时保留原对象可维持自动 ID；同一 `File` 作为多条记录时，请保留各条记录对象，或显式指定不同 ID。输入对象不会被组件修改。
 
-`FileInfoLike`、`FileInfo`、`OriginFileInfo`、`FileListProps`、`FileListMode`、`FileIconSetting`、`FileIconMap` 和 `FileIconGetter` 均从 `@zui/file-list` 导出。Preact 组件入口为 `@zui/file-list/react`。
+标准 npm 项目从 `zui` 导入公开类型。文件列表的 `FileInfo` 还提供 `FileListFileInfo` 别名，便于与其他组件的文件类型区分：
+
+```ts
+import type {FileInfoLike, FileListFileInfo, FileListProps} from 'zui';
+```
+
+在 ZUI 源码工作区中，`FileInfoLike`、`FileInfo`、`OriginFileInfo`、`FileListProps`、`FileListMode`、`FileIconSetting`、`FileIconMap` 和 `FileIconGetter` 从 `@zui/file-list` 导入。工作区需解析 `@zui/*` 并编译 TypeScript；使用 `@zui/file-list/react` 的 Preact 组件时，还需配置 JSX 并加载 ZUI 样式。
 
 ## 事件、更新与销毁
 
