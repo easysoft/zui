@@ -10,7 +10,6 @@ ZUI 3 实现离不开下面这些优秀的开源项目：
 | [`nanoid`](https://github.com/ai/nanoid) | [MIT](https://github.com/ai/nanoid/blob/main/LICENSE) | 一个轻量的唯一 ID 生成库，用于生成唯一 ID |
 | [`floating-ui`](https://floating-ui.com/) | [MIT](https://github.com/floating-ui/floating-ui/blob/master/LICENSE) | 一个轻量的浮动 UI 库，用于处理弹出浮动 UI 的定位和动画 |
 | [`tinykeys`](https://jamiebuilds.github.io/tinykeys/) | [MIT](https://github.com/jamiebuilds/tinykeys/blob/main/LICENSE) | 一个小巧的快捷键绑定辅助库，实现部分组件的快捷键功能 |
-| [`dayjs`](https://day.js.org/) | [MIT](https://github.com/iamkun/dayjs/blob/dev/LICENSE) | 一个轻量的 JavaScript 日期库，用于处理日期和时间 |
 | [`htm`](https://github.com/developit/htm) | [Apache-2.0](https://github.com/developit/htm/blob/master/LICENSE) | 为用户提供快捷实现反应式组件的工具 |
 
 各项目详细授权内容请参考 [/licenses](https://github.com/easysoft/zui/tree/main/licenses) 目录内的授权协议文件。
