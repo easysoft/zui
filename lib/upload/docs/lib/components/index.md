@@ -4,70 +4,139 @@
 
 ## 使用方法
 
-手动在 Html 元素上调用初始化函数并通过配置指定表单字段名即可使用上传文件组件，默认已开启多文件上传、重命名和删除功能。
+通过 `new zui.Upload(element, options)` 在指定容器内初始化，并用 `name` 指定表单字段名，默认已开启多文件上传、重命名和删除功能。
+
+::: tabs
+
+== 示例
 
 <Example>
-    <div id="example1"></div>
+  <ZUI id="uploadBasic" use="upload" :options="{name: 'projectAttachments'}" />
 </Example>
 
+== HTML
+
 ```html
-<div id="example1"></div>
+<div id="uploadBasic"></div>
+
+<script>
+new zui.Upload('#uploadBasic', {
+    name: 'projectAttachments',
+});
+</script>
 ```
 
-```js
-const upload = new Upload('#example1', {
-    name: 'projectAttachments'
-});
-```
+:::
 
 ## 单文件上传
 
 将 `multiple` 属性设置为 `false` 可实现只允许上传 1 个文件，默认为 `true`。
 
+::: tabs
+
+== 示例
+
 <Example>
-    <div id="example2"></div>
+  <ZUI
+    id="uploadSingle"
+    use="upload"
+    :options="{
+        name: 'acceptanceReport',
+        multiple: false,
+    }"
+  />
 </Example>
 
-```js
-const upload = new Upload('#example2', {
+== HTML
+
+```html
+<div id="uploadSingle"></div>
+
+<script>
+new zui.Upload('#uploadSingle', {
     name: 'acceptanceReport',
     multiple: false,
 });
+</script>
 ```
+
+:::
 
 ## 限制上传文件数量
 
 开启多文件上传时可通过设置 `limitCount` 属性限制上传文件的数量。
 
+::: tabs
+
+== 示例
+
 <Example>
-    <div id="example3"></div>
+  <ZUI
+    id="uploadCount"
+    use="upload"
+    :options="{
+        name: 'reviewAttachments',
+        multiple: true,
+        limitCount: 5,
+        exceededCountHint: '最多添加 5 份评审附件，请移除不需要的文件。',
+    }"
+  />
 </Example>
 
-```js
-const upload = new Upload('#example3', {
+== HTML
+
+```html
+<div id="uploadCount"></div>
+
+<script>
+new zui.Upload('#uploadCount', {
     name: 'reviewAttachments',
     multiple: true,
     limitCount: 5,
     exceededCountHint: '最多添加 5 份评审附件，请移除不需要的文件。',
 });
+</script>
 ```
+
+:::
 
 ## 限制上传文件大小
 
-通过设置 `limitSize` 属性可限制上传文件的大小。
+通过设置 `limitSize` 属性限制所选文件的总大小；单文件模式下限制当前文件的大小。
+
+::: tabs
+
+== 示例
 
 <Example>
-    <div id="example4"></div>
+  <ZUI
+    id="uploadSize"
+    use="upload"
+    :options="{
+        name: 'designFiles',
+        multiple: true,
+        limitSize: '50MB',
+        exceededSizeHint: '设计文件总大小不能超过 50 MB，请移除部分文件后重试。',
+    }"
+  />
 </Example>
 
-```js
-const upload = new Upload('#example4', {
+== HTML
+
+```html
+<div id="uploadSize"></div>
+
+<script>
+new zui.Upload('#uploadSize', {
     name: 'designFiles',
     multiple: true,
     limitSize: '50MB',
-    exceededSizeHint: '单个设计文件不能超过 50 MB，请压缩后重试。',
+    exceededSizeHint: '设计文件总大小不能超过 50 MB，请移除部分文件后重试。',
 });
+</script>
 ```
+
+:::
 
 ## 删除和重命名功能
 
@@ -75,70 +144,142 @@ const upload = new Upload('#example4', {
 
 通过将 `deleteBtn` 和 `renameBtn` 属性设置为 `false` 可关闭删除和重命名功能，默认为 `true`。
 
+::: tabs
+
+== 示例
+
 <Example>
-    <div id="example5"></div>
+  <ZUI
+    id="uploadReadonly"
+    use="upload"
+    :options="{
+        name: 'archivedAttachments',
+        renameBtn: false,
+        deleteBtn: false,
+    }"
+  />
 </Example>
 
-```js
-const upload = new Upload('#example5', {
+== HTML
+
+```html
+<div id="uploadReadonly"></div>
+
+<script>
+new zui.Upload('#uploadReadonly', {
     name: 'archivedAttachments',
     renameBtn: false,
     deleteBtn: false,
 });
+</script>
 ```
+
+:::
 
 ### 使用文本按钮
 
 将 `useIconBtn` 属性设置为 `false` 可启用文本按钮，默认为 `true`。
 
+::: tabs
+
+== 示例
+
 <Example>
-    <div id="example6"></div>
+  <ZUI
+    id="uploadTextButtons"
+    use="upload"
+    :options="{
+        name: 'releaseAttachments',
+        useIconBtn: false,
+    }"
+  />
 </Example>
 
-```js
-const upload = new Upload('#example6', {
+== HTML
+
+```html
+<div id="uploadTextButtons"></div>
+
+<script>
+new zui.Upload('#uploadTextButtons', {
     name: 'releaseAttachments',
     useIconBtn: false,
 });
+</script>
 ```
+
+:::
 
 ## 拖拽上传文件
 
 将 `draggable` 属性设置为 `true` 可启用拖拽上传文件功能，默认为 `false`。
 
+::: tabs
+
+== 示例
+
 <Example>
-    <div id="example7"></div>
+  <ZUI
+    id="uploadDrag"
+    use="upload"
+    :options="{
+        name: 'handoffFiles',
+        draggable: true,
+        limitSize: '50MB',
+        tip: '添加交付材料，总大小不超过 50 MB',
+    }"
+  />
 </Example>
 
-```js
-const upload = new Upload('#example7', {
+== HTML
+
+```html
+<div id="uploadDrag"></div>
+
+<script>
+new zui.Upload('#uploadDrag', {
     name: 'handoffFiles',
     draggable: true,
     limitSize: '50MB',
-    tip: '添加交付材料，单个文件不超过 50 MB',
+    tip: '添加交付材料，总大小不超过 50 MB',
 });
+</script>
 ```
+
+:::
 
 ## 默认文件列表
 
 通过设置 `defaultFileList` 属性为组件添加默认文件列表。
 
+::: tabs
+
+== 示例
+
 <Example>
-    <div id="example8"></div>
+  <ZUI id="uploadDefaultFiles" use="upload" :options="{name: 'releaseDocuments', defaultFileList}" />
 </Example>
 
-```js
+== HTML
+
+```html
+<div id="uploadDefaultFiles"></div>
+
+<script>
 const file1 = new File(['客户门户 v1.2：新增附件预览，优化移动端上传。'], '发布说明.txt', {
     type: 'text/plain',
 });
 const file2 = new File(['验收清单：登录、工单查询、附件预览、移动端上传。'], '验收清单.txt', {
     type: 'text/plain',
 });
-const upload = new Upload('#example8', {
+new zui.Upload('#uploadDefaultFiles', {
     name: 'releaseDocuments',
-    defaultFileList: [file1, file2]
+    defaultFileList: [file1, file2],
 });
+</script>
 ```
+
+:::
 
 ## 选项
 
@@ -363,7 +504,7 @@ const upload = new Upload('#example8', {
 
 ### `limitSize`
 
-上传文件最大大小限制。
+所选文件的总大小上限；单文件模式下为当前文件的大小上限。
 
 + 类型：`${number}${'B' | 'KB' | 'MB' | 'GB'}` | `false`
 + 必选：否
@@ -410,23 +551,9 @@ const upload = new Upload('#example8', {
 + 类型：`(limit: number) => void`
 + 必选：否
 
-<script>
-export default {
-    mounted() {
-        onZUIReady(() => {
-            new zui.Upload('#example1', {name: 'projectAttachments'});
-            new zui.Upload('#example2', {name: 'acceptanceReport', multiple: false});
-            new zui.Upload('#example3', {name: 'reviewAttachments', multiple: true, limitCount: 5, exceededCountHint: '最多添加 5 份评审附件，请移除不需要的文件。'});
-            new zui.Upload('#example4', {name: 'designFiles', multiple: true, limitSize: '50MB', exceededSizeHint: '单个设计文件不能超过 50 MB，请压缩后重试。'});
-            new zui.Upload('#example5', {name: 'archivedAttachments', renameBtn: false, deleteBtn: false});
-            new zui.Upload('#example6', {name: 'releaseAttachments', useIconBtn: false});
-            new zui.Upload('#example7', {name: 'handoffFiles', draggable: true, limitSize: '50MB', tip: '添加交付材料，单个文件不超过 50 MB'});
-            const file1 = new File(['客户门户 v1.2：新增附件预览，优化移动端上传。'], '发布说明.txt', {type: 'text/plain'});
-            const file2 = new File(['验收清单：登录、工单查询、附件预览、移动端上传。'], '验收清单.txt', {type: 'text/plain'});
-            new zui.Upload('#example8', {name: 'releaseDocuments', defaultFileList: [file1, file2]});
-        });
-    }
-};
+<script setup>
+const defaultFileList = [
+    new File(['客户门户 v1.2：新增附件预览，优化移动端上传。'], '发布说明.txt', {type: 'text/plain'}),
+    new File(['验收清单：登录、工单查询、附件预览、移动端上传。'], '验收清单.txt', {type: 'text/plain'}),
+];
 </script>
-
-
