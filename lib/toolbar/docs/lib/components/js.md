@@ -144,7 +144,9 @@ itemRender?: ItemRender | Record&lt;string, ItemRender&gt;; // 自定义条目�
 
 按钮、下拉按钮和按钮组的完整选项分别参见[按钮](/lib/components/button/)、[下拉菜单](/lib/components/dropdown/)和[按钮组](/lib/components/btn-group/)。
 
-## 模块引入与销毁
+## 源码工作区入口与销毁
+
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*` 并编译 TypeScript；使用 JSX 时还需配置 Preact。标准 npm 包通过 `zui` 和 `zui/css` 接入。
 
 ```ts
 import {Toolbar} from '@zui/toolbar';
