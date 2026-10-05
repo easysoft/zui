@@ -4,75 +4,155 @@
 
 ## 使用方法
 
-手动在 Html 元素上调用初始化函数并通过配置指定表单字段名即可使用上传文件组件。
+通过 `new zui.UploadImgs(element, options)` 在指定容器内初始化，并用 `name` 指定表单字段名。
+
+::: tabs
+
+== 示例
 
 <Example>
-    <div id="example1"></div>
+  <ZUI
+    id="uploadImgsBasic"
+    use="uploadImgs"
+    :options="{
+        name: 'issueScreenshots',
+        tip: '添加问题截图，支持 JPG、JPEG、GIF 和 PNG',
+    }"
+  />
 </Example>
 
-```html
-<div id="example1"></div>
-```
+== HTML
 
-```js
-const upload = new UploadImgs('#example1', {
+```html
+<div id="uploadImgsBasic"></div>
+
+<script>
+new zui.UploadImgs('#uploadImgsBasic', {
     name: 'issueScreenshots',
     tip: '添加问题截图，支持 JPG、JPEG、GIF 和 PNG',
 });
+</script>
 ```
+
+:::
 
 ## 限制上传文件数量
 
 开启多文件上传时可通过设置 `limitCount` 属性限制上传文件的数量。
 
+::: tabs
+
+== 示例
+
 <Example>
-    <div id="example2"></div>
+  <ZUI
+    id="uploadImgsCount"
+    use="uploadImgs"
+    :options="{
+        name: 'reviewScreenshots',
+        multiple: true,
+        limitCount: 5,
+        exceededCountHint: '最多添加 5 张问题截图。',
+        tip: '添加问题截图，支持 JPG、JPEG、GIF 和 PNG',
+    }"
+  />
 </Example>
 
-```js
-const upload = new UploadImgs('#example2', {
+== HTML
+
+```html
+<div id="uploadImgsCount"></div>
+
+<script>
+new zui.UploadImgs('#uploadImgsCount', {
     name: 'reviewScreenshots',
     multiple: true,
     limitCount: 5,
     exceededCountHint: '最多添加 5 张问题截图。',
     tip: '添加问题截图，支持 JPG、JPEG、GIF 和 PNG',
 });
+</script>
 ```
+
+:::
 
 ## 限制上传文件大小
 
-通过设置 `limitSize` 属性可限制上传文件的大小。
+通过设置 `limitSize` 属性限制所选文件的总大小；单文件模式下限制当前文件的大小。
+
+::: tabs
+
+== 示例
 
 <Example>
-    <div id="example3"></div>
+  <ZUI
+    id="uploadImgsSize"
+    use="uploadImgs"
+    :options="{
+        name: 'designPreviews',
+        multiple: true,
+        limitSize: '5MB',
+        exceededSizeHint: '预览图总大小不能超过 5 MB，请移除部分图片后重试。',
+        tip: '添加设计预览图，总大小不超过 5 MB',
+    }"
+  />
 </Example>
 
-```js
-const upload = new UploadImgs('#example3', {
+== HTML
+
+```html
+<div id="uploadImgsSize"></div>
+
+<script>
+new zui.UploadImgs('#uploadImgsSize', {
     name: 'designPreviews',
     multiple: true,
     limitSize: '5MB',
-    exceededSizeHint: '单张预览图不能超过 5 MB，请压缩后重试。',
-    tip: '添加设计预览图，单张不超过 5 MB',
+    exceededSizeHint: '预览图总大小不能超过 5 MB，请移除部分图片后重试。',
+    tip: '添加设计预览图，总大小不超过 5 MB',
 });
+</script>
 ```
+
+:::
 
 ## 限制图片类型
 
 通过设置 `accept` 属性限制上传图片的类型。
 
+::: tabs
+
+== 示例
+
 <Example>
-    <div id="example4"></div>
+  <ZUI
+    id="uploadImgsType"
+    use="uploadImgs"
+    :options="{
+        name: 'coverImage',
+        multiple: false,
+        tip: '选择封面图片，仅支持 JPG 和 JPEG',
+        accept: 'image/jpeg,.jpg,.jpeg',
+    }"
+  />
 </Example>
 
-```js
-const upload = new UploadImgs('#example4', {
+== HTML
+
+```html
+<div id="uploadImgsType"></div>
+
+<script>
+new zui.UploadImgs('#uploadImgsType', {
     name: 'coverImage',
     multiple: false,
     tip: '选择封面图片，仅支持 JPG 和 JPEG',
-    accept: 'image/jpeg,.jpg,.jpeg'
+    accept: 'image/jpeg,.jpg,.jpeg',
 });
+</script>
 ```
+
+:::
 
 ## 选项
 
@@ -241,7 +321,7 @@ const upload = new UploadImgs('#example4', {
 
 ### `limitSize`
 
-上传文件最大大小限制。
+所选文件的总大小上限；单文件模式下为当前文件的大小上限。
 
 + 类型：`${number}${'B' | 'KB' | 'MB' | 'GB'}` | `false`
 + 必选：否
@@ -295,18 +375,3 @@ const upload = new UploadImgs('#example4', {
 + 类型：`string`
 + 必选：否
 + 默认值：`'共 <span class="font-bold text-black">%s</span> 个文件 <span class="font-bold text-black">%s</span> 个文件等待上传。'`
-
-<script>
-export default {
-    mounted() {
-        onZUIReady(() => {
-            new zui.UploadImgs('#example1', {name: 'issueScreenshots', tip: '添加问题截图，支持 JPG、JPEG、GIF 和 PNG'});
-            new zui.UploadImgs('#example2', {name: 'reviewScreenshots', multiple: true, limitCount: 5, exceededCountHint: '最多添加 5 张问题截图。', tip: '添加问题截图，支持 JPG、JPEG、GIF 和 PNG'});
-            new zui.UploadImgs('#example3', {name: 'designPreviews', multiple: true, limitSize: '5MB', exceededSizeHint: '单张预览图不能超过 5 MB，请压缩后重试。', tip: '添加设计预览图，单张不超过 5 MB'});
-            new zui.UploadImgs('#example4', {name: 'coverImage', multiple: false, tip: '选择封面图片，仅支持 JPG 和 JPEG', accept: 'image/jpeg,.jpg,.jpeg'});
-        });
-    }
-};
-</script>
-
-
