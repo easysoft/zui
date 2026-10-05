@@ -1,17 +1,18 @@
 <template>
-  <component :is="name ? 'button' : 'div'" :type="name ? 'button' : undefined" :aria-label="name ? `复制类名 ${name}` : undefined" :class="['style-tile-item', name ? 'docs-copy-control' : '', (name && !noHover) ? 'cursor-pointer' : '', noHover ? 'no-hover' : '', copied ? 'is-copied' : '']" @click="onClick">
+  <component :is="name ? 'button' : 'div'" :type="name ? 'button' : undefined" :aria-label="name ? `复制类名 ${name}` : undefined" :aria-disabled="name ? copying : undefined" :aria-busy="name ? copying : undefined" :class="['style-tile-item', name ? 'docs-copy-control' : '', (name && !noHover) ? 'cursor-pointer' : '', noHover ? 'no-hover' : '', message ? 'has-copy-status' : '']" @click="name && copy(name)">
     <span class="style-tile" :class="[tileClass, noNameClass ? '' : name,  copied ? (copiedClass ?? 'ring-4 ring-opacity-50') : '']" :style="tileStyle">
       {{ titleText }}
       <slot />
     </span>
     <span v-if="labelText" class="style-tile-label" :class="labelClass">{{ labelText }}</span>
-    <span role="status" aria-live="polite" aria-atomic="true" class="right-0 text-center style-tile-name success">{{copied ? '已复制' : ''}}</span>
-    <span v-if="!copied && hintText" class="pr-1 style-tile-name bg-canvas" aria-hidden="true">{{hintText}}</span>
+    <span role="status" aria-live="polite" aria-atomic="true" class="right-0 text-center style-tile-name" :class="copied ? 'success' : 'bg-canvas'">{{message}}</span>
+    <span v-if="!message && hintText" class="pr-1 style-tile-name bg-canvas" aria-hidden="true">{{hintText}}</span>
   </component>
 </template>
 
 <script setup lang="ts">
-import {ref, computed, onUnmounted, StyleValue} from 'vue';
+import {computed, StyleValue} from 'vue';
+import {useCopyFeedback} from '../copy-feedback';
 
 const props = defineProps<{
   name: string;
@@ -27,8 +28,7 @@ const props = defineProps<{
   copiedClass?: string;
 }>();
 
-const copied = ref(false);
-const tipTimer = ref(0);
+const {copied, copying, message, copy} = useCopyFeedback();
 
 const titleText = computed(() => {
   const {title} = props;
@@ -57,23 +57,6 @@ const hintText = computed(() => {
   return `${props.name}${props.alias ? ` 别名: ${props.alias}` : ''}`;
 });
 
-const onClick = () => {
-  if (!props.name.length) {
-    return;
-  }
-  navigator.clipboard.writeText(props.name);
-  copied.value = true;
-  tipTimer.value = window.setTimeout(() => {
-    copied.value = false;
-    tipTimer.value = 0;
-  }, 2000);
-};
-
-onUnmounted(() => {
-  if (tipTimer.value) {
-    clearTimeout(tipTimer.value);
-  }
-});
 </script>
 
 <style>
@@ -95,7 +78,7 @@ onUnmounted(() => {
 .style-tile-label ~ .style-tile-name {
   @apply --mt-4;
 }
-.style-tile-item:is(:hover, :focus-visible, .is-copied) > .style-tile-name {
+.style-tile-item:is(:hover, :focus-visible, .has-copy-status) > .style-tile-name {
   @apply -scale-100 -opacity-100 -delay-300;
 }
 </style>
