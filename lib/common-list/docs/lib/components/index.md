@@ -133,7 +133,9 @@ list.$?.getKey(0);
 list.destroy();
 ```
 
-## 模块引入
+## 源码工作区入口
+
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*` 并编译 TypeScript；使用 JSX 时还需配置 Preact。标准 npm 包通过 `zui` 和 `zui/css` 接入。
 
 ```ts
 import {CommonList} from '@zui/common-list';
