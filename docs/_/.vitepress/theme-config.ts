@@ -48,6 +48,13 @@ export const themeConfig: DefaultTheme.Config = {
     },
     lastUpdatedText: '上次更新',
     outlineTitle: '本页目录',
+    sidebarMenuLabel: '菜单',
+    returnToTopLabel: '返回顶部',
+    darkModeSwitchLabel: '外观',
+    darkModeSwitchTitle: '切换到深色模式',
+    lightModeSwitchTitle: '切换到浅色模式',
+    langMenuLabel: '切换语言',
+    skipToContentLabel: '跳转到正文',
     docFooter: {
         prev: '上一篇',
         next: '下一篇'

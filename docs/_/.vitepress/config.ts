@@ -42,6 +42,31 @@ export default defineConfig({
         }
     },
     vite: {
+        plugins: [{
+            name: 'zui-docs-navigation-labels',
+            enforce: 'pre',
+            transform(code, id) {
+                // VitePress 1.6 has no theme options for these navigation labels.
+                if (!id.includes('/vitepress/dist/client/theme-default/components/')) {
+                    return;
+                }
+                const labels: Record<string, [string, string]> = {
+                    'VPNavBarHamburger.vue': ['aria-label="mobile navigation"', 'aria-label="主导航"'],
+                    'VPNavBarExtra.vue': ['label="extra navigation"', 'label="更多导航选项"'],
+                    'VPNavBarMenu.vue': ['Main Navigation', '主导航'],
+                    'VPSidebar.vue': ['Sidebar Navigation', '侧边导航'],
+                    'VPSidebarItem.vue': ['aria-label="toggle section"', 'aria-label="展开或收起分组"'],
+                };
+                const label = labels[id.slice(id.lastIndexOf('/') + 1)];
+                if (!label) {
+                    return;
+                }
+                if (!code.includes(label[0])) {
+                    this.error(`VitePress navigation markup changed; review the translation for ${id}`);
+                }
+                return code.replace(label[0], label[1]);
+            },
+        }],
         define: {
             __ZUI_VERSION__: JSON.stringify(pkg.version),
         },
