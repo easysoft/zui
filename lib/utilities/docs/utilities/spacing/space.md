@@ -46,10 +46,10 @@
 == HTML
 
 ```html
-<div class="row space-x-3">
-  <div class="...">1</div>
-  <div class="...">2</div>
-  <div class="...">3</div>
+<div class="row items-center space-x-3 surface">
+  <div class="secondary w-16 h-16 rounded center">1</div>
+  <div class="secondary w-16 h-16 rounded center">2</div>
+  <div class="secondary w-16 h-16 rounded center">3</div>
 </div>
 ```
 
@@ -72,10 +72,10 @@
 == HTML
 
 ```html
-<div class="row space-y-3">
-  <div class="...">1</div>
-  <div class="...">2</div>
-  <div class="...">3</div>
+<div class="col items-center space-y-3 surface">
+  <div class="secondary w-16 h-16 rounded center">1</div>
+  <div class="secondary w-16 h-16 rounded center">2</div>
+  <div class="secondary w-16 h-16 rounded center">3</div>
 </div>
 ```
 

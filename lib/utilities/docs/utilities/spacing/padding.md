@@ -28,19 +28,19 @@
 == 示例
 
 <Example class="row justify-around items-center">
-  <div class="secondary-pale ring ring-secondary ring-opacity-50 p-3 rounded">
+  <div class="inline-block secondary-pale ring ring-secondary ring-opacity-50 p-3 rounded">
     <div class="secondary w-16 h-16 rounded"></div>
   </div>
-  <div class="secondary-pale ring ring-secondary ring-opacity-50 pt-6 rounded">
+  <div class="inline-block secondary-pale ring ring-secondary ring-opacity-50 pt-6 rounded">
     <div class="secondary w-16 h-16 rounded"></div>
   </div>
-  <div class="secondary-pale ring ring-secondary ring-opacity-50 pr-4 rounded">
+  <div class="inline-block secondary-pale ring ring-secondary ring-opacity-50 pr-4 rounded">
     <div class="secondary w-16 h-16 rounded"></div>
   </div>
-  <div class="secondary-pale ring ring-secondary ring-opacity-50 pb-8 rounded">
+  <div class="inline-block secondary-pale ring ring-secondary ring-opacity-50 pb-8 rounded">
     <div class="secondary w-16 h-16 rounded"></div>
   </div>
-  <div class="secondary-pale ring ring-secondary ring-opacity-50 pl-2 rounded">
+  <div class="inline-block secondary-pale ring ring-secondary ring-opacity-50 pl-2 rounded">
     <div class="secondary w-16 h-16 rounded"></div>
   </div>
 </Example>
@@ -48,11 +48,21 @@
 == HTML
 
 ```html
-<div class="p-3 ..."></div>
-<div class="pt-6 ..."></div>
-<div class="pr-4 ..."></div>
-<div class="pb-8 ..."></div>
-<div class="pl-2 ..."></div>
+<div class="inline-block secondary-pale ring ring-secondary ring-opacity-50 p-3 rounded">
+  <div class="secondary w-16 h-16 rounded"></div>
+</div>
+<div class="inline-block secondary-pale ring ring-secondary ring-opacity-50 pt-6 rounded">
+  <div class="secondary w-16 h-16 rounded"></div>
+</div>
+<div class="inline-block secondary-pale ring ring-secondary ring-opacity-50 pr-4 rounded">
+  <div class="secondary w-16 h-16 rounded"></div>
+</div>
+<div class="inline-block secondary-pale ring ring-secondary ring-opacity-50 pb-8 rounded">
+  <div class="secondary w-16 h-16 rounded"></div>
+</div>
+<div class="inline-block secondary-pale ring ring-secondary ring-opacity-50 pl-2 rounded">
+  <div class="secondary w-16 h-16 rounded"></div>
+</div>
 ```
 
 :::

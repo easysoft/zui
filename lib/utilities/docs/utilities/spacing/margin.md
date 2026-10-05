@@ -28,19 +28,19 @@
 == 示例
 
 <Example class="row justify-around items-center">
-  <div class="ring-strong surface-strong rounded">
+  <div class="inline-block ring ring-border-strong surface-strong rounded">
     <div class="secondary w-16 h-16 rounded m-3"></div>
   </div>
-  <div class="ring-strong surface-strong rounded">
+  <div class="inline-block ring ring-border-strong surface-strong rounded">
     <div class="secondary w-16 h-16 rounded mt-6"></div>
   </div>
-  <div class="ring-strong surface-strong rounded">
+  <div class="inline-block ring ring-border-strong surface-strong rounded">
     <div class="secondary w-16 h-16 rounded mr-4"></div>
   </div>
-  <div class="ring-strong surface-strong rounded">
+  <div class="inline-block ring ring-border-strong surface-strong rounded">
     <div class="secondary w-16 h-16 rounded mb-8"></div>
   </div>
-  <div class="ring-strong surface-strong rounded">
+  <div class="inline-block ring ring-border-strong surface-strong rounded">
     <div class="secondary w-16 h-16 rounded ml-2"></div>
   </div>
 </Example>
@@ -48,11 +48,21 @@
 == HTML
 
 ```html
-<div class="m-3 ..."></div>
-<div class="mt-6 ..."></div>
-<div class="mr-4 ..."></div>
-<div class="mb-8 ..."></div>
-<div class="ml-2 ..."></div>
+<div class="inline-block ring ring-border-strong surface-strong rounded">
+  <div class="secondary w-16 h-16 rounded m-3"></div>
+</div>
+<div class="inline-block ring ring-border-strong surface-strong rounded">
+  <div class="secondary w-16 h-16 rounded mt-6"></div>
+</div>
+<div class="inline-block ring ring-border-strong surface-strong rounded">
+  <div class="secondary w-16 h-16 rounded mr-4"></div>
+</div>
+<div class="inline-block ring ring-border-strong surface-strong rounded">
+  <div class="secondary w-16 h-16 rounded mb-8"></div>
+</div>
+<div class="inline-block ring ring-border-strong surface-strong rounded">
+  <div class="secondary w-16 h-16 rounded ml-2"></div>
+</div>
 ```
 
 :::
