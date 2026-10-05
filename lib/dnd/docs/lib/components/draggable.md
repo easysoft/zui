@@ -120,7 +120,14 @@ new zui.Draggable('#draggableTarget', {
     <span class="drag-handle center w-8 h-8 cursor-move text-muted">⣿</span>
     <span>工单查询优化</span>
   </li>
-  <!-- 省略其余列表项 -->
+  <li draggable="true" class="item ring rounded canvas row items-center gap-2 pr-2">
+    <span class="drag-handle center w-8 h-8 cursor-move text-muted">⣿</span>
+    <span>附件在线预览</span>
+  </li>
+  <li draggable="true" class="item ring rounded canvas row items-center gap-2 pr-2">
+    <span class="drag-handle center w-8 h-8 cursor-move text-muted">⣿</span>
+    <span>消息提醒设置</span>
+  </li>
 </menu>
 
 <script>
