@@ -278,13 +278,13 @@
 :root {
   --vp-button-brand-border: var(--vp-c-brand-lighter);
   --vp-button-brand-text: var(--vp-c-white);
-  --vp-button-brand-bg: var(--vp-c-brand);
+  --vp-button-brand-bg: var(--color-primary-600);
   --vp-button-brand-hover-border: var(--vp-c-brand-lighter);
   --vp-button-brand-hover-text: var(--vp-c-white);
-  --vp-button-brand-hover-bg: var(--vp-c-brand-dark);
+  --vp-button-brand-hover-bg: var(--color-primary-700);
   --vp-button-brand-active-border: var(--vp-c-brand-lighter);
   --vp-button-brand-active-text: var(--vp-c-white);
-  --vp-button-brand-active-bg: var(--vp-c-brand-darker);
+  --vp-button-brand-active-bg: var(--color-primary-800);
 
   --vp-button-alt-border: var(--vp-c-border);
   --vp-button-alt-text: var(--vp-c-neutral);
@@ -308,6 +308,11 @@
 }
 
 .dark {
+  /* The primary palette reverses in dark mode; keep white text on dark blue. */
+  --vp-button-brand-bg: var(--color-primary-400);
+  --vp-button-brand-hover-bg: var(--color-primary-300);
+  --vp-button-brand-active-bg: var(--color-primary-200);
+
   --vp-button-sponsor-border: var(--vp-c-gray-dark-1);
   --vp-button-sponsor-text: var(--vp-c-text-dark-2);
 }

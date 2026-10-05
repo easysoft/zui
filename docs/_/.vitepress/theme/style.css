@@ -25,6 +25,10 @@ body {
 input:focus, textarea:focus, select:focus {
   @apply -outline-1 -outline;
 }
+.VPButton.brand:focus-visible {
+  outline: 2px solid var(--vp-c-neutral);
+  outline-offset: 3px;
+}
 .docs-copy-control {
   @apply -block -text-left;
 }
