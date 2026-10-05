@@ -137,7 +137,40 @@
 
 ```html
 <table class="table table-striped">
-  ...
+  <thead>
+    <tr>
+      <th>版本</th>
+      <th>发布时间</th>
+      <th>主要特性</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1.0</th>
+      <td>2021-03-01</td>
+      <td>上线工单提交与进度查询。</td>
+    </tr>
+    <tr>
+      <th>1.1</th>
+      <td>2021-04-12</td>
+      <td>修复附件重复上传和通知延迟。</td>
+    </tr>
+    <tr>
+      <th>1.2</th>
+      <td>2021-05-18</td>
+      <td>支持编辑工单说明并插入截图。</td>
+    </tr>
+    <tr>
+      <th>2.0</th>
+      <td>2021-06-05</td>
+      <td>适配手机端工单列表与详情页。</td>
+    </tr>
+    <tr>
+      <th>2.1</th>
+      <td>2021-07-31</td>
+      <td>提交前可预览工单内容和附件。</td>
+    </tr>
+  </tbody>
 </table>
 ```
 
@@ -194,7 +227,40 @@
 
 ```html
 <table class="table table-hover">
-  ...
+  <thead>
+    <tr>
+      <th>版本</th>
+      <th>发布时间</th>
+      <th>主要特性</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1.0</th>
+      <td>2021-03-01</td>
+      <td>上线工单提交与进度查询。</td>
+    </tr>
+    <tr>
+      <th>1.1</th>
+      <td>2021-04-12</td>
+      <td>修复附件重复上传和通知延迟。</td>
+    </tr>
+    <tr>
+      <th>1.2</th>
+      <td>2021-05-18</td>
+      <td>支持编辑工单说明并插入截图。</td>
+    </tr>
+    <tr>
+      <th>2.0</th>
+      <td>2021-06-05</td>
+      <td>适配手机端工单列表与详情页。</td>
+    </tr>
+    <tr>
+      <th>2.1</th>
+      <td>2021-07-31</td>
+      <td>提交前可预览工单内容和附件。</td>
+    </tr>
+  </tbody>
 </table>
 ```
 
@@ -251,7 +317,40 @@
 
 ```html
 <table class="table bordered">
-  ...
+  <thead>
+    <tr>
+      <th>版本</th>
+      <th>发布时间</th>
+      <th>主要特性</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1.0</th>
+      <td>2021-03-01</td>
+      <td>上线工单提交与进度查询。</td>
+    </tr>
+    <tr>
+      <th>1.1</th>
+      <td>2021-04-12</td>
+      <td>修复附件重复上传和通知延迟。</td>
+    </tr>
+    <tr>
+      <th>1.2</th>
+      <td>2021-05-18</td>
+      <td>支持编辑工单说明并插入截图。</td>
+    </tr>
+    <tr>
+      <th>2.0</th>
+      <td>2021-06-05</td>
+      <td>适配手机端工单列表与详情页。</td>
+    </tr>
+    <tr>
+      <th>2.1</th>
+      <td>2021-07-31</td>
+      <td>提交前可预览工单内容和附件。</td>
+    </tr>
+  </tbody>
 </table>
 ```
 
@@ -308,7 +407,40 @@
 
 ```html
 <table class="table borderless">
-  ...
+  <thead>
+    <tr>
+      <th>版本</th>
+      <th>发布时间</th>
+      <th>主要特性</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1.0</th>
+      <td>2021-03-01</td>
+      <td>上线工单提交与进度查询。</td>
+    </tr>
+    <tr>
+      <th>1.1</th>
+      <td>2021-04-12</td>
+      <td>修复附件重复上传和通知延迟。</td>
+    </tr>
+    <tr>
+      <th>1.2</th>
+      <td>2021-05-18</td>
+      <td>支持编辑工单说明并插入截图。</td>
+    </tr>
+    <tr>
+      <th>2.0</th>
+      <td>2021-06-05</td>
+      <td>适配手机端工单列表与详情页。</td>
+    </tr>
+    <tr>
+      <th>2.1</th>
+      <td>2021-07-31</td>
+      <td>提交前可预览工单内容和附件。</td>
+    </tr>
+  </tbody>
 </table>
 ```
 
@@ -365,7 +497,40 @@
 
 ```html
 <table class="table condensed">
-  ...
+  <thead>
+    <tr>
+      <th>版本</th>
+      <th>发布时间</th>
+      <th>主要特性</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1.0</th>
+      <td>2021-03-01</td>
+      <td>上线工单提交与进度查询。</td>
+    </tr>
+    <tr>
+      <th>1.1</th>
+      <td>2021-04-12</td>
+      <td>修复附件重复上传和通知延迟。</td>
+    </tr>
+    <tr>
+      <th>1.2</th>
+      <td>2021-05-18</td>
+      <td>支持编辑工单说明并插入截图。</td>
+    </tr>
+    <tr>
+      <th>2.0</th>
+      <td>2021-06-05</td>
+      <td>适配手机端工单列表与详情页。</td>
+    </tr>
+    <tr>
+      <th>2.1</th>
+      <td>2021-07-31</td>
+      <td>提交前可预览工单内容和附件。</td>
+    </tr>
+  </tbody>
 </table>
 ```
 
@@ -422,7 +587,40 @@
 
 ```html
 <table class="table table-fixed">
-  ...
+  <thead>
+    <tr>
+      <th>版本</th>
+      <th>发布时间</th>
+      <th>主要特性</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1.0</th>
+      <td>2021-03-01</td>
+      <td>上线工单提交与进度查询。</td>
+    </tr>
+    <tr>
+      <th>1.1</th>
+      <td>2021-04-12</td>
+      <td>修复附件重复上传和通知延迟。</td>
+    </tr>
+    <tr>
+      <th>1.2</th>
+      <td>2021-05-18</td>
+      <td>支持编辑工单说明并插入截图。</td>
+    </tr>
+    <tr>
+      <th>2.0</th>
+      <td>2021-06-05</td>
+      <td>适配手机端工单列表与详情页。</td>
+    </tr>
+    <tr>
+      <th>3.0</th>
+      <td>2021-07-31</td>
+      <td>新增工单提交前预览：集中核对联系人、问题描述、现场截图与关联设备，确认信息完整后再提交，减少因资料遗漏而产生的往返沟通。</td>
+    </tr>
+  </tbody>
 </table>
 ```
 
@@ -488,7 +686,40 @@
 
 ```html
 <table class="table w-auto max-w-full">
-  ...
+  <thead>
+    <tr>
+      <th>版本</th>
+      <th>发布时间</th>
+      <th>主要特性</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1.0</th>
+      <td>2021-03-01</td>
+      <td>上线工单提交与进度查询。</td>
+    </tr>
+    <tr>
+      <th>1.1</th>
+      <td>2021-04-12</td>
+      <td>修复附件重复上传和通知延迟。</td>
+    </tr>
+    <tr>
+      <th>1.2</th>
+      <td>2021-05-18</td>
+      <td>支持编辑工单说明并插入截图。</td>
+    </tr>
+    <tr>
+      <th>2.0</th>
+      <td>2021-06-05</td>
+      <td>适配手机端工单列表与详情页。</td>
+    </tr>
+    <tr>
+      <th>2.1</th>
+      <td>2021-07-31</td>
+      <td>提交前可预览工单内容和附件。</td>
+    </tr>
+  </tbody>
 </table>
 ```
 
