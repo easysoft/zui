@@ -1,6 +1,5 @@
 import {$} from '../cash';
-import {deepGet} from '@zui/helpers/src/object/deep-get';
-import {formatString} from '@zui/helpers/src/string-helper';
+import {deepGet, formatString} from '@zui/helpers';
 import {I18nLangMap, I18nLangCode, I18nValuesMap} from './types';
 
 let globalLangCode = (document.documentElement.getAttribute('lang') || 'zh_cn').toLowerCase().replace('-', '_');

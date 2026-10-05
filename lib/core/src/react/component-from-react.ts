@@ -5,7 +5,7 @@ import {mergeProps} from '../helpers';
 import type {Component as ComponentReact, ComponentClass, Attributes, RefObject} from 'preact';
 import {type I18nLangMap} from '../i18n';
 import type {ComponentEventsDefnition} from '../component';
-import {deepCall} from '@zui/helpers/src/object';
+import {deepCall} from '@zui/helpers';
 
 export class ComponentFromReact<O extends object = object, C extends ComponentReact<O> = ComponentReact<O>, E extends ComponentEventsDefnition = ComponentEventsDefnition, U extends HTMLElement = HTMLElement> extends ComponentBase<O & {$replace?: boolean}, E, U> {
     /**

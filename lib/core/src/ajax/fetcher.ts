@@ -1,4 +1,4 @@
-import {formatString} from '@zui/helpers/src/string-helper';
+import {formatString} from '@zui/helpers';
 import {$} from '../cash';
 import {Ajax} from './ajax';
 import type {AjaxSetting, FetcherSetting} from './types';

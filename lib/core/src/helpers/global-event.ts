@@ -1,6 +1,6 @@
 import {$, Cash} from '../cash';
 import {evalValue} from './raw-data';
-import {deepGet} from '@zui/helpers/src/object/deep-get';
+import {deepGet} from '@zui/helpers';
 import {getZData} from './z';
 
 export type GlobalEventOptions = {

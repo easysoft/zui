@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "@tanstack/query-core": "5.102.8",
+        "@zui/helpers": "workspace:*",
         "vhtml": "^2.2.0"
     },
     "devDependencies": {
