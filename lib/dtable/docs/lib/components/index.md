@@ -796,7 +796,6 @@ interface DTableOptions {
     onRenderCell?: CellRenderCallback;
     onRenderHeaderCell?: CellRenderCallback;
     afterRender?: (this: DTable) => void;
-    onRowClick?: (this: DTable, event: MouseEvent, data: {rowID: string, rowInfo?: RowInfo, element: HTMLElement, cellElement?: HTMLElement}) => void | true;
     onCellClick?: (this: DTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement}) => void | true;
     onHeaderCellClick?: (this: DTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;
     onAddRow?: (this: DTable, row: RowInfo, index: number) => void | false;
@@ -876,7 +875,6 @@ type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTa
     onRenderCell: (this: PluginTable, result: CustomRenderResultList, data: {row: RowInfo, col: PluginColInfo, value?: unknown}, h: typeof preact.h) => CustomRenderResultList;
     onRender: (this: PluginTable, layout: DTableLayout) => CustomRenderResultItem | void;
     afterRender: (this: PluginTable) => void;
-    onRowClick: (this: PluginTable, event: MouseEvent, data: {rowID: string, rowInfo?: RowInfo, element: HTMLElement, cellElement?: HTMLElement}) => void | true;
     onCellClick: (this: PluginTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement}) => void | true;
     onHeaderCellClick: (this: PluginTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;
     onAddRow: (this: PluginTable, row: RowInfo, index: number) => void | false;
