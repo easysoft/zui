@@ -160,15 +160,19 @@
 
 ## JavaScript 方式
 
+以下示例使用已加载的全局对象 `zui`。先准备按钮，再选择一种初始化方式；`zui-toggle` 会在点击时使用该按钮上的实例执行复制。
+
+```html
+<button id="myBtn" type="button" class="btn" zui-toggle="copyBtn">复制</button>
+```
+
 ### 创建实例
 
 可以通过 JavaScript 创建复制按钮实例。
 
 ```js
-import {CopyBtn} from '@zui/copy-btn';
-
 // 创建复制按钮实例
-const copyBtn = new CopyBtn('#myBtn', {
+const copyBtn = new zui.CopyBtn('#myBtn', {
     copy: 'PORTAL-2026-018',
     copiedText: '已复制到剪贴板',
 });
@@ -179,9 +183,7 @@ const copyBtn = new CopyBtn('#myBtn', {
 通过 `onCopy` 回调可以在复制时动态获取要复制的内容。
 
 ```js
-import {CopyBtn} from '@zui/copy-btn';
-
-const copyBtn = new CopyBtn('#myBtn', {
+const copyBtn = new zui.CopyBtn('#myBtn', {
     onCopy: () => {
         // 动态返回要复制的内容
         return {
@@ -200,9 +202,7 @@ const copyBtn = new CopyBtn('#myBtn', {
 可以通过实例的 `copy()` 方法主动触发复制操作。
 
 ```js
-import {CopyBtn} from '@zui/copy-btn';
-
-const copyBtn = new CopyBtn('#myBtn', {
+const copyBtn = new zui.CopyBtn('#myBtn', {
     copy: 'PORTAL-2026-018',
 });
 
