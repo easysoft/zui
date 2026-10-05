@@ -9573,7 +9573,7 @@ let nr = class extends B {
       (i = n.onUnmounted) == null || i.call(this);
     }), N(this, re).forEach((n) => {
       var i;
-      (i = n.onDestory) == null || i.call(this);
+      (i = n.onDestroy) == null || i.call(this);
     }), q(this, Fe, {}), N(this, Ft).clear(), this._noAnimation && clearTimeout(this._noAnimation);
   }
   resetState(t, e) {

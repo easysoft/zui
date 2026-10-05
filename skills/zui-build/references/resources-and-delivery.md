@@ -11,6 +11,8 @@ This skill bundles the complete browser runtime from the latest npm release veri
 
 The runtime directory contains `zui.css`, `zui.js`, `zui.esm.js`, and the `icons/` font files used by the CSS. Source maps are not needed to run generated pages and are intentionally omitted.
 
+Both bundled JavaScript files include a local spelling fix for the DTable plugin lifecycle hook `onDestroy`. The manifest's `integrity` identifies the original npm tarball; its per-file checksums describe the patched local assets.
+
 ## Web Component availability
 
 The bundled `zui@3.0.0` assets do not expose `ZuiButtonElement`, `ZuiPickerElement`, or `ZuiPagerElement`. A source-branch implementation does not make these APIs available in that published bundle.

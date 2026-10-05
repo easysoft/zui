@@ -204,7 +204,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         });
 
         this._allPlugins.forEach((plugin) => {
-            plugin.onDestory?.call(this);
+            plugin.onDestroy?.call(this);
         });
 
         this._data = {};
