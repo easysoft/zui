@@ -80,42 +80,140 @@
 
 配合使用[CSS 工具类](/utilities/)来实现不同按钮的外观。下面展示各种工具类的外观效果。
 
+#### 实心
+
 ::: tabs
 
-== 实心
+== 示例
 
 <Example class="row flex-wrap gap-3" background="light-circle">
-  <button v-for="skin in zui.skin.accent" class="btn capitalize" :class="skin">{{skin}}</button>
-</Example>
-
-== 灰度
-
-<Example class="row flex-wrap gap-3" background="light-circle">
-  <button v-for="skin in zui.skin.gray" class="btn capitalize" :class="skin">{{skin}}</button>
-</Example>
-
-== 轮廓
-
-<Example class="row flex-wrap gap-3" background="light-circle">
-  <button v-for="skin in zui.skin.outline" class="btn capitalize" :class="skin">{{skin}}</button>
-</Example>
-
-== 浅色
-
-<Example class="row flex-wrap gap-3" background="light-circle">
-  <button v-for="skin in zui.skin.pale" class="btn capitalize" :class="skin">{{skin}}</button>
-</Example>
-
-== 透明
-
-<Example class="row flex-wrap gap-3" background="light-circle">
-  <button v-for="skin in zui.skin.ghost" class="btn capitalize" :class="skin">{{skin}}</button>
+  <button v-for="skin in zui.skin.accent" type="button" class="btn capitalize" :class="skin">{{skin}}</button>
 </Example>
 
 == HTML
 
 ```html
-<button class="btn primary">...</button>
+<button type="button" class="btn capitalize primary">primary</button>
+<button type="button" class="btn capitalize secondary">secondary</button>
+<button type="button" class="btn capitalize success">success</button>
+<button type="button" class="btn capitalize warning">warning</button>
+<button type="button" class="btn capitalize danger">danger</button>
+<button type="button" class="btn capitalize important">important</button>
+<button type="button" class="btn capitalize special">special</button>
+<button type="button" class="btn capitalize gray">gray</button>
+```
+
+:::
+
+#### 灰度
+
+::: tabs
+
+== 示例
+
+<Example class="row flex-wrap gap-3" background="light-circle">
+  <button v-for="skin in zui.skin.gray" type="button" class="btn capitalize" :class="skin">{{skin}}</button>
+</Example>
+
+== HTML
+
+```html
+<button type="button" class="btn capitalize gray-50">gray-50</button>
+<button type="button" class="btn capitalize gray-100">gray-100</button>
+<button type="button" class="btn capitalize gray-200">gray-200</button>
+<button type="button" class="btn capitalize gray-300">gray-300</button>
+<button type="button" class="btn capitalize gray-400">gray-400</button>
+<button type="button" class="btn capitalize gray-500">gray-500</button>
+<button type="button" class="btn capitalize gray-600">gray-600</button>
+<button type="button" class="btn capitalize gray-700">gray-700</button>
+<button type="button" class="btn capitalize gray-800">gray-800</button>
+<button type="button" class="btn capitalize gray-900">gray-900</button>
+<button type="button" class="btn capitalize gray-950">gray-950</button>
+```
+
+:::
+
+#### 轮廓
+
+::: tabs
+
+== 示例
+
+<Example class="row flex-wrap gap-3" background="light-circle">
+  <button v-for="skin in zui.skin.outline" type="button" class="btn capitalize" :class="skin">{{skin}}</button>
+</Example>
+
+== HTML
+
+```html
+<button type="button" class="btn capitalize outline">outline</button>
+<button type="button" class="btn capitalize primary-outline">primary-outline</button>
+<button type="button" class="btn capitalize secondary-outline">secondary-outline</button>
+<button type="button" class="btn capitalize success-outline">success-outline</button>
+<button type="button" class="btn capitalize warning-outline">warning-outline</button>
+<button type="button" class="btn capitalize danger-outline">danger-outline</button>
+<button type="button" class="btn capitalize important-outline">important-outline</button>
+<button type="button" class="btn capitalize special-outline">special-outline</button>
+```
+
+:::
+
+#### 浅色
+
+::: tabs
+
+== 示例
+
+<Example class="row flex-wrap gap-3" background="light-circle">
+  <button v-for="skin in zui.skin.pale" type="button" class="btn capitalize" :class="skin">{{skin}}</button>
+</Example>
+
+== HTML
+
+```html
+<button type="button" class="btn capitalize primary-pale">primary-pale</button>
+<button type="button" class="btn capitalize secondary-pale">secondary-pale</button>
+<button type="button" class="btn capitalize success-pale">success-pale</button>
+<button type="button" class="btn capitalize warning-pale">warning-pale</button>
+<button type="button" class="btn capitalize danger-pale">danger-pale</button>
+<button type="button" class="btn capitalize important-pale">important-pale</button>
+<button type="button" class="btn capitalize special-pale">special-pale</button>
+<button type="button" class="btn capitalize gray-50-pale">gray-50-pale</button>
+<button type="button" class="btn capitalize gray-100-pale">gray-100-pale</button>
+<button type="button" class="btn capitalize gray-200-pale">gray-200-pale</button>
+<button type="button" class="btn capitalize gray-300-pale">gray-300-pale</button>
+<button type="button" class="btn capitalize gray-400-pale">gray-400-pale</button>
+<button type="button" class="btn capitalize gray-500-pale">gray-500-pale</button>
+<button type="button" class="btn capitalize gray-600-pale">gray-600-pale</button>
+<button type="button" class="btn capitalize gray-700-pale">gray-700-pale</button>
+<button type="button" class="btn capitalize gray-800-pale">gray-800-pale</button>
+<button type="button" class="btn capitalize gray-900-pale">gray-900-pale</button>
+<button type="button" class="btn capitalize gray-950-pale">gray-950-pale</button>
+```
+
+:::
+
+#### 透明
+
+::: tabs
+
+== 示例
+
+<Example class="row flex-wrap gap-3" background="light-circle">
+  <button v-for="skin in zui.skin.ghost" type="button" class="btn capitalize" :class="skin">{{skin}}</button>
+</Example>
+
+== HTML
+
+```html
+<button type="button" class="btn capitalize ghost">ghost</button>
+<button type="button" class="btn capitalize primary-ghost">primary-ghost</button>
+<button type="button" class="btn capitalize secondary-ghost">secondary-ghost</button>
+<button type="button" class="btn capitalize success-ghost">success-ghost</button>
+<button type="button" class="btn capitalize warning-ghost">warning-ghost</button>
+<button type="button" class="btn capitalize danger-ghost">danger-ghost</button>
+<button type="button" class="btn capitalize important-ghost">important-ghost</button>
+<button type="button" class="btn capitalize special-ghost">special-ghost</button>
 ```
 
 :::
@@ -337,6 +435,7 @@
 
 ```html
 <button type="button" class="btn active">已关注</button>
+<button type="button" class="btn">关注</button>
 ```
 
 :::
