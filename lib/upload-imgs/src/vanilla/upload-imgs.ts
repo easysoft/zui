@@ -15,6 +15,7 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
     static NAME = 'UploadImgs';
 
     static DEFAULT: Partial<UploadImgsOptions> = {
+        ...Upload.DEFAULT,
         uploadText: '添加文件',
         renameBtn: true,
         renameText: '重命名',
