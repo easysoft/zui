@@ -45,7 +45,7 @@
 
 :::
 
-在 ZUI 中可以通过 CSS 工具类来设置字体，详细用法参加 [CSS 工具类 / 排版 / 字体](/utilities/typography/utilities/font-family) 文档。
+在 ZUI 中可以通过 CSS 工具类来设置字体，详细用法参见 [CSS 工具类 / 排版 / 字体](/utilities/typography/utilities/font-family) 文档。
 
 ## 字号
 
@@ -71,7 +71,7 @@
 
 :::
 
-在 ZUI 中可以通过 CSS 工具类来设置字号，详细用法参加 [CSS 工具类 / 排版 / 字号](/utilities/typography/utilities/font-size) 文档。
+在 ZUI 中可以通过 CSS 工具类来设置字号，详细用法参见 [CSS 工具类 / 排版 / 字号](/utilities/typography/utilities/font-size) 文档。
 
 ## 字重
 
@@ -97,7 +97,7 @@
 
 :::
 
-在 ZUI 中可以通过 CSS 工具类来设置字重，详细用法参加 [CSS 工具类 / 排版 / 字重](/utilities/typography/utilities/font-weight) 文档。
+在 ZUI 中可以通过 CSS 工具类来设置字重，详细用法参见 [CSS 工具类 / 排版 / 字重](/utilities/typography/utilities/font-weight) 文档。
 
 ## 行高
 
@@ -117,7 +117,7 @@ ZUI 中预设了多种常见行高，下面为几种常见行高的示例：
   </div>
 </Example>
 
-在 ZUI 中可以通过 CSS 工具类来设置行高，详细用法参加 [CSS 工具类 / 排版 / 行高](/utilities/typography/utilities/leading) 文档。
+在 ZUI 中可以通过 CSS 工具类来设置行高，详细用法参见 [CSS 工具类 / 排版 / 行高](/utilities/typography/utilities/leading) 文档。
 
 <script setup>
 const fontFamilies = [

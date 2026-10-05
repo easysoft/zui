@@ -29,7 +29,7 @@
 
 ### 通过 CSS 工具类
 
-在 ZUI 中可以通过 CSS 工具类来设置圆角，详细用法参加 [CSS 工具类 / 边框 / 边框圆角](/utilities/borders/utilities/border-radius) 文档。下面为一个简单的例子：
+在 ZUI 中可以通过 CSS 工具类来设置圆角，详细用法参见 [CSS 工具类 / 边框 / 边框圆角](/utilities/borders/utilities/border-radius) 文档。下面为一个简单的例子：
 
 ::: tabs
 

@@ -35,7 +35,7 @@
 
 ### 通过 CSS 工具类
 
-在 ZUI 中可以通过 CSS 工具类来设置阴影，详细用法参加 [CSS 工具类 / 效果 / 盒阴影](/utilities/effects/utilities/shadow) 文档。下面为一个简单的例子：
+在 ZUI 中可以通过 CSS 工具类来设置阴影，详细用法参见 [CSS 工具类 / 效果 / 盒阴影](/utilities/effects/utilities/shadow) 文档。下面为一个简单的例子：
 
 ::: tabs
 
