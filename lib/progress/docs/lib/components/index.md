@@ -30,6 +30,14 @@
 
 `ProgressBar` 同时提供原生包装器和 Preact 组件；百分比会限制在 `0` 到 `100` 之间，并带有 `progressbar` 无障碍语义。
 
+### 原生实例
+
+页面加载 ZUI 后，先准备容器，再创建实例：
+
+```html
+<div id="progressBarExample"></div>
+```
+
 ```js
 const progress = new zui.ProgressBar('#progressBarExample', {
     percent: 65, // 已完成 13 / 20 项。
@@ -37,6 +45,10 @@ const progress = new zui.ProgressBar('#progressBarExample', {
     width: 320,
 });
 ```
+
+### Preact（源码工作区）
+
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*`、编译 TypeScript/JSX 并配置 Preact；样式通过 `@zui/progress/css` 或已加载的 ZUI CSS 提供。标准 npm 包使用 `zui` 和 `zui/css`，原生实例用法同上。
 
 ```tsx
 import {ProgressBar} from '@zui/progress/react';
