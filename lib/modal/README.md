@@ -178,8 +178,8 @@ Modal.alert(options: ModalAlertOptions): Promise<string | undefined>;
 ### confirm()
 
 ```ts
-Modal.confirm(message: string): Promise<string | undefined>;
-Modal.confirm(options: ModalComfirmOptions): Promise<string | undefined>;
+Modal.confirm(message: string): Promise<boolean>;
+Modal.confirm(options: Partial<ModalConfirmOptions>): Promise<boolean>;
 ```
 
 ```html:example: flex gap-3

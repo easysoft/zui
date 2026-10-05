@@ -166,16 +166,16 @@ interface ModalAlertOptions extends ModalCustomOptions {
 
 ```ts
 /* 直接指定要提示的消息文本 */
-Modal.confirm(message: string): Promise<string | undefined>;
+Modal.confirm(message: string): Promise<boolean>;
 
 /* 通过一个选项对象定义个性化对话框 */
-Modal.confirm(options: ModalComfirmOptions): Promise<string | undefined>;
+Modal.confirm(options: Partial<ModalConfirmOptions>): Promise<boolean>;
 ```
 
 其中参数定义如下：
 
 * `message`：要提示的消息文本；
-* `options`：一个警告框选项对象 `ModalConfirmOptions`，定义如下：
+* `options`：一个确认框选项对象，支持 `ModalConfirmOptions` 的部分属性，定义如下：
 
 ```ts
 interface ModalConfirmOptions extends ModalAlertOptions {
@@ -184,7 +184,7 @@ interface ModalConfirmOptions extends ModalAlertOptions {
 }
 ```
 
-该方法会通过 `Promise` 异步返回用户点击的按钮名称。
+该方法会通过 `Promise` 异步返回确认结果：点击确认返回 `true`，取消或关闭对话框返回 `false`。
 
 下面为一个示例：
 
