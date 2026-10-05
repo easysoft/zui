@@ -12,6 +12,13 @@ export class ContextMenu extends Dropdown<ContextMenuOptions> {
         trigger: 'contextmenu',
     };
 
+    handleClickOutside(event: MouseEvent): void {
+        // Keep the click that opened the menu from immediately closing it.
+        if (this.options.mask && event !== this._triggerEvent) {
+            this.hide();
+        }
+    }
+
     protected _getLayoutOptions(): [trigger: ReferenceElement, element: HTMLElement, options: Partial<ComputePositionConfig>] {
         const options = super._getLayoutOptions();
         if (!this.options.element) {
