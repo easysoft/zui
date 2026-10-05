@@ -121,7 +121,9 @@ const instance = zui.ResponsiveNavHelper.get('#projectNav');
 responsiveNav.destroy();                     // 释放尺寸监听和下拉菜单
 ```
 
-## 模块引入
+## 源码工作区入口
+
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*` 并编译 TypeScript。标准 npm 包通过 `zui` 和 `zui/css` 接入；普通页面沿用前文的全局对象用法。
 
 ```ts
 import {ResponsiveNavHelper} from '@zui/responsive-nav';
