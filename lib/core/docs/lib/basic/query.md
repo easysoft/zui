@@ -65,9 +65,11 @@ const users = zui.createQuery(client, {
 
 请求函数应返回数据或抛出错误，不要把失败转换为空数组或 `null`。辅助层沿用 Query Core 的缓存、重试、`enabled`、`select`、`placeholderData` 和轮询语义；不会自动把错误抛给 Preact Error Boundary，也不提供 Suspense 渲染。
 
-## Preact Context
+## Preact Context（源码工作区）
 
-模块开发时从 `@zui/core` 导入。`QueryClientProvider` 管理客户端的挂载与卸载；`HElement` 的实例方法 `createQuery(options)` 从 Context 获取客户端，并自动随组件挂载、销毁查询。以下示例使用模拟数据，可直接挂到页面中的容器：
+本节示例用于 ZUI 源码工作区，需要解析 `@zui/core`、编译 TypeScript/JSX 并配置 Preact。标准 npm 包的公开成员从 `zui` 导入，不使用工作区包路径。
+
+`QueryClientProvider` 管理客户端的挂载与卸载；`HElement` 的实例方法 `createQuery(options)` 从 Context 获取客户端，并自动随组件挂载、销毁查询。以下示例使用模拟数据，可在上述工作区环境挂到页面中的容器：
 
 ```tsx
 import {
