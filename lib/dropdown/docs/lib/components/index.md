@@ -123,10 +123,12 @@ const dropdown = new zui.Dropdown('#myDropdownBtn', {
 == HTML
 
 ```html
-<button data-toggle="dropdown" data-arrow="true">
-  ...
-</button>
-...
+<button class="btn" type="button" data-toggle="dropdown" data-arrow="true">文件操作 <span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
+</menu>
 ```
 
 :::
@@ -156,8 +158,24 @@ const dropdown = new zui.Dropdown('#myDropdownBtn', {
 == HTML
 
 ```html
-<button data-toggle="dropdown" data-arrow=4 ...>
-</button>
+<button class="btn" type="button" data-toggle="dropdown" data-arrow="4">文件操作 <span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
+</menu>
+<button class="btn" type="button" data-toggle="dropdown" data-arrow="8">文件操作 <span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
+</menu>
+<button class="btn" type="button" data-toggle="dropdown" data-arrow="12">文件操作 <span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
+</menu>
 ```
 
 :::
@@ -183,10 +201,10 @@ const dropdown = new zui.Dropdown('#myDropdownBtn', {
 
 ```html
 <button class="btn" type="button" data-toggle="dropdown" data-trigger="hover">文件操作 <span class="caret"></span></button>
-<menu class="dropdown-menu">
-  <li><a>复制链接</a></li>
-  <li><a>重命名</a></li>
-  <li><a>导出文件</a></li>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
 </menu>
 ```
 
@@ -217,7 +235,78 @@ const dropdown = new zui.Dropdown('#myDropdownBtn', {
 == HTML
 
 ```html
-<button data-placement="*"> ... </button>
+<button class="btn" type="button" data-toggle="dropdown" data-placement="top-start" data-arrow="true">上方左侧对齐<span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
+</menu>
+<button class="btn" type="button" data-toggle="dropdown" data-placement="top" data-arrow="true">上方居中对齐<span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
+</menu>
+<button class="btn" type="button" data-toggle="dropdown" data-placement="top-end" data-arrow="true">上方右侧对齐<span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
+</menu>
+<button class="btn" type="button" data-toggle="dropdown" data-placement="bottom-start" data-arrow="true">下方左侧对齐<span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
+</menu>
+<button class="btn" type="button" data-toggle="dropdown" data-placement="bottom" data-arrow="true">下方居中对齐<span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
+</menu>
+<button class="btn" type="button" data-toggle="dropdown" data-placement="bottom-end" data-arrow="true">下方右侧对齐<span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
+</menu>
+<button class="btn" type="button" data-toggle="dropdown" data-placement="left-start" data-arrow="true">左侧上方对齐<span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
+</menu>
+<button class="btn" type="button" data-toggle="dropdown" data-placement="left" data-arrow="true">左侧居中对齐<span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
+</menu>
+<button class="btn" type="button" data-toggle="dropdown" data-placement="left-end" data-arrow="true">左侧下方对齐<span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
+</menu>
+<button class="btn" type="button" data-toggle="dropdown" data-placement="right-start" data-arrow="true">右侧上方对齐<span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
+</menu>
+<button class="btn" type="button" data-toggle="dropdown" data-placement="right" data-arrow="true">右侧居中对齐<span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
+</menu>
+<button class="btn" type="button" data-toggle="dropdown" data-placement="right-end" data-arrow="true">右侧下方对齐<span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
+</menu>
 ```
 
 :::
