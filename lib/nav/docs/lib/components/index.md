@@ -80,6 +80,10 @@
 
 可以通过 CSS 类 `nav-heading` 给导航项设置标题样式。
 
+::: tabs
+
+== 示例
+
 <Example>
   <menu class="nav">
     <li class="nav-heading">项目工作台</li>
@@ -96,12 +100,25 @@
   </menu>
 </Example>
 
+== HTML
+
 ```html
 <menu class="nav">
   <li class="nav-heading">项目工作台</li>
-  ...
+  <li class="item nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
+  <li class="item nav-item"><a><span class="text">产品</span></a></li>
+  <li class="item nav-item"><a><span class="text">价格</span></a></li>
+  <li class="item nav-item disabled pointer-events-none"><a><span class="text">动态</span></a></li>
+  <li class="divider"></li>
+  <li class="item nav-item">
+    <a data-toggle="dropdown" href="#navDropdown">
+      <span class="text">更多</span><span class="caret"></span>
+    </a>
+  </li>
 </menu>
 ```
+
+:::
 
 ## 导航样式
 
