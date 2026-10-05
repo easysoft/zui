@@ -494,17 +494,17 @@
 
 ## 网格布局
 
-为 `<form>` 元素使用类 `.form-grid` 类来让表单实现网格布局。
+为 `<form>` 添加 `.form-grid` 实现网格布局。使用 `.w-1/2` 让字段占半行，`.w-full` 占满一行；插入 `.form-grid-wrap` 可强制后续字段从新行开始。
 
 ::: tabs
 
 == 示例
 
 <Example>
-  <form class="form form-grid">
+  <form id="formGridExample" class="form form-grid">
     <div class="form-group w-1/2">
-      <label class="form-label" for="program">所属项目集 <i class="icon icon-question-sign muted"></i></label>
-      <select class="form-control" id="program">
+      <label class="form-label" for="formGridProgram">所属项目集 <i class="icon icon-question-sign muted"></i></label>
+      <select class="form-control" id="formGridProgram">
         <option>ZUI</option>
         <option>禅道</option>
       </select>
@@ -522,19 +522,19 @@
       </div>
     </div>
     <div class="form-group w-1/2">
-      <label class="form-label required" for="name">
-        项目名称
+      <div class="form-label required">
+        <label for="formGridName">项目名称</label>
         <label class="checkbox">
           <input type="checkbox" name="iteration" checked> 启用迭代
         </label>
-      </label>
-      <input type="text" class="form-control" id="name">
+      </div>
+      <input type="text" class="form-control" id="formGridName">
     </div>
     <div class="form-group w-1/2">
-      <label class="form-label" for="manager">
+      <label class="form-label" for="formGridManager">
         负责人
       </label>
-      <select class="form-control" id="manager">
+      <select class="form-control" id="formGridManager">
         <option value=""></option>
         <option value="linyue">林悦</option>
         <option value="chenchen">陈晨</option>
@@ -543,27 +543,27 @@
       </select>
     </div>
     <div class="form-group w-1/2">
-      <label class="form-label required" for="start">
+      <label class="form-label required" for="formGridStart">
         计划日期
       </label>
       <div class="center-row">
-        <input type="date" class="form-control" id="start" placeholder="选择日期" />
+        <input type="date" class="form-control" id="formGridStart" placeholder="选择日期" />
         <span class="px-2">-</span>
-        <input type="date" class="form-control" placeholder="选择日期" />
+        <input type="date" class="form-control" id="formGridEnd" aria-label="计划结束日期" placeholder="选择日期" />
       </div>
     </div>
     <div class="form-grid-wrap"></div>
     <div class="form-group w-1/2">
-      <label class="form-label required" for="days">
+      <label class="form-label required" for="formGridDays">
         可用工作日（单位：天）
       </label>
-      <input type="text" class="form-control" id="days">
+      <input type="text" class="form-control" id="formGridDays">
     </div>
     <div class="form-group w-full">
-      <label class="form-label required" for="days">
+      <label class="form-label required" for="formGridDescription">
         项目描述
       </label>
-      <textarea rows="5" class="form-control" placeholder="说明项目目标、交付范围和验收标准">为客户提供工单进度查询、历史记录检索和附件下载功能。</textarea>
+      <textarea id="formGridDescription" rows="5" class="form-control" placeholder="说明项目目标、交付范围和验收标准">为客户提供工单进度查询、历史记录检索和附件下载功能。</textarea>
     </div>
     <div class="form-actions">
       <button type="submit" class="btn primary">提交</button>
@@ -575,6 +575,75 @@
 == HTML
 
 ```html
+<form id="formGridExample" class="form form-grid">
+  <div class="form-group w-1/2">
+    <label class="form-label" for="formGridProgram">所属项目集 <i class="icon icon-question-sign muted"></i></label>
+    <select class="form-control" id="formGridProgram">
+      <option>ZUI</option>
+      <option>禅道</option>
+    </select>
+    <div class="form-tip">为 <code>.form-group</code> 添加 <code>w-*</code> 辅助类来设置宽度</div>
+  </div>
+  <div class="form-group w-1/2">
+    <div class="form-label">项目类型</div>
+    <div class="check-list-inline">
+      <label class="radio">
+        <input type="radio" name="type" checked> 产品型
+      </label>
+      <label class="radio">
+        <input type="radio" name="type"> 项目型
+      </label>
+    </div>
+  </div>
+  <div class="form-group w-1/2">
+    <div class="form-label required">
+      <label for="formGridName">项目名称</label>
+      <label class="checkbox">
+        <input type="checkbox" name="iteration" checked> 启用迭代
+      </label>
+    </div>
+    <input type="text" class="form-control" id="formGridName">
+  </div>
+  <div class="form-group w-1/2">
+    <label class="form-label" for="formGridManager">
+      负责人
+    </label>
+    <select class="form-control" id="formGridManager">
+      <option value=""></option>
+      <option value="linyue">林悦</option>
+      <option value="chenchen">陈晨</option>
+      <option value="wangning">王宁</option>
+      <option value="lihang">李航</option>
+    </select>
+  </div>
+  <div class="form-group w-1/2">
+    <label class="form-label required" for="formGridStart">
+      计划日期
+    </label>
+    <div class="center-row">
+      <input type="date" class="form-control" id="formGridStart" placeholder="选择日期" />
+      <span class="px-2">-</span>
+      <input type="date" class="form-control" id="formGridEnd" aria-label="计划结束日期" placeholder="选择日期" />
+    </div>
+  </div>
+  <div class="form-grid-wrap"></div>
+  <div class="form-group w-1/2">
+    <label class="form-label required" for="formGridDays">
+      可用工作日（单位：天）
+    </label>
+    <input type="text" class="form-control" id="formGridDays">
+  </div>
+  <div class="form-group w-full">
+    <label class="form-label required" for="formGridDescription">
+      项目描述
+    </label>
+    <textarea id="formGridDescription" rows="5" class="form-control" placeholder="说明项目目标、交付范围和验收标准">为客户提供工单进度查询、历史记录检索和附件下载功能。</textarea>
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn primary">提交</button>
+    <button type="button" class="btn">取消</button>
+  </div>
+</form>
 ```
 
 :::
