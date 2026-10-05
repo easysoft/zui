@@ -176,7 +176,7 @@
 
 ## 标记选中项
 
-为 `.menu-item` 内的 `<a>` 元素添加工具类 `.active` 来将菜单项标记为选中项状态：
+为 `.menu-item` 内的 `<a>` 元素添加工具类 `.selected` 来将菜单项标记为选中状态：
 
 ::: tabs
 
@@ -185,7 +185,7 @@
 <Example>
   <menu class="menu w-32">
     <li class="menu-item"><a>复制</a></li>
-    <li class="menu-item"><a class="active">粘贴</a></li>
+    <li class="menu-item"><a class="selected">粘贴</a></li>
     <li class="menu-item"><a>剪切</a></li>
   </menu>
 </Example>
@@ -195,7 +195,7 @@
 ```html
 <menu class="menu w-32">
   <li class="menu-item"><a>复制</a></li>
-  <li class="menu-item"><a class="active">粘贴</a></li>
+  <li class="menu-item"><a class="selected">粘贴</a></li>
   <li class="menu-item"><a>剪切</a></li>
 </menu>
 ```
