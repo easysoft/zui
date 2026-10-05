@@ -1,9 +1,9 @@
 <template>
-  <div :class="`copy-code-span relative cursor-pointer${copied ? ' is-copied' : ''}`" @click="onClick">
+  <button type="button" :aria-label="`复制 ${code}`" :class="`docs-copy-control copy-code-span relative cursor-pointer${copied ? ' is-copied' : ''}`" @click="onClick">
     <slot />
-    <div v-if="copied" class="text-center copy-code-span-tip success px-2">{{props.copyTip ?? '已复制'}}</div>
-    <div v-else class="pr-1 copy-code-span-tip bg-canvas">{{tip ?? code}}</div>
-  </div>
+    <span role="status" aria-live="polite" aria-atomic="true" class="text-center copy-code-span-tip success px-2">{{copied ? (props.copyTip ?? '已复制') : ''}}</span>
+    <span v-if="!copied" class="pr-1 copy-code-span-tip bg-canvas" aria-hidden="true">{{tip ?? code}}</span>
+  </button>
 </template>
 
 <script setup lang="ts">
@@ -38,7 +38,7 @@ onUnmounted(() => {
 .copy-code-span-tip {
   @apply -absolute -shadow-md -left-0 -mt-0.5 -top-full -opacity-0 -font-mono -text-xs -bg-opacity-50 -backdrop-blur -whitespace-nowrap -rounded -scale-75 -transition-all -z-10 -p-0.5;
 }
-.copy-code-span:hover > .copy-code-span-tip {
+.copy-code-span:is(:hover, :focus-visible, .is-copied) > .copy-code-span-tip {
   @apply -scale-100 -opacity-100 -delay-300;
 }
 </style>

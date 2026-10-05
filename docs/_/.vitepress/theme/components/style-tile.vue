@@ -1,13 +1,13 @@
 <template>
-  <div :class="['style-tile-item', (name && !noHover) ? 'cursor-pointer' : '', noHover ? 'no-hover' : '']" @click="onClick">
-    <div class="style-tile" :class="[tileClass, noNameClass ? '' : name,  copied ? (copiedClass ?? 'ring-4 ring-opacity-50') : '']" :style="tileStyle">
+  <component :is="name ? 'button' : 'div'" :type="name ? 'button' : undefined" :aria-label="name ? `复制类名 ${name}` : undefined" :class="['style-tile-item', name ? 'docs-copy-control' : '', (name && !noHover) ? 'cursor-pointer' : '', noHover ? 'no-hover' : '', copied ? 'is-copied' : '']" @click="onClick">
+    <span class="style-tile" :class="[tileClass, noNameClass ? '' : name,  copied ? (copiedClass ?? 'ring-4 ring-opacity-50') : '']" :style="tileStyle">
       {{ titleText }}
       <slot />
-    </div>
-    <div v-if="labelText" class="style-tile-label" :class="labelClass">{{ labelText }}</div>
-    <div v-if="copied" class="right-0 text-center style-tile-name is-copied success">已复制</div>
-    <div v-else-if="hintText" class="pr-1 style-tile-name bg-canvas">{{hintText}}</div>
-  </div>
+    </span>
+    <span v-if="labelText" class="style-tile-label" :class="labelClass">{{ labelText }}</span>
+    <span role="status" aria-live="polite" aria-atomic="true" class="right-0 text-center style-tile-name success">{{copied ? '已复制' : ''}}</span>
+    <span v-if="!copied && hintText" class="pr-1 style-tile-name bg-canvas" aria-hidden="true">{{hintText}}</span>
+  </component>
 </template>
 
 <script setup lang="ts">
@@ -83,19 +83,19 @@ onUnmounted(() => {
 .style-tile {
   @apply -flex -items-center -justify-center -transition-[transform,box-shadow] -scale-100 -duration-300;
 }
-.style-tile-item.cursor-pointer > .style-tile:hover {
+.style-tile-item.cursor-pointer:is(:hover, :focus-visible) > .style-tile {
   @apply -scale-105 -shadow-lg;
 }
 .style-tile-label {
-  @apply -text-sm -mt-1 -opacity-80;
+  @apply -block -text-sm -mt-1 -opacity-80;
 }
 .style-tile-name {
   @apply -absolute -left-0 -mt-0.5 -top-full -opacity-0 -font-mono -text-xs -bg-opacity-50 -backdrop-blur -whitespace-nowrap -rounded -scale-75 -transition-all -z-10 -p-0.5;
 }
-.style-tile-label + .style-tile-name {
+.style-tile-label ~ .style-tile-name {
   @apply --mt-4;
 }
-.style-tile-item:hover > .style-tile-name {
+.style-tile-item:is(:hover, :focus-visible, .is-copied) > .style-tile-name {
   @apply -scale-100 -opacity-100 -delay-300;
 }
 </style>

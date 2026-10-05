@@ -1,10 +1,10 @@
 <template>
-  <div class="relative cursor-pointer semantic-color-item" @click="onColorClick(`--${color}`)">
-    <div :class="`${tileClass || 'w-full h-8 rounded'}${copied ? ' ring-2 ring-success' : ''} semantic-color-tile`" :style="`background-color: ${colorVal ?? `var(--${color})`}`" />
+  <button type="button" :aria-label="`复制颜色变量 --${color}`" class="docs-copy-control relative cursor-pointer semantic-color-item" :class="{'is-copied': copied, 'w-full': !tileClass}" @click="onColorClick(`--${color}`)">
+    <span :class="`${tileClass || 'w-full h-8 rounded'}${copied ? ' ring-2 ring-success' : ''} semantic-color-tile`" :style="`background-color: ${colorVal ?? `var(--${color})`}`" />
     <slot />
-    <div v-if="copied" class="right-0 text-center semantic-color-name is-copied success">已复制</div>
-    <div v-else class="pr-1 semantic-color-name bg-canvas">--{{color}}</div>
-  </div>
+    <span role="status" aria-live="polite" aria-atomic="true" class="right-0 text-center semantic-color-name success">{{copied ? '已复制' : ''}}</span>
+    <span v-if="!copied" class="pr-1 semantic-color-name bg-canvas" aria-hidden="true">--{{color}}</span>
+  </button>
 </template>
 
 <script setup lang="ts">
@@ -37,15 +37,15 @@ onUnmounted(() => {
 
 <style>
 .semantic-color-tile {
-  @apply -transition-[transform,box-shadow];
+  @apply -block -transition-[transform,box-shadow];
 }
-.semantic-color-item:hover > .semantic-color-tile {
+.semantic-color-item:is(:hover, :focus-visible) > .semantic-color-tile {
   @apply -scale-105 -shadow-md;
 }
 .semantic-color-name {
   @apply -absolute -left-0 -mt-0.5 -top-full -opacity-0 -font-mono -text-xs -bg-opacity-50 -backdrop-blur -whitespace-nowrap -rounded -scale-75 -transition-all -z-10 -p-0.5;
 }
-.semantic-color-item:hover > .semantic-color-name {
+.semantic-color-item:is(:hover, :focus-visible, .is-copied) > .semantic-color-name {
   @apply -scale-100 -opacity-100 -delay-300;
 }
 </style>

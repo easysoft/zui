@@ -25,6 +25,16 @@ body {
 input:focus, textarea:focus, select:focus {
   @apply -outline-1 -outline;
 }
+.docs-copy-control {
+  @apply -block -text-left;
+}
+.docs-copy-control:focus-visible {
+  outline: 2px solid var(--vp-c-brand);
+  outline-offset: 3px;
+}
+.docs-copy-control [role='status']:empty {
+  @apply -p-0;
+}
 .vp-doc .vp-code {
   max-height: 500px;
   font-size: inherit;

@@ -64,7 +64,7 @@
       :label="item || '原始'"
       :tileStyle="{backgroundImage: 'url(/favicon.svg)'}"
     >
-      <div :class="['w-16 h-16 bg-white bg-opacity-30', item]"></div>
+      <span :class="['w-16 h-16 bg-white bg-opacity-30', item]"></span>
     </StyleTile>
   </div>
 </Example>

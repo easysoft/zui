@@ -45,9 +45,9 @@
       v-bind="item"
       noNameClass
     >
-      <div :class="['absolute center inset-0 primary fade-tile duration-500', item.name]">
+      <span :class="['absolute center inset-0 primary fade-tile duration-500', item.name]">
         {{item.title}}
-      </div>
+      </span>
     </StyleTile>
   </div>
 </Example>
