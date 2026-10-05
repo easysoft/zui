@@ -46,18 +46,20 @@ bus.emit('project:loaded');          // 不会输出
 
 ## 模块引入（ESM / npm）
 
-在构建工具中，也可以从包根导入；其中 `EventHub`、`EventEmitter` 仅通过包导出使用，不会挂载到全局 `zui` 对象：
+在浏览器项目中，标准 npm 包从 `zui` 导入 `EventBus`、`EventHub` 和 `EventEmitter`；整库脚本也通过全局 `zui` 暴露这三个类：
 
 ```js
-import {EventBus, EventHub, EventEmitter} from '@zui/event-bus';
+import {EventBus, EventHub, EventEmitter} from 'zui';
 ```
+
+ZUI 源码工作区可从 `@zui/event-bus` 导入，需要解析工作区包并编译 TypeScript。下面的模块示例均使用标准 npm 入口。
 
 ### 批量移除（`EventHub`）
 
 `EventHub` 会记录每一次监听注册，`offAll` 可移除通过该实例绑定的所有监听。即使同一个回调被复用于多个事件类型，也不会遗漏。
 
 ```js
-import {EventHub} from '@zui/event-bus';
+import {EventHub} from 'zui';
 
 const hub = new EventHub();
 const listener = () => console.log('刷新任务列表');
@@ -75,7 +77,7 @@ hub.emit('task:removed'); // 不会输出
 创建 `EventHub` 时可指定 `customEventSuffix`，非原生事件名会自动追加该后缀，便于在共享的事件目标上避免命名冲突。原生事件名（如 `click`）不受影响。
 
 ```js
-import {EventHub} from '@zui/event-bus';
+import {EventHub} from 'zui';
 
 const hub = new EventHub('', {customEventSuffix: '.zui'});
 
