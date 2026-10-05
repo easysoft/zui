@@ -47,12 +47,13 @@ const sortable = new zui.Sortable('#priorityTasks', {
 
 <script setup>
 import {onMounted, onBeforeUnmount} from 'vue';
+import {withBase} from 'vitepress';
 let sortableDemo;
 let disposed = false;
 onMounted(() => {
     onZUIReady(() => {
         if (disposed) return;
-        zui.registerLib('sortablejs', {src: 'sortable/sortable.min.js', root: '/zui/', check: 'Sortable'});
+        zui.registerLib('sortablejs', {src: 'sortable/sortable.min.js', root: withBase('/zui/'), check: 'Sortable'});
         sortableDemo = new zui.Sortable('#sortableDemo', {draggable: 'li', handle: '.drag-handle'});
     });
 });
