@@ -290,7 +290,15 @@
 
 ```html
 <div class="check-list-inline gap-8">
-  ...
+  <label class="checkbox">
+    <input type="checkbox"> 邮件通知
+  </label>
+  <label class="checkbox">
+    <input type="checkbox"> 每周摘要
+  </label>
+  <label class="checkbox disabled">
+    <input disabled type="checkbox"> 短信提醒（需绑定手机）
+  </label>
 </div>
 ```
 
