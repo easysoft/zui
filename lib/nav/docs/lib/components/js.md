@@ -140,7 +140,9 @@ nav.destroy();
 
 使用 `items` 函数或异步数据源时，可以调用 `await nav.$?.load()` 重新加载。切换页面或移除导航时销毁原生实例。
 
-## 模块引入
+## 源码工作区入口
+
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*` 并编译 TypeScript；使用 JSX 时还需配置 Preact。标准 npm 包通过 `zui` 和 `zui/css` 接入。
 
 ```ts
 import {Nav} from '@zui/nav';
