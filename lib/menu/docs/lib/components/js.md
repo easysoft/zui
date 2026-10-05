@@ -149,7 +149,9 @@ beforeDestroy?: () =&gt; void; // 卸载前回调。
 
 自定义单项渲染使用 `itemRender`，渲染前调整数据使用 `getItem`、`getItems` 或 `beforeRenderItem`，详见[通用列表](/lib/components/common-list/)。弹出定位和触发行为由[下拉菜单](/lib/components/dropdown/)或[上下文菜单](/lib/components/contextmenu/)提供。
 
-## 模块引入与销毁
+## 源码工作区入口与销毁
+
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*` 并编译 TypeScript；使用 JSX 时还需配置 Preact。标准 npm 包通过 `zui` 和 `zui/css` 接入。
 
 ```ts
 import {Menu} from '@zui/menu';
