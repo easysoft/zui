@@ -23,6 +23,28 @@
 </div>
 ```
 
+:::
+
 ::: tip 提示
 作为加载指示器的元素 `position` 属性必须为 `relative`、`absolute` 或 `fixed`。
+:::
+
+## 加载文本
+
+通过 `data-loading` 属性设置加载文本，文本会在加载动画下方显示，并随 `loading` 类一起显示或隐藏。
+
+::: tabs
+
+== 示例
+
+<Example>
+  <div class="load-indicator loading relative h-40 secondary-pale" data-loading="正在加载项目工单，请稍候。"></div>
+</Example>
+
+== HTML
+
+```html
+<div class="load-indicator loading relative h-40" data-loading="正在加载项目工单，请稍候。"></div>
+```
+
 :::
