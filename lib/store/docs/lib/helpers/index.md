@@ -123,14 +123,16 @@ myStore.set('taskFilter', {status: 'active', owner: 'linyue'});
 
 ## 模块引入（ESM / npm）
 
-在构建工具中，也可以从包根导入 `Store` 类或默认实例：
+在浏览器项目中，标准 npm 包从 `zui` 导入 `Store` 类或默认实例：
 
 ```js
-import {Store, store} from '@zui/store';
+import {Store, store} from 'zui';
 
 const myStore = new Store('projectPreferences', 'local');
 myStore.set('taskFilter', {status: 'active', owner: 'linyue'});
 ```
+
+ZUI 源码工作区可从 `@zui/store` 导入，需要解析工作区包并编译 TypeScript。
 
 ## 存储不可用时的回退
 
