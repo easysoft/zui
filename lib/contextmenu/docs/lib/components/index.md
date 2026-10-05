@@ -67,35 +67,26 @@ new zui.ContextMenu('#menuToggle1', {
 
 ## 引入
 
-### 通过npm
+### 通过 npm
+
+标准 npm 包从 `zui` 导入组件，并通过 `zui/css` 加载样式。以下示例沿用上方的 `#menuToggle1` 容器；与全局对象用法选择一种初始化方式即可。
 
 ```js
-import {ContextMenu} from 'zui/contextmenu';
-const contextMenu = new ContextMenu(element, options);
+import {ContextMenu} from 'zui';
+import 'zui/css';
+
+const contextMenu = new ContextMenu('#menuToggle1', {
+    items: [{text: '复制链接'}, {text: '下载文件'}],
+});
 ```
 
-### 通过全局对象
+### 获取实例
 
 ```js
-const contextMenu = new zui.ContextMenu(element, options);
+const contextMenu = zui.ContextMenu.get('#menuToggle1');
 ```
 
-### 使用React 组件
-
-```js
-import {render} from 'react';
-import {ContextMenu} from 'zui/contextmenu/react';
-
-render(element, <ContextMenu {...options} />);
-```
-
-### 使用Jquery 扩展
-
-```js
-$(element).contextMenu(options);
-
-const contextMenu = $(element).data('zui.contextmenu');
-```
+上下文菜单提供原生实例 API，没有独立的 Preact 组件入口。在框架中使用时，在容器挂载后创建实例，并在卸载时调用 `contextMenu.destroy()`。
 
 ## 多级菜单
 
@@ -145,7 +136,7 @@ const contextMenu = new zui.ContextMenu('#menuToggle3', {
 
 <script>
 document.getElementById('menuToggle2')?.addEventListener('click', (event) => {
-    const contextmenu = ContextMenu.show({
+    const contextmenu = zui.ContextMenu.show({
         event,
         items: [
             {text: '复制', icon: 'icon-copy'},
@@ -251,12 +242,12 @@ constructor(element: HTMLElement | string, options: ContextMenuOptions);
 
 **示例：**
 
-```ts
-new ContextMenu('#contextMenu', {
+```js
+new zui.ContextMenu('#menuToggle1', {
     items: [
-        {title: '复制', icon: 'icon-copy'},
-        {title: '粘贴', icon: 'icon-paste'},
-    ]
+        {text: '复制', icon: 'icon-copy'},
+        {text: '粘贴', icon: 'icon-paste'},
+    ],
 });
 ```
 
@@ -323,9 +314,9 @@ new ContextMenu('#contextMenu', {
 
 <script>
 document.getElementById('menuShowByBtn')?.addEventListener('click', (event) => {
-    ContextMenu.show({
+    zui.ContextMenu.show({
         event,
-        ...
+        items: [{text: '复制链接'}, {text: '下载文件'}],
     });
 });
 </script>
