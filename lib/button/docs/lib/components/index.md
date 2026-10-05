@@ -298,25 +298,27 @@
 
 ### 禁用状态
 
-为按钮提供 `disabled="disabled"` 属性或 `disabled` 工具类来禁用按钮。被禁用的按钮将无法响应点击事件。
+为原生 `<button>` 添加 `disabled` 属性来禁用按钮。浏览器会阻止用户通过鼠标或键盘激活它，将其移出 Tab 焦点顺序，并向辅助技术提供禁用状态。下面的按钮因必填项尚未填写而不可提交。
 
 ::: tabs
 
 == 示例
 
 <Example class="flex gap-4 items-end">
-  <button type="button" class="btn" disabled="disabled" title="请先填写必填项">提交审核</button>
-  <button type="button" class="btn disabled" title="请先填写必填项">提交审核</button>
+  <button type="button" class="btn" disabled title="请先填写必填项">提交审核</button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn" disabled="disabled" title="请先填写必填项">提交审核</button>
-<button type="button" class="btn disabled" title="请先填写必填项">提交审核</button>
+<button type="button" class="btn" disabled title="请先填写必填项">提交审核</button>
 ```
 
 :::
+
+`disabled` 工具类（`.disabled`）只改变光标、灰度和透明度，不会设置原生 `disabled` 属性或 `aria-disabled` 状态，也不会阻止点击、键盘激活或脚本触发。对于原生按钮，即使添加了 `.disabled` 类，仍须使用 `disabled` 属性禁用。
+
+操作控件应优先使用原生 `<button>`。必须使用链接或其他非原生控件时，需通过 `aria-disabled="true"` 告知辅助技术，并在事件处理和业务入口检查禁用状态、阻止激活，同时按控件的键盘交互规则管理焦点。`aria-disabled` 只提供语义；`pointer-events-none` 只阻止指针命中，两者都不能单独实现完整的禁用行为。
 
 ## 激活状态
 
