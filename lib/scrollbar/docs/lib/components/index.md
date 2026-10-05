@@ -40,9 +40,11 @@
 
 :::
 
-## JavaScript 滚动轨道
+## Preact 滚动轨道（源码工作区）
 
 `Scrollbar` 用于绘制可拖拽的虚拟滚动轨道。它不会自动移动内容；通过 `onScroll` 将得到的位置同步到内容容器或数据窗口。`scrollSize` 是全部内容长度，`clientSize` 是可视轨道长度。
+
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*`、编译 TypeScript/JSX 并配置 Preact；同时加载 `@zui/scrollbar/css` 或已有的 ZUI CSS。示例中的 `updateVisibleRows` 由业务代码实现，用于更新可见内容。
 
 ```tsx
 import {Scrollbar} from '@zui/scrollbar/react';
