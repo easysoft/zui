@@ -749,7 +749,7 @@ new zui.DTable({
 | `--dtable-hover-bg` | 鼠标悬停背景色 | `rgba(var(--color-gray-500-rgb), .1)` |
 | `--dtable-header-bg` | 表头背景色 | `var(--color-surface)` |
 | `--dtable-border-color` | 边框颜色 | `var(--color-border)` |
-| `--dtable-sorter-size` | 排序标记大小 | `0.3125rem`
+| `--dtable-sorter-size` | 排序标记大小 | `0.3125rem` |
 
 ## API
 
