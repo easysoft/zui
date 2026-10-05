@@ -156,7 +156,9 @@ pager.destroy();
 
 外部 `page` 更新应配合未启用 `useState` 的方式使用。移除分页控件时销毁原生实例。
 
-## 模块引入
+## 源码工作区入口
+
+以下入口用于 ZUI 源码工作区，需要解析 `@zui/*` 并编译 TypeScript；使用 JSX 时还需配置 Preact。标准 npm 包通过 `zui` 和 `zui/css` 接入。
 
 ```ts
 import {Pager} from '@zui/pager';
