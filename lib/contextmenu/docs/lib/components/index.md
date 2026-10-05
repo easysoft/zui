@@ -4,15 +4,17 @@
 
 ## 使用方法
 
-鼠标右击时，展开更多操作， 在响应的区域添加 `data-toggle="contextmenu"`。
+在响应右键操作的区域添加 `zui-create="contextMenu"`，初始化上下文菜单组件。
 
 ### 静态用法
 
+使用 `data-target="$next"` 将组件关联到紧随其后的菜单元素，右击该区域即可展开菜单。
+
 <Example class="flex gap-4">
-  <div class="w-full h-32 primary-pale row items-center justify-center" data-toggle="contextmenu">
+  <div class="w-full h-32 primary-pale row items-center justify-center" zui-create="contextMenu" data-target="$next">
     项目周报.pdf · 右键查看文件操作
   </div>
-  <menu class="contextmenu menu">
+  <menu class="contextmenu menu popup">
     <li class="menu-item"><a>预览文件</a></li>
     <li class="menu-item"><a>复制链接</a></li>
     <li class="menu-item"><a>下载文件</a></li>
@@ -20,10 +22,10 @@
 </Example>
 
 ```html
-<div class="w-full h-32 primary-pale row items-center justify-center" data-toggle="contextmenu">
+<div class="w-full h-32 primary-pale row items-center justify-center" zui-create="contextMenu" data-target="$next">
   项目周报.pdf · 右键查看文件操作
 </div>
-<menu class="contextmenu menu">
+<menu class="contextmenu menu popup">
   <li class="menu-item"><a>预览文件</a></li>
   <li class="menu-item"><a>复制链接</a></li>
   <li class="menu-item"><a>下载文件</a></li>
