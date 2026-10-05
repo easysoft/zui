@@ -247,9 +247,11 @@ new zui.JsonUI('#preview', {
 
 已注册组件本身是宿主信任的代码。自定义组件自行解释表达式、操作 DOM、请求资源或创建独立渲染树的行为不属于这个内容策略的沙箱范围。
 
-## Preact 与类型
+## 源码工作区：Preact 与类型
 
-Preact 组件从 `/react` 入口导入，属性与原生构造器一致。按需加载 JSON 引用的组件及其样式。
+以下 `@zui/*` 入口用于 ZUI 源码工作区，需要解析工作区包、编译 TypeScript/JSX 并配置 Preact。标准 npm 包通过 `zui` 和 `zui/css` 接入，使用前文的原生实例 API。
+
+源码中的 Preact 组件从 `@zui/json-ui/react` 导入，属性与原生构造器一致。按需加载 JSON 引用的组件及其样式。
 
 ```tsx
 import '@zui/button';
