@@ -11,7 +11,7 @@
 == 示例
 
 <Example id="cards-structure-example">
-  <div class="w-64 max-w-full">
+  <div id="projectCardStructure" class="w-64 max-w-full">
     <div class="card">
       <div class="card-header">迭代计划</div>
       <div class="card-heading">
@@ -26,19 +26,21 @@
   </div>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
-<div class="card">
-  <div class="card-header">迭代计划</div>
-  <div class="card-heading">
-    <span class="card-title">客户门户升级</span>
+<div id="projectCardStructure" class="w-64 max-w-full">
+  <div class="card">
+    <div class="card-header">迭代计划</div>
+    <div class="card-heading">
+      <span class="card-title">客户门户升级</span>
+    </div>
+    <div class="card-content">
+      <div class="card-subtitle">客户服务 · 九月迭代</div>
+      <div>支持客户自助查询工单进展，减少重复咨询。</div>
+    </div>
+    <div class="card-footer">负责人：林悦</div>
   </div>
-  <div class="card-content">
-    <div class="card-subtitle">客户服务 · 九月迭代</div>
-    <div>支持客户自助查询工单进展，减少重复咨询。</div>
-  </div>
-  <div class="card-footer">负责人：林悦</div>
 </div>
 ```
 
@@ -50,32 +52,35 @@
 
 `Card` 根据选项生成同样的卡片结构。`header`、`title`、`subtitle`、`content` 和 `footer` 分别对应上例中的内容区域。
 
+本页的 JavaScript 示例使用 `$replace: false` 保留挂载容器，在容器内部渲染卡片，使预览与复制代码保持一致。
+
 ::: tabs
 
 == 示例
 
 <Example id="cards-js-example">
   <div class="w-64 max-w-full">
-    <ZUI use="card" :options="{$replace: false, header: '迭代计划', title: '客户门户升级', subtitle: '客户服务 · 九月迭代', content: '支持客户自助查询工单进展，减少重复咨询。', footer: '负责人：林悦'}" />
+    <ZUI id="projectCard" use="card" :options="{$replace: false, header: '迭代计划', title: '客户门户升级', subtitle: '客户服务 · 九月迭代', content: '支持客户自助查询工单进展，减少重复咨询。', footer: '负责人：林悦'}" />
   </div>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
-<div id="projectCard"></div>
-```
+<div class="w-64 max-w-full">
+  <div id="projectCard"></div>
+</div>
 
-== JS
-
-```js
+<script>
 const card = new zui.Card('#projectCard', {
+    $replace: false,
     header: '迭代计划',
     title: '客户门户升级',
     subtitle: '客户服务 · 九月迭代',
     content: '支持客户自助查询工单进展，减少重复咨询。',
     footer: '负责人：林悦',
 });
+</script>
 ```
 
 :::
@@ -94,23 +99,23 @@ const card = new zui.Card('#projectCard', {
 
 <Example id="cards-actions-example">
   <div class="w-64 max-w-full">
-    <ZUI use="card" :options="{$replace: false, ...actionCardOptions}" />
+    <ZUI id="projectActionCard" use="card" :options="{$replace: false, ...actionCardOptions}" :beforeCreate="resetCardAction" />
   </div>
-  <p role="status">{{ cardAction }}</p>
+  <p id="projectCardAction" role="status">{{ cardAction }}</p>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
-<div id="projectActionCard"></div>
+<div class="w-64 max-w-full">
+  <div id="projectActionCard"></div>
+</div>
 <p id="projectCardAction" role="status">点击卡片上的按钮查看操作结果。</p>
-```
 
-== JS
-
-```js
-const result = document.getElementById('projectCardAction');
+<script>
+const cardActionResult = document.getElementById('projectCardAction');
 const actionCard = new zui.Card('#projectActionCard', {
+    $replace: false,
     title: '客户门户升级',
     subtitle: '客户服务 · 九月迭代',
     content: '支持客户自助查询工单进展，减少重复咨询。',
@@ -118,15 +123,16 @@ const actionCard = new zui.Card('#projectActionCard', {
         icon: 'star',
         hint: '关注项目',
         attrs: {'aria-label': '关注项目'},
-        onClick: () => { result.textContent = '已点击“关注项目”。'; },
+        onClick: () => { cardActionResult.textContent = '已点击“关注项目”。'; },
     }],
     footer: '负责人：林悦',
     footerClass: 'flex items-center justify-between gap-2',
     footActions: [{
         text: '查看进展',
-        onClick: () => { result.textContent = '当前进展：正在验收附件预览功能。'; },
+        onClick: () => { cardActionResult.textContent = '当前进展：正在验收附件预览功能。'; },
     }],
 });
+</script>
 ```
 
 :::
@@ -141,20 +147,20 @@ const actionCard = new zui.Card('#projectActionCard', {
 
 <Example id="cards-content-list-example">
   <div class="w-64 max-w-full">
-    <ZUI use="card" :options="{$replace: false, title: '发布前检查', items: {items: [{id: 'preview', text: '完成附件预览验收'}, {id: 'mobile', text: '检查移动端上传'}, {id: 'notice', text: '确认消息通知范围'}]}, footer: '共 3 项检查'}" />
+    <ZUI id="releaseChecklistCard" use="card" :options="{$replace: false, title: '发布前检查', items: {items: [{id: 'preview', text: '完成附件预览验收'}, {id: 'mobile', text: '检查移动端上传'}, {id: 'notice', text: '确认消息通知范围'}]}, footer: '共 3 项检查'}" />
   </div>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
-<div id="releaseChecklistCard"></div>
-```
+<div class="w-64 max-w-full">
+  <div id="releaseChecklistCard"></div>
+</div>
 
-== JS
-
-```js
+<script>
 new zui.Card('#releaseChecklistCard', {
+    $replace: false,
     title: '发布前检查',
     items: {
         items: [
@@ -165,6 +171,7 @@ new zui.Card('#releaseChecklistCard', {
     },
     footer: '共 3 项检查',
 });
+</script>
 ```
 
 :::
@@ -173,40 +180,62 @@ new zui.Card('#releaseChecklistCard', {
 
 为 `.card` 添加 `.selected`，或为 `Card` 设置 `selected: true`，可以显示选中的背景和描边。该选项只控制外观，点击卡片不会自动切换选中状态。
 
+下面保留一张未选中的卡片作对照，通过按钮调用 `render()` 切换另一张卡片的状态。按钮使用 `aria-pressed` 表达当前选中状态，聚焦后按 Enter 或空格键也可操作。
+
 ::: tabs
 
 == 示例
 
-<Example id="cards-selected-example" class="flex flex-wrap gap-4">
-  <div class="card w-64 max-w-full">
-    <div class="card-heading"><span class="card-title">团队知识库</span></div>
-    <div class="card-content">待选择</div>
-  </div>
-  <div class="card selected w-64 max-w-full">
-    <div class="card-heading"><span class="card-title">客户门户升级</span></div>
-    <div class="card-content">已选择</div>
+<Example id="cards-selected-example">
+  <div id="projectCardSelection">
+    <div class="flex flex-wrap gap-4">
+      <div class="card w-64 max-w-full">
+        <div class="card-heading"><span class="card-title">团队知识库</span></div>
+        <div class="card-content">待选择</div>
+      </div>
+      <div class="w-64 max-w-full">
+        <ZUI id="selectedProjectCard" use="card" :options="selectedCardOptions" :beforeCreate="resetCardSelection" :ready="readySelectedCard" />
+      </div>
+    </div>
+    <button type="button" class="btn mt-4" :aria-pressed="cardSelected" :disabled="!selectedCard" @click="toggleCardSelection">切换选中状态</button>
   </div>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
-<div class="card">
-  <div class="card-heading"><span class="card-title">团队知识库</span></div>
-  <div class="card-content">待选择</div>
+<div id="projectCardSelection">
+  <div class="flex flex-wrap gap-4">
+    <div class="card w-64 max-w-full">
+      <div class="card-heading"><span class="card-title">团队知识库</span></div>
+      <div class="card-content">待选择</div>
+    </div>
+    <div class="w-64 max-w-full">
+      <div id="selectedProjectCard"></div>
+    </div>
+  </div>
+  <button id="toggleProjectCard" type="button" class="btn mt-4" aria-pressed="true" disabled>切换选中状态</button>
 </div>
-<div class="card selected">
-  <div class="card-heading"><span class="card-title">客户门户升级</span></div>
-  <div class="card-content">已选择</div>
-</div>
-```
 
-== JS
-
-```js
-// 更新已创建的 Card 实例。
-card.render({selected: true});
-card.render({selected: false});
+<script>
+const selectionButton = document.getElementById('toggleProjectCard');
+const selectedCard = new zui.Card('#selectedProjectCard', {
+    $replace: false,
+    title: '客户门户升级',
+    content: '已选择',
+    selected: true,
+    $onDestroy() {
+        selectionButton.onclick = null;
+        selectionButton.disabled = true;
+    },
+});
+selectionButton.disabled = false;
+selectionButton.onclick = () => {
+    const selected = !selectedCard.options.selected;
+    selectedCard.render({selected, content: selected ? '已选择' : '待选择'});
+    selectionButton.setAttribute('aria-pressed', String(selected));
+};
+</script>
 ```
 
 :::
@@ -220,18 +249,15 @@ card.render({selected: false});
 == 示例
 
 <Example id="cards-list-example">
-  <ZUI use="cardList" :options="{countPerRow: 2, gap: 16, items: [{id: 'portal', title: '客户门户', subtitle: '客户服务', content: '集中查看工单与处理进展。', selected: true}, {id: 'knowledge', title: '团队知识库', subtitle: '知识协作', content: '整理常见问题与解决方案。'}, {id: 'mobile', title: '移动端工单', subtitle: '现场支持', content: '现场上传截图并补充工单。'}, {id: 'reports', title: '服务报表', subtitle: '数据分析', content: '汇总响应时间与处理结果。'}]}" />
+  <ZUI id="projectCards" use="cardList" :options="{countPerRow: 2, gap: 16, items: [{id: 'portal', title: '客户门户', subtitle: '客户服务', content: '集中查看工单与处理进展。', selected: true}, {id: 'knowledge', title: '团队知识库', subtitle: '知识协作', content: '整理常见问题与解决方案。'}, {id: 'mobile', title: '移动端工单', subtitle: '现场支持', content: '现场上传截图并补充工单。'}, {id: 'reports', title: '服务报表', subtitle: '数据分析', content: '汇总响应时间与处理结果。'}]}" />
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
 <div id="projectCards"></div>
-```
 
-== JS
-
-```js
+<script>
 const cardList = new zui.CardList('#projectCards', {
     countPerRow: 2,
     gap: 16,
@@ -242,6 +268,7 @@ const cardList = new zui.CardList('#projectCards', {
         {id: 'reports', title: '服务报表', subtitle: '数据分析', content: '汇总响应时间与处理结果。'},
     ],
 });
+</script>
 ```
 
 :::
@@ -360,9 +387,13 @@ render(
 `CardList` 的 `gap` 和 `countPerRow` 会通过内联 CSS 变量设置对应值。
 
 <script setup>
-import {ref} from 'vue';
+import {ref, shallowRef} from 'vue';
 
 const cardAction = ref('点击卡片上的按钮查看操作结果。');
+function resetCardAction() {
+    cardAction.value = '点击卡片上的按钮查看操作结果。';
+}
+
 const actionCardOptions = {
     title: '客户门户升级',
     subtitle: '客户服务 · 九月迭代',
@@ -380,4 +411,30 @@ const actionCardOptions = {
         onClick: () => { cardAction.value = '当前进展：正在验收附件预览功能。'; },
     }],
 };
+
+const selectedCard = shallowRef();
+const cardSelected = ref(true);
+const selectedCardOptions = {
+    $replace: false,
+    title: '客户门户升级',
+    content: '已选择',
+    selected: true,
+    $onDestroy() {
+        selectedCard.value = undefined;
+    },
+};
+
+function resetCardSelection() {
+    cardSelected.value = true;
+}
+
+function readySelectedCard(instance) {
+    selectedCard.value = instance;
+}
+
+function toggleCardSelection() {
+    if (!selectedCard.value) return;
+    cardSelected.value = !cardSelected.value;
+    selectedCard.value.render({selected: cardSelected.value, content: cardSelected.value ? '已选择' : '待选择'});
+}
 </script>
