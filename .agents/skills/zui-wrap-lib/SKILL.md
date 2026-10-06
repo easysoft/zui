@@ -23,6 +23,7 @@ description: "将已经可用的 UMD/IIFE 资源封装为 ZUI 主仓库的 lib/*
    - `../zui-standards/references/library.md`
    - `../zui-standards/references/external-library.md`
    - UI 组件再读 `../zui-standards/references/component.md`；无状态函数或服务 facade 再读 `../zui-standards/references/helper.md`。
+   - 可视 UI 封装同时按[组件预览规范](../zui-standards/references/component-preview.md)交付 `assets/preview.html`；封面使用 ZUI CSS 表达主要外观，不加载第三方运行时或网络资源。
    - 纳入 `README.md` / `dev.ts` 或正式文档时，再读对应的 `dev-page.md` / `documentation.md`。
 3. 按需读取 [references/wrapper-shapes.md](references/wrapper-shapes.md) 的形态判断及所选形态约束，再按范围读取 `../zui-lib/SKILL.md`、`../zui-component/SKILL.md`、`../zui-helper/SKILL.md`、`../zui-dev/SKILL.md` 或 `../zui-doc/SKILL.md`；由本技能统一它们的任务范围与计划。
 4. 检查工作区状态并保留已有修改。确认目标是新建 `lib/<name>` 还是扩展已有库，不覆盖无关文件。

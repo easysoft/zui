@@ -70,6 +70,7 @@ lib/<name>/         内置库 workspace 包，名为 @zui/<name>；库清单以�
   src/              组件源代码；通常拆 component/（preact JSX）+ vanilla/（原生 wrapper）+ style/ + types/
   dev.ts            pnpm dev 时该 lib 的 playground 入口；自由调用 onPageLoad/onPageUpdate
   docs/lib/components/*.md  组件文档，由 scripts/docs 同步进 docs/_ 给 VitePress
+  assets/preview.html  可视组件库的标准静态预览，纯 HTML、120×120、支持深浅主题
   package.json      额外的 `zui` 字段（type、displayName、contributes）描述该 lib 的元信息
 config/             共享 Tailwind 主题
 dev/                zui-dev 包：暴露 onPageLoad / onPageUpdate 等 dev 期辅助
@@ -116,6 +117,7 @@ build/、dist/、publish/   构建中间产物 / 最终产物（gitignored）
 ### 文档与样式
 
 - 文档源在每个 `lib/<name>/docs/lib/components/*.md`，`pnpm docs:dev` 会先跑 `scripts/docs/prepare.ts` 同步到 `docs/_`，再启 VitePress。监听阶段 `scripts/docs/watch.ts` 会增量同步。
+- 每个可视组件库须提供 `assets/preview.html` 标准预览；新建时随库交付，维护时检查缺失并随主要外观或用途变化同步更新。适用范围、无文字骨架风格、纯 HTML、120 × 120、深浅主题、文档接入与验收统一遵循[组件预览规范](.agents/skills/zui-standards/references/component-preview.md)。
 - CSS 源码中的 Tailwind `@apply` 使用 **prefix `-`**（见 `tailwind.config.cjs`），例如 `@apply -flex -p-4`，保留该前缀。对外 HTML 和文档示例使用实际公开的 ZUI 类名，例如 `flex`、`p-4`；不要假定所有 Tailwind utility 都有公开别名。深色模式走 `media`，但开发首页 `index.html` 中也有 `class="dark"` 切换脚本。
 - 全局 PostCSS 走 `postcss.config.cjs`，支持 `--cssnano`、`--rem2px` 等构建参数（通过 env 透传）。
 

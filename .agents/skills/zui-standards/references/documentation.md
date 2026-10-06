@@ -256,6 +256,10 @@ export default {
 
 不要把开发页的 `html:example` 代码围栏写入官网文档；该语法只用于库的 `README.md` 调试页。
 
+### 静态组件预览
+
+每个可视组件库的标准封面是 `lib/<name>/assets/preview.html`，文件、视觉、主题与验收要求统一遵循[组件预览规范](component-preview.md)。官网复用该片段的构建期 include，维护 `docs/docs/lib/previews.md` 中的入口；它不替代可运行的 API 或交互示例。
+
 ## 质量检查
 
 - 示例能在文档环境运行，依赖均已进入文档构建。

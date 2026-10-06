@@ -14,7 +14,7 @@ description: "新建 ZUI 主仓库的完整库，或编排已有库的跨领域�
    - UI 组件及 Web Component 适配：`../zui-component/SKILL.md`
    - helper/store/utils：`../zui-helper/SKILL.md`
    - 国际化：`../zui-i18n/SKILL.md`
-   - 正式文档：`../zui-doc/SKILL.md`
+   - 正式文档与静态组件预览：`../zui-doc/SKILL.md`；可视组件库必须读取[组件预览规范](../zui-standards/references/component-preview.md)
    - 调试页：`../zui-dev/SKILL.md`
 
 ## 一次集成计划
@@ -25,7 +25,7 @@ description: "新建 ZUI 主仓库的完整库，或编排已有库的跨领域�
 - package 名称、版本、入口、依赖、`zui.type`、`displayName`、准确 `contributes` 和可选导出；
 - 组件与 helper 的类型、公开 API、状态/数据流、生命周期及文件集；
 - i18n 的语言、命名空间/静态映射和加载路径；
-- 正式文档类别、调试页场景和资源；
+- 可视组件库的 `assets/preview.html`、代表状态与展示入口；正式文档类别、调试页场景和资源；
 - 依赖顺序、跨库影响、非目标、验收场景、验证命令和假设；
 - 本次任务范围，列出目标库、公开 API、允许修改的领域与文件边界。
 
@@ -37,6 +37,6 @@ description: "新建 ZUI 主仓库的完整库，或编排已有库的跨领域�
 2. 新库先创建最小准确骨架：`@zui/<kebab-name>`、`0.0.1`、`package.json`、`src/main.ts`、`files`、正确元数据，以及实际需要的 `tsconfig.json`。已有库只调整任务范围内的骨架或元数据。
 3. 按实际依赖顺序遵循选中的领域技能，传递已有发现和任务范围；子流程按共享工作流复用上下文并直接实施。
 4. 任务范围内的调整更新计划后继续实施；超出用户请求或仍有关键歧义时，按共享工作流澄清受影响部分，继续不受影响的工作，不让子技能自行扩大范围。
-5. 检查所有入口真实存在、内部依赖分类正确、文档和调试示例与 API 一致。涉及 Web Component 时，按[目录与入口规范](../zui-standards/references/web-component.md#所有权目录与公开入口)核实定义实际位于 `lib/<lib-name>/src/web-component/`，并经目录 `index.ts` 接入 `src/main.ts`。
+5. 检查所有入口真实存在、内部依赖分类正确、文档和调试示例与 API 一致；可视组件库同时按组件预览规范检查和交付标准预览。涉及 Web Component 时，按[目录与入口规范](../zui-standards/references/web-component.md#所有权目录与公开入口)核实定义实际位于 `lib/<lib-name>/src/web-component/`，并经目录 `index.ts` 接入 `src/main.ts`。
 6. 按共享工作流合并所需验证、复用有效结果，修复本次引入且位于范围内的问题并复跑受影响检查；范围外问题单独报告。
 7. 汇报已完成范围、关键 API、验证结果和剩余风险，不自动提交。

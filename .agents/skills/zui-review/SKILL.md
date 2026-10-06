@@ -43,6 +43,7 @@ ignored 文件不属于默认未提交范围，用户点名时才纳入。显式
    - 导入、公开入口、类型或文档接入变化按[源码与文档接入规范](../zui-standards/references/consumption.md)核实：是否把工作区入口当作 npm 入口、虚构子路径或组件形态、混用类型与运行时成员、依赖仅在文档站存在的环境，或在接入修复中夹带版本变化；
    - 组件 CSS 与样式入口变更按 [布局与样式规范](../zui-standards/references/component.md#布局与样式) 核实 `@apply` 优先、`style/index.ts` 导入完整性、层叠顺序及消费入口；遵循原生 CSS 的适用情形，不把等价写法差异当作运行时缺陷；
    - 布局或示例类名变更按 [CSS utilities 核实流程](../zui-standards/references/utilities.md) 检查：是否照搬未公开的 Tailwind 类、变体或任意值，误用同名类的默认值或语义，或依赖仅在开发/文档环境生成的样式；结合组件自定义样式和实际消费入口确认影响，不能仅因 utilities 中没有该类就报告缺陷；
+   - 新建可视组件库、改变主要外观/用途或修改封面时，按[组件预览规范](../zui-standards/references/component-preview.md)检查标准预览是否缺失、过时或违反静态/主题契约；不把与当前 diff 无关的历史缺图列为 finding；
    - 生成文件与 source-of-truth 不一致。遇到生成产物时找到生成器或映射并审查源头，不只评审生成结果。
 3. 搜索相关符号、相似成熟实现和调用点来验证判断。发现看似异常的代码时，先确认是否为现有约定、兼容处理或基线问题。
 4. 对 tracked Git diff 运行对应范围的 `git diff --check`。它不覆盖未跟踪文件；对未跟踪文本文件使用等价 whitespace 检查，或以 `git diff --no-index --check -- /dev/null <file>` 检查诊断内容，并注意 no-index 因“存在内容差异”返回非零不等于 whitespace 失败。按风险选择不会修改工作区的目标 lint、类型或现有测试命令；先从当前 `package.json` 确认可用脚本，不臆造 `pnpm test`。lint 输出先作为验证结果，只有它证明本次变更引入真实缺陷或确定阻断既有门禁时才升级为 finding。把静态检查、构建、浏览器/runtime 验证分开报告。无法安全运行的验证说明原因和剩余风险，不把“未运行”写成“通过”。
