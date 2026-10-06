@@ -6,6 +6,7 @@ import {fileURLToPath} from 'node:url';
 import {resolveDocSourcePath} from '../../../scripts/docs/source-path';
 import zuiLibs from '../public/zui-libs';
 import {renderComponentOverview} from './component-overview';
+import {themeBootstrapScript} from './theme/theme-bootstrap';
 
 const base = process.env.BASE_PATH ?? '/';
 const root = fileURLToPath(new URL('../../../', import.meta.url));
@@ -33,6 +34,7 @@ export default defineConfig({
         ['link', {rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg`}],
         ['link', {id: 'zui-stylesheet', rel: 'stylesheet', href: `${base}zui/zui.css?v=${Date.now() % 10000}`}],
         ['script', {src: `${base}zui/zui.js?v=${Date.now() % 10000}`}],
+        ['script', {}, themeBootstrapScript],
     ],
     lastUpdated: true,
     markdown: {

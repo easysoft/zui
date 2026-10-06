@@ -13,10 +13,13 @@ import PropItem from './components/prop-item.vue';
 import Props from './components/props.vue';
 import ZUIReady from './components/zui-ready.vue';
 import ZUI from './components/zui.vue';
+import ThemeEditor from './components/theme-editor.vue';
+import {initTheme} from './theme-state';
 import zuiData from './zui-data';
 import './tailwind.css';
 import './vars.css';
 import './style.css';
+import './theme-editor.css';
 
 export default {
     extends: DefaultTheme,
@@ -35,7 +38,9 @@ export default {
         app.component('ColorTile', ColorTile);
         app.component('PropItem', PropItem);
         app.component('Props', Props);
+        app.component('ThemeEditor', ThemeEditor);
         if (!import.meta.env.SSR) {
+            initTheme();
             app.component('ZUIReady', ZUIReady);
         }
 
