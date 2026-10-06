@@ -50,7 +50,7 @@ test('theme: documentation navigation exposes the editor and all presets apply',
 
     const colors = [];
     for (const name of ['ZUI 蓝', '森林绿', '海湾青', '鸢尾紫', '落日橙', '玫瑰红']) {
-        const preset = page.getByRole('button', {name: `应用${name}主题`, exact: true});
+        const preset = page.getByTestId('theme-editor').getByRole('button', {name: `应用${name}主题`, exact: true});
         await preset.focus();
         await preset.press('Enter');
         const value = await page.getByTestId('theme-color-primary').inputValue();
@@ -61,7 +61,7 @@ test('theme: documentation navigation exposes the editor and all presets apply',
     }
     expect(new Set(colors).size).toBe(6);
 
-    await page.getByRole('button', {name: '应用鸢尾紫主题', exact: true}).click();
+    await page.getByTestId('theme-editor').getByRole('button', {name: '应用鸢尾紫主题', exact: true}).click();
     const primary = await page.getByTestId('theme-color-primary').inputValue();
     await expectPrimaryPreview(page, primary);
     await page.locator('.theme-workbench').evaluate(element => window.scrollTo(0, window.scrollY + element.getBoundingClientRect().top - 100));
@@ -172,27 +172,124 @@ test('theme: semantic colors reach the preview labels without overriding native 
     }
 });
 
-test('theme: appearance controls and the site switch share a persistent color mode', async ({page}) => {
+test('theme: header controls and the editor share theme and appearance state', async ({page}) => {
     await openEditor(page);
     const editor = page.getByTestId('theme-editor');
     const dark = editor.getByRole('button', {name: '深色', exact: true});
     const light = editor.getByRole('button', {name: '浅色', exact: true});
-    const appearance = page.locator('.VPNavBarAppearance button');
+    const trigger = page.locator('.nav-theme').getByRole('button', {name: '主题', exact: true});
+    const panel = page.getByRole('region', {name: '主题设置', exact: true});
+    const defaultColor = await editor.getByTestId('theme-color-primary').inputValue();
+    await editor.getByTestId('theme-color-primary').fill('#xyz');
+    await expect(editor.getByTestId('theme-color-primary')).toHaveAttribute('aria-invalid', 'true');
+    await trigger.click();
+    await panel.getByRole('button', {name: '应用ZUI 蓝主题', exact: true}).click();
+    await expect(editor.getByTestId('theme-color-primary')).toHaveValue(defaultColor);
+    await expect(editor.getByTestId('theme-color-primary')).toHaveAttribute('aria-invalid', 'false');
+    await page.keyboard.press('Escape');
     await dark.click();
     await expect(page.locator('html')).toHaveClass(/\bdark\b/);
     await expect(dark).toHaveAttribute('aria-pressed', 'true');
     await expect(light).toHaveAttribute('aria-pressed', 'false');
-    await expect(appearance).toHaveAttribute('aria-checked', 'true');
+    await trigger.click();
+    await expect(panel.getByRole('button', {name: '深色', exact: true})).toHaveAttribute('aria-pressed', 'true');
+
+    await panel.getByRole('button', {name: '浅色', exact: true}).click();
+    await expect(page.locator('html')).not.toHaveClass(/\bdark\b/);
+    await expect(light).toHaveAttribute('aria-pressed', 'true');
+    await panel.getByRole('button', {name: '应用鸢尾紫主题', exact: true}).click();
+    await expect(editor.getByTestId('theme-color-primary')).toHaveValue('#8b5cf6');
+    await expectPrimaryPreview(page, '#8b5cf6');
+    await page.locator('h1').click();
+    await expect(panel).toBeHidden();
+
+    await editor.getByTestId('theme-color-primary').fill('#6d28d9');
+    await trigger.click();
+    await expect(panel.getByRole('button', {name: /^应用.+主题$/, pressed: true})).toHaveCount(0);
+    await page.reload();
+    await expect(page.locator('html')).not.toHaveClass(/\bdark\b/);
+    await expect(light).toHaveAttribute('aria-pressed', 'true');
+    await expect(editor.getByTestId('theme-color-primary')).toHaveValue('#6d28d9');
+});
+
+test('theme: header customizes an ordinary document and persists through the editor link', async ({page}, testInfo) => {
+    await page.goto('lib/components/button/');
+    const trigger = page.locator('.nav-theme').getByRole('button', {name: '主题', exact: true});
+    const panel = page.getByRole('region', {name: '主题设置', exact: true});
+    await expect(trigger).toHaveCount(1);
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    await expect(page.getByRole('switch')).toHaveCount(0);
+    await expect(panel).toBeHidden();
+    await trigger.click();
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await expect(panel).toHaveAttribute('id', (await trigger.getAttribute('aria-controls'))!);
+    await expect(panel.getByRole('button', {name: /^应用.+主题$/})).toHaveCount(6);
+    await panel.getByRole('button', {name: '应用森林绿主题', exact: true}).click();
+    await expect(panel.getByRole('button', {name: '应用森林绿主题', exact: true})).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.example .btn.primary').first()).toHaveCSS('background-color', 'rgb(16, 185, 129)');
+    const lightScreenshot = testInfo.outputPath('nav-theme-light.png');
+    await page.screenshot({path: lightScreenshot, animations: 'disabled'});
+    await testInfo.attach('顶部主题面板（浅色）', {path: lightScreenshot, contentType: 'image/png'});
+    await panel.getByRole('group', {name: '主题外观', exact: true}).getByRole('button', {name: '深色', exact: true}).click();
+    await expect(page.locator('html')).toHaveClass(/\bdark\b/);
+    const darkScreenshot = testInfo.outputPath('nav-theme-dark.png');
+    await page.screenshot({path: darkScreenshot, animations: 'disabled'});
+    await testInfo.attach('顶部主题面板（深色）', {path: darkScreenshot, contentType: 'image/png'});
+
     await page.reload();
     await expect(page.locator('html')).toHaveClass(/\bdark\b/);
-    await expect(dark).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.example .btn.primary').first()).toHaveCSS('background-color', 'rgb(16, 185, 129)');
+    await trigger.click();
+    await expect(panel.getByRole('button', {name: '深色', exact: true})).toHaveAttribute('aria-pressed', 'true');
+    const customize = panel.getByRole('link', {name: '自定义主题', exact: true});
+    await expect(customize).toHaveAttribute('href', /\/guide\/config\/theme\.html$/);
+    await customize.click();
+    await expect(page.getByTestId('theme-editor')).toBeVisible();
+    await expect(panel).toBeHidden();
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    await expect(page.getByTestId('theme-color-primary')).toHaveValue('#10b981');
+});
 
-    await appearance.click();
-    await expect(page.locator('html')).not.toHaveClass(/\bdark\b/);
-    await expect(light).toHaveAttribute('aria-pressed', 'true');
-    await page.reload();
-    await expect(page.locator('html')).not.toHaveClass(/\bdark\b/);
-    await expect(light).toHaveAttribute('aria-pressed', 'true');
+test('theme: header panel closes accessibly and stays inside a narrow viewport', async ({page}, testInfo) => {
+    await page.goto('lib/components/button/');
+    const trigger = page.locator('.nav-theme').getByRole('button', {name: '主题', exact: true});
+    const panel = page.getByRole('region', {name: '主题设置', exact: true});
+    await trigger.focus();
+    await trigger.press('Enter');
+    await expect(panel).toBeVisible();
+    await panel.getByRole('button', {name: '应用森林绿主题', exact: true}).focus();
+    await page.keyboard.press('Escape');
+    await expect(panel).toBeHidden();
+    await expect(trigger).toBeFocused();
+
+    await trigger.press('Space');
+    await expect(panel).toBeVisible();
+    const home = page.locator('.VPNavBarTitle a');
+    await home.focus();
+    await expect(panel).toBeHidden();
+    await expect(home).toBeFocused();
+    // Some browsers dispatch button clicks without transferring focus first.
+    await trigger.evaluate((element: HTMLButtonElement) => element.click());
+    await expect(panel).toBeVisible();
+    await expect(trigger).toBeFocused();
+    await page.keyboard.press('Escape');
+    await expect(panel).toBeHidden();
+    await expect(trigger).toBeFocused();
+    await trigger.click();
+    await page.locator('h1').click();
+    await expect(panel).toBeHidden();
+
+    await page.setViewportSize({width: 320, height: 640});
+    await expect(trigger).toBeVisible();
+    await trigger.click();
+    await expect(panel).toBeInViewport({ratio: 1});
+    const box = await panel.boundingBox();
+    expect(box!.x).toBeGreaterThanOrEqual(0);
+    expect(box!.x + box!.width).toBeLessThanOrEqual(320);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+    const screenshot = testInfo.outputPath('nav-theme-narrow.png');
+    await page.screenshot({path: screenshot, animations: 'disabled'});
+    await testInfo.attach('顶部主题面板（320px）', {path: screenshot, contentType: 'image/png'});
 });
 
 test('theme: geometry controls update CSS and exported values', async ({page}) => {
@@ -214,7 +311,7 @@ test('theme: malformed colors never replace the last valid theme or export', asy
     const defaultColor = await color.inputValue();
     await color.fill('#xyz');
     await expect(color).toHaveAttribute('aria-invalid', 'true');
-    await page.getByRole('button', {name: '应用ZUI 蓝主题', exact: true}).click();
+    await page.getByTestId('theme-editor').getByRole('button', {name: '应用ZUI 蓝主题', exact: true}).click();
     await expect(color).toHaveValue(defaultColor);
     await expect(color).toHaveAttribute('aria-invalid', 'false');
     await color.fill('#365fc7');
@@ -264,7 +361,7 @@ test('theme: CSS remains available for manual export after clipboard failure', a
         }});
     });
     await openEditor(page);
-    await page.getByRole('button', {name: '应用森林绿主题', exact: true}).click();
+    await page.getByTestId('theme-editor').getByRole('button', {name: '应用森林绿主题', exact: true}).click();
     const code = page.getByRole('textbox', {name: '主题 CSS', exact: true});
     const exported = await code.inputValue();
     expect(exported).toContain('--color-primary-500:');

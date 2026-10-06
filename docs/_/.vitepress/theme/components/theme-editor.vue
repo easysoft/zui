@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, ref} from 'vue';
+import {computed, ref, watch} from 'vue';
 import {useData} from 'vitepress';
 import ThemeColorField from './theme-color-field.vue';
 import {createTheme, exportThemeCSS, paletteFields, presets, surfaceFields, type ThemeMode} from '../theme-model';
@@ -14,6 +14,13 @@ const fieldRevision = ref(0);
 const {copy, copying, message} = useCopyFeedback();
 const previewName = ref('我的新项目');
 const previewMessage = ref('');
+
+// Presets can also be selected from the global navigation while this page is open.
+watch(theme, (settings) => {
+    if (settings.preset !== 'custom') {
+        fieldRevision.value++;
+    }
+});
 
 function setPalette(key: typeof paletteFields[number]['key'], value: string) {
     updateTheme({...theme.value, preset: 'custom', colors: {...theme.value.colors, [key]: value}});
@@ -46,7 +53,7 @@ const exportMessage = ref('');
                 <button type="button" :aria-pressed="isDark" @click="isDark = true"><span aria-hidden="true">☾</span> 深色</button>
             </div>
             <span class="theme-save-status" role="status" aria-live="polite">{{saveMessage}}</span>
-            <button type="button" class="theme-reset" @click="resetTheme(); fieldRevision++">恢复默认</button>
+            <button type="button" class="theme-reset" @click="resetTheme">恢复默认</button>
         </div>
 
         <section class="theme-presets" aria-labelledby="theme-presets-heading">
@@ -55,7 +62,7 @@ const exportMessage = ref('');
                 <span>当前：{{themeName}}</span>
             </div>
             <div class="theme-preset-grid">
-                <button v-for="preset in presets" :key="preset.id" type="button" class="theme-preset" :aria-label="`应用${preset.name}主题`" :aria-pressed="theme.preset === preset.id" @click="updateTheme(createTheme(preset.id)); fieldRevision++">
+                <button v-for="preset in presets" :key="preset.id" type="button" class="theme-preset" :aria-label="`应用${preset.name}主题`" :aria-pressed="theme.preset === preset.id" @click="updateTheme(createTheme(preset.id))">
                     <span class="theme-preset-colors" aria-hidden="true">
                         <span :style="{background: preset.settings.colors.primary}"></span>
                         <span :style="{background: preset.settings.colors.secondary}"></span>

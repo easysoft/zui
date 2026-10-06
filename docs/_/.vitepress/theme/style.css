@@ -62,8 +62,11 @@ input:focus, textarea:focus, select:focus {
 .VPNavBar .nav-external-links {
   display: none;
 }
+.VPNavBar .VPNavBarAppearance,
+.VPNavScreen .VPNavScreenAppearance {
+  display: none;
+}
 @media (min-width: 768px) {
-  .VPNavBar .VPNavBarAppearance,
   .VPNavBar .VPNavBarSocialLinks {
     display: flex;
     align-items: center;
@@ -80,17 +83,6 @@ input:focus, textarea:focus, select:focus {
     margin-left: 8px;
   }
 }
-.VPNavBarExtra .appearance .label,
-.VPNavScreenAppearance .text {
-  @apply -hidden;
-}
-.VPNavBarExtra .item.appearance {
-  @apply -min-w-0;
-}
-.VPNavScreen .VPNavScreenAppearance {
-  @apply -justify-end;
-}
-
 .VPSidebarItem .text {
   @apply -flex -flex-row -justify-between -items-center;
 }

@@ -248,11 +248,25 @@ for (const colorScheme of ['light', 'dark'] as const) {
         await page.keyboard.press('Enter');
         await expect(mainMenu).toHaveAttribute('aria-expanded', 'true');
         await expect(page.locator('#VPNavScreen')).toBeVisible();
-        const appearance = page.locator('#VPNavScreen').getByRole('switch');
-        await expect(appearance).toHaveAccessibleName(colorScheme === 'dark' ? '切换到浅色模式' : '切换到深色模式');
+        await expect(page.getByRole('switch')).toHaveCount(0);
+        const theme = page.locator('.nav-theme').getByRole('button', {name: '主题', exact: true});
+        await expect(theme).toHaveCount(1);
+        await theme.click();
+        await expect(mainMenu).toHaveAttribute('aria-expanded', 'false');
+        const settings = page.getByRole('region', {name: '主题设置', exact: true});
+        await expect(settings).toBeInViewport({ratio: 1});
+        const box = await settings.boundingBox();
+        expect(box!.x).toBeGreaterThanOrEqual(0);
+        expect(box!.x + box!.width).toBeLessThanOrEqual(390);
+        const appearance = settings.getByRole('button', {name: colorScheme === 'dark' ? '浅色' : '深色', exact: true});
         await appearance.click();
-        await expect(appearance).toHaveAccessibleName(colorScheme === 'dark' ? '切换到深色模式' : '切换到浅色模式');
+        await expect(appearance).toHaveAttribute('aria-pressed', 'true');
+        await page.keyboard.press('Escape');
+        await expect(settings).toBeHidden();
+        await expect(theme).toBeFocused();
         await mainMenu.focus();
+        await page.keyboard.press('Space');
+        await expect(mainMenu).toHaveAttribute('aria-expanded', 'true');
         await page.keyboard.press('Space');
         await expect(mainMenu).toHaveAttribute('aria-expanded', 'false');
         await expect(page.locator('#VPNavScreen')).toBeHidden();
@@ -265,14 +279,14 @@ for (const colorScheme of ['light', 'dark'] as const) {
     });
 }
 
-test('ZUI-DOC-012: tablet navigation folds external links before appearance and GitHub controls', async ({page}) => {
+test('ZUI-DOC-012: tablet navigation folds external links before theme and GitHub controls', async ({page}) => {
     await page.setViewportSize({width: 900, height: 900});
     await page.goto('lib/components/button/');
     await expect(page.getByRole('navigation', {name: '主导航'})).toBeVisible();
     const navbar = page.locator('.VPNavBar');
     await expect(navbar.getByRole('link', {name: /^github$/i})).toBeVisible();
-    await expect(navbar.getByRole('switch')).toHaveAccessibleName('切换到深色模式');
-    await expect(navbar.getByRole('switch')).toBeVisible();
+    await expect(navbar.getByRole('switch')).toHaveCount(0);
+    await expect(navbar.locator('.nav-theme').getByRole('button', {name: '主题', exact: true})).toBeVisible();
     await expect(navbar.getByRole('link', {name: 'ZUI1', exact: true})).toBeHidden();
     await expect(navbar.getByRole('link', {name: 'ZIN', exact: true})).toBeHidden();
     const extra = page.getByRole('button', {name: '更多导航选项'});
