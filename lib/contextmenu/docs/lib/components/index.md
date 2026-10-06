@@ -4,16 +4,23 @@
 
 ## 使用方法
 
-在响应右键操作的区域添加 `zui-create="contextMenu"`，初始化上下文菜单组件。
+通过 `new zui.ContextMenu(element, options)` 在响应右键操作的区域初始化上下文菜单。
 
 ### 静态用法
 
-使用 `data-target="$next"` 将组件关联到紧随其后的菜单元素，右击该区域即可展开菜单。
+通过 `target: '$next'` 将组件关联到紧随其后的菜单元素，右击该区域即可展开菜单。
+
+::: tabs
+
+== 示例
 
 <Example class="flex gap-4">
-  <div class="w-full h-32 primary-pale row items-center justify-center" zui-create="contextMenu" data-target="$next">
+  <ZUI
+    id="contextMenuStatic" use="contextMenu" class="w-full h-32 primary-pale row items-center justify-center"
+    :options="{target: '$next'}"
+  >
     项目周报.pdf · 右键查看文件操作
-  </div>
+  </ZUI>
   <menu class="contextmenu menu popup">
     <li class="menu-item"><a>预览文件</a></li>
     <li class="menu-item"><a>复制链接</a></li>
@@ -21,8 +28,10 @@
   </menu>
 </Example>
 
+== HTML
+
 ```html
-<div class="w-full h-32 primary-pale row items-center justify-center" zui-create="contextMenu" data-target="$next">
+<div id="contextMenuStatic" class="w-full h-32 primary-pale row items-center justify-center">
   项目周报.pdf · 右键查看文件操作
 </div>
 <menu class="contextmenu menu popup">
@@ -30,114 +39,26 @@
   <li class="menu-item"><a>复制链接</a></li>
   <li class="menu-item"><a>下载文件</a></li>
 </menu>
+
+<script>
+new zui.ContextMenu('#contextMenuStatic', {target: '$next'});
+</script>
 ```
+
+:::
 
 ### 动态生成
 
-<Example class="flex gap-4">
-  <div class="h-32 w-full primary-pale row items-center justify-center" id="menuToggle1">
-    项目周报.pdf · 右键查看文件操作
-  </div>
-</Example>
+通过 `items` 提供菜单项数据，右击下方区域查看动态生成的菜单。
 
-```html
-<div class="h-32 w-full primary-pale row items-center justify-center" id="menuToggle1">
-  项目周报.pdf · 右键查看文件操作
-</div>
+::: tabs
 
-<script>
-new zui.ContextMenu('#menuToggle1', {
-    items: [
-        {text: '复制', icon: 'icon-copy'},
-        {text: '粘贴', icon: 'icon-paste'},
-        {text: '剪切'},
-        {type: 'heading', text: '更多操作'},
-        {text: '导入', icon: 'icon-upload-alt'},
-        {text: '导出', icon: 'icon-download-alt'},
-        {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
-    ],
-    menu: {
-        onClickItem: (info) => {
-            console.log('> menu.onClickItem', info);
-        },
-    },
-});
-</script>
-```
-
-## 引入
-
-### 通过 npm
-
-标准 npm 包从 `zui` 导入组件，并通过 `zui/css` 加载样式。以下示例沿用上方的 `#menuToggle1` 容器；与全局对象用法选择一种初始化方式即可。
-
-```js
-import {ContextMenu} from 'zui';
-import 'zui/css';
-
-const contextMenu = new ContextMenu('#menuToggle1', {
-    items: [{text: '复制链接'}, {text: '下载文件'}],
-});
-```
-
-### 获取实例
-
-```js
-const contextMenu = zui.ContextMenu.get('#menuToggle1');
-```
-
-上下文菜单提供原生实例 API，没有独立的 Preact 组件入口。在框架中使用时，在容器挂载后创建实例，并在卸载时调用 `contextMenu.destroy()`。
-
-## 多级菜单
+== 示例
 
 <Example class="flex gap-4">
-  <div class="h-32 w-full primary-pale row items-center justify-center" id="menuToggle3">
-    项目周报.pdf · 右键查看文件操作
-  </div>
-</Example>
-
-```html
-<div class="h-32 w-full primary-pale row items-center justify-center" id="menuToggle3">
-  项目周报.pdf · 右键查看文件操作
-</div>
-
-<script>
-const contextMenu = new zui.ContextMenu('#menuToggle3', {
-    items: [
-        {text: '复制', icon: 'icon-copy'},
-        {text: '粘贴', icon: 'icon-paste'},
-        {text: '剪切'},
-        {type: 'heading', text: '更多操作'},
-        {text: '导入', icon: 'icon-upload-alt'},
-        {text: '导出', icon: 'icon-download-alt'},
-        {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
-    ],
-    menu: {
-        onClickItem: (info) => {
-            console.log('> menu.onClickItem', info);
-        },
-    },
-});
-</script>
-```
-
-## 主动展开菜单
-
-上下文菜单不仅可以响应鼠标右键点击事件，还可以通过监听元素点击事件主动展示更多操作。
-
-<Example class="flex gap-4">
-  <button type="button" class="btn primary rounded" id="menuToggle2">文件操作</button>
-</Example>
-
-```html
-<div class="p-6 row items-center justify-center">
-  <button type="button" class="btn primary rounded" id="menuToggle2">文件操作</button>
-</div>
-
-<script>
-document.getElementById('menuToggle2')?.addEventListener('click', (event) => {
-    const contextmenu = zui.ContextMenu.show({
-        event,
+  <ZUI
+    id="contextMenuDynamic" use="contextMenu" class="w-full h-32 primary-pale row items-center justify-center"
+    :options="{
         items: [
             {text: '复制', icon: 'icon-copy'},
             {text: '粘贴', icon: 'icon-paste'},
@@ -145,84 +66,198 @@ document.getElementById('menuToggle2')?.addEventListener('click', (event) => {
             {type: 'heading', text: '更多操作'},
             {text: '导入', icon: 'icon-upload-alt'},
             {text: '导出', icon: 'icon-download-alt'},
-            {text: '保存', icon: 'icon-save', onClick: (e) => console.log('> menuItem.clicked', e)},
+            {text: '保存', icon: 'icon-save'},
         ],
-        menu: {
-            onClickItem: (info) => {
-                console.log('> menu.onClickItem', info);
-            },
-        },
-    });
-    console.log('> contextmenu', contextmenu);
+    }"
+  >
+    项目周报.pdf · 右键查看文件操作
+  </ZUI>
+</Example>
+
+== HTML
+
+```html
+<div id="contextMenuDynamic" class="w-full h-32 primary-pale row items-center justify-center">
+  项目周报.pdf · 右键查看文件操作
+</div>
+
+<script>
+new zui.ContextMenu('#contextMenuDynamic', {
+    items: [
+        {text: '复制', icon: 'icon-copy'},
+        {text: '粘贴', icon: 'icon-paste'},
+        {text: '剪切'},
+        {type: 'heading', text: '更多操作'},
+        {text: '导入', icon: 'icon-upload-alt'},
+        {text: '导出', icon: 'icon-download-alt'},
+        {text: '保存', icon: 'icon-save'},
+    ],
 });
 </script>
 ```
 
-<script>
-export default {
-    mounted() {
-        onZUIReady(() => {
-            const contextMenu1 = new zui.ContextMenu('#menuToggle1', {
+:::
+
+## 引入
+
+### 通过 npm
+
+标准 npm 包从 `zui` 导入组件，并通过 `zui/css` 加载样式。以下示例沿用上方的 `#contextMenuDynamic` 容器；与全局对象用法选择一种初始化方式即可。
+
+```js
+import {ContextMenu} from 'zui';
+import 'zui/css';
+
+const contextMenu = new ContextMenu('#contextMenuDynamic', {
+    items: [{text: '复制链接'}, {text: '下载文件'}],
+});
+```
+
+### 获取实例
+
+```js
+const contextMenu = zui.ContextMenu.get('#contextMenuDynamic');
+```
+
+上下文菜单提供原生实例 API，没有独立的 Preact 组件入口。在框架中使用时，在容器挂载后创建实例，并在卸载时调用 `contextMenu.destroy()`。
+
+## 多级菜单
+
+在菜单项的 `items` 中定义子菜单。展开“保存 → 下载到本地”可选择文件格式。
+
+::: tabs
+
+== 示例
+
+<Example class="flex gap-4">
+  <ZUI
+    id="contextMenuNested" use="contextMenu" class="w-full h-32 primary-pale row items-center justify-center"
+    :options="{
+        items: [
+            {text: '复制', icon: 'icon-copy'},
+            {text: '粘贴', icon: 'icon-paste'},
+            {text: '剪切'},
+            {type: 'heading', text: '更多操作'},
+            {text: '导入', icon: 'icon-upload-alt'},
+            {text: '导出', icon: 'icon-download-alt'},
+            {
+                text: '保存',
+                icon: 'icon-save',
                 items: [
-                    {text: '复制', icon: 'icon-copy'},
-                    {text: '粘贴', icon: 'icon-paste'},
-                    {text: '剪切'},
-                    {type: 'heading', text: '更多操作'},
-                    {text: '导入', icon: 'icon-upload-alt'},
-                    {text: '导出', icon: 'icon-download-alt'},
-                    {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
-                ],
-                menu: {
-                    onClickItem: (info) => {
-                        console.log('> menu.onClickItem', info);
-                    },
-                },
-            });
-            const contextMenu3 = new zui.ContextMenu('#menuToggle3', {
-                items: [
-                    {text: '复制', icon: 'icon-copy' },
-                    {text: '粘贴', icon: 'icon-paste'},
-                    {text: '剪切'},
-                    {type: 'heading', text: '更多操作'},
-                    {text: '导入', icon: 'icon-upload-alt'},
-                    {text: '导出', icon: 'icon-download-alt'},
+                    {text: '保存到团队文档库'},
                     {
-                        text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event),
+                        text: '下载到本地',
                         items: [
-                            {text: '保存到团队文档库'},
-                            {
-                                text: '下载到本地',
-                                items: [
-                                    {text: '下载为 PDF'},
-                                    {text: '下载为 Excel'},
-                                ],
-                            },
+                            {text: '下载为 PDF'},
+                            {text: '下载为 Excel'},
                         ],
                     },
                 ],
-            });
-            document.getElementById('menuToggle2')?.addEventListener('click', (event) => {
-                const contextmenuByBtn = zui.ContextMenu.show({
-                    event,
+            },
+        ],
+    }"
+  >
+    项目周报.pdf · 右键查看文件操作
+  </ZUI>
+</Example>
+
+== HTML
+
+```html
+<div id="contextMenuNested" class="w-full h-32 primary-pale row items-center justify-center">
+  项目周报.pdf · 右键查看文件操作
+</div>
+
+<script>
+new zui.ContextMenu('#contextMenuNested', {
+    items: [
+        {text: '复制', icon: 'icon-copy'},
+        {text: '粘贴', icon: 'icon-paste'},
+        {text: '剪切'},
+        {type: 'heading', text: '更多操作'},
+        {text: '导入', icon: 'icon-upload-alt'},
+        {text: '导出', icon: 'icon-download-alt'},
+        {
+            text: '保存',
+            icon: 'icon-save',
+            items: [
+                {text: '保存到团队文档库'},
+                {
+                    text: '下载到本地',
                     items: [
-                        {text: '复制', icon: 'icon-copy'},
-                        {text: '粘贴', icon: 'icon-paste'},
-                        {text: '剪切'},
-                        {type: 'heading', text: '更多操作'},
-                        {text: '导入', icon: 'icon-upload-alt'},
-                        {text: '导出', icon: 'icon-download-alt'},
-                        {text: '保存', icon: 'icon-save', onClick: (e) => console.log('> menuItem.clicked', e)},
+                        {text: '下载为 PDF'},
+                        {text: '下载为 Excel'},
                     ],
-                    menu: {
-                        onClickItem: (info) => {
-                            console.log('> menu.onClickItem', info);
-                        },
-                    },
-                });
-            });
-        })
-    },
-};
+                },
+            ],
+        },
+    ],
+});
+</script>
+```
+
+:::
+
+## 主动展开菜单
+
+设置 `trigger: 'manual'` 后，在按钮点击回调中调用实例的 `show({event})`，即可在点击位置展示菜单。
+
+::: tabs
+
+== 示例
+
+<Example class="flex gap-4">
+  <ZUI
+    id="contextMenuManual" use="contextMenu"
+    :options="{
+        trigger: 'manual',
+        items: [
+            {text: '复制', icon: 'icon-copy'},
+            {text: '粘贴', icon: 'icon-paste'},
+            {text: '剪切'},
+            {type: 'heading', text: '更多操作'},
+            {text: '导入', icon: 'icon-upload-alt'},
+            {text: '导出', icon: 'icon-download-alt'},
+            {text: '保存', icon: 'icon-save'},
+        ],
+    }"
+  >
+    <button type="button" class="btn primary rounded" id="contextMenuManualTrigger" @click="showContextMenu">文件操作</button>
+  </ZUI>
+</Example>
+
+== HTML
+
+```html
+<div id="contextMenuManual">
+  <button type="button" class="btn primary rounded" id="contextMenuManualTrigger">文件操作</button>
+</div>
+
+<script>
+const contextMenu = new zui.ContextMenu('#contextMenuManual', {
+    trigger: 'manual',
+    items: [
+        {text: '复制', icon: 'icon-copy'},
+        {text: '粘贴', icon: 'icon-paste'},
+        {text: '剪切'},
+        {type: 'heading', text: '更多操作'},
+        {text: '导入', icon: 'icon-upload-alt'},
+        {text: '导出', icon: 'icon-download-alt'},
+        {text: '保存', icon: 'icon-save'},
+    ],
+});
+document.getElementById('contextMenuManualTrigger').addEventListener('click', (event) => {
+    contextMenu.show({event});
+});
+</script>
+```
+
+:::
+
+<script setup>
+function showContextMenu(event) {
+    zui.ContextMenu.get('#contextMenuManual')?.show({event});
+}
 </script>
 
 ## 构造方法
@@ -243,7 +278,7 @@ constructor(element: HTMLElement | string, options: ContextMenuOptions);
 **示例：**
 
 ```js
-new zui.ContextMenu('#menuToggle1', {
+new zui.ContextMenu('#contextMenuDynamic', {
     items: [
         {text: '复制', icon: 'icon-copy'},
         {text: '粘贴', icon: 'icon-paste'},
