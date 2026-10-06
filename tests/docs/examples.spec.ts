@@ -265,6 +265,7 @@ for (const doc of pages) {
 
 test('FileList is reachable through navigation and local search', async ({page}) => {
     await page.goto('lib/components/tree/');
+    await page.locator('.VPSidebar').getByRole('heading', {name: '数据展示', exact: true}).click();
     await page.locator('.VPSidebar').getByRole('link', {name: '文件列表', exact: true}).click();
     await expect(page.locator('h1')).toHaveText('文件列表');
     // The search index is loaded lazily and can exceed the assertion timeout on CI.

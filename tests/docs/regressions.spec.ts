@@ -126,6 +126,7 @@ test('F04: DTable examples release instances on tab and page changes while plugi
     }
     await page.locator('#dtable-basic').scrollIntoViewIfNeeded();
     await expect(page.locator('#dtable-basic')).toContainText('客户服务门户');
+    await page.locator('.VPSidebar').getByRole('heading', {name: '导航与菜单', exact: true}).click();
     await switchTablePage(page, '树形菜单');
     await expect.poll(() => page.evaluate(() => (window as unknown as RegressionWindow).zui.DTable.getAll().length)).toBe(0);
 });

@@ -196,6 +196,43 @@ function createSidebar() {
         updateSections(files, sidebars, libDocsPath, lib);
     });
 
+    // Group navigation by user tasks without changing source folders or URLs.
+    const libGroups = [
+        {text: '基础控件', section: 'controls', libs: ['button', 'btn-group', 'copy-btn', 'label', 'avatar', 'avatar-group', 'time-span', 'typography']},
+        {text: '表单与输入', section: 'forms', libs: ['search-box', 'color-picker', 'file-selector', 'upload', 'upload-imgs']},
+        {text: '导航与菜单', section: 'navigation', libs: ['breadcrumb', 'contextmenu', 'dropdown', 'menu', 'nav', 'responsive-nav', 'tabs', 'toolbar', 'tree']},
+        {text: '数据展示', section: 'data', libs: ['calendar', 'cards', 'common-list', 'dtable', 'file-list', 'kanban', 'list', 'pager', 'table', 'virtualize']},
+        {text: '布局与交互', section: 'interaction', libs: ['collapsible', 'dashboard', 'dnd', 'panel', 'scrollbar', 'sidebar', 'split']},
+        {text: '反馈与浮层', section: 'feedback', libs: ['alert', 'messager', 'modal', 'popover', 'progress', 'progress-circle', 'tooltip']},
+        {text: '其他组件', section: 'components', libs: []},
+        {text: '使用指南', section: 'basic', libs: []},
+        {text: '进阶扩展', section: 'advanced', libs: ['json-ui']},
+        {text: 'JS 工具', section: 'helpers', libs: []},
+    ];
+    const libSections = new Map(libGroups.flatMap(group => group.libs.map(name => [name, group.section])));
+    const fallbackSections: Record<string, string> = {icons: 'controls', dtable: 'data'};
+    const grouped: ReturnType<typeof initSidebars>[string] = libGroups.map(({text, section}) => ({text, section, collapsed: true, items: []}));
+    for (const section of sidebars['/lib/']) {
+        if (section.hidden) {
+            continue;
+        }
+        for (const item of section.items || []) {
+            let target = libSections.get(item.lib?.zui.name || '') || fallbackSections[section.section!] || section.section;
+            if (item.lib?.zui.name === 'core' && section.section === 'basic') {
+                const file = Path.basename(item.link);
+                if (file === 'component.md' || file === 'react.md') {
+                    target = 'advanced';
+                } else if (file === 'cash.md' || file === 'query.md') {
+                    target = 'helpers';
+                }
+            }
+            // Unknown/new libraries retain a visible entry in their original category.
+            const group = grouped.find(group => group.section === target) || grouped.find(group => group.section === 'components')!;
+            group.items!.push(item);
+        }
+    }
+    sidebars['/lib/'] = grouped;
+
     const orders = {
         '介绍': 1,
         '快速上手': 2,
