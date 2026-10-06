@@ -6,6 +6,8 @@
 
 ## 基础用法
 
+查配置时可直接查看 [API 速查](#api)，其中列出常用选项、默认值及对应场景。
+
 按[快速上手](/guide/start/)接入 ZUI 后，浏览器脚本通过 `zui.DTable` 创建表格。将容器放在初始化脚本之前：
 
 ```html
@@ -292,7 +294,7 @@ const cols = [
 
 **2. 定义行数据**
 
-通过一个对象数组定义表格的每行要进行展示的数据，数据使用一个对象定义，必须包含 `id` 属性用于区分，并且通常包含列定义中的所有列名属性。例如：
+通过一个对象数组定义表格的每行要进行展示的数据。每个对象应包含唯一的行标识，默认读取 `id`，也可通过 `rowKey` 指定其他字段；其余属性通常与列定义中的 `name` 对应。例如：
 
 ```js
 const data = [
@@ -332,7 +334,7 @@ const dtable = new zui.DTable(element, options);
 | ------------- | ----- |
 | `'auto'`      | 只能作为高度值，最终高度为表头、表尾和所有行的高度相加，此时数据表格不会出现垂直滚动条 |
 | `'100%'`      | 设置宽度或高度与父级容器的宽高一致 |
-| `() => 'auto' \| number`      | 指定一个函数来在每次渲染时动态返回值 |
+| 函数 | 宽度函数返回数字或 `'100%'`；高度函数返回数字、`'auto'` 或 `{min, max}`。签名见[初始化选项类型](#初始化选项类型)。 |
 | `{min: number, max: number}`      | 仅高度可用，指定数据表格的最小和最大高度 |
 
 默认情况下宽度为 `'100%'`，高度为 `'auto'`。
@@ -2090,21 +2092,69 @@ new zui.DTable({
 
 ## API
 
+按任务查阅：[初始化选项与默认值](#初始化选项)、[列配置](#列定义)、[行数据](#行数据定义)、[插件扩展](#插件定义)、[常用方法](#方法)。各节先给出摘要，再保留详细类型。
+
 ### 初始化选项
 
+下面是未被插件或调用方覆盖时的默认值；示例中的显式配置不代表默认值。尺寸数值以像素为单位。完整字段及回调签名见[初始化选项类型](#初始化选项类型)。
+
+**数据与扩展**
+
+| 选项 | 默认值 | 用途与典型场景 |
+| --- | --- | --- |
+| `cols` | `[]` | 定义展示哪些字段及顺序；每项配置见[列定义](#列定义)。 |
+| `data` | `[]` | 通常传入行对象数组；结构见[行数据定义](#行数据定义)。 |
+| `rowKey` | `'id'` | 行的唯一标识字段；业务数据使用其他主键时修改此项。 |
+| `plugins` | 未指定 | 声明额外启用的插件；名称须已注册，见[注册与启用](/lib/components/dtable/plugins.html#注册与启用)。 |
+| `onRenderCell` | 未指定 | 定制数据单元格内容，例如操作按钮；见[自定义渲染](#自定义渲染)。 |
+
+`cols` 与 `data` 在 TypeScript 选项类型中为必填字段，创建表格时应显式传入。需要批量选择或父子行时，分别查看[行选中交互](#行选中交互)和[多层级数据结构](#多层级数据结构)，先声明所需插件再配置其选项。
+
+**尺寸与布局**
+
+| 选项 | 默认值 | 用途与典型场景 |
+| --- | --- | --- |
+| `width` | `'100%'` | 跟随父容器宽度；传入数字可固定宽度，见[宽和高](#宽和高)。 |
+| `height` | `'auto'` | 按全部行及表头、表尾计算高度；限制可视高度可用数字或 `{min, max}`，超出部分滚动查看。 |
+| `responsive` | `false` | 设为 `true` 后随窗口及父容器尺寸变化重新布局；见[响应式](#响应式)。 |
+| `rowHeight` | `35` | 每行高度，须为正数；见[行高](#行高)。 |
+| `defaultColWidth` | `80` | 列未设置 `width` 时采用的宽度；见[列宽](#列宽)。 |
+| `minColWidth` / `maxColWidth` | `24` / `9999` | 列宽默认上下限，可在单列上覆盖。 |
+| `header` / `footer` | `true` / `undefined` | 默认显示表头、不显示表尾；表头可隐藏或[自定义](#表头)，表尾可放置[分页器](/lib/components/dtable/plugins.html#底部分页器-pager)。 |
+| `headerHeight` / `footerHeight` | `0` / `0` | `0` 表示在对应区域显示时使用 `rowHeight`，不是把该区域隐藏。 |
+
+**外观与交互**
+
+| 选项 | 默认值 | 用途与典型场景 |
+| --- | --- | --- |
+| `striped` | `true` | [隔行变色](#隔行变色)，帮助对齐阅读长行。 |
+| `bordered` | `false` | 设为 `true` 显示[完整边框](#完整边框)。 |
+| `rowHover` / `colHover` / `cellHover` | `true` / `false` / `false` | 分别控制行、列、单元格的[鼠标悬停效果](#鼠标悬停效果)。 |
+| `scrollbarHover` | `true` | 悬停时显示滚动条；设为 `false` 可让滚动入口持续可见，见[滚动条](#滚动条)。 |
+
+#### 初始化选项类型
+
 ```ts
-interface DTableOptions {
+interface DTableOptions<C = ColSetting> {
     id?: string;
+    'aria-label'?: string;
+    'aria-labelledby'?: string;
+    'aria-describedby'?: string;
     lang?: string;
     i18n?: Record<string, Record<string, string | object>>;
-    className?: ClassNameLike,
-    parent?: HTMLElement,
+    className?: ClassNameLike;
+    style?: Record<string, string | number>;
+    parent?: HTMLElement;
     plugins?: DTablePluginLike[];
+    commandScope?: string;
+    onCommand?: CommandCallback;
+    commands?: Record<string, CommandCallback>;
 
-    cols: ColSetting[];
+    cols: C[];
     data: (RowData | string)[] | number;
-    rowDataGetter?: (ids: string[]) => RowData[],
-    cellValueGetter?: CellValueGetter,
+    rowDataGetter?: (ids: string[]) => RowData[];
+    cellValueGetter?: CellValueGetter;
+    rowConverter?: (row: RowData, index: number) => RowData;
     rowKey?: string;
 
     rowHover?: boolean;
@@ -2113,55 +2163,81 @@ interface DTableOptions {
     bordered?: boolean;
     striped?: boolean;
 
-    width: number | '100%' | 'auto' | ((this: DTable, actualWidth: number) => number | 'auto');
-    height: number | '100%' | 'auto' | {min: number, max: number} | ((this: DTable, actualHeight: number) => number | 'auto' | {min: number, max: number});
-    rowHeight: number;
-    defaultColWidth: number;
-    minColWidth: number;
-    maxColWidth: number;
+    width?: number | '100%' | ((this: DTable) => number | '100%');
+    height?: number | '100%' | 'auto' | {min: number; max: number} | ((this: DTable, actualHeight: number) => number | 'auto' | {min: number; max: number});
+    fixedLeftWidth?: number | 'auto' | `${number}%` | ((this: DTable) => number);
+    fixedRightWidth?: number | 'auto' | `${number}%` | ((this: DTable) => number);
+    rowHeight?: number;
+    defaultColWidth?: number;
+    minColWidth?: number;
+    maxColWidth?: number;
     header?: boolean | CustomRenderResultList<[layout: DTableLayout], DTable> | CustomRenderResultGenerator<[layout: DTableLayout], DTable> | CustomRenderResultItem;
     footer?: boolean | CustomRenderResultList<[layout: DTableLayout], DTable> | ((this: DTable, layout: DTableLayout) => CustomRenderResultList<[layout: DTableLayout], DTable>);
-    headerHeight: number;
-    footerHeight: number;
-    responsive: boolean;
-    scrollbarHover: boolean;
+    partialRender?: boolean;
+    headerHeight?: number;
+    footerHeight?: number;
+    responsive?: boolean | string;
+    scrollbarHover?: boolean;
     scrollbarSize?: number;
     horzScrollbarPos?: 'inside' | 'outside';
+    vertScrollbarPos?: 'inside' | 'outside';
+    emptyTip?: CustomContentType;
 
-    onLayout?: (this: DTable, layout: DTableLayout) => (DTableLayout | undefined);
-    onScroll?: (this: DTable, scrollInfo: {scrollTop?: number, scrollLeft?: number}) => void;
+    onLayout?: (this: DTable, layout: DTableLayout) => (DTableLayout | void);
+    onScroll?: (this: DTable, scrollInfo: {scrollTop?: number; scrollLeft?: number}) => void;
     onRenderCell?: CellRenderCallback;
     onRenderHeaderCell?: CellRenderCallback;
-    afterRender?: (this: DTable) => void;
-    onCellClick?: (this: DTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement}) => void | true;
-    onHeaderCellClick?: (this: DTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;
+    beforeRender?: (this: DTable, layout: DTableLayout) => (DTableLayout | void);
+    afterRender?: (this: DTable, firstRender?: boolean) => void;
+    onCellClick?: (this: DTable, event: MouseEvent, data: {rowID: string; colName: string; rowInfo?: RowInfo; element: HTMLElement}) => void | true;
+    onHeaderCellClick?: (this: DTable, event: MouseEvent, data: {colName: string; element: HTMLElement}) => void;
     onAddRow?: (this: DTable, row: RowInfo, index: number) => void | false;
-    onAddRows?: (this: DTable, rows: RowInfo[]) => RowInfo[] | void;
+    onAddRows?: (this: DTable, rows: RowInfo[], colsLayout: DTableColsLayout) => RowInfo[] | void;
+    [prop: string]: unknown;
 }
 ```
 
 ### 列定义
 
+每个 `cols` 项描述一列；以下默认行为未考虑插件对列的额外配置。完整属性见[列定义类型](#列定义类型)。
+
+| 属性 | 默认值或行为 | 用途与典型场景 |
+| --- | --- | --- |
+| `name` | 必填 | 列名，通常对应行数据上的字段名。 |
+| `title` | 未指定 | 表头显示的文字；为业务字段提供易读名称。 |
+| `width` | `defaultColWidth`（默认 `80`） | 指定像素值或百分比列宽，如 `120` 或 `'25%'`。 |
+| `minWidth` / `maxWidth` | 继承 `minColWidth` / `maxColWidth` | 为单列限制宽度。 |
+| `flex` | `false` | 设为 `true` 或正数，按权重分配所在区域的剩余宽度；见[列宽](#列宽)。 |
+| `fixed` | `false` | 用 `'left'` 或 `'right'` 保持关键列可见；见[固定两侧的列](#固定两侧的列)。 |
+| `onRenderCell` | 未指定 | 仅为此列定制渲染，例如[操作按钮](#自定义渲染)。 |
+
+#### 列定义类型
+
 ```ts
-interface ColSetting {
+type ColSetting<S = object> = S & {
     name: ColName;
-    title?: string;
-    width?: number;
-    minWidth?: number;
-    maxWidth?: number;
-    flex?: ColFlex;
-    fixed?: ColFixedSide;
-    border?: 'left' | 'right' | boolean;
-    align?: 'left' | 'center' | 'right';
-    data?: Record<string, unknown>;
-    style?: preact.JSX.CSSProperties;
-    cellStyle?: preact.JSX.CSSProperties;
-    className?: ClassNameLike;
-    type?: string;
-    hidden?: boolean;
-    colHover?: boolean;
-    onRenderCell?: CellRenderCallback<ColSetting>;
-}
+} & Partial<{
+    title: string;
+    width: number | `${number}%`;
+    minWidth: number;
+    maxWidth: number;
+    order: number;
+    flex: ColFlex;
+    fixed: ColFixedSide;
+    border: ColBorderType;
+    align: 'left' | 'center' | 'right';
+    data: Record<string, unknown>;
+    style: preact.JSX.CSSProperties;
+    cellStyle: preact.JSX.CSSProperties;
+    cellClass: ClassNameLike;
+    className: ClassNameLike;
+    type: string;
+    hidden: boolean;
+    colHover: boolean;
+    onRenderCell: CellRenderCallback<ColSetting & S>;
+    [prop: `data-${string}`]: string;
+    [prop: string]: unknown;
+}>;
 
 type ColName = string;
 
@@ -2170,9 +2246,13 @@ type ColFlexGrow = number;
 type ColFlex = ColFlexGrow | boolean;
 
 type ColFixedSide = 'left' | 'right' | false;
+
+type ColBorderType = 'left' | 'right' | boolean;
 ```
 
 ### 行数据定义
+
+常规用法是将行对象数组传给 `data`：`rowKey` 指定的字段提供唯一行标识，其余字段按列名取值。传入行 ID 数组或行数时，可配合 `rowDataGetter` 按需获取行对象。
 
 ```ts
 type RowID = string;
@@ -2186,18 +2266,35 @@ type RowData = Record<RowPropName, RowPropValue>;
 
 ### 插件定义
 
+使用现成插件时先查[插件用法](/lib/components/dtable/plugins.html)，无需实现下面的类型。编写自己的插件时，常用扩展点如下；未配置的可选项不会提供对应扩展行为。
+
+| 扩展点 | 用途与典型场景 |
+| --- | --- |
+| `name` | 必填，唯一标识插件。 |
+| `defaultOptions` | 提供插件选项默认值，调用方可覆盖。 |
+| `colTypes` | 为特定 `type` 的列配置样式或渲染方式。 |
+| `beforeLayout` | 布局前调整选项，例如[窄屏时取消固定列](#响应式)。 |
+| `methods` | 增加可从表格内部实例调用的方法。 |
+| `onMounted` / `onUnmounted` | 挂载时设置监听器等资源，并在卸载时清理。 |
+
+完整泛型和生命周期签名见[插件定义类型](#插件定义类型)。
+
+#### 插件定义类型
+
 ```ts
-type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTablePluginTypes[] = [], PluginTable = DTableWithPlugin<T, D>, Options = DTableWithPluginOptions<T, D>, PluginColSetting = DTableWithPluginColSetting<T, D>, PluginColInfo = DTableWithPluginColInfo<T, D>> = {
+type DTablePlugin<T extends DTablePluginTypes = object, D extends DTablePluginTypes[] = [], PluginTable = DTableWithPlugin<T, D>, Options = DTableWithPluginOptions<T, D>, PluginColSetting = DTableWithPluginColSetting<T, D>, PluginColInfo = DTableWithPluginColInfo<T, D>> = {
     name: DTablePluginName;
 } & Partial<{
-    when: (options: Options) => boolean,
+    when: (options: Options) => boolean;
+    requireAfter: DTablePluginName[];
     defaultOptions: Partial<Options>;
     colTypes: Record<string, Partial<PluginColSetting> | PluginColSettingModifier<T, D>>;
     events: DTablePluginEvents<T, D> | ((this: PluginTable) => DTablePluginEvents<T, D>);
-    methods: Readonly<T['methods']>,
+    methods: Readonly<T['methods']>;
     i18n?: Record<string, Record<string, string | object>>;
-    data: (this: PluginTable) => {} & T['data'],
-    state: (this: PluginTable) => {} & T['state'],
+    data: (this: PluginTable) => {} & T['data'];
+    state: (this: PluginTable) => {} & T['state'];
+    resetState: boolean | ((this: PluginTable, options: Options) => {} & T['state']);
     options: (this: PluginTable, options: Options) => Partial<Options>;
     footer: Record<string, CustomRenderResultGenerator<[layout: DTableLayout], PluginTable> | CustomRenderResultItem>;
     onCreate: (this: PluginTable, plugin: DTablePlugin<T, D>) => void;
@@ -2208,18 +2305,30 @@ type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTa
     onAddCol: (this: PluginTable, col: PluginColInfo) => void;
     beforeLayout: (this: PluginTable, options: Options) => (Partial<Options> | void);
     onLayout: (this: PluginTable, layout: DTableLayout) => (DTableLayout | void);
-    onRenderHeaderCell: (this: PluginTable, result: CustomRenderResultList, data: {row: RowInfo, col: PluginColInfo, value?: unknown}, h: typeof preact.h) => CustomRenderResultList;
-    onRenderCell: (this: PluginTable, result: CustomRenderResultList, data: {row: RowInfo, col: PluginColInfo, value?: unknown}, h: typeof preact.h) => CustomRenderResultList;
+    onRenderHeaderCell: (this: PluginTable, result: CustomRenderResultList, data: CellInfo<PluginColSetting>, props: CellProps, h: typeof preact.h) => CustomRenderResultList;
+    onRenderCell: (this: PluginTable, result: CustomRenderResultList, data: CellInfo<PluginColSetting>, props: CellProps, h: typeof preact.h) => CustomRenderResultList;
     onRender: (this: PluginTable, layout: DTableLayout) => CustomRenderResultItem | void;
-    afterRender: (this: PluginTable) => void;
-    onCellClick: (this: PluginTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement}) => void | true;
-    onHeaderCellClick: (this: PluginTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;
+    beforeRender?: (this: PluginTable, layout: DTableLayout) => (DTableLayout | void);
+    afterRender: (this: PluginTable, firstRender?: boolean) => void;
+    onCellClick: (this: PluginTable, event: MouseEvent, data: {rowID: string; colName: string; rowInfo?: RowInfo; element: HTMLElement}) => void | true;
+    onHeaderCellClick: (this: PluginTable, event: MouseEvent, data: {colName: string; element: HTMLElement}) => void;
     onAddRow: (this: PluginTable, row: RowInfo, index: number) => void | false;
-    onAddRows: (this: PluginTable, rows: RowInfo[]) => RowInfo[] | void;
+    onAddRows: (this: PluginTable, rows: RowInfo[], colsLayout: DTableColsLayout) => RowInfo[] | void;
     plugins: (DTablePluginLike | DTablePlugin<T, D>)[];
 }>;
 ```
 ### 方法
+
+下面的方法属于内部表格组件。使用 `new zui.DTable(...)` 创建的原生实例时，在渲染完成后通过 `table.$` 调用，例如 `table.$.getRowInfo('1')`；`onLayout`、`afterRender` 等表格回调中的 `this` 指向内部组件。完整签名见[方法类型](#方法类型)。
+
+| 方法 | 用途与典型场景 |
+| --- | --- |
+| `getRowInfo(id)` / `getColInfo(name)` | 按行 ID、列名查找信息；不存在时返回 `undefined`。 |
+| `getCellValue(row, col)` | 按行和列获取单元格数据值。 |
+| `scroll(info)` | 滚动到指定位置或方向，例如 `{to: 'top'}` 回到顶部。 |
+| `updateLayout()` | 容器尺寸变化后手动重算布局；自动处理可设置 `responsive: true`。 |
+
+#### 方法类型
 
 ```ts
 interface DTable {
@@ -2233,9 +2342,9 @@ interface DTable {
 
   data: Record<string, unknown>;
 
-  parent: HTMLElement;
+  parent: HTMLElement | null | undefined;
 
-  scroll(info: {scrollLeft?: number, scrollTop?: number, offsetLeft?: number, offsetTop?: number, to?: 'up' | 'down' | 'end' | 'home' | 'left' | 'right' | 'left-begin' | 'right-end'}, callback?: (this: DTable, result: boolean) => void): boolean;
+  scroll(info: {scrollLeft?: number; scrollTop?: number; offsetLeft?: number; offsetTop?: number; to?: 'up' | 'down' | 'bottom' | 'top' | 'left' | 'right' | 'begin' | 'end'}, callback?: (this: DTable, result: boolean) => void): boolean;
 
   getColInfo(colNameOrIndex?: ColInfoLike): ColInfo | undefined;
 
@@ -2247,11 +2356,11 @@ interface DTable {
 
   getPointerInfo(event: Event): DTablePointerInfo | undefined;
 
-  update(options: {dirtyType?: 'options' | 'layout', state?: Partial<DTableState>} | (() => void) = {}, callback?: () => void);
+  update(options?: {dirtyType?: 'options' | 'layout'; state?: Partial<DTableState> | ((prevState: Readonly<DTableState>) => void)} | (() => void), callback?: () => void): void;
 
   updateLayout(): void;
 
-  render(): void;
+  render(): preact.JSX.Element;
 }
 ```
 
