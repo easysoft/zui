@@ -9,18 +9,15 @@
 == 示例
 
 <Example>
-  <ZUI use="list" :options="{items: [{id: 'guide', text: '使用指南', icon: 'icon-book', subtitle: '了解基础用法'}, {id: 'settings', text: '设置', icon: 'icon-cog', subtitle: '调整显示选项'}, {id: 'archive', text: '归档', disabled: true}]}" />
+  <ZUI id="documentList" use="list" :options="{items: [{id: 'guide', text: '使用指南', icon: 'icon-book', subtitle: '了解基础用法'}, {id: 'settings', text: '设置', icon: 'icon-cog', subtitle: '调整显示选项'}, {id: 'archive', text: '归档', disabled: true}]}" />
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
 <ul id="documentList"></ul>
-```
 
-== JS
-
-```js
+<script>
 const list = new zui.List('#documentList', {
     items: [
         {id: 'guide', text: '使用指南', icon: 'icon-book', subtitle: '了解基础用法'},
@@ -28,6 +25,7 @@ const list = new zui.List('#documentList', {
         {id: 'archive', text: '归档', disabled: true},
     ],
 });
+</script>
 ```
 
 :::
@@ -38,23 +36,22 @@ const list = new zui.List('#documentList', {
 
 设置 `maxVisibleItems` 可以减少首次显示时创建的条目组件和 DOM。超过上限时，底部显示“剩余 N 项没有显示，点击显示更多”；每次点击按 `showMoreStep` 指定的数量追加，默认与 `maxVisibleItems` 一致，最后一批不足时显示剩余全部条目。
 
+本例通过键盘追加后，焦点移到新增的第一项；还有剩余条目时，按 Tab 可回到提示按钮。
+
 ::: tabs
 
 == 示例
 
 <Example>
-  <ZUI use="list" :options="{maxVisibleItems: 3, showMoreText: '还有 {count} 项，点击继续显示', items: [{id: 'doc-1', text: '使用指南'}, {id: 'doc-2', text: '安装说明'}, {id: 'doc-3', text: '组件目录'}, {id: 'doc-4', text: '主题配置'}, {id: 'doc-5', text: '更新记录'}, {id: 'doc-6', text: '常见问题'}, {id: 'doc-7', text: '贡献指南'}]}" />
+  <ZUI id="largeDocumentList" use="list" :options="{maxVisibleItems: 3, showMoreText: '还有 {count} 项，点击继续显示', items: [{id: 'doc-1', text: '使用指南'}, {id: 'doc-2', text: '安装说明'}, {id: 'doc-3', text: '组件目录'}, {id: 'doc-4', text: '主题配置'}, {id: 'doc-5', text: '更新记录'}, {id: 'doc-6', text: '常见问题'}, {id: 'doc-7', text: '贡献指南'}]}" />
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
 <ul id="largeDocumentList"></ul>
-```
 
-== JS
-
-```js
+<script>
 const largeList = new zui.List('#largeDocumentList', {
     maxVisibleItems: 3,
     showMoreText: '还有 {count} 项，点击继续显示',
@@ -68,6 +65,7 @@ const largeList = new zui.List('#largeDocumentList', {
         {id: 'doc-7', text: '贡献指南'},
     ],
 });
+</script>
 ```
 
 :::
@@ -103,27 +101,25 @@ largeList.render({
 
 <Example>
   <div class="h-64 overflow-auto" tabindex="0" role="region" aria-label="自动分批显示的客户工单">
-    <ZUI use="list" :options="{items: autoMoreItems, maxVisibleItems: 20, showMoreStep: 10, autoShowMore: true}" />
+    <ZUI id="autoDocumentList" use="list" :options="{items: autoMoreItems, maxVisibleItems: 20, showMoreStep: 10, autoShowMore: true}" />
   </div>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
 <div class="h-64 overflow-auto" tabindex="0" role="region" aria-label="自动分批显示的客户工单">
     <ul id="autoDocumentList"></ul>
 </div>
-```
 
-== JS
-
-```js
+<script>
 const autoList = new zui.List('#autoDocumentList', {
     items: Array.from({length: 1000}, (_, index) => ({id: `auto-${index}`, text: `工单 #${10001 + index} · ${['登录问题', '附件预览', '导出报表', '消息通知'][index % 4]}`})),
     maxVisibleItems: 20,
     showMoreStep: 10,
     autoShowMore: true,
 });
+</script>
 ```
 
 :::
@@ -152,26 +148,34 @@ const autoList = new zui.List('#autoDocumentList', {
 
 ## 勾选条目
 
+点击复选框或聚焦后按空格键切换勾选状态，下方显示当前勾选项的键。
+
 ::: tabs
 
 == 示例
 
 <Example>
-  <ZUI use="list" :options="{checkbox: true, checkOnClick: true, items: [{id: 'docs', text: '检查文档'}, {id: 'build', text: '检查构建'}]}" />
+  <ZUI id="checkableDocuments" use="list" :options="checkableOptions" :beforeCreate="resetCheckedStatus" />
+  <p id="checkedDocumentsStatus" class="text-sm mt-2" role="status">{{ checkedStatus }}</p>
 </Example>
 
-== JS
+== 完整代码
 
-```js
-list.render({
+```html
+<ul id="checkableDocuments"></ul>
+<p id="checkedDocumentsStatus" class="text-sm mt-2" role="status">已勾选：无</p>
+
+<script>
+const checkableList = new zui.List('#checkableDocuments', {
     checkbox: true,
     checkOnClick: true,
     items: [{id: 'docs', text: '检查文档'}, {id: 'build', text: '检查构建'}],
-    onCheck(change) {
+    onCheck() {
         const checkedKeys = this.getChecks();
-        zui.Messager.show(`已勾选 ${checkedKeys.length} 项`);
+        document.getElementById('checkedDocumentsStatus').textContent = `已勾选：${checkedKeys.join('、') || '无'}`;
     },
 });
+</script>
 ```
 
 :::
@@ -187,18 +191,15 @@ list.render({
 == 示例
 
 <Example>
-  <ZUI use="nestedList" :options="{items: [{id: 'docs', text: '文档', items: [{id: 'intro', text: '介绍'}, {id: 'api', text: 'API'}]}, {id: 'changes', text: '更新记录'}]}" />
+  <ZUI id="nestedDocuments" use="nestedList" :options="{defaultNestedShow: false, accordion: false, items: [{id: 'docs', text: '文档', items: [{id: 'intro', text: '介绍'}, {id: 'api', text: 'API'}]}, {id: 'changes', text: '更新记录'}]}" />
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
 <ul id="nestedDocuments"></ul>
-```
 
-== JS
-
-```js
+<script>
 const nested = new zui.NestedList('#nestedDocuments', {
     items: [
         {id: 'docs', text: '文档', items: [{id: 'intro', text: '介绍'}, {id: 'api', text: 'API'}]},
@@ -207,6 +208,7 @@ const nested = new zui.NestedList('#nestedDocuments', {
     defaultNestedShow: false,
     accordion: false,
 });
+</script>
 ```
 
 :::
@@ -290,5 +292,20 @@ import type {ListProps, ListItem, NestedListProps} from '@zui/list';
 Preact 入口使用时还需加载包含列表样式的 ZUI CSS。列表不会自动成为键盘菜单；导航项应使用链接，操作项应提供可聚焦的按钮，勾选场景可使用复选框的原生键盘操作。
 
 <script setup>
+import {ref} from 'vue';
+
+const checkedStatus = ref('已勾选：无');
+function resetCheckedStatus() {
+    checkedStatus.value = '已勾选：无';
+}
+const checkableOptions = {
+    checkbox: true,
+    checkOnClick: true,
+    items: [{id: 'docs', text: '检查文档'}, {id: 'build', text: '检查构建'}],
+    onCheck() {
+        const checkedKeys = this.getChecks();
+        checkedStatus.value = `已勾选：${checkedKeys.join('、') || '无'}`;
+    },
+};
 const autoMoreItems = Array.from({length: 1000}, (_, index) => ({id: `auto-${index}`, text: `工单 #${10001 + index} · ${['登录问题', '附件预览', '导出报表', '消息通知'][index % 4]}`}));
 </script>
