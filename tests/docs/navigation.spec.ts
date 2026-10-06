@@ -4,12 +4,12 @@ test('ZUI-DOC-009: component navigation starts with task groups and exposes the 
     await page.setViewportSize({width: 1280, height: 720});
     await page.goto('lib/components/button/');
     const sidebar = page.locator('.VPSidebar');
-    const groups = sidebar.locator('.VPSidebarItem.level-0');
+    const groups = sidebar.locator('.VPSidebarItem.level-0.collapsible');
     await expect(groups.locator(':scope > .item > .text')).toHaveText([
         '基础控件', '表单与输入', '导航与菜单', '数据展示', '布局与交互', '反馈与浮层',
         '使用指南', '进阶扩展', 'JS 工具',
     ]);
-    await expect(sidebar.locator('.VPSidebarItem.level-0:not(.collapsed)')).toHaveCount(1);
+    await expect(groups.and(page.locator(':not(.collapsed)'))).toHaveCount(1);
     const controls = groups.filter({has: page.getByRole('heading', {name: '基础控件', exact: true})});
     await expect(controls).not.toHaveClass(/collapsed/);
     await expect(controls.getByRole('link', {name: '按钮', exact: true})).toBeInViewport({ratio: 1});
@@ -32,7 +32,7 @@ test('ZUI-DOC-009: client navigation opens the new current group and preserves m
     await page.setViewportSize({width: 1280, height: 720});
     await page.goto('lib/helpers/helpers/string-helper.html');
     const sidebar = page.locator('.VPSidebar');
-    const groups = sidebar.locator('.VPSidebarItem.level-0');
+    const groups = sidebar.locator('.VPSidebarItem.level-0.collapsible');
     const controls = groups.filter({has: page.getByRole('heading', {name: '基础控件', exact: true})});
     const forms = groups.filter({has: page.getByRole('heading', {name: '表单与输入', exact: true})});
     const helpers = groups.filter({has: page.getByRole('heading', {name: 'JS 工具', exact: true})});
@@ -43,6 +43,8 @@ test('ZUI-DOC-009: client navigation opens the new current group and preserves m
     await expect(forms).not.toHaveClass(/collapsed/);
 
     await page.locator('.VPNavBar').getByRole('link', {name: '组件', exact: true}).click();
+    await expect(page.locator('h1')).toHaveText('组件总览');
+    await page.getByRole('main').getByRole('link', {name: '按钮', exact: true}).click();
     await expect(page.locator('h1')).toHaveText('按钮');
     await expect(controls).not.toHaveClass(/collapsed/);
     await expect(forms).not.toHaveClass(/collapsed/);
@@ -87,6 +89,83 @@ test('ZUI-DOC-009: mobile menu reveals the current helper without taking over ma
     await page.keyboard.press('Escape');
     await expect(menu).toHaveAttribute('aria-expanded', 'false');
     await expect(menu).toBeFocused();
+});
+
+test('ZUI-DOC-009: component overview provides grouped document links with purpose descriptions', async ({page}) => {
+    await page.goto('lib/components/button/');
+    const overviewLink = page.locator('.VPSidebar').getByRole('link', {name: '组件总览', exact: true});
+    await expect(overviewLink).toHaveCount(1);
+    await expect(overviewLink).toHaveAttribute('href', /\/lib\/components\/(?:index\.html)?$/);
+    await overviewLink.click();
+    await expect(page.locator('h1')).toHaveText('组件总览');
+    await expect(page).toHaveURL(/\/lib\/components\/(?:index\.html)?$/);
+
+    const groups = page.locator('main .component-overview-group');
+    await expect(groups).toHaveCount(6);
+    await expect(groups.locator('h2')).toHaveText([
+        '基础控件', '表单与输入', '导航与菜单', '数据展示', '布局与交互', '反馈与浮层',
+    ]);
+    const descriptions = groups.locator('.component-overview-description');
+    await expect(descriptions).toHaveCount(69);
+    await expect(groups.locator(':scope > ul > li > a[href]')).toHaveCount(69);
+    const entries = await descriptions.evaluateAll(elements => elements.map((element) => {
+        const links = element.parentElement!.querySelectorAll(':scope > a[href]');
+        const link = links[0];
+        return {
+            description: element.textContent?.trim(),
+            linkCount: links.length,
+            name: link?.textContent?.trim(),
+            url: link ? new URL(link.getAttribute('href')!, location.href).href : '',
+        };
+    }));
+    expect(new Set(entries.map(entry => entry.url)).size).toBe(69);
+    for (const entry of entries) {
+        expect(entry.linkCount, entry.description).toBe(1);
+        expect(entry.name, entry.url).toBeTruthy();
+        expect(entry.description, entry.url).toBeTruthy();
+        expect(entry.description, entry.url).not.toBe(entry.name);
+        const url = new URL(entry.url);
+        expect(url.origin).toBe(new URL(page.url()).origin);
+        expect(url.pathname).toMatch(/\/lib\/.*(?:\/|\.html)$/);
+    }
+    await expect(groups.locator('.component-overview-preview')).toHaveCount(6);
+    for (const preview of await groups.locator('.component-overview-preview').all()) {
+        await expect(preview).toHaveAttribute('aria-hidden', 'true');
+    }
+
+    const searchIndex = page.waitForResponse(response => response.url().includes('/@localSearchIndex'));
+    await page.getByRole('button', {name: '搜索文档'}).click();
+    await (await searchIndex).finished();
+    await page.locator('#localsearch-input').fill('Schema 组件总览');
+    const result = page.locator('.VPLocalSearchBox .result[href*="/lib/components/#"]')
+        .filter({hasText: '组件总览'}).filter({hasText: '表单与输入'});
+    await expect(result).toHaveCount(1);
+    await expect(result).toBeVisible();
+    await result.click();
+    await expect(page.locator('.VPLocalSearchBox')).toBeHidden();
+    await expect(page.locator('h1')).toHaveText('组件总览');
+    await expect.poll(() => decodeURIComponent(new URL(page.url()).hash)).toBe('#表单与输入');
+});
+
+test('ZUI-DOC-009: mobile component overview keeps links readable and supports keyboard navigation', async ({page}) => {
+    await page.setViewportSize({width: 390, height: 844});
+    await page.goto('lib/components/');
+    await expect(page.locator('h1')).toHaveText('组件总览');
+    const groups = page.locator('main .component-overview-group');
+    await expect(groups).toHaveCount(6);
+    for (const group of await groups.all()) {
+        const link = group.locator(':scope > ul > li > a[href]').first();
+        await expect(link).toHaveAccessibleName(/\S/);
+        await link.scrollIntoViewIfNeeded();
+        await expect(link).toBeInViewport({ratio: 1});
+        expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+    }
+
+    const dtable = page.getByRole('main').getByRole('link', {name: '数据表格', exact: true});
+    await dtable.focus();
+    await dtable.press('Enter');
+    await expect(page.locator('h1')).toHaveText('数据表格');
+    await expect(page).toHaveURL(/\/lib\/components\/dtable\/(?:index\.html)?$/);
 });
 
 for (const colorScheme of ['light', 'dark'] as const) {

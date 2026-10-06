@@ -5,6 +5,7 @@ import pkg from '../../../package.json';
 import {fileURLToPath} from 'node:url';
 import {resolveDocSourcePath} from '../../../scripts/docs/source-path';
 import zuiLibs from '../public/zui-libs';
+import {renderComponentOverview} from './component-overview';
 
 const base = process.env.BASE_PATH ?? '/';
 const root = fileURLToPath(new URL('../../../', import.meta.url));
@@ -39,6 +40,12 @@ export default defineConfig({
         defaultHighlightLang: 'html',
         config(md) {
             md.use(tabsMarkdownPlugin);
+            // Expand before parsing so the catalog also reaches the local search index.
+            md.core.ruler.before('normalize', 'zui-component-overview', (state) => {
+                if (state.src.includes('<!-- zui-component-overview -->')) {
+                    state.src = state.src.replace('<!-- zui-component-overview -->', renderComponentOverview(themeConfig.sidebar['/lib/']));
+                }
+            });
         }
     },
     vite: {

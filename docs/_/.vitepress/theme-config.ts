@@ -8,7 +8,7 @@ import zuiLib from '../public/zui-libs';
 
 const argv = minimist(process.argv.slice(4).filter((x, i) => i || x !== '--'));
 
-export const themeConfig: DefaultTheme.Config = {
+export const themeConfig = {
     logo: '/favicon.svg',
     outline: [2, 3],
     search: {
@@ -60,7 +60,7 @@ export const themeConfig: DefaultTheme.Config = {
         next: '下一篇'
     },
     sidebar: createSidebar()
-};
+} satisfies DefaultTheme.Config;
 
 export const extLibs = [...zuiLib.reduce((set, lib) => {
     if (lib.zui.extsName) {
@@ -73,13 +73,13 @@ function createNav() {
     return [
         {text: '文档',        link: '/guide/start/',     activeMatch: '/guide/'},
         {text: 'CSS 工具类',  link: '/utilities/skin/utilities/solid', activeMatch: '/utilities/'},
-        {text: '组件',        link: '/lib/components/button/',       activeMatch: '/lib/'},
+        {text: '组件',        link: '/lib/components/',       activeMatch: '/lib/'},
         {text: 'ZUI1',        link: 'https://openzui.com/1/'},
         {text: 'ZIN',        link: 'https://openzui.com/zin/'},
     ];
 }
 
-function initSidebars(): Record<string, {text: string, section?: string, items?: {text?: string, link: string, lib?: typeof zuiLib[number]}[], collapsed?: boolean, hidden?: boolean}[]> {
+function initSidebars(): Record<string, {text: string, link?: string, section?: string, items?: {text?: string, link: string, lib?: typeof zuiLib[number]}[], collapsed?: boolean, hidden?: boolean}[]> {
     return {
         '/guide/': [
             {text: '开始', section: 'start'},
@@ -217,6 +217,9 @@ function createSidebar() {
             continue;
         }
         for (const item of section.items || []) {
+            if (item.link === '/lib/components/index.md') {
+                continue;
+            }
             let target = libSections.get(item.lib?.zui.name || '') || fallbackSections[section.section!] || section.section;
             if (item.lib?.zui.name === 'core' && section.section === 'basic') {
                 const file = Path.basename(item.link);
@@ -284,5 +287,6 @@ function createSidebar() {
             return true;
         });
     });
+    sidebars['/lib/'].unshift({text: '组件总览', link: '/lib/components/'});
     return sidebars;
 }

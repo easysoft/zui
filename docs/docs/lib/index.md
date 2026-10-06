@@ -13,14 +13,9 @@
 
 ## 分类目录
 
-- **基础**：[基础排版](/lib/basic/typography/)、[CSS 组件](/lib/basic/core/css-component.html)、[组件基类](/lib/basic/core/component.html)、[便捷组件声明](/lib/basic/core/zui-create.html)。
-- **图标**：[字体图标目录](/lib/icons/icons/)、[CSS 图标](/lib/icons/css-icons/)。
-- **布局与内容**：[列表](/lib/components/list/)、[菜单](/lib/components/menu/)、[标签页](/lib/components/tabs/)、[侧边栏](/lib/components/sidebar/)、[仪表盘](/lib/components/dashboard/)。
-- **表单与文件**：[复选框和单选框](/lib/forms/checkbox/)、[日期选择器](/lib/forms/datetime-picker/date.html)、[表单助手](/lib/forms/form-helper/)、[文件选择](/lib/components/file-selector/)、[上传文件](/lib/components/upload/)。
-- **数据交互**：[数据表格插件](/lib/components/dtable/plugins.html)、[树形菜单](/lib/components/tree/)、[看板](/lib/components/kanban/)、[虚拟渲染](/lib/components/virtualize/)。
-- **JS 工具**：[通用辅助方法](/lib/helpers/helpers/)、[本地存储](/lib/helpers/store/)、[Event Bus](/lib/helpers/event-bus/)、[拖拽排序](/lib/helpers/sortable/)。
+前往[组件总览](/lib/components/)，按基础控件、表单与输入、导航与菜单、数据展示、布局与交互、反馈与浮层浏览组件及用途。
 
-侧栏列出了各分类下的全部文档，也可使用页面顶部的“搜索文档”按名称查找。
+侧栏还提供使用指南、进阶扩展和 JS 工具，也可使用页面顶部的“搜索文档”按名称查找。
 
 ## 组件的调用方式
 

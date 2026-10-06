@@ -137,3 +137,91 @@ button.DocSearch-Button {
 .plugin-tabs--tab {
   @apply -h-10 -leading-10;
 }
+
+.component-overview-group > ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 32px;
+  padding: 0;
+  list-style: none;
+}
+.component-overview-group > ul > li {
+  margin: 0;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--vp-c-divider);
+  overflow-wrap: anywhere;
+}
+.component-overview-group > ul > li > a {
+  font-weight: 600;
+  text-decoration: none;
+}
+.component-overview-group > ul > li > a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.component-overview-group > ul > li > a:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+.component-overview-description {
+  display: block;
+  margin-top: 4px;
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.component-overview-preview {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  min-height: 88px;
+  padding: 20px;
+  background: var(--vp-c-bg-soft);
+  border-radius: 8px;
+  pointer-events: none;
+  user-select: none;
+  font-size: 14px;
+}
+.component-overview-preview > .table,
+.component-overview-preview > .nav {
+  width: 100%;
+  margin: 0;
+}
+.component-overview-preview > .table {
+  background: var(--vp-c-bg);
+}
+.component-overview-field,
+.component-overview-progress {
+  flex: 1 1 160px;
+  min-width: 0;
+}
+.component-overview-field > span,
+.component-overview-progress > span {
+  display: block;
+  margin-bottom: 8px;
+}
+.component-overview-layout {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+.component-overview-layout > .panel {
+  flex: 1;
+  min-width: 0;
+  background: var(--vp-c-bg);
+}
+.component-overview-rail {
+  display: grid;
+  place-items: center;
+  min-width: 64px;
+  padding: 16px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 4px;
+}
+@media (max-width: 639px) {
+  .component-overview-group > ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
