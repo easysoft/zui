@@ -6,9 +6,25 @@
 
 通过 `new zui.Calendar(element, options)` 在指定容器内渲染一个日历，最少只需要传入 `events` 数据。示例以今天为起点安排日程，会议固定在 09:30 开始，全天事件用于表示发布日或出差。
 
+::: tabs
+
+== 示例
+
 <Example>
-  <div id="calendarBasic"></div>
+  <ZUI
+    id="calendarBasic" use="calendar"
+    :options="{
+        headerTitle: '我的日程',
+        events: [
+            {id: '1', title: '客户门户迭代周会',  start: new Date().setHours(9, 30, 0, 0)},
+            {id: '2', title: '客户门户版本发布日',  start: new Date().setHours(9, 30, 0, 0) + 86400000, allDay: true},
+            {id: '3', title: '客户工单流程访谈',  start: new Date().setHours(9, 30, 0, 0) + 2 * 86400000, color: 'var(--color-warning-500)'},
+        ],
+    }"
+  />
 </Example>
+
+== HTML
 
 ```html
 <div id="calendarBasic"></div>
@@ -24,6 +40,8 @@ new zui.Calendar('#calendarBasic', {
 });
 </script>
 ```
+
+:::
 
 ## 引入
 
@@ -50,9 +68,27 @@ const calendar = new zui.Calendar(element, options);
 
 通过 `headerTitle` 设置标题，通过 `headerActions` 配置头部右侧的操作按钮（基于 [工具栏](/lib/components/toolbar/) ）。
 
+::: tabs
+
+== 示例
+
 <Example>
-  <div id="calendarHeader"></div>
+  <ZUI
+    id="calendarHeader" use="calendar"
+    :options="{
+        headerTitle: '团队日历',
+        headerActions: [
+            {text: '导出'},
+            {text: '新建日程', btnType: 'primary'},
+        ],
+        events: [
+            {id: '1', title: '移动端工单需求评审', start: new Date().setHours(9, 30, 0, 0)},
+        ],
+    }"
+  />
 </Example>
+
+== HTML
 
 ```html
 <div id="calendarHeader"></div>
@@ -71,13 +107,36 @@ new zui.Calendar('#calendarHeader', {
 </script>
 ```
 
+:::
+
 ## 日历集分组
 
 通过 `categories` 定义多个日历集，每个事件通过 `category` 字段关联到对应日历集；未指定 `category` 的事件会归入 `defaultCategory`（默认 `DEFAULT`）。日历集的 `color` 会作为关联事件的默认颜色。
 
+::: tabs
+
+== 示例
+
 <Example>
-  <div id="calendarCategories"></div>
+  <ZUI
+    id="calendarCategories" use="calendar"
+    :options="{
+        headerTitle: '多日历集',
+        categories: [
+            {id: 'work',     name: '工作', color: 'var(--color-primary-500)'},
+            {id: 'personal', name: '个人', color: 'var(--color-success-500)'},
+            {id: 'travel',   name: '出行', color: 'var(--color-warning-500)'},
+        ],
+        events: [
+            {id: '1', title: '版本发布',   category: 'work',     start: new Date().setHours(9, 30, 0, 0)},
+            {id: '2', title: '下班后游泳',       category: 'personal', start: new Date().setHours(19, 0, 0, 0) + 86400000},
+            {id: '3', title: '北京客户现场调研',   category: 'travel',   start: new Date().setHours(9, 30, 0, 0) + 2 * 86400000, allDay: true},
+        ],
+    }"
+  />
 </Example>
+
+== HTML
 
 ```html
 <div id="calendarCategories"></div>
@@ -99,98 +158,76 @@ new zui.Calendar('#calendarCategories', {
 </script>
 ```
 
+:::
+
 ## 自定义事件样式
 
 通过事件自身的 `color` 与 `background` 可覆盖日历集的默认颜色，通过 `icon` 可在事件前添加图标。
 
-```js
-new zui.Calendar('#calendar', {
+```html
+<div id="calendarStyle"></div>
+
+<script>
+new zui.Calendar('#calendarStyle', {
+    headerTitle: '自定义事件样式',
     events: [
-        {id: '1', title: '提交发布验收报告',  start: new Date().setHours(9, 30, 0, 0), icon: 'icon-bell', color: 'var(--color-danger-500)'},
-        {id: '2', title: '客户门户验收通过',  start: new Date().setHours(9, 30, 0, 0), background: 'var(--color-success-500)', color: '#fff'},
+        {id: 'report', title: '提交发布验收报告', start: new Date().setHours(9, 30, 0, 0), icon: 'icon-bell', color: 'var(--color-danger-500)'},
+        {id: 'accepted', title: '客户门户验收通过', start: new Date().setHours(14, 0, 0, 0), background: 'var(--color-success-500)', color: '#fff'},
     ],
 });
+</script>
 ```
 
 ## 自定义事件渲染
 
-通过 `eventRender` 可以拦截每个事件项的渲染，返回新的 [列表项](/lib/components/list/) 属性进行覆盖；返回 `false` 可隐藏该事件。
+通过 `eventRender` 拦截每个事件项的渲染，返回新的[列表项](/lib/components/list/)属性进行覆盖；返回 `false` 可隐藏该事件。下面用 `text` 为事件文字添加日历集名称，并隐藏已取消的评审。
 
-```js
-new zui.Calendar('#calendar', {
-    events: [...],
-    eventRender: (event, category, item) => {
+```html
+<div id="calendarRender"></div>
+
+<script>
+new zui.Calendar('#calendarRender', {
+    categories: [{id: 'work', name: '工作'}],
+    events: [
+        {id: 'meeting', title: '项目周会', category: 'work', start: new Date().setHours(9, 30, 0, 0)},
+        {id: 'cancelled', title: '已取消的评审', category: 'work', start: new Date().setHours(14, 0, 0, 0), data: {cancelled: true}},
+    ],
+    eventRender(event, category) {
         if (event.data?.cancelled) return false;
-        return {
-            ...item,
-            title: `[${category.name}] ${event.title}`,
-        };
+        return {text: `[${category.name}] ${event.title}`};
     },
 });
+</script>
 ```
 
 ## 点击交互
 
-`onClickDay` 与 `onClickEvent` 分别响应日期格与事件项的点击。回调函数内 `this` 指向 Calendar 实例，可以调用其方法获取上下文。
+`onClickDay` 与 `onClickEvent` 分别响应日期格与事件项的点击。回调函数内 `this` 指向 Calendar 实例，可以调用其方法获取上下文。点击日期、事件或切换月份后，下方文字会显示结果。
 
-```js
-new zui.Calendar('#calendar', {
-    events: [...],
-    onClickDay(date, mouseEvent) {
+```html
+<div id="calendarInteractions"></div>
+<p id="calendarInteractionStatus" role="status">点击日期或事件查看结果。</p>
+
+<script>
+const calendarStatus = document.getElementById('calendarInteractionStatus');
+new zui.Calendar('#calendarInteractions', {
+    categories: [{id: 'work', name: '工作'}],
+    events: [
+        {id: 'meeting', title: '项目周会', category: 'work', start: new Date().setHours(9, 30, 0, 0)},
+    ],
+    onClickDay(date) {
         const dayEvents = this.getDayEvents(date);
-        console.log('点击了日期', date, '当日事件：', dayEvents);
+        calendarStatus.textContent = `${date.toLocaleDateString()}：共 ${dayEvents.length} 个事件。`;
     },
-    onClickEvent(event, category, mouseEvent) {
-        console.log('点击了事件', event, '所属日历集：', category);
+    onClickEvent(event, category) {
+        calendarStatus.textContent = `已选择：${event.title}（${category.name}）。`;
     },
-    onSwitchDate(date, mode) {
-        console.log('切换到', date, mode);
+    onSwitchDate(date) {
+        calendarStatus.textContent = `当前月份：${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}。`;
     },
-});
-```
-
-<script setup>
-import {onMounted} from 'vue';
-
-const today = new Date().setHours(9, 30, 0, 0);
-const day = 86400000;
-
-onMounted(() => {
-    onZUIReady(() => {
-        new zui.Calendar('#calendarBasic', {
-            headerTitle: '我的日程',
-            events: [
-                {id: '1', title: '客户门户迭代周会', start: today},
-                {id: '2', title: '客户门户版本发布日', start: today + day, allDay: true},
-                {id: '3', title: '客户工单流程访谈', start: today + 2 * day, color: 'var(--color-warning-500)'},
-            ],
-        });
-        new zui.Calendar('#calendarHeader', {
-            headerTitle: '团队日历',
-            headerActions: [
-                {text: '导出'},
-                {text: '新建日程', btnType: 'primary'},
-            ],
-            events: [
-                {id: '1', title: '移动端工单需求评审', start: today},
-            ],
-        });
-        new zui.Calendar('#calendarCategories', {
-            headerTitle: '多日历集',
-            categories: [
-                {id: 'work',     name: '工作', color: 'var(--color-primary-500)'},
-                {id: 'personal', name: '个人', color: 'var(--color-success-500)'},
-                {id: 'travel',   name: '出行', color: 'var(--color-warning-500)'},
-            ],
-            events: [
-                {id: '1', title: '版本发布', category: 'work',     start: today},
-                {id: '2', title: '下班后游泳',     category: 'personal', start: new Date().setHours(19, 0, 0, 0) + day},
-                {id: '3', title: '北京客户现场调研', category: 'travel',   start: today + 2 * day, allDay: true},
-            ],
-        });
-    });
 });
 </script>
+```
 
 ## 选项
 
