@@ -37,6 +37,8 @@ const table = new zui.DTable('#myDtable', {
         {id: '1', name: '需求确认', estimate: 8},
         {id: '2', name: '功能开发', estimate: 24},
         {id: '3', name: '验收测试', estimate: 12},
+        {id: '4', name: '接口联调', estimate: 16},
+        {id: '5', name: '缺陷修复', estimate: 6},
     ],
     footer: ['checkbox', 'checkedInfo'],
     onCheckChange() {
