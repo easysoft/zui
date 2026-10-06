@@ -4,64 +4,124 @@
 
 ## 基本使用
 
-下面是待办需求的优先级列表，按住条目前面的拖动区域调整处理顺序。每个条目使用稳定、唯一的 `data-id`，用于读取和保存排序结果。
+下面是待办需求的优先级列表，可按住条目前面的拖动区域调整处理顺序，也可使用“上移”“下移”按钮。每个条目使用稳定、唯一的 `data-id`，下方实时显示这些 ID 的排列顺序。
+
+两组完整代码假设 ZUI 资源部署在 `/assets/zui/`，并保留其中的 `sortable/sortable.min.js`；路径不同时，请调整 `setLibRoot()` 的参数。
 
 ::: tabs
 
 == 示例
 
 <Example>
-  <ul id="sortableDemo" class="col gap-2">
-    <li class="flex items-center gap-2 p-2 border rounded" data-id="docs"><span class="drag-handle cursor-move" title="拖动排序">⠿</span>补充使用指南</li>
-    <li class="flex items-center gap-2 p-2 border rounded" data-id="export"><span class="drag-handle cursor-move" title="拖动排序">⠿</span>修复报表导出</li>
-    <li class="flex items-center gap-2 p-2 border rounded" data-id="preview"><span class="drag-handle cursor-move" title="拖动排序">⠿</span>支持附件预览</li>
-  </ul>
+  <ZUI use="sortable" id="priorityTasks" class="col gap-2" role="list" aria-label="需求优先级" :beforeCreate="prepareSortable" :options="priorityOptions">
+    <div class="flex flex-wrap items-center gap-2 p-2 border rounded" role="listitem" data-id="docs">
+      <span class="drag-handle cursor-move" title="拖动排序" aria-hidden="true">⠿</span>
+      <span class="flex-auto">补充使用指南</span>
+      <div class="flex gap-1">
+        <button type="button" class="btn size-sm" data-move="-1" aria-label="上移补充使用指南" disabled>上移</button>
+        <button type="button" class="btn size-sm" data-move="1" aria-label="下移补充使用指南" disabled>下移</button>
+      </div>
+    </div>
+    <div class="flex flex-wrap items-center gap-2 p-2 border rounded" role="listitem" data-id="export">
+      <span class="drag-handle cursor-move" title="拖动排序" aria-hidden="true">⠿</span>
+      <span class="flex-auto">修复报表导出</span>
+      <div class="flex gap-1">
+        <button type="button" class="btn size-sm" data-move="-1" aria-label="上移修复报表导出" disabled>上移</button>
+        <button type="button" class="btn size-sm" data-move="1" aria-label="下移修复报表导出" disabled>下移</button>
+      </div>
+    </div>
+    <div class="flex flex-wrap items-center gap-2 p-2 border rounded" role="listitem" data-id="preview">
+      <span class="drag-handle cursor-move" title="拖动排序" aria-hidden="true">⠿</span>
+      <span class="flex-auto">支持附件预览</span>
+      <div class="flex gap-1">
+        <button type="button" class="btn size-sm" data-move="-1" aria-label="上移支持附件预览" disabled>上移</button>
+        <button type="button" class="btn size-sm" data-move="1" aria-label="下移支持附件预览" disabled>下移</button>
+      </div>
+    </div>
+  </ZUI>
+  <p id="priorityTasksStatus" class="mt-3 mb-0" role="status" aria-live="polite">正在加载排序功能…</p>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
-<ul id="priorityTasks" class="col gap-2">
-  <li class="flex gap-2 p-2 border rounded" data-id="docs"><span class="drag-handle cursor-move">⠿</span>补充使用指南</li>
-  <li class="flex gap-2 p-2 border rounded" data-id="export"><span class="drag-handle cursor-move">⠿</span>修复报表导出</li>
-  <li class="flex gap-2 p-2 border rounded" data-id="preview"><span class="drag-handle cursor-move">⠿</span>支持附件预览</li>
-</ul>
-```
+<div id="priorityTasks" class="col gap-2" role="list" aria-label="需求优先级">
+  <div class="flex flex-wrap items-center gap-2 p-2 border rounded" role="listitem" data-id="docs">
+    <span class="drag-handle cursor-move" title="拖动排序" aria-hidden="true">⠿</span>
+    <span class="flex-auto">补充使用指南</span>
+    <div class="flex gap-1">
+      <button type="button" class="btn size-sm" data-move="-1" aria-label="上移补充使用指南" disabled>上移</button>
+      <button type="button" class="btn size-sm" data-move="1" aria-label="下移补充使用指南" disabled>下移</button>
+    </div>
+  </div>
+  <div class="flex flex-wrap items-center gap-2 p-2 border rounded" role="listitem" data-id="export">
+    <span class="drag-handle cursor-move" title="拖动排序" aria-hidden="true">⠿</span>
+    <span class="flex-auto">修复报表导出</span>
+    <div class="flex gap-1">
+      <button type="button" class="btn size-sm" data-move="-1" aria-label="上移修复报表导出" disabled>上移</button>
+      <button type="button" class="btn size-sm" data-move="1" aria-label="下移修复报表导出" disabled>下移</button>
+    </div>
+  </div>
+  <div class="flex flex-wrap items-center gap-2 p-2 border rounded" role="listitem" data-id="preview">
+    <span class="drag-handle cursor-move" title="拖动排序" aria-hidden="true">⠿</span>
+    <span class="flex-auto">支持附件预览</span>
+    <div class="flex gap-1">
+      <button type="button" class="btn size-sm" data-move="-1" aria-label="上移支持附件预览" disabled>上移</button>
+      <button type="button" class="btn size-sm" data-move="1" aria-label="下移支持附件预览" disabled>下移</button>
+    </div>
+  </div>
+</div>
+<p id="priorityTasksStatus" class="mt-3 mb-0" role="status" aria-live="polite">正在加载排序功能…</p>
 
-== JS
+<script>
+zui.setLibRoot('/assets/zui/');
 
-```js
+function showPriorityOrder(sortable) {
+    const order = sortable.toArray();
+    document.getElementById('priorityTasksStatus').textContent = `当前顺序：${order.join(' → ')}`;
+    Array.from(sortable.element.children).forEach((item, index) => {
+        item.querySelector('[data-move="-1"]').disabled = index === 0;
+        item.querySelector('[data-move="1"]').disabled = index === order.length - 1;
+    });
+}
+
 const sortable = new zui.Sortable('#priorityTasks', {
-    draggable: 'li',
+    draggable: '[data-id]',
     handle: '.drag-handle',
     animation: 150,
-    onEnd(event) {
-        console.log(event.oldIndex, event.newIndex, sortable.toArray());
+    onSort(event) {
+        showPriorityOrder(zui.Sortable.get(event.to));
+    },
+    $onInited() {
+        if (this.destroyed) return;
+        if (!this.module) {
+            document.getElementById('priorityTasksStatus').textContent = '排序功能加载失败，请检查资源路径后刷新页面。';
+            return;
+        }
+        showPriorityOrder(this);
+        this.on('click', (event) => {
+            const button = event.target.closest('button[data-move]');
+            if (!button) return;
+            const item = button.closest('[data-id]');
+            const order = this.toArray();
+            const from = order.indexOf(item.dataset.id);
+            const to = from + Number(button.dataset.move);
+            if (to < 0 || to >= order.length) return;
+            [order[from], order[to]] = [order[to], order[from]];
+            this.sort(order, true);
+            showPriorityOrder(this);
+            (button.disabled ? item.querySelector('button:not(:disabled)') : button).focus();
+        });
     },
 });
+</script>
 ```
 
 :::
 
-拖拽会改变 DOM 顺序。`onEnd` 中可通过 `toArray()` 获取条目 ID 顺序，由应用负责保存；组件不会自动更新服务器数据。
+排序功能初始化完成后按钮才可用；到达首尾时禁用对应方向。用 Tab 聚焦按钮，再按 Enter 或空格移动条目，操作后焦点保留在同一条目的可用按钮上。
 
-<script setup>
-import {onMounted, onBeforeUnmount} from 'vue';
-import {withBase} from 'vitepress';
-let sortableDemo;
-let disposed = false;
-onMounted(() => {
-    onZUIReady(() => {
-        if (disposed) return;
-        zui.registerLib('sortablejs', {src: 'sortable/sortable.min.js', root: withBase('/zui/'), check: 'Sortable'});
-        sortableDemo = new zui.Sortable('#sortableDemo', {draggable: 'li', handle: '.drag-handle'});
-    });
-});
-onBeforeUnmount(() => {
-    disposed = true;
-    sortableDemo?.destroy();
-});
-</script>
+拖拽会改变 DOM 顺序。`onSort` 中可通过 `toArray()` 获取条目 ID 顺序，由应用负责保存；组件不会自动更新服务器数据。按钮调用 `sort()` 后也要主动更新顺序提示。
 
 ## 按需资源与初始化
 
@@ -89,7 +149,7 @@ sortable.on('inited', () => {
 
 <Props>
 animation?: number = 150; // 条目移动动画时长，毫秒。
-draggable?: string; // 可以拖动的条目选择器，示例为 li。
+draggable?: string; // 可以拖动的条目选择器，示例为 [data-id]。
 handle?: string; // 开始拖动的把手选择器；不设置时使用整个条目。
 dataIdAttr?: string = "data-id"; // toArray 和 sort 使用的条目 ID 属性。
 disabled?: boolean = false; // 禁止拖拽。
@@ -131,19 +191,42 @@ sortable.destroy();
 
 `SortableList` 接受 [列表](/lib/components/list/) 的选项，额外通过 `sortable` 配置拖拽，通过 `onSort(event, orders)` 获取当前层级的条目键顺序。
 
-```js
+拖动下面的条目即可调整顺序，`onSort` 回调将返回的条目键顺序显示在列表下方。
+
+::: tabs
+
+== 示例
+
+<Example>
+  <ZUI use="SortableList" id="taskList" :beforeCreate="prepareSortable" :options="taskListOptions" />
+  <p id="taskListStatus" class="mt-3 mb-0" role="status" aria-live="polite">当前顺序：docs → export → preview</p>
+</Example>
+
+== 完整代码
+
+```html
+<div id="taskList"></div>
+<p id="taskListStatus" class="mt-3 mb-0" role="status" aria-live="polite">当前顺序：docs → export → preview</p>
+
+<script>
+zui.setLibRoot('/assets/zui/');
 const list = new zui.SortableList('#taskList', {
+    className: 'border rounded',
+    attrs: {'aria-label': '待办需求列表'},
     items: [
         {id: 'docs', text: '补充使用指南'},
         {id: 'export', text: '修复报表导出'},
         {id: 'preview', text: '支持附件预览'},
     ],
     sortable: {animation: 150},
-    onSort(event, orders) {
-        console.log('新顺序', orders);
+    onSort(_event, orders) {
+        document.getElementById('taskListStatus').textContent = `当前顺序：${orders.join(' → ')}`;
     },
 });
+</script>
 ```
+
+:::
 
 `sortable: false` 可在创建时关闭拖拽。`canSortTo(event, from, to)` 可返回 `false` 拒绝本次移动；`from`、`to` 为列表数据项。
 
@@ -160,3 +243,64 @@ import type {SortableOptions, SortableEvent} from '@zui/sortable';
 ```
 
 列表、树及拖动状态的样式需随 ZUI 样式一起加载。拖拽排序本身不提供键盘排序；实际页面应提供“上移”“下移”等按钮，调整业务顺序后调用 `sort()` 或重新渲染，并保留操作后的焦点。
+
+<script setup>
+import {withBase} from 'vitepress';
+
+function prepareSortable() {
+    zui.registerLib('sortablejs', {src: 'sortable/sortable.min.js', root: withBase('/zui/'), check: 'Sortable'});
+}
+
+function showPriorityOrder(sortable) {
+    const order = sortable.toArray();
+    document.getElementById('priorityTasksStatus').textContent = `当前顺序：${order.join(' → ')}`;
+    Array.from(sortable.element.children).forEach((item, index) => {
+        item.querySelector('[data-move="-1"]').disabled = index === 0;
+        item.querySelector('[data-move="1"]').disabled = index === order.length - 1;
+    });
+}
+
+const priorityOptions = {
+    draggable: '[data-id]',
+    handle: '.drag-handle',
+    animation: 150,
+    onSort(event) {
+        showPriorityOrder(zui.Sortable.get(event.to));
+    },
+    $onInited() {
+        if (this.destroyed) return;
+        if (!this.module) {
+            document.getElementById('priorityTasksStatus').textContent = '排序功能加载失败，请检查资源路径后刷新页面。';
+            return;
+        }
+        showPriorityOrder(this);
+        this.on('click', (event) => {
+            const button = event.target.closest('button[data-move]');
+            if (!button) return;
+            const item = button.closest('[data-id]');
+            const order = this.toArray();
+            const from = order.indexOf(item.dataset.id);
+            const to = from + Number(button.dataset.move);
+            if (to < 0 || to >= order.length) return;
+            [order[from], order[to]] = [order[to], order[from]];
+            this.sort(order, true);
+            showPriorityOrder(this);
+            (button.disabled ? item.querySelector('button:not(:disabled)') : button).focus();
+        });
+    },
+};
+
+const taskListOptions = {
+    className: 'border rounded',
+    attrs: {'aria-label': '待办需求列表'},
+    items: [
+        {id: 'docs', text: '补充使用指南'},
+        {id: 'export', text: '修复报表导出'},
+        {id: 'preview', text: '支持附件预览'},
+    ],
+    sortable: {animation: 150},
+    onSort(_event, orders) {
+        document.getElementById('taskListStatus').textContent = `当前顺序：${orders.join(' → ')}`;
+    },
+};
+</script>
