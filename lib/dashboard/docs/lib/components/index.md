@@ -8,9 +8,26 @@
 
 下面以项目工作台展示待办、发布安排、团队分工和公告；使用本地 `content`，复制后即可查看不同尺寸区块，无需准备远程接口。
 
-<Example className="surface">
-  <div id="dashboardExample"></div>
+::: tabs
+
+== 示例
+
+<Example class="surface">
+  <ZUI
+    id="dashboardExample" use="dashboard"
+    :options="{
+        blocks: [
+            {id: 'pending', title: '我的待办', size: 'sm', content: '待处理 8 项：需求评审 2 项、开发任务 4 项、待验收 2 项。'},
+            {id: 'release', title: '本周发布', size: 'xsWide', content: '客户门户 v1.2：周五 15:00 发布，功能验收已完成，升级演练待确认。'},
+            {id: 'team', title: '团队协作', size: 'xs', content: '林悦负责需求确认，陈晨负责开发，王宁负责验收，李航负责发布。'},
+            {id: 'notice', title: '项目公告', size: 'smWide', content: '请在周四下班前补齐发布说明，并将验收记录附在对应任务中。'},
+        ],
+        blockClass: 'panel',
+    }"
+  />
 </Example>
+
+== HTML
 
 ```html
 <div id="dashboardExample"></div>
@@ -27,6 +44,8 @@ const dashboard = new zui.Dashboard('#dashboardExample', {
 });
 </script>
 ```
+
+:::
 
 纯文本、Preact 节点或普通 HTML 内容会显示在 `title` 和工具栏下方，超出区块高度时可滚动。也可以传入以 `.panel` 为根元素的完整[面板](/lib/components/panel/)；面板会铺满区块，此时通过 `.panel-heading`、`.panel-title` 和 `.panel-body` 自行组织标题和正文，省略区块的 `title`，避免重复显示标题。
 
@@ -194,21 +213,3 @@ type DashboardOptions =  {
     onLoadFail?: (error: Error, info: BlockInfo) => void;
 };
 ```
-
-<script setup>
-import {onMounted} from 'vue';
-
-onMounted(() => {
-    onZUIReady(() => {
-        const dashboard = new zui.Dashboard('#dashboardExample', {
-            blocks: [
-                {id: 'pending', title: '我的待办', size: 'sm', content: '待处理 8 项：需求评审 2 项、开发任务 4 项、待验收 2 项。'},
-                {id: 'release', title: '本周发布', size: 'xsWide', content: '客户门户 v1.2：周五 15:00 发布，功能验收已完成，升级演练待确认。'},
-                {id: 'team', title: '团队协作', size: 'xs', content: '林悦负责需求确认，陈晨负责开发，王宁负责验收，李航负责发布。'},
-                {id: 'notice', title: '项目公告', size: 'smWide', content: '请在周四下班前补齐发布说明，并将验收记录附在对应任务中。'},
-            ],
-            blockClass: 'panel',
-        });
-    });
-});
-</script>
