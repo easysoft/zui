@@ -22,9 +22,10 @@ export class Sortable extends Component<SortableOptions> {
         if (!SortableModuleClass || this.destroyed) {
             return;
         }
-        const {dragShadow, onEnd, setData, ...sortableOptions} = this.options;
+        const {dragShadow, ...sortableOptions} = this.options;
         const options: SortableJSOptions = sortableOptions;
         if (dragShadow !== undefined && dragShadow !== true) {
+            const {onEnd, setData} = options;
             options.setData = (dataTransfer, dragEl) => {
                 if (dragShadow === false && !this._emptyShadow) {
                     this._emptyShadow = dragEl.cloneNode(true) as HTMLElement;
