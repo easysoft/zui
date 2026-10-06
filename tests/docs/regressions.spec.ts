@@ -54,16 +54,54 @@ async function switchTablePage(page: Page, title: string) {
     }), {message: 'Client-side navigation must destroy every previous DTable instance'}).toBe(true);
 }
 
-test('F04: DTable pages lazily initialize their own options and release instances on client-side navigation', async ({page}) => {
+test('F04: DTable examples release instances on tab and page changes while plugin examples initialize lazily', async ({page}) => {
     await page.goto('lib/components/dtable/');
     for (let visit = 0; visit < 2; visit++) {
         const basic = page.locator('#dtable-basic');
         await basic.scrollIntoViewIfNeeded();
         await expect(basic).toContainText('客户服务门户');
-        await expect(page.locator('#dtable-render-cell .dtable-cell')).toHaveCount(0);
-        await page.locator('#dtable-render-cell').scrollIntoViewIfNeeded();
-        await expect(page.locator('#dtable-render-cell .dtable-cell').first()).toBeVisible();
-        await expect(page.locator('#dtable-render-cell .icon-pencil').first()).toBeVisible();
+        const checkable = page.locator('#dtable-checkable');
+        await checkable.locator('.dtable-body [data-row="1"][data-col="project"]').click({position: {x: 150, y: 15}});
+        await expect(page.locator('#dtable-checkable-status')).toHaveText('已选行：1');
+        const checkAll = checkable.locator('.dtable-header').getByRole('checkbox');
+        await checkAll.press('Space');
+        await expect(page.locator('#dtable-checkable-status')).toHaveText('已选行：1、2、3、4、5');
+        await checkAll.press('Space');
+        await expect(page.locator('#dtable-checkable-status')).toHaveText('已选行：无');
+
+        const nested = page.locator('#dtable-nested');
+        const parentToggle = nested.locator('[data-row="1"] .dtable-nested-toggle');
+        await parentToggle.click();
+        await expect(page.locator('#dtable-nested-status')).toHaveText('已折叠父行：1');
+        await expect(nested.locator('.dtable-body [data-row="2"]')).toHaveCount(0);
+        await parentToggle.click();
+        await expect(page.locator('#dtable-nested-status')).toHaveText('所有父行已展开');
+
+        const renderCell = page.locator('#dtable-render-cell');
+        await expect(renderCell.locator('.icon-pencil').first()).toBeVisible();
+        const close = renderCell.getByRole('button', {name: '关闭', exact: true});
+        await expect(close).toHaveAttribute('title', '关闭');
+        await close.press('Enter');
+        await expect(page.locator('#dtable-render-cell-status')).toHaveText('第 1 行：关闭');
+
+        for (const [id, initialStatus] of [
+            ['dtable-checkable', '已选行：无'],
+            ['dtable-nested', '所有父行已展开'],
+            ['dtable-render-cell', '请点击操作按钮'],
+        ]) {
+            const table = page.locator(`#${id}`);
+            const tabIndex = await table.evaluate(element => [...document.querySelectorAll('.plugin-tabs')].indexOf(element.closest('.plugin-tabs')!));
+            const tabs = page.locator('.plugin-tabs').nth(tabIndex);
+            const previous = await page.evaluateHandle(id => (window as unknown as RegressionWindow).zui.DTable.get(`#${id}`), id);
+            await tabs.getByRole('tab', {name: '完整代码', exact: true}).click();
+            await expect.poll(() => previous.evaluate(instance => instance.destroyed && !instance.element.isConnected)).toBe(true);
+            await previous.dispose();
+            await expect(table).toHaveCount(0);
+            await tabs.getByRole('tab', {name: '示例', exact: true}).click();
+            await expect(table.locator('.dtable-cell').first()).toBeVisible();
+            await expect(page.locator(`#${id}-status`)).toHaveText(initialStatus);
+            await expect.poll(() => page.evaluate(id => (window as unknown as RegressionWindow).zui.DTable.getAll().filter(instance => instance.element.id === id).length, id)).toBe(1);
+        }
 
         await switchTablePage(page, '数据表格插件');
         const cellspan = page.locator('#dtable-cellspan');

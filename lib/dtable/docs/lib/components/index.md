@@ -1748,86 +1748,189 @@ const table = new zui.DTable('#dtable-cell-style', {
 
 ## 行选中交互
 
-数据表格的行选中交互由内置插件 `checkable` 提供，要启用该插件需要通过选项 `plugins` 添加插件使用声明：
-
-```js
-new zui.DTable(element, {
-  plugins: ['checkable'],
-  ...
-});
-```
+数据表格的行选中交互由内置插件 `checkable` 提供，通过初始化选项 `plugins` 声明启用，完整写法见下方示例。
 
 启用 `checkable` 插件之后，可以额外使用如下初始化选项：
 
 | 选项      | 定义  |
 | ------------- | ----- |
-| `checkable`      | 如果为 `true` 则启用行选中交互，默认为 `true` |
+| `checkable`      | 如果为 `true` 则启用行选中交互，默认为 `'auto'`，根据列上的 `checkbox` 配置自动启用 |
 | `checkOnClickRow` | 如果为 `true` 则点击行时切换该行的选中状态，否则只能通过点击复选框实现切换 |
-| `onCheckChange`  | 指定一个回调函数在行选中状态变更时执行 |
+| `onCheckChange`  | 行选中状态变更时执行，参数为本次变化的行 ID 与选中状态映射 |
 
-要为列添加切换选中复选框，可以在此列定义对象上设置 `checkbox` 属性为 `true`。
+要为列添加切换选中复选框，可以在此列定义对象上设置 `checkbox` 属性为 `true`。下面的示例支持点击行、单行复选框和表头全选，并在 `onCheckChange` 中通过 `this.getChecks()` 读取全部已选行。
+
+::: tabs
+
+== 示例
 
 <Example>
-  <div id="dtable-checkable"></div>
+  <ZUI id="dtable-checkable" use="dtable" data-dtable-managed :options="getExampleOptions('dtable-checkable')" />
+  <div id="dtable-checkable-status" class="mt-3" role="status">已选行：无</div>
 </Example>
 
-```js
-new zui.DTable(element, {
-    plugins: ['checkable'],
+== 完整代码
+
+```html
+<div id="dtable-checkable"></div>
+<div id="dtable-checkable-status" class="mt-3" role="status">已选行：无</div>
+
+<script>
+const cols = [
+    {name: 'id', title: 'ID', width: 60, fixed: 'left', checkbox: true},
+    {name: 'project', title: '项目名称', width: 200, fixed: 'left', type: 'link', sortType: false, nestedToggle: true},
+    {name: 'manager', title: '负责人', width: 60, sortType: false, flex: 1, type: 'avatar', avatarKey: 'managerAvatar', avatarWithName: true},
+    {name: 'progress', title: '进度', width: 65, align: 'center', sortType: false, type: 'progress'},
+    {name: 'storyPoints', title: '需求规模', width: 80, align: 'right', sortType: false, html: val => `${Number(val).toFixed(1)} <small class="text-gray">SP</small>`},
+    {name: 'executionCounts', title: '执行数', width: 70, align: 'center', sortType: false, html: '{0} <small>迭代</small>'},
+    {name: 'investedDays', title: '已投入', width: 70, align: 'center', sortType: false, html: '{0} <small>人天</small>'},
+    {name: 'startDate', title: '开始日期', width: 90, align: 'center', sortType: false, formatDate: 'yyyy年MM月dd日'},
+    {name: 'finishDate', title: '计划完成', width: 90, align: 'center', sortType: false, formatDate: 'yyyy年MM月dd日'},
+    {name: 'actions', title: '操作', width: 120, sortType: false, fixed: 'right', onRenderCell(_result, {col, row}) {
+        return [{
+            html: row.data[col.name].map((action) => {
+                const actionNames = {start: '开始', close: '关闭', edit: '编辑'};
+                return `<a href="#action=${action}">${actionNames[action] || action}</a>`;
+            }).join(' '),
+        }];
+    }},
+];
+
+const data = [
+    {id: '1', project: '客户服务门户', manager: '陈晨', storyPoints: 40, executionCounts: 3, investedDays: 30, startDate: '2026-09-01', finishDate: '2026-09-18', progress: 100, actions: ['edit', 'close'], managerAvatar: '/assets/avatar/avatar-2.png'},
+    {id: '2', parent: '1', project: '门户 · 需求确认', manager: '林悦', storyPoints: 8, executionCounts: 1, investedDays: 6, startDate: '2026-09-01', finishDate: '2026-09-03', progress: 100, actions: ['edit'], managerAvatar: '/assets/avatar/avatar-1.png'},
+    {id: '3', parent: '1', project: '门户 · 自助查询开发', manager: '陈晨', storyPoints: 20, executionCounts: 1, investedDays: 16, startDate: '2026-09-04', finishDate: '2026-09-14', progress: 100, actions: ['edit'], managerAvatar: '/assets/avatar/avatar-2.png'},
+    {id: '4', parent: '1', project: '门户 · 验收与上线', manager: '王宁', storyPoints: 12, executionCounts: 1, investedDays: 8, startDate: '2026-09-15', finishDate: '2026-09-18', progress: 100, actions: ['edit'], managerAvatar: '/assets/avatar/avatar-3.png'},
+    {id: '5', project: '移动端工单', manager: '周敏', storyPoints: 34, executionCounts: 3, investedDays: 18, startDate: '2026-09-14', finishDate: '2026-10-09', progress: 47, actions: ['edit'], managerAvatar: '/assets/avatar/avatar-4.png'},
+];
+
+const responsiveExample = {
+    name: 'docs-responsive',
+    beforeLayout(options) {
+        // 窄容器将所有列放入同一滚动区域，阈值可按实际列宽调整。
+        if (this.parent.clientWidth < 600) {
+            return {cols: options.cols.map(col => ({...col, fixed: false}))};
+        }
+    },
+};
+
+const table = new zui.DTable('#dtable-checkable', {
+    width: '100%',
+    height: 'auto',
+    responsive: true,
+    scrollbarHover: false,
+    'aria-label': '项目计划示例',
+    striped: false,
     checkOnClickRow: true,
-    cols: [
-        {name: 'id', title: 'ID', width: 60, fixed: 'left', sortType: 'down', checkbox: true},
-        ...
-    ],
-    data: [...],
-    onCheckChange: (changes) => {
-        console.log('选中状态变更', changes);
-    }
+    cols,
+    data,
+    plugins: ['checkable', responsiveExample],
+    onCheckChange() {
+        document.getElementById('dtable-checkable-status').textContent = `已选行：${this.getChecks().join('、') || '无'}`;
+    },
 });
+</script>
 ```
+
+:::
 
 ## 多层级数据结构
 
-多层级数据结构支持和交互实现由内置插件 `nested` 提供，要启用该插件需要通过选项 `plugins` 添加插件使用声明：
-
-```js
-new zui.DTable(element, {
-  plugins: ['nested'],
-  ...
-});
-```
+多层级数据结构支持和交互实现由内置插件 `nested` 提供，通过初始化选项 `plugins` 声明启用，完整写法见下方示例。
 
 启用 `nested` 插件之后，可以额外使用如下初始化选项：
 
 | 选项      | 定义  |
 | ------------- | ----- |
-| `nested`      | 如果为 `true` 则启用多层级数据结构支持，默认为 `true` |
+| `nested`      | 如果为 `true` 则启用多层级数据结构支持，默认为 `'auto'`，根据列上的 `nestedToggle` 配置自动启用 |
 | `nestedParentKey` | 设置行数据对象上用于标记当前行所属父级行 ID 的属性名，默认为 `'parent'` |
 | `asParentKey` | 设置行数据对象上用于标记当前行为父级行的属性名，默认为 `'asParent'` |
-| `nestedIndent` | 设置层级之间的缩进大小，默认为 `12` |
+| `nestedIndent` | 设置层级之间的缩进大小，默认为 `20` |
 | `onRenderNestedToggle` | 设置渲染层级展开折叠切换按钮时的回调函数，可以通过此回调函数自定义渲染切换按钮 |
-| `onNestedChange`  | 指定一个回调函数在层级展开折叠状态变更时执行 |
+| `onNestedChange`  | 层级展开折叠状态变更时执行，不传入参数；可通过 `this.getNestedInfo()` 读取当前层级状态 |
 
-要为列添加折叠展开操作按钮和应用层级缩进，可以在此列定义对象上设置 `nestedToggle` 属性为 `true`。
+要为列添加折叠展开操作按钮和应用层级缩进，可以在此列定义对象上设置 `nestedToggle` 属性为 `true`。下面使用 3 个项目及其阶段组成固定父子数据，点击项目名称旁的按钮折叠或展开子行，表头按钮控制全部父行。
+
+::: tabs
+
+== 示例
 
 <Example>
-  <div id="dtable-nested"></div>
+  <ZUI id="dtable-nested" use="dtable" data-dtable-managed :options="getExampleOptions('dtable-nested')" />
+  <div id="dtable-nested-status" class="mt-3" role="status">所有父行已展开</div>
 </Example>
 
-```js
-new zui.DTable(element, {
-    plugins: ['nested'],
-    cols: [
-        ...
-        {name: 'project', title: '项目名称', flex: 3, fixed: false, nestedToggle: true},
-        ...
-    ],
-    data: [...],
-    onNestedChange: (changes) => {
-        console.log('折叠展开状态变更了', changes);
-    }
+== 完整代码
+
+```html
+<div id="dtable-nested"></div>
+<div id="dtable-nested-status" class="mt-3" role="status">所有父行已展开</div>
+
+<script>
+const cols = [
+    {name: 'id', title: 'ID', width: 60, fixed: 'left', checkbox: true},
+    {name: 'project', title: '项目名称', width: 200, fixed: 'left', type: 'link', sortType: false, nestedToggle: true},
+    {name: 'manager', title: '负责人', width: 60, sortType: false, flex: 1, type: 'avatar', avatarKey: 'managerAvatar', avatarWithName: true},
+    {name: 'progress', title: '进度', width: 65, align: 'center', sortType: false, type: 'progress'},
+    {name: 'storyPoints', title: '需求规模', width: 80, align: 'right', sortType: false, html: val => `${Number(val).toFixed(1)} <small class="text-gray">SP</small>`},
+    {name: 'executionCounts', title: '执行数', width: 70, align: 'center', sortType: false, html: '{0} <small>迭代</small>'},
+    {name: 'investedDays', title: '已投入', width: 70, align: 'center', sortType: false, html: '{0} <small>人天</small>'},
+    {name: 'startDate', title: '开始日期', width: 90, align: 'center', sortType: false, formatDate: 'yyyy年MM月dd日'},
+    {name: 'finishDate', title: '计划完成', width: 90, align: 'center', sortType: false, formatDate: 'yyyy年MM月dd日'},
+    {name: 'actions', title: '操作', width: 120, sortType: false, fixed: 'right', onRenderCell(_result, {col, row}) {
+        return [{
+            html: row.data[col.name].map((action) => {
+                const actionNames = {start: '开始', close: '关闭', edit: '编辑'};
+                return `<a href="#action=${action}">${actionNames[action] || action}</a>`;
+            }).join(' '),
+        }];
+    }},
+];
+
+const data = [
+    {id: '1', project: '客户服务门户', manager: '陈晨', storyPoints: 40, executionCounts: 3, investedDays: 30, startDate: '2026-09-01', finishDate: '2026-09-18', progress: 100, actions: ['edit', 'close'], managerAvatar: '/assets/avatar/avatar-2.png'},
+    {id: '2', parent: '1', project: '门户 · 需求确认', manager: '林悦', storyPoints: 8, executionCounts: 1, investedDays: 6, startDate: '2026-09-01', finishDate: '2026-09-03', progress: 100, actions: ['edit'], managerAvatar: '/assets/avatar/avatar-1.png'},
+    {id: '3', parent: '1', project: '门户 · 自助查询开发', manager: '陈晨', storyPoints: 20, executionCounts: 1, investedDays: 16, startDate: '2026-09-04', finishDate: '2026-09-14', progress: 100, actions: ['edit'], managerAvatar: '/assets/avatar/avatar-2.png'},
+    {id: '4', parent: '1', project: '门户 · 验收与上线', manager: '王宁', storyPoints: 12, executionCounts: 1, investedDays: 8, startDate: '2026-09-15', finishDate: '2026-09-18', progress: 100, actions: ['edit'], managerAvatar: '/assets/avatar/avatar-3.png'},
+    {id: '5', project: '移动端工单', manager: '周敏', storyPoints: 34, executionCounts: 3, investedDays: 18, startDate: '2026-09-14', finishDate: '2026-10-09', progress: 47, actions: ['edit'], managerAvatar: '/assets/avatar/avatar-4.png'},
+    {id: '6', parent: '5', project: '工单 · 交互设计', manager: '周敏', storyPoints: 8, executionCounts: 1, investedDays: 8, startDate: '2026-09-14', finishDate: '2026-09-18', progress: 100, actions: ['edit'], managerAvatar: '/assets/avatar/avatar-4.png'},
+    {id: '7', parent: '5', project: '工单 · 拍照上传开发', manager: '陈晨', storyPoints: 16, executionCounts: 1, investedDays: 10, startDate: '2026-09-21', finishDate: '2026-09-30', progress: 50, actions: ['edit'], managerAvatar: '/assets/avatar/avatar-2.png'},
+    {id: '8', parent: '5', project: '工单 · 弱网验收', manager: '王宁', storyPoints: 10, executionCounts: 1, investedDays: 0, startDate: '2026-10-01', finishDate: '2026-10-09', progress: 0, actions: ['start', 'edit'], managerAvatar: '/assets/avatar/avatar-3.png'},
+    {id: '9', project: '团队知识库', manager: '林悦', storyPoints: 40, executionCounts: 3, investedDays: 0, startDate: '2026-10-12', finishDate: '2026-10-30', progress: 0, actions: ['start', 'edit'], managerAvatar: '/assets/avatar/avatar-1.png'},
+    {id: '10', parent: '9', project: '知识库 · 内容分类', manager: '林悦', storyPoints: 8, executionCounts: 1, investedDays: 0, startDate: '2026-10-12', finishDate: '2026-10-14', progress: 0, actions: ['start', 'edit'], managerAvatar: '/assets/avatar/avatar-1.png'},
+    {id: '11', parent: '9', project: '知识库 · 全文检索', manager: '陈晨', storyPoints: 20, executionCounts: 1, investedDays: 0, startDate: '2026-10-15', finishDate: '2026-10-26', progress: 0, actions: ['start', 'edit'], managerAvatar: '/assets/avatar/avatar-2.png'},
+    {id: '12', parent: '9', project: '知识库 · 权限验收', manager: '王宁', storyPoints: 12, executionCounts: 1, investedDays: 0, startDate: '2026-10-27', finishDate: '2026-10-30', progress: 0, actions: ['start', 'edit'], managerAvatar: '/assets/avatar/avatar-3.png'},
+];
+
+const responsiveExample = {
+    name: 'docs-responsive',
+    beforeLayout(options) {
+        // 窄容器将所有列放入同一滚动区域，阈值可按实际列宽调整。
+        if (this.parent.clientWidth < 600) {
+            return {cols: options.cols.map(col => ({...col, fixed: false}))};
+        }
+    },
+};
+
+const table = new zui.DTable('#dtable-nested', {
+    width: '100%',
+    height: 400,
+    responsive: true,
+    scrollbarHover: false,
+    'aria-label': '项目计划示例',
+    striped: false,
+    cols,
+    data,
+    plugins: ['nested', responsiveExample],
+    onNestedChange() {
+        const collapsed = [...this.getNestedInfo()].filter(([, info]) => info.state === 'collapsed').map(([id]) => id);
+        document.getElementById('dtable-nested-status').textContent = collapsed.length ? `已折叠父行：${collapsed.join('、')}` : '所有父行已展开';
+    },
 });
+</script>
 ```
+
+:::
 
 ## 自定义渲染
 
@@ -1846,37 +1949,95 @@ new zui.DTable(element, {
 | ------------- | ----- |
 | `onRenderCell`      | 渲染此列上的单元格时的回调函数 |
 
-下面的例子中通过 `onRenderCell` 对“操作”列上进行了自定渲染，以通过图标按钮的形式显示操作：
+下面通过列上的 `onRenderCell` 将“操作”列渲染为图标按钮。回调的第二个参数是包含 `col`、`row` 和 `value` 的单元格信息对象。按钮具有可访问名称，可点击或通过 Enter、空格键触发，操作反馈显示在表格下方。
+
+::: tabs
+
+== 示例
 
 <Example>
-  <div id="dtable-render-cell"></div>
+  <ZUI id="dtable-render-cell" use="dtable" data-dtable-managed :options="getExampleOptions('dtable-render-cell')" />
+  <div id="dtable-render-cell-status" class="mt-3" role="status">请点击操作按钮</div>
 </Example>
 
-```js
-new zui.DTable(element, {
-    cols: [...],
-    data: [...],
-    onRenderCell(result, _rowID, col, rowData) {
-        if (col.name === 'actions') {
-            return [{
-                html: rowData[col.name].map(action => {
-                    if (action === 'start') {
-                        return `<a href="#action=${action}" title="开始" class="btn square primary-pale size-sm"><i class="icon icon-play"></i></a>`;
-                    }
-                    if (action === 'edit') {
-                        return `<a href="#action=${action}" title="编辑" class="btn square primary-pale size-sm"><i class="icon icon-pencil"></i></a>`;
-                    }
-                    if (action === 'close') {
-                        return `<a href="#action=${action}" title="编辑" class="btn square primary-pale size-sm"><i class="icon icon-off"></i></a>`;
-                    }
-                    return `<a href="#action=${action}">${action}</a>`;
-                }).join(' '),
-            }];
+== 完整代码
+
+```html
+<div id="dtable-render-cell"></div>
+<div id="dtable-render-cell-status" class="mt-3" role="status">请点击操作按钮</div>
+
+<script>
+const cols = [
+    {name: 'id', title: 'ID', width: 60, fixed: 'left', checkbox: true},
+    {name: 'project', title: '项目名称', width: 200, fixed: 'left', type: 'link', sortType: false, nestedToggle: true},
+    {name: 'manager', title: '负责人', width: 60, sortType: false, flex: 1, type: 'avatar', avatarKey: 'managerAvatar', avatarWithName: true},
+    {name: 'progress', title: '进度', width: 65, align: 'center', sortType: false, type: 'progress'},
+    {name: 'storyPoints', title: '需求规模', width: 80, align: 'right', sortType: false, html: val => `${Number(val).toFixed(1)} <small class="text-gray">SP</small>`},
+    {name: 'executionCounts', title: '执行数', width: 70, align: 'center', sortType: false, html: '{0} <small>迭代</small>'},
+    {name: 'investedDays', title: '已投入', width: 70, align: 'center', sortType: false, html: '{0} <small>人天</small>'},
+    {name: 'startDate', title: '开始日期', width: 90, align: 'center', sortType: false, formatDate: 'yyyy年MM月dd日'},
+    {name: 'finishDate', title: '计划完成', width: 90, align: 'center', sortType: false, formatDate: 'yyyy年MM月dd日'},
+    {name: 'actions', title: '操作', width: 120, sortType: false, fixed: 'right', onRenderCell(_result, {col, row}) {
+        const actions = {
+            start: {text: '开始', icon: 'play'},
+            edit: {text: '编辑', icon: 'pencil'},
+            close: {text: '关闭', icon: 'off'},
+        };
+        return [{
+            html: row.data[col.name].map((action) => {
+                const {text, icon} = actions[action];
+                return `<button type="button" data-action="${action}" title="${text}" aria-label="${text}" class="btn square primary-pale size-sm"><i class="icon icon-${icon}" aria-hidden="true"></i></button>`;
+            }).join(' '),
+        }];
+    }},
+];
+
+const data = [
+    {id: '1', project: '客户服务门户', manager: '陈晨', storyPoints: 40, executionCounts: 3, investedDays: 30, startDate: '2026-09-01', finishDate: '2026-09-18', progress: 100, actions: ['edit', 'close'], managerAvatar: '/assets/avatar/avatar-2.png'},
+    {id: '2', parent: '1', project: '门户 · 需求确认', manager: '林悦', storyPoints: 8, executionCounts: 1, investedDays: 6, startDate: '2026-09-01', finishDate: '2026-09-03', progress: 100, actions: ['edit'], managerAvatar: '/assets/avatar/avatar-1.png'},
+    {id: '3', parent: '1', project: '门户 · 自助查询开发', manager: '陈晨', storyPoints: 20, executionCounts: 1, investedDays: 16, startDate: '2026-09-04', finishDate: '2026-09-14', progress: 100, actions: ['edit'], managerAvatar: '/assets/avatar/avatar-2.png'},
+    {id: '4', parent: '1', project: '门户 · 验收与上线', manager: '王宁', storyPoints: 12, executionCounts: 1, investedDays: 8, startDate: '2026-09-15', finishDate: '2026-09-18', progress: 100, actions: ['edit'], managerAvatar: '/assets/avatar/avatar-3.png'},
+    {id: '5', project: '移动端工单', manager: '周敏', storyPoints: 34, executionCounts: 3, investedDays: 18, startDate: '2026-09-14', finishDate: '2026-10-09', progress: 47, actions: ['edit'], managerAvatar: '/assets/avatar/avatar-4.png'},
+    {id: '6', parent: '5', project: '工单 · 交互设计', manager: '周敏', storyPoints: 8, executionCounts: 1, investedDays: 8, startDate: '2026-09-14', finishDate: '2026-09-18', progress: 100, actions: ['edit'], managerAvatar: '/assets/avatar/avatar-4.png'},
+    {id: '7', parent: '5', project: '工单 · 拍照上传开发', manager: '陈晨', storyPoints: 16, executionCounts: 1, investedDays: 10, startDate: '2026-09-21', finishDate: '2026-09-30', progress: 50, actions: ['edit'], managerAvatar: '/assets/avatar/avatar-2.png'},
+    {id: '8', parent: '5', project: '工单 · 弱网验收', manager: '王宁', storyPoints: 10, executionCounts: 1, investedDays: 0, startDate: '2026-10-01', finishDate: '2026-10-09', progress: 0, actions: ['start', 'edit'], managerAvatar: '/assets/avatar/avatar-3.png'},
+    {id: '9', project: '团队知识库', manager: '林悦', storyPoints: 40, executionCounts: 3, investedDays: 0, startDate: '2026-10-12', finishDate: '2026-10-30', progress: 0, actions: ['start', 'edit'], managerAvatar: '/assets/avatar/avatar-1.png'},
+    {id: '10', parent: '9', project: '知识库 · 内容分类', manager: '林悦', storyPoints: 8, executionCounts: 1, investedDays: 0, startDate: '2026-10-12', finishDate: '2026-10-14', progress: 0, actions: ['start', 'edit'], managerAvatar: '/assets/avatar/avatar-1.png'},
+    {id: '11', parent: '9', project: '知识库 · 全文检索', manager: '陈晨', storyPoints: 20, executionCounts: 1, investedDays: 0, startDate: '2026-10-15', finishDate: '2026-10-26', progress: 0, actions: ['start', 'edit'], managerAvatar: '/assets/avatar/avatar-2.png'},
+    {id: '12', parent: '9', project: '知识库 · 权限验收', manager: '王宁', storyPoints: 12, executionCounts: 1, investedDays: 0, startDate: '2026-10-27', finishDate: '2026-10-30', progress: 0, actions: ['start', 'edit'], managerAvatar: '/assets/avatar/avatar-3.png'},
+];
+
+const responsiveExample = {
+    name: 'docs-responsive',
+    beforeLayout(options) {
+        // 窄容器将所有列放入同一滚动区域，阈值可按实际列宽调整。
+        if (this.parent.clientWidth < 600) {
+            return {cols: options.cols.map(col => ({...col, fixed: false}))};
         }
-        return result;
+    },
+};
+
+const table = new zui.DTable('#dtable-render-cell', {
+    width: '100%',
+    height: 400,
+    responsive: true,
+    scrollbarHover: false,
+    'aria-label': '项目计划示例',
+    striped: false,
+    cols,
+    data,
+    plugins: [responsiveExample],
+    onCellClick(event, {rowID}) {
+        const button = event.target.closest('button[data-action]');
+        if (button) {
+            document.getElementById('dtable-render-cell-status').textContent = `第 ${rowID} 行：${button.title}`;
+        }
     },
 });
+</script>
 ```
+
+:::
 
 ## 单元格类型
 
