@@ -12,7 +12,7 @@
 
 <Example>
   <div class="row gap-3 h-40">
-    <ZUI use="sidebar" class="sidebar" :options="sidebarOptions">
+    <ZUI use="sidebar" class="sidebar" id="projectSidebar" role="complementary" aria-label="项目导航" :options="sidebarOptions">
       <div class="p-3 surface rounded">
         <strong>客户门户</strong>
         <div>需求与任务</div>
@@ -26,35 +26,33 @@
   </div>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
 <div class="row gap-3 h-40">
-  <aside class="sidebar" id="projectSidebar">
+  <aside class="sidebar" id="projectSidebar" aria-label="项目导航">
     <div class="p-3 surface rounded">
       <strong>客户门户</strong>
       <div>需求与任务</div>
       <div>发布记录</div>
     </div>
   </aside>
-  <main class="flex-auto min-w-0 p-3">
+  <div class="flex-auto min-w-0 p-3">
     <strong>本周迭代</strong>
     <div>完善客户资料与工单流程。</div>
-  </main>
+  </div>
 </div>
-```
 
-== JS
-
-```js
+<script>
 const sidebar = new zui.Sidebar('#projectSidebar', {
     width: '40%',
     minWidth: 96,
     maxWidth: '65%',
     $onInited() {
-        this.element.querySelector('.gutter-toggle').setAttribute('aria-label', '折叠或展开侧栏');
+        this.element.querySelector('.gutter-toggle').setAttribute('aria-label', `折叠或展开${this.element.getAttribute('aria-label')}`);
     },
 });
+</script>
 ```
 
 :::
@@ -65,18 +63,91 @@ const sidebar = new zui.Sidebar('#projectSidebar', {
 
 将多个实例的 `shareWidth` 设置为相同的非空字符串，即可共享宽度。拖拽、调用 `update()`、折叠/展开及双击重置都会同步到同组实例。
 
+下面两个区域分别使用左侧栏和右侧栏，初始宽度均为容器的 40%，最小宽度为 96 像素，最大宽度为容器的 65%。拖动任一分隔条或操作箭头按钮，另一侧栏会同步变化；双击任一分隔条可一起恢复初始宽度。
+
+::: tabs
+
+== 示例
+
+<Example>
+  <div class="col gap-4">
+    <div class="row gap-3 h-40">
+      <ZUI use="sidebar" class="sidebar" id="sharedSidebarLeft" role="complementary" aria-label="项目目录" :options="sharedSidebarOptions">
+        <div class="p-3 surface rounded">
+          <strong>项目目录</strong>
+          <div>客户门户</div>
+          <div>团队知识库</div>
+        </div>
+      </ZUI>
+      <div class="flex-auto min-w-0 p-3">
+        <strong>本周迭代</strong>
+        <div>完善客户资料与工单流程。</div>
+      </div>
+    </div>
+    <div class="row gap-3 h-40">
+      <div class="flex-auto min-w-0 p-3">
+        <strong>工单验收</strong>
+        <div>核对资料填写与提交结果。</div>
+      </div>
+      <ZUI use="sidebar" class="sidebar" id="sharedSidebarRight" role="complementary" aria-label="任务详情" :options="{...sharedSidebarOptions, side: 'right'}">
+        <div class="p-3 surface rounded">
+          <strong>任务详情</strong>
+          <div>负责人：小李</div>
+          <div>计划：本周五</div>
+        </div>
+      </ZUI>
+    </div>
+  </div>
+</Example>
+
+== 完整代码
+
 ```html
-<div class="row">
-  <aside class="sidebar" id="sharedSidebarLeft"><div class="sidebar-content">项目目录：客户门户、移动端工单、团队知识库</div></aside>
-  <main class="flex-auto">客户门户 · 本周迭代任务</main>
-  <aside class="sidebar" id="sharedSidebarRight"><div class="sidebar-content">任务详情：负责人、计划日期与验收标准</div></aside>
+<div class="col gap-4">
+  <div class="row gap-3 h-40">
+    <aside class="sidebar" id="sharedSidebarLeft" aria-label="项目目录">
+      <div class="p-3 surface rounded">
+        <strong>项目目录</strong>
+        <div>客户门户</div>
+        <div>团队知识库</div>
+      </div>
+    </aside>
+    <div class="flex-auto min-w-0 p-3">
+      <strong>本周迭代</strong>
+      <div>完善客户资料与工单流程。</div>
+    </div>
+  </div>
+  <div class="row gap-3 h-40">
+    <div class="flex-auto min-w-0 p-3">
+      <strong>工单验收</strong>
+      <div>核对资料填写与提交结果。</div>
+    </div>
+    <aside class="sidebar" id="sharedSidebarRight" aria-label="任务详情">
+      <div class="p-3 surface rounded">
+        <strong>任务详情</strong>
+        <div>负责人：小李</div>
+        <div>计划：本周五</div>
+      </div>
+    </aside>
+  </div>
 </div>
+
+<script>
+const sharedSidebarOptions = {
+    width: '40%',
+    minWidth: 96,
+    maxWidth: '65%',
+    shareWidth: 'sidebar-docs-shared',
+    $onInited() {
+        this.element.querySelector('.gutter-toggle').setAttribute('aria-label', `折叠或展开${this.element.getAttribute('aria-label')}`);
+    },
+};
+new zui.Sidebar('#sharedSidebarLeft', sharedSidebarOptions);
+new zui.Sidebar('#sharedSidebarRight', {...sharedSidebarOptions, side: 'right'});
+</script>
 ```
 
-```js
-new zui.Sidebar('#sharedSidebarLeft', {width: 280, shareWidth: 'workspace'});
-new zui.Sidebar('#sharedSidebarRight', {side: 'right', shareWidth: 'workspace'});
-```
+:::
 
 新实例会继承组内最早创建且已初始化实例的当前宽度，优先于自身的 `preserve` 和 `width`；组内没有其他实例时，按原有规则初始化。初始化继承不会额外触发 `onResize`、`onToggle` 或 `sidebarResize`。同组折叠后，可通过任一实例恢复展开宽度。
 
@@ -132,7 +203,8 @@ const sidebarOptions = {
     minWidth: 96,
     maxWidth: '65%',
     $onInited() {
-        this.element.querySelector('.gutter-toggle').setAttribute('aria-label', '折叠或展开侧栏');
+        this.element.querySelector('.gutter-toggle').setAttribute('aria-label', `折叠或展开${this.element.getAttribute('aria-label')}`);
     },
 };
+const sharedSidebarOptions = {...sidebarOptions, shareWidth: 'sidebar-docs-shared'};
 </script>
