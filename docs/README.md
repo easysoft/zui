@@ -48,6 +48,20 @@
 
 ## 组件库文档
 
+### 组件封面 HTML
+
+每个可视组件库都应提供 `lib/<name>/assets/preview.html`，由现有文档同步流程发布到 `/assets/<name>/preview.html`。完整要求统一维护在[组件预览规范](../.agents/skills/zui-standards/references/component-preview.md)，现有样张见[组件封面](docs/lib/previews.md)。
+
+封面采用 **120 × 120** 的纯 HTML 和 ZUI CSS，以无文字骨架表达主要外观和用途，继承深浅主题，无需 ZUI JavaScript。优先使用公开工具类；复用 `progress-striped` 等组件样式时，宿主也需加载对应 CSS。
+
+官网使用 VitePress 自带的构建期 include 复用片段，路径从同步后的文档根目录开始，不需要客户端加载器：
+
+```md
+<!--@include: @/public/assets/button/preview.html-->
+```
+
+### 文档目录
+
 组件文档通常在组件开发目录的 `docs` 目录下，每个文档必须属于文档目录中的一个，需要将目录结构与文档的目录名称保持一致。
 
 例如在输入组组件（`input-group`）中为用户文档网站上的**组件（`lib`）/表单（`forms`）**上添加文档的目录结构为：
