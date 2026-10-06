@@ -34,6 +34,8 @@
 
 不要机械复制旧包中缺失或多余的字段。`browser`、`module` 和 `exports` 只在确有相应消费入口时添加；每个目标路径必须存在。不要为了“完整”声明不存在的子路径导出。
 
+工作区包与标准分发的入口、成员及类型分别遵循[源码与文档接入规范](consumption.md)。`lib/<name>/package.json` 的导出不构成该包已独立发布或 `zui` 提供同名子路径的承诺。
+
 `wip`、`zui.notReady`、`separately`、`prebuild` 或 `defaultExport` 只在用户意图或构建要求明确时添加。
 
 ## 贡献元数据

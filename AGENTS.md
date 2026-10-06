@@ -109,6 +109,10 @@ build/、dist/、publish/   构建中间产物 / 最终产物（gitignored）
 
 `scripts/libs/query.ts` 的 `getLibs()` 是发现/合并 build-in 与 exts 库的统一入口；同时会做缓存（`.cache/`）。
 
+### 源码与文档接入边界
+
+涉及跨库导入、公开入口、类型导出或接入示例时，遵循[源码与文档接入规范](.agents/skills/zui-standards/references/consumption.md)：仓库源码通过 `@zui/*` 的真实公开入口复用能力；官网普通 JS 示例使用全局 `zui`；npm 示例以目标发布包的实际导出为准。源码工作区入口、Preact 组件和独立插件不能按名称推定为 npm 可用入口。接入说明修复不顺带改变目标版本或发布配置。
+
 ### 文档与样式
 
 - 文档源在每个 `lib/<name>/docs/lib/components/*.md`，`pnpm docs:dev` 会先跑 `scripts/docs/prepare.ts` 同步到 `docs/_`，再启 VitePress。监听阶段 `scripts/docs/watch.ts` 会增量同步。

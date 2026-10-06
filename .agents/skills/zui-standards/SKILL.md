@@ -10,6 +10,7 @@ description: "查询 ZUI 主仓库的开发规范，为库开发及本地 exts �
 1. 按 [references/workflow.md](references/workflow.md) 完成所需发现并复用已有上下文。
 2. 按当前任务需要读取下列对应规范：
    - 库角色、包骨架或元数据：[references/library.md](references/library.md)
+   - 源码导入、公开入口、分发类型或文档接入示例：[源码与文档接入规范](references/consumption.md)
    - 将外部 ZUI 库接入当前仓库的 `exts/` 共同调试、构建或维护文档：[references/extension-library.md](references/extension-library.md)
    - UI 组件：[references/component.md](references/component.md)
    - Web Component 适配、工厂和属性契约：[references/web-component.md](references/web-component.md)
