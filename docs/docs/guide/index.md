@@ -1,6 +1,6 @@
 # 指引
 
-从接入 ZUI 到定制界面，按下面的路径开始；查找具体功能时，可以直接进入[组件库](/lib/)或 [CSS 工具类](/utilities/)。
+从接入 ZUI 到定制界面，按下面的路径开始；查找具体组件时，可以直接进入[组件总览](/lib/components/)或 [CSS 工具类](/utilities/)。
 
 ## 第一次使用
 
@@ -10,14 +10,14 @@
 
 需要了解实例更新、销毁和自定义组件时，再阅读[教程](/guide/start/tutorial.html)。
 
-## 选择接入方式
+## 组件使用与框架集成
 
 | 需求 | 阅读入口 |
 | --- | --- |
-| 在普通网页中创建、更新组件 | [组件基类](/lib/basic/core/component.html)、[便捷组件声明](/lib/basic/core/zui-create.html) |
+| 使用 CSS 类组织界面 | [CSS 组件](/lib/basic/core/css-component.html) |
+| 在普通网页中创建、更新组件 | [组件实例与生命周期](/lib/basic/core/component.html)、[便捷组件声明](/lib/basic/core/zui-create.html) |
+| 通过 HTML 声明事件和组件调用 | [便捷事件绑定](/lib/basic/core/zui-on.html)、[全局触发调用](/lib/basic/core/zui-toggle.html) |
 | 在 React 应用中接入 | [在 React 中使用 ZUI 组件](/lib/basic/core/use-zui-in-react.html) |
-| 将应用组件封装为自定义 HTML 元素 | [Web Component 使用与开发](/lib/basic/core/web-component.html) |
-| 开发 ZUI 内部的 Preact 组件 | [Preact 组件与原生包装层](/lib/basic/core/react.html) |
 
 ## 全局配置
 
@@ -27,9 +27,21 @@
 - [间距](/guide/config/base/spacing.html)、[圆角](/guide/config/base/rounded.html)、[阴影](/guide/config/base/shadow.html)
 - [屏幕断点](/guide/config/base/screens.html)
 
-## 开发与定制
+## 定制与扩展
 
+- [JSON UI](/lib/components/json-ui/)：通过配置组装界面。
+- [Web Component 使用与开发](/lib/basic/core/web-component.html)：将应用组件封装为自定义 HTML 元素。
+- [Preact 组件与原生包装层](/lib/basic/core/react.html)：开发 ZUI 内部组件。
 - [开发调试](/guide/customize/dev.html)：运行源码开发环境。
 - [自定义构建](/guide/customize/build.html)：按项目需要选择输出内容。
 - [扩展库](/guide/customize/exts-lib.html)：接入外部扩展。
+
+## JS 工具
+
+- [Cash（jQuery）扩展](/lib/basic/core/cash.html)：操作 DOM、调用组件及使用扩展方法。
+- [远程查询](/lib/basic/core/query.html)：管理请求、缓存和数据更新。
+- [通用辅助方法](/lib/helpers/helpers/)：查找日期、字符串、对象等常用工具。
+
+## 关于
+
 - [第三方依赖](/guide/about/dependencies.html)：查看依赖及许可证。

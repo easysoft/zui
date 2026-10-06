@@ -7,6 +7,7 @@ import {DefaultTheme} from 'vitepress';
 import zuiLib from '../public/zui-libs';
 
 const argv = minimist(process.argv.slice(4).filter((x, i) => i || x !== '--'));
+const sidebar = createSidebar();
 
 export const themeConfig = {
     logo: '/favicon.svg',
@@ -59,7 +60,7 @@ export const themeConfig = {
         prev: '上一篇',
         next: '下一篇'
     },
-    sidebar: createSidebar()
+    sidebar
 } satisfies DefaultTheme.Config;
 
 export const extLibs = [...zuiLib.reduce((set, lib) => {
@@ -70,10 +71,14 @@ export const extLibs = [...zuiLib.reduce((set, lib) => {
 }, new Set<string>())];
 
 function createNav() {
+    // VitePress matches normalized page-relative paths, independently of the deployment base.
+    const guidePages = Object.keys(sidebar).filter(link => link.startsWith('/lib/') && link.endsWith('.md'))
+        .map(link => decodeURI(link).replace(/(?:\/index)?\.md$/, match => match.startsWith('/') ? '/' : ''))
+        .map(link => link.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
     return [
-        {text: '文档',        link: '/guide/start/',     activeMatch: '/guide/'},
+        {text: '文档',        link: '/guide/start/',     activeMatch: `^(?:/guide/|(?:${guidePages})$)`},
         {text: 'CSS 工具类',  link: '/utilities/skin/utilities/solid', activeMatch: '/utilities/'},
-        {text: '组件',        link: '/lib/components/',       activeMatch: '/lib/'},
+        {text: '组件',        link: '/lib/components/',       activeMatch: `^(?!(?:${guidePages})$)/lib/`},
         {text: 'ZUI1',        link: 'https://openzui.com/1/'},
         {text: 'ZIN',        link: 'https://openzui.com/zin/'},
     ];
@@ -82,12 +87,15 @@ function createNav() {
 function initSidebars(): Record<string, {text: string, link?: string, section?: string, items?: {text?: string, link: string, lib?: typeof zuiLib[number]}[], collapsed?: boolean, hidden?: boolean}[]> {
     return {
         '/guide/': [
-            {text: '开始', section: 'start'},
+            {text: '开始', section: 'start', collapsed: true},
             {text: '设计理念', section: 'concepts', hidden: true},
-            {text: '全局配置', section: 'config', collapsed: false},
-            {text: '开发定制', section: 'customize'},
+            {text: '全局配置', section: 'config', collapsed: true},
+            {text: '组件使用', section: 'usage', collapsed: true},
+            {text: '框架集成', section: 'integration', collapsed: true},
+            {text: '定制与扩展', section: 'customize', collapsed: true},
+            {text: 'JS 工具', section: 'helpers', collapsed: true},
             {text: '贡献', section: 'contributes', hidden: true},
-            {text: '关于', section: 'about'}
+            {text: '关于', section: 'about', collapsed: true}
         ],
         '/utilities/': [
             {text: '外观', section: 'skin', collapsed: false},
@@ -202,16 +210,25 @@ function createSidebar() {
         {text: '表单与输入', section: 'forms', libs: ['search-box', 'color-picker', 'file-selector', 'upload', 'upload-imgs']},
         {text: '导航与菜单', section: 'navigation', libs: ['breadcrumb', 'contextmenu', 'dropdown', 'menu', 'nav', 'responsive-nav', 'tabs', 'toolbar', 'tree']},
         {text: '数据展示', section: 'data', libs: ['calendar', 'cards', 'common-list', 'dtable', 'file-list', 'kanban', 'list', 'pager', 'table', 'virtualize']},
-        {text: '布局与交互', section: 'interaction', libs: ['collapsible', 'dashboard', 'dnd', 'panel', 'scrollbar', 'sidebar', 'split']},
+        {text: '布局与交互', section: 'interaction', libs: ['collapsible', 'dashboard', 'dnd', 'panel', 'scrollbar', 'sidebar', 'sortable', 'split']},
         {text: '反馈与浮层', section: 'feedback', libs: ['alert', 'messager', 'modal', 'popover', 'progress', 'progress-circle', 'tooltip']},
         {text: '其他组件', section: 'components', libs: []},
-        {text: '使用指南', section: 'basic', libs: []},
-        {text: '进阶扩展', section: 'advanced', libs: ['json-ui']},
-        {text: 'JS 工具', section: 'helpers', libs: []},
     ];
     const libSections = new Map(libGroups.flatMap(group => group.libs.map(name => [name, group.section])));
     const fallbackSections: Record<string, string> = {icons: 'controls', dtable: 'data'};
     const grouped: ReturnType<typeof initSidebars>[string] = libGroups.map(({text, section}) => ({text, section, collapsed: true, items: []}));
+    const coreSections: Record<string, string> = {
+        'css-component.md': 'usage',
+        'zui-create.md': 'usage',
+        'zui-on.md': 'usage',
+        'zui-toggle.md': 'usage',
+        'component.md': 'usage',
+        'use-zui-in-react.md': 'integration',
+        'web-component.md': 'customize',
+        'react.md': 'customize',
+        'cash.md': 'helpers',
+        'query.md': 'helpers',
+    };
     for (const section of sidebars['/lib/']) {
         if (section.hidden) {
             continue;
@@ -220,15 +237,22 @@ function createSidebar() {
             if (item.link === '/lib/components/index.md') {
                 continue;
             }
-            let target = libSections.get(item.lib?.zui.name || '') || fallbackSections[section.section!] || section.section;
-            if (item.lib?.zui.name === 'core' && section.section === 'basic') {
-                const file = Path.basename(item.link);
-                if (file === 'component.md' || file === 'react.md') {
-                    target = 'advanced';
-                } else if (file === 'cash.md' || file === 'query.md') {
-                    target = 'helpers';
-                }
+            const libName = item.lib?.zui.name.split('/').pop() || '';
+            let guideSection: string | undefined;
+            if (libName === 'core' && section.section === 'basic') {
+                guideSection = coreSections[Path.basename(item.link)] || 'usage';
+                item.text = item.text?.replace(/^组件基类(?= <code>|$)/, '组件实例与生命周期');
+            } else if (libName === 'json-ui') {
+                guideSection = 'customize';
+            } else if (section.section === 'helpers' && libName !== 'sortable') {
+                guideSection = 'helpers';
             }
+            if (guideSection) {
+                const group = sidebars['/guide/'].find(group => group.section === guideSection)!;
+                (group.items ||= []).push(item);
+                continue;
+            }
+            const target = libSections.get(libName) || fallbackSections[section.section!] || section.section;
             // Unknown/new libraries retain a visible entry in their original category.
             const group = grouped.find(group => group.section === target) || grouped.find(group => group.section === 'components')!;
             group.items!.push(item);
@@ -236,19 +260,24 @@ function createSidebar() {
     }
     sidebars['/lib/'] = grouped;
 
-    const orders = {
+    const orders: Record<string, number> = {
         '介绍': 1,
         '快速上手': 2,
         '教程': 3,
         '兼容性': 4,
         'CSS 组件': 1,
-        '组件基类': 2,
+        便捷组件声明: 2,
+        '便捷事件绑定': 3,
+        '全局触发调用': 4,
+        组件实例与生命周期: 5,
+        'JSON UI': 1,
+        'Web Component 使用与开发': 2,
         'Preact 组件与原生包装层': 3,
-        'Web Component 使用与开发': 3.5,
-        'Cash（jQuery）扩展': 4,
-        '便捷组件调用': 5,
-        '便捷事件绑定': 6,
-        '全局触发调用': 7,
+        开发: 4,
+        打包: 5,
+        组件库扩展: 6,
+        'Cash（jQuery）扩展': 1,
+        远程查询: 2,
     };
 
     Object.keys(sidebars).forEach(key => {
@@ -288,5 +317,13 @@ function createSidebar() {
         });
     });
     sidebars['/lib/'].unshift({text: '组件总览', link: '/lib/components/'});
+    // Exact source-page keys keep legacy URLs while assigning their sidebar to the guide.
+    for (const group of sidebars['/guide/']) {
+        for (const item of group.items || []) {
+            if (item.link.startsWith('/lib/')) {
+                sidebars[item.link] = sidebars['/guide/'];
+            }
+        }
+    }
     return sidebars;
 }

@@ -71,6 +71,7 @@ const descriptions: Record<string, string> = {
     panel: '用标题、内容和底部区域组织界面内容。',
     scrollbar: '调整滚动条外观及鼠标悬停时的显示方式。',
     sidebar: '为左右侧栏提供折叠和拖拽调宽。',
+    sortable: '通过拖放调整列表或树中条目的顺序。',
     'split/split': '通过可拖动分隔条调整水平或垂直分栏。',
     alert: '突出显示需要用户注意的提示内容。',
     messager: '通过浮动消息反馈操作结果或提示信息。',
