@@ -11,19 +11,16 @@
 == 示例
 
 <Example>
-  <ZUI use="virtualList" :options="fixedOptions" :ready="trackInstance" />
+  <ZUI id="virtual-list-fixed" use="virtualList" :options="fixedOptions" />
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
-<div id="virtualList"></div>
-```
+<div id="virtual-list-fixed"></div>
 
-== JS
-
-```js
-const list = new zui.VirtualList('#virtualList', {
+<script>
+new zui.VirtualList('#virtual-list-fixed', {
     count: 10000,
     estimateSize: () => 36,
     height: 240,
@@ -33,6 +30,7 @@ const list = new zui.VirtualList('#virtualList', {
     itemClassName: 'flex items-center px-3 border-b',
     renderItem: item => `工单 #${10001 + item.index} · 待分派`,
 });
+</script>
 ```
 
 :::
@@ -50,12 +48,15 @@ const list = new zui.VirtualList('#virtualList', {
 == 示例
 
 <Example>
-  <ZUI use="virtualList" :options="dynamicOptions" :ready="trackInstance" />
+  <ZUI id="virtual-list-dynamic" use="virtualList" :options="dynamicOptions" />
 </Example>
 
-== JS
+== 完整代码
 
-```js
+```html
+<div id="virtual-list-dynamic"></div>
+
+<script>
 const updates = [
     '已复现登录超时，等待确认会话过期策略。',
     '附件预览已修复。\n验证范围：PNG、JPEG 和 PDF。\n下一步：安排移动端回归测试。',
@@ -69,7 +70,7 @@ const notes = Array.from({length: 500}, (_, index) => ({
     text: `工单 #${10001 + index} 处理记录\n${updates[index % updates.length]}`,
 }));
 
-const list = new zui.VirtualList('#virtualList', {
+new zui.VirtualList('#virtual-list-dynamic', {
     count: notes.length,
     getItemKey: index => notes[index].id,
     estimateSize: () => 80,
@@ -81,6 +82,7 @@ const list = new zui.VirtualList('#virtualList', {
     itemStyle: {whiteSpace: 'pre-wrap'},
     renderItem: item => notes[item.index].text,
 });
+</script>
 ```
 
 :::
@@ -96,13 +98,16 @@ const list = new zui.VirtualList('#virtualList', {
 == 示例
 
 <Example>
-  <ZUI use="virtualList" :options="horizontalOptions" :ready="trackInstance" />
+  <ZUI id="virtual-list-horizontal" use="virtualList" :options="horizontalOptions" />
 </Example>
 
-== JS
+== 完整代码
 
-```js
-new zui.VirtualList('#virtualList', {
+```html
+<div id="virtual-list-horizontal"></div>
+
+<script>
+new zui.VirtualList('#virtual-list-horizontal', {
     count: 1000,
     estimateSize: () => 160,
     horizontal: true,
@@ -116,22 +121,42 @@ new zui.VirtualList('#virtualList', {
     itemClassName: 'flex items-center justify-center bg-surface rounded',
     renderItem: item => `客户档案 #${1001 + item.index}`,
 });
+</script>
 ```
 
 :::
 
-`lanes: 3` 可沿横向分成三列瀑布流，列宽自动均分；启用水平滚动时则分成三行。`gap` 控制条目间距。`lanes` 仍然只有一个滚动方向，不提供行、列同时虚拟化的双轴网格。
+`lanes: 3` 可沿横向分成三列瀑布流，列宽自动均分；启用水平滚动时则分成三行。`gap` 控制沿滚动方向的条目间距。`lanes` 仍然只有一个滚动方向，不提供行、列同时虚拟化的双轴网格。
 
-```js
-new zui.VirtualList('#virtualList', {
+::: tabs
+
+== 示例
+
+<Example>
+  <ZUI id="virtual-list-lanes" use="virtualList" :options="lanesOptions" />
+</Example>
+
+== 完整代码
+
+```html
+<div id="virtual-list-lanes"></div>
+
+<script>
+new zui.VirtualList('#virtual-list-lanes', {
     count: 600,
     estimateSize: index => 72 + (index % 4) * 24,
     height: 320,
     lanes: 3,
     gap: 8,
+    className: 'border rounded',
+    attrs: {'aria-label': '三列工单列表'},
+    itemClassName: 'flex items-center justify-center border rounded bg-surface px-2 text-center',
     renderItem: item => `第 ${item.lane + 1} 列 · 工单 #${10001 + item.index}`,
 });
+</script>
 ```
+
+:::
 
 ## 数据更新与定位
 
@@ -268,24 +293,6 @@ renderItems();
 `controller.setOptions(options)` 使用完整选项替换当前配置，本身不提交 DOM；重新渲染后调用 `controller.update()`。需要以浏览器窗口为滚动容器时使用 `createWindowVirtualizer`，其返回值和生命周期方法相同。
 
 <script setup>
-import {onBeforeUnmount} from 'vue';
-
-const instances = [];
-let disposed = false;
-
-function trackInstance(instance) {
-    if (disposed) {
-        instance.destroy();
-    } else {
-        instances.push(instance);
-    }
-}
-
-onBeforeUnmount(() => {
-    disposed = true;
-    instances.forEach(instance => instance.destroy());
-});
-
 const fixedOptions = {
     count: 10000,
     estimateSize: () => 36,
@@ -336,5 +343,17 @@ const horizontalOptions = {
     attrs: {'aria-label': '水平卡片列表'},
     itemClassName: 'flex items-center justify-center bg-surface rounded',
     renderItem: item => `客户档案 #${1001 + item.index}`,
+};
+
+const lanesOptions = {
+    count: 600,
+    estimateSize: index => 72 + (index % 4) * 24,
+    height: 320,
+    lanes: 3,
+    gap: 8,
+    className: 'border rounded',
+    attrs: {'aria-label': '三列工单列表'},
+    itemClassName: 'flex items-center justify-center border rounded bg-surface px-2 text-center',
+    renderItem: item => `第 ${item.lane + 1} 列 · 工单 #${10001 + item.index}`,
 };
 </script>
