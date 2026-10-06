@@ -265,15 +265,24 @@ for (const colorScheme of ['light', 'dark'] as const) {
     });
 }
 
-test('ZUI-DOC-012: tablet navigation and appearance controls use Chinese accessible names', async ({page}) => {
+test('ZUI-DOC-012: tablet navigation folds external links before appearance and GitHub controls', async ({page}) => {
     await page.setViewportSize({width: 900, height: 900});
     await page.goto('lib/components/button/');
     await expect(page.getByRole('navigation', {name: '主导航'})).toBeVisible();
+    const navbar = page.locator('.VPNavBar');
+    await expect(navbar.getByRole('link', {name: /^github$/i})).toBeVisible();
+    await expect(navbar.getByRole('switch')).toHaveAccessibleName('切换到深色模式');
+    await expect(navbar.getByRole('switch')).toBeVisible();
+    await expect(navbar.getByRole('link', {name: 'ZUI1', exact: true})).toBeHidden();
+    await expect(navbar.getByRole('link', {name: 'ZIN', exact: true})).toBeHidden();
     const extra = page.getByRole('button', {name: '更多导航选项'});
     await extra.focus();
     await page.keyboard.press('Enter');
     await expect(extra).toHaveAttribute('aria-expanded', 'true');
-    await expect(page.locator('.VPNavBarExtra').getByRole('switch')).toHaveAccessibleName('切换到深色模式');
+    await expect(navbar.getByRole('link', {name: 'ZUI1', exact: true})).toHaveAttribute('href', 'https://openzui.com/1/');
+    await expect(navbar.getByRole('link', {name: 'ZIN', exact: true})).toHaveAttribute('href', 'https://openzui.com/zin/');
+    await expect(navbar.getByRole('link', {name: 'ZUI1', exact: true})).toBeVisible();
+    await expect(navbar.getByRole('link', {name: 'ZIN', exact: true})).toBeVisible();
     await page.keyboard.press('Enter');
     await expect(extra).toHaveAttribute('aria-expanded', 'false');
 });

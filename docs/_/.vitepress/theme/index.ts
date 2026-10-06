@@ -3,6 +3,7 @@ import type {Theme} from 'vitepress';
 import {enhanceAppWithTabs} from 'vitepress-plugin-tabs/client';
 import {h} from 'vue';
 import SidebarActiveLink from './components/sidebar-active-link.vue';
+import NavExternalLinks from './components/nav-external-links.vue';
 import Example from './components/example.vue';
 import CssPropValue from './components/css-prop-value.vue';
 import CopyCode from './components/copy-code.vue';
@@ -21,6 +22,7 @@ export default {
     extends: DefaultTheme,
     Layout: () => h(DefaultTheme.Layout, null, {
         'sidebar-nav-after': () => h(SidebarActiveLink),
+        'nav-bar-content-after': () => h(NavExternalLinks),
     }),
 
     enhanceApp({app}) {

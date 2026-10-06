@@ -55,6 +55,31 @@ input:focus, textarea:focus, select:focus {
 .VPNavBarMenu.menu {
   @apply -shadow-none -border-none -bg-transparent;
 }
+.VPFlyout > .menu {
+  @apply -p-0 -bg-transparent;
+}
+.VPNavBar .VPNavBarExtra,
+.VPNavBar .nav-external-links {
+  display: none;
+}
+@media (min-width: 768px) {
+  .VPNavBar .VPNavBarAppearance,
+  .VPNavBar .VPNavBarSocialLinks {
+    display: flex;
+    align-items: center;
+  }
+}
+@media (min-width: 768px) and (max-width: 1279px) {
+  .VPNavBarMenu > .VPNavBarMenuLink[href^="http://"],
+  .VPNavBarMenu > .VPNavBarMenuLink[href^="https://"] {
+    display: none;
+  }
+  .VPNavBar .nav-external-links {
+    display: block;
+    margin-right: -12px;
+    margin-left: 8px;
+  }
+}
 .VPNavBarExtra .appearance .label,
 .VPNavScreenAppearance .text {
   @apply -hidden;
