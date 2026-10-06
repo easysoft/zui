@@ -82,15 +82,6 @@ const descriptions: Record<string, string> = {
     tooltip: '在鼠标悬停时展示简短补充说明。',
 };
 
-const previews: Record<string, string> = {
-    基础控件: '<span class="btn primary">保存</span><span class="btn">取消</span><span class="label success">已完成</span><span class="avatar">林</span>',
-    表单与输入: '<div class="component-overview-field"><span>项目名称</span><div class="form-control">客户服务平台</div></div><div class="component-overview-field"><span>负责人</span><div class="form-control">林悦</div></div>',
-    导航与菜单: '<menu class="nav nav-tabs"><li class="nav-item"><a class="active">概览</a></li><li class="nav-item"><a>任务</a></li><li class="nav-item"><a>成员</a></li></menu>',
-    数据展示: '<table class="table"><thead><tr><th>任务</th><th>状态</th><th>负责人</th></tr></thead><tbody><tr><td>登录页面</td><td><span class="label success">已完成</span></td><td>林悦</td></tr><tr><td>权限配置</td><td><span class="label">进行中</span></td><td>陈晨</td></tr></tbody></table>',
-    布局与交互: '<div class="component-overview-layout"><div class="component-overview-rail">侧栏</div><div class="panel"><div class="panel-heading"><div class="panel-title">项目概览</div></div><div class="panel-body">在面板中组织内容</div></div></div>',
-    反馈与浮层: '<div class="alert success-pale">项目设置已保存。</div><div class="component-overview-progress"><span>上传进度 60%</span><div class="progress"><div class="progress-bar" style="width: 60%"></div></div></div>',
-};
-
 export function renderComponentOverview(sidebar: DefaultTheme.SidebarItem[]): string {
     const groups = sidebar.flatMap((group) => {
         const introduction = groupDescriptions[group.text || ''];
@@ -107,9 +98,7 @@ export function renderComponentOverview(sidebar: DefaultTheme.SidebarItem[]): st
             const description = descriptions[key] || '查看用法与示例。';
             return `- [${item.text}](${item.link}) <span class="component-overview-description">${description}</span>`;
         });
-        const preview = previews[group.text || ''];
-        const illustration = preview ? `<div class="component-overview-preview vp-raw" aria-hidden="true">${preview}</div>\n\n` : '';
-        return [`<div class="component-overview-group">\n\n## ${group.text}\n\n${introduction}\n\n${illustration}${links.join('\n')}\n\n</div>`];
+        return [`<div class="component-overview-group">\n\n## ${group.text}\n\n${introduction}\n\n${links.join('\n')}\n\n</div>`];
     });
     return `<div class="component-overview">\n\n${groups.join('\n\n')}\n\n</div>`;
 }

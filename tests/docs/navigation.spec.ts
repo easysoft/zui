@@ -128,10 +128,7 @@ test('ZUI-DOC-009: component overview provides grouped document links with purpo
         expect(url.origin).toBe(new URL(page.url()).origin);
         expect(url.pathname).toMatch(/\/lib\/.*(?:\/|\.html)$/);
     }
-    await expect(groups.locator('.component-overview-preview')).toHaveCount(6);
-    for (const preview of await groups.locator('.component-overview-preview').all()) {
-        await expect(preview).toHaveAttribute('aria-hidden', 'true');
-    }
+    await expect(groups.locator('.component-overview-preview')).toHaveCount(0);
 
     const searchIndex = page.waitForResponse(response => response.url().includes('/@localSearchIndex'));
     await page.getByRole('button', {name: '搜索文档'}).click();

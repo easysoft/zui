@@ -171,55 +171,6 @@ button.DocSearch-Button {
   font-size: 14px;
   line-height: 1.6;
 }
-.component-overview-preview {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 16px;
-  min-height: 88px;
-  padding: 20px;
-  background: var(--vp-c-bg-soft);
-  border-radius: 8px;
-  pointer-events: none;
-  user-select: none;
-  font-size: 14px;
-}
-.component-overview-preview > .table,
-.component-overview-preview > .nav {
-  width: 100%;
-  margin: 0;
-}
-.component-overview-preview > .table {
-  background: var(--vp-c-bg);
-}
-.component-overview-field,
-.component-overview-progress {
-  flex: 1 1 160px;
-  min-width: 0;
-}
-.component-overview-field > span,
-.component-overview-progress > span {
-  display: block;
-  margin-bottom: 8px;
-}
-.component-overview-layout {
-  display: flex;
-  gap: 12px;
-  width: 100%;
-}
-.component-overview-layout > .panel {
-  flex: 1;
-  min-width: 0;
-  background: var(--vp-c-bg);
-}
-.component-overview-rail {
-  display: grid;
-  place-items: center;
-  min-width: 64px;
-  padding: 16px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 4px;
-}
 @media (max-width: 639px) {
   .component-overview-group > ul {
     grid-template-columns: minmax(0, 1fr);
