@@ -4,7 +4,7 @@
 
 ## 基本使用
 
-在选定元素上调用初始化函数即可使用颜色选择器。
+通过 `zui-create="colorPicker"` 声明颜色选择器，使用 `data-*` 传入选项。
 
 ::: tabs
 
@@ -14,22 +14,15 @@
   <div zui-create="colorPicker" data-heading="项目标签颜色" data-default-value="#0ea5e9"></div>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
-<div id="myColorPicker"></div>
-```
-
-== JS
-
-```js
-const colorPicker = new ColorPicker('#myColorPicker', {
-    heading: '项目标签颜色',
-    defaultValue: '#0ea5e9',
-});
+<div zui-create="colorPicker" data-heading="项目标签颜色" data-default-value="#0ea5e9"></div>
 ```
 
 :::
+
+使用 JavaScript 初始化时，可调用 `new zui.ColorPicker(element, options)`；同一元素选择一种初始化方式即可。
 
 ## 自定义颜色
 
@@ -43,20 +36,10 @@ const colorPicker = new ColorPicker('#myColorPicker', {
   <div zui-create="colorPicker" data-heading="项目标签颜色" data-default-value="#3b82f6" data-colors="#3b82f6,#22c55e,#f59e0b,#ef4444,#8b5cf6,#64748b"></div>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
-<div id="myColorPicker"></div>
-```
-
-== JS
-
-```JavaScript
-const colorPicker = new ColorPicker('#myColorPicker', {
-    heading: '项目标签颜色',
-    colors: ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6', '#64748b'],
-    defaultValue: '#3b82f6',
-});
+<div zui-create="colorPicker" data-heading="项目标签颜色" data-default-value="#3b82f6" data-colors="#3b82f6,#22c55e,#f59e0b,#ef4444,#8b5cf6,#64748b"></div>
 ```
 
 :::
@@ -73,22 +56,13 @@ const colorPicker = new ColorPicker('#myColorPicker', {
   <div zui-create="colorPicker" data-icon="tint"></div>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
-<div id="myColorPicker"></div>
-```
-
-== JS
-
-```JavaScript
-const colorPicker = new ColorPicker('#myColorPicker', {
-    icon: 'tint',
-});
+<div zui-create="colorPicker" data-icon="tint"></div>
 ```
 
 :::
-
 
 ## 同步颜色
 
@@ -98,34 +72,26 @@ const colorPicker = new ColorPicker('#myColorPicker', {
 
 == 示例
 
-<Example class="row gap-4 items-center">
-  <div zui-create="colorPicker" data-heading="项目标签配色预览" data-sync-value="#syncText" data-sync-color="#syncColor" data-sync-background="#syncBackground" data-sync-border="#syncBorder"></div>
-  <div class="flex h-8 items-center">颜色值：<span id="syncText" class="font-mono"></span></div>
-  <div id="syncColor" class="center h-8 w-16">文字颜色</div>
-  <div id="syncBackground" class="center h-8 w-16">背景色</div>
-  <div id="syncBorder" class="center h-8 w-16 border">边框色</div>
+<Example>
+  <div class="flex flex-wrap gap-4 items-center">
+      <div zui-create="colorPicker" data-heading="项目标签配色预览" data-sync-value="#syncText" data-sync-color="#syncColor" data-sync-background="#syncBackground" data-sync-border="#syncBorder"></div>
+      <div class="flex h-8 items-center">颜色值：<span id="syncText" class="font-mono"></span></div>
+      <div id="syncColor" class="center h-8 w-16">文字颜色</div>
+      <div id="syncBackground" class="center h-8 w-16">背景色</div>
+      <div id="syncBorder" class="center h-8 w-16 border">边框色</div>
+  </div>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
-<div id="myColorPicker"></div>
-<div class="flex h-8 items-center">颜色值：<span id="syncText" class="font-mono"></span></div>
-<div id="syncColor" class="center h-8 w-16">文字颜色</div>
-<div id="syncBackground" class="center h-8 w-16">背景色</div>
-<div id="syncBorder" class="center h-8 w-16 border">边框色</div>
-```
-
-== JS
-
-```JS
-const colorPicker = new ColorPicker('#myColorPicker', {
-    heading: '项目标签配色预览',
-    syncValue: '#syncText',
-    syncColor: '#syncColor',
-    syncBackground: '#syncBackground',
-    syncBorder: '#syncBorder',
-});
+<div class="flex flex-wrap gap-4 items-center">
+    <div zui-create="colorPicker" data-heading="项目标签配色预览" data-sync-value="#syncText" data-sync-color="#syncColor" data-sync-background="#syncBackground" data-sync-border="#syncBorder"></div>
+    <div class="flex h-8 items-center">颜色值：<span id="syncText" class="font-mono"></span></div>
+    <div id="syncColor" class="center h-8 w-16">文字颜色</div>
+    <div id="syncBackground" class="center h-8 w-16">背景色</div>
+    <div id="syncBorder" class="center h-8 w-16 border">边框色</div>
+</div>
 ```
 
 :::
@@ -142,19 +108,10 @@ const colorPicker = new ColorPicker('#myColorPicker', {
   <button type="button" class="btn square" zui-create="colorPicker" data-default-value="#f97316" data-class-name="center w-8 square"></button>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
-<button id="myColorPicker" type="button" class="btn square"></button>
-```
-
-== JS
-
-```js
-const colorPicker = new ColorPicker('#myColorPicker', {
-    defaultValue: '#f97316',
-    className: 'center w-8 square',
-});
+<button type="button" class="btn square" zui-create="colorPicker" data-default-value="#f97316" data-class-name="center w-8 square"></button>
 ```
 
 :::
@@ -172,24 +129,13 @@ const colorPicker = new ColorPicker('#myColorPicker', {
   </div>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
 <div class="input-group">
   <input type="text" class="form-control" placeholder="选择颜色" id="colorPickerInput">
-  <button type="button" class="btn w-8 p-0" id="myColorPicker"></button>
+  <button type="button" class="btn w-8 p-0" zui-create="colorPicker" data-default-value="#f97316" data-sync-value="#colorPickerInput" data-sync-color="#colorPickerInput" data-class-name="center w-8 h-8 square"></button>
 </div>
-```
-
-== JS
-
-```js
-const colorPicker = new ColorPicker('#myColorPicker', {
-    defaultValue: '#f97316',
-    syncValue: '#colorPickerInput',
-    syncColor: '#colorPickerInput',
-    className: 'center w-8 h-8 square',
-});
 ```
 
 :::
@@ -207,22 +153,13 @@ const colorPicker = new ColorPicker('#myColorPicker', {
   </div>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
 <div class="input-control has-suffix-icon">
   <input type="text" class="form-control" placeholder="选择颜色" id="colorPickerInput2">
-  <div id="myColorPicker" class="input-control-suffix"></div>
+  <div class="input-control-suffix opacity-100" zui-create="colorPicker" data-sync-value="#colorPickerInput2" data-sync-color="#colorPickerInput2"></div>
 </div>
-```
-
-== JS
-
-```js
-const colorPicker = new ColorPicker('#myColorPicker', {
-    syncValue: '#colorPickerInput2',
-    syncColor: '#colorPickerInput2',
-});
 ```
 
 :::
