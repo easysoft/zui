@@ -54,7 +54,26 @@ async function switchTablePage(page: Page, title: string) {
     }), {message: 'Client-side navigation must destroy every previous DTable instance'}).toBe(true);
 }
 
-test('F04: DTable examples release instances on tab and page changes while plugin examples initialize lazily', async ({page}) => {
+async function checkTableTabs(page: Page, examples: [string, string?][]) {
+    for (const [id, initialStatus] of examples) {
+        const table = page.locator(`#${id}`);
+        const tabIndex = await table.evaluate(element => [...document.querySelectorAll('.plugin-tabs')].indexOf(element.closest('.plugin-tabs')!));
+        const tabs = page.locator('.plugin-tabs').nth(tabIndex);
+        const previous = await page.evaluateHandle(id => (window as unknown as RegressionWindow).zui.DTable.get(`#${id}`), id);
+        await tabs.getByRole('tab', {name: '完整代码', exact: true}).click();
+        await expect.poll(() => previous.evaluate(instance => instance.destroyed && !instance.element.isConnected)).toBe(true);
+        await previous.dispose();
+        await expect(table).toHaveCount(0);
+        await tabs.getByRole('tab', {name: '示例', exact: true}).click();
+        await expect(table.locator('.dtable-cell').first()).toBeVisible();
+        if (initialStatus) {
+            await expect(page.locator(`#${id}-status`)).toHaveText(initialStatus);
+        }
+        await expect.poll(() => page.evaluate(id => (window as unknown as RegressionWindow).zui.DTable.getAll().filter(instance => instance.element.id === id).length, id)).toBe(1);
+    }
+}
+
+test('F04: DTable and plugin examples release instances on tab and page changes', async ({page}) => {
     await page.goto('lib/components/dtable/');
     for (let visit = 0; visit < 2; visit++) {
         const basic = page.locator('#dtable-basic');
@@ -84,28 +103,25 @@ test('F04: DTable examples release instances on tab and page changes while plugi
         await close.press('Enter');
         await expect(page.locator('#dtable-render-cell-status')).toHaveText('第 1 行：关闭');
 
-        for (const [id, initialStatus] of [
+        await checkTableTabs(page, [
             ['dtable-checkable', '已选行：无'],
             ['dtable-nested', '所有父行已展开'],
             ['dtable-render-cell', '请点击操作按钮'],
-        ]) {
-            const table = page.locator(`#${id}`);
-            const tabIndex = await table.evaluate(element => [...document.querySelectorAll('.plugin-tabs')].indexOf(element.closest('.plugin-tabs')!));
-            const tabs = page.locator('.plugin-tabs').nth(tabIndex);
-            const previous = await page.evaluateHandle(id => (window as unknown as RegressionWindow).zui.DTable.get(`#${id}`), id);
-            await tabs.getByRole('tab', {name: '完整代码', exact: true}).click();
-            await expect.poll(() => previous.evaluate(instance => instance.destroyed && !instance.element.isConnected)).toBe(true);
-            await previous.dispose();
-            await expect(table).toHaveCount(0);
-            await tabs.getByRole('tab', {name: '示例', exact: true}).click();
-            await expect(table.locator('.dtable-cell').first()).toBeVisible();
-            await expect(page.locator(`#${id}-status`)).toHaveText(initialStatus);
-            await expect.poll(() => page.evaluate(id => (window as unknown as RegressionWindow).zui.DTable.getAll().filter(instance => instance.element.id === id).length, id)).toBe(1);
-        }
+        ]);
 
         await switchTablePage(page, '数据表格插件');
+        const pluginBasic = page.locator('#dtable-plugin-basic');
+        await pluginBasic.locator('.dtable-body [data-row="1"]').getByRole('checkbox').press('Space');
+        await expect(page.locator('#dtable-plugin-basic-status')).toHaveText('已选行：1');
+        await expect(pluginBasic.locator('.dtable-footer')).toContainText('已选择 1 项');
+        await expect(page.locator('#dtable-plugin-custom')).toContainText('已完成');
+        await expect(page.locator('#dtable-plugin-header-group .dtable-header')).toHaveCSS('height', '70px');
+        const pager = page.locator('#dtable-plugin-pager');
+        await pager.locator('.dtable-footer [z-go-to-page="2"]').first().click();
+        await expect(pager.locator('.dtable-body')).toHaveText('验收测试');
+        await expect(pager.locator('.dtable-footer')).toContainText('2/2');
+
         const cellspan = page.locator('#dtable-cellspan');
-        await expect(cellspan.locator('.dtable-cell')).toHaveCount(0);
         await cellspan.scrollIntoViewIfNeeded();
         await expect(cellspan).toContainText('客户服务门户');
         const merged = cellspan.locator('.dtable-cell[data-row="2"][data-col="progress"]');
@@ -117,11 +133,31 @@ test('F04: DTable examples release instances on tab and page changes while plugi
         expect(options.getCellSpan).toBe('function');
         const rowHeight = await cellspan.locator('.dtable-cell[data-row="1"][data-col="progress"]').evaluate(element => element.getBoundingClientRect().height);
         await expect(merged).toHaveCSS('height', `${rowHeight * 2}px`);
+        await expect(cellspan.locator('.dtable-body [data-row="1"][data-col="project"]')).toHaveAttribute('aria-rowspan', '2');
         await expect(cellspan.locator('.dtable-cell[data-row="3"][data-col="progress"]')).toBeHidden();
         await expect(cellspan.locator('.dtable-cell[data-col="manager"]')).toHaveCount(0);
-        await page.locator('#dtable-sortable').scrollIntoViewIfNeeded();
-        await expect(page.locator('#dtable-sortable .dtable-cell').first()).toBeVisible();
+        const sortable = page.locator('#dtable-sortable');
+        await sortable.scrollIntoViewIfNeeded();
+        const source = sortable.locator('.dtable-body [data-row="1"][data-col="id"]');
+        await source.hover();
+        const sourceBox = await source.boundingBox();
+        const targetBox = await sortable.locator('.dtable-body [data-row="3"][data-col="id"]').boundingBox();
+        await page.mouse.move(sourceBox!.x + sourceBox!.width / 2, sourceBox!.y + sourceBox!.height / 2);
+        await page.mouse.down();
+        await page.mouse.move(targetBox!.x + targetBox!.width / 2, targetBox!.y + targetBox!.height / 2, {steps: 15});
+        await page.mouse.up();
+        await expect(page.locator('#dtable-sortable-status')).toHaveText('当前顺序：2 → 3 → 1 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11 → 12');
+        await expect(sortable.locator('.dtable-body [data-col="id"]').first()).toHaveText('2');
         expect(await page.evaluate(() => (window as unknown as RegressionWindow).zui.DTable.get('#dtable-sortable').options.plugins)).toContain('sortable');
+        await checkTableTabs(page, [
+            ['dtable-plugin-basic', '已选行：无'],
+            ['dtable-plugin-custom'],
+            ['dtable-plugin-pager'],
+            ['dtable-cellspan'],
+            ['dtable-sortable', '当前顺序：1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11 → 12'],
+            ['dtable-plugin-header-group'],
+        ]);
+        await expect(pager.locator('.dtable-footer')).toContainText('1/2');
         await switchTablePage(page, '数据表格');
     }
     await page.locator('#dtable-basic').scrollIntoViewIfNeeded();
