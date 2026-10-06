@@ -11,7 +11,7 @@
 == 示例
 
 <Example>
-  <div class="w-72">
+  <div class="w-72 max-w-full">
     <div class="flex justify-center gap-1">
       <button type="button" class="btn" data-toggle="tooltip" data-title="上左" data-placement="top-start">上左</button>
       <button type="button" class="btn" data-toggle="tooltip" data-title="上中" data-placement="top">上中</button>
@@ -37,21 +37,33 @@
   </div>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
-<button type="button" class="btn" data-toggle="tooltip" data-title="上左" data-placement="top-start">上左</button>
-<button type="button" class="btn" data-toggle="tooltip" data-title="上中" data-placement="top">上中</button>
-<button type="button" class="btn" data-toggle="tooltip" data-title="上右" data-placement="top-end">上右</button>
-<button type="button" class="btn" data-toggle="tooltip" data-title="左上" data-placement="left-start">左上</button>
-<button type="button" class="btn" data-toggle="tooltip" data-title="左中" data-placement="left">左中</button>
-<button type="button" class="btn" data-toggle="tooltip" data-title="左下" data-placement="left-end">左下</button>
-<button type="button" class="btn" data-toggle="tooltip" data-title="右上" data-placement="right-start">右上</button>
-<button type="button" class="btn" data-toggle="tooltip" data-title="右中" data-placement="right">右中</button>
-<button type="button" class="btn" data-toggle="tooltip" data-title="右下" data-placement="right-end">右下</button>
-<button type="button" class="btn" data-toggle="tooltip" data-title="下左" data-placement="bottom-start">下左</button>
-<button type="button" class="btn" data-toggle="tooltip" data-title="下中" data-placement="bottom">下中</button>
-<button type="button" class="btn" data-toggle="tooltip" data-title="下右" data-placement="bottom-end">下右</button>
+<div class="w-72 max-w-full">
+  <div class="flex justify-center gap-1">
+    <button type="button" class="btn" data-toggle="tooltip" data-title="上左" data-placement="top-start">上左</button>
+    <button type="button" class="btn" data-toggle="tooltip" data-title="上中" data-placement="top">上中</button>
+    <button type="button" class="btn" data-toggle="tooltip" data-title="上右" data-placement="top-end">上右</button>
+  </div>
+  <div class="flex justify-between">
+    <div class="col gap-1">
+      <button type="button" class="btn" data-toggle="tooltip" data-title="左上" data-placement="left-start">左上</button>
+      <button type="button" class="btn" data-toggle="tooltip" data-title="左中" data-placement="left">左中</button>
+      <button type="button" class="btn" data-toggle="tooltip" data-title="左下" data-placement="left-end">左下</button>
+    </div>
+    <div class="col gap-1">
+      <button type="button" class="btn" data-toggle="tooltip" data-title="右上" data-placement="right-start">右上</button>
+      <button type="button" class="btn" data-toggle="tooltip" data-title="右中" data-placement="right">右中</button>
+      <button type="button" class="btn" data-toggle="tooltip" data-title="右下" data-placement="right-end">右下</button>
+    </div>
+  </div>
+  <div class="flex justify-center gap-1">
+    <button type="button" class="btn" data-toggle="tooltip" data-title="下左" data-placement="bottom-start">下左</button>
+    <button type="button" class="btn" data-toggle="tooltip" data-title="下中" data-placement="bottom">下中</button>
+    <button type="button" class="btn" data-toggle="tooltip" data-title="下右" data-placement="bottom-end">下右</button>
+  </div>
+</div>
 ```
 
 :::
@@ -64,16 +76,20 @@
 
 == 示例
 
-<Example class="flex gap-2">
-  <button type="button" class="btn" data-toggle="tooltip" data-trigger="hover" data-title="保存当前项目设置">hover 触发</button>
-  <button type="button" class="btn" data-toggle="tooltip" data-trigger="click" data-title="只有项目管理员可以修改成员权限">click 触发</button>
+<Example>
+  <div class="flex flex-wrap gap-2">
+      <button type="button" class="btn" data-toggle="tooltip" data-trigger="hover" data-title="保存当前项目设置">hover 触发</button>
+      <button type="button" class="btn" data-toggle="tooltip" data-trigger="click" data-title="只有项目管理员可以修改成员权限">click 触发</button>
+  </div>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
-<button type="button" class="btn" data-toggle="tooltip" data-trigger="hover" data-title="保存当前项目设置">hover 触发</button>
-<button type="button" class="btn" data-toggle="tooltip" data-trigger="click" data-title="只有项目管理员可以修改成员权限">click 触发</button>
+<div class="flex flex-wrap gap-2">
+    <button type="button" class="btn" data-toggle="tooltip" data-trigger="hover" data-title="保存当前项目设置">hover 触发</button>
+    <button type="button" class="btn" data-toggle="tooltip" data-trigger="click" data-title="只有项目管理员可以修改成员权限">click 触发</button>
+</div>
 ```
 
 :::
@@ -86,28 +102,32 @@
 
 == 示例
 
-<Example class="flex gap-2 flex-wrap">
-  <button type="button" class="btn" data-toggle="tooltip" data-title="查看任务详情">默认</button>
-  <button type="button" class="btn primary" data-toggle="tooltip" data-type="primary" data-title="保存当前项目设置">Primary</button>
-  <button type="button" class="btn secondary" data-toggle="tooltip" data-type="secondary" data-title="切换到团队视图">Secondary</button>
-  <button type="button" class="btn warning" data-toggle="tooltip" data-type="warning" data-title="截止日期临近，请确认剩余工作">Warning</button>
-  <button type="button" class="btn success" data-toggle="tooltip" data-type="success" data-title="全部验收项已通过">Success</button>
-  <button type="button" class="btn danger" data-toggle="tooltip" data-type="danger" data-title="删除后可在回收站中恢复">Danger</button>
-  <button type="button" class="btn important" data-toggle="tooltip" data-type="important" data-title="有 3 项变更等待确认">Important</button>
-  <button type="button" class="btn gray" data-toggle="tooltip" data-type="gray" data-title="此任务已归档">Gray</button>
+<Example>
+  <div class="flex flex-wrap gap-2">
+      <button type="button" class="btn" data-toggle="tooltip" data-title="查看任务详情">默认</button>
+      <button type="button" class="btn primary" data-toggle="tooltip" data-type="primary" data-title="保存当前项目设置">Primary</button>
+      <button type="button" class="btn secondary" data-toggle="tooltip" data-type="secondary" data-title="切换到团队视图">Secondary</button>
+      <button type="button" class="btn warning" data-toggle="tooltip" data-type="warning" data-title="截止日期临近，请确认剩余工作">Warning</button>
+      <button type="button" class="btn success" data-toggle="tooltip" data-type="success" data-title="全部验收项已通过">Success</button>
+      <button type="button" class="btn danger" data-toggle="tooltip" data-type="danger" data-title="删除后可在回收站中恢复">Danger</button>
+      <button type="button" class="btn important" data-toggle="tooltip" data-type="important" data-title="有 3 项变更等待确认">Important</button>
+      <button type="button" class="btn gray" data-toggle="tooltip" data-type="gray" data-title="此任务已归档">Gray</button>
+  </div>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
-<button type="button" class="btn" data-toggle="tooltip" data-title="查看任务详情">默认</button>
-<button type="button" class="btn primary" data-toggle="tooltip" data-type="primary" data-title="保存当前项目设置">Primary</button>
-<button type="button" class="btn secondary" data-toggle="tooltip" data-type="secondary" data-title="切换到团队视图">Secondary</button>
-<button type="button" class="btn warning" data-toggle="tooltip" data-type="warning" data-title="截止日期临近，请确认剩余工作">Warning</button>
-<button type="button" class="btn success" data-toggle="tooltip" data-type="success" data-title="全部验收项已通过">Success</button>
-<button type="button" class="btn danger" data-toggle="tooltip" data-type="danger" data-title="删除后可在回收站中恢复">Danger</button>
-<button type="button" class="btn important" data-toggle="tooltip" data-type="important" data-title="有 3 项变更等待确认">Important</button>
-<button type="button" class="btn gray" data-toggle="tooltip" data-type="gray" data-title="此任务已归档">Gray</button>
+<div class="flex flex-wrap gap-2">
+    <button type="button" class="btn" data-toggle="tooltip" data-title="查看任务详情">默认</button>
+    <button type="button" class="btn primary" data-toggle="tooltip" data-type="primary" data-title="保存当前项目设置">Primary</button>
+    <button type="button" class="btn secondary" data-toggle="tooltip" data-type="secondary" data-title="切换到团队视图">Secondary</button>
+    <button type="button" class="btn warning" data-toggle="tooltip" data-type="warning" data-title="截止日期临近，请确认剩余工作">Warning</button>
+    <button type="button" class="btn success" data-toggle="tooltip" data-type="success" data-title="全部验收项已通过">Success</button>
+    <button type="button" class="btn danger" data-toggle="tooltip" data-type="danger" data-title="删除后可在回收站中恢复">Danger</button>
+    <button type="button" class="btn important" data-toggle="tooltip" data-type="important" data-title="有 3 项变更等待确认">Important</button>
+    <button type="button" class="btn gray" data-toggle="tooltip" data-type="gray" data-title="此任务已归档">Gray</button>
+</div>
 ```
 
 :::
