@@ -66,6 +66,12 @@ Vanilla 子类必须提供稳定的 `static NAME`。`ComponentFromReact` 子类�
 
 优先复用 `Component`、`ComponentFromReact`、Cash、core helper 和现有控件，不重复建立基础设施。
 
+### 默认选项与回调
+
+- 子类重定义 `static DEFAULT` 时，先核实基类实际如何合并默认值；必要时显式继承基类默认选项，尤其不能遗漏支撑内部行为的回调。验证未传入自定义回调时的默认操作，不依赖示例额外配置掩盖默认值缺失。
+- 包装第三方选项或内部回调时，核对解构、覆盖和条件分支是否完整保留用户回调；按公开契约保留参数、上下文、返回值或取消语义，并兼顾内部清理。不要在解构移除回调后只为部分配置分支补回。
+- 修改上述逻辑时，覆盖默认路径和受影响的配置分支；按目标选项实际允许值选择未设置、开启、关闭或自定义值，不能只验证进入包装逻辑的分支。
+
 ### Preact 状态与副作用
 
 - 禁止使用 hooks 机制：不导入或调用 `preact/hooks`，不使用自定义 hooks，也不使用 `useSignal`、`useComputed`、`useSignalEffect` 等 signals hooks。
