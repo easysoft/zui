@@ -11,24 +11,31 @@
 == 示例
 
 <Example>
-  <div class="kanban-list kanban-doc-preview">
-    <ZUI use="kanban" :options="kanbanOptions" />
+  <div class="kanban-list kanban-doc-preview" tabindex="0" role="region" aria-label="基础发布看板，可横向滚动">
+    <ZUI id="releaseKanban" use="kanban" :options="kanbanOptions" :beforeCreate="resetKanbanStatus" />
   </div>
-  <p class="text-sm text-gray mt-2" role="status">{{ kanbanStatus }}</p>
+  <p id="releaseKanbanStatus" class="text-sm text-gray mt-2" role="status">{{ kanbanStatus }}</p>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
-<div class="kanban-list">
+<style>
+.kanban-list.kanban-doc-preview {
+    height: 12rem;
+}
+</style>
+
+<div class="kanban-list kanban-doc-preview" tabindex="0" role="region" aria-label="基础发布看板，可横向滚动">
   <div id="releaseKanban"></div>
 </div>
-```
+<p id="releaseKanbanStatus" class="text-sm text-gray mt-2" role="status">点击或拖动卡片</p>
 
-== JS
-
-```js
+<script>
+const kanbanStatusElement = document.getElementById('releaseKanbanStatus');
 const kanban = new zui.Kanban('#releaseKanban', {
+    $replace: false,
+    dragTypes: ['item'],
     colWidth: 'auto',
     minColWidth: 140,
     selectable: true,
@@ -45,13 +52,14 @@ const kanban = new zui.Kanban('#releaseKanban', {
         ],
     },
     onSelect(selected) {
-        console.log('已选择', selected);
+        kanbanStatusElement.textContent = selected.length ? `已选择：${selected.join(', ')}` : '未选择卡片';
     },
-    onDrop(changes, info) {
-        console.log('拖放变更', changes, info);
+    onDrop(_changes, info) {
+        kanbanStatusElement.textContent = `已移动：${info.drag.key}`;
         // 同步返回 false 可拒绝更新；其余返回值允许组件应用 changes。
     },
 });
+</script>
 ```
 
 :::
@@ -59,7 +67,12 @@ const kanban = new zui.Kanban('#releaseKanban', {
 <script setup>
 import {ref} from 'vue';
 const kanbanStatus = ref('点击或拖动卡片');
+function resetKanbanStatus() {
+    kanbanStatus.value = '点击或拖动卡片';
+}
 const kanbanOptions = {
+    $replace: false,
+    dragTypes: ['item'],
     colWidth: 'auto',
     minColWidth: 140,
     selectable: true,
@@ -78,7 +91,7 @@ const kanbanOptions = {
     onSelect(selected) {
         kanbanStatus.value = selected.length ? `已选择：${selected.join(', ')}` : '未选择卡片';
     },
-    onDrop(changes, info) {
+    onDrop(_changes, info) {
         kanbanStatus.value = `已移动：${info.drag.key}`;
     },
 };
@@ -103,26 +116,170 @@ const kanbanOptions = {
 
 以下为客户门户发布的虚构任务看板，按前端、服务端两条泳道展示进展。可以拖动卡片调整状态或所属团队，也可以通过卡片按钮完成状态流转。
 
+::: tabs
+
+== 示例
+
 <Example>
   <div class="flex flex-wrap items-center justify-between gap-2">
     <strong>客户门户发布</strong>
-    <span class="text-sm text-gray">{{ demoSummary }}</span>
+    <span id="kanbanDemoSummary" class="text-sm text-gray">{{ demoSummary }}</span>
   </div>
-  <form class="flex flex-wrap items-center gap-2 mt-3 mb-3" @submit.prevent="addDemoTask">
+  <form id="kanbanDemoForm" class="flex flex-wrap items-center gap-2 mt-3 mb-3" @submit.prevent="addDemoTask">
     <label for="kanbanDemoTaskTitle">任务名称</label>
     <input id="kanbanDemoTaskTitle" v-model="demoTaskTitle" class="form-control kanban-release-input" placeholder="例如：补充上传失败提示" maxlength="60" :disabled="!demoReady" />
     <button type="submit" class="btn primary" :disabled="!demoReady || !demoTaskTitle.trim()">新增任务</button>
-    <button type="button" class="btn" :disabled="!demoReady" @click="resetDemo">重置</button>
+    <button id="kanbanDemoReset" type="button" class="btn" :disabled="!demoReady" @click="resetDemo">重置</button>
   </form>
   <div class="kanban-list kanban-release-board" tabindex="0" role="region" aria-label="客户门户发布看板，可横向滚动">
-    <div id="kanbanReleaseDemo"></div>
+    <ZUI id="kanbanReleaseDemo" :key="demoVersion" use="kanban" :options="demoOptions" :beforeCreate="prepareDemo" :ready="readyDemo" />
   </div>
-  <p class="text-sm mt-3 break-words" role="status">{{ demoStatus }}</p>
+  <p id="kanbanDemoStatus" class="text-sm mt-3 break-words" role="status">{{ demoStatus }}</p>
 </Example>
 
-输入任务名称后按回车或点击“新增任务”，新卡片会加入“前端 / 待处理”。“重置”恢复初始的六项任务；所有修改仅保留在当前页面。窄屏下可以横向滚动看板，卡片上的按钮也支持键盘操作。
+== 完整代码
 
-示例使用 `onDrop` 应用拖放变更，通过 `addItem()` 新增卡片、`updateItem()` 切换状态。重置时销毁旧实例，再使用原配置和初始数据创建看板。标题和操作区放在看板外；如果使用 `KanbanList` 分区，则应将 `heading` 与包含看板配置的 `items` 配套传入。
+```html
+<style>
+.kanban-list.kanban-release-board {
+    height: 25rem;
+}
+.kanban-release-input {
+    flex: 1 1 12rem;
+    min-width: 0;
+}
+</style>
+
+<div class="flex flex-wrap items-center justify-between gap-2">
+  <strong>客户门户发布</strong>
+  <span id="kanbanDemoSummary" class="text-sm text-gray"></span>
+</div>
+<form id="kanbanDemoForm" class="flex flex-wrap items-center gap-2 mt-3 mb-3">
+  <label for="kanbanDemoTaskTitle">任务名称</label>
+  <input id="kanbanDemoTaskTitle" class="form-control kanban-release-input" placeholder="例如：补充上传失败提示" maxlength="60" disabled />
+  <button type="submit" class="btn primary" disabled>新增任务</button>
+  <button id="kanbanDemoReset" type="button" class="btn" disabled>重置</button>
+</form>
+<div class="kanban-list kanban-release-board" tabindex="0" role="region" aria-label="客户门户发布看板，可横向滚动">
+  <div id="kanbanReleaseDemo"></div>
+</div>
+<p id="kanbanDemoStatus" class="text-sm mt-3 break-words" role="status">可拖动卡片，或使用卡片下方的按钮。</p>
+
+<script>
+const releaseForm = document.getElementById('kanbanDemoForm');
+const releaseTitle = document.getElementById('kanbanDemoTaskTitle');
+const releaseAdd = releaseForm.querySelector('button[type="submit"]');
+const releaseReset = document.getElementById('kanbanDemoReset');
+const releaseSummary = document.getElementById('kanbanDemoSummary');
+const releaseStatus = document.getElementById('kanbanDemoStatus');
+const releaseColumns = [
+    {name: 'todo', title: '待处理'},
+    {name: 'doing', title: '进行中'},
+    {name: 'done', title: '已完成'},
+];
+const releaseLanes = [{name: 'web', title: '前端'}, {name: 'api', title: '服务端'}];
+const releaseActions = {
+    todo: {text: '开始处理', col: 'doing'},
+    doing: {text: '标记完成', col: 'done'},
+    done: {text: '重新打开', col: 'todo'},
+};
+let nextReleaseTaskId = 0;
+
+function createReleaseKanban() {
+    const instance = new zui.Kanban('#kanbanReleaseDemo', {
+        $replace: false,
+        colWidth: 'auto',
+        minColWidth: 164,
+        minLaneHeight: 164,
+        dragTypes: ['item'],
+        data: {
+            cols: releaseColumns,
+            lanes: releaseLanes,
+            items: [
+                {id: 'preview', lane: 'web', col: 'todo', title: '补充附件预览入口', subtitle: '陈晨 · 支持图片与 PDF'},
+                {id: 'notification', lane: 'web', col: 'doing', title: '完善消息通知面板', subtitle: '周敏 · 区分已读与未读'},
+                {id: 'navigation', lane: 'web', col: 'done', title: '适配手机端导航', subtitle: '何雨 · 覆盖窄屏布局'},
+                {id: 'validation', lane: 'api', col: 'todo', title: '增加附件类型校验', subtitle: '李航 · 返回明确错误信息'},
+                {id: 'push', lane: 'api', col: 'doing', title: '联调消息推送接口', subtitle: '赵阳 · 验证断线重连'},
+                {id: 'permission', lane: 'api', col: 'done', title: '补齐权限检查', subtitle: '王宁 · 隔离项目数据'},
+            ],
+        },
+        getItem: ({item}) => ({
+            ...item,
+            titleClass: 'min-w-0 break-words',
+            footActions: [{
+                text: releaseActions[item.col].text,
+                className: 'ghost',
+                attrs: {'aria-label': `${releaseActions[item.col].text}：${item.title}`},
+                async onClick() {
+                    const {col} = releaseActions[item.col];
+                    await instance.$.updateItem({id: item.id, col});
+                    if (instance.destroyed) return;
+                    releaseStatus.textContent = `已将「${item.title}」移至「${releaseColumns.find(item => item.name === col).title}」。`;
+                    instance.element.querySelector(`.kanban-item[z-key="${CSS.escape(item.id)}"] button`)?.focus();
+                },
+            }],
+        }),
+        onDrop(_changes, info) {
+            const lane = releaseLanes.find(item => item.name === info.drop.lane);
+            const col = releaseColumns.find(item => item.name === info.drop.col);
+            releaseStatus.textContent = `已将「${info.drag.item.title}」移至「${lane.title} / ${col.title}」。`;
+            // 返回非 false 值，让组件应用本次拖放变更。
+        },
+        afterRender() {
+            const items = [...this.data.map.values()];
+            releaseSummary.textContent = releaseColumns.map(col => `${col.title} ${items.filter(item => item.col === col.name).length}`).join(' · ');
+            releaseTitle.disabled = false;
+            releaseAdd.disabled = !releaseTitle.value.trim();
+            releaseReset.disabled = false;
+        },
+        beforeDestroy() {
+            releaseForm.onsubmit = null;
+            releaseTitle.oninput = null;
+            releaseReset.onclick = null;
+            releaseTitle.disabled = releaseAdd.disabled = releaseReset.disabled = true;
+        },
+    });
+    releaseTitle.oninput = () => {
+        releaseAdd.disabled = !releaseTitle.value.trim();
+    };
+    releaseForm.onsubmit = async (event) => {
+        event.preventDefault();
+        const title = releaseTitle.value.trim();
+        if (!title) return;
+        const index = ++nextReleaseTaskId;
+        await instance.$.addItem({
+            id: `demo-task-${index}`,
+            lane: 'web',
+            col: 'todo',
+            order: 100 + index,
+            title,
+            subtitle: '未指派 · 新增任务',
+        });
+        if (instance.destroyed) return;
+        releaseTitle.value = '';
+        releaseAdd.disabled = true;
+        releaseStatus.textContent = `已新增「${title}」，位于「前端 / 待处理」。`;
+    };
+    releaseReset.onclick = () => {
+        instance.destroy();
+        nextReleaseTaskId = 0;
+        releaseTitle.value = '';
+        releaseKanban = createReleaseKanban();
+        releaseStatus.textContent = '已恢复初始的 6 项任务。';
+    };
+    return instance;
+}
+
+let releaseKanban = createReleaseKanban();
+</script>
+```
+
+:::
+
+输入任务名称后按回车或点击“新增任务”，新卡片会加入“前端 / 待处理”。“重置”恢复初始的六项任务；所有修改仅保留在当前示例，切换代码标签再返回也会恢复初始状态。窄屏下可以横向滚动看板，卡片上的按钮也支持键盘操作。
+
+示例使用 `onDrop` 应用拖放变更，通过 `addItem()` 新增卡片、`updateItem()` 切换状态。重置时销毁旧实例，再使用原配置和初始数据创建看板。移除完整示例前调用 `releaseKanban.destroy()`，同时解除表单事件。标题和操作区放在看板外；如果使用 `KanbanList` 分区，则应将 `heading` 与包含看板配置的 `items` 配套传入。
 
 ## 数据结构
 
