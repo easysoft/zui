@@ -16,16 +16,24 @@
   <ZUI id="formBuilderBasic" use="formBuilder" :options="basicOptions" />
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
 <div id="formBuilderBasic"></div>
-```
 
-== JS
-
-```js-vue
-const formBuilder = new zui.FormBuilder('#formBuilderBasic', {{ JSON.stringify(basicOptions, null, 4) }});
+<script>
+const formBuilder = new zui.FormBuilder('#formBuilderBasic', {
+    schema: {
+        type: 'object',
+        properties: {
+            name: {type: 'string', title: '姓名', required: true, placeholder: '请输入姓名'},
+            email: {type: 'string', title: '邮箱', placeholder: 'name@example.com'},
+            notifications: {type: 'boolean', title: '接收通知', defaultValue: true},
+        },
+    },
+    defaultData: {name: '林悦', email: 'linyue@example.com'},
+});
+</script>
 ```
 
 :::
@@ -44,28 +52,36 @@ const formBuilder = new zui.FormBuilder('#formBuilderBasic', {{ JSON.stringify(b
   <ZUI id="formBuilderWidgets" use="formBuilder" :options="widgetOptions" />
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
 <div id="formBuilderWidgets"></div>
-```
 
-== JS
+<script>
+const widgetSchema = {
+    type: 'object',
+    properties: {
+        priority: {
+            type: 'string', title: '优先级', widget: 'select', defaultValue: 'normal',
+            props: {items: [{text: '普通', value: 'normal'}, {text: '紧急', value: 'urgent'}]},
+        },
+        description: {type: 'string', title: '说明', widget: 'textarea', props: {rows: 3}},
+        channels: {
+            type: 'array', title: '通知渠道', widget: 'picker', defaultValue: ['email'],
+            props: {items: [{text: '邮件', value: 'email'}, {text: '站内消息', value: 'message'}, {text: '短信', value: 'sms'}]},
+        },
+        enabled: {type: 'boolean', title: '启用通知', widget: 'switch', defaultValue: true},
+        quantity: {type: 'integer', title: '数量', widget: 'quantity', defaultValue: 1, min: 1, max: 10},
+    },
+};
 
-```js
-// schema 为下方 Schema 标签中的对象。
-const formBuilder = new zui.FormBuilder('#formBuilderWidgets', {
-    schema,
+const widgetForm = new zui.FormBuilder('#formBuilderWidgets', {
+    schema: widgetSchema,
     widgets: {
         quantity: ['input', {type: 'number', min: 1, max: 10}],
     },
 });
-```
-
-== Schema
-
-```json-vue
-{{ JSON.stringify(widgetSchema, null, 4) }}
+</script>
 ```
 
 :::
@@ -110,16 +126,32 @@ const widgets = {
   <ZUI id="formBuilderLayout" use="formBuilder" :options="layoutOptions" />
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
 <div id="formBuilderLayout"></div>
-```
 
-== JS
-
-```js-vue
-const formBuilder = new zui.FormBuilder('#formBuilderLayout', {{ JSON.stringify(layoutOptions, null, 4) }});
+<script>
+const layoutForm = new zui.FormBuilder('#formBuilderLayout', {
+    schema: {
+        type: 'object',
+        displayMode: 'grid',
+        displayType: 'vert',
+        properties: {
+            firstName: {type: 'string', title: '姓', width: '1/2'},
+            lastName: {type: 'string', title: '名', width: '1/2'},
+            contact: {
+                type: 'object', title: '联系信息',
+                properties: {
+                    email: {type: 'string', title: '邮箱'},
+                    phone: {type: 'string', title: '电话'},
+                },
+            },
+        },
+    },
+    defaultData: {firstName: '林', lastName: '悦', contact: {email: 'linyue@example.com', phone: ''}},
+});
+</script>
 ```
 
 :::
@@ -138,30 +170,39 @@ const formBuilder = new zui.FormBuilder('#formBuilderLayout', {{ JSON.stringify(
   <ZUI id="formBuilderLinkage" use="formBuilder" :options="linkageOptions" />
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
 <div id="formBuilderLinkage"></div>
-```
 
-== JS
+<script>
+const linkageSchema = {
+    type: 'object',
+    properties: {
+        userType: {
+            type: 'string', title: '用户类型', widget: 'select', defaultValue: 'normal',
+            props: {items: [{text: '普通用户', value: 'normal'}, {text: '管理员', value: 'admin'}]},
+        },
+        adminCode: {
+            type: 'string', title: '管理员授权说明',
+            dependencies: ['userType'],
+            hidden: '{{formData.userType !== "admin"}}',
+            required: '{{formData.userType === "admin"}}',
+            description: '{{formData.userType === "admin" ? "请说明管理员权限的使用范围" : ""}}',
+        },
+        reviewer: {type: 'string', title: '审核人', readonly: true, defaultValue: '部门负责人'},
+    },
+};
 
-```js
-// schema 为下方 Schema 标签中的对象。
-const formBuilder = new zui.FormBuilder('#formBuilderLinkage', {
-    schema,
+const linkageForm = new zui.FormBuilder('#formBuilderLinkage', {
+    schema: linkageSchema,
     onFieldChange(path, value) {
         if (path === 'userType') {
             return {reviewer: value === 'admin' ? '系统管理员' : '部门负责人'};
         }
     },
 });
-```
-
-== Schema
-
-```json-vue
-{{ JSON.stringify(linkageSchema, null, 4) }}
+</script>
 ```
 
 :::
@@ -180,40 +221,45 @@ const formBuilder = new zui.FormBuilder('#formBuilderLinkage', {
 
 <Example>
   <ZUI id="formBuilderValidation" use="formBuilder" :options="validationOptions" />
-  <p role="status" aria-live="polite">{{ validationResult }}</p>
+  <p id="formBuilderValidationResult" role="status" aria-live="polite">{{ validationResult }}</p>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
 <div id="formBuilderValidation"></div>
-<p id="formBuilderValidationResult" role="status" aria-live="polite"></p>
-```
+<p id="formBuilderValidationResult" role="status" aria-live="polite">填写字段后点击“验证表单”</p>
 
-== JS
+<script>
+const validationSchema = {
+    type: 'object',
+    properties: {
+        username: {
+            type: 'string', title: '用户名', required: true, min: 3, max: 20,
+            pattern: {pattern: '^[a-zA-Z][a-zA-Z0-9_]*$', message: '请以字母开头，仅使用字母、数字或下划线'},
+        },
+        email: {
+            type: 'string', title: '邮箱', required: true, props: {id: 'formBuilderValidationEmail'},
+            pattern: {pattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$', message: '请输入有效的邮箱地址'},
+        },
+    },
+};
 
-```js
-// schema 为下方 Schema 标签中的对象。
-const formBuilder = new zui.FormBuilder('#formBuilderValidation', {
+const validationForm = new zui.FormBuilder('#formBuilderValidation', {
     component: 'form',
     attrs: {novalidate: true},
-    schema,
+    schema: validationSchema,
     autoValidate: {onSubmit: true},
     actions: [{btnType: 'submit', text: '验证表单', type: 'primary'}],
     onDataChange() {
-        document.querySelector('#formBuilderValidationResult').textContent = '';
+        document.getElementById('formBuilderValidationResult').textContent = '填写字段后点击“验证表单”';
     },
     onSubmit() {
-        document.querySelector('#formBuilderValidationResult').textContent = '验证通过';
+        document.getElementById('formBuilderValidationResult').textContent = '验证通过';
         return false;
     },
 });
-```
-
-== Schema
-
-```json-vue
-{{ JSON.stringify(validationSchema, null, 4) }}
+</script>
 ```
 
 :::
@@ -244,20 +290,17 @@ const formBuilder = new zui.FormBuilder('#formBuilderValidation', {
 
 <Example>
   <ZUI id="formBuilderSubmit" use="formBuilder" :options="submitOptions" />
-  <pre role="status" aria-live="polite">{{ submitResult }}</pre>
+  <pre id="formBuilderSubmitResult" class="whitespace-pre-wrap break-words" role="status" aria-live="polite">{{ submitResult }}</pre>
 </Example>
 
-== HTML
+== 完整代码
 
 ```html
 <div id="formBuilderSubmit"></div>
-<pre id="formBuilderSubmitResult" role="status" aria-live="polite"></pre>
-```
+<pre id="formBuilderSubmitResult" class="whitespace-pre-wrap break-words" role="status" aria-live="polite">点击“提交表单”查看数据</pre>
 
-== JS
-
-```js
-const formBuilder = new zui.FormBuilder('#formBuilderSubmit', {
+<script>
+const submitForm = new zui.FormBuilder('#formBuilderSubmit', {
     component: 'form',
     formName: 'json',
     schema: {
@@ -268,11 +311,15 @@ const formBuilder = new zui.FormBuilder('#formBuilderSubmit', {
         },
     },
     actions: [{btnType: 'submit', text: '提交表单', type: 'primary'}],
-    onSubmit(event, data) {
-        document.querySelector('#formBuilderSubmitResult').textContent = JSON.stringify(data, null, 2);
+    onDataChange() {
+        document.getElementById('formBuilderSubmitResult').textContent = '点击“提交表单”查看数据';
+    },
+    onSubmit(_event, data) {
+        document.getElementById('formBuilderSubmitResult').textContent = JSON.stringify(data, null, 2);
         return false;
     },
 });
+</script>
 ```
 
 :::
@@ -511,7 +558,7 @@ const linkageOptions = {
     },
 };
 
-const validationResult = ref('');
+const validationResult = ref('填写字段后点击“验证表单”');
 const validationSchema = {
     type: 'object',
     properties: {
@@ -532,7 +579,7 @@ const validationOptions = {
     autoValidate: {onSubmit: true},
     actions: [{btnType: 'submit', text: '验证表单', type: 'primary'}],
     onDataChange() {
-        validationResult.value = '';
+        validationResult.value = '填写字段后点击“验证表单”';
     },
     onSubmit() {
         validationResult.value = '验证通过';
@@ -552,7 +599,10 @@ const submitOptions = {
         },
     },
     actions: [{btnType: 'submit', text: '提交表单', type: 'primary'}],
-    onSubmit(event, data) {
+    onDataChange() {
+        submitResult.value = '点击“提交表单”查看数据';
+    },
+    onSubmit(_event, data) {
         submitResult.value = JSON.stringify(data, null, 2);
         return false;
     },
