@@ -635,6 +635,144 @@
 :::
 
 
+## 固定表头和表尾
+
+为表格的外层容器添加 `h-64` 限制高度，并使用 `overflow-auto` 让超出容器的数据行可以滚动。
+
+在 `<thead>` 上使用 `sticky top-0`，在 `<tfoot>` 上使用 `sticky bottom-0`，即可让表头和表尾在容器滚动时保持可见。表头默认带有背景色，表尾使用 `surface` 添加不透明背景；两者配合 `z-1` 覆盖滚动的数据行，避免文字重叠。
+
+::: tabs
+
+== 示例
+
+<Example>
+  <div class="h-64 overflow-auto" tabindex="0" role="region" aria-label="可滚动的版本记录">
+    <table class="table table-striped">
+      <thead class="sticky top-0 z-1">
+        <tr>
+          <th scope="col">版本</th>
+          <th scope="col">发布时间</th>
+          <th scope="col">主要特性</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1.0</th>
+          <td>2021-03-01</td>
+          <td>上线工单提交与进度查询。</td>
+        </tr>
+        <tr>
+          <th scope="row">1.1</th>
+          <td>2021-04-12</td>
+          <td>修复附件重复上传和通知延迟。</td>
+        </tr>
+        <tr>
+          <th scope="row">1.2</th>
+          <td>2021-05-18</td>
+          <td>支持编辑工单说明并插入截图。</td>
+        </tr>
+        <tr>
+          <th scope="row">2.0</th>
+          <td>2021-06-05</td>
+          <td>适配手机端工单列表与详情页。</td>
+        </tr>
+        <tr>
+          <th scope="row">2.1</th>
+          <td>2021-07-31</td>
+          <td>提交前可预览工单内容和附件。</td>
+        </tr>
+        <tr>
+          <th scope="row">2.2</th>
+          <td>2021-08-20</td>
+          <td>支持按状态筛选工单。</td>
+        </tr>
+        <tr>
+          <th scope="row">3.0</th>
+          <td>2021-09-16</td>
+          <td>新增工单统计和报表导出。</td>
+        </tr>
+        <tr>
+          <th scope="row">3.1</th>
+          <td>2021-10-08</td>
+          <td>优化消息通知与附件预览。</td>
+        </tr>
+      </tbody>
+      <tfoot class="sticky bottom-0 z-1 surface">
+        <tr>
+          <th scope="row">总计</th>
+          <td colspan="2">8 个版本</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</Example>
+
+== HTML
+
+```html
+<div class="h-64 overflow-auto" tabindex="0" role="region" aria-label="可滚动的版本记录">
+  <table class="table table-striped">
+    <thead class="sticky top-0 z-1">
+      <tr>
+        <th scope="col">版本</th>
+        <th scope="col">发布时间</th>
+        <th scope="col">主要特性</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1.0</th>
+        <td>2021-03-01</td>
+        <td>上线工单提交与进度查询。</td>
+      </tr>
+      <tr>
+        <th scope="row">1.1</th>
+        <td>2021-04-12</td>
+        <td>修复附件重复上传和通知延迟。</td>
+      </tr>
+      <tr>
+        <th scope="row">1.2</th>
+        <td>2021-05-18</td>
+        <td>支持编辑工单说明并插入截图。</td>
+      </tr>
+      <tr>
+        <th scope="row">2.0</th>
+        <td>2021-06-05</td>
+        <td>适配手机端工单列表与详情页。</td>
+      </tr>
+      <tr>
+        <th scope="row">2.1</th>
+        <td>2021-07-31</td>
+        <td>提交前可预览工单内容和附件。</td>
+      </tr>
+      <tr>
+        <th scope="row">2.2</th>
+        <td>2021-08-20</td>
+        <td>支持按状态筛选工单。</td>
+      </tr>
+      <tr>
+        <th scope="row">3.0</th>
+        <td>2021-09-16</td>
+        <td>新增工单统计和报表导出。</td>
+      </tr>
+      <tr>
+        <th scope="row">3.1</th>
+        <td>2021-10-08</td>
+        <td>优化消息通知与附件预览。</td>
+      </tr>
+    </tbody>
+    <tfoot class="sticky bottom-0 z-1 surface">
+      <tr>
+        <th scope="row">总计</th>
+        <td colspan="2">8 个版本</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+```
+
+:::
+
 ## 自动宽度
 
 通常表格宽度为 `100%`，与表格所属的父级元素宽度保持一致，但有时希望表格的宽度能够按照实际内容宽度展示。此时可以通过配合使用 CSS 工具类 `w-auto` 来设置表格宽度为自动，同时推荐使用工具类 `max-w-full` 来限制表格最大宽度不超过父级元素宽度（`100%`）。
