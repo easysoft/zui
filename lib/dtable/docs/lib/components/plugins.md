@@ -1366,15 +1366,15 @@ const colSetting = {
     actionsMap: {
         edit: {icon: 'icon-edit', hint: '编辑'},
         group: {icon: 'icon-group', hint: '团队'},
-        split: {icon: 'icon-split', hint: '添加子项目集'},
+        split: {icon: 'icon-code-fork', hint: '添加子项目集'},
         delete: {icon: 'icon-trash', hint: '删除', text: '删除'},
         close: {icon: 'icon-off', hint: '关闭', 'data-toggle': 'modal', url: '#project?id={id}'},
-        start: {icon: 'icon-start', hint: '开始'},
+        start: {icon: 'icon-play', hint: '开始'},
         pause: {icon: 'icon-pause', text: '挂起项目集'},
         active: {icon: 'icon-magic', text: '激活项目集', 'data-toggle': 'modal', url: '#project?id={id}'},
         other: {type: 'dropdown', caret: true, hint: '其他操作'},
         link: {name: 'link', icon: 'icon-link', text: '关联产品'},
-        whitelist: {name: 'whitelist', icon: 'icon-shield-check', text: '项目白名单'},
+        whitelist: {name: 'whitelist', icon: 'icon-shield', text: '项目白名单'},
         more: {type: 'dropdown', icon: 'icon-ellipsis-v', caret: false, hint: '更多'},
     }
 }
@@ -1408,15 +1408,15 @@ const colSetting = {
     actionsMap: {
         edit: {icon: 'icon-edit', hint: '编辑'},
         group: {icon: 'icon-group', hint: '团队'},
-        split: {icon: 'icon-split', hint: '添加子项目集'},
+        split: {icon: 'icon-code-fork', hint: '添加子项目集'},
         delete: {icon: 'icon-trash', hint: '删除', text: '删除'},
         close: {icon: 'icon-off', hint: '关闭', 'data-toggle': 'modal', url: '#project?id={id}'},
-        start: {icon: 'icon-start', hint: '开始'},
+        start: {icon: 'icon-play', hint: '开始'},
         pause: {icon: 'icon-pause', text: '挂起项目集'},
         active: {icon: 'icon-magic', text: '激活项目集', 'data-toggle': 'modal', url: '#project?id={id}'},
         other: {type: 'dropdown', caret: true, hint: '其他操作'},
         link: {name: 'link', icon: 'icon-link', text: '关联产品'},
-        whitelist: {name: 'whitelist', icon: 'icon-shield-check', text: '项目白名单'},
+        whitelist: {name: 'whitelist', icon: 'icon-shield', text: '项目白名单'},
         more: {type: 'dropdown', icon: 'icon-ellipsis-v', caret: false, hint: '更多'},
     }
 }

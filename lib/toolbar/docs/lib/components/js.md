@@ -85,9 +85,9 @@ const toolbarOptions = {
 ```js
 toolbar.render({items: [
     {type: 'btn-group', items: [
-        {text: '左对齐', icon: 'align-left'},
-        {text: '居中', icon: 'align-center'},
-        {text: '右对齐', icon: 'align-right'},
+        {text: '加粗', icon: 'bold'},
+        {text: '斜体', icon: 'italic'},
+        {text: '下划线', icon: 'underline'},
     ]},
     {type: 'space', flex: 1},
     {text: '完成', btnType: 'primary'},

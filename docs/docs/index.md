@@ -14,13 +14,13 @@ hero:
       text: GitHub
       link: https://github.com/easysoft/zui
 features:
-  - icon: ⚡️
+  - icon: '<span class="icon icon-bolt" aria-hidden="true"></span>'
     title: 按需使用，灵活组合
     details: 基础样式、CSS 工具类与 JS 组件按需搭配
-  - icon: 💎
+  - icon: '<span class="icon icon-diamond" aria-hidden="true"></span>'
     title: 常用组件，覆盖日常开发
     details: 按钮、表单、菜单、弹窗与数据表格
-  - icon: 🛠️
+  - icon: '<span class="icon icon-wrench" aria-hidden="true"></span>'
     title: 统一主题，自由定制
     details: 支持深色模式、主题变量与定制打包
 ---
@@ -31,6 +31,10 @@ features:
 }
 .VPContent.is-home .VPFeature {
   border-color: rgba(var(--color-inverse-rgb), .1);
+}
+.VPContent.is-home .VPFeature .icon > .icon {
+  font-size: 24px;
+  color: var(--vp-c-brand-1);
 }
 .VPContent.is-home + .VPFooter {
   background: var(--color-primary-50);

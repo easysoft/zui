@@ -15,7 +15,7 @@
 <Example>
   <ZUI use="sortable" id="priorityTasks" class="col gap-2" role="list" aria-label="需求优先级" :beforeCreate="prepareSortable" :options="priorityOptions">
     <div class="flex flex-wrap items-center gap-2 p-2 border rounded" role="listitem" data-id="docs">
-      <span class="drag-handle cursor-move" title="拖动排序" aria-hidden="true">⠿</span>
+      <span class="drag-handle cursor-move icon icon-move" title="拖动排序" aria-hidden="true"></span>
       <span class="flex-auto">补充使用指南</span>
       <div class="flex gap-1">
         <button type="button" class="btn size-sm" data-move="-1" aria-label="上移补充使用指南" disabled>上移</button>
@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="flex flex-wrap items-center gap-2 p-2 border rounded" role="listitem" data-id="export">
-      <span class="drag-handle cursor-move" title="拖动排序" aria-hidden="true">⠿</span>
+      <span class="drag-handle cursor-move icon icon-move" title="拖动排序" aria-hidden="true"></span>
       <span class="flex-auto">修复报表导出</span>
       <div class="flex gap-1">
         <button type="button" class="btn size-sm" data-move="-1" aria-label="上移修复报表导出" disabled>上移</button>
@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="flex flex-wrap items-center gap-2 p-2 border rounded" role="listitem" data-id="preview">
-      <span class="drag-handle cursor-move" title="拖动排序" aria-hidden="true">⠿</span>
+      <span class="drag-handle cursor-move icon icon-move" title="拖动排序" aria-hidden="true"></span>
       <span class="flex-auto">支持附件预览</span>
       <div class="flex gap-1">
         <button type="button" class="btn size-sm" data-move="-1" aria-label="上移支持附件预览" disabled>上移</button>
@@ -47,7 +47,7 @@
 ```html
 <div id="priorityTasks" class="col gap-2" role="list" aria-label="需求优先级">
   <div class="flex flex-wrap items-center gap-2 p-2 border rounded" role="listitem" data-id="docs">
-    <span class="drag-handle cursor-move" title="拖动排序" aria-hidden="true">⠿</span>
+    <span class="drag-handle cursor-move icon icon-move" title="拖动排序" aria-hidden="true"></span>
     <span class="flex-auto">补充使用指南</span>
     <div class="flex gap-1">
       <button type="button" class="btn size-sm" data-move="-1" aria-label="上移补充使用指南" disabled>上移</button>
@@ -55,7 +55,7 @@
     </div>
   </div>
   <div class="flex flex-wrap items-center gap-2 p-2 border rounded" role="listitem" data-id="export">
-    <span class="drag-handle cursor-move" title="拖动排序" aria-hidden="true">⠿</span>
+    <span class="drag-handle cursor-move icon icon-move" title="拖动排序" aria-hidden="true"></span>
     <span class="flex-auto">修复报表导出</span>
     <div class="flex gap-1">
       <button type="button" class="btn size-sm" data-move="-1" aria-label="上移修复报表导出" disabled>上移</button>
@@ -63,7 +63,7 @@
     </div>
   </div>
   <div class="flex flex-wrap items-center gap-2 p-2 border rounded" role="listitem" data-id="preview">
-    <span class="drag-handle cursor-move" title="拖动排序" aria-hidden="true">⠿</span>
+    <span class="drag-handle cursor-move icon icon-move" title="拖动排序" aria-hidden="true"></span>
     <span class="flex-auto">支持附件预览</span>
     <div class="flex gap-1">
       <button type="button" class="btn size-sm" data-move="-1" aria-label="上移支持附件预览" disabled>上移</button>

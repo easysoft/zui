@@ -55,18 +55,18 @@ onUnmounted(() => {
             <div class="nav-theme-heading">
                 <strong>选择主题</strong>
                 <div class="theme-appearance" role="group" aria-label="主题外观">
-                    <button type="button" :aria-pressed="!isDark" @click="isDark = false"><span aria-hidden="true">☀</span> 浅色</button>
-                    <button type="button" :aria-pressed="isDark" @click="isDark = true"><span aria-hidden="true">☾</span> 深色</button>
+                    <button type="button" :aria-pressed="!isDark" @click="isDark = false"><span class="icon icon-sun" aria-hidden="true"></span>浅色</button>
+                    <button type="button" :aria-pressed="isDark" @click="isDark = true"><span class="icon icon-moon" aria-hidden="true"></span>深色</button>
                 </div>
             </div>
             <div class="nav-theme-presets" role="group" aria-label="预设主题">
                 <button v-for="preset in presets" :key="preset.id" type="button" :aria-label="`应用${preset.name}主题`" :aria-pressed="theme.preset === preset.id" @click="updateTheme(createTheme(preset.id))">
                     <span class="nav-theme-swatch" :style="{background: preset.settings.colors.primary}" aria-hidden="true"></span>
                     <span>{{preset.name}}</span>
-                    <span class="nav-theme-check" aria-hidden="true">{{theme.preset === preset.id ? '✓' : ''}}</span>
+                    <span class="nav-theme-check icon" :class="{'icon-check': theme.preset === preset.id}" aria-hidden="true"></span>
                 </button>
             </div>
-            <a class="nav-theme-custom" :href="withBase('/guide/config/theme.html')" @click="open = false; closeScreen()">自定义主题<span aria-hidden="true">→</span></a>
+            <a class="nav-theme-custom" :href="withBase('/guide/config/theme.html')" @click="open = false; closeScreen()">自定义主题<span class="icon icon-arrow-right" aria-hidden="true"></span></a>
         </section>
     </div>
 </template>
@@ -86,7 +86,7 @@ onUnmounted(() => {
 .nav-theme-presets button { display: flex; align-items: center; gap: 7px; min-height: 40px; padding: 6px 9px; border: 1px solid var(--vp-c-divider); border-radius: 6px; }
 .nav-theme-presets button:hover { background: var(--vp-c-bg-soft); border-color: var(--vp-c-brand-1); }
 .nav-theme-presets button[aria-pressed="true"] { border-color: var(--vp-c-brand-1); box-shadow: inset 0 0 0 1px var(--vp-c-brand-1); }
-.nav-theme-check { width: 12px; margin-left: auto; font-weight: 600; }
+.nav-theme-check { flex-shrink: 0; width: 14px; margin-left: auto; }
 .nav-theme-custom { display: flex; align-items: center; justify-content: space-between; min-height: 40px; margin-top: 16px; padding: 8px 10px; border-radius: 6px; background: var(--vp-c-bg-soft); color: var(--vp-c-text-1); font-weight: 500; }
 .nav-theme-custom:hover { color: var(--vp-c-brand-1); background: var(--vp-c-bg-alt); }
 @media (max-width: 767px) {

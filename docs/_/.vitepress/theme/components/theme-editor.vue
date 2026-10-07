@@ -49,8 +49,8 @@ const exportMessage = ref('');
     <div class="theme-editor vp-raw" data-testid="theme-editor">
         <div class="theme-toolbar">
             <div class="theme-appearance" role="group" aria-label="文档外观">
-                <button type="button" :aria-pressed="!isDark" @click="isDark = false"><span aria-hidden="true">☀</span> 浅色</button>
-                <button type="button" :aria-pressed="isDark" @click="isDark = true"><span aria-hidden="true">☾</span> 深色</button>
+                <button type="button" :aria-pressed="!isDark" @click="isDark = false"><span class="icon icon-sun" aria-hidden="true"></span>浅色</button>
+                <button type="button" :aria-pressed="isDark" @click="isDark = true"><span class="icon icon-moon" aria-hidden="true"></span>深色</button>
             </div>
             <span class="theme-save-status" role="status" aria-live="polite">{{saveMessage}}</span>
             <button type="button" class="theme-reset" @click="resetTheme">恢复默认</button>
@@ -67,7 +67,7 @@ const exportMessage = ref('');
                         <span class="theme-preset-sidebar"><span></span><span></span><span></span></span>
                         <span class="theme-preset-content"><span class="theme-preset-line"></span><span class="theme-preset-line"></span><span class="theme-preset-actions"><span></span><span></span></span></span>
                     </span>
-                    <span class="theme-preset-name">{{preset.name}}<span v-if="theme.preset === preset.id" aria-hidden="true">✓</span></span>
+                    <span class="theme-preset-name">{{preset.name}}<span v-if="theme.preset === preset.id" class="icon icon-check" aria-hidden="true"></span></span>
                     <span class="theme-preset-description">{{preset.description}}</span>
                 </button>
             </div>

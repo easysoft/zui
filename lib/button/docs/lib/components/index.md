@@ -33,7 +33,7 @@
   <button type="button" class="btn black rounded-none">预览文章</button>
   <button type="button" class="btn secondary-outline square" aria-label="新建">＋</button>
   <button type="button" class="btn dark-outline circle" aria-label="帮助">？</button>
-  <button type="button" class="btn danger-pale square circle" aria-label="喜欢">❤️</button>
+  <button type="button" class="btn danger-pale square circle" aria-label="喜欢"><i class="icon icon-heart" aria-hidden="true"></i></button>
   <button type="button" class="btn text-primary ghost">查看详情</button>
 </Example>
 
@@ -44,7 +44,7 @@
 <button type="button" class="btn black rounded-none">预览文章</button>
 <button type="button" class="btn secondary-outline square" aria-label="新建">＋</button>
 <button type="button" class="btn dark-outline circle" aria-label="帮助">？</button>
-<button type="button" class="btn danger-pale square circle" aria-label="喜欢">❤️</button>
+<button type="button" class="btn danger-pale square circle" aria-label="喜欢"><i class="icon icon-heart" aria-hidden="true"></i></button>
 <button type="button" class="btn text-primary ghost">查看详情</button>
 ```
 
