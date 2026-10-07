@@ -51,7 +51,7 @@ test('theme: documentation navigation exposes the editor and all presets apply',
 
     const editor = page.getByTestId('theme-editor');
     const appearances: Record<string, string>[] = [];
-    const newPresetIds: Record<string, string> = {曜石黑: 'ink', 'Code 极客': 'code', 电光粉: 'pop'};
+    const newPresetIds: Record<string, string> = {曜石黑: 'ink', 深空蓝: 'code', 电光粉: 'pop'};
     const recipes = [
         {name: 'ZUI 蓝', primary: '#3b82f6', radius: 4, fontSize: 16},
         {name: '森林绿', primary: '#35644b', radius: 6, fontSize: 17},
@@ -60,7 +60,7 @@ test('theme: documentation navigation exposes the editor and all presets apply',
         {name: '落日橙', primary: '#b85a24', radius: 0, fontSize: 17},
         {name: '玫瑰红', primary: '#a52f57', radius: 12, fontSize: 16},
         {name: '曜石黑', primary: '#171717', radius: 0, fontSize: 16},
-        {name: 'Code 极客', primary: '#0078d4', radius: 2, fontSize: 14},
+        {name: '深空蓝', primary: '#0078d4', radius: 2, fontSize: 14},
         {name: '电光粉', primary: '#d00070', radius: 16, fontSize: 18},
     ];
     for (const {name, primary, radius, fontSize} of recipes) {
@@ -153,7 +153,7 @@ test('theme: documentation navigation exposes the editor and all presets apply',
     await expectPrimaryPreview(page, primary);
     const presetsScreenshot = testInfo.outputPath('theme-preset-styles.png');
     await page.locator('.theme-presets').screenshot({path: presetsScreenshot, animations: 'disabled'});
-    await testInfo.attach('九套完整预设风格', {path: presetsScreenshot, contentType: 'image/png'});
+    await testInfo.attach('预设风格列表（两行可滚动）', {path: presetsScreenshot, contentType: 'image/png'});
     await page.locator('.theme-workbench').evaluate(element => window.scrollTo(0, window.scrollY + element.getBoundingClientRect().top - 100));
     await expect(page.getByTestId('theme-color-primary')).toBeInViewport({ratio: 1});
     await expect(page.locator('.theme-preview-actions .btn.primary')).toBeInViewport({ratio: 1});
@@ -167,6 +167,106 @@ test('theme: documentation navigation exposes the editor and all presets apply',
     const buttonsScreenshot = testInfo.outputPath('theme-iris-buttons.png');
     await page.screenshot({path: buttonsScreenshot});
     await testInfo.attach('鸢尾紫按钮文档', {path: buttonsScreenshot, contentType: 'image/png'});
+});
+
+test('theme: presets keep two scrollable rows and all palette scales update live', async ({page}, testInfo) => {
+    await openEditor(page);
+    const editor = page.getByTestId('theme-editor');
+    const grid = editor.locator('.theme-preset-grid');
+    const presets = grid.getByRole('button');
+    await expect(presets).toHaveCount(9);
+    await expect(editor.getByRole('button', {name: '应用深空蓝主题', exact: true})).toHaveCount(1);
+    await expect(editor.getByRole('button', {name: '应用Code 极客主题', exact: true})).toHaveCount(0);
+
+    for (const {width, columns} of [{width: 1440, columns: 3}, {width: 809, columns: 3}, {width: 480, columns: 3}, {width: 320, columns: 2}]) {
+        await page.setViewportSize({width, height: 1000});
+        await grid.evaluate((element) => {
+            element.scrollTop = 0;
+        });
+        await grid.scrollIntoViewIfNeeded();
+        const layout = await grid.evaluate((element) => {
+            const bounds = element.getBoundingClientRect();
+            return {
+                columns: getComputedStyle(element).gridTemplateColumns.split(' ').length,
+                height: element.clientHeight,
+                scrollHeight: element.scrollHeight,
+                cards: [...element.children].map((card) => {
+                    const rect = card.getBoundingClientRect();
+                    const text = card.querySelector('.theme-preset-description')!;
+                    const description = text.getBoundingClientRect();
+                    return {
+                        top: rect.top - bounds.top - element.clientTop,
+                        bottom: rect.bottom - bounds.top - element.clientTop,
+                        descriptionFits: description.bottom <= rect.bottom && description.left >= rect.left && description.right <= rect.right && text.scrollHeight <= text.clientHeight + 1,
+                    };
+                }),
+            };
+        });
+        expect(layout.columns).toBe(columns);
+        expect(layout.scrollHeight).toBeGreaterThan(layout.height);
+        await expect(grid).toHaveCSS('overflow-y', /auto|scroll/);
+        expect(layout.cards[columns].top).toBeGreaterThan(layout.cards[0].top);
+        expect(layout.cards[columns * 2 - 1].bottom).toBeLessThanOrEqual(layout.height + 1);
+        expect(layout.cards[columns * 2].top).toBeGreaterThanOrEqual(layout.height - 1);
+        expect(layout.cards.every(card => card.descriptionFits), `${width}px descriptions must stay inside their cards`).toBe(true);
+        expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+        const screenshot = testInfo.outputPath(`theme-presets-${width}.png`);
+        await page.locator('.theme-presets').screenshot({path: screenshot, animations: 'disabled'});
+        await testInfo.attach(`两行预设列表（${width}px）`, {path: screenshot, contentType: 'image/png'});
+
+        await presets.first().focus();
+        for (let index = 1; index < await presets.count(); index++) {
+            await page.keyboard.press('Tab');
+        }
+        await expect(presets.last()).toBeFocused();
+        await expect(presets.last()).toBeInViewport({ratio: 1});
+        expect(await grid.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
+        await page.keyboard.press('Enter');
+        await expect(presets.last()).toHaveAttribute('aria-pressed', 'true');
+        await expect(editor.getByTestId('theme-color-primary')).toHaveValue('#d00070');
+    }
+
+    await page.setViewportSize({width: 1440, height: 1000});
+    await editor.getByRole('button', {name: '应用ZUI 蓝主题', exact: true}).click();
+    const palettes = {primary: '主要', secondary: '次要', success: '成功', warning: '警告', danger: '危险', important: '重要', special: '特殊', gray: '中性'};
+    const rows = editor.locator('.theme-tone-row');
+    await expect(rows).toHaveCount(8);
+    for (const [key, label] of Object.entries(palettes)) {
+        const palette = editor.locator(`.theme-tone-row[data-palette="${key}"]`);
+        await expect(palette.locator('.theme-tone-label')).toHaveText(label);
+        await expect(palette.locator('.theme-tone-label')).toBeVisible();
+        await expect(palette.getByRole('img', {name: `${label}色阶，50 至 950`, exact: true})).toHaveCount(1);
+        await expect(palette.locator('.theme-tones > span')).toHaveCount(11);
+    }
+    const checkScales = async () => {
+        const colors = await rows.evaluateAll(elements => elements.map((element) => {
+            const key = (element as HTMLElement).dataset.palette!;
+            const variables = getComputedStyle(document.documentElement);
+            return {
+                key,
+                expected: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].map(shade => variables.getPropertyValue(`--color-${key}-${shade}`).trim()),
+                actual: [...element.querySelectorAll('.theme-tones > span')].map(swatch => getComputedStyle(swatch).backgroundColor),
+            };
+        }));
+        expect(colors.map(row => row.key)).toEqual(Object.keys(palettes));
+        for (const row of colors) {
+            expect(row.actual, `${row.key} scale must use its own eleven CSS variables`).toEqual(row.expected.map(rgbColor));
+        }
+    };
+    for (const mode of ['浅色', '深色']) {
+        await editor.getByRole('button', {name: mode, exact: true}).click();
+        await checkScales();
+        for (const [key, color] of [['secondary', mode === '浅色' ? '#315a8b' : '#784b95'], ['success', mode === '浅色' ? '#277544' : '#3c6b34']]) {
+            await editor.getByTestId(`theme-color-${key}`).fill(color);
+            await expect(editor.locator(`.theme-tone-row[data-palette="${key}"] .theme-tones > span`).nth(5)).toHaveCSS('background-color', rgbColor(color));
+        }
+        await checkScales();
+        await expect(editor.getByTestId('theme-color-primary')).toHaveValue('#3b82f6');
+        await expectPrimaryPreview(page, '#3b82f6');
+        const screenshot = testInfo.outputPath(`theme-all-scales-${mode}.png`);
+        await page.locator('.theme-preview-canvas').screenshot({path: screenshot, animations: 'disabled'});
+        await testInfo.attach(`八类色阶（${mode}）`, {path: screenshot, contentType: 'image/png'});
+    }
 });
 
 test('theme: edits apply to the whole site and survive navigation, reload and reopening', async ({page, context}) => {

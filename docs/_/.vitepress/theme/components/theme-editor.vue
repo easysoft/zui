@@ -121,8 +121,13 @@ const exportMessage = ref('');
                             <div class="theme-preview-labels"><span class="label success">已完成</span><span class="label warning">待处理</span><span class="label danger">需关注</span></div>
                         </div>
                     </div>
-                    <div class="theme-tones" aria-label="主色色阶">
-                        <span v-for="shade in [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]" :key="shade" :style="{background: `var(--color-primary-${shade})`}" :title="`主色 ${shade}`"></span>
+                    <div class="theme-palettes">
+                        <div v-for="field in paletteFields" :key="field.key" class="theme-tone-row" :data-palette="field.key">
+                            <span class="theme-tone-label">{{field.label}}</span>
+                            <div class="theme-tones" role="img" :aria-label="`${field.label}色阶，50 至 950`">
+                                <span v-for="shade in [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]" :key="shade" :style="{background: `var(--color-${field.key}-${shade})`}" :title="`${field.label} ${shade}`"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <p class="theme-preview-note">整个文档站也是预览。前往其他组件页面，主题会继续生效。</p>

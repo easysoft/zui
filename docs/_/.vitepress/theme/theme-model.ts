@@ -106,7 +106,7 @@ export const presets = [
         radius: 0,
         fontSize: 16,
     }),
-    preset('code', 'Code 极客', '编辑器灰阶、代码蓝，紧凑直线布局', {
+    preset('code', '深空蓝', '编辑器灰阶、代码蓝，紧凑直线布局', {
         colors: {primary: '#0078d4', secondary: '#6f42c1', success: '#2e7435', warning: '#986a00', danger: '#c43c3c', important: '#b34482', special: '#7655a3', gray: '#707070'},
         light: {canvas: '#ffffff', surface: '#f8f8f8', fore: '#3b3b3b', border: '#cecece'},
         dark: {canvas: '#1f1f1f', surface: '#181818', fore: '#cccccc', border: '#3c3c3c'},

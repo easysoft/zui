@@ -43,12 +43,12 @@ spacing:
 | 落日橙 | 暖砂纸面、赭色层次，深色为暖棕 | 直角，字号稍大 |
 | 玫瑰红 | 淡粉瓷面、莓红点缀，深色为酒红 | 饱满圆角，适中字号 |
 | 曜石黑 | 黑白分明、灰阶面板，以强边框强调轮廓 | 直角，适中字号 |
-| Code 极客 | 参考 VS Code Modern 的编辑器灰阶与代码蓝，深色为炭灰 | 小圆角，紧凑字号 |
+| 深空蓝 | 参考 VS Code Modern 的编辑器灰阶与代码蓝，深色为炭灰 | 小圆角，紧凑字号 |
 | 电光粉 | 高饱和亮粉与紫色撞色，深色为浓郁黑紫 | 最大圆角，字号稍大 |
 
-预设卡片使用对应外观模式的界面缩略样本，同时呈现背景、面板、文字层次和控件形状。已保存的主题快照保留原值，重新选择预设才应用新版配方。
+预设卡片使用对应外观模式的界面缩略样本，同时呈现背景、面板、文字层次和控件形状。卡片区域最多显示两行，超过部分在区域内滚动；窄屏增大行高容纳描述换行，滚动区域保留键盘焦点轮廓，Tab 可到达所有预设。已保存的主题快照保留原值，重新选择预设才应用新版配方。
 
-Code 极客的画布、面板及文字参考 VS Code 官方 [Light Modern](https://github.com/microsoft/vscode/blob/main/extensions/theme-defaults/themes/light_modern.json) 与 [Dark Modern](https://github.com/microsoft/vscode/blob/main/extensions/theme-defaults/themes/dark_modern.json)，并适配 ZUI 的语义色与实心按钮契约。
+深空蓝的画布、面板及文字参考 VS Code 官方 [Light Modern](https://github.com/microsoft/vscode/blob/main/extensions/theme-defaults/themes/light_modern.json) 与 [Dark Modern](https://github.com/microsoft/vscode/blob/main/extensions/theme-defaults/themes/dark_modern.json)，并适配 ZUI 的语义色与实心按钮契约。
 
 深色模式下，主色与画布的对比度不足时，从已有主色色阶选取对画布及面板可读的链接色，并派生悬停、访问及按下颜色；导航品牌文字复用这些链接变量，实心组件仍保留用户选定的主色和白字。此规则同时适用于预设与任意自定义颜色，不通过主题名称分支。
 
@@ -62,7 +62,7 @@ Code 极客的画布、面板及文字参考 VS Code 官方 [Light Modern](https
 
 ## Elevation & Depth
 
-页面以边界和表面色区分区域，预览面板使用 ZUI 的阴影变量。主题选中态同时展示边框与勾选标记。预览可在桌面粘附，移动端恢复自然流。
+页面以边界和表面色区分区域，预览面板使用 ZUI 的阴影变量。主题选中态同时展示边框与勾选标记。预览可在桌面粘附，移动端恢复自然流。预览底部逐行展示八类配色的 50–950 色阶，使用可见类别名称区分，色块直接引用生成的 ZUI 变量，随编辑和深浅模式同步更新。
 
 ## Shapes
 
