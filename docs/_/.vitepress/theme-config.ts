@@ -10,7 +10,6 @@ const argv = minimist(process.argv.slice(4).filter((x, i) => i || x !== '--'));
 const sidebar = createSidebar();
 
 export const themeConfig = {
-    logo: '/favicon.svg',
     outline: [2, 3],
     search: {
         provider: 'local',

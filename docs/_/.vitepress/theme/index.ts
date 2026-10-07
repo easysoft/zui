@@ -2,6 +2,7 @@ import DefaultTheme from 'vitepress/theme';
 import type {Theme} from 'vitepress';
 import {enhanceAppWithTabs} from 'vitepress-plugin-tabs/client';
 import {h} from 'vue';
+import logo from '../../../../favicon.svg?raw';
 import SidebarActiveLink from './components/sidebar-active-link.vue';
 import NavExternalLinks from './components/nav-external-links.vue';
 import NavTheme from './components/nav-theme.vue';
@@ -25,6 +26,7 @@ import './theme-editor.css';
 export default {
     extends: DefaultTheme,
     Layout: () => h(DefaultTheme.Layout, null, {
+        'nav-bar-title-before': () => h('span', {class: 'logo nav-logo', 'aria-hidden': 'true', innerHTML: logo}),
         'sidebar-nav-after': () => h(SidebarActiveLink),
         'nav-bar-content-after': () => [h(NavTheme), h(NavExternalLinks)],
     }),

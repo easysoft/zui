@@ -4,14 +4,14 @@
             <rect width="24" height="24" rx="4"/>
         </clipPath>
         <filter id="zui-logo-shadow" x="-20%" y="-20%" width="140%" height="150%" color-interpolation-filters="sRGB">
-            <feDropShadow dx=".36" dy=".48" stdDeviation=".42" flood-color="#102d70" flood-opacity=".24"/>
+            <feDropShadow dx=".36" dy=".48" stdDeviation=".42" flood-color="var(--color-primary-950, #102d70)" flood-opacity=".24"/>
         </filter>
     </defs>
     <g clip-path="url(#zui-logo-clip)">
-        <rect width="24" height="24" fill="#2563eb"/>
+        <rect width="24" height="24" fill="var(--color-primary-600, #2563eb)"/>
         <g transform="skewX(-35)">
-            <rect x="-24" width="50.52324" height="24" fill="#75a5ff" filter="url(#zui-logo-shadow)"/>
-            <rect x="-24" width="39.5059" height="24" fill="#c7dcff" filter="url(#zui-logo-shadow)"/>
+            <rect x="-24" width="50.52324" height="24" fill="var(--color-primary-300, #75a5ff)" filter="url(#zui-logo-shadow)"/>
+            <rect x="-24" width="39.5059" height="24" fill="var(--color-primary-100, #c7dcff)" filter="url(#zui-logo-shadow)"/>
         </g>
     </g>
 </svg>

@@ -7,6 +7,8 @@ body {
 .Layout {
   font-size: 1rem;
 }
+.nav-logo { width: 24px; flex-shrink: 0; }
+.nav-logo > svg { display: block; width: 100%; height: 100%; }
 
 .vp-doc h3:not(:where(.vp-raw, .vp-raw *)) {
   @apply -mb-4;
