@@ -63,11 +63,9 @@ const exportMessage = ref('');
             </div>
             <div class="theme-preset-grid">
                 <button v-for="preset in presets" :key="preset.id" type="button" class="theme-preset" :aria-label="`应用${preset.name}主题`" :aria-pressed="theme.preset === preset.id" @click="updateTheme(createTheme(preset.id))">
-                    <span class="theme-preset-colors" aria-hidden="true">
-                        <span :style="{background: preset.settings.colors.primary}"></span>
-                        <span :style="{background: preset.settings.colors.secondary}"></span>
-                        <span :style="{background: preset.settings.light.surface}"></span>
-                        <span :style="{background: preset.settings.dark.canvas}"></span>
+                    <span class="theme-preset-sample" :style="{'--preset-canvas': preset.settings[mode].canvas, '--preset-surface': preset.settings[mode].surface, '--preset-fore': preset.settings[mode].fore, '--preset-border': preset.settings[mode].border, '--preset-primary': preset.settings.colors.primary, '--preset-secondary': preset.settings.colors.secondary, '--preset-radius': `${preset.settings.radius}px`}" aria-hidden="true">
+                        <span class="theme-preset-sidebar"><span></span><span></span><span></span></span>
+                        <span class="theme-preset-content"><span class="theme-preset-line"></span><span class="theme-preset-line"></span><span class="theme-preset-actions"><span></span><span></span></span></span>
                     </span>
                     <span class="theme-preset-name">{{preset.name}}<span v-if="theme.preset === preset.id" aria-hidden="true">✓</span></span>
                     <span class="theme-preset-description">{{preset.description}}</span>
@@ -115,7 +113,7 @@ const exportMessage = ref('');
                             <h3>让创意开始成形</h3>
                             <p>按钮、表单与状态颜色，都跟随你的主题。</p>
                             <label for="theme-preview-name">项目名称</label>
-                            <input id="theme-preview-name" v-model="previewName" class="form-control" autocomplete="off">
+                            <input id="theme-preview-name" v-model="previewName" class="form-control text-base" autocomplete="off">
                             <div class="theme-preview-actions"><button type="button" class="btn primary" @click="previewMessage = `已创建「${previewName.trim() || '未命名项目'}」（预览）`">创建项目</button><button type="button" class="btn" @click="previewName = '我的新项目'; previewMessage = ''">重置示例</button></div>
                             <div class="theme-preview-feedback" role="status">{{previewMessage || '试试输入文字、点击按钮或切换外观。'}}</div>
                             <div class="theme-preview-progress"><span>任务进度</span><strong>68%</strong></div>
@@ -135,7 +133,7 @@ const exportMessage = ref('');
             <div class="theme-section-heading"><h2 id="theme-export-heading">带到你的项目</h2><div class="theme-export-actions"><button type="button" class="btn" :disabled="copying" :aria-busy="copying" @click="copy(css, 'CSS 已复制')">复制 CSS</button><button type="button" class="btn primary" @click="download">下载 CSS</button></div></div>
             <p>将以下代码保存为 <code>zui-theme.css</code>，在 ZUI 样式之后加载。包含浅色、深色及跟随系统的规则，无需重新构建 ZUI。</p>
             <div class="theme-export-status" role="status" aria-live="polite">{{message || exportMessage}}</div>
-            <textarea :value="css" aria-label="主题 CSS" readonly spellcheck="false" wrap="off"></textarea>
+            <textarea class="form-control" :value="css" aria-label="主题 CSS" readonly spellcheck="false" wrap="off"></textarea>
             <p class="theme-export-hint">默认跟随系统外观；在 <code>&lt;html&gt;</code> 上使用 <code>class="light"</code> 或 <code>class="dark"</code> 可手动指定。导出仅含 ZUI 变量，不包含文档站布局样式。自定义配色后，请检查文字与背景的对比度。</p>
         </section>
     </div>

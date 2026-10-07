@@ -21,9 +21,9 @@ function input(value: string, commit = false) {
 <template>
     <div class="theme-color-field">
         <label :for="`theme-${name}`">{{label}}</label>
-        <div class="theme-color-input">
-            <input type="color" :value="value" :aria-label="`${label}拾色器`" @input="input(($event.target as HTMLInputElement).value)">
-            <input :id="`theme-${name}`" :data-testid="`theme-color-${name}`" :value="draft" type="text" spellcheck="false" autocomplete="off" :aria-invalid="invalid" :aria-describedby="`theme-${name}-help`" @input="input(($event.target as HTMLInputElement).value)" @change="input(($event.target as HTMLInputElement).value, true)">
+        <div class="input-control has-prefix-icon text-base theme-color-input" :class="{'has-error': invalid}">
+            <span class="input-control-prefix opacity-100"><input type="color" :value="value" :aria-label="`${label}拾色器`" @input="input(($event.target as HTMLInputElement).value)"></span>
+            <input :id="`theme-${name}`" class="form-control" :data-testid="`theme-color-${name}`" :value="draft" type="text" spellcheck="false" autocomplete="off" :aria-invalid="invalid" :aria-describedby="`theme-${name}-help`" @input="input(($event.target as HTMLInputElement).value)" @change="input(($event.target as HTMLInputElement).value, true)">
         </div>
         <span :id="`theme-${name}-help`" class="theme-field-help" :class="{'theme-field-error': invalid}">{{invalid ? '请输入 #RGB 或 #RRGGBB 颜色' : variable}}</span>
     </div>

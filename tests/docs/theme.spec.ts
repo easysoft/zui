@@ -29,12 +29,12 @@ async function expectPrimaryPreview(page: Page, primary: string) {
         await expect(page.locator(selector)).toHaveCSS('background-color', rgbColor(primary));
         await expect(page.locator(selector)).toHaveCSS('color', 'rgb(255, 255, 255)');
     }
-    await expect(page.locator('.theme-preview progress')).toHaveCSS('color', rgbColor(primary));
+    await expect(page.locator('.theme-preview progress')).toHaveCSS('color', rgbColor(await cssVariable(page, '--color-link')));
 }
 
 async function exportedBrandColor(page: Page) {
     const exported = await page.getByRole('textbox', {name: '主题 CSS', exact: true}).inputValue();
-    return rgbColor(exported.match(/--color-primary-600:\s*(#[\da-f]{6});/i)![1]);
+    return rgbColor(exported.match(/--color-link-hover:\s*(#[\da-f]{6});/i)![1]);
 }
 
 test.beforeEach(async ({page}) => {
@@ -42,28 +42,118 @@ test.beforeEach(async ({page}) => {
 });
 
 test('theme: documentation navigation exposes the editor and all presets apply', async ({page}, testInfo) => {
+    await page.setViewportSize({width: 1440, height: 1000});
     await openEditor(page);
     await expect(page.locator('h1')).toHaveText('主题');
     await expect(page.locator('.VPNavBar').getByRole('link', {name: '文档', exact: true})).toHaveClass(/\bactive\b/);
     const navigation = page.locator('.VPSidebar');
     await expect(navigation.getByRole('link', {name: '主题', exact: true})).toHaveAttribute('href', /\/guide\/config\/theme\.html$/);
 
-    const colors = [];
-    for (const name of ['ZUI 蓝', '森林绿', '海湾青', '鸢尾紫', '落日橙', '玫瑰红']) {
+    const editor = page.getByTestId('theme-editor');
+    const appearances: Record<string, string>[] = [];
+    const newPresetIds: Record<string, string> = {曜石黑: 'ink', 'Code 极客': 'code', 电光粉: 'pop'};
+    const recipes = [
+        {name: 'ZUI 蓝', primary: '#3b82f6', radius: 4, fontSize: 16},
+        {name: '森林绿', primary: '#35644b', radius: 6, fontSize: 17},
+        {name: '海湾青', primary: '#087ea4', radius: 2, fontSize: 15},
+        {name: '鸢尾紫', primary: '#7048b6', radius: 10, fontSize: 16},
+        {name: '落日橙', primary: '#b85a24', radius: 0, fontSize: 17},
+        {name: '玫瑰红', primary: '#a52f57', radius: 12, fontSize: 16},
+        {name: '曜石黑', primary: '#171717', radius: 0, fontSize: 16},
+        {name: 'Code 极客', primary: '#0078d4', radius: 2, fontSize: 14},
+        {name: '电光粉', primary: '#d00070', radius: 16, fontSize: 18},
+    ];
+    for (const {name, primary, radius, fontSize} of recipes) {
         const preset = page.getByTestId('theme-editor').getByRole('button', {name: `应用${name}主题`, exact: true});
         await preset.focus();
         await preset.press('Enter');
-        const value = await page.getByTestId('theme-color-primary').inputValue();
-        await expect.poll(() => cssVariable(page, '--color-primary-500')).toBe(value);
-        await expectPrimaryPreview(page, value);
-        await expect(page.locator('.VPNavBar').getByRole('link', {name: '文档', exact: true})).toHaveCSS('color', await exportedBrandColor(page));
-        colors.push(value);
+        await expect(editor.getByTestId('theme-color-primary')).toHaveValue(primary);
+        for (const mode of ['浅色', '深色']) {
+            await editor.getByRole('button', {name: mode, exact: true}).click();
+            await expectPrimaryPreview(page, primary);
+            const exported = await page.getByRole('textbox', {name: '主题 CSS', exact: true}).inputValue();
+            const block = exported.match(mode === '浅色' ? /:root \{([^}]+)\}/ : /\n\.dark \{([^}]+)\}/)![1];
+            const surfaces: Record<string, string> = {};
+            for (const key of ['canvas', 'surface', 'fore', 'border']) {
+                surfaces[key] = await editor.getByTestId(`theme-color-${key}`).inputValue();
+                expect(block).toContain(`--color-${key}: ${surfaces[key]};`);
+            }
+            await expect(page.locator('body')).toHaveCSS('background-color', rgbColor(surfaces.canvas));
+            await expect(page.locator('.VPSidebar')).toHaveCSS('background-color', rgbColor(surfaces.surface));
+            await expect(preset.locator('.theme-preset-sample')).toHaveCSS('background-color', rgbColor(surfaces.canvas));
+            await expect(preset.locator('.theme-preset-sample')).toHaveCSS('border-radius', `${radius * 2}px`);
+            await expect(preset.locator('.theme-preset-sidebar')).toHaveCSS('background-color', rgbColor(surfaces.surface));
+            await expect(preset.locator('.theme-preset-actions > span').first()).toHaveCSS('background-color', rgbColor(primary));
+            await expect(preset.locator('.theme-preset-actions > span').first()).toHaveCSS('border-radius', `${radius}px`);
+            await expect(page.locator('.theme-preview-panel')).toHaveCSS('background-color', rgbColor(surfaces.canvas));
+            await expect(page.locator('.theme-preview-panel')).toHaveCSS('color', rgbColor(surfaces.fore));
+            await expect(page.locator('.theme-preview-panel')).toHaveCSS('border-color', rgbColor(surfaces.border));
+            await expect(page.locator('.theme-preview-panel')).toHaveCSS('border-radius', `${radius * 2}px`);
+            await expect(page.locator('.theme-preview-actions .btn.primary')).toHaveCSS('border-radius', `${radius}px`);
+            await expect(page.locator('html')).toHaveCSS('font-size', `${fontSize}px`);
+            await expect(page.locator('.theme-preview-body h3')).toHaveCSS('font-size', `${fontSize * 1.125}px`);
+            expect(exported).toContain(`--radius: ${radius}px;`);
+            expect(exported).toContain(`--font-size-root: ${fontSize}px;`);
+            const semantic: Record<string, string> = {};
+            for (const key of ['success', 'warning', 'danger']) {
+                semantic[key] = await editor.getByTestId(`theme-color-${key}`).inputValue();
+                await expect(page.locator(`.theme-preview-labels .${key}`)).toHaveCSS('background-color', rgbColor(semantic[key]));
+                expect(block).toContain(`--color-${key}-500: ${semantic[key]};`);
+            }
+            const gray = block.match(/--color-gray-600:\s*(#[\da-f]{6});/i)![1];
+            await expect(page.locator('.theme-preview-body > p')).toHaveCSS('color', rgbColor(gray));
+            const brand = block.match(/--color-link-hover:\s*(#[\da-f]{6});/i)![1];
+            await expect(page.locator('.VPNavBar').getByRole('link', {name: '文档', exact: true})).toHaveCSS('color', rgbColor(brand));
+            appearances.push({name, mode, primary, radius: `${radius}`, fontSize: `${fontSize}`, ...surfaces, ...semantic, gray});
+            if (newPresetIds[name]) {
+                const saved = await savedTheme(page);
+                expect(JSON.parse(saved!).settings.preset).toBe(newPresetIds[name]);
+                await page.reload();
+                await expect(editor).toBeVisible();
+                await expect(editor.getByTestId('theme-color-primary')).toHaveValue(primary);
+                await expect(editor.getByRole('button', {name: mode, exact: true})).toHaveAttribute('aria-pressed', 'true');
+                await expect(preset).toHaveAttribute('aria-pressed', 'true');
+                await expectPrimaryPreview(page, primary);
+                await expect(page.locator('.VPNavBar').getByRole('link', {name: '文档', exact: true})).toHaveCSS('color', rgbColor(brand));
+                expect(await savedTheme(page)).toBe(saved);
+                const screenshot = testInfo.outputPath(`theme-${name}-${mode}.png`);
+                await page.locator('.theme-preview-canvas').screenshot({path: screenshot, animations: 'disabled'});
+                await testInfo.attach(`${name}（${mode}）实际预览`, {path: screenshot, contentType: 'image/png'});
+                if (mode === '深色') {
+                    await page.locator('.VPNavBar').getByRole('link', {name: '文档', exact: true}).click();
+                    await expect(page).toHaveURL(/\/guide\/start\/$/);
+                    await expect(editor).toHaveCount(0);
+                    expect(await cssVariable(page, '--color-primary-500')).toBe(primary);
+                    await expect(page.locator('.VPNavBar').getByRole('link', {name: '文档', exact: true})).toHaveCSS('color', rgbColor(brand));
+                    const themeLink = navigation.getByRole('link', {name: '主题', exact: true});
+                    if (!await themeLink.isVisible()) {
+                        await navigation.getByRole('heading', {name: '全局配置', exact: true}).click();
+                    }
+                    await themeLink.click();
+                    await expect(preset).toHaveAttribute('aria-pressed', 'true');
+                    await expectPrimaryPreview(page, primary);
+                    expect(await savedTheme(page)).toBe(saved);
+                }
+            }
+        }
     }
-    expect(new Set(colors).size).toBe(6);
+    for (const mode of ['浅色', '深色']) {
+        const variants = appearances.filter(appearance => appearance.mode === mode);
+        const profiles = variants.map(({name: _name, mode: _mode, primary: _primary, ...appearance}) => JSON.stringify(appearance));
+        expect(new Set(profiles).size, `${mode} presets should differ beyond the primary color`).toBe(9);
+        for (const key of ['canvas', 'surface', 'fore', 'border', 'success', 'warning', 'danger', 'gray', 'radius', 'fontSize']) {
+            expect(new Set(variants.map(appearance => appearance[key])).size, `${mode} ${key} should vary across complete themes`).toBeGreaterThan(1);
+        }
+    }
+    await testInfo.attach('九套预设的双模式配色', {body: JSON.stringify(appearances, null, 2), contentType: 'application/json'});
 
+    await editor.getByRole('button', {name: '浅色', exact: true}).click();
     await page.getByTestId('theme-editor').getByRole('button', {name: '应用鸢尾紫主题', exact: true}).click();
     const primary = await page.getByTestId('theme-color-primary').inputValue();
     await expectPrimaryPreview(page, primary);
+    const presetsScreenshot = testInfo.outputPath('theme-preset-styles.png');
+    await page.locator('.theme-presets').screenshot({path: presetsScreenshot, animations: 'disabled'});
+    await testInfo.attach('九套完整预设风格', {path: presetsScreenshot, contentType: 'image/png'});
     await page.locator('.theme-workbench').evaluate(element => window.scrollTo(0, window.scrollY + element.getBoundingClientRect().top - 100));
     await expect(page.getByTestId('theme-color-primary')).toBeInViewport({ratio: 1});
     await expect(page.locator('.theme-preview-actions .btn.primary')).toBeInViewport({ratio: 1});
@@ -198,8 +288,8 @@ test('theme: header controls and the editor share theme and appearance state', a
     await expect(page.locator('html')).not.toHaveClass(/\bdark\b/);
     await expect(light).toHaveAttribute('aria-pressed', 'true');
     await panel.getByRole('button', {name: '应用鸢尾紫主题', exact: true}).click();
-    await expect(editor.getByTestId('theme-color-primary')).toHaveValue('#8b5cf6');
-    await expectPrimaryPreview(page, '#8b5cf6');
+    await expect(editor.getByTestId('theme-color-primary')).toHaveValue('#7048b6');
+    await expectPrimaryPreview(page, '#7048b6');
     await page.locator('h1').click();
     await expect(panel).toBeHidden();
 
@@ -223,10 +313,10 @@ test('theme: header customizes an ordinary document and persists through the edi
     await trigger.click();
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
     await expect(panel).toHaveAttribute('id', (await trigger.getAttribute('aria-controls'))!);
-    await expect(panel.getByRole('button', {name: /^应用.+主题$/})).toHaveCount(6);
+    await expect(panel.getByRole('button', {name: /^应用.+主题$/})).toHaveCount(9);
     await panel.getByRole('button', {name: '应用森林绿主题', exact: true}).click();
     await expect(panel.getByRole('button', {name: '应用森林绿主题', exact: true})).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.locator('.example .btn.primary').first()).toHaveCSS('background-color', 'rgb(16, 185, 129)');
+    await expect(page.locator('.example .btn.primary').first()).toHaveCSS('background-color', 'rgb(53, 100, 75)');
     const lightScreenshot = testInfo.outputPath('nav-theme-light.png');
     await page.screenshot({path: lightScreenshot, animations: 'disabled'});
     await testInfo.attach('顶部主题面板（浅色）', {path: lightScreenshot, contentType: 'image/png'});
@@ -238,7 +328,7 @@ test('theme: header customizes an ordinary document and persists through the edi
 
     await page.reload();
     await expect(page.locator('html')).toHaveClass(/\bdark\b/);
-    await expect(page.locator('.example .btn.primary').first()).toHaveCSS('background-color', 'rgb(16, 185, 129)');
+    await expect(page.locator('.example .btn.primary').first()).toHaveCSS('background-color', 'rgb(53, 100, 75)');
     await trigger.click();
     await expect(panel.getByRole('button', {name: '深色', exact: true})).toHaveAttribute('aria-pressed', 'true');
     const customize = panel.getByRole('link', {name: '自定义主题', exact: true});
@@ -247,7 +337,7 @@ test('theme: header customizes an ordinary document and persists through the edi
     await expect(page.getByTestId('theme-editor')).toBeVisible();
     await expect(panel).toBeHidden();
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
-    await expect(page.getByTestId('theme-color-primary')).toHaveValue('#10b981');
+    await expect(page.getByTestId('theme-color-primary')).toHaveValue('#35644b');
 });
 
 test('theme: header panel closes accessibly and stays inside a narrow viewport', async ({page}, testInfo) => {
@@ -290,6 +380,26 @@ test('theme: header panel closes accessibly and stays inside a narrow viewport',
     const screenshot = testInfo.outputPath('nav-theme-narrow.png');
     await page.screenshot({path: screenshot, animations: 'disabled'});
     await testInfo.attach('顶部主题面板（320px）', {path: screenshot, contentType: 'image/png'});
+
+    await page.setViewportSize({width: 320, height: 360});
+    await expect(panel).toBeInViewport({ratio: 1});
+    expect(await panel.evaluate(element => element.scrollHeight - element.clientHeight)).toBeGreaterThan(0);
+    await trigger.focus();
+    for (const control of await panel.locator('button, a').all()) {
+        await page.keyboard.press('Tab');
+        await expect(control).toBeFocused();
+    }
+    const customize = panel.getByRole('link', {name: '自定义主题', exact: true});
+    await expect(customize).toBeFocused();
+    await expect(customize).toBeInViewport({ratio: 1});
+    expect(await panel.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
+    await expect(panel).toBeInViewport({ratio: 1});
+    const shortScreenshot = testInfo.outputPath('nav-theme-short.png');
+    await page.screenshot({path: shortScreenshot, animations: 'disabled'});
+    await testInfo.attach('顶部主题面板（320×360，键盘滚动到底部）', {path: shortScreenshot, contentType: 'image/png'});
+    await page.keyboard.press('Enter');
+    await expect(page.getByTestId('theme-editor')).toBeVisible();
+    await expect(panel).toBeHidden();
 });
 
 test('theme: geometry controls update CSS and exported values', async ({page}) => {

@@ -23,6 +23,18 @@ function normalizeColor(value: string) {
     return /^#[\da-f]{3}$/i.test(value) ? `#${[...value.slice(1)].map(char => char.repeat(2)).join('')}` : value.replaceAll(' ', '');
 }
 
+function contrast(foreground: string, background: string) {
+    const luminance = (hex: string) => {
+        const [red, green, blue] = [1, 3, 5].map((start) => {
+            const channel = parseInt(hex.slice(start, start + 2), 16) / 255;
+            return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+        });
+        return red * 0.2126 + green * 0.7152 + blue * 0.0722;
+    };
+    const values = [luminance(foreground), luminance(background)].sort((a, b) => a - b);
+    return (values[1] + 0.05) / (values[0] + 0.05);
+}
+
 test('default editor colors match the variables emitted by the actual ZUI Tailwind configuration', async () => {
     const result = await postcss([tailwindcss(createTailwindConfig({preflight: false}))]).process('@tailwind base;', {from: undefined});
     const rules = new Map<string, Record<string, string>>();
@@ -53,14 +65,20 @@ test('default editor colors match the variables emitted by the actual ZUI Tailwi
     }
 });
 
-test('presets are independent, preserve known palettes, and arbitrary seeds keep their midpoint in both modes', () => {
-    expect(presets).toHaveLength(6);
+test('presets clone complete recipes, and arbitrary seeds keep their midpoint in both modes', () => {
+    expect(presets).toHaveLength(9);
     for (const preset of presets) {
+        const original = structuredClone(preset.settings);
         const theme = createTheme(preset.id);
         expect(parseTheme(theme)).toEqual(theme);
         expect(themeVariables(theme, 'light')['--color-primary-500']).toBe(theme.colors.primary);
         theme.colors.primary = '#ff0000';
-        expect(createTheme(preset.id).colors.primary).not.toBe('#ff0000');
+        theme.light.canvas = '#000000';
+        theme.dark.fore = '#000000';
+        theme.radius = 13;
+        theme.fontSize = 13;
+        expect(createTheme(preset.id)).toEqual(original);
+        expect(preset.settings).toEqual(original);
     }
     const theme = createTheme();
     theme.colors.primary = '#123456';
@@ -88,6 +106,66 @@ test('presets are independent, preserve known palettes, and arbitrary seeds keep
     expect(customized['--font-size-root']).toBe('18px');
 });
 
+test('preset styles differ in surfaces, geometry and density while keeping new recipe text readable', () => {
+    const styles = presets.map(({settings}) => settings);
+    for (const key of ['colors', 'light', 'dark'] as const) {
+        expect(new Set(styles.map(settings => JSON.stringify(settings[key]))).size, key).toBe(styles.length);
+    }
+    expect(new Set(styles.map(({colors, light, dark, radius, fontSize}) => JSON.stringify({colors, light, dark, radius, fontSize}))).size).toBe(styles.length);
+    expect(new Set(styles.map(settings => settings.radius)).size).toBeGreaterThan(1);
+    expect(new Set(styles.map(settings => settings.fontSize)).size).toBeGreaterThan(1);
+    expect(presets.map(({id}) => id)).toEqual(['zui', 'forest', 'bay', 'iris', 'sunset', 'rose', 'ink', 'code', 'pop']);
+    for (const {id, settings} of presets.filter(item => item.id !== 'zui')) {
+        for (const mode of ['light', 'dark'] as const) {
+            const variables = themeVariables(settings, mode);
+            for (const background of ['canvas', 'surface']) {
+                // These are the body and secondary text tokens used by the documentation theme.
+                for (const foreground of ['fore', 'gray-600']) {
+                    expect(contrast(variables[`--color-${foreground}`], variables[`--color-${background}`]), `${id} ${mode} ${foreground} on ${background}`).toBeGreaterThanOrEqual(4.5);
+                }
+            }
+            for (const {key} of paletteFields) {
+                expect(contrast(variables[`--color-${key}-500`], variables['--color-fore-in-dark']), `${id} ${mode} ${key} solid`).toBeGreaterThanOrEqual(4.5);
+            }
+        }
+    }
+});
+
+test('dark links from low-luminance seeds become readable without changing solid colors or light links', () => {
+    const custom = createTheme();
+    custom.preset = 'custom';
+    custom.colors.primary = '#000000';
+    for (const settings of [createTheme('ink'), createTheme('code'), createTheme('pop'), custom]) {
+        const light = themeVariables(settings, 'light');
+        const dark = themeVariables(settings, 'dark');
+        expect(light['--color-link']).toBe(settings.colors.primary);
+        expect(dark['--color-primary-500']).toBe(settings.colors.primary);
+        let exportedDark: Record<string, string> = {};
+        postcss.parse(exportThemeCSS(settings)).walkRules('.dark', (rule) => {
+            exportedDark = declarations(rule);
+        });
+        for (const name of ['link', 'link-hover', 'link-visited', 'link-active']) {
+            const hex = dark[`--color-${name}`];
+            for (const background of ['canvas', 'surface']) {
+                expect(contrast(hex, dark[`--color-${background}`]), `${settings.preset} ${name} on ${background}`).toBeGreaterThanOrEqual(4.5);
+            }
+            expect(dark[`--color-${name}-rgb`]).toBe([1, 3, 5].map(start => parseInt(hex.slice(start, start + 2), 16)).join(', '));
+            expect(exportedDark[`--color-${name}`]).toBe(hex);
+        }
+    }
+    const ink = themeVariables(createTheme('ink'), 'dark');
+    expect(ink['--color-link']).toBe(ink['--color-primary-700']);
+    expect(ink['--color-link-hover']).toBe(ink['--color-primary-800']);
+    expect(ink['--color-link-visited']).toBe(ink['--color-primary-900']);
+    expect(ink['--color-link-active']).toBe(ink['--color-primary-950']);
+    custom.dark.canvas = '#000000';
+    custom.dark.surface = '#ffffff';
+    const fallback = themeVariables(custom, 'dark');
+    for (const name of ['link', 'link-hover', 'link-visited', 'link-active']) {
+        expect(fallback[`--color-${name}`]).toBe(fallback['--color-primary-950']);
+    }
+});
+
 test('storage parsing rejects malformed, unsupported and CSS-injectable data', () => {
     const theme = createTheme();
     const invalid: unknown[] = [null, false, [], '{}', {}, {...theme, version: 2}, {...theme, preset: 'unknown'}, {...theme, extra: true}];
@@ -105,8 +183,8 @@ test('storage parsing rejects malformed, unsupported and CSS-injectable data', (
     for (const value of invalid) {
         expect(parseTheme(value)).toBeNull();
     }
-    const custom = {...theme, preset: 'custom', colors: {...theme.colors, primary: '#ABCDEF'}};
-    expect(parseTheme(custom)?.colors.primary).toBe('#abcdef');
+    const custom = {...theme, preset: 'custom', colors: {...theme.colors, primary: '#ABCDEF'}, light: {...theme.light, canvas: '#edddcc'}, radius: 9, fontSize: 19};
+    expect(parseTheme(custom)).toEqual({...custom, colors: {...custom.colors, primary: '#abcdef'}});
     expect(parseTheme(custom)?.colors).not.toBe(custom.colors);
 });
 
@@ -131,8 +209,8 @@ test('surface derivatives follow their edited inputs while neutral palette edits
     }
 });
 
-test('export includes explicit modes, system mode and light islands with matching color and RGB declarations', () => {
-    const theme = createTheme('iris');
+test.each(presets)('export includes the complete $id recipe in explicit and system modes', ({id}) => {
+    const theme = createTheme(id);
     const css = exportThemeCSS(theme);
     expect(css).toContain('在 ZUI 的 CSS 之后引入');
     const root = postcss.parse(css);
@@ -142,9 +220,12 @@ test('export includes explicit modes, system mode and light islands with matchin
     });
     const light = themeVariables(theme, 'light');
     const dark = themeVariables(theme, 'dark');
+    const lightColors = Object.fromEntries(Object.entries(light).filter(([key]) => key.startsWith('--color-')));
+    const darkColors = Object.fromEntries(Object.entries(dark).filter(([key]) => key.startsWith('--color-')));
     expect(rules.get(':root')).toMatchObject(light);
-    expect(rules.get('.dark')).toMatchObject({'--color-primary-200': dark['--color-primary-200'], 'color-scheme': 'dark'});
-    expect(rules.get('html:root.light, .light-in-dark')).toMatchObject({'--color-primary-200': light['--color-primary-200'], 'color-scheme': 'light'});
+    expect(rules.get('.dark')).toMatchObject({...darkColors, 'color-scheme': 'dark'});
+    expect(rules.get('html:root:not(.light):not(.dark), .dark-auto')).toMatchObject({...darkColors, 'color-scheme': 'dark'});
+    expect(rules.get('html:root.light, .light-in-dark')).toMatchObject({...lightColors, 'color-scheme': 'light'});
     root.walkAtRules('media', (rule) => {
         expect(rule.params).toBe('(prefers-color-scheme: dark)');
         expect((rule.nodes?.[0] as Rule | undefined)?.selector).toBe('html:root:not(.light):not(.dark), .dark-auto');

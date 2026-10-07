@@ -2,6 +2,7 @@
 :root { scrollbar-color: var(--scrollbar-bar-bg) var(--scrollbar-bg); scrollbar-width: auto; }
 @media (forced-colors: active) { :root { scrollbar-color: auto; } }
 :root[data-zui-theme], :root.dark[data-zui-theme] {
+  font-size: var(--font-size-root);
   --vp-c-bg: var(--color-canvas);
   --vp-c-bg-alt: var(--color-surface);
   --vp-c-bg-elv: var(--color-canvas);
@@ -13,14 +14,31 @@
   --vp-c-divider: var(--color-border);
   --vp-c-gutter: var(--color-border-light);
   --vp-c-text-code: var(--color-link-hover);
+  --vp-c-brand: var(--color-link);
+  --vp-c-brand-1: var(--color-link-hover);
+  --vp-c-brand-2: var(--color-link);
 }
+:root.dark[data-zui-theme] {
+  --vp-c-brand-2: var(--color-link-visited);
+  --vp-c-brand-3: var(--color-link-active);
+}
+:root[data-zui-theme] .vp-doc .custom-block,
+:root[data-zui-theme] .VPDocFooter .pager-link { border-radius: var(--radius-lg); }
+:root[data-zui-theme] .VPFeature { border-radius: var(--radius-xl); }
+:root[data-zui-theme] .vp-doc .custom-block div[class*='language-'] { border-radius: var(--radius-lg); }
+:root[data-zui-theme] .vp-doc .custom-block .vp-code-group .tabs { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+@media (min-width: 640px) {
+  :root[data-zui-theme] .vp-doc div[class*='language-'], :root[data-zui-theme] .vp-block { border-radius: var(--radius-lg); }
+  :root[data-zui-theme] .vp-code-group .tabs { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+}
+@media (max-width: 639px) { :root[data-zui-theme] .vp-doc li div[class*='language-'] { border-radius: var(--radius-lg) 0 0 var(--radius-lg); } }
 
 .theme-editor-page .VPDoc .content-container { max-width: 1100px; }
 .theme-editor-page .VPDoc .content { max-width: none; }
 .theme-editor { margin-top: 28px; font-size: 14px; color: var(--vp-c-text-1); }
 .theme-editor button, .theme-editor input[type="color"], .theme-editor input[type="range"] { cursor: pointer; }
 .theme-editor button:disabled { cursor: default; opacity: .55; }
-.theme-editor :is(button, input, textarea):focus-visible { outline: 2px solid var(--color-primary-600); outline-offset: 3px; }
+.theme-editor :is(button, input[type="color"], input[type="range"]):focus-visible { outline: 2px solid var(--color-link-hover); outline-offset: 3px; }
 .theme-editor button:active:not(:disabled) { filter: brightness(.96); }
 .theme-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding-bottom: 24px; border-bottom: 1px solid var(--vp-c-divider); }
 .theme-appearance { display: inline-flex; padding: 3px; border: 1px solid var(--vp-c-divider); border-radius: 7px; background: var(--vp-c-bg-alt); }
@@ -38,9 +56,16 @@
 .theme-preset { min-width: 0; text-align: left; padding: 12px; border: 1px solid var(--vp-c-divider); border-radius: 8px; background: var(--vp-c-bg); }
 .theme-preset:hover { border-color: var(--vp-c-brand-1); background: var(--vp-c-bg-soft); }
 .theme-preset[aria-pressed="true"] { border-color: var(--vp-c-brand-1); box-shadow: inset 0 0 0 1px var(--vp-c-brand-1); }
-.theme-preset-colors { display: flex; height: 28px; overflow: hidden; border-radius: 3px; margin-bottom: 10px; }
-.theme-preset-colors > span { flex: 1; }
-.theme-preset-colors > span:first-child { flex: 2; }
+.theme-preset-sample { display: flex; height: 76px; overflow: hidden; margin-bottom: 10px; border: 1px solid var(--preset-border); border-radius: calc(var(--preset-radius) * 2); background: var(--preset-canvas); }
+.theme-preset-sidebar { display: flex; flex-direction: column; gap: 6px; width: 28%; padding: 12px 8px; background: var(--preset-surface); border-right: 1px solid var(--preset-border); }
+.theme-preset-sidebar > span { height: 4px; background: var(--preset-fore); opacity: .2; }
+.theme-preset-sidebar > span:first-child { width: 60%; background: var(--preset-primary); opacity: 1; }
+.theme-preset-content { display: flex; flex: 1; flex-direction: column; gap: 6px; padding: 12px; }
+.theme-preset-line { width: 70%; height: 5px; background: var(--preset-fore); opacity: .25; }
+.theme-preset-line:first-child { width: 45%; height: 6px; opacity: .8; }
+.theme-preset-actions { display: flex; gap: 6px; margin-top: auto; }
+.theme-preset-actions > span { width: 36px; height: 15px; border-radius: var(--preset-radius); background: var(--preset-primary); }
+.theme-preset-actions > span + span { width: 22px; background: var(--preset-secondary); }
 .theme-preset-name { display: flex; justify-content: space-between; font-weight: 600; }
 .theme-preset-description { display: block; margin-top: 2px; color: var(--vp-c-text-2); font-size: 12px; }
 .theme-workbench { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .95fr); align-items: start; gap: 32px; padding: 28px 0; border-block: 1px solid var(--vp-c-divider); }
@@ -49,9 +74,8 @@
 .theme-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; }
 .theme-color-field { min-width: 0; }
 .theme-color-field > label { display: block; margin-bottom: 6px; font-weight: 500; }
-.theme-color-input { display: flex; align-items: center; min-width: 0; gap: 7px; padding: 4px 8px; border: 1px solid var(--vp-c-border); background: var(--vp-c-bg); border-radius: 5px; }
-.theme-color-input input[type="color"] { flex-shrink: 0; width: 26px; height: 28px; padding: 0; border: 0; background: none; }
-.theme-color-input input[type="text"] { width: 100%; min-width: 0; height: 28px; padding: 0 2px; font-family: var(--vp-font-family-mono); font-size: 13px; background: none; color: inherit; }
+.theme-color-input input[type="color"] { width: 24px; height: 24px; padding: 0; border: 0; background: none; }
+.theme-color-input .form-control { font-family: var(--vp-font-family-mono); }
 .theme-field-help { display: block; min-height: 18px; margin-top: 4px; color: var(--vp-c-text-2); font-family: var(--vp-font-family-mono); font-size: 10px; line-height: 1.6; overflow-wrap: anywhere; }
 .theme-field-error { color: var(--color-danger-600); font-family: inherit; }
 .theme-slider-field + .theme-slider-field { margin-top: 18px; }
@@ -71,10 +95,10 @@
 .theme-preview-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 .theme-preview-feedback { min-height: 3.4em; margin: 12px 0; font-size: .75rem; line-height: 1.7; color: var(--color-gray-600); overflow-wrap: anywhere; }
 .theme-preview-progress { display: flex; justify-content: space-between; font-size: .75rem; }
-.theme-preview progress { appearance: none; display: block; width: 100%; height: 6px; margin-top: 8px; border: 0; border-radius: var(--radius); overflow: hidden; background: var(--color-surface); color: var(--color-primary-500); }
+.theme-preview progress { appearance: none; display: block; width: 100%; height: 6px; margin-top: 8px; border: 0; border-radius: var(--radius); overflow: hidden; background: var(--color-surface); color: var(--color-link); }
 .theme-preview progress::-webkit-progress-bar { background: var(--color-surface); }
-.theme-preview progress::-webkit-progress-value { background: var(--color-primary-500); }
-.theme-preview progress::-moz-progress-bar { background: var(--color-primary-500); }
+.theme-preview progress::-webkit-progress-value { background: var(--color-link); }
+.theme-preview progress::-moz-progress-bar { background: var(--color-link); }
 .theme-preview-labels { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
 .theme-tones { display: flex; height: 24px; overflow: hidden; border-radius: 4px; margin-top: 16px; }
 .theme-tones > span { flex: 1; }
@@ -84,7 +108,7 @@
 .theme-export p { margin: 0; color: var(--vp-c-text-2); font-size: 13px; line-height: 1.8; }
 .theme-export code { font-family: var(--vp-font-family-mono); color: var(--vp-c-text-1); background: var(--vp-c-bg-soft); }
 .theme-export-status { min-height: 28px; padding-top: 4px; font-size: 12px; color: var(--vp-c-text-2); }
-.theme-export textarea { display: block; resize: none; width: 100%; height: 260px; padding: 16px; border: 1px solid var(--vp-c-divider); border-radius: 8px; background: var(--vp-c-bg-soft); color: var(--vp-c-text-1); font: 12px/1.7 var(--vp-font-family-mono); tab-size: 4; }
+.theme-export textarea { resize: none; height: 260px; font: 12px/1.7 var(--vp-font-family-mono); tab-size: 4; }
 .theme-export .theme-export-hint { margin-top: 12px; font-size: 12px; }
 @media (max-width: 1100px) { .theme-workbench { grid-template-columns: minmax(0, 1fr); } .theme-preview { position: static; } }
 @media (max-width: 479px) { .theme-preset-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .theme-preview-canvas { padding: 12px; } .theme-save-status { order: 3; flex-basis: 100%; } .theme-reset { margin-left: auto; } .theme-fields { gap: 12px; } }

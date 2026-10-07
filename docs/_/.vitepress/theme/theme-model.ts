@@ -57,23 +57,69 @@ const defaultSettings: ThemeSettings = {
     fontSize: 16,
 };
 
-function preset(id: string, name: string, description: string, primary: string, secondary: string) {
-    return {id, name, description, settings: {
-        ...defaultSettings,
-        preset: id,
-        colors: {...defaultSettings.colors, primary, secondary},
-        light: {...defaultSettings.light},
-        dark: {...defaultSettings.dark},
-    }};
+function preset(id: string, name: string, description: string, recipe: Omit<ThemeSettings, 'version' | 'preset'>) {
+    const settings: ThemeSettings = {...recipe, version: 1, preset: id};
+    return {id, name, description, settings};
 }
 
 export const presets = [
-    preset('zui', 'ZUI 蓝', '清晰、熟悉的默认主题', colors.blue[500], colors.sky[500]),
-    preset('forest', '森林绿', '自然沉静的绿色调', colors.emerald[500], colors.green[500]),
-    preset('bay', '海湾青', '轻盈清爽的青色调', colors.teal[500], colors.sky[500]),
-    preset('iris', '鸢尾紫', '柔和鲜明的紫色调', colors.violet[500], colors.purple[500]),
-    preset('sunset', '落日橙', '明快温暖的橙色调', colors.orange[500], colors.amber[500]),
-    preset('rose', '玫瑰红', '温润活泼的红色调', colors.rose[500], colors.pink[500]),
+    preset('zui', 'ZUI 蓝', '标准画布、适中圆角，熟悉的阅读节奏', defaultSettings),
+    preset('forest', '森林绿', '米白纸面、柔和圆角，阅读更舒展', {
+        colors: {primary: '#35644b', secondary: '#8e7145', success: '#3f6b3c', warning: '#8a6828', danger: '#a8443d', important: '#935242', special: '#675586', gray: '#6e7967'},
+        light: {canvas: '#f7f7ed', surface: '#e8eddd', fore: '#28372c', border: '#cbd4bb'},
+        dark: {canvas: '#121e17', surface: '#23352a', fore: '#e3ebdd', border: '#3f5846'},
+        radius: 6,
+        fontSize: 17,
+    }),
+    preset('bay', '海湾青', '冷白画布、小圆角，信息更紧凑', {
+        colors: {primary: '#087ea4', secondary: '#3154a6', success: '#287253', warning: '#926b14', danger: '#ba4055', important: '#a43e79', special: '#6556a7', gray: '#63778d'},
+        light: {canvas: '#f4f8fc', surface: '#e1ebf5', fore: '#162c43', border: '#b8cbdc'},
+        dark: {canvas: '#081522', surface: '#142b3f', fore: '#d8eafa', border: '#2c4c65'},
+        radius: 2,
+        fontSize: 15,
+    }),
+    preset('iris', '鸢尾紫', '雾紫表面、大圆角，层次柔和', {
+        colors: {primary: '#7048b6', secondary: '#a13b80', success: '#34785d', warning: '#8c6b21', danger: '#b24458', important: '#a53577', special: '#7550a8', gray: '#806e8a'},
+        light: {canvas: '#faf7ff', surface: '#eee5f7', fore: '#382c4d', border: '#d6c5e5'},
+        dark: {canvas: '#1c1428', surface: '#30223f', fore: '#eee3fa', border: '#513d65'},
+        radius: 10,
+        fontSize: 16,
+    }),
+    preset('sunset', '落日橙', '暖砂纸面、直角轮廓，文字更醒目', {
+        colors: {primary: '#b85a24', secondary: '#866328', success: '#596e35', warning: '#946c17', danger: '#b23d30', important: '#a24850', special: '#835477', gray: '#83715e'},
+        light: {canvas: '#fff8ea', surface: '#f3e5cc', fore: '#453326', border: '#d9bc93'},
+        dark: {canvas: '#24180f', surface: '#3a291a', fore: '#f8e7cc', border: '#64492e'},
+        radius: 0,
+        fontSize: 17,
+    }),
+    preset('rose', '玫瑰红', '淡粉瓷面、饱满圆角，轮廓柔软', {
+        colors: {primary: '#a52f57', secondary: '#72568e', success: '#35765c', warning: '#946621', danger: '#b63847', important: '#9c3b73', special: '#80519b', gray: '#8e6b79'},
+        light: {canvas: '#fff7f8', surface: '#f8e4e8', fore: '#4a2834', border: '#e5bdc8'},
+        dark: {canvas: '#26141e', surface: '#422333', fore: '#fae3eb', border: '#704153'},
+        radius: 12,
+        fontSize: 16,
+    }),
+    preset('ink', '曜石黑', '黑白分明、硬朗直角，突出内容对比', {
+        colors: {primary: '#171717', secondary: '#434343', success: '#276442', warning: '#886000', danger: '#b02a37', important: '#913563', special: '#59459a', gray: '#707070'},
+        light: {canvas: '#ffffff', surface: '#ededed', fore: '#121212', border: '#303030'},
+        dark: {canvas: '#101010', surface: '#202020', fore: '#f5f5f5', border: '#656565'},
+        radius: 0,
+        fontSize: 16,
+    }),
+    preset('code', 'Code 极客', '编辑器灰阶、代码蓝，紧凑直线布局', {
+        colors: {primary: '#0078d4', secondary: '#6f42c1', success: '#2e7435', warning: '#986a00', danger: '#c43c3c', important: '#b34482', special: '#7655a3', gray: '#707070'},
+        light: {canvas: '#ffffff', surface: '#f8f8f8', fore: '#3b3b3b', border: '#cecece'},
+        dark: {canvas: '#1f1f1f', surface: '#181818', fore: '#cccccc', border: '#3c3c3c'},
+        radius: 2,
+        fontSize: 14,
+    }),
+    preset('pop', '电光粉', '亮粉底色、大胆撞色，饱满大圆角', {
+        colors: {primary: '#d00070', secondary: '#6b32d6', success: '#00805f', warning: '#946300', danger: '#c52040', important: '#a9006a', special: '#7730cf', gray: '#876075'},
+        light: {canvas: '#fff5fb', surface: '#ffdcee', fore: '#400b2a', border: '#ed73b6'},
+        dark: {canvas: '#230019', surface: '#3f062d', fore: '#fff1fb', border: '#b52b7b'},
+        radius: 16,
+        fontSize: 18,
+    }),
 ];
 
 export function createTheme(id = 'zui'): ThemeSettings {
@@ -121,6 +167,19 @@ function rgb(hex: string): number[] {
     return [1, 3, 5].map(start => parseInt(hex.slice(start, start + 2), 16));
 }
 
+function contrast(foreground: string, background: string): number {
+    const luminance = (hex: string) => {
+        const [red, green, blue] = rgb(hex).map((value) => {
+            const channel = value / 255;
+            return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+        });
+        return red * 0.2126 + green * 0.7152 + blue * 0.0722;
+    };
+    const a = luminance(foreground);
+    const b = luminance(background);
+    return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+}
+
 function mix(color: string, other: string, amount: number): string {
     const target = rgb(other);
     return `#${rgb(color).map((value, index) => Math.round(value + (target[index] - value) * amount).toString(16).padStart(2, '0')).join('')}`;
@@ -154,6 +213,13 @@ export function themeVariables(settings: ThemeSettings, mode: ThemeMode): Record
     const defaults = defaultSettings[mode];
     const gray = originalPalettes.gray;
     const isDark = mode === 'dark';
+    const linkShades = [500, 600, 700, 800, 900, 950] as const;
+    let linkIndex = 0;
+    if (isDark && contrast(palettes.primary[500], surface.canvas) < 4.5) {
+        const readableIndex = linkShades.findIndex(shade => shade > 500 && [surface.canvas, surface.surface].every(background => contrast(palettes.primary[shade], background) >= 4.5));
+        linkIndex = readableIndex < 0 ? linkShades.length - 1 : readableIndex;
+    }
+    const linkColor = (offset: number) => palettes.primary[linkShades[Math.min(linkIndex + offset, linkShades.length - 1)]];
     const derive = (keys: SurfaceKey[], original: string, customized: string) => keys.every(key => surface[key].toLowerCase() === defaults[key]) ? original : customized;
     const specialColors = {
         black: '#000000',
@@ -169,10 +235,10 @@ export function themeVariables(settings: ThemeSettings, mode: ThemeMode): Record
         'fore-in-light': settings.light.fore,
         'fore-in-dark': '#ffffff',
         focus: palettes.primary[200],
-        link: palettes.primary[500],
-        'link-hover': palettes.primary[600],
-        'link-visited': palettes.primary[700],
-        'link-active': palettes.primary[800],
+        link: linkColor(0),
+        'link-hover': linkColor(1),
+        'link-visited': linkColor(2),
+        'link-active': linkColor(3),
         placeholder: derive(['fore', 'canvas'], isDark ? gray[600] : gray[400], mix(surface.fore, surface.canvas, 0.5)),
         border: surface.border,
         'border-light': derive(['border', 'canvas'], isDark ? gray[900] : gray[100], mix(surface.border, surface.canvas, 0.45)),
