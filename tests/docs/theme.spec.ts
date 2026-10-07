@@ -6,6 +6,11 @@ import type {Page} from '@playwright/test';
 
 const route = 'guide/config/theme.html';
 const storageKey = 'zui-docs-theme-v1';
+const addedPresets = [
+    {id: 'celadon', name: '青瓷绿', primary: '#207267', radius: 8, fontSize: 16},
+    {id: 'gilded', name: '鎏金黄', primary: '#86631c', radius: 3, fontSize: 15},
+    {id: 'cinnabar', name: '朱砂红', primary: '#ba3028', radius: 1, fontSize: 18},
+];
 
 async function openEditor(page: Page) {
     await page.goto(route);
@@ -51,7 +56,7 @@ test('theme: documentation navigation exposes the editor and all presets apply',
 
     const editor = page.getByTestId('theme-editor');
     const appearances: Record<string, string>[] = [];
-    const newPresetIds: Record<string, string> = {曜石黑: 'ink', 深空蓝: 'code', 电光粉: 'pop'};
+    const roundTripPresetIds: Record<string, string> = {曜石黑: 'ink', 深空蓝: 'code', 电光粉: 'pop', ...Object.fromEntries(addedPresets.map(({id, name}) => [name, id]))};
     const recipes = [
         {name: 'ZUI 蓝', primary: '#3b82f6', radius: 4, fontSize: 16},
         {name: '森林绿', primary: '#35644b', radius: 6, fontSize: 17},
@@ -62,6 +67,7 @@ test('theme: documentation navigation exposes the editor and all presets apply',
         {name: '曜石黑', primary: '#171717', radius: 0, fontSize: 16},
         {name: '深空蓝', primary: '#0078d4', radius: 2, fontSize: 14},
         {name: '电光粉', primary: '#d00070', radius: 16, fontSize: 18},
+        ...addedPresets,
     ];
     for (const {name, primary, radius, fontSize} of recipes) {
         const preset = page.getByTestId('theme-editor').getByRole('button', {name: `应用${name}主题`, exact: true});
@@ -105,9 +111,9 @@ test('theme: documentation navigation exposes the editor and all presets apply',
             const brand = block.match(/--color-link-hover:\s*(#[\da-f]{6});/i)![1];
             await expect(page.locator('.VPNavBar').getByRole('link', {name: '文档', exact: true})).toHaveCSS('color', rgbColor(brand));
             appearances.push({name, mode, primary, radius: `${radius}`, fontSize: `${fontSize}`, ...surfaces, ...semantic, gray});
-            if (newPresetIds[name]) {
+            if (roundTripPresetIds[name]) {
                 const saved = await savedTheme(page);
-                expect(JSON.parse(saved!).settings.preset).toBe(newPresetIds[name]);
+                expect(JSON.parse(saved!).settings.preset).toBe(roundTripPresetIds[name]);
                 await page.reload();
                 await expect(editor).toBeVisible();
                 await expect(editor.getByTestId('theme-color-primary')).toHaveValue(primary);
@@ -140,12 +146,12 @@ test('theme: documentation navigation exposes the editor and all presets apply',
     for (const mode of ['浅色', '深色']) {
         const variants = appearances.filter(appearance => appearance.mode === mode);
         const profiles = variants.map(({name: _name, mode: _mode, primary: _primary, ...appearance}) => JSON.stringify(appearance));
-        expect(new Set(profiles).size, `${mode} presets should differ beyond the primary color`).toBe(9);
+        expect(new Set(profiles).size, `${mode} presets should differ beyond the primary color`).toBe(12);
         for (const key of ['canvas', 'surface', 'fore', 'border', 'success', 'warning', 'danger', 'gray', 'radius', 'fontSize']) {
             expect(new Set(variants.map(appearance => appearance[key])).size, `${mode} ${key} should vary across complete themes`).toBeGreaterThan(1);
         }
     }
-    await testInfo.attach('九套预设的双模式配色', {body: JSON.stringify(appearances, null, 2), contentType: 'application/json'});
+    await testInfo.attach('十二套预设的双模式配色', {body: JSON.stringify(appearances, null, 2), contentType: 'application/json'});
 
     await editor.getByRole('button', {name: '浅色', exact: true}).click();
     await page.getByTestId('theme-editor').getByRole('button', {name: '应用鸢尾紫主题', exact: true}).click();
@@ -174,7 +180,7 @@ test('theme: presets keep two scrollable rows and all palette scales update live
     const editor = page.getByTestId('theme-editor');
     const grid = editor.locator('.theme-preset-grid');
     const presets = grid.getByRole('button');
-    await expect(presets).toHaveCount(9);
+    await expect(presets).toHaveCount(12);
     await expect(editor.getByRole('button', {name: '应用深空蓝主题', exact: true})).toHaveCount(1);
     await expect(editor.getByRole('button', {name: '应用Code 极客主题', exact: true})).toHaveCount(0);
 
@@ -223,7 +229,9 @@ test('theme: presets keep two scrollable rows and all palette scales update live
         expect(await grid.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
         await page.keyboard.press('Enter');
         await expect(presets.last()).toHaveAttribute('aria-pressed', 'true');
-        await expect(editor.getByTestId('theme-color-primary')).toHaveValue('#d00070');
+        const lastPreset = addedPresets.at(-1)!;
+        await expect(presets.last()).toHaveAttribute('aria-label', `应用${lastPreset.name}主题`);
+        await expect(editor.getByTestId('theme-color-primary')).toHaveValue(lastPreset.primary);
     }
 
     await page.setViewportSize({width: 1440, height: 1000});
@@ -390,6 +398,12 @@ test('theme: header controls and the editor share theme and appearance state', a
     await panel.getByRole('button', {name: '应用鸢尾紫主题', exact: true}).click();
     await expect(editor.getByTestId('theme-color-primary')).toHaveValue('#7048b6');
     await expectPrimaryPreview(page, '#7048b6');
+    for (const {id, name, primary} of addedPresets) {
+        await panel.getByRole('button', {name: `应用${name}主题`, exact: true}).click();
+        await expect(editor.getByTestId('theme-color-primary')).toHaveValue(primary);
+        await expectPrimaryPreview(page, primary);
+        expect(JSON.parse((await savedTheme(page))!).settings.preset).toBe(id);
+    }
     await page.locator('h1').click();
     await expect(panel).toBeHidden();
 
@@ -413,7 +427,7 @@ test('theme: header customizes an ordinary document and persists through the edi
     await trigger.click();
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
     await expect(panel).toHaveAttribute('id', (await trigger.getAttribute('aria-controls'))!);
-    await expect(panel.getByRole('button', {name: /^应用.+主题$/})).toHaveCount(9);
+    await expect(panel.getByRole('button', {name: /^应用.+主题$/})).toHaveCount(12);
     await panel.getByRole('button', {name: '应用森林绿主题', exact: true}).click();
     await expect(panel.getByRole('button', {name: '应用森林绿主题', exact: true})).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('.example .btn.primary').first()).toHaveCSS('background-color', 'rgb(53, 100, 75)');

@@ -66,7 +66,7 @@ test('default editor colors match the variables emitted by the actual ZUI Tailwi
 });
 
 test('presets clone complete recipes, and arbitrary seeds keep their midpoint in both modes', () => {
-    expect(presets).toHaveLength(9);
+    expect(presets).toHaveLength(12);
     for (const preset of presets) {
         const original = structuredClone(preset.settings);
         const theme = createTheme(preset.id);
@@ -114,7 +114,7 @@ test('preset styles differ in surfaces, geometry and density while keeping new r
     expect(new Set(styles.map(({colors, light, dark, radius, fontSize}) => JSON.stringify({colors, light, dark, radius, fontSize}))).size).toBe(styles.length);
     expect(new Set(styles.map(settings => settings.radius)).size).toBeGreaterThan(1);
     expect(new Set(styles.map(settings => settings.fontSize)).size).toBeGreaterThan(1);
-    expect(presets.map(({id}) => id)).toEqual(['zui', 'forest', 'bay', 'iris', 'sunset', 'rose', 'ink', 'code', 'pop']);
+    expect(presets.map(({id}) => id)).toEqual(['zui', 'forest', 'bay', 'iris', 'sunset', 'rose', 'ink', 'code', 'pop', 'celadon', 'gilded', 'cinnabar']);
     for (const {id, settings} of presets.filter(item => item.id !== 'zui')) {
         for (const mode of ['light', 'dark'] as const) {
             const variables = themeVariables(settings, mode);
@@ -135,7 +135,7 @@ test('dark links from low-luminance seeds become readable without changing solid
     const custom = createTheme();
     custom.preset = 'custom';
     custom.colors.primary = '#000000';
-    for (const settings of [createTheme('ink'), createTheme('code'), createTheme('pop'), custom]) {
+    for (const settings of [...['ink', 'code', 'pop', 'celadon', 'gilded', 'cinnabar'].map(createTheme), custom]) {
         const light = themeVariables(settings, 'light');
         const dark = themeVariables(settings, 'dark');
         expect(light['--color-link']).toBe(settings.colors.primary);

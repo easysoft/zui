@@ -120,6 +120,27 @@ export const presets = [
         radius: 16,
         fontSize: 18,
     }),
+    preset('celadon', '青瓷绿', '清冷瓷面、温润弧线，轻盈留白', {
+        colors: {primary: '#207267', secondary: '#4c628c', success: '#34734c', warning: '#926719', danger: '#b64344', important: '#9a486d', special: '#69549b', gray: '#607970'},
+        light: {canvas: '#eff9f6', surface: '#dceee8', fore: '#203e38', border: '#9bbfb3'},
+        dark: {canvas: '#0c2524', surface: '#133632', fore: '#def4ec', border: '#427b70'},
+        radius: 8,
+        fontSize: 16,
+    }),
+    preset('gilded', '鎏金黄', '香槟金与石墨色，精细小圆角', {
+        colors: {primary: '#86631c', secondary: '#414a3b', success: '#516b37', warning: '#936818', danger: '#b44534', important: '#925140', special: '#746084', gray: '#7a7665'},
+        light: {canvas: '#fcfbf7', surface: '#efeadb', fore: '#302d26', border: '#a89b76'},
+        dark: {canvas: '#171814', surface: '#282a23', fore: '#efe8cc', border: '#6c664f'},
+        radius: 3,
+        fontSize: 15,
+    }),
+    preset('cinnabar', '朱砂红', '朱红撞墨色、利落轮廓，醒目大字', {
+        colors: {primary: '#ba3028', secondary: '#343b45', success: '#386a4b', warning: '#92611b', danger: '#b52335', important: '#9e345b', special: '#64508c', gray: '#7d706a'},
+        light: {canvas: '#fffaf5', surface: '#f4e4d9', fore: '#32241f', border: '#b99786'},
+        dark: {canvas: '#261612', surface: '#44231b', fore: '#ffece1', border: '#99634c'},
+        radius: 1,
+        fontSize: 18,
+    }),
 ];
 
 export function createTheme(id = 'zui'): ThemeSettings {
