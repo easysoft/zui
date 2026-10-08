@@ -105,7 +105,11 @@ export class Sortable extends Component<SortableOptions> {
         return sortableLoader.Module;
     }
 
-    static loadModule(): Promise<SortableClass | undefined> {
-        return sortableLoader.load();
+    /**
+     * Preload SortableJS, returning undefined if loading fails.
+     * @param options Pass noCache to explicitly retry a failed load.
+     */
+    static loadModule(options?: {noCache?: boolean}): Promise<SortableClass | undefined> {
+        return sortableLoader.load(options);
     }
 }
