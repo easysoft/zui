@@ -1017,6 +1017,9 @@ importers:
       '@zui/helpers':
         specifier: workspace:*
         version: link:../helpers
+      '@zui/label':
+        specifier: workspace:*
+        version: link:../label
       '@zui/list':
         specifier: workspace:*
         version: link:../list

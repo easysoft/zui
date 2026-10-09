@@ -1,5 +1,54 @@
 import {expect, test} from '@playwright/test';
 
+test('renders headings, inferred icons and custom tags in the playground', async ({page}) => {
+    await page.goto('/file-list/');
+    await page.locator('#libPage.is-loaded').waitFor();
+    await expect(page.locator('#fileListWithIcons [z-key="79939"] .icon-file-pdf')).toBeVisible();
+    const list = page.locator('#fileListTags');
+    await expect(list.locator('[z-type="heading"] .item-title')).toHaveText('共享附件');
+    await expect(list.locator('.file-list-tags .label.primary-pale')).toHaveText('使用文档');
+    await expect(list.locator('.file-list-tags strong')).toHaveText('课程资料');
+    await expect(list.locator('.file-list-tags .label').last()).toHaveText('资料');
+    expect(await list.locator('.primary-pale').evaluate(element => getComputedStyle(element).color))
+        .not.toBe(await list.locator('.label').last().evaluate(element => getComputedStyle(element).color));
+});
+
+test('keeps tagged files and keyboard actions usable in every layout on a narrow screen', async ({page}) => {
+    await page.goto('/file-list/');
+    await page.locator('#libPage.is-loaded').waitFor();
+    const list = page.locator('#fileListTags');
+    for (const width of [1280, 375]) {
+        await page.setViewportSize({width, height: 900});
+        for (const mode of ['list', 'cards', 'cards-inline', 'grid'] as const) {
+            await page.evaluate(async (mode) => {
+                const modulePath = '/lib/file-list/src/main.ts';
+                const {FileList} = await import(modulePath) as typeof import('@zui/file-list');
+                FileList.get('#fileListTags')!.render({
+                    mode,
+                    heading: 'Tagged files',
+                    multiline: mode === 'grid',
+                    renderTag: undefined,
+                    items: [{
+                        id: 'tags', title: 'Long file name with extension.PDF', size: 1024, pathname: '', addedBy: '', addedDate: '',
+                        tags: ['Release, candidate A', 'VeryLongTagWithoutBreaksForNarrowLayouts'],
+                    }],
+                    fileActions: () => [{text: 'Open', onClick() {document.querySelector('#fileListTags')!.setAttribute('data-opened', mode);}}],
+                });
+                document.querySelector('#fileListTags')!.removeAttribute('data-opened');
+            }, mode);
+            await expect(list.locator('.file-list-tags .label')).toHaveCount(2);
+            expect(await list.evaluate(element => element.scrollWidth <= element.clientWidth + 1), `${mode} at ${width}px`).toBe(true);
+            const tags = await list.locator('.file-list-tags .label').all();
+            for (const tag of tags) {
+                expect(await tag.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
+            }
+            await list.getByRole('button', {name: 'Open'}).focus();
+            await page.keyboard.press('Enter');
+            await expect(list).toHaveAttribute('data-opened', mode);
+        }
+    }
+});
+
 test('positions thumbnail previews and keeps them proportional and inside the viewport', async ({page}) => {
     await page.goto('/file-list/');
     await page.locator('#libPage.is-loaded').waitFor();

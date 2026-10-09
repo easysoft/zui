@@ -1,3 +1,6 @@
 .file-list-item .item-title {
     @apply -truncate -max-w-96;
 }
+.file-list-tags > .label {
+    @apply -h-auto -min-h-5 -max-w-full -break-all;
+}

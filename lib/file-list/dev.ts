@@ -8,6 +8,7 @@ import {FileInfo, FileList as FileListView} from './src/main-react';
 
 let fileList: FileList | undefined;
 let fileListWithIcons: FileList | undefined;
+let fileListTags: FileList | undefined;
 let fileListThumbnails: FileList | undefined;
 let fileListMultiline: FileList | undefined;
 let fileListCards: FileList | undefined;
@@ -21,7 +22,7 @@ const itemsWithThumbnails = [
         pathname: '202303/2917460608242575.pdf',
         title: '插件安装文档.pdf',
         thumbnail: '/favicon.svg',
-        extension: 'pdf',
+        tags: '文档',
         size: 38594,
         addedBy: 'sunhao',
         addedDate: '2023-03-29 00:00:00',
@@ -32,6 +33,7 @@ const itemsWithThumbnails = [
         pathname: '202303/2917460608242575.pptx',
         title: '万维实例化需求课程回顾万维实例化需求课程回顾万维实例化需求课程回顾万维实例化需求课程回顾万维实例化需求课程回顾万维实例化需求课程回顾万维实例化需求课程回顾万维实例化需求课程回顾万维实例化需求课程回顾万维实例化需求课程回顾万维实例化需求课程回顾万维实例化需求课程回顾.pptx',
         extension: 'pptx',
+        tags: ['课程', '资料'],
         size: 6032614,
         addedBy: 'sunhao',
         addedDate: '2023-03-29 00:00:00',
@@ -95,6 +97,7 @@ const fileActions = (file: FileInfo) => {
 onPageUpdate(() => {
     fileList?.destroy();
     fileListWithIcons?.destroy();
+    fileListTags?.destroy();
     fileListThumbnails?.destroy();
     fileListMultiline?.destroy();
     fileListCards?.destroy();
@@ -112,6 +115,14 @@ onPageUpdate(() => {
         items: fileList.options.items,
         fileUrl: '#file?id={id}',
         fileIcon: FileListView.getFileIconMap(),
+    });
+    fileListTags = new FileList('#fileListTags', {
+        heading: '共享附件',
+        items: itemsWithThumbnails.slice(0, 3),
+        renderTag: {
+            文档: {tag: 'span', className: 'label primary-pale', children: '使用文档'},
+            课程: {tag: 'strong', children: '课程资料'},
+        },
     });
     fileListThumbnails = new FileList('#fileListThumbnails', {
         items: fileList.options.items,

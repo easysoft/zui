@@ -1,4 +1,4 @@
-import type {IconType} from '@zui/core';
+import type {CustomContentType, IconType} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {ListProps, ListitemProps} from '@zui/list';
 import type {FileInfo, OriginFileInfo} from './file-info';
@@ -26,7 +26,10 @@ export interface FileListProps<T extends FileInfoLike = FileInfoLike> extends Li
     beforeRenderItem?: ListProps<T & FileInfo & Item>['beforeRenderItem'];
     onClickItem?: ListProps<T & FileInfo & Item>['onClickItem'];
     mode?: FileListMode;
-    heading?: ListitemProps;
+    /** A heading title or the full heading item configuration. */
+    heading?: string | ListitemProps;
+    /** Render tags as CustomContent. Undefined uses the default label; null, false or an empty string hides a tag. */
+    renderTag?: ((tag: string) => CustomContentType) | Record<string, CustomContentType>;
     /** File icons are disabled by default. Load any required icon library separately. */
     fileIcon?: FileIconSetting;
     /** Use avatars to show file thumbnails and fallback icons. Defaults to false. Pass Avatar options to customize. */

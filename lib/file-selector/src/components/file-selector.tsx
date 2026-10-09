@@ -726,7 +726,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
                         thumbnail: showThumbnail ? file.url : undefined,
                     };
                 })}
-                fileIcon={({extension}) => typeof fileIcons === 'string' ? fileIcons : (fileIcons?.[extension] ?? fileIcons?.default ?? '')}
+                fileIcon={({extension = ''}) => typeof fileIcons === 'string' ? fileIcons : (fileIcons?.[extension] ?? fileIcons?.default ?? '')}
                 thumbnail={{size: isGrid ? undefined : 'sm'}}
                 beforeRenderItem={(item, index) => {
                     mergeProps(item, this._getFileItemProps(files[index]));

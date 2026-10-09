@@ -3,7 +3,7 @@ import {List} from '@zui/list/react';
 import {Popover, type PopoverOptions} from '@zui/popover';
 
 import type {RenderableProps} from 'preact';
-import {$, mergeProps, nextGid, toCssSize, type ClassNameLike, type IconType} from '@zui/core';
+import {$, CustomContent, mergeProps, nextGid, toCssSize, type ClassNameLike, type CustomContentType, type IconType} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {ListState} from '@zui/list';
 import type {FileIconGetter, FileIconMap, FileInfo, FileInfoLike, FileListProps} from '../types';
@@ -173,15 +173,17 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
             }
             usedIds.add(id);
         }
+        const name = file?.name ?? fileInfo.title ?? '';
+        const extensionIndex = name.lastIndexOf('.');
+        const extension = fileInfo.extension ?? (extensionIndex > 0 ? name.slice(extensionIndex + 1).toLowerCase() : '');
         if (!file) {
-            return (fileInfo.id === id ? fileInfo : {...fileInfo, id}) as FileInfo;
+            return (fileInfo.id === id && fileInfo.extension === extension ? fileInfo : {...fileInfo, id, extension}) as FileInfo;
         }
-        const extensionIndex = file.name.lastIndexOf('.');
         return {
             ...fileInfo,
             id,
             title: fileInfo.title ?? file.name,
-            extension: fileInfo.extension ?? (extensionIndex > 0 ? file.name.slice(extensionIndex + 1).toLowerCase() : ''),
+            extension,
             size: fileInfo.size ?? file.size,
             pathname: fileInfo.pathname ?? file.webkitRelativePath ?? '',
             addedBy: fileInfo.addedBy ?? '',
@@ -225,7 +227,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
         if (fileIconSettingType === 'function') {
             return (fileIconSetting as FileIconGetter).call(this, file);
         }
-        return (fileIconSetting as FileIconMap)[file.extension] || 'file';
+        return (fileIconSetting as FileIconMap)[file.extension ?? ''] || 'file';
     }
 
     protected _getItems(props: RenderableProps<T>): Item[] {
@@ -290,7 +292,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
                 key: 'heading',
                 titleClass: 'font-bold',
                 type: 'heading',
-                ...heading,
+                ...(typeof heading === 'string' ? {title: heading} : heading),
             });
         }
         return items;
@@ -300,7 +302,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
         const {thumbnail, getThumbnail} = props;
         const originFile = file.file;
         let url = thumbnail ? getThumbnail?.call(this, file) || file.thumbnail : undefined;
-        if (thumbnail && !url && originFile && (originFile.type.startsWith('image/') || (this.constructor as typeof FileList).fileIconOfTypes['file-image'].includes(file.extension.toLowerCase()))) {
+        if (thumbnail && !url && originFile && (originFile.type.startsWith('image/') || (this.constructor as typeof FileList).fileIconOfTypes['file-image'].includes(file.extension?.toLowerCase() ?? ''))) {
             url = this._objectURLs.get(originFile);
             if (!url) {
                 url = URL.createObjectURL(originFile);
@@ -311,7 +313,27 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
         return url;
     }
 
-    protected _getRenderedItem(_props: RenderableProps<T>, renderedItem: Item): Item {
+    protected _renderTags(tags: string | string[], renderTag: FileListProps['renderTag']) {
+        const contents = (Array.isArray(tags) ? tags : [tags]).filter(tag => tag.trim()).map((tag, index) => {
+            const content = typeof renderTag === 'function' ? renderTag.call(this, tag) : (renderTag && Object.hasOwn(renderTag, tag) ? renderTag[tag] : undefined);
+            return content === null || content === false || content === '' ? null : (
+                <CustomContent key={index} content={content === undefined ? {tag: 'span', className: 'label', children: tag} : content} />
+            );
+        }).filter(Boolean);
+        return contents.length ? <div className="file-list-tags flex flex-wrap items-center gap-1 min-w-0 max-w-full">{contents}</div> : null;
+    }
+
+    protected _getRenderedItem(props: RenderableProps<T>, renderedItem: Item): Item {
+        const {tags, content} = renderedItem as FileInfo & Item;
+        if (renderedItem.type === 'item' && tags?.length) {
+            renderedItem.contentClass = [renderedItem.contentClass, 'flex-wrap'];
+            renderedItem.content = () => (
+                <>
+                    {this._renderTags(tags, props.renderTag)}
+                    <CustomContent content={content as CustomContentType} />
+                </>
+            );
+        }
         return renderedItem;
     }
 
@@ -326,7 +348,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
         if (fileIconSettingType === 'function') {
             return (fileIconSetting as FileIconGetter).call(this, file);
         }
-        return (fileIconSetting as FileIconMap)[file.extension] || 'file';
+        return (fileIconSetting as FileIconMap)[file.extension ?? ''] || 'file';
     }
 
     static fileIconOfTypes: Record<string, string[]> = {

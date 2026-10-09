@@ -6,6 +6,8 @@
 
 默认只显示文件名和自动格式化的大小，不显示图标或缩略图。
 
+本例使用 `heading: '附件'` 设置标题，并通过文件的 `tags` 展示标签。省略 `extension` 时，组件从原生文件名或 `title` 补齐小写扩展名。
+
 <div id="files-basic" data-doc-example="files-basic">
 
 ::: tabs
@@ -22,13 +24,31 @@
 <div id="filesBasic"></div>
 
 <script>
-const instance = new zui.FileList('#filesBasic', {items: [{id: 'guide', title: '使用指南.pdf', extension: 'pdf', size: 2048, pathname: 'guide.pdf', addedBy: '团队', addedDate: '2026-09-01'}]});
+const instance = new zui.FileList('#filesBasic', {heading: '附件', items: [{id: 'guide', title: '使用指南.pdf', tags: ['共享', '文档'], size: 2048, pathname: 'guide.pdf', addedBy: '团队', addedDate: '2026-09-01'}]});
 </script>
 ```
 
 :::
 
 </div>
+
+## 标题与标签
+
+`heading` 支持标题字符串，或 `{title: '附件', icon: 'paper-clip'}` 这样的列表项配置对象；空字符串不显示标题。
+
+文件的 `tags` 支持一个完整字符串或字符串数组。字符串中的逗号和空格不会拆分，空字符串和仅含空白的标签会被忽略。默认使用 Label 显示，标签文字不会作为 HTML 执行。
+
+`renderTag` 支持映射表或回调，结果通过 `CustomContent` 渲染。未命中映射或返回 `undefined` 时使用默认标签；返回 `null`、`false` 或空字符串时隐藏该标签。下面片段可用于更新基础示例的 `instance`：
+
+```js
+instance.render({renderTag: {
+    共享: {tag: 'span', className: 'label primary-pale', children: '团队共享'},
+}});
+
+instance.render({renderTag: tag => tag === '文档' ? null : {tag: 'strong', children: tag}});
+```
+
+标签位于名称和大小之后，支持所有布局模式；`itemProps.content` 提供的额外内容继续显示。分批展示时，仅调用可见文件的标签渲染回调。
 
 ## 图标与链接
 
@@ -366,7 +386,8 @@ const instance = new zui.FileList('#filesNative', {items: [], thumbnail: true, f
 <Props>
 items?: ListItemsSetting&lt;T&gt;; // 文件数据；常用写法为数组，也支持 List 的数据获取配置。
 mode?: 'list' | 'cards' | 'cards-inline' | 'grid'; // 列表、卡片、内联卡片或网格。
-heading?: ListitemProps; // 列表标题。
+heading?: string | ListitemProps; // 列表标题字符串或完整标题项配置。
+renderTag?: ((tag: string) => CustomContentType) | Record&lt;string, CustomContentType&gt;; // 自定义标签渲染；默认使用 Label。
 multiline?: boolean; // 是否将文件名和大小分为两行；默认显示在同一行。
 fileIcon?: false | string | FileIconMap | FileIconGetter = false; // 文件图标。
 thumbnail?: boolean | Partial&lt;AvatarOptions&gt; = false; // 显示缩略图，并可配置 Avatar。
@@ -407,11 +428,12 @@ zui.FileList.get('#filesThumbnails').render({thumbnailPreview: {maxWidth: 320, m
 | --- | --- | --- |
 | `id` | `string \| number`，可选 | 文件标识，同一列表内应唯一。 |
 | `title` | `string` | 显示名称，通常包含扩展名。 |
-| `extension` | `string` | 不带点的扩展名，例如 `pdf`；图标映射按此值匹配。 |
+| `extension` | `string`，可选 | 不带点的扩展名，例如 `pdf`；省略时从原生 `File.name` 或 `title` 补齐为小写，没有后缀时为空字符串。显式值（包括空字符串）优先；图标映射按此值匹配。 |
 | `size` | `number` | 文件大小，单位为字节。 |
 | `pathname` | `string` | 文件路径元数据；链接通过 `fileUrl` 配置。 |
 | `addedBy` / `addedDate` | `string` | 添加者与添加时间元数据，列表默认不展示；无值时可传空字符串。 |
 | `thumbnail` | `string`，可选 | 缩略图地址。 |
+| `tags` | `string \| string[]`，可选 | 一个完整标签或标签数组，不拆分字符串；忽略空白标签。 |
 | `downloads` / `deleted` | `number` / `boolean`，可选 | 业务元数据，不会自动生成下载或删除操作。 |
 | `file` | `File`，可选 | 原生文件；可用于自动补齐信息和生成图片预览。 |
 
@@ -452,7 +474,7 @@ import type {FileInfoLike, FileListFileInfo, FileListProps} from 'zui';
 选择文件的输入框通过 `label` 关联名称。框架接入见[在 React 中使用 ZUI 组件](/lib/basic/core/use-zui-in-react.html)。
 
 <script setup>
-const filesBasicOptions = {items: [{id: 'guide', title: '使用指南.pdf', extension: 'pdf', size: 2048, pathname: 'guide.pdf', addedBy: '团队', addedDate: '2026-09-01'}]};
+const filesBasicOptions = {heading: '附件', items: [{id: 'guide', title: '使用指南.pdf', tags: ['共享', '文档'], size: 2048, pathname: 'guide.pdf', addedBy: '团队', addedDate: '2026-09-01'}]};
 
 const filesIconsOptions = {items: [{id: 'guide', title: '使用指南.pdf', extension: 'pdf', size: 2048, pathname: 'guide.pdf', addedBy: '团队', addedDate: '2026-09-01'}], fileIcon: {pdf: 'file-pdf'}, fileUrl: '#filesIcons'};
 

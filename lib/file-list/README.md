@@ -6,6 +6,8 @@
 
 默认不显示文件类型图标和缩略图。
 
+`heading` 可以是标题字符串，也可以是包含图标等配置的列表项对象。省略文件的 `extension` 时，从原生 `File.name` 或文件 `title` 提取小写扩展名；显式值（包括空字符串）保持不变。
+
 ```html:example
 <div id="fileList"></div>
 ```
@@ -26,6 +28,16 @@
 | 字符串 | 所有文件使用同一图标 |
 | 映射表 | 按文件扩展名指定图标，未命中时使用 `file` |
 | `(file) => icon` | 按文件数据动态选择图标 |
+
+## 文件标签
+
+文件的 `tags` 支持一个完整字符串或字符串数组，不拆分逗号和空格，忽略空白标签。默认复用 Label 显示；`renderTag` 支持标签到 `CustomContentType` 的映射表，或 `(tag) => CustomContentType` 回调。本例同时展示映射结果和未命中映射的默认标签。
+
+```html:example
+<div id="fileListTags"></div>
+```
+
+返回 `undefined` 使用默认标签，返回 `null`、`false` 或空字符串隐藏标签。标签显示在文件名和大小之后，可与 `itemProps.content` 的额外内容同时使用；列表、卡片和网格均支持。
 
 ## 缩略图示例
 

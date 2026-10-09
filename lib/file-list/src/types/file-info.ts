@@ -5,7 +5,8 @@ export type FileInfo = {
      */
     id?: number | string;
     title: string;
-    extension: string;
+    /** Defaults to the native file name's extension, or the title's extension, in lowercase. */
+    extension?: string;
     size: number;
     pathname: string;
     /** Cover image URL, also supported for files without a native File object. */
@@ -15,6 +16,8 @@ export type FileInfo = {
     downloads?: number;
     deleted?: boolean;
     file?: File;
+    /** One tag or an array of tags. Strings are not split; blank tags are ignored. */
+    tags?: string | string[];
 };
 
 /**

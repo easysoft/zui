@@ -75,6 +75,109 @@ describe('FileList', () => {
         expect(root.style.getPropertyValue('--file-list-grid-gap')).toBe('0px');
     });
 
+    it('accepts string headings and updates to configured or empty headings', () => {
+        const {container, rerender} = render(<FileListView items={files} heading="Attachments" />);
+        expect(container.querySelector('[z-type="heading"] .item-title')).toHaveTextContent('Attachments');
+
+        rerender(<FileListView items={files} heading={{title: 'Files', icon: 'paper-clip', subtitle: 'Shared'}} />);
+        expect(container.querySelector('[z-type="heading"]')).toHaveTextContent('FilesShared');
+        expect(container.querySelector('[z-type="heading"] .icon-paper-clip')).not.toBeNull();
+
+        rerender(<FileListView items={files} heading="" />);
+        expect(container.querySelector('[z-type="heading"]')).toBeNull();
+        expect(container.querySelectorAll('[z-type="item"]')).toHaveLength(1);
+    });
+
+    it('infers omitted extensions from remote titles without changing source metadata', () => {
+        const source: FileInfo = Object.freeze({id: 'remote', title: 'Guide.PDF', size: 0, pathname: '', addedBy: '', addedDate: ''});
+        const fileIcon = vi.fn((info: FileInfo) => FileListView.getFileIcon(info, {pdf: 'file-pdf'}) || 'file');
+        const fileUrl = vi.fn((info: FileInfo) => `/files/${info.extension}`);
+        const {container} = render(
+            <FileListView
+                items={[
+                    source,
+                    {...source, id: 'none', title: 'README'},
+                    {...source, id: 'hidden', title: '.gitignore'},
+                    {...source, id: 'trailing', title: 'notes.'},
+                    {...source, id: 'override', extension: 'txt'},
+                    {...source, id: 'empty', extension: ''},
+                ]}
+                fileIcon={fileIcon}
+                fileUrl={fileUrl}
+                thumbnail
+            />,
+        );
+
+        expect(fileIcon.mock.calls.map(([info]) => info.extension)).toEqual(['pdf', '', '', '', 'txt', '']);
+        expect(container.querySelector('[z-key="remote"] .icon-file-pdf')).not.toBeNull();
+        expect(fileUrl).toHaveBeenCalledWith(expect.objectContaining({id: 'remote', extension: 'pdf'}));
+        expect(FileListView.getFileIcon(source, {})).toBe('file');
+        expect(source).not.toHaveProperty('extension');
+    });
+
+    it('renders whole string tags and tag arrays while preserving file data and custom content', () => {
+        const source = Object.freeze({...files[0], tags: 'Release, candidate A'});
+        const onClickItem = vi.fn();
+        const options = {
+            items: [source, {file: new File([], 'Notes.txt'), tags: ['Shared', '', '  ', '<b>Draft</b>', 'Shared']}],
+            itemProps: {content: {tag: 'span', children: 'Extra content'}},
+            fileUrl: '/files/{id}',
+            onClickItem,
+        } satisfies FileListProps;
+        const {container, getByText, rerender} = render(<FileListView {...options} />);
+
+        expect(Array.from(container.querySelectorAll('.file-list-tags .label'), tag => tag.textContent)).toEqual(['Release, candidate A', 'Shared', '<b>Draft</b>', 'Shared']);
+        expect(container.querySelector('.file-list-tags b')).toBeNull();
+        expect(container.querySelectorAll('.item-content')).toHaveLength(2);
+        expect(container.querySelectorAll('.item-content > span')).toHaveLength(2);
+        fireEvent.click(getByText('Release, candidate A'));
+        expect(onClickItem).toHaveBeenCalledWith(expect.objectContaining({item: expect.objectContaining({title: 'Guide.pdf', tags: source.tags})}));
+        expect(source.tags).toBe('Release, candidate A');
+
+        rerender(<FileListView items={[{...source, tags: []}, {file: new File([], 'Empty.txt'), tags: '   '}]} />);
+        expect(container.querySelector('.file-list-tags')).toBeNull();
+    });
+
+    it('supports tag maps and callbacks, default fallbacks and explicit hidden results', () => {
+        const options = {items: [{...files[0], tags: ['Shared', 'Fallback', 'Null', 'False', 'Empty', 'Zero', 'toString']}]} satisfies FileListProps;
+        const renderTag = {
+            Shared: {tag: 'strong', children: 'Team'},
+            Null: null,
+            False: false,
+            Empty: '',
+            Zero: 0,
+        } satisfies FileListProps['renderTag'];
+        const {container, rerender} = render(<FileListView {...options} renderTag={renderTag} />);
+        expect(container.querySelector('.file-list-tags')!.textContent).toBe('TeamFallback0toString');
+        expect(container.querySelector('.file-list-tags strong')).toHaveTextContent('Team');
+        expect(container.querySelectorAll('.file-list-tags .label')).toHaveLength(2);
+
+        const callback = vi.fn((tag: string) => tag === 'Shared' ? <em>Shared file</em> : null);
+        rerender(<FileListView {...options} renderTag={callback} />);
+        expect(container.querySelector('.file-list-tags em')).toHaveTextContent('Shared file');
+        expect(callback.mock.calls.map(([tag]) => tag)).toEqual(options.items[0].tags);
+
+        rerender(<FileListView {...options} renderTag={() => undefined} />);
+        expect(container.querySelectorAll('.file-list-tags .label')).toHaveLength(7);
+        rerender(<FileListView {...options} renderTag={() => null} />);
+        expect(container.querySelector('.file-list-tags')).toBeNull();
+    });
+
+    it('resolves tags only when their file items are displayed', () => {
+        const renderTag = vi.fn((tag: string) => tag);
+        const {getByRole} = render(
+            <FileListView
+                items={['First', 'Second'].map((tag, id) => ({...files[0], id, tags: tag}))}
+                renderTag={renderTag}
+                maxVisibleItems={1}
+                showMoreText="More {count}"
+            />,
+        );
+        expect(renderTag.mock.calls).toEqual([['First']]);
+        fireEvent.click(getByRole('button', {name: 'More 1'}));
+        expect(renderTag).toHaveBeenCalledWith('Second');
+    });
+
     it('updates grid dimensions without mutating a reused style object', () => {
         const style = {maxWidth: '600px'};
         const {container, rerender} = render(<FileListView items={files} mode="grid" thumbnail fileIcon="file-pdf" style={style} />);
@@ -115,7 +218,7 @@ describe('FileList', () => {
     it('derives native file metadata and passes the original file to callbacks', () => {
         const file = new File(['a'.repeat(2048)], 'Guide.PDF', {type: 'application/pdf'});
         const source: OriginFileInfo = Object.freeze({file});
-        const fileIcon = vi.fn((info: FileInfo) => FileListView.getFileIconMap()[info.extension]);
+        const fileIcon = vi.fn((info: FileInfo) => FileListView.getFileIconMap()[info.extension ?? '']);
         const fileUrl = vi.fn((info: FileInfoLike) => `/preview/${info.id}`);
         const onOpen = vi.fn();
         const fileActions = vi.fn(() => [{text: 'Open', onClick: onOpen}]);
