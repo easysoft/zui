@@ -1,10 +1,12 @@
-f434eb0df169bc04f0b9e7ed05f3a43b187074f34bfaa67aba28c3ec59c3b71e  .plugin-scanner.toml
+0ab25f2fbca927caa6164ba8ac5c15ae8915313fc98850d0922e02c26f0675c9  .plugin-scanner.toml
 c00764b9bb3ae9862ff15eaa2b16eb9119fddd78a86fc8bcb6d26bed6ea3efa3  lib/core/src/helpers/raw-data.ts
 db6603c9e69fcf2ae599f51227bc4f1b3e05809a9199e7c25eee01d1fcfbbd00  lib/core/src/helpers/run-js.ts
 dbbf3101d408431386f0e9c7072b6872f945215b596972f29d231c8030fa5923  tests/build/distribution.test.ts
 728b617da1b97fce1b44f112c1df506bb167a79937565d703636950feccc9498  tests/build/npm-consumer.test.ts
 a0d34e479dc5cfaac5c3c2dfaf01abff79e80bdf0316d8cba615d0dcc3c32037  tests/build/web-components.test.ts
+e4d2d139de8fb4290cd5b50a431836cd61005737f87bc2b82a5b948b39bbad92  tests/docs/modal-trigger.spec.ts
 818568a4f58de83834f79d744bf78d0020c3205efce39109bd33e46597889897  tests/dom/docs-css-prop-value.test.ts
+c80a9a5e23001e706874369dfe1fc7bcd471b191068041daa46984c30358fb1d  tests/dom/docs-dtable-examples.test.ts
 0be4c718ca720f0e7fba457d643f459a8ae4f5de527adcc1b3d109ca9b9b2d52  tests/unit/build-lifecycle.test.ts
 719f3d8cf2be2c8201fa4d564a4fc544620af2fe61ec95a0ef72dec31a99a57c  tests/unit/build-run.test.ts
 50481f5db5580fb9173a2d5769f1d7466662b0e9b06e81d3e18498bfda0ef1d0  scripts/build/publish.ts
@@ -12,6 +14,6 @@ e47ce365609a168501c82c3e0d8d40c8d6092f462032e43e95783737d5f1891a  skills/zui/scr
 9639266be05110acd6c438b0c30c8b0da8312c84687b0d634d4e1f985ce9eae4  skills/zui/scripts/inspect-zui-project.test.mjs
 af2df07eb1063fbac0b58870966f573b83c50ea1edec2d55859c127f0785658c  skills/zui-build/scripts/create-zui-page.mjs
 ea12aa3640ee3f441f6b1f5b3f6d45693fc2940688556f5504bf56b0f00e2d04  skills/zui-build/scripts/validate-zui-page.mjs
-ccf11c1fae08d8cc4e23ae8cf72bc3335a566d6190acc7e7cc1e5bca4fbdfbb6  skills/zui-build/assets/vendor/zui-3.0.0/zui.js
-9f9383a20932a9a4f51b801be005f58eefea97036b65bd52d21f1bc2e65c2926  skills/zui-build/assets/vendor/zui-3.0.0/zui.esm.js
+0d91909a0edb09b3f1c5d296e5c501893ea8c501d705ceed5a4396b8b14a886c  skills/zui-build/assets/vendor/zui-3.0.0/zui.js
+6701aebb05c6de4c0fbd35ed0eb7a19ee4b5c2764a20e8c7d411503c04563483  skills/zui-build/assets/vendor/zui-3.0.0/zui.esm.js
 1c348267c6c4577799570bfd92110df0cfe4b7f140823c0e2575cac05babbcc3  scripts/utilities/exec.ts
