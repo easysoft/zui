@@ -229,26 +229,31 @@ export class Draggable extends Component<DraggableOptions> {
      */
     protected _handleDragOver = (event: DragEvent) => {
         const {dragElement} = this;
-        const $target = $(event.target as HTMLElement);
-        const dropElement = $target.closest(DROPPABLE_SELECTOR)[0];
-        if (!dragElement || !dropElement) {
+        if (!dragElement) {
             return;
         }
+        const dropElement = $(event.target as HTMLElement).closest(DROPPABLE_SELECTOR)[0] ?? null;
         const oldDropElement = this.state.dropping;
-        event.preventDefault();
-        this._setDragEffect(event);
+        if (dropElement) {
+            event.preventDefault();
+            this._setDragEffect(event);
+        }
         if (oldDropElement !== dropElement) {
+            if (oldDropElement) {
+                this._leaveDropElement(event, oldDropElement);
+            }
             const {droppingClass} = this.options;
-            if (droppingClass) {
-                if (oldDropElement) {
-                    this._leaveDropElement(event, oldDropElement);
-                }
+            if (dropElement && droppingClass) {
                 $(dropElement).addClass(droppingClass);
             }
             this._setState({dropping: dropElement});
-            this.options.onDragEnter?.call(this, event, dragElement, dropElement);
+            if (dropElement) {
+                this.options.onDragEnter?.call(this, event, dragElement, dropElement);
+            }
         }
-        this.options.onDragOver?.call(this, event, dragElement, dropElement);
+        if (dropElement) {
+            this.options.onDragOver?.call(this, event, dragElement, dropElement);
+        }
     };
 
     /**
@@ -265,13 +270,15 @@ export class Draggable extends Component<DraggableOptions> {
     }
 
     /**
-     * 处理 dragleave 事件：仅当离开的是 droppable 元素时触发目标清除。
-     * Handle dragleave: only clears the drop target when leaving a droppable element.
+     * 处理 dragleave 事件：只在实际离开当前放置目标时清理。
+     * Handle dragleave: clear the current drop target only when moving outside it.
      */
     protected _handleDragLeave = (event: DragEvent) => {
-        const {dragElement} = this;
-        const dropElement = $(event.target as HTMLElement).filter(DROPPABLE_SELECTOR)[0];
+        const {dragElement, dropElement} = this;
         if (!dragElement || !dropElement) {
+            return;
+        }
+        if (!dropElement.contains(event.target as Node) || dropElement.contains(event.relatedTarget as Node | null)) {
             return;
         }
         event.preventDefault();
