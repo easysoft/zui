@@ -274,6 +274,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
                     return src || icon ? {
                         src,
                         icon,
+                        lightness: 0.9,
                         className: 'text-gray',
                         code: file.extension,
                         size: isGrid ? gridCellWidth : (multiline ? 'md' : 'sm'),
