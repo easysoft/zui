@@ -60,7 +60,7 @@
 * **检查 npm 引入方式**：使用具名导入，例如 `import {DTable} from 'zui'`，样式使用 `import 'zui/css'`；旧文档中的默认导入及 `zui/lib/*` 路径不适用于本版 npm 包。
 * **数据表格本地排序需显式开启**：在表格选项中设置 `sort: true` 或自定义排序规则，仅在列上配置 `sort` 不再启用本地排序。
 * **旧版虚拟列表 API 调整**：使用过实验版 VirtualList 的项目需迁移至 `count`、`estimateSize`、`renderItem(item, virtualizer)` 等新接口。
-* **更新源码构建环境与命令**：源码开发要求 Node.js 22.13+、pnpm 12.5.1。组件选择改用 `--lib button --lib dropdown`，扩展选择使用 `--extension`／`--extensions`；旧位置参数、组合表达式和短别名不再支持，详见[构建参数迁移说明](docs/docs/guide/customize/build.md#从旧参数迁移)。
+* **更新源码构建环境与命令**：源码开发要求 Node.js 22.13+、pnpm 12.10.1。组件选择改用 `--lib button --lib dropdown`，扩展选择使用 `--extension`／`--extensions`；旧位置参数、组合表达式和短别名不再支持，详见[构建参数迁移说明](docs/docs/guide/customize/build.md#从旧参数迁移)。
 
 ## [3.0.0](https:///github.com/easysoft/zui/compare/v3.0.0-alpha.4...v3.0.0) (2024-07-26)
 

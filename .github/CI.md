@@ -67,7 +67,7 @@ PR 的 npm 包位于 `build` 归档，main/nightly 的包和完整分发位于 `
 
 ## 本地验证
 
-PR、main/夜间检查和 dev 文档部署在安装锁定依赖后运行 `pnpm audit --audit-level=high`，发现 high/critical 漏洞或审计服务失败时阻止后续检查和部署。审计覆盖开发依赖，不使用 `--ignore-registry-errors`。`pnpm-workspace.yaml` 中仅对已应用本地补丁的 `GHSA-vfj7-8cjw-p6xm` 设置带复核期限的例外，`tests/unit/braces-security.test.ts` 验证实际安装的补丁；不得删除补丁而保留例外。CI 使用 Node.js 22 系列最新补丁，pnpm 版本继续固定为仓库约定的 12.5.1。
+PR、main/夜间检查和 dev 文档部署在安装锁定依赖后运行 `pnpm audit --audit-level=high`，发现 high/critical 漏洞或审计服务失败时阻止后续检查和部署。审计覆盖开发依赖，不使用 `--ignore-registry-errors`。`pnpm-workspace.yaml` 中仅对已应用本地补丁的 `GHSA-vfj7-8cjw-p6xm` 设置带复核期限的例外，`tests/unit/braces-security.test.ts` 验证实际安装的补丁；不得删除补丁而保留例外。CI 使用 Node.js 22 系列最新补丁，pnpm 版本固定为仓库约定的 12.10.1。
 
 pnpm 安装 Action 固定为支持 pnpm 12 原生发行方式的 `pnpm/action-setup` 6.1.0，并锁定完整提交 SHA。升级时需同时验证安装、缓存路径和 frozen-lockfile 行为。
 

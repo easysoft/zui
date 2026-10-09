@@ -41,6 +41,7 @@
 
 | 用途 | 第三方依赖 |
 | --- | --- |
+| 包管理器 | `pnpm` 12.10.1（含 `@pnpm/exe.*` 平台包）；[MIT 版权文件](https://github.com/easysoft/zui/blob/main/licenses/LICENSE-pnpm.txt) |
 | 开发服务器与编译 | `vite`、`@preact/preset-vite`、`typescript`、`tsx` |
 | 构建脚本与辅助工具 | `fs-extra`、`fast-glob`、`chokidar`、`colorette`、`minimist`、`jszip`、`pinyin-pro` |
 | CSS 生成与处理 | `tailwindcss`、`@mertasan/tailwindcss-variables`、`postcss`、`postcss-import`、`postcss-inset`、`postcss-rem-to-pixel`、`autoprefixer`、`cssnano` |
