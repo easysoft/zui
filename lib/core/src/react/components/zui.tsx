@@ -30,8 +30,8 @@ type ZUIComponentOptions = {
  * // 使用 ColorPicker 组件
  * <ZUI
  *   $use="colorPicker"
- *   value: '#ff0000'
- *   onChange: (color) => console.log('Selected color:', color)
+ *   value="#ff0000"
+ *   onChange={(color) => console.log('Selected color:', color)}
  * />
  * ```
  */
