@@ -4,7 +4,7 @@ import {describe, expect, it, vi} from 'vitest';
 import {$, CustomContent, HElement, HtmlContent, LazyContent, reactComponentMap, registerReactComponent} from '@zui/core';
 import type {CustomContentType} from '@zui/core';
 import {JsonUI, JsonUIError, validateJsonUI} from '@zui/json-ui';
-import type {JsonUIAction, JsonUINode} from '@zui/json-ui';
+import type {JsonUIAction, JsonUIMarkdown, JsonUINode} from '@zui/json-ui';
 import {JsonUI as JsonUIReact} from '@zui/json-ui/react';
 import '@zui/button';
 import '@zui/menu';
@@ -60,6 +60,162 @@ describe('JSON UI', () => {
         expect(view.container.querySelector('menu')).toHaveTextContent('FirstSecond');
         expect(view.container.querySelector('[z-item]')).not.toBeNull();
         expect(onError).not.toHaveBeenCalled();
+    });
+
+    it('renders Markdown with its path and an isolated copy of the node', () => {
+        const node: JsonUIMarkdown = Object.freeze({
+            key: 'intro',
+            markdown: '**Hello**',
+            inline: true,
+            props: Object.freeze({meta: Object.freeze({label: 'Original'})}),
+        });
+        const renderMarkdown = vi.fn((value: JsonUIMarkdown, path: string) => {
+            (value.props!.meta as {label: string}).label = 'Rendered';
+            return <strong data-path={path}>{value.markdown}</strong>;
+        });
+        const view = render(<JsonUIReact schema={{tag: 'section', children: [node]}} renderMarkdown={renderMarkdown} />);
+
+        expect(view.container.querySelector('section > strong')).toHaveTextContent('**Hello**');
+        expect(view.container.querySelector('strong')).toHaveAttribute('data-path', '$.children[0]');
+        expect(renderMarkdown).toHaveBeenCalledOnce();
+        expect(renderMarkdown.mock.calls[0][0]).toEqual({...node, props: {meta: {label: 'Rendered'}}});
+        expect(renderMarkdown.mock.calls[0][0]).not.toBe(node);
+        expect(node.props).toEqual({meta: {label: 'Original'}});
+    });
+
+    it('displays Markdown source as text without a renderer or an extra container', () => {
+        const schema: JsonUINode = [
+            {markdown: '**Source** <strong>HTML</strong>', inline: false, props: {className: 'unused'}},
+            {markdown: ''},
+        ];
+        expect(validateJsonUI(schema)).toEqual([]);
+        const view = render(<JsonUIReact schema={schema} />);
+        expect(view.container.textContent).toBe('**Source** <strong>HTML</strong>');
+        expect(view.container.childElementCount).toBe(0);
+    });
+
+    it.each([
+        {name: 'text', content: 'Rendered', expected: 'Rendered'},
+        {name: 'zero', content: 0, expected: '0'},
+        {name: 'VNode', content: <strong>Rich</strong>, expected: 'Rich'},
+        {name: 'array', content: ['First', <em key="second">Second</em>], expected: 'FirstSecond'},
+        {name: 'null', content: null, expected: ''},
+        {name: 'undefined', content: undefined, expected: ''},
+        {name: 'false', content: false, expected: ''},
+    ])('preserves a Markdown renderer result of $name', ({content, expected}) => {
+        const schema: JsonUIMarkdown = {markdown: 'Source'};
+        const renderMarkdown = vi.fn(() => content);
+        const view = render(<JsonUIReact schema={schema} renderMarkdown={renderMarkdown} />);
+        expect(view.container.textContent).toBe(expected);
+        expect(renderMarkdown).toHaveBeenCalledExactlyOnceWith(schema, '$');
+    });
+
+    it('validates Markdown nodes without invoking the renderer', () => {
+        const renderMarkdown = vi.fn(() => {
+            throw new Error('Only render should call this');
+        });
+        expect(validateJsonUI({markdown: '', inline: false}, {renderMarkdown})).toEqual([]);
+        expect(validateJsonUI({component: 'custom', props: {content: {markdown: '**Nested**'}}}, {renderMarkdown})).toEqual([]);
+        const invalid = [
+            {schema: {markdown: 1}, path: '$.markdown'},
+            {schema: {markdown: '', inline: 'true'}, path: '$.inline'},
+            {schema: {markdown: '', props: []}, path: '$.props'},
+            {schema: {markdown: '', key: true}, path: '$.key'},
+            {schema: {markdown: '', tag: 'div'}, path: '$.tag'},
+            {schema: {markdown: '', component: 'Button'}, path: '$.component'},
+            {schema: {markdown: '', children: 'Child'}, path: '$.children'},
+            {schema: {markdown: '', html: '<b>HTML</b>'}, path: '$.markdown'},
+            {schema: {markdown: '', fetcher: '/content', type: 'custom'}, path: '$.markdown'},
+            {schema: {markdown: '', props: {callback: () => null}}, path: '$.props.callback'},
+        ];
+        invalid.forEach(({schema, path}) => {
+            expect(validateJsonUI(schema, {renderMarkdown})[0]).toMatchObject({path});
+        });
+        expect(validateJsonUI({component: 'custom', props: {content: {markdown: '', html: 'Mixed'}}}, {renderMarkdown})[0]).toMatchObject({path: '$content.markdown'});
+        expect(renderMarkdown).not.toHaveBeenCalled();
+    });
+
+    it('renders Markdown in nested CustomContent and registered component content', () => {
+        registerReactComponent('JsonMarkdownContent', (props: {content: CustomContentType}) => <CustomContent content={props.content} />);
+        const renderMarkdown = vi.fn((node: JsonUIMarkdown, path: string) => <strong data-path={path}>{node.markdown}</strong>);
+        const schema: JsonUINode = [
+            {component: 'custom', props: {content: {markdown: 'Custom'}}},
+            {component: 'JsonMarkdownContent', props: {content: {markdown: 'Registered', inline: true}}},
+            {component: 'Menu', props: {wrap: true, header: {markdown: 'Menu header'}, items: []}},
+        ];
+        render(<JsonUIReact schema={schema} renderMarkdown={renderMarkdown} />);
+        for (const text of ['Custom', 'Registered', 'Menu header']) {
+            expect(screen.getByText(text).tagName).toBe('STRONG');
+            expect(screen.getByText(text)).toHaveAttribute('data-path', '$content');
+        }
+    });
+
+    it('reports Markdown renderer failures at the node path and recovers on update', () => {
+        const schema: JsonUINode = {tag: 'section', children: [{markdown: 'Source'}]};
+        const onError = vi.fn();
+        const renderMarkdown = () => {
+            throw new Error('Markdown failed');
+        };
+        const view = render(<JsonUIReact schema={schema} onError={onError} renderMarkdown={renderMarkdown} />);
+        expect(screen.getByRole('alert')).toHaveTextContent('$.children[0]: Markdown failed');
+        expect(onError).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({path: '$.children[0]'}));
+        view.rerender(<JsonUIReact schema={schema} onError={onError} renderMarkdown={node => <strong>{node.markdown}</strong>} />);
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+        expect(screen.getByText('Source').tagName).toBe('STRONG');
+    });
+
+    it('keeps the content policy active in components returned by the Markdown renderer', () => {
+        const onError = vi.fn();
+        render(<JsonUIReact schema={{markdown: 'Source'}} renderMarkdown={() => <HtmlContent html="<b>Forbidden HTML</b>" />} onError={onError} />);
+        expect(screen.getByRole('alert')).toHaveTextContent('html capability is disabled');
+        expect(screen.queryByText('Forbidden HTML')).not.toBeInTheDocument();
+        expect(onError).toHaveBeenCalledOnce();
+    });
+
+    it('retains the previous Markdown renderer when an update fails validation', () => {
+        const renderMarkdown = vi.fn((node: JsonUIMarkdown) => <strong>{node.markdown}</strong>);
+        const updated = vi.fn(() => <em>Replacement</em>);
+        const onError = vi.fn();
+        const view = render(<JsonUIReact schema={{markdown: 'Original'}} renderMarkdown={renderMarkdown} />);
+        const element = screen.getByText('Original');
+        view.rerender(<JsonUIReact schema={{component: 'MissingMarkdownUpdate'}} renderMarkdown={updated} onError={onError} />);
+        expect(screen.getByText('Original')).toBe(element);
+        expect(updated).not.toHaveBeenCalled();
+        expect(onError).toHaveBeenCalledOnce();
+    });
+
+    it('preserves Markdown keys and supports replacing or removing the renderer in vanilla views', async () => {
+        const unmount = vi.fn();
+        class MarkdownProbe extends Component<{text: string}> {
+            componentWillUnmount() {
+                unmount(this.props.text);
+            }
+
+            render() {
+                return <strong>{this.props.text}</strong>;
+            }
+        }
+        const host = document.createElement('div');
+        document.body.append(host);
+        const first: JsonUIMarkdown = {markdown: 'First', key: 'first'};
+        const second: JsonUIMarkdown = {markdown: 'Second', key: 0};
+        const renderMarkdown = (node: JsonUIMarkdown) => <MarkdownProbe text={node.markdown} />;
+        const view = new JsonUI(host, {schema: [first, second], renderMarkdown});
+        await flush();
+        const element = screen.getByText('First');
+        view.render({schema: [second, first], renderMarkdown: node => <MarkdownProbe text={node.markdown} />});
+        expect(screen.getByText('First')).toBe(element);
+        expect(host.textContent).toBe('SecondFirst');
+        expect(unmount).not.toHaveBeenCalled();
+        view.render({renderMarkdown: undefined});
+        expect(host.textContent).toBe('SecondFirst');
+        expect(host.childElementCount).toBe(0);
+        expect(unmount).toHaveBeenCalledTimes(2);
+        view.render({renderMarkdown});
+        expect(host.querySelectorAll('strong')).toHaveLength(2);
+        view.destroy();
+        expect(host).toBeEmptyDOMElement();
+        expect(unmount).toHaveBeenCalledTimes(4);
     });
 
     it('preserves legacy CustomContent fields produced by Menu and protects frozen nested JSON', () => {
@@ -249,9 +405,10 @@ describe('JSON UI', () => {
         expect(screen.queryByText('Still denied')).not.toBeInTheDocument();
     });
 
-    it('rejects nested JsonUI capability injection through its registered alias', () => {
+    it('rejects nested JsonUI host option injection through its registered alias', () => {
         registerReactComponent('NestedJsonRenderer', JsonUIReact);
         expect(validateJsonUI({component: 'NestedJsonRenderer', props: {capabilities: {html: true}, schema: {html: 'Escalated'}}})[0].message).toContain('cannot override host options');
+        expect(validateJsonUI({component: 'NestedJsonRenderer', props: {renderMarkdown: 'override', schema: {markdown: 'Source'}}})[0]).toMatchObject({path: '$.props.renderMarkdown'});
     });
 
     it('rejects executable native tags, URLs, inline event attributes, and dangerous HTML without permission', () => {
@@ -303,6 +460,46 @@ describe('JSON UI', () => {
         await flush();
         expect(screen.getByRole('alert')).toHaveTextContent('html capability is disabled');
         expect(onError).toHaveBeenCalledWith(expect.objectContaining({path: expect.stringContaining('response')}));
+    });
+
+    it('renders Markdown loading and response nodes with the latest renderer without refetching', async () => {
+        let complete!: (response: Response) => void;
+        const fetch = vi.fn(() => new Promise<Response>((resolve) => {
+            complete = resolve;
+        }));
+        vi.stubGlobal('fetch', fetch);
+        const schema: JsonUINode = {fetcher: '/markdown.json', type: 'custom', loadingContent: {markdown: 'Loading', inline: true}};
+        const first = vi.fn((node: JsonUIMarkdown, path: string) => <strong data-path={path}>{node.markdown}</strong>);
+        const second = vi.fn((node: JsonUIMarkdown, path: string) => <em data-path={path}>{node.markdown}</em>);
+        const view = render(<JsonUIReact schema={schema} renderMarkdown={first} />);
+        await flush();
+        expect(screen.getByText('Loading').tagName).toBe('STRONG');
+        expect(first).toHaveBeenCalledWith({markdown: 'Loading', inline: true}, '$.loadingContent');
+        view.rerender(<JsonUIReact schema={schema} renderMarkdown={second} />);
+        expect(screen.getByText('Loading').tagName).toBe('EM');
+        await act(async () => complete(mockResponse([{markdown: '**Loaded**'}, {tag: 'p', children: {markdown: 'Nested response'}}])));
+        await flush();
+        expect(screen.getByText('**Loaded**').tagName).toBe('EM');
+        expect(second).toHaveBeenCalledWith({markdown: '**Loaded**'}, expect.stringMatching(/\.response\[0\]$/));
+        expect(second).toHaveBeenCalledWith({markdown: 'Nested response'}, expect.stringMatching(/\.response\[1\]\.children$/));
+        view.rerender(<JsonUIReact schema={schema} renderMarkdown={first} />);
+        expect(screen.getByText('**Loaded**').tagName).toBe('STRONG');
+        expect(screen.getByText('Nested response').tagName).toBe('STRONG');
+        view.rerender(<JsonUIReact schema={schema} />);
+        expect(view.container.querySelector('strong, em')).toBeNull();
+        expect(view.container).toHaveTextContent('**Loaded**Nested response');
+        expect(fetch).toHaveBeenCalledOnce();
+    });
+
+    it('rejects invalid Markdown in asynchronous JSON with the response path', async () => {
+        vi.stubGlobal('fetch', vi.fn(async () => mockResponse({markdown: 'Source', inline: 'yes'})));
+        const onError = vi.fn();
+        const renderMarkdown = vi.fn(() => null);
+        render(<JsonUIReact schema={{fetcher: '/invalid-markdown.json', type: 'custom'}} onError={onError} renderMarkdown={renderMarkdown} />);
+        await flush();
+        expect(screen.getByRole('alert')).toHaveTextContent('Expected a boolean');
+        expect(onError).toHaveBeenCalledWith(expect.objectContaining({path: expect.stringMatching(/\.response\.inline$/)}));
+        expect(renderMarkdown).not.toHaveBeenCalled();
     });
 
     it('uses replaced registry entries in already-loaded lazy content without requesting it again', async () => {

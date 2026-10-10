@@ -58,13 +58,14 @@ const view = new zui.JsonUI('#jsonUIBasic', {
 
 这个名称不表示 JSON Schema 校验标准，也不要求再写一份“描述 schema 的 schema”。它与 FormBuilder 的表单字段 schema 也不同：如果渲染 FormBuilder，其 `props.schema` 仍然是 FormBuilder 自己的业务参数。
 
-节点可以是字符串、数字、`null`、节点数组或描述对象。描述对象分为以下四种：
+节点可以是字符串、数字、`null`、节点数组或描述对象。描述对象分为以下五种：
 
 | 形式 | 示例 | 含义 |
 | --- | --- | --- |
 | 原生元素 | `{tag: 'button', children: '保存'}` | 直接渲染 HTML 元素，绕过组件注册表 |
 | 注册组件 | `{component: 'Button', props: {text: '保存'}}` | 使用注册表中的 Button |
 | HTML | `{html: '<strong>说明</strong>'}` | 渲染 HTML，需宿主开启权限 |
+| Markdown | `{markdown: '**说明**'}` | 交给宿主渲染器；未配置时显示原文 |
 | 异步内容 | `{fetcher: '/ui.json', type: 'custom'}` | 加载后继续渲染 JSON UI |
 
 原生元素和注册组件不能在同一节点同时指定 `tag`、`component`。HTML 和异步节点可以用 `tag` 指定容器。
@@ -149,6 +150,36 @@ view.destroy();
 
 更新 `actions` 后，事件使用最新映射；已经加载的 lazy 内容不因此重新请求。后续新注册或替换的组件在下一次 `render()` 时生效，没有注册表订阅机制。为数组中需要重排的节点设置稳定 `key`。
 
+更新 `renderMarkdown` 后，下一次渲染使用新回调，包括已经加载的异步 JSON 内容，不会重新请求。原生实例可通过 `view.render({renderMarkdown: undefined})` 移除渲染器，恢复显示 Markdown 原文。
+
+## Markdown 内容
+
+`JsonUIMarkdown` 描述 Markdown 内容，例如：
+
+```json
+{
+  "key": "description",
+  "markdown": "支持 **格式化内容**。",
+  "inline": true,
+  "props": {"className": "description"}
+}
+```
+
+| 字段 | 用途 |
+| --- | --- |
+| `markdown` | 必填字符串；空字符串也合法 |
+| `inline` | 可选布尔值，交给宿主决定是否按行内 Markdown 渲染 |
+| `props` | 可选 JSON 对象，交给宿主渲染器解释 |
+| `key` | 可选字符串或数字，用于保持更新和重排时的节点身份 |
+
+在 `JsonUIOptions` 中设置 `renderMarkdown(node, path)` 后，JSON UI 会在实际渲染时调用它，并使用返回的 Preact `ComponentChildren`。参数 `node` 是通过校验的节点副本，包含上述字段；`path` 沿用节点路径，如 `$`、`$.children[0]`。组件内部交给 CustomContent 的内容使用 `$content` 路径，异步 JSON 响应的路径包含 `.response`。
+
+渲染器可以返回文本、数字、Preact 节点、数组或空内容。返回 `null`、`undefined`、`false` 时显示为空，不回退到原文。JSON UI 不增加 Markdown 容器，也不自动将 `props` 写入 DOM。
+
+未配置 `renderMarkdown` 时，直接将 `markdown` 字符串作为普通文本显示，保留 Markdown 标记，字符串中的 HTML 也不会被解释。`inline` 和 `props` 此时不影响输出。Markdown 节点支持根节点、数组、`children`、嵌套 CustomContent、异步 JSON 和 `loadingContent`。
+
+Markdown 解析、样式以及解析器生成的 HTML 的安全处理由宿主负责。JSON UI 不内置解析库，也不要求额外的 Markdown 权限。渲染器直接抛出异常时，通过现有错误占位和 `onError` 报告；普通异常会附带该 Markdown 节点的路径。
+
 ## HTML 内容
 
 直接 HTML 默认关闭，需宿主设置 `capabilities.html: true`：
@@ -218,7 +249,7 @@ new zui.JsonUI('#remoteUI', {
 
 ## 校验与错误
 
-`validateJsonUI(schema, options?)` 返回首个错误组成的数组；空数组表示通过协议校验。它检查节点结构、已注册组件、动作映射和内容权限，不校验所有组件的业务参数。
+`validateJsonUI(schema, options?)` 返回首个错误组成的数组；空数组表示通过协议校验。它检查节点结构、已注册组件、动作映射和内容权限，不校验所有组件的业务参数。Markdown 节点仅进行协议校验，不调用 `renderMarkdown`，也不要求配置该回调。
 
 ```js
 const errors = zui.validateJsonUI(schema, {actions});
@@ -246,6 +277,8 @@ new zui.JsonUI('#preview', {
 权限在共享的 CustomContent、HElement、HtmlContent、LazyContent 渲染路径生效，包括注册别名和组件内部再次使用这些渲染器的内容。`component: 'html'` 或 `component: 'lazy'` 不能绕过对应限制。
 
 已注册组件本身是宿主信任的代码。自定义组件自行解释表达式、操作 DOM、请求资源或创建独立渲染树的行为不属于这个内容策略的沙箱范围。
+
+`renderMarkdown` 同样属于宿主信任的代码，JSON 节点不能定义此回调，也不能在嵌套 JsonUI 中覆盖它。渲染器返回的内容如果使用 CustomContent、HElement、HtmlContent 或 LazyContent，仍遵守这些组件的现有内容策略。
 
 ## 源码工作区：Preact 与类型
 
@@ -275,6 +308,7 @@ const actions = {saveProfile: () => console.log('保存')};
 <Props>
 schema: JsonUINode; // 界面的 JSON 描述。
 actions?: Record&lt;string, JsonUIAction&gt;; // 宿主动作映射，events 使用此处的名称。
+renderMarkdown?: (node: JsonUIMarkdown, path: string) =&gt; ComponentChildren; // 宿主 Markdown 渲染器；未设置时显示原文。
 capabilities?: JsonUICapabilities; // HTML、异步 HTML、脚本能力；各项默认 false。
 allowRequest?: (url: URL) =&gt; boolean; // 宿主请求来源策略；默认仅允许同源 HTTP(S)。
 onError?: (error: JsonUIError) =&gt; void; // 协议或内容错误，包含 path 和 message。

@@ -4,14 +4,15 @@ import {CustomContent, HElement, HtmlContent, LazyContent, getReactComponent} fr
 import type {ComponentType, ComponentChildren} from 'preact';
 import type {ContentRenderPolicy, CustomContentType, LazyContentProps} from '@zui/core';
 import {JsonUIError} from './types';
-import type {JsonUICapabilities, JsonUIOptions} from './types';
+import type {JsonUICapabilities, JsonUIMarkdown, JsonUIOptions} from './types';
 
 const elementFields = new Set(['tag', 'component', 'key', 'props', 'children', 'events']);
 const htmlFields = new Set(['html', 'tag', 'key', 'props', 'executeScript']);
+const markdownFields = new Set(['markdown', 'inline', 'key', 'props']);
 const lazyFields = new Set(['fetcher', 'type', 'tag', 'key', 'props', 'executeScript', 'loadingContent', 'loadingText', 'errorText', 'clearBeforeLoad', 'loadingIndicator']);
 const htmlTags = new Set('a abbr address area article aside audio b bdi bdo blockquote br button canvas caption cite code col colgroup data datalist dd del details dfn dialog div dl dt em fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 header hgroup hr i img input ins kbd label legend li main map mark menu meter nav noscript ol optgroup option output p picture pre progress q rp rt ruby s samp search section select slot small source span strong sub summary sup table tbody td textarea tfoot th thead time tr track u ul var video wbr'.split(' '));
 const forbiddenKeys = new Set(['__proto__', 'prototype', 'constructor', '__k', '__v', '__e']);
-const hostProps = new Set(['capabilities', 'actions', 'allowRequest', 'onError']);
+const hostProps = new Set(['capabilities', 'actions', 'allowRequest', 'onError', 'renderMarkdown']);
 const callbackProps = new Set(['transformContent', 'generatorThis', 'generatorArgs', 'fetcherThis', 'fetcherArgs', 'forwardRef', 'ref']);
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -99,7 +100,8 @@ export class JsonUIRuntime {
         }
         const isHTML = Object.hasOwn(schema, 'html');
         const isLazy = Object.hasOwn(schema, 'fetcher');
-        const fields = isLazy ? lazyFields : isHTML ? htmlFields : elementFields;
+        const isMarkdown = Object.hasOwn(schema, 'markdown');
+        const fields = isLazy ? lazyFields : isHTML ? htmlFields : isMarkdown ? markdownFields : elementFields;
         for (const name of Object.keys(schema)) {
             if (!fields.has(name)) {
                 fail(`${path}.${name}`, 'Unknown UI node field.');
@@ -124,6 +126,19 @@ export class JsonUIRuntime {
             }
         }
         this._paths.set(props, `${path}.props`);
+        if (isMarkdown) {
+            if (typeof schema.markdown !== 'string') {
+                fail(`${path}.markdown`, 'Expected a string.');
+            }
+            if (schema.inline !== undefined && typeof schema.inline !== 'boolean') {
+                fail(`${path}.inline`, 'Expected a boolean.');
+            }
+            return this._remember({
+                component: this._renderMarkdown,
+                key: schema.key,
+                props: {node: schema, path},
+            }, path) as CustomContentType;
+        }
         if (isHTML || isLazy) {
             if (schema.executeScript !== undefined && typeof schema.executeScript !== 'boolean') {
                 fail(`${path}.executeScript`, 'Expected a boolean.');
@@ -173,6 +188,15 @@ export class JsonUIRuntime {
         return this._remember(node, path) as CustomContentType;
     }
 
+    private _renderMarkdown = ({node, path}: {node: JsonUIMarkdown; path: string}): ComponentChildren => {
+        try {
+            const {renderMarkdown} = this.options;
+            return renderMarkdown ? renderMarkdown(node, path) : node.markdown;
+        } catch (error) {
+            return this.renderError(error instanceof JsonUIError ? error : new JsonUIError(path, error instanceof Error ? error.message : String(error)));
+        }
+    };
+
     private _bindEvents(events: unknown, path: string, props: Record<string, unknown>) {
         if (events !== undefined) {
             if (!isRecord(events)) {
@@ -211,6 +235,9 @@ export class JsonUIRuntime {
         }
         if (!isRecord(content)) {
             fail('$content', 'Unsupported custom content.');
+        }
+        if (Object.hasOwn(content, 'markdown')) {
+            return this.compile(content, '$content');
         }
         // Existing components also produce the flat CustomContent format (className,
         // attrs, item metadata, component references). Preserve that public format;

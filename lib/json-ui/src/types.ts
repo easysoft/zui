@@ -1,3 +1,5 @@
+import type {ComponentChildren} from 'preact';
+
 /** Serializable values passed to component properties. */
 export type JsonUIValue = null | boolean | number | string | JsonUIValue[] | {[key: string]: JsonUIValue};
 
@@ -18,6 +20,13 @@ export type JsonUIHTML = {
     executeScript?: boolean;
 };
 
+export type JsonUIMarkdown = {
+    key?: string | number;
+    markdown: string;
+    inline?: boolean;
+    props?: Record<string, JsonUIValue>;
+};
+
 export type JsonUILazy = {
     key?: string | number;
     fetcher: string;
@@ -33,7 +42,7 @@ export type JsonUILazy = {
 };
 
 /** A UI description, not a JSON Schema validation document. */
-export type JsonUINode = null | string | number | JsonUIElement | JsonUIHTML | JsonUILazy | JsonUINode[];
+export type JsonUINode = null | string | number | JsonUIElement | JsonUIHTML | JsonUIMarkdown | JsonUILazy | JsonUINode[];
 
 /** Callback arguments and return values follow each registered component's API. */
 export type JsonUIAction = (...args: never[]) => unknown;
@@ -53,6 +62,8 @@ export class JsonUIError extends Error {
 
 export type JsonUIOptions = {
     actions?: Record<string, JsonUIAction>;
+    /** Called only when rendering; omitted to display the Markdown source as text. */
+    renderMarkdown?: (node: JsonUIMarkdown, path: string) => ComponentChildren;
     /** Fixed when the view is created; recreate it to change permissions. */
     capabilities?: JsonUICapabilities;
     /** HTTP(S) requests are same-origin by default. Fixed when the view is created. */
