@@ -38,10 +38,11 @@ function resolveLibName(name: string, libs: Record<string, LibInfo>): string | n
 }
 
 function getLibNameFromUrl(url: string, libs?: Record<string, LibInfo>): string | null {
-    if (!/^\/(lib\/)?[\w-\d%]+\/?$/.test(url)) {
+    const pathname = url.split('?')[0].split('#')[0];
+    if (!/^\/(lib\/)?[\w-\d%]+\/?$/.test(pathname)) {
         return null;
     }
-    const name = decodeURIComponent(url.replace('/lib/', '/').slice(1).split('/')[0]);
+    const name = decodeURIComponent(pathname.replace('/lib/', '/').slice(1).split('/')[0]);
     if (!libs) {
         return name;
     }
