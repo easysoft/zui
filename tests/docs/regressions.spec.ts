@@ -188,6 +188,7 @@ for (const width of [1280, 390]) {
         await page.setViewportSize({width, height: 900});
         await page.goto('lib/components/dashboard/');
         await expectDashboardTextLayout(page);
+        await page.getByRole('tab', {name: 'HTML', exact: true}).click();
         const snippet = page.locator('.language-html').first();
         const code = await snippet.locator('pre code').innerText();
         const source = readFileSync(Path.resolve(import.meta.dirname, '../../lib/dashboard/docs/lib/components/index.md'), 'utf8');
