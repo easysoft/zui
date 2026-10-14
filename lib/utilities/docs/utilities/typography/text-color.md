@@ -22,6 +22,26 @@
   </div>
 </Example>
 
+## 弱化文本
+
+使用 `text-muted` 弱化辅助说明或次要信息。它与 `text-gray-400`、`text-lighten` 等效，颜色随主题灰度配置变化。
+
+::: tabs
+
+== 示例
+
+<Example>
+  <span class="text-muted">这是一段辅助说明。</span>
+</Example>
+
+== HTML
+
+```html
+<span class="text-muted">这是一段辅助说明。</span>
+```
+
+:::
+
 ## 文本颜色透明度
 
 使用工具类 `text-opacity-*` 给元素设置文本颜色透明度。
@@ -96,6 +116,7 @@
                 {name: 'text-gray-200'},
                 {name: 'text-gray-300'},
                 {name: 'text-gray-400'},
+                {name: 'text-muted', hint: '同 text-gray-400、text-lighten'},
                 {name: 'text-gray-500', label: 'text-gray', alias: 'text-gray', hint: true},
                 {name: 'text-gray-600'},
                 {name: 'text-gray-700'},

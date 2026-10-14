@@ -36,6 +36,7 @@
 .text-gray-200  {@apply -text-gray-200}
 .text-lighter,
 .text-gray-300  {@apply -text-gray-300}
+.text-muted,
 .text-lighten,
 .text-gray-400  {@apply -text-gray-400}
 .text-gray,
