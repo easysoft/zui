@@ -2,6 +2,7 @@ import Path from 'node:path';
 import {loadConfigFromFile, mergeConfig, type InlineConfig, type ResolverFunction, type UserConfig} from 'vite';
 import {createSharedViteConfig} from '../../vite.shared';
 import {createPostcssConfig} from './css-config.cjs';
+import {cssOrderPlugin} from './css-order';
 import {getBuildMetadata} from './metadata';
 import type {BuildPlan} from './config';
 import type {BuildContext} from './context';
@@ -64,6 +65,7 @@ export async function createBuildViteConfig(plan: BuildPlan, context: BuildConte
         mode: 'production',
         base: './',
         publicDir: context.publicDir,
+        plugins: [cssOrderPlugin(context.entry, plan.libs.filter(lib => lib.zui.path).map(lib => lib.zui.path))],
         resolve: {
             dedupe: sharedRuntimes.filter(name => !plan.dependencies[name]),
             alias: sharedRuntimes.filter(name => plan.dependencies[name]).map(name => ({

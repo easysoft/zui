@@ -16,6 +16,10 @@ pnpm build --lib utilities --lib dtable --name zui-table
 
 以上产物位于 `dist/zui-table/`，包含 ESM、UMD、CSS、资源和默认启用的 source map。UMD 全局名保持为 `zui`。`build` 不执行类型检查；使用 `pnpm check` 检查源码，使用 `pnpm test:build` 验证分发消费契约。`pnpm publish:npm --tarball <file>` 在发布指定 npm 包前自动执行这两项检查。
 
+最终 CSS 按本次生成的 `build/run-*/main.ts` 中各库的声明顺序合并，库内按自身入口的静态导入顺序递归展开，再追加该库延迟加载的样式。同一 CSS 模块只输出一次；总入口显式选择的库即使被其他库提前依赖，仍保留其声明位置，未显式选择的依赖随首次引用它的库展开。总入口顺序由库的 `zui.order`（默认取库类型顺序）决定，不等同于命令行 `--lib` 的书写顺序。
+
+此规则适用于压缩和未压缩构建，`@zui/utilities` 与其他库使用相同规则；不改变 JavaScript 执行顺序和开发服务的样式加载顺序。最终覆盖结果仍遵循选择器优先级和 `!important` 等 CSS 层叠规则。
+
 ### npm 运行时与声明
 
 ```sh
