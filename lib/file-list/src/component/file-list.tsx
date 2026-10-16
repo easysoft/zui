@@ -3,7 +3,7 @@ import {List} from '@zui/list/react';
 import {Popover, type PopoverOptions} from '@zui/popover';
 
 import type {RenderableProps} from 'preact';
-import {$, CustomContent, mergeProps, nextGid, toCssSize, type ClassNameLike, type CustomContentType, type IconType} from '@zui/core';
+import {$, CustomContent, isValidElement, mergeProps, nextGid, toCssSize, type ClassNameLike, type CustomContentType, type IconType} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {ListState} from '@zui/list';
 import type {FileIconGetter, FileIconMap, FileInfo, FileInfoLike, FileListProps} from '../types';
@@ -274,7 +274,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
                     return src || icon ? {
                         src,
                         icon,
-                        lightness: 0.9,
+                        lightness: 0.95,
                         className: 'text-gray',
                         code: file.extension,
                         size: isGrid ? gridCellWidth : (multiline ? 'md' : 'sm'),
@@ -317,6 +317,9 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
     protected _renderTags(tags: string | string[], renderTag: FileListProps['renderTag']) {
         const contents = (Array.isArray(tags) ? tags : [tags]).filter(tag => tag.trim()).map((tag, index) => {
             const content = typeof renderTag === 'function' ? renderTag.call(this, tag) : (renderTag && Object.hasOwn(renderTag, tag) ? renderTag[tag] : undefined);
+            if (content && isValidElement(content)) {
+                return content;
+            }
             return content === null || content === false || content === '' ? null : (
                 <CustomContent key={index} content={content === undefined ? {tag: 'span', className: 'label', children: tag} : content} />
             );
@@ -357,7 +360,8 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
         'file-audio': ['mp3', 'wav', 'flac', 'ogg', 'm4a', 'wma', 'aac', 'aiff', 'alac'],
         'file-video': ['mp4', 'avi', 'mkv', 'mov', 'flv', 'wmv', 'webm'],
         'file-archive': ['zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz'],
-        'file-code': ['js', 'ts', 'jsx', 'tsx', 'html', 'css', 'scss', 'less', 'json', 'xml', 'yml', 'yaml', 'toml', 'ini', 'markdown', 'md'],
+        'file-code': ['js', 'ts', 'jsx', 'tsx', 'html', 'css', 'scss', 'less', 'json', 'xml', 'yml', 'yaml', 'toml', 'ini'],
+        markdown: ['md', 'markdown'],
         'file-pdf': ['pdf'],
         'file-word': ['doc', 'docx'],
         'file-excel': ['xls', 'xlsx'],
