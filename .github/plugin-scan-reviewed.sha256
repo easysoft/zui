@@ -13,7 +13,7 @@ c80a9a5e23001e706874369dfe1fc7bcd471b191068041daa46984c30358fb1d  tests/dom/docs
 e47ce365609a168501c82c3e0d8d40c8d6092f462032e43e95783737d5f1891a  skills/zui/scripts/inspect-zui-project.mjs
 9639266be05110acd6c438b0c30c8b0da8312c84687b0d634d4e1f985ce9eae4  skills/zui/scripts/inspect-zui-project.test.mjs
 af2df07eb1063fbac0b58870966f573b83c50ea1edec2d55859c127f0785658c  skills/zui-build/scripts/create-zui-page.mjs
-ea12aa3640ee3f441f6b1f5b3f6d45693fc2940688556f5504bf56b0f00e2d04  skills/zui-build/scripts/validate-zui-page.mjs
+b053fc494c61738cd77b27c992e12e45ebe4ce29f78a305aae0265e174ef808e  skills/zui-build/scripts/validate-zui-page.mjs
 0d91909a0edb09b3f1c5d296e5c501893ea8c501d705ceed5a4396b8b14a886c  skills/zui-build/assets/vendor/zui-3.0.0/zui.js
 6701aebb05c6de4c0fbd35ed0eb7a19ee4b5c2764a20e8c7d411503c04563483  skills/zui-build/assets/vendor/zui-3.0.0/zui.esm.js
 1c348267c6c4577799570bfd92110df0cfe4b7f140823c0e2575cac05babbcc3  scripts/utilities/exec.ts

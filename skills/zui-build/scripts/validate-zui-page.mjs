@@ -2,6 +2,7 @@
 
 import {promises as fs} from 'node:fs';
 import path from 'node:path';
+import {URL} from 'node:url';
 
 const HELP = `Validate a static page created with the zui-build skill.
 
@@ -12,6 +13,15 @@ Options:
   -r, --root <directory>  Page directory containing index.html (required)
       --json              Print a JSON report
   -h, --help              Show this help`;
+
+// Script type attributes require an essence match, without MIME parameters.
+// https://mimesniff.spec.whatwg.org/#javascript-mime-type
+const JAVASCRIPT_TYPES = new Set([
+    'application/ecmascript', 'application/javascript', 'application/x-ecmascript', 'application/x-javascript',
+    'text/ecmascript', 'text/javascript', 'text/javascript1.0', 'text/javascript1.1', 'text/javascript1.2',
+    'text/javascript1.3', 'text/javascript1.4', 'text/javascript1.5', 'text/jscript', 'text/livescript',
+    'text/x-ecmascript', 'text/x-javascript',
+]);
 
 function readOptionValue(args, index, name) {
     const value = args[index + 1];
@@ -41,9 +51,63 @@ function parseArguments(args) {
     return options;
 }
 
-function extractReferences(html, tagName, attributeName) {
-    const pattern = new RegExp(`<${tagName}\\b[^>]*\\b${attributeName}\\s*=\\s*["']([^"']+)["'][^>]*>`, 'gi');
-    return [...html.matchAll(pattern)].map(match => match[1]);
+function decodeAttribute(value) {
+    return value.replace(/&(?:#(x[\da-f]+|\d+)|amp|quot|apos|lt|gt);/gi, (entity, code) => {
+        if (code) {
+            const point = code[0].toLowerCase() === 'x' ? parseInt(code.slice(1), 16) : Number(code);
+            return point > 0 && point <= 0x10ffff ? String.fromCodePoint(point) : '\ufffd';
+        }
+        return {'&amp;': '&', '&quot;': '"', '&apos;': '\'', '&lt;': '<', '&gt;': '>'}[entity.toLowerCase()];
+    });
+}
+
+function extractReferences(html) {
+    // shortcut: Scan ordinary static HTML; browser checks still cover malformed markup and dynamic resources.
+    const resources = {styles: [], scripts: []};
+    const tags = /<!--[^]*?(?:-->|$)|<![^>]*>|<\/?([a-z][\w:-]*)(?=[\s/>])((?:"[^"]*"|'[^']*'|[^'">])*)>/gi;
+    const rawTextTags = new Set(['script', 'style', 'textarea', 'title', 'xmp', 'iframe', 'noembed', 'noframes', 'noscript', 'plaintext']);
+    let templateDepth = 0;
+    let match;
+    while ((match = tags.exec(html))) {
+        const name = match[1]?.toLowerCase();
+        if (!name) {
+            continue;
+        }
+        const closing = match[0].startsWith('</');
+        if (name === 'template') {
+            templateDepth = Math.max(0, templateDepth + (closing ? -1 : 1));
+        }
+        if (closing) {
+            continue;
+        }
+        if (rawTextTags.has(name)) {
+            const closingTag = new RegExp(`</${name}(?=[\\s/>])[^>]*>`, 'gi');
+            closingTag.lastIndex = tags.lastIndex;
+            const end = name === 'plaintext' ? null : closingTag.exec(html);
+            tags.lastIndex = end ? closingTag.lastIndex : html.length;
+        }
+        if (templateDepth || !['link', 'script'].includes(name)) {
+            continue;
+        }
+        const attributes = new Map();
+        const attributePattern = /([^\s"'<>/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g;
+        for (const attribute of match[2].matchAll(attributePattern)) {
+            const key = attribute[1].toLowerCase();
+            if (!attributes.has(key)) {
+                attributes.set(key, decodeAttribute(attribute[2] ?? attribute[3] ?? attribute[4] ?? ''));
+            }
+        }
+        const href = attributes.get('href')?.trim();
+        const src = attributes.get('src')?.trim();
+        if (name === 'link' && attributes.get('rel')?.toLowerCase().split(/\s+/).includes('stylesheet') && /(?:^|\/)zui(?:\.min)?\.css(?:[?#]|$)/i.test(href || '')) {
+            resources.styles.push(href);
+        }
+        const type = attributes.get('type')?.trim().toLowerCase() || '';
+        if (name === 'script' && (!type || type === 'module' || JAVASCRIPT_TYPES.has(type)) && /(?:^|\/)zui(?:\.esm)?(?:\.min)?\.js(?:[?#]|$)/i.test(src || '')) {
+            resources.scripts.push(src);
+        }
+    }
+    return resources;
 }
 
 function isRemoteReference(reference) {
@@ -56,11 +120,15 @@ function stripURLSuffix(reference) {
 
 async function pathExists(filePath) {
     try {
-        await fs.access(filePath);
-        return true;
+        return (await fs.stat(filePath)).isFile();
     } catch {
         return false;
     }
+}
+
+function isOutsideRoot(root, filePath) {
+    const relativePath = path.relative(root, filePath);
+    return relativePath === '..' || relativePath.startsWith(`..${path.sep}`) || path.isAbsolute(relativePath);
 }
 
 async function validateLocalReference(root, reference, label, errors) {
@@ -77,8 +145,7 @@ async function validateLocalReference(root, reference, label, errors) {
     const filePath = cleanReference.startsWith('/')
         ? path.resolve(root, `.${cleanReference}`)
         : path.resolve(root, cleanReference);
-    const relativePath = path.relative(root, filePath);
-    if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
+    if (isOutsideRoot(root, filePath)) {
         errors.push(`${label} escapes the page root: ${reference}`);
         return null;
     }
@@ -86,14 +153,28 @@ async function validateLocalReference(root, reference, label, errors) {
         errors.push(`${label} does not exist: ${reference}`);
         return null;
     }
+    if (isOutsideRoot(await fs.realpath(root), await fs.realpath(filePath))) {
+        errors.push(`${label} escapes the page root through a symlink: ${reference}`);
+        return null;
+    }
     return filePath;
 }
 
 function inspectCDNReferences(references, warnings) {
     references.filter(isRemoteReference).forEach((reference) => {
-        if (!/(?:cdn\.jsdelivr\.net\/npm\/zui@|unpkg\.com\/zui@)[^/]+\/dist\/zui\.(?:css|js)/i.test(reference)) {
+        let version;
+        try {
+            const url = new URL(reference, 'https://localhost');
+            const packagePath = url.hostname === 'cdn.jsdelivr.net' ? '/npm/zui@' : url.hostname === 'unpkg.com' ? '/zui@' : '';
+            if (packagePath && url.pathname.startsWith(packagePath)) {
+                version = url.pathname.slice(packagePath.length).match(/^([^/]+)\/dist\/zui(?:\.min\.css|\.css|(?:\.esm)?(?:\.min)?\.js)$/)?.[1];
+            }
+        } catch {
+            // Malformed remote references are reported as unverified paths below.
+        }
+        if (!version) {
             warnings.push(`Unverified or unpinned ZUI CDN path: ${reference}`);
-        } else if (/@latest\//i.test(reference)) {
+        } else if (!/^\d+\.\d+\.\d+(?:-[\da-z.-]+)?(?:\+[\da-z.-]+)?$/i.test(version)) {
             warnings.push(`Mutable CDN tag used instead of an exact version: ${reference}`);
         }
     });
@@ -105,8 +186,7 @@ async function validatePage(root) {
     const errors = [];
     const warnings = [];
 
-    const styleReferences = extractReferences(html, 'link', 'href').filter(reference => /zui(?:\.min)?\.css(?:[?#]|$)/i.test(reference));
-    const scriptReferences = extractReferences(html, 'script', 'src').filter(reference => /zui(?:\.esm)?(?:\.min)?\.js(?:[?#]|$)/i.test(reference));
+    const {styles: styleReferences, scripts: scriptReferences} = extractReferences(html);
     if (!styleReferences.length) {
         errors.push('No ZUI stylesheet reference found.');
     }
