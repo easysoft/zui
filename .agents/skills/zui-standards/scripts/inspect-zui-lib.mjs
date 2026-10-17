@@ -174,22 +174,22 @@ function resolveReexport(filesByName, fromFile, specifier) {
     return resolveSourceFile(filesByName, target);
 }
 
+// Keep this block identical in both standards skills; installed scripts must remain self-contained.
 function exportStatements(text) {
-    const code = withoutComments(text);
     const statements = [];
-    for (const match of code.matchAll(/\bexport\s+(type\s+)?(?:\*|\{([^}]*)\})\s+from\s*['"]([^'"]+)['"]/g)) {
-        const specifiers = match[2] === undefined ? null : `{${match[2]}}`;
-        statements.push({
-            source: match[3],
-            typeOnly: Boolean(match[1]) || (specifiers !== null && isTypeOnlyClause(specifiers)),
-        });
+    for (const match of withoutComments(text).matchAll(/\bexport\b\s*(type\s+)?(?:\*(?:\s+as\s+([A-Za-z_$][\w$]*))?|\{([^}]*)\})(?:\s+from\s*['"]([^'"]+)['"])?/g)) {
+        const specifiers = match[3] === undefined ? null : match[3].split(',').map((specifier) => {
+            const parsed = specifier.trim().match(/^(type\s+)?([A-Za-z_$][\w$]*)(?:\s+as\s+([A-Za-z_$][\w$]*))?$/);
+            return parsed ? {original: parsed[2], name: parsed[3] ?? parsed[2], typeOnly: Boolean(parsed[1])} : null;
+        }).filter(Boolean);
+        statements.push({source: match[4], namespace: match[2], typeOnly: Boolean(match[1]), specifiers});
     }
     return statements;
 }
 
 function inspectPublicApi(packageJson, textEntries) {
     const filesByName = new Map(textEntries
-        .filter(entry => JS_EXTENSIONS.includes(path.posix.extname(entry.file)))
+        .filter(entry => JS_EXTENSIONS.includes(path.posix.extname(entry.file)) && !/\.d\.ts$/.test(entry.file))
         .map(entry => [entry.file, entry]));
     const entryTargets = [];
     collectStringTargets(packageJson.main, entryTargets);
@@ -199,99 +199,169 @@ function inspectPublicApi(packageJson, textEntries) {
     if (!entryTargets.length) {
         entryTargets.push('src/main.ts');
     }
-    const entries = uniqueSorted(entryTargets
-        .map(target => resolveSourceFile(filesByName, target))
-        .filter(Boolean));
-    const queue = [...entries];
+    const entries = uniqueSorted(entryTargets.map(target => resolveSourceFile(filesByName, target)).filter(Boolean));
     const reachable = new Set();
-    while (queue.length) {
-        const file = queue.shift();
-        if (reachable.has(file)) {
-            continue;
+    const unresolved = [];
+    const modules = new Map();
+    const classes = new Map();
+    const reportUnknown = (file, source, reason) => unresolved.push({file, ...(source ? {source} : {}), reason});
+    for (const target of uniqueSorted(entryTargets)) {
+        if (!/\.d\.ts$/.test(target) && !resolveSourceFile(filesByName, target)) {
+            reportUnknown(null, target, 'entry-not-resolved');
+        }
+    }
+
+    function inspectModule(file, visiting = new Set()) {
+        if (visiting.has(file)) {
+            reportUnknown(file, null, 'cyclic-reexport');
+            return {exports: new Map(), types: new Set()};
+        }
+        if (modules.has(file)) {
+            return modules.get(file);
         }
         reachable.add(file);
-        const entry = filesByName.get(file);
-        if (!entry) {
-            continue;
-        }
-        for (const statement of exportStatements(entry.text)) {
-            if (statement.typeOnly) {
-                continue;
-            }
-            const target = resolveReexport(filesByName, file, statement.source);
-            if (target && !reachable.has(target)) {
-                queue.push(target);
-            }
-        }
-    }
-
-    const runtimeExports = [];
-    const classes = new Map();
-    for (const file of [...reachable].sort((left, right) => left.localeCompare(right))) {
-        const code = withoutComments(filesByName.get(file)?.text ?? '');
-        for (const match of code.matchAll(/\b(export\s+)?(?:default\s+)?(?:abstract\s+)?class\s+([A-Za-z_$][\w$]*)(?:\s+extends\s+([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*))?/g)) {
-            classes.set(match[2], {name: match[2], base: match[3] ?? null, file, exported: Boolean(match[1])});
+        visiting = new Set([...visiting, file]);
+        const code = withoutComments(filesByName.get(file).text);
+        const exports = new Map();
+        const types = new Set();
+        const locals = new Map();
+        const localTypes = new Set();
+        for (const match of code.matchAll(/\b(export\s+)?(default\s+)?(?:abstract\s+)?class\s+([A-Za-z_$][\w$]*)(?:\s+extends\s+([A-Za-z_$][\w$.]*))?/g)) {
+            const item = {kind: 'class', name: match[3], file, localName: match[3]};
+            locals.set(item.name, item);
+            classes.set(`${file}:${item.name}`, {name: item.name, base: match[4] ?? null, file});
             if (match[1]) {
-                runtimeExports.push({kind: 'class', name: match[2], file});
+                const name = match[2] ? 'default' : item.name;
+                exports.set(name, {...item, name});
             }
         }
-        for (const match of code.matchAll(/\bexport\s+(?:default\s+)?(?:async\s+)?function\s+([A-Za-z_$][\w$]*)/g)) {
-            runtimeExports.push({kind: 'function', name: match[1], file});
-        }
-        for (const match of code.matchAll(/\bexport\s+(?:declare\s+)?(?:const|let|var|enum)\s+([A-Za-z_$][\w$]*)/g)) {
-            runtimeExports.push({kind: 'value', name: match[1], file});
-        }
-        for (const match of code.matchAll(/\bexport\s*\{([\s\S]*?)\}(?!\s*from\s*['"])/g)) {
-            const specifiers = match[1].split(',').map(specifier => specifier.trim()).filter(Boolean);
-            for (const specifier of specifiers) {
-                if (/^type\b/.test(specifier)) {
-                    continue;
-                }
-                const parts = specifier.split(/\s+as\s+/i);
-                runtimeExports.push({kind: 'named', name: parts[1] ?? parts[0], file});
+        for (const match of code.matchAll(/\b(export\s+)?(default\s+)?(?:async\s+)?function\s+([A-Za-z_$][\w$]*)/g)) {
+            const item = {kind: 'function', name: match[3], file, localName: match[3]};
+            locals.set(item.name, item);
+            if (match[1]) {
+                const name = match[2] ? 'default' : item.name;
+                exports.set(name, {...item, name});
             }
         }
-        for (const statement of exportStatements(code)) {
-            if (!statement.typeOnly && !statement.source.startsWith('.')) {
-                runtimeExports.push({kind: 'reexport', name: '*', source: statement.source, file});
+        for (const match of code.matchAll(/\b(export\s+)?(?:declare\s+)?(?:const|let|var|enum)\s+([A-Za-z_$][\w$]*)/g)) {
+            const item = {kind: 'value', name: match[2], file, localName: match[2]};
+            locals.set(item.name, item);
+            if (match[1]) {
+                exports.set(item.name, item);
             }
         }
-        if (/\bexport\s+default\s+(?!class\b|function\b|interface\b|type\b)[^;]+/.test(code)) {
-            runtimeExports.push({kind: 'default', name: 'default', file});
+        for (const match of code.matchAll(/\b(export\s+)?(?:default\s+)?(?:interface|type)\s+([A-Za-z_$][\w$]*)/g)) {
+            localTypes.add(match[2]);
+            if (match[1]) {
+                types.add(match[2]);
+            }
+        }
+        if (/\bexport\s+default\s+(?!interface\b)[^;]+/.test(code) && !exports.has('default')) {
+            exports.set('default', {kind: 'default', name: 'default', file, localName: 'default'});
         }
         if (/\bmodule\.exports\b|\bexports\.[A-Za-z_$][\w$]*\s*=/.test(code)) {
-            runtimeExports.push({kind: 'commonjs', name: '*', file});
+            reportUnknown(file, null, 'commonjs-exports');
         }
-    }
-
-    const inheritance = [...classes.values()]
-        .filter(item => item.exported && item.base)
-        .map((item) => {
-            const chain = [item.name];
-            let current = item;
-            const seen = new Set(chain);
-            while (current.base && !seen.has(current.base)) {
-                chain.push(current.base);
-                seen.add(current.base);
-                current = classes.get(current.base);
-                if (!current) {
-                    break;
+        const stars = [];
+        for (const statement of exportStatements(code)) {
+            const {source, namespace, typeOnly, specifiers} = statement;
+            if (typeOnly) {
+                for (const item of specifiers ?? []) {
+                    types.add(item.name);
+                }
+                if (namespace) {
+                    types.add(namespace);
+                }
+                continue;
+            }
+            if (specifiers?.every(item => item.typeOnly)) {
+                specifiers.forEach(item => types.add(item.name));
+                continue;
+            }
+            const target = source && resolveReexport(filesByName, file, source);
+            // shortcut: Syntax screening cannot prove external symbols or TypeScript erasure; resolve semantically before API validation.
+            const imported = target ? inspectModule(target, visiting) : null;
+            if (source && !target) {
+                reportUnknown(file, source, source.startsWith('.') ? 'source-not-resolved' : 'external-module');
+            }
+            if (namespace) {
+                exports.set(namespace, {kind: 'namespace', name: namespace, source, file, localName: namespace});
+            } else if (specifiers) {
+                for (const item of specifiers) {
+                    if (item.typeOnly || (imported ? imported.types.has(item.original) && !imported.exports.has(item.original) : !source && localTypes.has(item.original) && !locals.has(item.original))) {
+                        types.add(item.name);
+                        continue;
+                    }
+                    const original = imported ? imported.exports.get(item.original) : !source && locals.get(item.original);
+                    if (original) {
+                        exports.set(item.name, {...original, name: item.name});
+                    } else if (!imported) {
+                        exports.set(item.name, {kind: source ? 'reexport' : 'named', name: item.name, ...(source ? {source} : {}), file, localName: item.original});
+                        if (!source) {
+                            reportUnknown(file, null, `local-binding-not-resolved:${item.original}`);
+                        }
+                    } else {
+                        reportUnknown(file, source, `export-not-resolved:${item.original}`);
+                    }
+                }
+            } else if (imported) {
+                stars.push(imported.exports);
+                imported.types.forEach(name => types.add(name));
+            } else if (source) {
+                reportUnknown(file, source, 'wildcard-exports-not-resolved');
+            }
+        }
+        const starExports = new Map();
+        const ambiguous = new Set();
+        for (const candidates of stars) {
+            for (const [name, item] of candidates) {
+                if (name === 'default' || exports.has(name)) {
+                    continue;
+                }
+                const prior = starExports.get(name);
+                if (prior && (prior.file !== item.file || prior.localName !== item.localName || prior.source !== item.source)) {
+                    ambiguous.add(name);
+                    reportUnknown(file, null, `ambiguous-wildcard-export:${name}`);
+                } else {
+                    starExports.set(name, item);
                 }
             }
-            return {class: item.name, base: item.base, chain, file: item.file};
-        })
-        .sort((left, right) => left.file.localeCompare(right.file) || left.class.localeCompare(right.class));
+        }
+        for (const [name, item] of starExports) {
+            if (!ambiguous.has(name)) {
+                exports.set(name, item);
+            }
+        }
+        const result = {exports, types};
+        modules.set(file, result);
+        return result;
+    }
 
+    const runtimeExports = entries.flatMap(file => [...inspectModule(file).exports.values()]);
+    const inheritance = runtimeExports.filter(item => item.kind === 'class').flatMap((item) => {
+        let current = classes.get(`${item.file}:${item.localName}`);
+        if (!current?.base) {
+            return [];
+        }
+        const base = current.base;
+        const chain = [item.name];
+        const seen = new Set([current.name]);
+        while (current?.base && !seen.has(current.base)) {
+            chain.push(current.base);
+            seen.add(current.base);
+            current = classes.get(`${current.file}:${current.base}`);
+        }
+        return [{class: item.name, base, chain, file: item.file}];
+    });
+    const uniqueItems = items => [...new Map(items.map(item => [JSON.stringify(item), item])).values()];
     return {
+        analysis: 'syntax-candidates',
+        notice: 'Candidates from recognized export syntax, merged across package entries; not a complete or verified TypeScript API. Check source and unresolved items before importing.',
         entries,
         files: [...reachable].sort((left, right) => left.localeCompare(right)),
-        runtimeExports: runtimeExports.filter((item, index, array) => (
-            array.findIndex(candidate => candidate.kind === item.kind
-                && candidate.name === item.name
-                && candidate.file === item.file
-                && candidate.source === item.source) === index
-        )),
-        inheritance,
+        runtimeExports: uniqueItems(runtimeExports.map(({localName: _localName, ...item}) => item)),
+        inheritance: uniqueItems(inheritance).sort((left, right) => left.file.localeCompare(right.file) || left.class.localeCompare(right.class)),
+        unresolved: uniqueItems(unresolved),
     };
 }
 
@@ -342,7 +412,7 @@ async function inspectLibrary(root, folder) {
         vanillaComponent: hasPattern(vanillaText, /\bextends\s+Component(?:\s*<|\s*\{)/)
             || publicApi.inheritance.some(item => item.file.startsWith('vanilla/')),
         classInheritance: publicApi.inheritance.length > 0,
-        publicJsExport: publicApi.runtimeExports.length > 0,
+        publicJsExport: publicApi.runtimeExports.length > 0 || publicApi.unresolved.some(item => item.reason !== 'entry-not-resolved'),
         jsContribution: hasJsContributions,
         registerReactComponent: hasPattern(sourceText, /\bregisterReactComponent\s*\(/),
         registerComponent: hasPattern(sourceText, /\b[A-Za-z_$][\w$]*\.register\s*\(/),

@@ -163,12 +163,159 @@ for (const script of SCRIPTS) {
 
     test(label + ': preserves inventory output and remains self-contained when copied', (t) => {
         const root = fixture(t);
+        writeFile(root, 'lib/core/src/dom.ts', 'export function queryElement() {}\n');
+        writeFile(root, 'lib/core/src/helpers.ts', 'export function debounce() {}\nexport function privateToEntry() {}\n');
         const inventory = inspect(script, root, ['--lib', 'core']);
         assert.equal(inventory.count, 1);
-        assert.ok(inventory.libraries[0].publicApi.runtimeExports);
+        const api = inventory.libraries[0].publicApi;
+        assert.deepEqual(api.runtimeExports, [
+            {kind: 'function', name: 'postpone', file: 'helpers.ts'},
+            {kind: 'namespace', name: 'dom', source: './dom', file: 'main.ts'},
+            {kind: 'reexport', name: 'signal', source: '@preact/signals', file: 'main.ts'},
+            {kind: 'reexport', name: 'computed', source: '@preact/signals', file: 'main.ts'},
+        ]);
+        assert.deepEqual(api.files, ['dom.ts', 'helpers.ts', 'main.ts']);
+        assert.equal(api.analysis, 'syntax-candidates');
+        assert.match(api.notice, /not a complete or verified TypeScript API/);
+        assert.deepEqual(api.unresolved, [{file: 'main.ts', source: '@preact/signals', reason: 'external-module'}]);
         assert.equal(inventory.libraries[0].matches, undefined);
         const installed = path.join(root, 'installed/inspect-zui-lib.mjs');
         writeFile(root, 'installed/inspect-zui-lib.mjs', fs.readFileSync(script, 'utf8'));
-        assert.equal(inspect(installed, root, ['--search', 'deepOnlyHelper']).count, 1);
+        assert.equal(inspect(installed, root, ['--search', 'privateToEntry']).count, 1);
+        assert.deepEqual(inspect(installed, root, ['--lib', 'core']), inventory);
+    });
+
+    test(label + ': follows nested reexports without exposing unselected, default or namespace members', (t) => {
+        const root = fixture(t);
+        writeFile(root, 'lib/core/src/main.ts', [
+            'export {middle as publicAlias, type Options} from \'./aliases\';',
+            'export * from \'./barrel\';',
+            'export * as dom from \'./dom\';',
+            'export type * as Types from \'./types\';',
+            'export type {NeverRuntime} from \'./types\';',
+        ].join('\n'));
+        writeFile(root, 'lib/core/src/aliases.ts', [
+            'export {original as middle} from \'./helpers\';',
+            'export interface Options {}',
+            'export const unselected = 1;',
+        ].join('\n'));
+        writeFile(root, 'lib/core/src/helpers.ts', 'export function original() {}\nexport function unselectedHelper() {}\n');
+        writeFile(root, 'lib/core/src/barrel.ts', 'export * from \'./leaf\';\n');
+        writeFile(root, 'lib/core/src/leaf.ts', [
+            'export default function DefaultFunction() {}',
+            'export const visible = 1;',
+            'export interface LeafType {}',
+            'export {LeafType as ImplicitType};',
+        ].join('\n'));
+        writeFile(root, 'lib/core/src/dom.ts', 'export * from \'./namespace-members\';\n');
+        writeFile(root, 'lib/core/src/namespace-members.ts', 'export const nestedMember = 1;\n');
+        writeFile(root, 'lib/core/src/types.ts', 'export class NeverRuntime {}\n');
+        const api = inspect(script, root, ['--lib', 'core']).libraries[0].publicApi;
+        assert.deepEqual(api.runtimeExports, [
+            {kind: 'function', name: 'publicAlias', file: 'helpers.ts'},
+            {kind: 'namespace', name: 'dom', source: './dom', file: 'main.ts'},
+            {kind: 'value', name: 'visible', file: 'leaf.ts'},
+        ]);
+        assert.deepEqual(api.files, ['aliases.ts', 'barrel.ts', 'dom.ts', 'helpers.ts', 'leaf.ts', 'main.ts', 'namespace-members.ts']);
+        assert.deepEqual(api.unresolved, []);
+    });
+
+    test(label + ': handles local aliases, default aliases and implicit type reexports', (t) => {
+        const root = fixture(t);
+        writeFile(root, 'lib/core/src/main.ts', [
+            'export {default as create, PublicClass as Widget, TypeAlias} from \'./model\';',
+            'interface Options {}',
+            'type Result = string;',
+            'const internal = 1;',
+            'export {internal as publicValue, Options, type Result};',
+        ].join('\n'));
+        writeFile(root, 'lib/core/src/model.ts', [
+            'export default function make() {}',
+            'class Base {}',
+            'class Internal extends Base {}',
+            'interface Shape {}',
+            'export {Internal as PublicClass, Shape as TypeAlias};',
+        ].join('\n'));
+        const api = inspect(script, root, ['--lib', 'core']).libraries[0].publicApi;
+        assert.deepEqual(api.runtimeExports, [
+            {kind: 'function', name: 'create', file: 'model.ts'},
+            {kind: 'class', name: 'Widget', file: 'model.ts'},
+            {kind: 'value', name: 'publicValue', file: 'main.ts'},
+        ]);
+        assert.deepEqual(api.inheritance, [{class: 'Widget', base: 'Base', chain: ['Widget', 'Base'], file: 'model.ts'}]);
+        assert.deepEqual(api.unresolved, []);
+    });
+
+    test(label + ': recognizes compact local exports without classifying runtime libraries as CSS-only', (t) => {
+        const root = fixture(t);
+        writeFile(root, 'lib/core/src/main.ts', 'const helper = 1;\nexport{helper};\n');
+        writeFile(root, 'lib/core/src/style.css', '.example {}\n');
+        const library = inspect(script, root, ['--lib', 'core']).libraries[0];
+        assert.deepEqual(library.publicApi.runtimeExports, [{kind: 'value', name: 'helper', file: 'main.ts'}]);
+        assert.deepEqual(library.publicApi.unresolved, []);
+        assert.equal(library.signals.cssOnly, false);
+    });
+
+    test(label + ': excludes ambiguous wildcard exports and keeps explicit overrides', (t) => {
+        const root = fixture(t);
+        writeFile(root, 'lib/core/src/main.ts', [
+            'export * from \'./left\';',
+            'export * from \'./right\';',
+            'export {winner as collision} from \'./override\';',
+        ].join('\n'));
+        for (const side of ['left', 'right']) {
+            writeFile(root, `lib/core/src/${side}.ts`, [
+                'export const collision = 1;',
+                'export const ambiguous = 1;',
+                `export const ${side}Only = 1;`,
+                'export {shared} from \'./shared\';',
+            ].join('\n'));
+        }
+        writeFile(root, 'lib/core/src/shared.ts', 'export const shared = 1;\n');
+        writeFile(root, 'lib/core/src/override.ts', 'export const winner = 1;\n');
+        const api = inspect(script, root, ['--lib', 'core']).libraries[0].publicApi;
+        assert.deepEqual(api.runtimeExports, [
+            {kind: 'value', name: 'collision', file: 'override.ts'},
+            {kind: 'value', name: 'leftOnly', file: 'left.ts'},
+            {kind: 'value', name: 'shared', file: 'shared.ts'},
+            {kind: 'value', name: 'rightOnly', file: 'right.ts'},
+        ]);
+        assert.deepEqual(api.unresolved, [{file: 'main.ts', reason: 'ambiguous-wildcard-export:ambiguous'}]);
+    });
+
+    test(label + ': reports unresolved external wildcards, bindings and cycles without inventing members', (t) => {
+        const root = fixture(t);
+        writeFile(root, 'lib/core/src/main.ts', [
+            'export {method as publicMethod, type Config} from \'vendor\';',
+            'export type * from \'types-only\';',
+            'export * from \'unknown-members\';',
+            'export * from \'./cycle\';',
+            'export {missing} from \'./helpers\';',
+        ].join('\n'));
+        writeFile(root, 'lib/core/src/cycle.ts', 'export * from \'./main\';\nexport const cycleValue = 1;\n');
+        const api = inspect(script, root, ['--lib', 'core']).libraries[0].publicApi;
+        assert.deepEqual(api.runtimeExports, [
+            {kind: 'reexport', name: 'publicMethod', source: 'vendor', file: 'main.ts'},
+            {kind: 'value', name: 'cycleValue', file: 'cycle.ts'},
+        ]);
+        assert.deepEqual(api.unresolved, [
+            {file: 'main.ts', source: 'vendor', reason: 'external-module'},
+            {file: 'main.ts', source: 'unknown-members', reason: 'external-module'},
+            {file: 'main.ts', source: 'unknown-members', reason: 'wildcard-exports-not-resolved'},
+            {file: 'main.ts', reason: 'cyclic-reexport'},
+            {file: 'main.ts', source: './helpers', reason: 'export-not-resolved:missing'},
+        ]);
+    });
+
+    test(label + ': unresolved runtime exports do not classify a library with CSS as CSS-only', (t) => {
+        const root = fixture(t);
+        writeFile(root, 'lib/core/src/style.css', '.example {}\n');
+        for (const source of ['export * from \'external\';', 'module.exports = runtimeValue;']) {
+            writeFile(root, 'lib/core/src/main.ts', source);
+            const library = inspect(script, root, ['--lib', 'core']).libraries[0];
+            assert.deepEqual(library.publicApi.runtimeExports, []);
+            assert.equal(library.signals.publicJsExport, true);
+            assert.equal(library.signals.cssOnly, false);
+        }
     });
 }

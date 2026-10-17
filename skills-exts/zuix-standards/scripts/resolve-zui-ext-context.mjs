@@ -365,8 +365,8 @@ async function resolveHost(options, originalCwd, extensionRoot, targetLibRoot) {
     if (options.host) {
         return inspected[0] ?? null;
     }
-    const registered = inspected.filter(candidate => candidate.registrations.length === 1);
-    return registered[0] ?? null;
+    const registered = inspected.filter(candidate => candidate.registrations.length > 0);
+    return registered.length === 1 && registered[0].registrations.length === 1 ? registered[0] : null;
 }
 
 function dependencySpecifierKind(specifier) {
