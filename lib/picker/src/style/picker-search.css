@@ -1,21 +1,26 @@
 .picker-search-input {
-  @apply -pr-8 -h-7 -px-0 -border-transparent !-ring-0 !-outline-0;
+  @apply -pr-8 -h-7 -px-0 -py-0 -bg-transparent -border-transparent !-ring-0 !-outline-0;
+  font: inherit;
 }
 .picker-search {
   @apply -flex-none -relative -w-full;
 }
+.picker-select-single > .picker-search,
+.picker-select-single .picker-search-input {
+  @apply -h-auto;
+}
 .picker-search > .magnifier {
-  @apply -absolute -right-0 -top-2 -opacity-50;
+  @apply -absolute -right-0 -top-1/2 --translate-y-1/2 -opacity-50;
 }
 .picker-search-clear.btn {
-  @apply -absolute -right-0 -top-1 -w-5 -h-5 -cursor-pointer;
+  @apply -absolute -right-0 -top-1/2 --translate-y-1/2 -w-5 -h-5 -max-h-full -cursor-pointer;
 }
 
 .picker-search.is-inline {
   @apply -w-16 -min-w-[64px];
 }
 .is-inline > .picker-search-input {
-  @apply -min-w-[64px] -px-1 -h-5;
+  @apply -min-w-[64px] -px-1 -h-auto;
 }
 .picker-search-measure {
   @apply -absolute -top-0 -left-0 -h-0 -overflow-hidden -whitespace-nowrap;

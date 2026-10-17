@@ -2,6 +2,54 @@
 
 用于方便用户从多个选项列表中进行选择。
 
+## 尺寸
+
+在 Picker 容器上添加 `size-sm`、`size-md` 或 `size-lg`，也可以通过初始化选项 `className` 设置尺寸类。不添加尺寸类时使用默认尺寸。
+
+### 单选尺寸
+
+```html:example: flex flex-wrap items-end gap-4
+<div class="col gap-2 w-48 max-w-full">
+    <span>size-sm</span>
+    <div id="singlePickerSize-sm" class="size-sm"></div>
+</div>
+<div class="col gap-2 w-48 max-w-full">
+    <span>size-md</span>
+    <div id="singlePickerSize-md" class="size-md"></div>
+</div>
+<div class="col gap-2 w-48 max-w-full">
+    <span>默认尺寸</span>
+    <div id="singlePickerSize-default"></div>
+</div>
+<div class="col gap-2 w-48 max-w-full">
+    <span>size-lg</span>
+    <div id="singlePickerSize-lg" class="size-lg"></div>
+</div>
+```
+
+### 多选尺寸
+
+多选框的单行高度与同尺寸的单选框一致，并会随已选标签换行自动增高。可以继续选择或移除选项，观察各尺寸下的显示效果。
+
+```html:example: flex flex-wrap items-end gap-4
+<div class="col gap-2 w-48 max-w-full">
+    <span>size-sm</span>
+    <div id="multiPickerSize-sm" class="size-sm"></div>
+</div>
+<div class="col gap-2 w-48 max-w-full">
+    <span>size-md</span>
+    <div id="multiPickerSize-md" class="size-md"></div>
+</div>
+<div class="col gap-2 w-48 max-w-full">
+    <span>默认尺寸</span>
+    <div id="multiPickerSize-default"></div>
+</div>
+<div class="col gap-2 w-48 max-w-full">
+    <span>size-lg</span>
+    <div id="multiPickerSize-lg" class="size-lg"></div>
+</div>
+```
+
 ## 特殊选项
 
 ### 禁用搜索

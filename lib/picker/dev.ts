@@ -51,6 +51,20 @@ const nestedItems = [
 ];
 
 onPageUpdate(() => {
+    ['sm', 'md', 'default', 'lg'].forEach((size) => {
+        new Picker(`#singlePickerSize-${size}`, {
+            items,
+            defaultValue: 'apple',
+            placeholder: '请选择你的最爱',
+        });
+        new Picker(`#multiPickerSize-${size}`, {
+            items,
+            multiple: true,
+            defaultValue: 'apple,orange',
+            placeholder: '请选择你的最爱',
+        });
+    });
+
     const creatableSourceItems = items.map(item => ({...item}));
     const creatableSourceItemsSnapshot = JSON.stringify(creatableSourceItems);
     const creatablePicker = new Picker('#creatablePicker', {
