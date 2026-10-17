@@ -10,7 +10,7 @@ description: "审查并提交 ZUI 主仓库的改动；用户直接调用本技�
 先判断用户意图，再执行对应模式：
 
 - **只读模式**：用户仅要求分析变更、规划提交、评审或生成 commit message 时，只读取仓库状态并返回建议，不运行 `git add`、`git commit` 或其他写操作。明确的只读限制优先于技能的默认行为。
-- **提交模式**：用户直接调用 `/zui-commit`、`$zui-commit` 或要求使用本技能，且没有只读限制，即视为明确提交授权；明确要求提交、保存或入库改动也进入此模式。候选范围确定、审查无问题且必要检查通过后，直接暂存并提交，不再询问是否提交、选择哪组或确认提交信息。
+- **提交模式**：用户直接调用 `/zui-commit`、`$zui-commit` 或要求使用本技能，且没有只读限制，即视为明确提交授权；明确要求 Git 提交或创建 commit 也进入此模式。仅要求“保存”文件不构成提交授权。候选范围确定、审查无问题且必要检查通过后，直接暂存并提交，不再询问是否提交、选择哪组或确认提交信息。
 
 仅讨论或修改本技能、在引用内容中出现技能名称，不构成提交请求。由其他技能引用时沿用用户实际授权，不把开发或评审请求自动升级为提交。
 
@@ -82,7 +82,7 @@ has not been verified.
 5. **执行验证**：
    - 始终对候选或暂存的 tracked diff 运行相应的 `git diff --check`；未跟踪文本文件使用 `zui-review` 的等价 whitespace 检查。
    - 选择覆盖候选风险的最小充分组合，不机械运行全部命令：
-     - 仓库内 `.agents/skills/*`、`skills/*` 和 `skills-exts/*` 使用 `skill-creator` 的 `quick_validate.py` 并检查引用；另行解析 `agents/openai.yaml`，核对界面字段、`$skill-name` 默认提示及资源路径，因为 quick validator 不覆盖该文件。修改 `skills/zui` 的脚本或检查器时再运行 `pnpm test:skills`。
+     - 仓库内 `.agents/skills/*`、`skills/*` 和 `skills-exts/*` 使用 `skill-creator` 的 `quick_validate.py` 并检查引用；另行解析 `agents/openai.yaml`，核对界面字段、`$skill-name` 默认提示及资源路径，因为 quick validator 不覆盖该文件。修改这些目录下的技能脚本或相关测试时再运行 `pnpm test:skills`，并确认测试实际覆盖修改的脚本。
      - 普通 TS/TSX/JS、工具和测试改动通常运行 `pnpm check`；只有范围窄、目标检查能明确覆盖且完整检查成本不相称时，才改用目标 lint、类型检查及相关 unit/DOM 测试，并说明收窄后的覆盖边界。
      - 公共导出、包元数据、依赖锁、构建脚本、Vite/Tailwind 或分发契约改动增加 `pnpm test:build`，并在代表性构建未覆盖目标库时增加目标库构建。
      - 文档管线或导航改动仅在隔离快照中增加 `pnpm docs:build`，因为它会刷新 ignored 的 `docs/_` 生成内容；无法隔离时报告未运行及残余风险，不在当前工作区直接执行。CSS 或视觉改动增加目标构建和浏览器/人工视觉验证；浏览器行为、焦点、portal 或无障碍改动增加目标 Chromium E2E 或 `pnpm test:e2e`。仅在兼容性风险明确时运行跨浏览器测试。

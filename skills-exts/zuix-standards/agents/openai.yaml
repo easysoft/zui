@@ -1,4 +1,4 @@
 interface:
   display_name: "ZUIX Standards"
   short_description: "Resolve and apply ZUI extension development standards"
-  default_prompt: "Use $zuix-standards to inspect an extension library and resolve its workspace, Git root, ZUI host, and extension group."
+  default_prompt: "Use $zuix-standards to find the relevant standards and resolve the context needed for the specified ZUI extension task."
