@@ -34,6 +34,7 @@
     "test:watch": "vitest --project unit --project dom",
     "test:coverage": "vitest run --coverage --project unit --project dom",
     "test:skills": "node --test skills/zui/scripts/inspect-zui-project.test.mjs tests/skills/*.test.mjs",
+    "eval:skills": "node scripts/tests/skills-behavior.mjs",
     "test:build": "vitest run --project build",
     "test:e2e": "playwright test",
     "test:docs": "playwright test --config playwright.docs.config.ts",
