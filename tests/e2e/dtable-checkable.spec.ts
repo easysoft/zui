@@ -8,11 +8,12 @@ const rows = [
     {id: 'r3', name: 'Gamma'},
 ];
 
-async function mountCheckableTable(page: Page): Promise<void> {
+async function mountCheckableTable(page: Page, localPager = false): Promise<void> {
+    const data = localPager ? Array.from({length: 12}, (_, index) => ({id: `r${index + 1}`, name: `Row ${index + 1}`})) : rows;
     await page.goto('/dtable/');
     // Wait for the playground to finish rendering so the dtable styles are applied.
     await page.locator('#datatableExample .dtable-header').first().waitFor({timeout: 60_000});
-    await page.evaluate(async ({data, mainPath}) => {
+    await page.evaluate(async ({data, mainPath, localPager}) => {
         document.documentElement.classList.remove('dark');
         document.body.className = '';
         document.body.innerHTML = '<main id="e2e-dtable-contract"><div id="e2e-dtable"></div></main>';
@@ -26,14 +27,27 @@ async function mountCheckableTable(page: Page): Promise<void> {
             ],
             data,
             height: 240,
-            footer: ['checkbox', 'checkedInfo'],
-            plugins: ['checkable'],
+            lang: 'zh_cn',
+            footer: ['checkbox', 'checkedInfo', 'flex', 'pager'],
+            plugins: ['checkable', 'pager'],
+            localPager,
+            footPager: localPager ? {
+                recPerPage: 5,
+                items: [
+                    {type: 'link', page: 'prev', text: 'Previous page'},
+                    {type: 'info', text: '{page}/{pageTotal}'},
+                    {type: 'link', page: 'next', text: 'Next page'},
+                ],
+            } : undefined,
+            onCheckChange(this: {getChecks: () => string[]}) {
+                document.getElementById('e2e-dtable')!.dataset.checks = JSON.stringify(this.getChecks());
+            },
         });
-    }, {data: rows, mainPath: '/lib/dtable/src/main.ts'});
+    }, {data, mainPath: '/lib/dtable/src/main.ts', localPager});
 
     await page.locator('#e2e-dtable .dtable-header .dtable-checkbox').waitFor();
     await page.locator('#e2e-dtable .dtable-footer .dtable-checkbox').waitFor();
-    await expect(page.locator('#e2e-dtable .dtable-block:not(.dtable-header) .dtable-checkbox')).toHaveCount(rows.length);
+    await expect(page.locator('#e2e-dtable .dtable-block:not(.dtable-header) .dtable-checkbox')).toHaveCount(localPager ? 5 : rows.length);
 }
 
 function readChecks(page: Page) {
@@ -108,5 +122,36 @@ test.describe('DTable checkable', () => {
         await page.keyboard.press('Space');
 
         expect(await readChecks(page)).toEqual({header: true, footer: true, rows: [true, true, true]});
+    });
+
+    test('limits header and footer select-all to the current page and keeps the count accurate', async ({page}) => {
+        await mountCheckableTable(page, true);
+        const table = page.locator('#e2e-dtable');
+        const info = table.locator('.dtable-check-info');
+        const selected = ['r1', 'r2', 'r3', 'r4', 'r5'];
+
+        await headerLabel(page).click();
+        await expect(info).toHaveText('已选择 5 项, 共 12 项');
+        await expect(table).toHaveAttribute('data-checks', JSON.stringify(selected));
+        expect(await readChecks(page)).toEqual({header: true, footer: true, rows: Array(5).fill(true)});
+
+        await page.getByText('Next page', {exact: true}).click();
+        expect(await readChecks(page)).toEqual({header: false, footer: false, rows: Array(5).fill(false)});
+        await expect(info).toHaveText('已选择 5 项, 共 12 项');
+        await footerLabel(page).click();
+        await expect(info).toHaveText('已选择 10 项, 共 12 项');
+        await expect(table).toHaveAttribute('data-checks', JSON.stringify([...selected, 'r6', 'r7', 'r8', 'r9', 'r10']));
+        await footerLabel(page).click();
+        await expect(table).toHaveAttribute('data-checks', JSON.stringify(selected));
+        await expect(info).toHaveText('已选择 5 项, 共 12 项');
+
+        await page.getByText('Next page', {exact: true}).click();
+        expect(await readChecks(page)).toEqual({header: false, footer: false, rows: [false, false]});
+        await headerLabel(page).click();
+        await expect(info).toHaveText('已选择 7 项, 共 12 项');
+        await rowLabel(page, 0).click();
+        await expect(info).toHaveText('已选择 6 项, 共 12 项');
+        await expect(table).toHaveAttribute('data-checks', JSON.stringify([...selected, 'r12']));
+        expect(await readChecks(page)).toEqual({header: false, footer: false, rows: [false, true]});
     });
 });

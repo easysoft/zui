@@ -1122,6 +1122,8 @@ interface PluginDTableMethods {
 function getChecks(this: DTableCheckable): string[];
 ```
 
+启用本地分页 `localPager` 时，翻页会保留已选行，该方法返回当前数据中跨页累计选中的行 ID。
+
 ### 手动切换选中行
 
 通过实例方法 `toggleCheckRows` 来切换指定行的选中状态，该方法定义如下：
@@ -1132,7 +1134,7 @@ function toggleCheckRows(this: DTableCheckable, ids?: string | string[] | boolea
 
 其中参数定义如下：
 
-* `ids`：要切换选中状态的行 ID，可以使用数组指定多个操作的行，如果不指定，则切换所有行的选中状态；
+* `ids`：要切换选中状态的行 ID，可以使用数组指定多个操作的行；不指定或传入布尔值时执行全选／取消全选，启用本地分页 `localPager` 时仅影响当前页，否则影响全部已加载行；传入布尔值相当于设置 `checked`；
 * `checked`：要切换的选中状态，如果不指定，则自动切换选中状态。
 
 该方法返回本次发生变化的行状态映射，键为行 ID，值为变化后的选中状态。
@@ -1153,7 +1155,7 @@ function isRowChecked(this: DTableCheckable, rowID: string): boolean;
 
 #### 判断所有行是否选中
 
-通过实例方法 `isAllRowChecked` 来判断所有行是否选中，该方法定义如下：
+通过实例方法 `isAllRowChecked` 判断全选范围内可选的行是否全部选中。启用本地分页 `localPager` 时只判断当前页，否则判断全部已加载行；没有可选行时返回 `false`。该方法定义如下：
 
 ```ts
 function isAllRowChecked(this: DTableCheckable): boolean;
@@ -1163,7 +1165,7 @@ function isAllRowChecked(this: DTableCheckable): boolean;
 
 #### 表尾显示 Checkbox
 
-通过在表尾引用名称 `"checkbox"`，可以在表尾对应位置显示一个 Checkbox，点击该 Checkbox 可以切换所有行的选中状态。下面为一个表尾配置示例：
+通过在表尾引用名称 `"checkbox"`，可以在表尾对应位置显示一个 Checkbox。表头和表尾的全选 Checkbox 使用相同范围：启用本地分页 `localPager` 时只切换当前页的可选行，包括当前页中需要滚动才能看到的行，不改变其他页的选择；未启用本地分页时切换全部已加载行。下面为一个表尾配置示例：
 
 ```js
 const options = {
@@ -1229,7 +1231,7 @@ const options = {
 };
 ```
 
-未选中时显示“共 N 项”，选中后显示“已选择 M 项, 共 N 项”。如果需要自定义选中信息，可以通过初始化选项 `checkInfo` 指定回调函数动态生成，该函数定义如下：
+未选中时显示“共 N 项”，选中后显示“已选择 M 项, 共 N 项”。已选数量与 `getChecks()` 返回的实际选中行数一致，包含翻页前保留的选择；总数是全部已加载行数。例如共 12 行、每页 5 行时，在没有已有选择的情况下全选第一页显示“已选择 5 项, 共 12 项”，继续全选第二页显示“已选择 10 项, 共 12 项”。如果需要自定义选中信息，可以通过初始化选项 `checkInfo` 指定回调函数动态生成，该函数定义如下：
 
 ```ts
 type CheckInfo = (this: DTableCheckable, checks: string[]) => ComponentChildren;
@@ -1323,7 +1325,7 @@ interface PluginDTableMethods {
     /* 判断特定行是否选中。 */
     isRowChecked(this: DTableCheckable, rowID: string): boolean;
 
-    /* 判断所有行是否选中。 */
+    /* 判断全选范围内的可选行是否全部选中；本地分页时仅判断当前页。 */
     isAllRowChecked(this: DTableCheckable): boolean;
 
     /* 获取当前所有选中的行 ID。 */

@@ -70,7 +70,8 @@ function toggleCheckRows(this: DTableCheckable, ids?: string | string[] | boolea
         if (checked === undefined) {
             checked = !isAllRowChecked.call(this);
         }
-        this.layout?.allRows.forEach(({id}) => {
+        const rows = this.options.localPager ? this.layout?.rows : this.layout?.allRows;
+        rows?.forEach(({id}) => {
             toggleRow(id, !!checked);
         });
     } else {
@@ -109,19 +110,13 @@ function isRowChecked(this: DTableCheckable, rowID: string): boolean {
 }
 
 function isAllRowChecked(this: DTableCheckable): boolean {
-    const allRowLength = this.layout?.allRows.length;
-    if (!allRowLength) {
-        return false;
-    }
-    const checkedLength = this.getChecks().length;
+    const rows = this.options.localPager ? this.layout?.rows : this.layout?.allRows;
     const {canRowCheckable, allowCheckDisabled} = this.options;
-    if (canRowCheckable) {
-        return checkedLength >= this.layout?.allRows.reduce((length, row) => {
-            const checkable = canRowCheckable ? canRowCheckable.call(this, row.id) : true;
-            return length + ((!checkable || (!allowCheckDisabled && checkable === 'disabled')) ? 0 : 1);
-        }, 0);
-    }
-    return checkedLength >= allRowLength;
+    const checkableRows = rows?.filter(({id}) => {
+        const checkable = canRowCheckable ? canRowCheckable.call(this, id) : true;
+        return checkable && (allowCheckDisabled || checkable !== 'disabled');
+    });
+    return !!checkableRows?.length && checkableRows.every(({id}) => this.isRowChecked(id));
 }
 
 function getChecks(this: DTableCheckable): string[] {
