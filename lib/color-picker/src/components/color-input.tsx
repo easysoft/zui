@@ -14,21 +14,22 @@ export class ColorInput extends Component<ColorInputOptions> {
 
     constructor(props: RenderableProps<ColorInputOptions>) {
         super(props);
-        this._value$ = signal(props.value || props.defaultValue || '');
+        this._value$ = signal(props.value ?? props.defaultValue ?? '');
     }
 
     get value() {
-        return this._value$.value;
+        return this.props.value ?? this._value$.value;
     }
 
     protected _handleChange = (event: Event) => {
-        this._handleInput(event);
-        this.props.onChange?.(this.value, event);
+        const value = this._handleInput(event);
+        this.props.onChange?.(value, event);
     };
 
     protected _handleInput = (event: Event) => {
         const value = (event.target as HTMLInputElement).value;
         this._value$.value = value;
+        return value;
     };
 
     render(props: RenderableProps<ColorInputOptions>) {
@@ -40,8 +41,8 @@ export class ColorInput extends Component<ColorInputOptions> {
                     style={{color: this.value}}
                 />
                 <input
-                    id={this._gid}
                     type="color"
+                    aria-label={hint}
                     name={name}
                     value={value}
                     defaultValue={defaultValue}
