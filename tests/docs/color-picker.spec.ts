@@ -6,7 +6,8 @@ import type {Locator, Page} from '@playwright/test';
 
 const source = readFileSync(Path.resolve(import.meta.dirname, '../../lib/color-picker/docs/lib/components/index.md'), 'utf8');
 const allSnippets = [...source.matchAll(/```html\n([\s\S]*?)\n```/g)].map(match => match[1]);
-const snippets = allSnippets.filter(snippet => snippet.includes('zui-create="colorPicker"'));
+const snippets = allSnippets.filter(snippet => snippet.includes('zui-create="colorPicker"') && !snippet.includes('data-custom="true"'));
+const customSnippet = allSnippets.find(snippet => snippet.includes('data-custom="true"'))!;
 const inputSnippets = allSnippets.filter(snippet => snippet.includes('colorInput'));
 
 async function expectSwatch(field: Locator, swatch: Locator, value: string, color: string) {
@@ -101,7 +102,7 @@ for (const width of [1280, 320]) {
                 await test.step(`Example ${index + 1}`, async () => {
                     let root: Locator;
                     if (mode === 'preview') {
-                        const tabs = page.locator('.plugin-tabs').nth(index);
+                        const tabs = page.locator('.plugin-tabs').nth(allSnippets.indexOf(snippets[index]));
                         await tabs.getByRole('tab', {name: '完整代码', exact: true}).click();
                         await expect(tabs.locator('pre code')).toHaveText(snippets[index]);
                         await tabs.getByRole('tab', {name: '示例', exact: true}).click();
@@ -151,6 +152,15 @@ for (const width of [1280, 320]) {
                 const initialValue = index === 0 ? '#3b82f6' : '#0ea5e9';
                 await expect(input).toHaveValue(initialValue);
                 await expectSwatch(field, swatch, initialValue, index === 0 ? 'rgb(59, 130, 246)' : 'rgb(14, 165, 233)');
+                if (index === 0) {
+                    const emptyInput = root.getByLabel('选择可选颜色', {exact: true});
+                    await expect(emptyInput.locator('..')).toHaveClass(/\bis-empty\b/);
+                    await expect(emptyInput).toHaveValue('#000000');
+                    await expect(emptyInput.locator('..').locator('label')).toHaveCSS('background-image', /conic-gradient/, {pseudo: 'before'});
+                    const iconInput = root.getByLabel('选择带图标的颜色', {exact: true});
+                    await expect(iconInput).toHaveValue('#f59e0b');
+                    await expect(iconInput.locator('..').locator('.icon-check')).toBeVisible();
+                }
                 await input.focus();
                 await expect(input).toBeFocused();
 
@@ -161,12 +171,15 @@ for (const width of [1280, 320]) {
                 });
                 await expectSwatch(field, swatch, '#22c55e', 'rgb(34, 197, 94)');
                 if (index === 1) {
-                    await expect(root.locator('output')).toHaveText(initialValue);
+                    await expect(root.locator('#colorInputPreview')).toHaveText('#22c55e');
+                    await expect(root.locator('#colorInputValue')).toHaveText(initialValue);
+                    expect(await root.locator('form').evaluate(form => new FormData(form as HTMLFormElement).getAll('accentColor'))).toEqual(['#22c55e']);
                 }
                 await input.dispatchEvent('change');
                 await expect(input).toHaveValue('#22c55e');
                 if (index === 1) {
-                    await expect(root.locator('output')).toHaveText('#22c55e');
+                    await expect(root.locator('#colorInputPreview')).toHaveText('#22c55e');
+                    await expect(root.locator('#colorInputValue')).toHaveText('#22c55e');
                     expect(await root.locator('form').evaluate(form => new FormData(form as HTMLFormElement).get('accentColor'))).toBe('#22c55e');
                 }
                 await expect.poll(() => root.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
@@ -176,10 +189,79 @@ for (const width of [1280, 320]) {
                     await tabs.getByRole('tab', {name: '示例', exact: true}).click();
                     await expect(input).toHaveValue(initialValue);
                     if (index === 1) {
-                        await expect(root.locator('output')).toHaveText(initialValue);
+                        await expect(root.locator('#colorInputPreview')).toHaveText(initialValue);
+                        await expect(root.locator('#colorInputValue')).toHaveText(initialValue);
                     }
                 }
             }
+            expect(errors, 'Page errors').toEqual([]);
+        });
+
+        test(`ColorPicker custom ${mode}: preset, custom and empty states at ${width}px`, async ({page, baseURL}) => {
+            const errors: string[] = [];
+            page.on('pageerror', error => errors.push(error.message));
+            await page.setViewportSize({width, height: 900});
+            await page.goto('lib/components/color-picker/');
+            let root: Locator;
+            if (mode === 'preview') {
+                const tabs = page.locator('.plugin-tabs').nth(allSnippets.indexOf(customSnippet));
+                await tabs.getByRole('tab', {name: '完整代码', exact: true}).click();
+                await expect(tabs.locator('pre code')).toHaveText(customSnippet);
+                await tabs.getByRole('tab', {name: '示例', exact: true}).click();
+                root = tabs.locator('.example');
+            } else {
+                const url = new URL('__custom_color_picker__.html', baseURL).href;
+                await page.route(url, route => route.fulfill({
+                    contentType: 'text/html; charset=utf-8',
+                    body: `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="zui/zui.css"><script src="zui/zui.js"></script></head><body><main class="p-4">${customSnippet}</main></body></html>`,
+                }));
+                await page.goto(url);
+                root = page.locator('main');
+            }
+            const trigger = root.locator('.color-picker');
+            const output = root.locator('#customColorValue');
+            const pop = page.locator('.color-picker-pop.in');
+            const row = pop.locator('.color-picker-row');
+            const custom = pop.locator('.color-picker-custom');
+            const input = custom.locator('input[type="color"]');
+            await expect(output).toHaveText('#123456');
+            await trigger.click();
+            await expect(row).toHaveClass(/\bis-custom\b/);
+            await expect(input).toHaveValue('#123456');
+            await expect(custom.locator('.icon-check')).toHaveCSS('opacity', '1');
+            await expect(custom.locator('label')).toHaveCSS('background-color', 'rgb(18, 52, 86)', {pseudo: 'after'});
+
+            await pop.getByRole('button', {name: '#22c55e', exact: true}).click();
+            await expect(pop).toHaveCount(0);
+            await expect(output).toHaveText('#22c55e');
+            await trigger.click();
+            await expect(row).not.toHaveClass(/\bis-custom\b/);
+            await expect(input).toHaveValue('#000000');
+            await expect(custom.locator('.icon-check')).toHaveCSS('opacity', '0');
+            await input.evaluate((element) => {
+                (element as HTMLInputElement).value = '#abcdef';
+                element.dispatchEvent(new Event('input', {bubbles: true}));
+            });
+            await expect(output).toHaveText('#22c55e');
+            await input.dispatchEvent('change');
+            await expect(pop).toHaveCount(0);
+            await expect(output).toHaveText('#abcdef');
+            await trigger.click();
+            await expect(row).toHaveClass(/\bis-custom\b/);
+            await expect(input).toHaveValue('#abcdef');
+            await expect(custom.locator('label')).toHaveCSS('background-color', 'rgb(171, 205, 239)', {pseudo: 'after'});
+
+            await pop.locator('[data-pick-value=""]').click();
+            await expect(pop).toHaveCount(0);
+            await expect(output).toBeEmpty();
+            await trigger.click();
+            await expect(row).not.toHaveClass(/\bis-custom\b/);
+            await expect(custom).toHaveClass(/\bis-empty\b/);
+            await expect(custom.locator('.icon-check')).toHaveCSS('opacity', '0');
+            await expect(custom.locator('label')).toHaveCSS('background-image', /conic-gradient/, {pseudo: 'before'});
+            await pop.locator('[data-dismiss="pick"]').click();
+            await expect(pop).toHaveCount(0);
+            await expect.poll(() => root.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
             expect(errors, 'Page errors').toEqual([]);
         });
     }

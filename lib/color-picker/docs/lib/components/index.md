@@ -44,9 +44,37 @@
 
 :::
 
-设置 `custom: true`（HTML 使用 `data-custom="true"`）会在预设颜色后追加一个 `ColorInput` 色块，点击后可通过浏览器原生取色面板选择任意颜色。确认变更后更新 `ColorPicker` 的值、触发 `onChange`、同步关联元素并关闭颜色面板。
+### 允许选择预设之外的颜色
 
-`custom` 也支持传入 [ColorInput 选项](#color-input)，例如 `custom: {hint: '自定义颜色', defaultValue: '#3b82f6'}`。色块优先显示 `ColorPicker` 当前颜色，未选中颜色时使用 `custom.value` 或 `custom.defaultValue`；`custom.onChange(value, event)` 会与颜色选择器自身的回调分别执行。
+设置 `custom: true`（HTML 使用 `data-custom="true"`）会在预设颜色后追加彩虹色块，点击后打开浏览器原生取色面板。选择预设之外的颜色后，彩虹色块中央显示当前颜色及勾选标记；选择预设色或清空时，自定义色块不显示勾选标记。
+
+::: tabs
+
+== 示例
+
+<Example>
+  <div class="flex flex-wrap items-center gap-4">
+    <div zui-create="colorPicker" data-heading="主题颜色" data-custom="true" data-default-value="#123456" data-colors="#3b82f6,#22c55e,#f59e0b" data-sync-value="#customColorValue"></div>
+    <span>当前颜色：<output id="customColorValue" class="font-mono" aria-live="polite"></output></span>
+  </div>
+</Example>
+
+== 完整代码
+
+```html
+<div class="flex flex-wrap items-center gap-4">
+    <div zui-create="colorPicker" data-heading="主题颜色" data-custom="true" data-default-value="#123456" data-colors="#3b82f6,#22c55e,#f59e0b" data-sync-value="#customColorValue"></div>
+    <span>当前颜色：<output id="customColorValue" class="font-mono" aria-live="polite"></output></span>
+</div>
+```
+
+:::
+
+通过 JavaScript 初始化时，`custom` 也可传入 [ColorInput 选项](#color-input)，例如 `custom: {hint: '自定义主题颜色'}`。其中 `hint`、`className` 和回调可用于定制内部输入框；当前颜色应设置在 `ColorPicker` 顶层的 `value` 或 `defaultValue` 上。内部输入框的 `value` 和 `icon` 由选择器管理，`custom.value`、`custom.defaultValue` 和 `custom.icon` 不用于设置独立的初始颜色或图标。
+
+原生 `change` 事件触发后，选择器先执行 `beforeChange`，通过后更新值、同步关联元素并关闭面板。`beforeChange` 返回 `false` 时保留原值和已打开的面板。
+
+两个 `onChange` 的含义不同：`ColorPicker.onChange(value, oldValue)` 接收实际生效的新旧值；`custom.onChange(value, event)` 接收原生输入框提交的候选颜色和事件，即使 `beforeChange` 拒绝或替换该颜色也会执行。保存业务数据时应使用选择器自身的 `onChange`。
 
 ## 自定义图标
 
@@ -188,20 +216,28 @@ syncBorder?: string; // 边框色同步容器选择器。
 
 ### 基本使用
 
-通过 `zui-create="colorInput"` 初始化，使用 `defaultValue` 设置初始颜色，省略或设为 `''` 时为空值。组件把当前颜色写入色块容器的 `--color-input-value`，圆形背景读取这个变量；空值时变量为空，显示白色中心的彩虹色块。用 `value` 或 `defaultValue` 设置颜色，不要直接改这个变量。颜色值使用六位十六进制格式，例如 `#3b82f6`。
+通过 `zui-create="colorInput"` 初始化，使用 `defaultValue` 设置初始颜色，省略或设为 `''` 时为空值，显示白色中心的彩虹色块。颜色值使用六位十六进制格式，例如 `#3b82f6`。设置 `icon` 可在色块中央显示图标，图标使用按钮的文字颜色。
 
 ::: tabs
 
 == 示例
 
 <Example>
-  <div zui-create="colorInput" data-default-value="#3b82f6" data-hint="选择项目标签颜色"></div>
+  <div class="flex flex-wrap items-center gap-4">
+    <div class="flex items-center gap-2"><span>未选择</span><div zui-create="colorInput" data-hint="选择可选颜色"></div></div>
+    <div class="flex items-center gap-2"><span>初始颜色</span><div zui-create="colorInput" data-default-value="#3b82f6" data-hint="选择项目标签颜色"></div></div>
+    <div class="flex items-center gap-2"><span>带图标</span><div zui-create="colorInput" data-default-value="#f59e0b" data-icon="check" data-hint="选择带图标的颜色"></div></div>
+  </div>
 </Example>
 
 == 完整代码
 
 ```html
-<div zui-create="colorInput" data-default-value="#3b82f6" data-hint="选择项目标签颜色"></div>
+<div class="flex flex-wrap items-center gap-4">
+    <div class="flex items-center gap-2"><span>未选择</span><div zui-create="colorInput" data-hint="选择可选颜色"></div></div>
+    <div class="flex items-center gap-2"><span>初始颜色</span><div zui-create="colorInput" data-default-value="#3b82f6" data-hint="选择项目标签颜色"></div></div>
+    <div class="flex items-center gap-2"><span>带图标</span><div zui-create="colorInput" data-default-value="#f59e0b" data-icon="check" data-hint="选择带图标的颜色"></div></div>
+</div>
 ```
 
 :::
@@ -210,9 +246,11 @@ syncBorder?: string; // 边框色同步容器选择器。
 
 ### 变更回调与表单字段
 
-通过 `new zui.ColorInput(element, options)` 初始化时，使用 `onChange(value, event)` 获取用户选择的颜色和原生 `change` 事件。原生 `input` 事件会更新 `--color-input-value` 和色块，并调用 `onInput(value, event)`。`onChange` 在原生 `change` 事件触发时执行。
+通过 `new zui.ColorInput(element, options)` 初始化时，使用 `onInput(value, event)` 显示实时颜色，使用 `onChange(value, event)` 处理原生 `change` 事件提交的颜色。
 
-设置 `name` 后，内部输入框作为表单字段参与提交，未选择颜色时提交空字符串。下面的示例同时显示选中的颜色值；通过 `new FormData(form).get('accentColor')` 也可读取该字段。
+当前实现会在原生 `change` 事件中先调用 `onInput`，再调用 `onChange`。因此一次选择可能多次触发 `onInput`；仅需处理原生 `input` 事件时，可判断 `event.type === 'input'`，保存或提交操作则放在 `onChange` 中。
+
+设置 `name` 后，控件作为一个表单字段参与提交，未选择颜色时提交空字符串，选择黑色时提交 `#000000`。使用组件值或 `new FormData(form).get('accentColor')` 读取结果；不要把原生颜色输入框为空时显示的黑色当作组件已选择的颜色。非受控模式下，表单字段随 `input` 更新，不必等到 `onChange`。
 
 ::: tabs
 
@@ -222,11 +260,11 @@ syncBorder?: string; // 边框色同步容器选择器。
   <form class="flex flex-wrap items-center gap-2">
     <ZUI
       use="colorInput"
-      :options="{name: 'accentColor', defaultValue: '#0ea5e9', hint: '选择主题颜色', onChange: handleColorInputChange}"
+      :options="{name: 'accentColor', defaultValue: '#0ea5e9', hint: '选择主题颜色', onInput: handleColorInputPreview, onChange: handleColorInputChange}"
       :beforeCreate="resetColorInputValue"
     />
-    <span>主题颜色：</span>
-    <output class="font-mono" aria-live="polite">{{ colorInputValue }}</output>
+    <span>当前颜色：<output id="colorInputPreview" class="font-mono" aria-live="polite">{{ colorInputPreview }}</output></span>
+    <span>确认颜色：<output id="colorInputValue" class="font-mono" aria-live="polite">{{ colorInputValue }}</output></span>
   </form>
 </Example>
 
@@ -235,17 +273,21 @@ syncBorder?: string; // 边框色同步容器选择器。
 ```html
 <form id="colorInputForm" class="flex flex-wrap items-center gap-2">
     <div id="colorInputField"></div>
-    <span>主题颜色：</span>
-    <output id="colorInputValue" class="font-mono" aria-live="polite">#0ea5e9</output>
+    <span>当前颜色：<output id="colorInputPreview" class="font-mono" aria-live="polite">#0ea5e9</output></span>
+    <span>确认颜色：<output id="colorInputValue" class="font-mono" aria-live="polite">#0ea5e9</output></span>
 </form>
 
 <script>
 {
+    const preview = document.querySelector('#colorInputPreview');
     const output = document.querySelector('#colorInputValue');
     const colorInput = new zui.ColorInput('#colorInputField', {
         name: 'accentColor',
         defaultValue: '#0ea5e9',
         hint: '选择主题颜色',
+        onInput(value, event) {
+            preview.textContent = value;
+        },
         onChange(value, event) {
             output.textContent = value;
         },
@@ -259,8 +301,8 @@ syncBorder?: string; // 边框色同步容器选择器。
 ### 初始值与受控值
 
 - `defaultValue` 用于初始化非受控组件，之后由用户操作更新颜色；不要通过反复修改它来设置当前颜色。
-- `value` 表示由调用方管理的当前颜色，优先于 `defaultValue`。使用受控模式时，应在 `onChange` 中保存新值并调用实例的 `render({value})`；Preact 用法则由父组件更新 `value` 属性。
-- 程序设置 `value` 不会触发 `onChange`，需要同时显示颜色值时，由调用方同步更新显示内容。
+- `value` 表示由调用方管理的当前颜色，优先于 `defaultValue`。需要实时更新色块及表单值时，在 `onInput` 中保存新值并调用实例的 `render({value})`；只在 `onChange` 中更新则在提交时更新。Preact 用法由父组件传入新的 `value`。
+- 程序设置 `value` 不会触发 `onInput` 或 `onChange`，需要同时显示颜色值时，由调用方同步更新显示内容。
 - 设置 `value: ''` 可恢复空值及彩虹色块。
 
 对于上面通过 JavaScript 创建的 `colorInput` 实例，可使用以下 API：
@@ -283,19 +325,34 @@ value?: string; // 由调用方管理的当前颜色，优先于 defaultValue。
 defaultValue?: string = ''; // 非受控模式的初始颜色，空字符串表示未选择。
 hint?: string; // 色块容器的 title，同时用作内部 input 的 aria-label。
 icon?: IconType; // 色块中心的图标，使用文字色，不使用 --color-input-value。
-onInput?: (value: string, event: Event) => void; // 原生 input 事件触发时回调，此时色块已更新。
+onInput?: (value: string, event: Event) => void; // 原生 input 时回调；change 时也会先于 onChange 调用。
 onChange?: (value: string, event: Event) => void; // 原生 change 事件触发时回调。
 </Props>
 
 类型中保留了 `alpha?: boolean`，但当前实现未将其传给原生输入框，设置后不会启用透明度选择。原生取色面板不提供清空按钮；如需程序清空，按上面的受控值方式设置 `value: ''`。
 
+### 样式
+
+| CSS 变量 | 用途 |
+| --- | --- |
+| `--color-input-value` | 由组件根据当前值设置，用于绘制色块。应通过 `value` 或 `defaultValue` 设置颜色，直接改 CSS 不会更新组件值或表单字段。 |
+| `--color-input-empty-bg` | 彩虹背景，默认由白色径向渐变与彩虹锥形渐变叠加。也用于 `ColorPicker` 自定义色块的彩虹边缘。 |
+
+如需替换彩虹背景，可通过 `className` 添加自定义类，在生成的 `.color-input` 元素本身覆盖 `--color-input-empty-bg`。该变量在组件根元素上有默认值，仅设置在外层容器不会覆盖它。
+
 <script setup>
 import {ref} from 'vue';
 
+const colorInputPreview = ref('#0ea5e9');
 const colorInputValue = ref('#0ea5e9');
 
 function resetColorInputValue() {
+    colorInputPreview.value = '#0ea5e9';
     colorInputValue.value = '#0ea5e9';
+}
+
+function handleColorInputPreview(value) {
+    colorInputPreview.value = value;
 }
 
 function handleColorInputChange(value) {
