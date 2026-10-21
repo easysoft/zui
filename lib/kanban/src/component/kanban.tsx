@@ -25,7 +25,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         responsive: true,
         itemKey: 'id',
         colWidth: 200,
-        colsGap: 8,
+        colsGap: 10,
     };
 
     static customProps = ['onDrop', 'onDragStart'];
@@ -185,7 +185,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             this._raf = 0;
             const element = this._ref.current;
             if (element) {
-                const {responsive, laneNameWidth = 20} = this.props;
+                const {responsive, laneNameWidth = 25} = this.props;
                 const $container = typeof responsive !== 'boolean' ? $(responsive) : $(element.closest('.kanban-list') || element.parentElement);
                 const container = $container[0];
                 const width = $container.width();
@@ -193,7 +193,10 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                     return;
                 }
                 const normalizedLaneNameWidth = Number.isFinite(laneNameWidth) ? Math.max(0, laneNameWidth) : 0;
-                let containerWidth = width - normalizedLaneNameWidth - (container.offsetWidth - container.clientWidth);
+                // 泳道名称与列之间的间距由 CSS 变量控制，需要按实际渲染值扣除。
+                const header = element.querySelector<HTMLElement>('.kanban-header');
+                const laneGap = header ? (parseFloat(getComputedStyle(header).columnGap) || 0) : 0;
+                let containerWidth = width - normalizedLaneNameWidth - laneGap - (container.offsetWidth - container.clientWidth);
                 const group = element.closest('.kanban-region');
                 if (group) {
                     containerWidth -= group.clientWidth - $(group).width();
@@ -705,7 +708,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
 
     protected _layoutCols(cols: KanbanColOptions[], props: RenderableProps<P>): KanbanColOptions[] {
         const {containerWidth = 0} = this.state;
-        const {colsGap = 8, minColWidth: defaultMinColWidth = 150, maxColWidth: defaultMaxColWidth = 600, colWidth: defaultColWidth = 200} = props;
+        const {colsGap = 10, minColWidth: defaultMinColWidth = 150, maxColWidth: defaultMaxColWidth = 600, colWidth: defaultColWidth = 200} = props;
         const normalizedContainerWidth = Number.isFinite(containerWidth) ? Math.max(0, containerWidth) : 0;
         const normalizedColsGap = Number.isFinite(colsGap) ? Math.max(0, colsGap) : 0;
         const resolveSize = (setting: SizeSetting | null | undefined, fallback: number) => {

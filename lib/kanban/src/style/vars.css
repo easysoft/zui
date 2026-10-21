@@ -1,10 +1,14 @@
 .kanban, .kanban-list {
-  --kanban-lane-name-width: 20px;
+  --kanban-lane-name-width: 25px;
   --kanban-col-width: 280px;
-  --kanban-cols-gap: 8px;
-  --kanban-lanes-gap: 8px;
-  --kanban-header-height: 32px;
+  --kanban-cols-gap: 10px;
+  --kanban-lanes-gap: 10px;
+  --kanban-radius: 5px;
+  --kanban-card-radius: 5px;
+  --kanban-header-gap: 3px;
+  --kanban-header-height: 36px;
   --kanban-lane-height: auto;
   --kanban-lane-color: var(--color-primary-500);
   --kanban-link-color: var(--color-secondary-600);
+  --kanban-col-bg: rgba(var(--color-inverse-rgb), .05);
 }

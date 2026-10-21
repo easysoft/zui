@@ -14,7 +14,7 @@ new Kanban('#kanbanList', {
 
 ## 示例
 
-```html:example: bg-surface
+```html:example
 <div id="kanbanExample">
   <div id="kanbanDragItems" class="card-list card-grid mb-4 gap-2">
     <div class="card kanban-new-item">
