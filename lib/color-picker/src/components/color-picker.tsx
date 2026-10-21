@@ -1,9 +1,10 @@
 import {ComponentChildren, RenderableProps} from 'preact';
-import {Icon, $, classes} from '@zui/core';
+import {Icon, $, classes, getLang} from '@zui/core';
 import '@zui/css-icons';
 import {Pick} from '@zui/pick/react';
 import {PickOptions, PickState, PickTriggerProps} from '@zui/pick';
 import {ColorPickerOptions} from '../types';
+import {ColorInput} from './color-input';
 
 export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
     static defaultProps = {
@@ -83,7 +84,8 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
     }
 
     _renderPop(props: ColorPickerOptions, state: PickState): ComponentChildren {
-        const {closeBtn, heading} = props;
+        const {closeBtn, heading, custom} = props;
+        const customOptions = typeof custom === 'object' ? custom : undefined;
         const colors = this.getColors();
         const {value} = state;
         let headingView: ComponentChildren;
@@ -99,6 +101,23 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
             headingView,
             <div key="row" className="color-picker-row">
                 {colors.map(color => (<button key={color} type="button" className="btn color-picker-item" style={{backgroundColor: color}} data-pick-value={color} aria-label={color}>{value === color ? <Icon icon="check" /> : null}</button>))}
+                {custom ? (
+                    <ColorInput
+                        hint={getLang('more', 'More')}
+                        {...customOptions}
+                        className={classes('color-picker-item color-picker-custom', customOptions?.className)}
+                        value={value || (customOptions?.value ?? customOptions?.defaultValue ?? '')}
+                        onChange={async (color, event) => {
+                            const nextState = await this.setValue(color);
+                            if (nextState) {
+                                this.close();
+                            } else {
+                                this.forceUpdate();
+                            }
+                            customOptions?.onChange?.(color, event);
+                        }}
+                    />
+                ) : null}
                 <button type="button" className="btn color-picker-item" data-pick-value=""><Icon className="text-fore" icon="trash" /></button>
             </div>,
         ];

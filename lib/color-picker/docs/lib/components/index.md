@@ -1,6 +1,6 @@
 # 颜色选择器
 
-基于下拉选择器实现的颜色选择器。
+提供基于下拉面板的 `ColorPicker`，以及调用浏览器原生取色面板的 [ColorInput 颜色输入框](#color-input)。
 
 ## 基本使用
 
@@ -43,6 +43,10 @@
 ```
 
 :::
+
+设置 `custom: true`（HTML 使用 `data-custom="true"`）会在预设颜色后追加一个 `ColorInput` 色块，点击后可通过浏览器原生取色面板选择任意颜色。确认变更后更新 `ColorPicker` 的值、触发 `onChange`、同步关联元素并关闭颜色面板。
+
+`custom` 也支持传入 [ColorInput 选项](#color-input)，例如 `custom: {hint: '自定义颜色', defaultValue: '#3b82f6'}`。色块优先显示 `ColorPicker` 当前颜色，未选中颜色时使用 `custom.value` 或 `custom.defaultValue`；`custom.onChange(value, event)` 会与颜色选择器自身的回调分别执行。
 
 ## 自定义图标
 
@@ -169,6 +173,7 @@
 <Props>
 heading?: string; // 颜色面板标题。
 colors?: string | string[]; // 颜色选项列表。
+custom?: boolean | ColorInputOptions = false; // 追加 ColorInput 色块，选择预设列表之外的颜色。
 icon?: string; // 显示为图标的名称。
 closeBtn?: boolean = true; // 颜色面板是否使用关闭按钮。
 syncValue?: string; // 颜色值容器选择器。
@@ -176,3 +181,124 @@ syncColor?: string; // 文本色同步容器选择器。
 syncBackground?: string; // 背景色同步容器选择器。
 syncBorder?: string; // 边框色同步容器选择器。
 </Props>
+
+## ColorInput 颜色输入框 {#color-input}
+
+`ColorInput` 将原生 `<input type="color">` 显示为紧凑的圆形色块，适合在表单或工具栏中选择任意颜色。点击色块打开浏览器的取色面板；需要预设色板、面板内的清空按钮或同步其他元素时，使用上面的 `ColorPicker`。
+
+### 基本使用
+
+通过 `zui-create="colorInput"` 初始化，使用 `defaultValue` 设置初始颜色，省略或设为 `''` 时为空值。组件把当前颜色写入色块容器的 `--color-input-value`，圆形背景读取这个变量；空值时变量为空，显示白色中心的彩虹色块。用 `value` 或 `defaultValue` 设置颜色，不要直接改这个变量。颜色值使用六位十六进制格式，例如 `#3b82f6`。
+
+::: tabs
+
+== 示例
+
+<Example>
+  <div zui-create="colorInput" data-default-value="#3b82f6" data-hint="选择项目标签颜色"></div>
+</Example>
+
+== 完整代码
+
+```html
+<div zui-create="colorInput" data-default-value="#3b82f6" data-hint="选择项目标签颜色"></div>
+```
+
+:::
+
+`hint` 同时设置色块容器的 `title` 和内部输入框的 `aria-label`，建议始终填写具体用途。可通过 Tab 聚焦原生输入框，再按浏览器支持的键盘方式打开和操作取色面板；面板外观与操作方式由浏览器和操作系统决定。
+
+### 变更回调与表单字段
+
+通过 `new zui.ColorInput(element, options)` 初始化时，使用 `onChange(value, event)` 获取用户选择的颜色和原生 `change` 事件。原生 `input` 事件会更新 `--color-input-value` 和色块，并调用 `onInput(value, event)`。`onChange` 在原生 `change` 事件触发时执行。
+
+设置 `name` 后，内部输入框作为表单字段参与提交，未选择颜色时提交空字符串。下面的示例同时显示选中的颜色值；通过 `new FormData(form).get('accentColor')` 也可读取该字段。
+
+::: tabs
+
+== 示例
+
+<Example>
+  <form class="flex flex-wrap items-center gap-2">
+    <ZUI
+      use="colorInput"
+      :options="{name: 'accentColor', defaultValue: '#0ea5e9', hint: '选择主题颜色', onChange: handleColorInputChange}"
+      :beforeCreate="resetColorInputValue"
+    />
+    <span>主题颜色：</span>
+    <output class="font-mono" aria-live="polite">{{ colorInputValue }}</output>
+  </form>
+</Example>
+
+== 完整代码
+
+```html
+<form id="colorInputForm" class="flex flex-wrap items-center gap-2">
+    <div id="colorInputField"></div>
+    <span>主题颜色：</span>
+    <output id="colorInputValue" class="font-mono" aria-live="polite">#0ea5e9</output>
+</form>
+
+<script>
+{
+    const output = document.querySelector('#colorInputValue');
+    const colorInput = new zui.ColorInput('#colorInputField', {
+        name: 'accentColor',
+        defaultValue: '#0ea5e9',
+        hint: '选择主题颜色',
+        onChange(value, event) {
+            output.textContent = value;
+        },
+    });
+}
+</script>
+```
+
+:::
+
+### 初始值与受控值
+
+- `defaultValue` 用于初始化非受控组件，之后由用户操作更新颜色；不要通过反复修改它来设置当前颜色。
+- `value` 表示由调用方管理的当前颜色，优先于 `defaultValue`。使用受控模式时，应在 `onChange` 中保存新值并调用实例的 `render({value})`；Preact 用法则由父组件更新 `value` 属性。
+- 程序设置 `value` 不会触发 `onChange`，需要同时显示颜色值时，由调用方同步更新显示内容。
+- 设置 `value: ''` 可恢复空值及彩虹色块。
+
+对于上面通过 JavaScript 创建的 `colorInput` 实例，可使用以下 API：
+
+| API | 说明 |
+| --- | --- |
+| `colorInput.$?.value` | 初始化完成后读取内部 Preact 组件的当前颜色值；初始化前或销毁后 `$` 为 `null`。 |
+| `colorInput.render({value: '#22c55e'})` | 更新颜色，并由调用方继续维护 `value`。 |
+| `colorInput.destroy()` | 卸载组件并清理实例。 |
+
+### ColorInput 选项
+
+这些选项仅用于 `ColorInput`。`ColorPicker` 的 `colors`、`syncValue`、`syncColor`、`syncBackground` 和 `syncBorder` 不适用于此组件。这里的 `icon` 是色块中心的图标，不是颜色选择器触发器上的图标。
+
+<Props>
+id?: string; // 组件生成的色块容器 ID，不是内部 input 的 ID。
+className?: ClassNameLike; // 添加到色块容器的 CSS 类。
+name?: string; // 内部 input 的表单字段名。
+value?: string; // 由调用方管理的当前颜色，优先于 defaultValue。
+defaultValue?: string = ''; // 非受控模式的初始颜色，空字符串表示未选择。
+hint?: string; // 色块容器的 title，同时用作内部 input 的 aria-label。
+icon?: IconType; // 色块中心的图标，使用文字色，不使用 --color-input-value。
+onInput?: (value: string, event: Event) => void; // 原生 input 事件触发时回调，此时色块已更新。
+onChange?: (value: string, event: Event) => void; // 原生 change 事件触发时回调。
+</Props>
+
+类型中保留了 `alpha?: boolean`，但当前实现未将其传给原生输入框，设置后不会启用透明度选择。原生取色面板不提供清空按钮；如需程序清空，按上面的受控值方式设置 `value: ''`。
+
+<script setup>
+import {ref} from 'vue';
+
+const colorInputValue = ref('#0ea5e9');
+
+function resetColorInputValue() {
+    colorInputValue.value = '#0ea5e9';
+}
+
+function handleColorInputChange(value) {
+    colorInputValue.value = value;
+}
+</script>

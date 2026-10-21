@@ -7,3 +7,10 @@
 .color-picker-item {
   @apply -flex -justify-center -items-center -rounded-full -ring-0 -w-5 -h-5 -px-0.5 -text-canvas;
 }
+.color-picker-custom > label,
+.color-picker-custom > input {
+  @apply -w-full -h-full;
+}
+.color-picker-custom > label::before {
+  @apply -m-0;
+}

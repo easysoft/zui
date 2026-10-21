@@ -12,6 +12,7 @@ onPageUpdate(() => {
             heading: '选择颜色',
             closeBtn: true,
             required: true,
+            custom: true,
         });
         console.log('> colorPicker', colorPicker);
     }
@@ -20,7 +21,6 @@ onPageUpdate(() => {
     if (colorInputElement) {
         const colorInput = new ColorInput(colorInputElement, {
             hint: '选择颜色',
-            defaultValue: '#ff0055',
         });
         console.log('> colorInput', colorInput);
     }

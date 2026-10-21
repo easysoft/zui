@@ -8,6 +8,15 @@
 .color-input > input {
     @apply -opacity-0;
 }
+.color-input > label {
+    @apply -flex -items-center -justify-center;
+}
 .color-input > label::before {
-    @apply -content-[''] -block -ring-1 -ring-inverse/10 -ring-inset -rounded-full -w-5 -h-5 -bg-current -m-0.5;
+    @apply -content-[''] -block -ring-1 -ring-inverse/10 -ring-inset -rounded-full -w-5 -h-5 -bg-[var(--color-input-value)] -m-0.5 -absolute -inset-0;
+}
+.color-input.is-empty > label::before {
+    background-image: radial-gradient(circle closest-side, #fff, #fff0), conic-gradient(#f00, #f0f, #00f, #0ff, #0f0, #ff0, #f00);
+}
+.color-input > label > .icon {
+    @apply -relative -z-10;
 }

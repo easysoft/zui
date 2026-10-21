@@ -5,7 +5,14 @@ import {expect, test} from '@playwright/test';
 import type {Locator, Page} from '@playwright/test';
 
 const source = readFileSync(Path.resolve(import.meta.dirname, '../../lib/color-picker/docs/lib/components/index.md'), 'utf8');
-const snippets = [...source.matchAll(/```html\n([\s\S]*?)\n```/g)].map(match => match[1]);
+const allSnippets = [...source.matchAll(/```html\n([\s\S]*?)\n```/g)].map(match => match[1]);
+const snippets = allSnippets.filter(snippet => snippet.includes('zui-create="colorPicker"'));
+const inputSnippets = allSnippets.filter(snippet => snippet.includes('colorInput'));
+
+async function expectSwatch(field: Locator, swatch: Locator, value: string, color: string) {
+    await expect(field).toHaveCSS('--color-input-value', value);
+    await expect(swatch).toHaveCSS('background-color', color, {pseudo: 'before'});
+}
 
 async function expectSynced(root: Locator, index: number, value: string, color: string) {
     if (index === 3) {
@@ -87,7 +94,7 @@ for (const width of [1280, 320]) {
             });
             await page.setViewportSize({width, height: 900});
             await page.goto('lib/components/color-picker/');
-            await expect(page.locator('.plugin-tabs')).toHaveCount(7);
+            await expect(page.locator('.plugin-tabs')).toHaveCount(allSnippets.length);
             expect(snippets).toHaveLength(7);
 
             for (let index = 0; index < snippets.length; index++) {
@@ -112,6 +119,68 @@ for (const width of [1280, 320]) {
                 });
             }
             expect(errors, 'Page errors and failed resources').toEqual([]);
+        });
+
+        test(`ColorInput ${mode}: color feedback and form values at ${width}px`, async ({page, baseURL}) => {
+            const errors: string[] = [];
+            page.on('pageerror', error => errors.push(error.message));
+            await page.setViewportSize({width, height: 900});
+            await page.goto('lib/components/color-picker/');
+            expect(inputSnippets).toHaveLength(2);
+
+            if (mode === 'copied') {
+                const url = new URL('__color_input__.html', baseURL).href;
+                await page.route(url, route => route.fulfill({
+                    contentType: 'text/html; charset=utf-8',
+                    body: `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="zui/zui.css"><script src="zui/zui.js"></script></head><body><main class="p-4">${inputSnippets.join('\n')}</main></body></html>`,
+                }));
+                await page.goto(url);
+            }
+
+            for (const [index, snippet] of inputSnippets.entries()) {
+                const tabs = page.locator('.plugin-tabs').nth(allSnippets.indexOf(snippet));
+                if (mode === 'preview') {
+                    await tabs.getByRole('tab', {name: '完整代码', exact: true}).click();
+                    await expect(tabs.locator('pre code')).toHaveText(snippet);
+                    await tabs.getByRole('tab', {name: '示例', exact: true}).click();
+                }
+                const root = mode === 'preview' ? tabs.locator('.example') : page.locator('main');
+                const input = root.getByLabel(index === 0 ? '选择项目标签颜色' : '选择主题颜色', {exact: true});
+                const field = input.locator('..');
+                const swatch = field.locator('label');
+                const initialValue = index === 0 ? '#3b82f6' : '#0ea5e9';
+                await expect(input).toHaveValue(initialValue);
+                await expectSwatch(field, swatch, initialValue, index === 0 ? 'rgb(59, 130, 246)' : 'rgb(14, 165, 233)');
+                await input.focus();
+                await expect(input).toBeFocused();
+
+                // Native OS color dialogs are outside the page; exercise their DOM events.
+                await input.evaluate((element) => {
+                    (element as HTMLInputElement).value = '#22c55e';
+                    element.dispatchEvent(new Event('input', {bubbles: true}));
+                });
+                await expectSwatch(field, swatch, '#22c55e', 'rgb(34, 197, 94)');
+                if (index === 1) {
+                    await expect(root.locator('output')).toHaveText(initialValue);
+                }
+                await input.dispatchEvent('change');
+                await expect(input).toHaveValue('#22c55e');
+                if (index === 1) {
+                    await expect(root.locator('output')).toHaveText('#22c55e');
+                    expect(await root.locator('form').evaluate(form => new FormData(form as HTMLFormElement).get('accentColor'))).toBe('#22c55e');
+                }
+                await expect.poll(() => root.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+
+                if (mode === 'preview') {
+                    await tabs.getByRole('tab', {name: '完整代码', exact: true}).click();
+                    await tabs.getByRole('tab', {name: '示例', exact: true}).click();
+                    await expect(input).toHaveValue(initialValue);
+                    if (index === 1) {
+                        await expect(root.locator('output')).toHaveText(initialValue);
+                    }
+                }
+            }
+            expect(errors, 'Page errors').toEqual([]);
         });
     }
 }
