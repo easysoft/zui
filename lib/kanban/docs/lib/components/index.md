@@ -313,7 +313,7 @@ const data = {
 
 `colWidth` 可为像素数、`'auto'` 或按列返回宽度的函数。自动列宽在 `minColWidth`、`maxColWidth` 之间分配可用空间；列自身的 `width`、`minWidth`、`maxWidth` 可以覆盖共享设置。
 
-`laneHeight`、`minLaneHeight`、`maxLaneHeight` 控制泳道高度，`laneNameWidth` 控制泳道名称区域，`colsGap`、`lanesGap` 控制列和泳道间距。`itemCountPerRow` 和 `itemGap` 控制卡片排列。
+`laneHeight`、`minLaneHeight`、`maxLaneHeight` 控制泳道高度，`laneNameWidth` 控制泳道名称区域，`colsGap` 控制列间距以及泳道名称与列之间的间距，`lanesGap` 控制泳道间距。`itemCountPerRow` 和 `itemGap` 控制卡片排列。
 
 通过 `laneProps`、`colProps`、`itemProps` 设置共享属性，通过 `getLane`、`getCol`、`getItem` 调整数据或返回 `false` 过滤内容。`itemRender({item, lane, col})` 可自定义卡片内容。
 
@@ -419,7 +419,7 @@ itemKey?: string = "id"; // 卡片键字段。
 colWidth?: number | "auto" | Function = 200; // 共享列宽。
 minColWidth?: number = 150; // 默认最小列宽。
 maxColWidth?: number = 600; // 默认最大列宽。
-colsGap?: number = 8; // 列间距，像素。
+colsGap?: number = 10; // 列间距，像素。
 responsive?: boolean | string = true; // 按容器尺寸适配，字符串指定容器。
 sticky?: boolean = true; // 固定表头和泳道名称。
 selectable?: boolean; // 启用卡片选择。

@@ -67,7 +67,7 @@
 }
 .kanban-header,
 .kanban-lane {
-  @apply -gap-[--kanban-lanes-gap];
+  @apply -gap-[--kanban-cols-gap];
 }
 .kanban-lane.is-first .kanban-lane-actions {
   margin-top: calc(4px - var(--kanban-header-height));

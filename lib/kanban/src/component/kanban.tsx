@@ -185,7 +185,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             this._raf = 0;
             const element = this._ref.current;
             if (element) {
-                const {responsive, laneNameWidth = 25} = this.props;
+                const {responsive, laneNameWidth = 25, colsGap = 10} = this.props;
                 const $container = typeof responsive !== 'boolean' ? $(responsive) : $(element.closest('.kanban-list') || element.parentElement);
                 const container = $container[0];
                 const width = $container.width();
@@ -193,10 +193,8 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                     return;
                 }
                 const normalizedLaneNameWidth = Number.isFinite(laneNameWidth) ? Math.max(0, laneNameWidth) : 0;
-                // 泳道名称与列之间的间距由 CSS 变量控制，需要按实际渲染值扣除。
-                const header = element.querySelector<HTMLElement>('.kanban-header');
-                const laneGap = header ? (parseFloat(getComputedStyle(header).columnGap) || 0) : 0;
-                let containerWidth = width - normalizedLaneNameWidth - laneGap - (container.offsetWidth - container.clientWidth);
+                const normalizedColsGap = Number.isFinite(colsGap) ? Math.max(0, colsGap) : 0;
+                let containerWidth = width - normalizedLaneNameWidth - normalizedColsGap - (container.offsetWidth - container.clientWidth);
                 const group = element.closest('.kanban-region');
                 if (group) {
                     containerWidth -= group.clientWidth - $(group).width();
