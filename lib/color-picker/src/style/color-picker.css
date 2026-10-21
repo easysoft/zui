@@ -14,3 +14,16 @@
 .color-picker-custom > label::before {
   @apply -m-0;
 }
+
+.color-picker-item.color-input .icon-check {
+  @apply -opacity-0 -scale-75;
+}
+.color-picker-row.is-custom .color-picker-item.color-input .icon-check {
+  @apply -opacity-100;
+}
+.color-picker-item.color-input > label::before {
+  background-image: var(--color-input-empty-bg);
+}
+.color-picker-row.is-custom .color-picker-item.color-input > label::after {
+  @apply -content-[''] -block -absolute -rounded-full -inset-0.5 -bg-[--color-input-value];
+}

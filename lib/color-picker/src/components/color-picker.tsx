@@ -97,16 +97,18 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
                 </div>
             );
         }
+        const isCustomColor = value && !colors.includes(value);
         return [
             headingView,
-            <div key="row" className="color-picker-row">
+            <div key="row" className={classes('color-picker-row', {'is-custom': isCustomColor})}>
                 {colors.map(color => (<button key={color} type="button" className="btn color-picker-item" style={{backgroundColor: color}} data-pick-value={color} aria-label={color}>{value === color ? <Icon icon="check" /> : null}</button>))}
                 {custom ? (
                     <ColorInput
                         hint={getLang('more', 'More')}
                         {...customOptions}
                         className={classes('color-picker-item color-picker-custom', customOptions?.className)}
-                        value={value || (customOptions?.value ?? customOptions?.defaultValue ?? '')}
+                        value={isCustomColor ? value : ''}
+                        icon="check"
                         onChange={async (color, event) => {
                             const nextState = await this.setValue(color);
                             if (nextState) {
