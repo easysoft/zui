@@ -1,0 +1,13 @@
+.color-input {
+    @apply -relative -ring-0 -w-6 -h-6;
+}
+.color-input > label,
+.color-input > input {
+   @apply -absolute -inset-0 -w-6 -h-6 -cursor-pointer;
+}
+.color-input > input {
+    @apply -opacity-0;
+}
+.color-input > label::before {
+    @apply -content-[''] -block -ring-1 -ring-inverse/10 -ring-inset -rounded-full -w-5 -h-5 -bg-current -m-0.5;
+}

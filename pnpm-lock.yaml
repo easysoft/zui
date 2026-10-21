@@ -651,6 +651,9 @@ importers:
       '@zui/form-control':
         specifier: workspace:*
         version: link:../form-control
+      '@zui/icons':
+        specifier: workspace:3.1.0
+        version: link:../icons
       '@zui/menu':
         specifier: workspace:*
         version: link:../menu
