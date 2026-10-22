@@ -18,3 +18,4 @@ publish/README.md
 .cursor/hooks/state
 .local.*
 *.local.*
+premium-audit.json
