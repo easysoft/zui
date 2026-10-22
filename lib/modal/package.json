@@ -22,8 +22,7 @@
       },
     "devDependencies": {
         "zui-dev": "workspace:*",
-        "@zui/utilities": "workspace:*",
-        "@zui/icons": "workspace:^3.1.0"
+        "@zui/utilities": "workspace:*"
     },
     "zui": {
         "type": "component",

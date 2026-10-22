@@ -46,13 +46,13 @@
 
 <Example class="col gap-4">
   <div class="input-control has-prefix-icon">
-    <span class="input-control-prefix icon icon-user"></span>
+    <span class="input-control-prefix example-icon example-icon-user" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M8%207a4%204%200%201%200%208%200%204%204%200%201%200-8%200M4%2021v-3c0-6%2016-6%2016%200v3z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></span>
     <input type="text" class="form-control" placeholder="请输入用户名" />
   </div>
   <div class="input-control has-prefix-icon has-suffix-icon has-error">
-    <span class="input-control-prefix icon icon-user"></span>
+    <span class="input-control-prefix example-icon example-icon-user" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M8%207a4%204%200%201%200%208%200%204%204%200%201%200-8%200M4%2021v-3c0-6%2016-6%2016%200v3z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></span>
     <input type="text" class="form-control" value="linyue" placeholder="请更换用户名"/>
-    <span class="input-control-suffix text-danger icon icon-warning-sign"></span>
+    <span class="input-control-suffix text-danger example-icon example-icon-warning-sign" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%203l10%2018H2zM12%209v5m0%203v1%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></span>
   </div>
 </Example>
 
@@ -60,13 +60,13 @@
 
 ```html
 <div class="input-control has-prefix-icon">
-  <span class="input-control-prefix icon icon-user"></span>
+  <span class="input-control-prefix example-icon example-icon-user" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M8%207a4%204%200%201%200%208%200%204%204%200%201%200-8%200M4%2021v-3c0-6%2016-6%2016%200v3z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></span>
   <input type="text" class="form-control" placeholder="请输入用户名" />
 </div>
 <div class="input-control has-prefix-icon has-suffix-icon has-error">
-  <span class="input-control-prefix icon icon-user"></span>
+  <span class="input-control-prefix example-icon example-icon-user" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M8%207a4%204%200%201%200%208%200%204%204%200%201%200-8%200M4%2021v-3c0-6%2016-6%2016%200v3z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></span>
   <input type="text" class="form-control" value="linyue" placeholder="请更换用户名"/>
-  <span class="input-control-suffix text-danger icon icon-warning-sign"></span>
+  <span class="input-control-suffix text-danger example-icon example-icon-warning-sign" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%203l10%2018H2zM12%209v5m0%203v1%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></span>
 </div>
 ```
 
@@ -84,18 +84,18 @@
 
 <Example class="col gap-4">
   <div class="input-control has-prefix-sm">
-    <span class="input-control-prefix"><i class="icon icon-user"></i></span>
+    <span class="input-control-prefix"><i class="example-icon example-icon-user" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M8%207a4%204%200%201%200%208%200%204%204%200%201%200-8%200M4%2021v-3c0-6%2016-6%2016%200v3z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></span>
     <input type="text" class="form-control" placeholder="请输入用户名"/>
   </div>
   <div class="input-control has-prefix-sm has-suffix-sm">
-    <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
+    <span class="input-control-prefix"><i class="example-icon example-icon-lock" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2010h14v11H5zM8%2010V6a4%204%200%200%201%208%200v4M12%2014v3%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></span>
     <input type="password" class="form-control" placeholder="请输入密码"/>
-    <span class="input-control-suffix"><i class="icon icon-eye-open"></i></span>
+    <span class="input-control-suffix"><i class="example-icon example-icon-eye" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%2012c5-10%2015-10%2020%200-5%2010-15%2010-20%200zM9%2012a3%203%200%201%200%206%200%203%203%200%201%200-6%200%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></span>
   </div>
   <div class="input-control has-prefix has-suffix-sm">
     <span class="input-control-prefix">用户名</span>
     <input type="text" class="form-control" placeholder="请输入用户名"/>
-    <span class="input-control-suffix"><i class="icon icon-search"></i></span>
+    <span class="input-control-suffix"><i class="magnifier"></i></span>
   </div>
   <div class="input-control has-prefix-lg">
     <span class="input-control-prefix">项目访问地址</span>
@@ -107,13 +107,13 @@
 
 ```html
 <div class="input-control has-prefix-sm">
-  <span class="input-control-prefix"><i class="icon icon-user"></i></span>
+  <span class="input-control-prefix"><i class="example-icon example-icon-user" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M8%207a4%204%200%201%200%208%200%204%204%200%201%200-8%200M4%2021v-3c0-6%2016-6%2016%200v3z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></span>
   <input type="text" class="form-control" placeholder="请输入用户名"/>
 </div>
 <div class="input-control has-prefix-sm has-suffix-sm">
-  <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
+  <span class="input-control-prefix"><i class="example-icon example-icon-lock" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2010h14v11H5zM8%2010V6a4%204%200%200%201%208%200v4M12%2014v3%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></span>
   <input type="password" class="form-control" placeholder="请输入密码"/>
-  <span class="input-control-suffix"><i class="icon icon-eye-open"></i></span>
+  <span class="input-control-suffix"><i class="example-icon example-icon-eye" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%2012c5-10%2015-10%2020%200-5%2010-15%2010-20%200zM9%2012a3%203%200%201%200%206%200%203%203%200%201%200-6%200%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></span>
 </div>
 <div class="input-control has-prefix has-suffix">
   <span class="input-control-prefix">用户名</span>
@@ -146,10 +146,10 @@
       <div class="input-control size-sm has-prefix has-suffix w-96">
         <span class="input-control-prefix">用户名</span>
         <input type="text" class="form-control size-sm" placeholder="请输入用户名"/>
-        <span class="input-control-suffix"><i class="icon icon-search"></i></span>
+        <span class="input-control-suffix"><i class="magnifier"></i></span>
       </div>
       <div class="input-control size-sm has-prefix-sm w-96">
-        <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
+        <span class="input-control-prefix"><i class="example-icon example-icon-lock" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2010h14v11H5zM8%2010V6a4%204%200%200%201%208%200v4M12%2014v3%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></span>
         <input type="password" class="form-control size-sm" placeholder="请输入密码"/>
       </div>
       <div class="input-control size-sm has-prefix-lg w-96">
@@ -167,10 +167,10 @@
       <div class="input-control has-prefix has-suffix w-96">
         <span class="input-control-prefix">用户名</span>
         <input type="text" class="form-control" placeholder="请输入用户名"/>
-        <span class="input-control-suffix"><i class="icon icon-search"></i></span>
+        <span class="input-control-suffix"><i class="magnifier"></i></span>
       </div>
       <div class="input-control has-prefix-sm w-96">
-        <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
+        <span class="input-control-prefix"><i class="example-icon example-icon-lock" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2010h14v11H5zM8%2010V6a4%204%200%200%201%208%200v4M12%2014v3%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></span>
         <input type="password" class="form-control" placeholder="请输入密码"/>
       </div>
       <div class="input-control has-prefix-lg w-96">
@@ -188,10 +188,10 @@
       <div class="input-control size-lg has-prefix has-suffix w-96">
         <span class="input-control-prefix">用户名</span>
         <input type="text" class="form-control size-lg" placeholder="请输入用户名"/>
-        <span class="input-control-suffix"><i class="icon icon-search"></i></span>
+        <span class="input-control-suffix"><i class="magnifier"></i></span>
       </div>
       <div class="input-control size-lg has-prefix-sm w-96">
-        <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
+        <span class="input-control-prefix"><i class="example-icon example-icon-lock" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2010h14v11H5zM8%2010V6a4%204%200%200%201%208%200v4M12%2014v3%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></span>
         <input type="password" class="form-control size-lg" placeholder="请输入密码"/>
       </div>
       <div class="input-control size-lg has-prefix-lg w-96">
@@ -214,10 +214,10 @@
     <div class="input-control size-sm has-prefix has-suffix w-96">
       <span class="input-control-prefix">用户名</span>
       <input type="text" class="form-control size-sm" placeholder="请输入用户名"/>
-      <span class="input-control-suffix"><i class="icon icon-search"></i></span>
+      <span class="input-control-suffix"><i class="magnifier"></i></span>
     </div>
     <div class="input-control size-sm has-prefix-sm w-96">
-      <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
+      <span class="input-control-prefix"><i class="example-icon example-icon-lock" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2010h14v11H5zM8%2010V6a4%204%200%200%201%208%200v4M12%2014v3%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></span>
       <input type="password" class="form-control size-sm" placeholder="请输入密码"/>
     </div>
     <div class="input-control size-sm has-prefix-lg w-96">
@@ -235,10 +235,10 @@
     <div class="input-control has-prefix has-suffix w-96">
       <span class="input-control-prefix">用户名</span>
       <input type="text" class="form-control" placeholder="请输入用户名"/>
-      <span class="input-control-suffix"><i class="icon icon-search"></i></span>
+      <span class="input-control-suffix"><i class="magnifier"></i></span>
     </div>
     <div class="input-control has-prefix-sm w-96">
-      <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
+      <span class="input-control-prefix"><i class="example-icon example-icon-lock" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2010h14v11H5zM8%2010V6a4%204%200%200%201%208%200v4M12%2014v3%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></span>
       <input type="password" class="form-control" placeholder="请输入密码"/>
     </div>
     <div class="input-control has-prefix-lg w-96">
@@ -256,10 +256,10 @@
     <div class="input-control size-lg has-prefix has-suffix w-96">
       <span class="input-control-prefix">用户名</span>
       <input type="text" class="form-control size-lg" placeholder="请输入用户名"/>
-      <span class="input-control-suffix"><i class="icon icon-search"></i></span>
+      <span class="input-control-suffix"><i class="magnifier"></i></span>
     </div>
     <div class="input-control size-lg has-prefix-sm w-96">
-      <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
+      <span class="input-control-prefix"><i class="example-icon example-icon-lock" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2010h14v11H5zM8%2010V6a4%204%200%200%201%208%200v4M12%2014v3%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></span>
       <input type="password" class="form-control size-lg" placeholder="请输入密码"/>
     </div>
     <div class="input-control size-lg has-prefix-lg w-96">

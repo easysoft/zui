@@ -13,7 +13,8 @@
     "dependencies": {
         "@zui/button": "workspace:*",
         "@zui/checkbox": "workspace:*",
-        "@zui/core": "workspace:*"
+        "@zui/core": "workspace:*",
+        "@zui/css-icons": "workspace:*"
     },
     "devDependencies": {
         "@zui/base": "workspace:*",

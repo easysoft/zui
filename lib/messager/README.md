@@ -30,7 +30,7 @@ document.querySelector('.messager-toggle').addEventListener('click', () => {
 ```js
 document.querySelector('#messageToggle1').addEventListener('click', () => {
     const messager = Messager.show({
-        icon: 'icon-check-sign',
+        icon: {"className": "i-check", "aria-hidden": true},
         content: '包含标题和图标以及操作按钮',
         heading: '这是标题',
         actions: [

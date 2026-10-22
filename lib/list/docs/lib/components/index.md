@@ -9,7 +9,7 @@
 == 示例
 
 <Example>
-  <ZUI id="documentList" use="list" :options="{items: [{id: 'guide', text: '使用指南', icon: 'icon-book', subtitle: '了解基础用法'}, {id: 'settings', text: '设置', icon: 'icon-cog', subtitle: '调整显示选项'}, {id: 'archive', text: '归档', disabled: true}]}" />
+  <ZUI id="documentList" use="list" :options="{items: [{id: 'guide', text: '使用指南', icon: {'className': 'example-icon example-icon-book', 'aria-hidden': true, 'style': {'display': 'inline-block', 'width': '1em', 'height': '1em', 'backgroundColor': 'currentColor', 'mask': 'url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%204c4-2%207-1%2010%201%203-2%206-3%2010-1v16c-4-2-7-1-10%201-3-2-6-3-10-1zM12%205v16%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat'}}, subtitle: '了解基础用法'}, {id: 'settings', text: '设置', icon: {'className': 'example-icon example-icon-cog', 'aria-hidden': true, 'style': {'display': 'inline-block', 'width': '1em', 'height': '1em', 'backgroundColor': 'currentColor', 'mask': 'url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M9%202h6l1%204%204%201%202%205-3%203v4l-5%203-4-2-4%201-4-5%202-4-1-4%204-3zM9%2012a3%203%200%201%200%206%200%203%203%200%201%200-6%200%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat'}}, subtitle: '调整显示选项'}, {id: 'archive', text: '归档', disabled: true}]}" />
 </Example>
 
 == 完整代码
@@ -20,8 +20,8 @@
 <script>
 const list = new zui.List('#documentList', {
     items: [
-        {id: 'guide', text: '使用指南', icon: 'icon-book', subtitle: '了解基础用法'},
-        {id: 'settings', text: '设置', icon: 'icon-cog', subtitle: '调整显示选项'},
+        {id: 'guide', text: '使用指南', icon: {"className": "example-icon example-icon-book", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%204c4-2%207-1%2010%201%203-2%206-3%2010-1v16c-4-2-7-1-10%201-3-2-6-3-10-1zM12%205v16%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, subtitle: '了解基础用法'},
+        {id: 'settings', text: '设置', icon: {"className": "example-icon example-icon-cog", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M9%202h6l1%204%204%201%202%205-3%203v4l-5%203-4-2-4%201-4-5%202-4-1-4%204-3zM9%2012a3%203%200%201%200%206%200%203%203%200%201%200-6%200%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, subtitle: '调整显示选项'},
         {id: 'archive', text: '归档', disabled: true},
     ],
 });

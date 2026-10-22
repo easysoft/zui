@@ -23,7 +23,6 @@
     "devDependencies": {
         "zui-dev": "workspace:*",
         "@zui/base": "workspace:*",
-        "@zui/icons": "workspace:*",
         "@zui/utilities": "workspace:*",
         "@zui/button": "workspace:^3.1.0",
         "@zui/toolbar": "workspace:^3.1.0"

@@ -85,13 +85,13 @@
 == 示例
 
 <Example>
-  <div zui-create="colorPicker" data-icon="tint"></div>
+  <div zui-create="colorPicker" data-icon='{"className":"example-icon example-icon-tint","aria-hidden":true,"style":{"display":"inline-block","width":"1em","height":"1em","backgroundColor":"currentColor","mask":"url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%202S3%2012%203%2016a9%209%200%200%200%2018%200c0-4-9-14-9-14z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}'></div>
 </Example>
 
 == 完整代码
 
 ```html
-<div zui-create="colorPicker" data-icon="tint"></div>
+<div zui-create="colorPicker" data-icon='{"className":"example-icon example-icon-tint","aria-hidden":true,"style":{"display":"inline-block","width":"1em","height":"1em","backgroundColor":"currentColor","mask":"url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%202S3%2012%203%2016a9%209%200%200%200%2018%200c0-4-9-14-9-14z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}'></div>
 ```
 
 :::
@@ -226,7 +226,7 @@ syncBorder?: string; // 边框色同步容器选择器。
   <div class="flex flex-wrap items-center gap-4">
     <div class="flex items-center gap-2"><span>未选择</span><div zui-create="colorInput" data-hint="选择可选颜色"></div></div>
     <div class="flex items-center gap-2"><span>初始颜色</span><div zui-create="colorInput" data-default-value="#3b82f6" data-hint="选择项目标签颜色"></div></div>
-    <div class="flex items-center gap-2"><span>带图标</span><div zui-create="colorInput" data-default-value="#f59e0b" data-icon="check" data-hint="选择带图标的颜色"></div></div>
+    <div class="flex items-center gap-2"><span>带图标</span><div zui-create="colorInput" data-default-value="#f59e0b" data-icon='{"className":"i-check","aria-hidden":true}' data-hint="选择带图标的颜色"></div></div>
   </div>
 </Example>
 
@@ -236,7 +236,7 @@ syncBorder?: string; // 边框色同步容器选择器。
 <div class="flex flex-wrap items-center gap-4">
     <div class="flex items-center gap-2"><span>未选择</span><div zui-create="colorInput" data-hint="选择可选颜色"></div></div>
     <div class="flex items-center gap-2"><span>初始颜色</span><div zui-create="colorInput" data-default-value="#3b82f6" data-hint="选择项目标签颜色"></div></div>
-    <div class="flex items-center gap-2"><span>带图标</span><div zui-create="colorInput" data-default-value="#f59e0b" data-icon="check" data-hint="选择带图标的颜色"></div></div>
+    <div class="flex items-center gap-2"><span>带图标</span><div zui-create="colorInput" data-default-value="#f59e0b" data-icon='{"className":"i-check","aria-hidden":true}' data-hint="选择带图标的颜色"></div></div>
 </div>
 ```
 

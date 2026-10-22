@@ -5,21 +5,21 @@
     "keywords": ["css", "components", "zui:component"],
     "main": "src/main.ts",
     "dependencies": {
-      "@zui/button": "workspace:^3.1.0",
-      "@zui/btn-group": "workspace:^3.1.0",
-      "@zui/list": "workspace:^3.1.0",
-      "@zui/toolbar": "workspace:^3.1.0",
-      "@zui/helpers": "workspace:^3.1.0",
-      "@zui/common-list": "workspace:^3.1.0",
-      "@zui/core": "workspace:^3.1.0",
-      "@zui/dropdown": "workspace:^3.1.0",
-      "@zui/menu": "workspace:^3.1.0"
+        "@zui/button": "workspace:^3.1.0",
+        "@zui/btn-group": "workspace:^3.1.0",
+        "@zui/list": "workspace:^3.1.0",
+        "@zui/toolbar": "workspace:^3.1.0",
+        "@zui/helpers": "workspace:^3.1.0",
+        "@zui/common-list": "workspace:^3.1.0",
+        "@zui/core": "workspace:^3.1.0",
+        "@zui/dropdown": "workspace:^3.1.0",
+        "@zui/menu": "workspace:^3.1.0",
+        "@zui/css-icons": "workspace:*"
     },
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*",
         "@zui/form": "workspace:3.1.0",
-        "@zui/icons": "workspace:3.1.0",
         "zui-dev": "workspace:^3.1.0",
         "@zui/input-group": "workspace:^3.1.0"
     },

@@ -26,12 +26,12 @@ const toolbar = new zui.Toolbar('#documentToolbar', {
     gap: 2,
     itemKey: 'id',
     items: [
-        {id: 'save', text: '保存', icon: 'save', btnType: 'primary'},
-        {id: 'preview', text: '预览', icon: 'eye-open'},
+        {id: 'save', text: '保存', icon: {"className": "example-icon example-icon-save", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M4%203h13l4%204v14H3V3zM7%203v6h9V3M7%2021v-8h10v8%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, btnType: 'primary'},
+        {id: 'preview', text: '预览', icon: {"className": "example-icon example-icon-eye", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%2012c5-10%2015-10%2020%200-5%2010-15%2010-20%200zM9%2012a3%203%200%201%200%206%200%203%203%200%201%200-6%200%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}},
         {type: 'divider'},
         {id: 'more', type: 'dropdown', text: '更多', items: [
-            {text: '导出 PDF', icon: 'download-alt', onClick() { console.log('导出 PDF'); }},
-            {text: '复制链接', icon: 'link', onClick() { console.log('复制链接'); }},
+            {text: '导出 PDF', icon: {"className": "i-download", "aria-hidden": true}, onClick() { console.log('导出 PDF'); }},
+            {text: '复制链接', icon: {"className": "example-icon example-icon-link", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M9%207l3-3c6-6%2014%202%208%208l-3%203M7%209l-3%203c-6%206%202%2014%208%208l3-3M8%2016l8-8%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, onClick() { console.log('复制链接'); }},
         ]},
         {id: 'delete', text: '删除', disabled: true},
     ],
@@ -52,12 +52,12 @@ const toolbarOptions = {
     gap: 2,
     itemKey: 'id',
     items: [
-        {id: 'save', text: '保存', icon: 'save', btnType: 'primary'},
-        {id: 'preview', text: '预览', icon: 'eye-open'},
+        {id: 'save', text: '保存', icon: {"className": "example-icon example-icon-save", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M4%203h13l4%204v14H3V3zM7%203v6h9V3M7%2021v-8h10v8%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, btnType: 'primary'},
+        {id: 'preview', text: '预览', icon: {"className": "example-icon example-icon-eye", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%2012c5-10%2015-10%2020%200-5%2010-15%2010-20%200zM9%2012a3%203%200%201%200%206%200%203%203%200%201%200-6%200%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}},
         {type: 'divider'},
         {id: 'more', type: 'dropdown', text: '更多', items: [
-            {text: '导出 PDF', icon: 'download-alt', onClick() { toolbarAction.value = '已选择：导出 PDF'; }},
-            {text: '复制链接', icon: 'link', onClick() { toolbarAction.value = '已选择：复制链接'; }},
+            {text: '导出 PDF', icon: {"className": "i-download", "aria-hidden": true}, onClick() { toolbarAction.value = '已选择：导出 PDF'; }},
+            {text: '复制链接', icon: {"className": "example-icon example-icon-link", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M9%207l3-3c6-6%2014%202%208%208l-3%203M7%209l-3%203c-6%206%202%2014%208%208l3-3M8%2016l8-8%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, onClick() { toolbarAction.value = '已选择：复制链接'; }},
         ]},
         {id: 'delete', text: '删除', disabled: true},
     ],
@@ -85,9 +85,9 @@ const toolbarOptions = {
 ```js
 toolbar.render({items: [
     {type: 'btn-group', items: [
-        {text: '加粗', icon: 'bold'},
-        {text: '斜体', icon: 'italic'},
-        {text: '下划线', icon: 'underline'},
+        {text: '加粗', icon: {"className": "example-icon example-icon-bold", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Ctext%20x%3D%224%22%20y%3D%2219%22%20font-family%3D%22sans-serif%22%20font-size%3D%2220%22%20font-weight%3D%22bold%22%3EB%3C%2Ftext%3E%3C%2Fsvg%3E) center / contain no-repeat"}}},
+        {text: '斜体', icon: {"className": "example-icon example-icon-italic", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Ctext%20x%3D%224%22%20y%3D%2219%22%20font-family%3D%22sans-serif%22%20font-size%3D%2220%22%20font-weight%3D%22bold%22%3EI%3C%2Ftext%3E%3C%2Fsvg%3E) center / contain no-repeat"}}},
+        {text: '下划线', icon: {"className": "example-icon example-icon-underline", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Ctext%20x%3D%224%22%20y%3D%2219%22%20font-family%3D%22sans-serif%22%20font-size%3D%2220%22%20font-weight%3D%22bold%22%3EU%3C%2Ftext%3E%3C%2Fsvg%3E) center / contain no-repeat"}}},
     ]},
     {type: 'space', flex: 1},
     {text: '完成', btnType: 'primary'},
@@ -118,7 +118,7 @@ toolbar.render({
 
 ```js
 toolbar.render({items: [
-    {id: 'save', text: '保存', icon: 'save', disabled: false},
+    {id: 'save', text: '保存', icon: {"className": "example-icon example-icon-save", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M4%203h13l4%204v14H3V3zM7%203v6h9V3M7%2021v-8h10v8%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, disabled: false},
     {id: 'publish', text: '发布', btnType: 'primary'},
 ]});
 ```

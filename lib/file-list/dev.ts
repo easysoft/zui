@@ -1,6 +1,6 @@
 import 'zui-dev';
 import '@zui/button';
-import '@zui/icons';
+import '@zui/css-icons';
 import '@zui/avatar/css';
 import '@zui/list';
 import {FileList} from './src/main';
@@ -60,7 +60,7 @@ const itemsWithThumbnails = [
         addedDate: '2023-03-29 00:00:00',
         downloads: 0,
         actions: [
-            {icon: 'eye', title: '查看', url: '#file?id=79942'},
+            {icon: {className: 'example-icon example-icon-eye', 'aria-hidden': true, style: {display: 'inline-block', width: '1em', height: '1em', backgroundColor: 'currentColor', mask: 'url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%2012c5-10%2015-10%2020%200-5%2010-15%2010-20%200zM9%2012a3%203%200%201%200%206%200%203%203%200%201%200-6%200%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat'}}, title: '查看', url: '#file?id=79942'},
         ],
     },
     {
@@ -89,8 +89,8 @@ const itemsWithThumbnails = [
 
 const fileActions = (file: FileInfo) => {
     return [
-        {icon: 'download', title: '下载', url: '#file?id=' + file.id},
-        {icon: 'trash', title: '删除', url: '#delete?id=' + file.id},
+        {icon: {className: 'i-download', 'aria-hidden': true}, title: '下载', url: '#file?id=' + file.id},
+        {icon: {className: 'i-trash', 'aria-hidden': true}, title: '删除', url: '#delete?id=' + file.id},
     ];
 };
 
@@ -105,7 +105,7 @@ onPageUpdate(() => {
     fileListGrid?.destroy();
     fileListImages?.destroy();
     fileList = new FileList('#fileList', {
-        heading: {title: '附件', icon: 'paper-clip'},
+        heading: {title: '附件', icon: {className: 'example-icon example-icon-paper-clip', 'aria-hidden': true, style: {display: 'inline-block', width: '1em', height: '1em', backgroundColor: 'currentColor', mask: 'url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M8%2013l7-7c4-4%209%201%205%205L9%2022c-6%206-13-2-7-8L13%203m-8%2013%2010-10%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat'}}},
         fileUrl: '#file?id={id}',
         hoverItemActions: true,
         fileActions,

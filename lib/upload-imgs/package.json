@@ -14,13 +14,13 @@
     ],
     "dependencies": {
         "@zui/button": "workspace:^3.1.0",
-        "@zui/icons": "workspace:3.1.0",
         "@zui/helpers": "workspace:^3.1.0",
         "@zui/input-group": "workspace:^3.1.0",
         "@zui/btn-group": "workspace:^3.1.0",
         "@zui/core": "workspace:^3.1.0",
         "@zui/upload": "workspace:^3.1.0",
-        "@zui/tooltip": "workspace:^3.1.0"
+        "@zui/tooltip": "workspace:^3.1.0",
+        "@zui/css-icons": "workspace:*"
     },
     "devDependencies": {
         "zui-dev": "workspace:^3.1.0"

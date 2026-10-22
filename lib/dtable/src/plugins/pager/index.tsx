@@ -44,12 +44,12 @@ const pagerPlugin: DTablePlugin<DTablePagerTypes> = {
                     {
                         type: 'link',
                         page: 'first',
-                        icon: 'icon-first-page',
+                        icon: {className: 'i-first-page', 'aria-hidden': true},
                     },
                     {
                         type: 'link',
                         page: 'prev',
-                        icon: 'icon-angle-left',
+                        icon: {className: 'chevron-left', 'aria-hidden': true},
                     },
                     {
                         type: 'info',
@@ -58,12 +58,12 @@ const pagerPlugin: DTablePlugin<DTablePagerTypes> = {
                     {
                         type: 'link',
                         page: 'next',
-                        icon: 'icon-angle-right',
+                        icon: {className: 'chevron-right', 'aria-hidden': true},
                     },
                     {
                         type: 'link',
                         page: 'last',
-                        icon: 'icon-last-page',
+                        icon: {className: 'i-last-page', 'aria-hidden': true},
                     },
                 ];
                 const items = Array.isArray(footPager.items) ? footPager.items as ToolbarItemOptions[] : defaultItems;

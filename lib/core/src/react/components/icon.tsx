@@ -1,10 +1,16 @@
-import {isValidElement} from 'preact';
+import {cloneElement, isValidElement} from 'preact';
 import {classes} from '../../helpers/classes';
 
 import type {ClassNameLike} from '../../helpers/classes';
-import type {IconProps} from '../types';
+import type {IconClass, IconProps} from '../types';
 
 const createIconClass = (icon: string) => icon.startsWith('icon-') ? icon : `icon-${icon}`;
+
+/** Resolve CSS descriptors and caller-provided font icon names for native controls. */
+export function getIconClass(icon: string | IconClass, className?: ClassNameLike) {
+    const {icon: name, className: iconClass} = typeof icon === 'string' ? {icon} : icon;
+    return classes('icon', className, iconClass as ClassNameLike, name ? createIconClass(name) : '');
+}
 
 /**
  * Component for rendering icons.
@@ -18,15 +24,22 @@ export function Icon(props: IconProps) {
         return null;
     }
     if (isValidElement(icon)) {
-        return icon;
+        const {class: iconClass, ...iconProps} = icon.props as Record<string, unknown>;
+        const style = typeof others.style === 'object' && typeof iconProps.style === 'object'
+            ? {...others.style, ...iconProps.style}
+            : iconProps.style ?? others.style;
+        const clonedIcon = cloneElement(icon, {
+            ...others,
+            ...iconProps,
+            className: classes('icon', iconClass as ClassNameLike, iconProps.className as ClassNameLike, className),
+            style,
+        });
+        delete (clonedIcon.props as Record<string, unknown>).class;
+        return clonedIcon;
     }
-    const classList: ClassNameLike[] = ['icon', className as string];
-    if (typeof icon === 'string') {
-        classList.push(createIconClass(icon));
-    } else if (typeof icon === 'object') {
-        const {className: iconClass, icon: finalIcon, ...iconOthers} = icon;
-        classList.push(iconClass as string, finalIcon ? createIconClass(finalIcon as string) : '');
+    if (typeof icon === 'object') {
+        const {className: _iconClass, icon: _finalIcon, ...iconOthers} = icon;
         Object.assign(others, iconOthers);
     }
-    return <i className={classes(classList)} {...others} />;
+    return <i className={getIconClass(icon, className)} {...others} />;
 }

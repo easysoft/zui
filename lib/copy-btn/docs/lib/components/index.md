@@ -12,7 +12,7 @@
 
 <Example class="flex gap-4">
   <button type="button" class="btn" zui-toggle="copyBtn" data-copy="PORTAL-2026-018">
-    <i class="icon icon-copy"></i> 复制文本
+    <i class="i-copy"></i> 复制文本
   </button>
 </Example>
 
@@ -20,7 +20,7 @@
 
 ```html
 <button type="button" class="btn" zui-toggle="copyBtn" data-copy="PORTAL-2026-018">
-  <i class="icon icon-copy"></i> 复制文本
+  <i class="i-copy"></i> 复制文本
 </button>
 ```
 
@@ -37,7 +37,7 @@
 <Example class="col gap-4">
   <div id="copyTarget" class="p-4 surface rounded">客户门户 v1.2：工单查询与附件预览已通过验收，计划周五 18:00 发布。</div>
   <a class="btn" zui-toggle="copyBtn" href="#copyTarget">
-    <i class="icon icon-copy"></i> 复制发布摘要
+    <i class="i-copy"></i> 复制发布摘要
   </a>
 </Example>
 
@@ -46,7 +46,7 @@
 ```html
 <div id="copyTarget" class="p-4 surface rounded">客户门户 v1.2：工单查询与附件预览已通过验收，计划周五 18:00 发布。</div>
 <a class="btn" zui-toggle="copyBtn" href="#copyTarget">
-  <i class="icon icon-copy"></i> 复制发布摘要
+  <i class="i-copy"></i> 复制发布摘要
 </a>
 ```
 
@@ -66,7 +66,7 @@
 
 <Example class="flex gap-4">
   <button type="button" class="btn" zui-toggle="copyBtn" data-mode="tooltip" data-copy="PORTAL-2026-018">
-    <i class="icon icon-copy"></i> 工具提示
+    <i class="i-copy"></i> 工具提示
   </button>
 </Example>
 
@@ -74,7 +74,7 @@
 
 ```html
 <button type="button" class="btn" zui-toggle="copyBtn" data-mode="tooltip" data-copy="PORTAL-2026-018">
-  <i class="icon icon-copy"></i> 工具提示
+  <i class="i-copy"></i> 工具提示
 </button>
 ```
 
@@ -89,16 +89,16 @@
 == 示例
 
 <Example class="flex gap-4">
-  <button type="button" class="btn" zui-toggle="copyBtn" data-mode="overlay" data-copy="PORTAL-2026-018" data-copied-icon="check">
-    <i class="icon icon-copy"></i> <span class="text">内容覆盖</span>
+  <button type="button" class="btn" zui-toggle="copyBtn" data-mode="overlay" data-copy="PORTAL-2026-018" data-copied-icon='{"className":"i-check","aria-hidden":true}'>
+    <i class="i-copy"></i> <span class="text">内容覆盖</span>
   </button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn" zui-toggle="copyBtn" data-mode="overlay" data-copy="PORTAL-2026-018" data-copied-icon="check">
-  <i class="icon icon-copy"></i> <span class="text">内容覆盖</span>
+<button type="button" class="btn" zui-toggle="copyBtn" data-mode="overlay" data-copy="PORTAL-2026-018" data-copied-icon='{"className":"i-check","aria-hidden":true}'>
+  <i class="i-copy"></i> <span class="text">内容覆盖</span>
 </button>
 ```
 
@@ -114,7 +114,7 @@
 
 <Example class="flex gap-4">
   <button type="button" class="btn" zui-toggle="copyBtn" data-copy="PORTAL-2026-018" data-copied-text="工单编号已复制">
-    <i class="icon icon-copy"></i> 自定义提示文本
+    <i class="i-copy"></i> 自定义提示文本
   </button>
 </Example>
 
@@ -122,7 +122,7 @@
 
 ```html
 <button type="button" class="btn" zui-toggle="copyBtn" data-copy="PORTAL-2026-018" data-copied-text="工单编号已复制">
-  <i class="icon icon-copy"></i> 自定义提示文本
+  <i class="i-copy"></i> 自定义提示文本
 </button>
 ```
 
@@ -138,10 +138,10 @@
 
 <Example class="flex gap-4">
   <button type="button" class="btn" zui-toggle="copyBtn" data-copy="PORTAL-2026-018" data-duration="1000">
-    <i class="icon icon-copy"></i> 1秒提示
+    <i class="i-copy"></i> 1秒提示
   </button>
   <button type="button" class="btn" zui-toggle="copyBtn" data-copy="PORTAL-2026-018" data-duration="5000">
-    <i class="icon icon-copy"></i> 5秒提示
+    <i class="i-copy"></i> 5秒提示
   </button>
 </Example>
 
@@ -149,10 +149,10 @@
 
 ```html
 <button type="button" class="btn" zui-toggle="copyBtn" data-copy="PORTAL-2026-018" data-duration="1000">
-  <i class="icon icon-copy"></i> 1秒提示
+  <i class="i-copy"></i> 1秒提示
 </button>
 <button type="button" class="btn" zui-toggle="copyBtn" data-copy="PORTAL-2026-018" data-duration="5000">
-  <i class="icon icon-copy"></i> 5秒提示
+  <i class="i-copy"></i> 5秒提示
 </button>
 ```
 

@@ -1,3 +1,4 @@
+import {hideColumnIcon} from '../../icons';
 import {definePlugin} from '../../helpers/shared-plugins';
 import {contextmenu} from '../contextmenu';
 
@@ -91,7 +92,7 @@ const customColPlugin: DTablePlugin<DTableCustomColTypes, [DTableContextMenuType
                         },
                         {
                             text: this.i18n('hideCol'),
-                            icon: 'eye-off',
+                            icon: hideColumnIcon,
                             disabled: disableHideCol,
                             onClick: disableHideCol ? undefined : () => this.setColVisibility(info.colName, false),
                         },

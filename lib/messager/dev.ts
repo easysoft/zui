@@ -1,5 +1,5 @@
 import '@zui/button';
-import '@zui/icons';
+import '@zui/css-icons';
 import '@zui/alert';
 import '@zui/toolbar';
 import './src/main';
@@ -19,7 +19,7 @@ onPageUpdate(() => {
 
     document.querySelector('#messageToggle1')?.addEventListener('click', () => {
         const messager = Messager.show({
-            icon: 'icon-check-sign icon-2x',
+            icon: {className: 'i-check', 'aria-hidden': true},
             content: '包含标题和图标以及操作按钮',
             heading: '这是标题',
             style: {minWidth: 400, padding: 20},

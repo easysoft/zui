@@ -17,7 +17,6 @@
     ],
     "dependencies": {
         "@zui/button": "workspace:^3.1.0",
-        "@zui/icons": "workspace:3.1.0",
         "@zui/helpers": "workspace:^3.1.0",
         "@zui/modal": "workspace:^3.1.0",
         "@zui/core": "workspace:^3.1.0",
@@ -26,7 +25,8 @@
         "@zui/form-control": "workspace:^3.1.0",
         "@zui/list": "workspace:^3.1.0",
         "@zui/common-list": "workspace:^3.1.0",
-        "@zui/toolbar": "workspace:^3.1.0"
+        "@zui/toolbar": "workspace:^3.1.0",
+        "@zui/css-icons": "workspace:*"
     },
     "devDependencies": {
         "zui-dev": "workspace:*",

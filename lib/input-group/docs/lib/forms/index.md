@@ -60,7 +60,7 @@
       <option>文档</option>
     </select>
     <input type="text" class="form-control" placeholder="搜索文件名称">
-    <button type="button" class="btn" aria-label="搜索文件"><i class="icon icon-search"></i></button>
+    <button type="button" class="btn" aria-label="搜索文件"><i class="magnifier"></i></button>
   </div>
   <div class="input-group">
     <span class="input-group-addon">
@@ -88,7 +88,7 @@
     <option>文档</option>
   </select>
   <input type="text" class="form-control" placeholder="搜索文件名称">
-  <button type="button" class="btn" aria-label="搜索文件"><i class="icon icon-search"></i></button>
+  <button type="button" class="btn" aria-label="搜索文件"><i class="magnifier"></i></button>
 </div>
 <div class="input-group">
   <span class="input-group-addon">

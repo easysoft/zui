@@ -27,10 +27,10 @@ const menu = new zui.Menu('#fileMenu', {
     nestedToggle: '.listitem',
     items: [
         {type: 'heading', text: '文件操作'},
-        {id: 'copy', text: '复制', icon: 'copy'},
-        {id: 'paste', text: '粘贴', icon: 'paste', disabled: true},
+        {id: 'copy', text: '复制', icon: {"className": "i-copy", "aria-hidden": true}},
+        {id: 'paste', text: '粘贴', icon: {"className": "i-paste", "aria-hidden": true}, disabled: true},
         {type: 'divider'},
-        {id: 'export', text: '导出', icon: 'download-alt', items: [
+        {id: 'export', text: '导出', icon: {"className": "i-download", "aria-hidden": true}, items: [
             {id: 'pdf', text: 'PDF 文件'},
             {id: 'html', text: 'HTML 文件'},
         ]},
@@ -54,10 +54,10 @@ const menuOptions = {
     nestedToggle: '.listitem',
     items: [
         {type: 'heading', text: '文件操作'},
-        {id: 'copy', text: '复制', icon: 'copy'},
-        {id: 'paste', text: '粘贴', icon: 'paste', disabled: true},
+        {id: 'copy', text: '复制', icon: {"className": "i-copy", "aria-hidden": true}},
+        {id: 'paste', text: '粘贴', icon: {"className": "i-paste", "aria-hidden": true}, disabled: true},
         {type: 'divider'},
-        {id: 'export', text: '导出', icon: 'download-alt', items: [
+        {id: 'export', text: '导出', icon: {"className": "i-download", "aria-hidden": true}, items: [
             {id: 'pdf', text: 'PDF 文件'},
             {id: 'html', text: 'HTML 文件'},
         ]},
@@ -113,7 +113,7 @@ const expanded = menu.$?.isExpanded('export');
 
 ```js
 menu.render({items: [
-    {id: 'save', text: '保存', icon: 'save'},
+    {id: 'save', text: '保存', icon: {"className": "example-icon example-icon-save", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M4%203h13l4%204v14H3V3zM7%203v6h9V3M7%2021v-8h10v8%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}},
     {id: 'close', text: '关闭'},
 ]});
 ```

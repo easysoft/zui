@@ -7,6 +7,8 @@ const dist = Path.resolve(import.meta.dirname, '../../docs/_/.vitepress/dist');
 if (!existsSync(Path.join(dist, 'index.html'))) {
     throw new Error('Documentation build missing. Run pnpm docs:build first; an external URL must serve this same build.');
 }
+const libraries = JSON.parse(readFileSync(Path.join(dist, 'zui-libs.json'), 'utf8')) as {name: string}[];
+const hasFontIcons = libraries.some(lib => lib.name === '@zui/icons');
 
 // Public HTML fixtures (for example modal contents) are assets, not VitePress pages.
 const pages = readdirSync(dist, {recursive: true, encoding: 'utf8'})
@@ -138,5 +140,9 @@ for (const doc of pages) {
         await expect.poll(() => [...pending], {message: 'Same-origin requests must finish'}).toEqual([]);
         testInfo.annotations.push({type: 'scope', description: 'Checks local build content, page scripts and same-origin resources. External availability and release/version/copyright content are outside this smoke test.'});
         expect(errors, `Page errors and failed same-origin resources for /${doc.route}`).toEqual([]);
+        if (!hasFontIcons) {
+            expect(await page.locator('.VPContent .icon').evaluateAll(elements => elements
+                .flatMap(element => [...element.classList].filter(name => name.startsWith('icon-') && name !== 'icon-calendar-event-dot'))), 'Examples must not leave empty font glyphs when icons is excluded').toEqual([]);
+        }
     });
 }

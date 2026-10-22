@@ -88,8 +88,8 @@ export class StringListEdit extends Component<StringListEditProps> {
                     onChange={this._handleValueChange}
                 />
                 <div className="string-list-edit-item-actions">
-                    <Button type="ghost" size="sm" icon="plus" disabled={readonly} onClick={this._handleAddClick} />
-                    <Button type="ghost" size="sm" icon="trash" disabled={readonly} onClick={this._handleDeleteClick} />
+                    <Button type="ghost" size="sm" icon={{className: 'i-plus', 'aria-hidden': true}} disabled={readonly} onClick={this._handleAddClick} />
+                    <Button type="ghost" size="sm" icon={{className: 'i-trash', 'aria-hidden': true}} disabled={readonly} onClick={this._handleDeleteClick} />
                 </div>
             </div>
         );

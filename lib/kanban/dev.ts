@@ -1,6 +1,6 @@
 import 'preact/debug';
 import 'zui-dev';
-import '@zui/icons';
+import '@zui/css-icons';
 import '@zui/button';
 import '@zui/list';
 import '@zui/dropdown';
@@ -42,14 +42,14 @@ onPageUpdate(() => {
             /* 通过 actions 自定义列操作按钮（actions 还可以为一个回调函数动态返回操作按钮设置）。 */
             actions: () => {
                 return [{
-                    icon: 'check-plus text-primary',
+                    icon: {className: 'i-plus text-primary', 'aria-hidden': true},
                     onClick: () => console.log('Click add'),
                 }, {
                     type: 'dropdown',
-                    icon: 'ellipsis-v text-primary',
+                    icon: {className: 'more-vert text-primary', 'aria-hidden': true},
                     caret: false,
                     items: [ // 下拉菜单内容
-                        {text: '删除', icon: 'trash'},
+                        {text: '删除', icon: {className: 'i-trash', 'aria-hidden': true}},
                     ],
                     onClickItem: (info) => {
                         const {relativeTarget} = info;
@@ -82,11 +82,11 @@ onPageUpdate(() => {
             actions: () => {
                 return [{
                     type: 'dropdown',
-                    icon: 'ellipsis-v text-primary',
+                    icon: {className: 'more-vert text-primary', 'aria-hidden': true},
                     caret: false,
                     items: [ // 下拉菜单内容
-                        {text: '编辑', icon: 'edit'},
-                        {text: '删除', icon: 'trash'},
+                        {text: '编辑', icon: {className: 'i-edit', 'aria-hidden': true}},
+                        {text: '删除', icon: {className: 'i-trash', 'aria-hidden': true}},
                     ],
                     onClickItem: (info) => {
                         const {relativeTarget} = info;
@@ -132,9 +132,9 @@ onPageUpdate(() => {
                         '   <hr class="my-2">',
                         '   <div>用户需求</div>',
                         '   <div>描述文本描述文本描述文本描述文本描述文本描述文本</div>',
-                        `   <div class="center"><label for="${toggleID}" class="btn light bg-opacity-50 ring-0 size-xs w-7 text-gray rounded"><i class="icon icon-chevron-up scale-75"></i></label></div>`,
+                        `   <div class="center"><label for="${toggleID}" class="btn light bg-opacity-50 ring-0 size-xs w-7 text-gray rounded"><i class="scale-75 chevron-up"></i></label></div>`,
                         '</div>',
-                        `<div class="as-collapse-content center"><label for="${toggleID}" class="btn light bg-opacity-50 ring-0 size-xs w-7 text-gray rounded"><i class="icon icon-chevron-down scale-75"></i></label></div>`,
+                        `<div class="as-collapse-content center"><label for="${toggleID}" class="btn light bg-opacity-50 ring-0 size-xs w-7 text-gray rounded"><i class="scale-75 chevron-down"></i></label></div>`,
                     ].join('')};
                 },
             }, col);
@@ -170,14 +170,14 @@ onPageUpdate(() => {
         heading: {
             title: 'Kanban Region',
             actions: [
-                {icon: 'cog text-gray', title: '设置'},
+                {icon: {className: 'example-icon example-icon-cog text-gray', 'aria-hidden': true, style: {display: 'inline-block', width: '1em', height: '1em', backgroundColor: 'currentColor', mask: 'url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M9%202h6l1%204%204%201%202%205-3%203v4l-5%203-4-2-4%201-4-5%202-4-1-4%204-3zM9%2012a3%203%200%201%200%206%200%203%203%200%201%200-6%200%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat'}}, title: '设置'},
                 {
                     type: 'dropdown',
-                    icon: 'ellipsis-v text-gray',
+                    icon: {className: 'more-vert text-gray', 'aria-hidden': true},
                     caret: false,
                     placement: 'bottom-end',
                     items: [ // 下拉菜单内容
-                        {text: '编辑', icon: 'edit'},
+                        {text: '编辑', icon: {className: 'i-edit', 'aria-hidden': true}},
                     ],
                 },
             ],
@@ -191,7 +191,7 @@ onPageUpdate(() => {
         key: 'kanban0',
         laneProps: {
             actions: [
-                {icon: 'ellipsis-v'},
+                {icon: {className: 'more-vert', 'aria-hidden': true}},
             ],
         },
         data: {
@@ -249,15 +249,15 @@ onPageUpdate(() => {
         itemProps: {
             actions: () => {
                 return [{
-                    icon: 'check-plus text-primary',
+                    icon: {className: 'i-plus text-primary', 'aria-hidden': true},
                     onClick: () => console.log('Click add'),
                 }, {
                     type: 'dropdown',
-                    icon: 'ellipsis-v text-primary',
+                    icon: {className: 'more-vert text-primary', 'aria-hidden': true},
                     caret: false,
                     items: [ // 下拉菜单内容
-                        {text: '编辑', icon: 'edit'},
-                        {text: '删除', icon: 'trash'},
+                        {text: '编辑', icon: {className: 'i-edit', 'aria-hidden': true}},
+                        {text: '删除', icon: {className: 'i-trash', 'aria-hidden': true}},
                     ],
                     onClickItem: (info) => {
                         const {relativeTarget} = info;

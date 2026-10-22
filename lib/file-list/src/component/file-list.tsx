@@ -1,3 +1,4 @@
+import {resolveFileIcon} from '../icons/file-icon';
 import {formatBytes, formatString} from '@zui/helpers';
 import {List} from '@zui/list/react';
 import {Popover, type PopoverOptions} from '@zui/popover';
@@ -263,14 +264,14 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
                     'file-list-grid-cell': isGrid,
                     'has-thumbnail': thumbnail,
                 },
-                icon: thumbnail ? undefined : (this.constructor as typeof FileList).getFileIcon(file, fileIcon),
+                icon: thumbnail ? undefined : resolveFileIcon((this.constructor as typeof FileList).getFileIcon(file, fileIcon)),
                 iconClass: 'text-gray',
                 avatar: thumbnail ? (item: Item) => {
                     if (item.icon !== undefined) {
                         return;
                     }
                     const src = this._getThumbnail(file, props);
-                    const icon = (this.constructor as typeof FileList).getFileIcon(file, fileIcon) || undefined;
+                    const icon = resolveFileIcon((this.constructor as typeof FileList).getFileIcon(file, fileIcon)) || undefined;
                     return src || icon ? {
                         src,
                         icon,

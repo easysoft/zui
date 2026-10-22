@@ -186,7 +186,7 @@ interface ModalAlertOptions extends ModalCustomOptions {
 <Example>
   <div class="flex flex-wrap gap-4">
       <button type="button" class="btn primary" zui-on-click="zui.Modal.alert('请先填写项目名称，再提交评审。')">Modal.alert(message)</button>
-      <button type="button" class="btn primary" zui-on-click="zui.Modal.alert({title: '信息未填写完整', message: '请先填写项目名称，再提交评审。', icon: 'icon-flag'})">Modal.alert(options)</button>
+      <button type="button" class="btn primary" zui-on-click="zui.Modal.alert({title: '信息未填写完整', message: '请先填写项目名称，再提交评审。', icon: {'className': 'example-icon example-icon-flag', 'aria-hidden': true, 'style': {'display': 'inline-block', 'width': '1em', 'height': '1em', 'backgroundColor': 'currentColor', 'mask': 'url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2022V3h14l-3%205%203%205H5%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat'}}})">Modal.alert(options)</button>
   </div>
 </Example>
 
@@ -195,7 +195,7 @@ interface ModalAlertOptions extends ModalCustomOptions {
 ```html
 <div class="flex flex-wrap gap-4">
     <button type="button" class="btn primary" zui-on-click="zui.Modal.alert('请先填写项目名称，再提交评审。')">Modal.alert(message)</button>
-    <button type="button" class="btn primary" zui-on-click="zui.Modal.alert({title: '信息未填写完整', message: '请先填写项目名称，再提交评审。', icon: 'icon-flag'})">Modal.alert(options)</button>
+    <button type="button" class="btn primary" zui-on-click="zui.Modal.alert({title: '信息未填写完整', message: '请先填写项目名称，再提交评审。', icon: {'className': 'example-icon example-icon-flag', 'aria-hidden': true, 'style': {'display': 'inline-block', 'width': '1em', 'height': '1em', 'backgroundColor': 'currentColor', 'mask': 'url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2022V3h14l-3%205%203%205H5%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat'}}})">Modal.alert(options)</button>
 </div>
 ```
 
@@ -236,7 +236,7 @@ interface ModalConfirmOptions extends ModalAlertOptions {
 <Example>
   <div class="flex flex-wrap gap-4">
       <button type="button" class="btn primary" zui-on-click="const result = document.getElementById('modal-confirm-result'); zui.Modal.confirm('放弃本次修改？未保存的项目设置将丢失。').then(confirmed => {result.textContent = confirmed ? '已确认：放弃本次修改。' : '已取消：继续编辑项目设置。';});">Modal.confirm(message)</button>
-      <button type="button" class="btn primary" zui-on-click="const result = document.getElementById('modal-confirm-result'); zui.Modal.confirm({title: '放弃修改', message: '未保存的项目设置将丢失，是否继续？', icon: 'icon-flag'}).then(confirmed => {result.textContent = confirmed ? '已确认：放弃本次修改。' : '已取消：继续编辑项目设置。';});">Modal.confirm(options)</button>
+      <button type="button" class="btn primary" zui-on-click="const result = document.getElementById('modal-confirm-result'); zui.Modal.confirm({title: '放弃修改', message: '未保存的项目设置将丢失，是否继续？', icon: {'className': 'example-icon example-icon-flag', 'aria-hidden': true, 'style': {'display': 'inline-block', 'width': '1em', 'height': '1em', 'backgroundColor': 'currentColor', 'mask': 'url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2022V3h14l-3%205%203%205H5%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat'}}}).then(confirmed => {result.textContent = confirmed ? '已确认：放弃本次修改。' : '已取消：继续编辑项目设置。';});">Modal.confirm(options)</button>
   </div>
   <p id="modal-confirm-result" class="mt-3 mb-0" role="status" aria-live="polite">请选择一种确认框，再选择确认或取消。</p>
 </Example>
@@ -246,7 +246,7 @@ interface ModalConfirmOptions extends ModalAlertOptions {
 ```html
 <div class="flex flex-wrap gap-4">
     <button type="button" class="btn primary" zui-on-click="const result = document.getElementById('modal-confirm-result'); zui.Modal.confirm('放弃本次修改？未保存的项目设置将丢失。').then(confirmed => {result.textContent = confirmed ? '已确认：放弃本次修改。' : '已取消：继续编辑项目设置。';});">Modal.confirm(message)</button>
-    <button type="button" class="btn primary" zui-on-click="const result = document.getElementById('modal-confirm-result'); zui.Modal.confirm({title: '放弃修改', message: '未保存的项目设置将丢失，是否继续？', icon: 'icon-flag'}).then(confirmed => {result.textContent = confirmed ? '已确认：放弃本次修改。' : '已取消：继续编辑项目设置。';});">Modal.confirm(options)</button>
+    <button type="button" class="btn primary" zui-on-click="const result = document.getElementById('modal-confirm-result'); zui.Modal.confirm({title: '放弃修改', message: '未保存的项目设置将丢失，是否继续？', icon: {'className': 'example-icon example-icon-flag', 'aria-hidden': true, 'style': {'display': 'inline-block', 'width': '1em', 'height': '1em', 'backgroundColor': 'currentColor', 'mask': 'url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2022V3h14l-3%205%203%205H5%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat'}}}).then(confirmed => {result.textContent = confirmed ? '已确认：放弃本次修改。' : '已取消：继续编辑项目设置。';});">Modal.confirm(options)</button>
 </div>
 <p id="modal-confirm-result" class="mt-3 mb-0" role="status" aria-live="polite">请选择一种确认框，再选择确认或取消。</p>
 ```

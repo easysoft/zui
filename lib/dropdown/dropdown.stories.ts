@@ -1,6 +1,6 @@
 import '@zui/button/css';
 import '@zui/dropdown/css';
-import '@zui/icons';
+import '@zui/css-icons';
 import '@zui/list';
 import '@zui/menu';
 import {DropdownButton} from '@zui/dropdown/react';
@@ -59,11 +59,11 @@ function renderDropdown(nested = false, longMenu = false) {
                 placement: args.placement,
                 dropdown,
                 items: [
-                    {key: 'copy', text: '复制', icon: 'copy'},
-                    {key: 'paste', text: '粘贴', icon: 'paste'},
+                    {key: 'copy', text: '复制', icon: {className: 'i-copy', 'aria-hidden': true}},
+                    {key: 'paste', text: '粘贴', icon: {className: 'i-paste', 'aria-hidden': true}},
                     {type: 'divider'},
                     ...(nested ? [{
-                        key: 'export', text: '导出', icon: 'download-alt', items: [
+                        key: 'export', text: '导出', icon: {className: 'i-download', 'aria-hidden': true}, items: [
                             {key: 'pdf', text: '导出为 PDF'},
                             {key: 'png', text: '导出为 PNG'},
                         ],

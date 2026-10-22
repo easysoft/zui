@@ -18,7 +18,6 @@
     "devDependencies": {
         "@zui/avatar": "workspace:^3.1.0",
         "@zui/base": "workspace:*",
-        "@zui/icons": "workspace:^3.1.0",
         "zui-dev": "workspace:^3.1.0",
         "@zui/checkbox": "workspace:^3.1.0",
         "@zui/form-control": "workspace:^3.1.0",

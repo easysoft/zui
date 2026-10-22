@@ -39,7 +39,7 @@ export function FormGroup(props: FormGroupProps) {
                     <div class="form-label-text" title={typeof label === 'string' ? label : undefined}>
                         <CustomContent content={label} />
                     </div>
-                    {tooltip ? <div className="state" zui-toggle="tooltip" zui-toggle-tooltip={jsRaw(typeof tooltip === 'string' ? {content: tooltip} : tooltip)}><Icon icon="info" /></div> : null}
+                    {tooltip ? <div className="state" zui-toggle="tooltip" zui-toggle-tooltip={jsRaw(typeof tooltip === 'string' ? {content: tooltip} : tooltip)}><Icon icon={{className: 'i-info', 'aria-hidden': true}} /></div> : null}
                 </label>
             ) : null}
             {control ? <FormControl required={required} disabled={disabled} {...control} name={controlName} props={{id: controlID, ...control.props}} /> : null}

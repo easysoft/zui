@@ -613,7 +613,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         if (typeof removeBtn === 'string') {
             removeBtn = {text: removeBtn};
         } else if (removeBtn === true) {
-            removeBtn = {hint: this.i18n('removeFile'), icon: 'trash'};
+            removeBtn = {hint: this.i18n('removeFile'), icon: {className: 'i-trash', 'aria-hidden': true}};
         }
         if (typeof renameBtn === 'function') {
             renameBtn = renameBtn.call(this, file);
@@ -621,7 +621,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         if (typeof renameBtn === 'string') {
             renameBtn = {text: renameBtn};
         } else if (renameBtn === true) {
-            renameBtn = {hint: this.i18n('renameFile'), icon: 'edit'};
+            renameBtn = {hint: this.i18n('renameFile'), icon: {className: 'i-edit', 'aria-hidden': true}};
         }
         const actions: Item[] = [];
         if (renameBtn) {
@@ -673,8 +673,8 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             contentClass: 'file-selector-rename',
             content: isGrid ? renameText : [
                 renameText,
-                <Button icon="check" text={this.i18n('confirm')} type="primary-pale" size="sm" onClick={this.stopRenameFile} />,
-                <Button icon="close" text={this.i18n('cancel')} type="gray-pale" size="sm" onClick={this.cancelRenameFile} />,
+                <Button icon={{className: 'i-check', 'aria-hidden': true}} text={this.i18n('confirm')} type="primary-pale" size="sm" onClick={this.stopRenameFile} />,
+                <Button icon={{className: 'close', 'aria-hidden': true}} text={this.i18n('cancel')} type="gray-pale" size="sm" onClick={this.cancelRenameFile} />,
             ],
         };
     }

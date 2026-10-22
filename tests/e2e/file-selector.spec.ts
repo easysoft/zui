@@ -3,10 +3,6 @@ import {expect, test} from '@playwright/test';
 test.beforeEach(async ({page}) => {
     await page.goto('/file-selector/');
     await page.locator('#libPage.is-loaded').waitFor();
-    await page.evaluate(async () => {
-        const modulePath = '/lib/icons/src/main.ts';
-        await import(modulePath);
-    });
 });
 
 test('preserves custom items, rename and delete form fields, and disabled controls', async ({page}) => {
@@ -31,7 +27,7 @@ test('preserves custom items, rename and delete form fields, and disabled contro
     await expect(first).toContainClass('custom-file-item');
     await expect(first.locator('.item-title')).toHaveText('Custom file1.txt');
     await expect(first.locator('.item-subtitle')).toHaveText('1.0KB');
-    await expect(first.locator('.item-avatar .icon-file-text')).toBeVisible();
+    await expect(first.locator('.item-avatar .file-icon-file-text')).toBeVisible();
     await first.locator('[data-rename-file]').click();
     await expect(first.locator('input')).toBeFocused();
     await first.locator('input').fill('renamed.txt');
@@ -97,7 +93,7 @@ test('shares thumbnail URLs across renders and releases them on rename, reset, r
         FileSelector.get('#fileSelectorExample2')!.render({thumbnail: false, removeConfirm: ''});
     });
     await expect(image).toHaveCount(0);
-    await expect(selector.locator('.item-avatar .icon-file')).toBeVisible();
+    await expect(selector.locator('.item-avatar .file-icon-file')).toBeVisible();
     await expect.poll(() => urls.evaluate(value => value.revoked.length)).toBe(2);
 
     await page.evaluate(async () => {

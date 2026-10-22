@@ -109,7 +109,7 @@ describe('FileList', () => {
         );
 
         expect(fileIcon.mock.calls.map(([info]) => info.extension)).toEqual(['pdf', '', '', '', 'txt', '']);
-        expect(container.querySelector('[z-key="remote"] .icon-file-pdf')).not.toBeNull();
+        expect(container.querySelector('[z-key="remote"] .file-icon-file-pdf')).not.toBeNull();
         expect(fileUrl).toHaveBeenCalledWith(expect.objectContaining({id: 'remote', extension: 'pdf'}));
         expect(FileListView.getFileIcon(source, {})).toBe('file');
         expect(source).not.toHaveProperty('extension');
@@ -199,16 +199,16 @@ describe('FileList', () => {
         expect(container.querySelector('.icon-paper-clip')).not.toBeNull();
 
         rerender(<FileListView items={files} fileIcon={{pdf: 'file-pdf'}} />);
-        expect(container.querySelector('.icon-file-pdf')).not.toBeNull();
+        expect(container.querySelector('.file-icon-file-pdf')).not.toBeNull();
 
         rerender(<FileListView items={files} fileIcon={{}} />);
-        expect(container.querySelector('.icon-file')).not.toBeNull();
+        expect(container.querySelector('.file-icon-file')).not.toBeNull();
 
         const fileIcon = vi.fn(file => file.extension === 'pdf' ? 'file-text' : 'file');
         rerender(<FileListView items={files} fileIcon={fileIcon} fileUrl={file => `/preview/${file.id}`} fileSizeFormat="{size}" />);
         expect(fileIcon).toHaveBeenCalledWith(files[0]);
         expect(fileIcon.mock.calls[0][0]).toBe(files[0]);
-        expect(container.querySelector('.icon-file-text')).not.toBeNull();
+        expect(container.querySelector('.file-icon-file-text')).not.toBeNull();
         expect(getByRole('link', {name: /Guide.pdf/})).toHaveAttribute('href', '/preview/1');
 
         rerender(<FileListView items={files} fileIcon={false} />);
@@ -228,7 +228,7 @@ describe('FileList', () => {
         );
 
         expect(getByText('2.00KB')).toBeInTheDocument();
-        expect(container.querySelector('.icon-file-pdf')).not.toBeNull();
+        expect(container.querySelector('.file-icon-file-pdf')).not.toBeNull();
         const info = fileIcon.mock.calls[0][0];
         expect(info).toEqual({
             file,
@@ -428,7 +428,7 @@ describe('FileList', () => {
         const {container, rerender} = render(<FileListView items={[file]} fileIcon="file-pdf" thumbnail />);
         fireEvent.error(container.querySelector('img')!);
         expect(container.querySelector('img')).toBeNull();
-        expect(container.querySelector('.item-avatar .icon-file-pdf')).not.toBeNull();
+        expect(container.querySelector('.item-avatar .file-icon-file-pdf')).not.toBeNull();
 
         rerender(<FileListView items={[file]} fileIcon={() => 'paper-clip'} thumbnail />);
         expect(container.querySelector('img')).toBeNull();
@@ -453,7 +453,7 @@ describe('FileList', () => {
         const items = [{file: new File(['invalid image'], 'invalid.png', {type: 'image/png'})}];
         const {container, rerender} = render(<FileListView items={items} fileIcon="file-image" thumbnail />);
         fireEvent.error(container.querySelector('img')!);
-        expect(container.querySelector('.icon-file-image')).not.toBeNull();
+        expect(container.querySelector('.file-icon-file-image')).not.toBeNull();
         rerender(<FileListView items={items} fileIcon="file-image" thumbnail />);
         expect(container.querySelector('img')).toBeNull();
         expect(createObjectURL).toHaveBeenCalledTimes(1);
@@ -552,7 +552,7 @@ describe('FileList', () => {
         getThumbnail.mockClear();
         rerender(<FileListView {...options} thumbnail={false} fileIcon="file-image" />);
         expect(container.querySelector('img')).toBeNull();
-        expect(container.querySelectorAll('.icon-file-image')).toHaveLength(2);
+        expect(container.querySelectorAll('.file-icon-file-image')).toHaveLength(2);
         expect(getThumbnail).not.toHaveBeenCalled();
         expect(revokeObjectURL).toHaveBeenCalledTimes(5);
         rerender(<FileListView {...options} />);
@@ -585,7 +585,8 @@ describe('FileList', () => {
         rerender(<FileListView {...options} itemProps={{avatar}} />);
         expect(avatar).toHaveBeenCalledWith(expect.objectContaining({id: 'visible'}));
         expect(container.querySelector('.item-avatar')).toHaveTextContent('C');
-        expect(container.querySelector('.item-icon')).toBeNull();
+        expect(container.querySelector('[z-id="visible"] .item-icon')).toBeNull();
+        expect(container.querySelector('.more.item-icon')).not.toBeNull();
         rerender(<FileListView {...options} itemRender={file => <span>{file.title}</span>} />);
         expect(container.querySelector('img')).toBeNull();
         expect(getThumbnail).not.toHaveBeenCalled();
@@ -622,10 +623,10 @@ describe('FileList', () => {
 
             fireEvent.error(image);
             expect(preview()).toBeNull();
-            await hover(container.querySelector('.icon-file-pdf')!);
+            await hover(container.querySelector('.file-icon-file-pdf')!);
             expect(preview()).toBeNull();
             rerender(<FileListView {...options} thumbnail={false} thumbnailPreview />);
-            await hover(container.querySelector('.icon-file-pdf')!);
+            await hover(container.querySelector('.file-icon-file-pdf')!);
             expect(preview()).toBeNull();
         });
 

@@ -48,7 +48,7 @@ const instance = new zui.Tree('#treeBasic', {items: [{id: 'team', text: '技术�
 <div id="treeIcons"></div>
 
 <script>
-const instance = new zui.Tree('#treeIcons', {items: [{id: 'team', text: '技术中心', items: [{id: 'dev', text: '研发团队'}, {id: 'qa', text: '测试团队'}]}], collapsedIcon: 'folder-close', expandedIcon: 'folder-open', normalIcon: 'file'});
+const instance = new zui.Tree('#treeIcons', {items: [{id: 'team', text: '技术中心', items: [{id: 'dev', text: '研发团队'}, {id: 'qa', text: '测试团队'}]}], collapsedIcon: {"className": "example-icon example-icon-folder-close", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%204h7l2%203h9v14H3z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, expandedIcon: {"className": "example-icon example-icon-folder-open", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2013V4h7l2%203h8v4M3%2011h20l-4%2010H1z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, normalIcon: {"className": "example-icon example-icon-file", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M14%203H5v18h14V8zM14%203v5h5%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}});
 </script>
 ```
 
@@ -107,7 +107,7 @@ const instance = new zui.Tree('#treeHover', {items: [{id: 'team', text: '技术�
 const instance = new zui.Tree('#treeActions', {
     items: [{id: 'docs', text: '项目文档', items: [{id: 'guide', text: '使用指南'}]}],
     defaultNestedShow: true,
-    itemActions: [{icon: 'edit', text: '编辑', onClick() {
+    itemActions: [{icon: {"className": "i-edit", "aria-hidden": true}, text: '编辑', onClick() {
         document.querySelector('#treeActionsResult').textContent = '已点击编辑';
     }}],
     onClickItem({item}) {
@@ -164,14 +164,14 @@ nestedShow?: boolean | Record&lt;ItemKey, boolean&gt;; // 受控展开状态，�
 <script setup>
 const treeBasicOptions = {items: [{id: 'team', text: '技术中心', items: [{id: 'dev', text: '研发团队'}, {id: 'qa', text: '测试团队'}]}]};
 
-const treeIconsOptions = {items: [{id: 'team', text: '技术中心', items: [{id: 'dev', text: '研发团队'}, {id: 'qa', text: '测试团队'}]}], collapsedIcon: 'folder-close', expandedIcon: 'folder-open', normalIcon: 'file'};
+const treeIconsOptions = {items: [{id: 'team', text: '技术中心', items: [{id: 'dev', text: '研发团队'}, {id: 'qa', text: '测试团队'}]}], collapsedIcon: {"className": "example-icon example-icon-folder-close", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%204h7l2%203h9v14H3z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, expandedIcon: {"className": "example-icon example-icon-folder-open", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2013V4h7l2%203h8v4M3%2011h20l-4%2010H1z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, normalIcon: {"className": "example-icon example-icon-file", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M14%203H5v18h14V8zM14%203v5h5%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}};
 
 const treeHoverOptions = {items: [{id: 'team', text: '技术中心', items: [{id: 'dev', text: '研发团队'}, {id: 'qa', text: '测试团队'}]}], hover: true, lines: true, defaultNestedShow: true};
 
 const treeActionsOptions = {
     items: [{id: 'docs', text: '项目文档', items: [{id: 'guide', text: '使用指南'}]}],
     defaultNestedShow: true,
-    itemActions: [{icon: 'edit', text: '编辑', onClick() {
+    itemActions: [{icon: {"className": "i-edit", "aria-hidden": true}, text: '编辑', onClick() {
         document.querySelector('#treeActionsResult').textContent = '已点击编辑';
     }}],
     onClickItem({item}) {

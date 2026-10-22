@@ -30,7 +30,6 @@
         "@zui/button": "workspace:3.1.0",
         "@zui/utilities": "workspace:*",
         "@zui/form-control": "workspace:*",
-        "@zui/icons": "workspace:*",
         "@zui/input-control": "workspace:*"
     },
     "zui": {

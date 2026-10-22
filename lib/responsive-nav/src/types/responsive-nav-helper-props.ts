@@ -1,11 +1,11 @@
-import type {Cash, Selector, Comparator} from '@zui/core';
+import type {Cash, Selector, Comparator, IconClass} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {Dropdown, DropdownOptions} from '@zui/dropdown';
 
 export interface ResponsiveNavHelperProps {
     watch?: ('window' | 'self' | 'parent' | 'container' | Selector)[];
     debounce?: number;
-    more?: string | {html?: string; text?: string; icon?: string; caret?: boolean; attrs?: Record<string, string>};
+    more?: string | {html?: string; text?: string; icon?: string | IconClass; caret?: boolean; attrs?: Record<string, string>};
     showSelected?: boolean | Comparator;
     container?: Selector;
     items?: Comparator;

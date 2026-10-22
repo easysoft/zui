@@ -16,7 +16,9 @@
   @apply -flex-none;
 }
 
-.item-icon.icon-EMPTY {
+.item-icon.item-icon-placeholder {
+  width: 1em;
+  height: 1em;
   @apply -hidden;
 }
 

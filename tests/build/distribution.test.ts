@@ -90,6 +90,10 @@ describe('bundled library distribution', () => {
         for (const path of [cssPath, esmPath, umdPath, `${esmPath}.map`, `${umdPath}.map`]) {
             await expectFile(path);
         }
+        const css = await fileContents(cssPath);
+        expect(css).toContain('.spinner');
+        expect(css).toContain('@keyframes -css-icon-spin');
+        expect(css).not.toMatch(/ZenIcon|zenicon\.(?:woff|ttf|eot|svg)/i);
 
         const esmMap = JSON.parse(await fileContents(`${esmPath}.map`)) as {sources?: string[]; sourcesContent?: string[]; version?: number};
         const umdMap = JSON.parse(await fileContents(`${umdPath}.map`)) as {sources?: string[]; version?: number};

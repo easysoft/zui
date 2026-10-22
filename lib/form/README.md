@@ -32,7 +32,7 @@
 ```html:example: surface
 <form class="form form-grid canvas" style="max-width: 800px">
   <div class="form-group w-1/2">
-    <label class="form-label" for="program">所属项目集 <i class="icon icon-question-sign muted"></i></label>
+    <label class="form-label" for="program">所属项目集 <i class="muted example-icon example-icon-question-sign" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%2012a10%2010%200%201%200%2020%200%2010%2010%200%201%200-20%200M9%208c0-4%207-4%207%200%200%203-4%203-4%206m0%203v1%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></label>
     <select class="form-control" id="program">
       <option>ZUI</option>
       <option>禅道</option>
@@ -123,7 +123,7 @@
       </select>
     </div>
     <div class="absolute" style="right: -32px">
-      <button type="button" class="btn ghost square"><i class="icon icon-plus"></i></button>
+      <button type="button" class="btn ghost square"><i class="i-plus"></i></button>
     </div>
   </div>
   <div class="form-group w-full">
@@ -162,12 +162,12 @@ Hello, world!
       <div class="input-group">
         <div class="input-control has-suffix-icon">
           <input id="startDate" type="text" class="rounded-r-none form-control" placeholder="开始时间">
-          <label for="startDate" class="input-control-suffix"><i class="icon icon-calendar"></i></label>
+          <label for="startDate" class="input-control-suffix"><i class="i-calendar"></i></label>
         </div>
         <span class="input-group-addon">至</span>
         <div class="input-control has-suffix-icon">
           <input id="endDate" type="text" class="rounded-l-none form-control" placeholder="结束时间">
-          <label for="endDate" class="input-control-suffix"><i class="icon icon-calendar"></i></label>
+          <label for="endDate" class="input-control-suffix"><i class="i-calendar"></i></label>
         </div>
       </div>
     </div>

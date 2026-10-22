@@ -27,8 +27,8 @@
     <div class="panel-title">面板标题 + 右侧工具栏</div>
     <div class="panel-actions">
       <nav class="toolbar">
-        <button class="btn ghost toolbar-item active" type="button"><i class="icon icon-user"></i><span class="text">登录</span></button>
-        <button class="btn ghost toolbar-item active" type="button"><i class="icon icon-lock"></i><span class="text">注册</span></button>
+        <button class="btn ghost toolbar-item active" type="button"><i class="example-icon example-icon-user" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M8%207a4%204%200%201%200%208%200%204%204%200%201%200-8%200M4%2021v-3c0-6%2016-6%2016%200v3z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">登录</span></button>
+        <button class="btn ghost toolbar-item active" type="button"><i class="example-icon example-icon-lock" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2010h14v11H5zM8%2010V6a4%204%200%200%201%208%200v4M12%2014v3%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">注册</span></button>
       </nav>
     </div>
   </div>

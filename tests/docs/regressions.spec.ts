@@ -97,7 +97,7 @@ test('F04: DTable and plugin examples release instances on tab and page changes'
         await expect(page.locator('#dtable-nested-status')).toHaveText('所有父行已展开');
 
         const renderCell = page.locator('#dtable-render-cell');
-        await expect(renderCell.locator('.icon-pencil').first()).toBeVisible();
+        await expect(renderCell.locator('.i-edit').first()).toBeVisible();
         const close = renderCell.getByRole('button', {name: '关闭', exact: true});
         await expect(close).toHaveAttribute('title', '关闭');
         await close.press('Enter');

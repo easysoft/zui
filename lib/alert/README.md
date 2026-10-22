@@ -40,7 +40,7 @@
 
 ```html:example: gap-3
 <div class="alert">
-  <i class="icon icon-warning-sign icon-2x"></i>
+  <i class="example-icon example-icon-warning-sign" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%203l10%2018H2zM12%209v5m0%203v1%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i>
   <div class="alert-content">
     <h3 class="alert-heading">注意</h3>
     <div class="alert-text">Hi! 这条消息可能需要你注意。</div>
@@ -103,16 +103,16 @@
 
 ```html:example: gap-3 space-y-4
 <div class="alert success">
-  <i class="icon icon-check-circle"></i> 一切已准备就绪。
+  <i class="i-check"></i> 一切已准备就绪。
 </div>
 <div class="alert danger">
-  <i class="icon icon-remove-sign"></i> 出现了一些错误。
+  <i class="close"></i> 出现了一些错误。
 </div>
 <div class="alert warning-pale">
-  <i class="icon icon-warning-sign"></i> 注意！可能存在潜在风险。
+  <i class="example-icon example-icon-warning-sign" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%203l10%2018H2zM12%209v5m0%203v1%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i> 注意！可能存在潜在风险。
 </div>
 <div class="alert light-pale">
-  <i class="icon icon-info-sign"></i> 你可能需要知道一些内容。
+  <i class="i-info"></i> 你可能需要知道一些内容。
 </div>
 ```
 
@@ -120,19 +120,19 @@
 
 ```html:example: gap-3 space-y-4
 <div class="alert success">
-  <i class="icon icon-check-circle"></i>
+  <i class="i-check"></i>
   <div class="alert-text">一切已<a class="alert-link">准备就绪</a>。</div>
 </div>
 <div class="alert danger">
-  <i class="icon icon-remove-sign"></i>
+  <i class="close"></i>
   <div class="alert-text">出现了一些<a class="alert-link">错误</a>。</div>
 </div>
 <div class="alert warning-pale">
-  <i class="icon icon-warning-sign"></i>
+  <i class="example-icon example-icon-warning-sign" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%203l10%2018H2zM12%209v5m0%203v1%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i>
   <div class="alert-text">注意！可能存在<a class="alert-link">潜在风险</a>。</div>
 </div>
 <div class="alert light-pale">
-  <i class="icon icon-info-sign"></i>
+  <i class="i-info"></i>
   <div class="alert-text">你可能需要知道<a class="alert-link">一些内容</a>。</div>
 </div>
 ```

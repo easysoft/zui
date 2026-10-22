@@ -101,14 +101,14 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
         return [
             headingView,
             <div key="row" className={classes('color-picker-row', {'is-custom': isCustomColor})}>
-                {colors.map(color => (<button key={color} type="button" className="btn color-picker-item" style={{backgroundColor: color}} data-pick-value={color} aria-label={color}>{value === color ? <Icon icon="check" /> : null}</button>))}
+                {colors.map(color => (<button key={color} type="button" className="btn color-picker-item" style={{backgroundColor: color}} data-pick-value={color} aria-label={color}>{value === color ? <Icon icon={{className: 'i-check', 'aria-hidden': true}} /> : null}</button>))}
                 {custom ? (
                     <ColorInput
                         hint={getLang('more', 'More')}
                         {...customOptions}
                         className={classes('color-picker-item color-picker-custom', customOptions?.className)}
                         value={isCustomColor ? value : ''}
-                        icon="check"
+                        icon={{className: 'i-check', 'aria-hidden': true}}
                         onChange={async (color, event) => {
                             const nextState = await this.setValue(color);
                             if (nextState) {
@@ -120,7 +120,7 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
                         }}
                     />
                 ) : null}
-                <button type="button" className="btn color-picker-item" data-pick-value=""><Icon className="text-fore" icon="trash" /></button>
+                <button type="button" className="btn color-picker-item" data-pick-value=""><Icon className="text-fore" icon={{className: 'i-trash', 'aria-hidden': true}} /></button>
             </div>,
         ];
     }

@@ -30,7 +30,7 @@ export interface FileListProps<T extends FileInfoLike = FileInfoLike> extends Li
     heading?: string | ListitemProps;
     /** Render tags as CustomContent. Undefined uses the default label; null, false or an empty string hides a tag. */
     renderTag?: ((tag: string) => CustomContentType) | Record<string, CustomContentType>;
-    /** File icons are disabled by default. Load any required icon library separately. */
+    /** File icons are disabled by default. Built-in file names use local SVGs; supply resources for custom font names. */
     fileIcon?: FileIconSetting;
     /** Use avatars to show file thumbnails and fallback icons. Defaults to false. Pass Avatar options to customize. */
     thumbnail?: boolean | Partial<AvatarOptions>;

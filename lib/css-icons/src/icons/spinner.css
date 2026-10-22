@@ -15,11 +15,14 @@
   @apply -absolute -rounded-full;
 }
 .spinner::before {
-  animation: -spin 1s cubic-bezier(.6,0,.4,1) infinite;
+  animation: -css-icon-spin 1s cubic-bezier(.6,0,.4,1) infinite;
   border: calc(1em / 6) solid transparent;
   border-top-color: currentColor;
 }
 .spinner::after {
   border: calc(1em / 6) solid;
   @apply -opacity-20;
+}
+@keyframes -css-icon-spin {
+  to { transform: rotate(360deg); }
 }

@@ -33,7 +33,7 @@
   <button type="button" class="btn black rounded-none">预览文章</button>
   <button type="button" class="btn secondary-outline square" aria-label="新建">＋</button>
   <button type="button" class="btn dark-outline circle" aria-label="帮助">？</button>
-  <button type="button" class="btn danger-pale square circle" aria-label="喜欢"><i class="icon icon-heart" aria-hidden="true"></i></button>
+  <button type="button" class="btn danger-pale square circle" aria-label="喜欢"><i class="example-icon example-icon-heart" aria-hidden="true" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%2021S2%2015%202%208c0-6%208-7%2010-2%202-5%2010-4%2010%202%200%207-10%2013-10%2013z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></button>
   <button type="button" class="btn text-primary ghost">查看详情</button>
 </Example>
 
@@ -44,7 +44,7 @@
 <button type="button" class="btn black rounded-none">预览文章</button>
 <button type="button" class="btn secondary-outline square" aria-label="新建">＋</button>
 <button type="button" class="btn dark-outline circle" aria-label="帮助">？</button>
-<button type="button" class="btn danger-pale square circle" aria-label="喜欢"><i class="icon icon-heart" aria-hidden="true"></i></button>
+<button type="button" class="btn danger-pale square circle" aria-label="喜欢"><i class="example-icon example-icon-heart" aria-hidden="true" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%2021S2%2015%202%208c0-6%208-7%2010-2%202-5%2010-4%2010%202%200%207-10%2013-10%2013z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></button>
 <button type="button" class="btn text-primary ghost">查看详情</button>
 ```
 
@@ -52,24 +52,24 @@
 
 ## 图标按钮
 
-按钮配合[图标组件](/lib/icons/icons/)一起使用时，自动呈现为图标按钮。
+按钮配合 [CSS 图标](/lib/icons/css-icons/) 或内嵌 SVG 一起使用时，自动呈现为图标按钮。
 
 ::: tabs
 
 == 示例
 
 <Example class="flex gap-4 flex-wrap items-end">
-  <button type="button" class="btn"><i class="icon icon-star"></i> 收藏文章</button>
-  <button type="button" class="btn">下一步<i class="icon icon-angle-right"></i></button>
-  <button type="button" class="btn square" aria-label="点赞"><i class="icon icon-thumbs-up"></i></button>
+  <button type="button" class="btn"><i class="example-icon example-icon-star" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%202l3%206%207%201-5%205%201%208-6-4-6%204%201-8-5-5%207-1z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i> 收藏文章</button>
+  <button type="button" class="btn">下一步<i class="chevron-right"></i></button>
+  <button type="button" class="btn square" aria-label="点赞"><i class="example-icon example-icon-thumbs-up" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%2011h4v11H2zM6%2011l6-9c5%200%200%208%200%208h9l-2%2012H6%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn"><i class="icon icon-star"></i> 收藏文章</button>
-<button type="button" class="btn">下一步<i class="icon icon-angle-right"></i></button>
-<button type="button" class="btn square" aria-label="点赞"><i class="icon icon-thumbs-up"></i></button>
+<button type="button" class="btn"><i class="example-icon example-icon-star" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%202l3%206%207%201-5%205%201%208-6-4-6%204%201-8-5-5%207-1z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i> 收藏文章</button>
+<button type="button" class="btn">下一步<i class="chevron-right"></i></button>
+<button type="button" class="btn square" aria-label="点赞"><i class="example-icon example-icon-thumbs-up" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%2011h4v11H2zM6%2011l6-9c5%200%200%208%200%208h9l-2%2012H6%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></button>
 ```
 
 :::
@@ -450,7 +450,7 @@
 
 <Example class="flex gap-4 items-end">
   <button type="button" class="btn">
-    <i class="animate-spin icon icon-spinner-snake"></i>
+    <i class="animate-spin spinner"></i>
     正在保存
   </button>
 </Example>
@@ -459,7 +459,7 @@
 
 ```html
 <button type="button" class="btn">
-  <i class="animate-spin icon icon-spinner-snake"></i>
+  <i class="animate-spin spinner"></i>
   正在保存
 </button>
 ```

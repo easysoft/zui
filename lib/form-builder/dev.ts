@@ -3,7 +3,7 @@ import type {ComponentType} from 'preact';
 import yaml from 'js-yaml';
 import {$, jsx} from '@zui/core';
 import '@zui/button';
-import '@zui/icons';
+import '@zui/css-icons';
 import '@zui/btn-group';
 import '@zui/input-group';
 import '@zui/input-control';

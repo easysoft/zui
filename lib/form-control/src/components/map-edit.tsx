@@ -91,8 +91,8 @@ export class MapEdit extends Component<MapEditProps> {
                 <input className="map-edit-item-key form-control" type="text" value={key} readonly={readonly} onChange={this._handleKeyChange} placeholder={keyPlaceholder} />
                 <input className="map-edit-item-value form-control" type="text" value={value} readonly={readonly} onChange={this._handleValueChange} placeholder={valuePlaceholder} />
                 <div className="map-edit-item-actions">
-                    <Button type="ghost" size="sm" icon="plus" disabled={readonly} onClick={this._handleAddClick} />
-                    <Button type="ghost" size="sm" icon="trash" disabled={readonly} onClick={this._handleDeleteClick} />
+                    <Button type="ghost" size="sm" icon={{className: 'i-plus', 'aria-hidden': true}} disabled={readonly} onClick={this._handleAddClick} />
+                    <Button type="ghost" size="sm" icon={{className: 'i-trash', 'aria-hidden': true}} disabled={readonly} onClick={this._handleDeleteClick} />
                 </div>
             </div>
         );

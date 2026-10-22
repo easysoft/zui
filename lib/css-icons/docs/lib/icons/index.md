@@ -2,6 +2,65 @@
 
 ZUI 提供一组用纯 CSS 绘制的小图标，不依赖图标字体，也不加载图片。它们全部使用 `currentColor` 取色，因此用 `color` 或文本颜色类即可改变颜色。
 
+## 常用操作
+
+以下图标使用 `currentColor`，边长为 `1em`，随字号缩放。仅图标按钮应在按钮上设置 `aria-label`。
+
+<Example class="flex flex-wrap items-center gap-4">
+<span class="i-plus" title="添加" aria-hidden="true"></span>
+<span class="i-minus" title="减去" aria-hidden="true"></span>
+<span class="i-check" title="确认" aria-hidden="true"></span>
+<span class="i-edit" title="编辑" aria-hidden="true"></span>
+<span class="i-trash" title="删除" aria-hidden="true"></span>
+<span class="i-info" title="信息" aria-hidden="true"></span>
+<span class="i-first-page" title="首页" aria-hidden="true"></span>
+<span class="i-last-page" title="末页" aria-hidden="true"></span>
+<span class="i-upload" title="上传" aria-hidden="true"></span>
+<span class="i-download" title="下载" aria-hidden="true"></span>
+<span class="i-copy" title="复制" aria-hidden="true"></span>
+<span class="i-paste" title="粘贴" aria-hidden="true"></span>
+<span class="i-menu" title="菜单" aria-hidden="true"></span>
+<span class="i-move" title="拖动" aria-hidden="true"></span>
+</Example>
+
+```html
+<button class="btn" type="button" aria-label="添加">
+  <span class="i-plus" aria-hidden="true"></span>
+</button>
+```
+
+| 类 | 含义 |
+| --- | --- |
+| `i-plus` | 添加 |
+| `i-minus` | 减去 |
+| `i-check` | 确认 |
+| `i-edit` | 编辑 |
+| `i-trash` | 删除 |
+| `i-info` | 信息 |
+| `i-first-page` | 首页 |
+| `i-last-page` | 末页 |
+| `i-upload` | 上传 |
+| `i-download` | 下载 |
+| `i-copy` | 复制 |
+| `i-paste` | 粘贴 |
+| `i-menu` | 菜单 |
+| `i-move` | 拖动 |
+
+## 在组件中使用
+
+支持 `IconType` 的组件可以通过对象指定 CSS 类：
+
+```js
+const button = new zui.Button('#addButton', {
+    text: '添加',
+    icon: {className: 'i-plus', 'aria-hidden': true},
+});
+```
+
+Preact 源码还可以直接传入 SVG VNode；图标会保留 SVG 的形状、颜色和尺寸，并合并组件传入的定位类名。复杂图标保存在所属组件库内，不依赖共享字体。
+
+字符串图标名继续兼容自定义字体，字体文件由调用方加载。`@zui/icons` 暂时保留为可选库，内置组件和这里的示例不需要加载它。
+
 ## 下拉图标
 
 `.caret` 表示可以展开的下拉入口，另有四个方向变体，`.caret` 与 `.caret-down` 等价。

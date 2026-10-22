@@ -12,7 +12,7 @@
 
 <Example class="flex gap-4">
   <div class="avatar"><img src="/assets/avatar/avatar.png" alt="林悦的头像"></div>
-  <div class="avatar"><i class="icon icon-user" aria-label="尚未设置头像"></i></div>
+  <div class="avatar"><i class="example-icon example-icon-user" aria-label="尚未设置头像" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M8%207a4%204%200%201%200%208%200%204%204%200%201%200-8%200M4%2021v-3c0-6%2016-6%2016%200v3z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></div>
   <div class="avatar">林</div>
 </Example>
 
@@ -20,7 +20,7 @@
 
 ```html
 <div class="avatar"><img src="/assets/avatar/avatar.png" alt="林悦的头像"></div>
-<div class="avatar"><i class="icon icon-user" aria-label="尚未设置头像"></i></div>
+<div class="avatar"><i class="example-icon example-icon-user" aria-label="尚未设置头像" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M8%207a4%204%200%201%200%208%200%204%204%200%201%200-8%200M4%2021v-3c0-6%2016-6%2016%200v3z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></div>
 <div class="avatar">林</div>
 ```
 

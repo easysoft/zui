@@ -1,19 +1,21 @@
+import type {IconClass} from '@zui/core';
+
 export type UploadOptions = {
     name: string;
 } & Partial<{
-    icon: string;
+    icon: string | IconClass;
     showIcon: boolean;
     showSize: boolean;
     multiple: boolean;
     listPosition: 'bottom' | 'top';
     uploadText: string;
-    uploadIcon: string;
+    uploadIcon: string | IconClass;
     renameBtn: boolean;
-    renameIcon: string;
+    renameIcon: string | IconClass;
     renameText: string;
     renameClass: string;
     deleteBtn: boolean;
-    deleteIcon: string;
+    deleteIcon: string | IconClass;
     deleteText: string;
     deleteClass: string;
     confirmText: string;

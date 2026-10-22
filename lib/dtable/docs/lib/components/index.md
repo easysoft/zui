@@ -1981,14 +1981,14 @@ const cols = [
     {name: 'finishDate', title: '计划完成', width: 90, align: 'center', sortType: false, formatDate: 'yyyy年MM月dd日'},
     {name: 'actions', title: '操作', width: 120, sortType: false, fixed: 'right', onRenderCell(_result, {col, row}) {
         const actions = {
-            start: {text: '开始', icon: 'play'},
-            edit: {text: '编辑', icon: 'pencil'},
-            close: {text: '关闭', icon: 'off'},
+            start: {text: '开始', icon: '<svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l15 9-15 9z"/></svg>'},
+            edit: {text: '编辑', icon: '<i class="i-edit" aria-hidden="true"></i>'},
+            close: {text: '关闭', icon: '<svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v10M7 5a9 9 0 1 0 10 0"/></svg>'},
         };
         return [{
             html: row.data[col.name].map((action) => {
                 const {text, icon} = actions[action];
-                return `<button type="button" data-action="${action}" title="${text}" aria-label="${text}" class="btn square primary-pale size-sm"><i class="icon icon-${icon}" aria-hidden="true"></i></button>`;
+                return `<button type="button" data-action="${action}" title="${text}" aria-label="${text}" class="btn square primary-pale size-sm">${icon}</button>`;
             }).join(' '),
         }];
     }},

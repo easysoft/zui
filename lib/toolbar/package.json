@@ -7,7 +7,6 @@
     "devDependencies": {
         "@zui/avatar": "workspace:^3.1.0",
         "@zui/base": "workspace:*",
-        "@zui/icons": "workspace:^3.1.0",
         "zui-dev": "workspace:^3.1.0",
         "@zui/dropdown": "workspace:^3.1.0",
         "@zui/menu": "workspace:^3.1.0"

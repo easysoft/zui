@@ -1,3 +1,4 @@
+import '@zui/css-icons';
 import './vars.css';
 import './btn.css';
 import './btn-link.css';

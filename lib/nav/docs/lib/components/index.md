@@ -10,7 +10,7 @@
 
 <Example>
   <menu class="nav">
-    <li class="item nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
+    <li class="item nav-item"><a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a></li>
     <li class="item nav-item"><a><span class="text">产品</span></a></li>
     <li class="item nav-item"><a><span class="text">价格</span></a></li>
     <li class="item nav-item"><a class="disabled"><span class="text">动态</span></a></li>
@@ -44,7 +44,7 @@
 
 ```html
 <menu class="nav">
-  <li class="item nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
+  <li class="item nav-item"><a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a></li>
   <li class="item nav-item"><a><span class="text">产品</span></a></li>
   <li class="item nav-item"><a><span class="text">价格</span></a></li>
   <li class="item nav-item"><a class="disabled"><span class="text">动态</span></a></li>
@@ -87,7 +87,7 @@
 <Example>
   <menu class="nav">
     <li class="nav-heading">项目工作台</li>
-    <li class="item nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
+    <li class="item nav-item"><a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a></li>
     <li class="item nav-item"><a><span class="text">产品</span></a></li>
     <li class="item nav-item"><a><span class="text">价格</span></a></li>
     <li class="item nav-item disabled pointer-events-none"><a><span class="text">动态</span></a></li>
@@ -110,7 +110,7 @@
 ```html
 <menu class="nav">
   <li class="nav-heading">项目工作台</li>
-  <li class="item nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
+  <li class="item nav-item"><a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a></li>
   <li class="item nav-item"><a><span class="text">产品</span></a></li>
   <li class="item nav-item"><a><span class="text">价格</span></a></li>
   <li class="item nav-item disabled pointer-events-none"><a><span class="text">动态</span></a></li>
@@ -144,7 +144,7 @@
   <menu class="nav nav-primary">
     <li class="nav-heading">主要导航</li>
     <li class="item nav-item">
-      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+      <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
     </li>
     <li class="item nav-item">
       <a><span class="text">产品</span></a>
@@ -174,7 +174,7 @@
 <menu class="nav nav-primary">
   <li class="nav-heading">主要导航</li>
   <li class="item nav-item">
-    <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+    <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
   </li>
   <li class="item nav-item">
     <a><span class="text">产品</span></a>
@@ -210,7 +210,7 @@
   <menu class="nav nav-secondary">
     <li class="nav-heading">次要导航</li>
     <li class="item nav-item">
-      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+      <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
     </li>
     <li class="item nav-item">
       <a><span class="text">产品</span></a>
@@ -240,7 +240,7 @@
 <menu class="nav nav-secondary">
   <li class="nav-heading">次要导航</li>
   <li class="item nav-item">
-    <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+    <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
   </li>
   <li class="item nav-item">
     <a><span class="text">产品</span></a>
@@ -276,7 +276,7 @@
   <menu class="nav nav-pills">
     <li class="nav-heading">圆点导航</li>
     <li class="item nav-item">
-      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+      <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
     </li>
     <li class="item nav-item">
       <a><span class="text">产品</span></a>
@@ -306,7 +306,7 @@
 <menu class="nav nav-pills">
   <li class="nav-heading">圆点导航</li>
   <li class="item nav-item">
-    <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+    <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
   </li>
   <li class="item nav-item">
     <a><span class="text">产品</span></a>
@@ -342,7 +342,7 @@
   <menu class="nav nav-tabs">
     <li class="nav-heading">标签导航</li>
     <li class="item nav-item">
-      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+      <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
     </li>
     <li class="item nav-item">
       <a><span class="text">产品</span></a>
@@ -372,7 +372,7 @@
 <menu class="nav nav-tabs">
   <li class="nav-heading">标签导航</li>
   <li class="item nav-item">
-    <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+    <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
   </li>
   <li class="item nav-item">
     <a><span class="text">产品</span></a>
@@ -448,7 +448,7 @@
     <menu class="nav nav-stacked" :class="`nav-${navType}`">
       <li class="nav-heading">{{({primary: '主要导航', secondary: '次要导航', pills: '圆点导航', tabs: '标签导航'})[navType]}}</li>
       <li class="item nav-item">
-        <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+        <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
       </li>
       <li class="item nav-item">
         <a><span class="text">产品</span></a>
@@ -483,7 +483,7 @@
   <menu class="nav nav-stacked nav-primary">
     <li class="nav-heading">主要导航</li>
     <li class="item nav-item">
-      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+      <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
     </li>
     <li class="item nav-item">
       <a><span class="text">产品</span></a>
@@ -513,7 +513,7 @@
   <menu class="nav nav-stacked nav-secondary">
     <li class="nav-heading">次要导航</li>
     <li class="item nav-item">
-      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+      <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
     </li>
     <li class="item nav-item">
       <a><span class="text">产品</span></a>
@@ -543,7 +543,7 @@
   <menu class="nav nav-stacked nav-pills">
     <li class="nav-heading">圆点导航</li>
     <li class="item nav-item">
-      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+      <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
     </li>
     <li class="item nav-item">
       <a><span class="text">产品</span></a>
@@ -573,7 +573,7 @@
   <menu class="nav nav-stacked nav-tabs">
     <li class="nav-heading">标签导航</li>
     <li class="item nav-item">
-      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+      <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
     </li>
     <li class="item nav-item">
       <a><span class="text">产品</span></a>
@@ -612,7 +612,7 @@
   <div v-for="item in navTypes">
     <menu class="nav nav-justified" :class="'nav-' + item.class ">
       <li class="item nav-item">
-        <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+        <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
       </li>
       <li class="item nav-item">
         <a><span class="text">产品</span></a>
@@ -643,7 +643,7 @@
 <div>
   <menu class="nav nav-justified nav-primary">
     <li class="item nav-item">
-      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+      <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
     </li>
     <li class="item nav-item">
       <a><span class="text">产品</span></a>
@@ -669,7 +669,7 @@
 <div>
   <menu class="nav nav-justified nav-secondary">
     <li class="item nav-item">
-      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+      <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
     </li>
     <li class="item nav-item">
       <a><span class="text">产品</span></a>
@@ -695,7 +695,7 @@
 <div>
   <menu class="nav nav-justified nav-tabs">
     <li class="item nav-item">
-      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+      <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
     </li>
     <li class="item nav-item">
       <a><span class="text">产品</span></a>
@@ -721,7 +721,7 @@
 <div>
   <menu class="nav nav-justified nav-pills">
     <li class="item nav-item">
-      <a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a>
+      <a class="active"><i class="example-icon example-icon-home" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i><span class="text">首页</span></a>
     </li>
     <li class="item nav-item">
       <a><span class="text">产品</span></a>

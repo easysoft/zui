@@ -43,7 +43,6 @@
         "@zui/form": "workspace:^3.1.0",
         "@zui/input-control": "workspace:^3.1.0",
         "@zui/label": "workspace:^3.1.0",
-        "@zui/icons": "workspace:^3.1.0",
         "@zui/popover": "workspace:^3.1.0",
         "@zui/tooltip": "workspace:^3.1.0",
         "zui-dev": "workspace:^3.1.0"

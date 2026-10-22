@@ -24,8 +24,8 @@
     "dependencies": {
         "@zui/core": "workspace:*",
         "@zui/button": "workspace:*",
-        "@zui/tooltip": "workspace:*"
-
+        "@zui/tooltip": "workspace:*",
+        "@zui/css-icons": "workspace:*"
     },
     "zui": {
         "type": "component",

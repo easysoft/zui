@@ -172,7 +172,7 @@ Modal.alert(options: ModalAlertOptions): Promise<string | undefined>;
 
 ```html:example: flex gap-3
 <button type="button" class="btn primary" onclick="Modal.alert('提示消息')">Modal.alert(message)</button>
-<button type="button" class="btn primary" onclick="Modal.alert({title: '这是标题', message: '提示消息', icon: 'icon-flag'})">Modal.alert(options)</button>
+<button type="button" class="btn primary" onclick="Modal.alert({title: '这是标题', message: '提示消息', icon: {&quot;className&quot;: &quot;example-icon example-icon-flag&quot;, &quot;aria-hidden&quot;: true, &quot;style&quot;: {&quot;display&quot;: &quot;inline-block&quot;, &quot;width&quot;: &quot;1em&quot;, &quot;height&quot;: &quot;1em&quot;, &quot;backgroundColor&quot;: &quot;currentColor&quot;, &quot;mask&quot;: &quot;url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2022V3h14l-3%205%203%205H5%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat&quot;}}})">Modal.alert(options)</button>
 ```
 
 ### confirm()
@@ -184,5 +184,5 @@ Modal.confirm(options: Partial<ModalConfirmOptions>): Promise<boolean>;
 
 ```html:example: flex gap-3
 <button type="button" class="btn primary" onclick="Modal.confirm('提示消息').then(console.log)">Modal.confirm(message)</button>
-<button type="button" class="btn primary" onclick="Modal.confirm({title: '这是标题', message: '提示消息', icon: 'icon-flag'}).then(console.log)">Modal.confirm(options)</button>
+<button type="button" class="btn primary" onclick="Modal.confirm({title: '这是标题', message: '提示消息', icon: {&quot;className&quot;: &quot;example-icon example-icon-flag&quot;, &quot;aria-hidden&quot;: true, &quot;style&quot;: {&quot;display&quot;: &quot;inline-block&quot;, &quot;width&quot;: &quot;1em&quot;, &quot;height&quot;: &quot;1em&quot;, &quot;backgroundColor&quot;: &quot;currentColor&quot;, &quot;mask&quot;: &quot;url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%2022V3h14l-3%205%203%205H5%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat&quot;}}}).then(console.log)">Modal.confirm(options)</button>
 ```

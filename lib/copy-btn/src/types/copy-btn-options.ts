@@ -1,4 +1,4 @@
-import type {Selector, CopyContents} from '@zui/core';
+import type {Selector, CopyContents, IconClass} from '@zui/core';
 import type {TooltipOptions} from '@zui/tooltip';
 
 export type CopyBtnOptions = {
@@ -30,7 +30,7 @@ export type CopyBtnOptions = {
     /**
      * 复制成功后的图标
      */
-    copiedIcon?: string;
+    copiedIcon?: string | IconClass;
 
     /**
      * 复制成功后的类

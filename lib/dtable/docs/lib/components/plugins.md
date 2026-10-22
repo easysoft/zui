@@ -1366,18 +1366,18 @@ const colSetting = {
     name: 'actions',
     type: 'actions',
     actionsMap: {
-        edit: {icon: 'icon-edit', hint: '编辑'},
-        group: {icon: 'icon-group', hint: '团队'},
-        split: {icon: 'icon-code-fork', hint: '添加子项目集'},
-        delete: {icon: 'icon-trash', hint: '删除', text: '删除'},
-        close: {icon: 'icon-off', hint: '关闭', 'data-toggle': 'modal', url: '#project?id={id}'},
-        start: {icon: 'icon-play', hint: '开始'},
-        pause: {icon: 'icon-pause', text: '挂起项目集'},
-        active: {icon: 'icon-magic', text: '激活项目集', 'data-toggle': 'modal', url: '#project?id={id}'},
+        edit: {icon: {"className": "i-edit", "aria-hidden": true}, hint: '编辑'},
+        group: {icon: {"className": "example-icon example-icon-group", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M7%207a3%203%200%201%200%206%200%203%203%200%201%200-6%200M3%2021v-3c0-6%2014-6%2014%200v3zM17%204a3%203%200%200%201%200%206m2%204c3%201%203%204%203%207%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, hint: '团队'},
+        split: {icon: {"className": "example-icon example-icon-code-fork", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%202v13c0%207%2014%207%2014%200V8M2%203h6M16%208h6%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, hint: '添加子项目集'},
+        delete: {icon: {"className": "i-trash", "aria-hidden": true}, hint: '删除', text: '删除'},
+        close: {icon: {"className": "example-icon example-icon-off", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%202v10M7%205a9%209%200%201%200%2010%200%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, hint: '关闭', 'data-toggle': 'modal', url: '#project?id={id}'},
+        start: {icon: {"className": "example-icon example-icon-play", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M6%203l15%209-15%209z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, hint: '开始'},
+        pause: {icon: {"className": "example-icon example-icon-pause", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%203h4v18H5zM15%203h4v18h-4z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, text: '挂起项目集'},
+        active: {icon: {"className": "example-icon example-icon-magic", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M4%2021L18%207l3%203L7%2024M6%201v6M3%204h6M17%201v3M15%203h4%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, text: '激活项目集', 'data-toggle': 'modal', url: '#project?id={id}'},
         other: {type: 'dropdown', caret: true, hint: '其他操作'},
-        link: {name: 'link', icon: 'icon-link', text: '关联产品'},
-        whitelist: {name: 'whitelist', icon: 'icon-shield', text: '项目白名单'},
-        more: {type: 'dropdown', icon: 'icon-ellipsis-v', caret: false, hint: '更多'},
+        link: {name: 'link', icon: {"className": "example-icon example-icon-link", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M9%207l3-3c6-6%2014%202%208%208l-3%203M7%209l-3%203c-6%206%202%2014%208%208l3-3M8%2016l8-8%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, text: '关联产品'},
+        whitelist: {name: 'whitelist', icon: {"className": "example-icon example-icon-shield", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%202l9%204v7c0%205-9%209-9%209s-9-4-9-9V6z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, text: '项目白名单'},
+        more: {type: 'dropdown', icon: {"className": "more-vert", "aria-hidden": true}, caret: false, hint: '更多'},
     }
 }
 ```
@@ -1408,18 +1408,18 @@ const colSetting = {
     type: 'actions',
     actions: ['edit', 'delete', 'close', 'start', 'pause', 'active', 'other'],
     actionsMap: {
-        edit: {icon: 'icon-edit', hint: '编辑'},
-        group: {icon: 'icon-group', hint: '团队'},
-        split: {icon: 'icon-code-fork', hint: '添加子项目集'},
-        delete: {icon: 'icon-trash', hint: '删除', text: '删除'},
-        close: {icon: 'icon-off', hint: '关闭', 'data-toggle': 'modal', url: '#project?id={id}'},
-        start: {icon: 'icon-play', hint: '开始'},
-        pause: {icon: 'icon-pause', text: '挂起项目集'},
-        active: {icon: 'icon-magic', text: '激活项目集', 'data-toggle': 'modal', url: '#project?id={id}'},
+        edit: {icon: {"className": "i-edit", "aria-hidden": true}, hint: '编辑'},
+        group: {icon: {"className": "example-icon example-icon-group", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M7%207a3%203%200%201%200%206%200%203%203%200%201%200-6%200M3%2021v-3c0-6%2014-6%2014%200v3zM17%204a3%203%200%200%201%200%206m2%204c3%201%203%204%203%207%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, hint: '团队'},
+        split: {icon: {"className": "example-icon example-icon-code-fork", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%202v13c0%207%2014%207%2014%200V8M2%203h6M16%208h6%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, hint: '添加子项目集'},
+        delete: {icon: {"className": "i-trash", "aria-hidden": true}, hint: '删除', text: '删除'},
+        close: {icon: {"className": "example-icon example-icon-off", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%202v10M7%205a9%209%200%201%200%2010%200%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, hint: '关闭', 'data-toggle': 'modal', url: '#project?id={id}'},
+        start: {icon: {"className": "example-icon example-icon-play", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M6%203l15%209-15%209z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, hint: '开始'},
+        pause: {icon: {"className": "example-icon example-icon-pause", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%203h4v18H5zM15%203h4v18h-4z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, text: '挂起项目集'},
+        active: {icon: {"className": "example-icon example-icon-magic", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M4%2021L18%207l3%203L7%2024M6%201v6M3%204h6M17%201v3M15%203h4%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, text: '激活项目集', 'data-toggle': 'modal', url: '#project?id={id}'},
         other: {type: 'dropdown', caret: true, hint: '其他操作'},
-        link: {name: 'link', icon: 'icon-link', text: '关联产品'},
-        whitelist: {name: 'whitelist', icon: 'icon-shield', text: '项目白名单'},
-        more: {type: 'dropdown', icon: 'icon-ellipsis-v', caret: false, hint: '更多'},
+        link: {name: 'link', icon: {"className": "example-icon example-icon-link", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M9%207l3-3c6-6%2014%202%208%208l-3%203M7%209l-3%203c-6%206%202%2014%208%208l3-3M8%2016l8-8%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, text: '关联产品'},
+        whitelist: {name: 'whitelist', icon: {"className": "example-icon example-icon-shield", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%202l9%204v7c0%205-9%209-9%209s-9-4-9-9V6z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, text: '项目白名单'},
+        more: {type: 'dropdown', icon: {"className": "more-vert", "aria-hidden": true}, caret: false, hint: '更多'},
     }
 }
 ```
@@ -1564,8 +1564,8 @@ const options = {
                 },
             ]
         },
-        {text: '刷新', icon: 'icon-refresh', onClick: () => console.log('刷新')},
-        {text: '移动', icon: 'icon-move', disabled: true},
+        {text: '刷新', icon: {"className": "example-icon example-icon-refresh", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%203v7h7M21%2021v-7h-7M3%2010c4-10%2014-10%2018-2M21%2014c-4%2010-14%2010-18%202%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, onClick: () => console.log('刷新')},
+        {text: '移动', icon: {"className": "i-move", "aria-hidden": true}, disabled: true},
     ]
 }
 ```
@@ -1610,11 +1610,11 @@ const options = {
         items: [
             {type: 'info', text: '共 {recTotal} 项'},
             {type: 'size-menu', text: '每页 {recPerPage} 项'},
-            {type: 'link', page: 'first', icon: 'icon-double-angle-left', hint: '第一页'},
-            {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
+            {type: 'link', page: 'first', icon: {"className": "i-first-page", "aria-hidden": true}, hint: '第一页'},
+            {type: 'link', page: 'prev', icon: {"className": "chevron-left", "aria-hidden": true}, hint: '上一页'},
             {type: 'info', text: '{page}/{pageTotal}'},
-            {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
-            {type: 'link', page: 'last', icon: 'icon-double-angle-right', hint: '最后一页'},
+            {type: 'link', page: 'next', icon: {"className": "chevron-right", "aria-hidden": true}, hint: '下一页'},
+            {type: 'link', page: 'last', icon: {"className": "i-last-page", "aria-hidden": true}, hint: '最后一页'},
         ],
         page: 1,
         recTotal: 101,

@@ -1,5 +1,6 @@
 import {convertBytes, formatBytes} from '@zui/helpers';
-import {Component, $, Cash} from '@zui/core';
+import {fileIconSVG} from '../icons/file';
+import {Component, $, Cash, getIconClass, type IconClass} from '@zui/core';
 import {UploadOptions} from '../types';
 import {Tooltip} from '@zui/tooltip';
 
@@ -33,11 +34,11 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         useIconBtn: true,
         renameBtn: true,
         renameText: '重命名',
-        renameIcon: 'edit',
+        renameIcon: {className: 'i-edit', 'aria-hidden': true},
         renameClass: '',
         deleteBtn: true,
         deleteText: '删除',
-        deleteIcon: 'trash',
+        deleteIcon: {className: 'i-trash', 'aria-hidden': true},
         deleteClass: '',
         showIcon: true,
         multiple: true,
@@ -83,7 +84,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
                 .attr('for', name)
                 .text(uploadText!);
             if (uploadIcon) {
-                const $uploadIcon = $('<i></i>').addClass(`icon icon-${uploadIcon}`);
+                const $uploadIcon = this.createIcon(uploadIcon);
                 this.$label.prepend($uploadIcon);
             }
             const $children = listPosition === 'bottom'
@@ -95,7 +96,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
 
         const $uploadText = $('<span></span>').addClass('text-primary').text(uploadText!);
         if (uploadIcon) {
-            const $uploadIcon = $('<i></i>').addClass(`icon icon-${uploadIcon} mr-1`);
+            const $uploadIcon = this.createIcon(uploadIcon, 'mr-1');
             $uploadText.prepend($uploadIcon);
         }
         this.$label = $('<label></label>')
@@ -344,9 +345,21 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
             .append(this.createRenameContainer(file));
     }
 
+    protected createIcon(icon: string | IconClass, className?: string) {
+        const $icon = $('<i aria-hidden="true"></i>').addClass(getIconClass(icon, className));
+        if (typeof icon === 'object' && icon.style) {
+            if (typeof icon.style === 'string') {
+                $icon.attr('style', icon.style);
+            } else {
+                $icon.css(icon.style as Record<string, string>);
+            }
+        }
+        return $icon;
+    }
+
     private fileIcon() {
         const {icon} = this.options;
-        return $('<i></i>').addClass(`icon icon-${icon}`);
+        return icon === 'file-o' ? $(fileIconSVG) : this.createIcon(icon || '');
     }
 
     protected fileRenameBtn() {
@@ -355,7 +368,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
             const $iconBtn = $('<button></button>')
                 .prop('type', 'button')
                 .addClass(`btn btn-link h-5 w-5 p-0 ${renameClass} file-action file-rename`)
-                .append($('<i></i>').addClass(`icon icon-${renameIcon}`));
+                .append(this.createIcon(renameIcon || ''));
             $iconBtn.data('tooltip', new Tooltip($iconBtn, {title: renameText}));
             return $iconBtn;
         }
@@ -372,7 +385,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
             const $iconBtn = $('<button></button>')
                 .prop('type', 'button')
                 .addClass(`btn btn-link h-5 w-5 p-0 ${deleteClass} file-action file-delete`)
-                .append($('<i></i>').addClass(`icon icon-${deleteIcon}`));
+                .append(this.createIcon(deleteIcon || ''));
             $iconBtn.data('tooltip', new Tooltip($iconBtn, {title: deleteText}));
             return $iconBtn;
         }

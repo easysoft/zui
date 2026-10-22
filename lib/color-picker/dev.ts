@@ -1,7 +1,7 @@
 import 'zui-dev';
 import '@zui/button';
 import '@zui/menu';
-import '@zui/icons';
+import '@zui/css-icons';
 import '@zui/form-control';
 import {ColorPicker, ColorInput} from './src/main';
 

@@ -77,7 +77,7 @@ describe('Button Preact renderer', () => {
 
         expect(button).toBeDisabled();
         expect(button).toHaveClass('loading', 'disabled');
-        expect(button.querySelector('.icon-spinner-snake.spin')).not.toBeNull();
+        expect(button.querySelector('.spinner')).not.toBeNull();
         expect(within(button).getByText('Saving')).toBeInTheDocument();
         expect(within(button).queryByText('Child')).not.toBeInTheDocument();
         expect(button.querySelector('.icon-arrow-right')).toBeNull();

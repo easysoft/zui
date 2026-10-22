@@ -120,7 +120,7 @@ const actionCard = new zui.Card('#projectActionCard', {
     subtitle: '客户服务 · 九月迭代',
     content: '支持客户自助查询工单进展，减少重复咨询。',
     actions: [{
-        icon: 'star',
+        icon: {"className": "example-icon example-icon-star", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%202l3%206%207%201-5%205%201%208-6-4-6%204%201-8-5-5%207-1z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}},
         hint: '关注项目',
         attrs: {'aria-label': '关注项目'},
         onClick: () => { cardActionResult.textContent = '已点击“关注项目”。'; },
@@ -399,7 +399,7 @@ const actionCardOptions = {
     subtitle: '客户服务 · 九月迭代',
     content: '支持客户自助查询工单进展，减少重复咨询。',
     actions: [{
-        icon: 'star',
+        icon: {"className": "example-icon example-icon-star", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%202l3%206%207%201-5%205%201%208-6-4-6%204%201-8-5-5%207-1z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}},
         hint: '关注项目',
         attrs: {'aria-label': '关注项目'},
         onClick: () => { cardAction.value = '已点击“关注项目”。'; },

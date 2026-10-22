@@ -42,8 +42,8 @@ async function exercise(page: Page, index: number) {
     if (index === 0) {
         await expect(items.locator('.item-title')).toHaveText(['使用指南', '设置', '归档']);
         await expect(items.last().locator('.listitem')).toHaveClass(/disabled/);
-        await expect(list.locator('.icon-book')).toBeVisible();
-        await expect(list.locator('.icon-cog')).toBeVisible();
+        await expect(list.locator('.example-icon-book')).toBeVisible();
+        await expect(list.locator('.example-icon-cog')).toBeVisible();
     } else if (index === 1) {
         const more = list.getByRole('button');
         await expect(more).toHaveText('还有 4 项，点击继续显示');

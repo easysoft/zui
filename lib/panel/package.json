@@ -12,7 +12,6 @@
         "@zui/base": "workspace:*",
         "@zui/table": "workspace:^3.1.0",
         "@zui/utilities": "workspace:*",
-        "@zui/icons": "workspace:*",
         "@zui/toolbar": "workspace:*"
     },
     "files": [

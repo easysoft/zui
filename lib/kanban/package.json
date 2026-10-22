@@ -34,8 +34,7 @@
         "@zui/button": "workspace:^3.1.0",
         "@zui/checkbox": "workspace:^3.1.0",
         "@zui/dropdown": "workspace:^3.1.0",
-        "zui-dev": "workspace:^3.1.0",
-        "@zui/icons": "workspace:^3.1.0"
+        "zui-dev": "workspace:^3.1.0"
     },
     "zui": {
         "type": "js-ui",

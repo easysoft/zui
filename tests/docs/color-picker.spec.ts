@@ -36,7 +36,7 @@ async function exercise(page: Page, root: Locator, index: number) {
         await expect(trigger).toHaveCSS('color', index === 0 ? 'rgb(14, 165, 233)' : index === 1 ? 'rgb(59, 130, 246)' : 'rgb(249, 115, 22)');
     }
     if (index === 2) {
-        await expect(trigger.locator('.icon-tint')).toBeVisible();
+        await expect(trigger.locator('.example-icon-tint')).toBeVisible();
     } else if (index === 5) {
         await expect(root.locator('input')).toHaveValue('#f97316');
     } else if (index === 6) {
@@ -159,7 +159,7 @@ for (const width of [1280, 320]) {
                     await expect(emptyInput.locator('..').locator('label')).toHaveCSS('background-image', /conic-gradient/, {pseudo: 'before'});
                     const iconInput = root.getByLabel('选择带图标的颜色', {exact: true});
                     await expect(iconInput).toHaveValue('#f59e0b');
-                    await expect(iconInput.locator('..').locator('.icon-check')).toBeVisible();
+                    await expect(iconInput.locator('..').locator('.i-check')).toBeVisible();
                 }
                 await input.focus();
                 await expect(input).toBeFocused();
@@ -228,7 +228,7 @@ for (const width of [1280, 320]) {
             await trigger.click();
             await expect(row).toHaveClass(/\bis-custom\b/);
             await expect(input).toHaveValue('#123456');
-            await expect(custom.locator('.icon-check')).toHaveCSS('opacity', '1');
+            await expect(custom.locator('.i-check')).toHaveCSS('opacity', '1');
             await expect(custom.locator('label')).toHaveCSS('background-color', 'rgb(18, 52, 86)', {pseudo: 'after'});
 
             await pop.getByRole('button', {name: '#22c55e', exact: true}).click();
@@ -237,7 +237,7 @@ for (const width of [1280, 320]) {
             await trigger.click();
             await expect(row).not.toHaveClass(/\bis-custom\b/);
             await expect(input).toHaveValue('#000000');
-            await expect(custom.locator('.icon-check')).toHaveCSS('opacity', '0');
+            await expect(custom.locator('.i-check')).toHaveCSS('opacity', '0');
             await input.evaluate((element) => {
                 (element as HTMLInputElement).value = '#abcdef';
                 element.dispatchEvent(new Event('input', {bubbles: true}));
@@ -257,7 +257,7 @@ for (const width of [1280, 320]) {
             await trigger.click();
             await expect(row).not.toHaveClass(/\bis-custom\b/);
             await expect(custom).toHaveClass(/\bis-empty\b/);
-            await expect(custom.locator('.icon-check')).toHaveCSS('opacity', '0');
+            await expect(custom.locator('.i-check')).toHaveCSS('opacity', '0');
             await expect(custom.locator('label')).toHaveCSS('background-image', /conic-gradient/, {pseudo: 'before'});
             await pop.locator('[data-dismiss="pick"]').click();
             await expect(pop).toHaveCount(0);

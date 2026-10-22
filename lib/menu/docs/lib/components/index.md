@@ -100,8 +100,8 @@
 
 <Example>
   <menu class="menu has-icons w-32">
-    <li class="menu-item"><a><i class="item-icon icon icon-copy"></i> <div class="item-content">复制</div></a></li>
-    <li class="menu-item"><a><i class="item-icon icon icon-paste"></i> <div class="item-content">粘贴</div></a></li>
+    <li class="menu-item"><a><i class="item-icon i-copy"></i> <div class="item-content">复制</div></a></li>
+    <li class="menu-item"><a><i class="item-icon i-paste"></i> <div class="item-content">粘贴</div></a></li>
     <li class="menu-item"><a><i class="item-icon"></i><div class="item-content">剪切</div></a></li>
   </menu>
 </Example>
@@ -110,8 +110,8 @@
 
 ```html
 <menu class="menu has-icons w-32">
-  <li class="menu-item"><a><i class="item-icon icon icon-copy"></i> <div class="item-content">复制</div></a></li>
-  <li class="menu-item"><a><i class="item-icon icon icon-paste"></i> <div class="item-content">粘贴</div></a></li>
+  <li class="menu-item"><a><i class="item-icon i-copy"></i> <div class="item-content">复制</div></a></li>
+  <li class="menu-item"><a><i class="item-icon i-paste"></i> <div class="item-content">粘贴</div></a></li>
   <li class="menu-item"><a><i class="item-icon"></i><div class="item-content">剪切</div></a></li>
 </menu>
 ```
@@ -212,7 +212,7 @@
 
 <Example>
   <menu class="menu w-32">
-    <li class="menu-item"><a class="active">已复制 <i class="icon icon-check text-success"></i></a></li>
+    <li class="menu-item"><a class="active">已复制 <i class="text-success i-check"></i></a></li>
     <li class="menu-item"><a>粘贴</a></li>
     <li class="menu-item"><a>剪切</a></li>
     <li class="menu-item"><a>更多 <i class="caret-right"></i></a></li>
@@ -223,7 +223,7 @@
 
 ```html
 <menu class="menu w-32">
-  <li class="menu-item"><a class="active">已复制 <i class="icon icon-check text-success"></i></a></li>
+  <li class="menu-item"><a class="active">已复制 <i class="text-success i-check"></i></a></li>
   <li class="menu-item"><a>粘贴</a></li>
   <li class="menu-item"><a>剪切</a></li>
   <li class="menu-item"><a>更多 <i class="caret-right"></i></a></li>

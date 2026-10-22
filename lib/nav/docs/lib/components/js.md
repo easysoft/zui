@@ -26,7 +26,7 @@ const nav = new zui.Nav('#projectNav', {
     type: 'tabs',
     active: 'overview',
     items: [
-        {id: 'overview', text: '概览', icon: 'home'},
+        {id: 'overview', text: '概览', icon: {"className": "example-icon example-icon-home", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}},
         {id: 'tasks', text: '任务'},
         {id: 'tests', text: '测试'},
         {id: 'more', type: 'dropdown', text: '更多', items: [
@@ -53,7 +53,7 @@ const navOptions = {
     type: 'tabs',
     active: 'overview',
     items: [
-        {id: 'overview', text: '概览', icon: 'home'},
+        {id: 'overview', text: '概览', icon: {"className": "example-icon example-icon-home", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%2011l9-8%209%208M5%2010v11h14V10M9%2021v-7h6v7%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}},
         {id: 'tasks', text: '任务'},
         {id: 'tests', text: '测试'},
         {id: 'more', type: 'dropdown', text: '更多', items: [
@@ -93,8 +93,8 @@ nav.render({items: [
     {id: 'more', type: 'dropdown', text: '更多',
         props: {dropdown: {placement: 'bottom-end'}},
         items: [
-            {text: '导入', icon: 'upload-alt', onClick() { console.log('导入'); }},
-            {text: '导出', icon: 'download-alt', onClick() { console.log('导出'); }},
+            {text: '导入', icon: {"className": "i-upload", "aria-hidden": true}, onClick() { console.log('导入'); }},
+            {text: '导出', icon: {"className": "i-download", "aria-hidden": true}, onClick() { console.log('导出'); }},
         ],
     },
 ]});

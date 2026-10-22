@@ -1,3 +1,4 @@
+import '@zui/css-icons';
 import './vars.css';
 import './input-control.css';
 import './size.css';

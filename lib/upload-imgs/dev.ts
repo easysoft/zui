@@ -1,5 +1,5 @@
 import 'zui-dev';
-import '@zui/icons';
+import '@zui/css-icons';
 import {UploadImgs} from './src/main';
 
 onPageLoad(() => {

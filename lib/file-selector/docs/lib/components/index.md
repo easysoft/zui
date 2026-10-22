@@ -445,7 +445,7 @@ const fileSelector = new zui.FileSelector('#fileSelector', {
 == 示例
 
 <Example>
-  <div zui-create="fileSelector" data-upload-btn='{"text": "上传文件", "icon": "upload", "className": "rounded primary", "size": "lg"}'></div>
+  <div zui-create="fileSelector" data-upload-btn='{"text": "上传文件", "icon": {"className": "i-upload", "aria-hidden": true}, "className": "rounded primary", "size": "lg"}'></div>
 </Example>
 
 == HTML
@@ -457,7 +457,7 @@ const fileSelector = new zui.FileSelector('#fileSelector', {
 const fileSelector = new zui.FileSelector('#fileSelector', {
     uploadBtn: {
         text: '上传文件',
-        icon: 'upload',
+        icon: {"className": "i-upload", "aria-hidden": true},
         className: 'rounded primary',
         size: 'lg'
     }
@@ -478,7 +478,7 @@ const fileSelector = new zui.FileSelector('#fileSelector', {
 == 示例
 
 <Example>
-  <div zui-create="fileSelector" data-rename-btn='{"text": "重命名", "icon": "edit", "className": "rounded primary"}' :data-default-files="JSON.stringify(presetFiles)"></div>
+  <div zui-create="fileSelector" data-rename-btn='{"text": "重命名", "icon": {"className": "i-edit", "aria-hidden": true}, "className": "rounded primary"}' :data-default-files="JSON.stringify(presetFiles)"></div>
 </Example>
 
 == HTML
@@ -490,7 +490,7 @@ const fileSelector = new zui.FileSelector('#fileSelector', {
 const fileSelector = new zui.FileSelector('#fileSelector', {
     renameBtn: {
         text: '重命名',
-        icon: 'edit',
+        icon: {"className": "i-edit", "aria-hidden": true},
         className: 'rounded primary'
     },
     defaultFiles: [
@@ -513,7 +513,7 @@ const fileSelector = new zui.FileSelector('#fileSelector', {
 == 示例
 
 <Example>
-  <div zui-create="fileSelector" data-remove-btn='{"text": "删除", "icon": "trash", "className": "rounded danger"}' :data-default-files="JSON.stringify(presetFiles)"></div>
+  <div zui-create="fileSelector" data-remove-btn='{"text": "删除", "icon": {"className": "i-trash", "aria-hidden": true}, "className": "rounded danger"}' :data-default-files="JSON.stringify(presetFiles)"></div>
 </Example>
 
 == HTML
@@ -525,7 +525,7 @@ const fileSelector = new zui.FileSelector('#fileSelector', {
 const fileSelector = new zui.FileSelector('#fileSelector', {
     removeBtn: {
         text: '删除',
-        icon: 'trash',
+        icon: {"className": "i-trash", "aria-hidden": true},
         className: 'rounded danger'
     },
     defaultFiles: [

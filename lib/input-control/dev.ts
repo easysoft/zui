@@ -1,2 +1,2 @@
-import '@zui/icons';
+import '@zui/css-icons';
 import './src/main';

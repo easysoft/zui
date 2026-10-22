@@ -1,5 +1,5 @@
 import '@zui/button/css';
-import '@zui/icons';
+import '@zui/css-icons';
 import '@zui/dropdown';
 import '@zui/toolbar';
 import '@zui/pager/css';

@@ -12,7 +12,6 @@
         "@zui/base": "workspace:*",
         "@zui/button": "workspace:*",
         "@zui/utilities": "workspace:*",
-        "@zui/icons": "workspace:*",
         "@zui/input-control": "workspace:*"
     },
     "files": [

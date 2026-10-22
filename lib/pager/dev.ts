@@ -1,6 +1,6 @@
 import '@zui/form';
 import '@zui/dropdown';
-import '@zui/icons';
+import '@zui/css-icons';
 import '@zui/button';
 import '@zui/input-group';
 import {Pager} from './src/main';
@@ -12,11 +12,11 @@ onPageUpdate(() => {
         items: [
             {type: 'info', text: '共 {recTotal} 项'},
             {type: 'size-menu', text: '每页 {recPerPage} 项', dropdown: {placement: 'top'}},
-            {type: 'link', page: 'first', icon: 'icon-double-angle-left', hint: '第一页'},
-            {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
+            {type: 'link', page: 'first', icon: {className: 'i-first-page', 'aria-hidden': true}, hint: '第一页'},
+            {type: 'link', page: 'prev', icon: {className: 'chevron-left', 'aria-hidden': true}, hint: '上一页'},
             {type: 'info', text: '{page}/{pageTotal}'},
-            {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
-            {type: 'link', page: 'last', icon: 'icon-double-angle-right', hint: '最后一页'},
+            {type: 'link', page: 'next', icon: {className: 'chevron-right', 'aria-hidden': true}, hint: '下一页'},
+            {type: 'link', page: 'last', icon: {className: 'i-last-page', 'aria-hidden': true}, hint: '最后一页'},
         ],
         page: 2,
         recTotal: 101,
@@ -30,9 +30,9 @@ onPageUpdate(() => {
     let pagerCount = 1;
     const pagerMaxCount = new Pager('#pagerMaxCount', {
         items: [
-            {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
+            {type: 'link', page: 'prev', icon: {className: 'chevron-left', 'aria-hidden': true}, hint: '上一页'},
             {type: 'nav', count: 6},
-            {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
+            {type: 'link', page: 'next', icon: {className: 'chevron-right', 'aria-hidden': true}, hint: '下一页'},
         ],
         page: pagerCount,
         recTotal: 101,
@@ -57,9 +57,9 @@ onPageUpdate(() => {
     });
     new Pager('#pagerAllCount', {
         items: [
-            {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
+            {type: 'link', page: 'prev', icon: {className: 'chevron-left', 'aria-hidden': true}, hint: '上一页'},
             {type: 'nav'},
-            {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
+            {type: 'link', page: 'next', icon: {className: 'chevron-right', 'aria-hidden': true}, hint: '下一页'},
         ],
         page: 2,
         recTotal: 91,
@@ -79,9 +79,9 @@ onPageUpdate(() => {
     });
     const pagerGoto = new Pager('#pagerGoto', {
         items: [
-            {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
+            {type: 'link', page: 'prev', icon: {className: 'chevron-left', 'aria-hidden': true}, hint: '上一页'},
             {type: 'info', text: '{page}/{pageTotal}'},
-            {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
+            {type: 'link', page: 'next', icon: {className: 'chevron-right', 'aria-hidden': true}, hint: '下一页'},
             {type: 'goto', text: '跳转'},
         ],
         page: 2,

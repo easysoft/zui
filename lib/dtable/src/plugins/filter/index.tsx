@@ -1,9 +1,10 @@
+import {filterIcon as defaultFilterIcon} from '../../icons';
+import {Icon, classes} from '@zui/core';
 import {render} from 'preact';
-import {classes} from '@zui/core';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 
-import type {ClassNameLike} from '@zui/core';
+import type {ClassNameLike, IconType} from '@zui/core';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {RowData, RowInfo} from '../../types/row';
 import type {ComponentChildren} from 'preact';
@@ -23,12 +24,12 @@ export interface DTableFilterTypes {
         reset: (event: Event) => void;
         submit: (event: Event) => void;
         onRemove: (this: DTableFilterable, from: RowInfo, to: RowInfo, orders: string[]) => void;
-        filter: {icon: string; className: string};
+        filter: {icon: IconType; className: string};
 
     }>;
     col: Partial<{
         filterable: boolean;
-        filter: {icon: string; className: string};
+        filter: {icon: IconType; className: string};
         reset: (event: Event) => void;
         submit: (event: Event) => void;
     }>;
@@ -110,7 +111,7 @@ function renderFilterContent(className = '', filterData = [] as FilterDataOption
         <menu class={classes('dropdown-menu menu', 'dtable-filter-content', ...className)} id={name}>
             <li class="menu-item not-hide-menu">
                 <div class="input-control prefix-sm suffix-sm">
-                    <span class="input-control-prefix"><i class="icon icon-search"></i></span>
+                    <span class="input-control-prefix"><span class="magnifier" aria-hidden="true"></span></span>
                     <input type="text" class="form-control" placeholder="请填写" onInput={(e) => {onInput(e, name);}} />
                 </div>
             </li>
@@ -147,7 +148,7 @@ function renderFilterContent(className = '', filterData = [] as FilterDataOption
 //         const pickerSelection = (
 //             <div class="picker-selection">
 //                 <span class="picker-selection-text">{checkedText}</span>
-//                 <span class="icon icon-close picker-selection-remove"></span>
+//                 <span class="close picker-selection-remove"></span>
 //             </div>
 //         );
 //         updateInputValue(pickerSelection);
@@ -194,9 +195,9 @@ const filterPlugin: DTablePlugin<DTableFilterTypes> = {
         if (filterTypeSetting) {
             const href = `${name}FilterContent`;
             this.state.id = href;
-            const filterIcon = filter.icon || 'icon-filter';
+            const filterIcon = filter.icon || defaultFilterIcon;
             result.push(
-                <a class="dtable-filter" data-toggle="dropdown" href={'#' + href}><i className={classes('icon', filterIcon)}></i></a>,
+                <a class="dtable-filter" data-toggle="dropdown" href={'#' + href}><Icon icon={typeof filterIcon === 'string' ? {className: filterIcon} : filterIcon} /></a>,
             );
             if (!(this.options.data as (string | RowData)[])?.length) return result;
             const filterList = getFilterOptions(col.setting as {type: string; name: string; statusMap: Record<string, string>}, this.options.data as unknown as {id: string; [key: string]: string}[]) || [];

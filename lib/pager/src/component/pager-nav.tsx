@@ -21,7 +21,7 @@ export function PagerNav({
 
     const createEllipsis = () => {
         newBtnProps.text = '';
-        newBtnProps.icon = 'icon-ellipsis-h';
+        newBtnProps.icon = {className: 'more', 'aria-hidden': true};
         newBtnProps.disabled = true;
         return (<Button key={`ellipsis-${ellipsisIndex++}`} type={type} {...newBtnProps} />);
     };

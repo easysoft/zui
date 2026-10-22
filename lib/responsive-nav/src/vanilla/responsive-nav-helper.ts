@@ -1,4 +1,4 @@
-import {$, type Cash, i18n, Component, html, debounce, dom, evalValue} from '@zui/core';
+import {$, type Cash, i18n, Component, html, debounce, dom, evalValue, getIconClass} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {ResponsiveNavHelperProps} from '../types';
 import {Dropdown} from '@zui/dropdown';
@@ -273,7 +273,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
                 }
             }
             const text = $dropdown.find('.text').text();
-            return {items, text, icon: $dropdown.find('.icon').attr('class')?.replace('icon ', ''), attrs: {title: text}};
+            return {items, text, leading: {html: $dropdown.find('.icon')[0]?.outerHTML || ''}, attrs: {title: text}};
         }
         const attrs = Object.fromEntries(Array.from(element.attributes).map(attr => [attr.name, attr.value]));
         if (attrs.style) {
@@ -305,7 +305,15 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
             ...moreSetting.attrs,
         }).addClass('rsh-more-btn');
         if (moreSetting.icon) {
-            $moreBtn.prepend(`<i class="icon ${moreSetting.icon}"></i>`);
+            const $icon = $('<i aria-hidden="true" />').addClass(getIconClass(typeof moreSetting.icon === 'string' ? {className: moreSetting.icon} : moreSetting.icon));
+            if (typeof moreSetting.icon === 'object' && moreSetting.icon.style) {
+                if (typeof moreSetting.icon.style === 'string') {
+                    $icon.attr('style', moreSetting.icon.style);
+                } else {
+                    $icon.css(moreSetting.icon.style as Record<string, string>);
+                }
+            }
+            $moreBtn.prepend($icon);
         }
         if (moreSetting.text) {
             $moreBtn.append(html`<span class="text">${moreSetting.text}</span>` as string);

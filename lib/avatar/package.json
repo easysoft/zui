@@ -7,7 +7,8 @@
     "keywords": ["zui:component"],
     "dependencies": {
         "@zui/core": "workspace:*",
-        "@zui/helpers": "workspace:*"
+        "@zui/helpers": "workspace:*",
+        "@zui/css-icons": "workspace:*"
     },
     "devDependencies": {
         "zui-dev": "workspace:*",

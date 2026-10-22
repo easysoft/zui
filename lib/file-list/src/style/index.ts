@@ -1,3 +1,4 @@
+import '@zui/css-icons';
 import '@zui/label';
 import '@zui/utilities';
 import './file-list.css';

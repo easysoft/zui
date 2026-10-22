@@ -137,7 +137,7 @@
         type: 'success',
         actions: [{
             name: 'undo',
-            icon: 'undo',
+            icon: {'className': 'example-icon example-icon-undo', 'aria-hidden': true, 'style': {'display': 'inline-block', 'width': '1em', 'height': '1em', 'backgroundColor': 'currentColor', 'mask': 'url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%203v7h7M3%2010c5-12%2020-7%2018%204-1%206-8%209-14%205%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat'}},
             text: '撤销',
             onClick: () => zui.Messager.show('项目周报.pdf 已恢复。', 'success'),
         }],
@@ -155,7 +155,7 @@
       type: 'success',
       actions: [{
           name: 'undo',
-          icon: 'undo',
+          icon: {'className': 'example-icon example-icon-undo', 'aria-hidden': true, 'style': {'display': 'inline-block', 'width': '1em', 'height': '1em', 'backgroundColor': 'currentColor', 'mask': 'url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M3%203v7h7M3%2010c5-12%2020-7%2018%204-1%206-8%209-14%205%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat'}},
           text: '撤销',
           onClick: () => zui.Messager.show('项目周报.pdf 已恢复。', 'success'),
       }],

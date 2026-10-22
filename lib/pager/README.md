@@ -21,11 +21,11 @@ const pager = new Pager('#pagerExample', {
     items: [
         {type: 'info', text: '共 {recTotal} 项'},
         {type: 'size-menu', text: '每页 {recPerPage} 项', dropdown: {placement: 'top'}},
-        {type: 'link', page: 'first', icon: 'icon-double-angle-left', hint: '第一页'},
-        {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
+        {type: 'link', page: 'first', icon: {"className": "i-first-page", "aria-hidden": true}, hint: '第一页'},
+        {type: 'link', page: 'prev', icon: {"className": "chevron-left", "aria-hidden": true}, hint: '上一页'},
         {type: 'info', text: '{page}/{pageTotal}'},
-        {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
-        {type: 'link', page: 'last', icon: 'icon-double-angle-right', hint: '最后一页'},
+        {type: 'link', page: 'next', icon: {"className": "chevron-right", "aria-hidden": true}, hint: '下一页'},
+        {type: 'link', page: 'last', icon: {"className": "i-last-page", "aria-hidden": true}, hint: '最后一页'},
     ],
     page: 2,
     recTotal: 101,
@@ -48,9 +48,9 @@ console.log('> pager', pager);
 ```js
 new Pager('#pagerAllCount', {
     items: [
-        {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
+        {type: 'link', page: 'prev', icon: {"className": "chevron-left", "aria-hidden": true}, hint: '上一页'},
         {type: 'nav'},
-        {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
+        {type: 'link', page: 'next', icon: {"className": "chevron-right", "aria-hidden": true}, hint: '下一页'},
     ],
     page: 2,
     recTotal: 91,
@@ -72,9 +72,9 @@ new Pager('#pagerAllCount', {
 let pagerCount =  1;
 const pagerMaxCount = new Pager('#pagerMaxCount', {
     items: [
-        {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
+        {type: 'link', page: 'prev', icon: {"className": "chevron-left", "aria-hidden": true}, hint: '上一页'},
         {type: 'nav', count: 6},
-        {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
+        {type: 'link', page: 'next', icon: {"className": "chevron-right", "aria-hidden": true}, hint: '下一页'},
     ],
     page: pagerCount,
     recTotal: 101,
@@ -108,9 +108,9 @@ const pagerMaxCount = new Pager('#pagerMaxCount', {
 ```js
 new Pager('#pagerGoto', {
     items: [
-        {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
+        {type: 'link', page: 'prev', icon: {"className": "chevron-left", "aria-hidden": true}, hint: '上一页'},
         {type: 'info', text: '{page}/{pageTotal}'},
-        {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
+        {type: 'link', page: 'next', icon: {"className": "chevron-right", "aria-hidden": true}, hint: '下一页'},
         {type: 'goto', text: '跳转'},
     ],
     page: 2,
@@ -128,12 +128,12 @@ new Pager('#pagerGoto', {
 ```html:example: flex gap-3 flex-wrap
 <div class="pager">
   <div class="btn-group">
-    <button type="button" class="btn"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn"><i class="chevron-left"></i></button>
     <button type="button" class="btn">1</button>
     <button type="button" class="btn active primary">2</button>
     <button type="button" class="btn">3</button>
     <button type="button" class="btn">4</button>
-    <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
+    <button type="button" class="btn"><i class="chevron-right"></i></button>
   </div>
 </div>
 <div class="pager">
@@ -148,14 +148,14 @@ new Pager('#pagerGoto', {
 </div>
 <div class="pager">
   <div class="btn-group">
-    <button type="button" class="btn"><i class="icon icon-double-angle-left"></i></button>
-    <button type="button" class="btn"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn"><i class="i-first-page"></i></button>
+    <button type="button" class="btn"><i class="chevron-left"></i></button>
     <button type="button" class="btn">1</button>
     <button type="button" class="btn active primary">2</button>
     <button type="button" class="btn">3</button>
     <button type="button" class="btn">4</button>
-    <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
-    <button type="button" class="btn"><i class="icon icon-double-angle-right"></i></button>
+    <button type="button" class="btn"><i class="chevron-right"></i></button>
+    <button type="button" class="btn"><i class="i-last-page"></i></button>
   </div>
 </div>
 ```
@@ -164,14 +164,14 @@ new Pager('#pagerGoto', {
 
 ```html:example: flex gap-3 flex-wrap
 <div class="pager pager-simple">
-  <button type="button" class="btn rounded"><i class="icon icon-angle-left"></i></button>
+  <button type="button" class="btn rounded"><i class="chevron-left"></i></button>
   <div class="pager-text"><span>1</span>/<span>4</span></div>
-  <button type="button" class="btn rounded"><i class="icon icon-angle-right"></i></button>
+  <button type="button" class="btn rounded"><i class="chevron-right"></i></button>
 </div>
 <div class="pager pager-simple borderless">
-  <button type="button" class="btn"><i class="icon icon-angle-left"></i></button>
+  <button type="button" class="btn"><i class="chevron-left"></i></button>
   <div class="pager-text"><span>1</span>/<span>4</span></div>
-  <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
+  <button type="button" class="btn"><i class="chevron-right"></i></button>
 </div>
 ```
 
@@ -180,12 +180,12 @@ new Pager('#pagerGoto', {
 ```html:example: flex gap-3 flex-wrap
 <div class="pager">
   <div class="btn-group">
-    <button type="button" class="btn"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn"><i class="chevron-left"></i></button>
     <button type="button" class="btn">1</button>
     <button type="button" class="btn active primary">2</button>
     <button type="button" class="btn disabled">3</button>
     <button type="button" class="btn">4</button>
-    <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
+    <button type="button" class="btn"><i class="chevron-right"></i></button>
   </div>
 </div>
 ```
@@ -194,12 +194,12 @@ new Pager('#pagerGoto', {
 
 ```html:example:
 <div class="pager borderless">
-  <button type="button" class="btn"><i class="icon icon-angle-left"></i></button>
+  <button type="button" class="btn"><i class="chevron-left"></i></button>
   <button type="button" class="btn">1</button>
   <button type="button" class="btn active primary">2</button>
   <button type="button" class="btn">3</button>
   <button type="button" class="btn">4</button>
-  <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
+  <button type="button" class="btn"><i class="chevron-right"></i></button>
 </div>
 ```
 
@@ -207,20 +207,20 @@ new Pager('#pagerGoto', {
 
 ```html:example: flex gap-3 flex-wrap
 <div class="pager pager-loose gap-x-2">
-  <button type="button" class="btn"><i class="icon icon-angle-left"></i></button>
+  <button type="button" class="btn"><i class="chevron-left"></i></button>
   <button type="button" class="btn">1</button>
   <button type="button" class="btn active primary">2</button>
   <button type="button" class="btn">3</button>
   <button type="button" class="btn">4</button>
-  <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
+  <button type="button" class="btn"><i class="chevron-right"></i></button>
 </div>
 <div class="pager pager-loose gap-x-3">
-  <button type="button" class="btn circle"><i class="icon icon-angle-left"></i></button>
+  <button type="button" class="btn circle"><i class="chevron-left"></i></button>
   <button type="button" class="btn circle">1</button>
   <button type="button" class="btn circle active primary">2</button>
   <button type="button" class="btn circle">3</button>
   <button type="button" class="btn circle">4</button>
-  <button type="button" class="btn circle"><i class="icon icon-angle-right"></i></button>
+  <button type="button" class="btn circle"><i class="chevron-right"></i></button>
 </div>
 ```
 
@@ -229,12 +229,12 @@ new Pager('#pagerGoto', {
 ```html:example: row gap-3 flex-wrap
 <div class="pager">
   <div class="btn-group">
-    <button type="button" class="btn lighter-pale"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn lighter-pale"><i class="chevron-left"></i></button>
     <button type="button" class="btn lighter-pale">1</button>
     <button type="button" class="btn lighter-pale active primary">2</button>
     <button type="button" class="btn lighter-pale">3</button>
     <button type="button" class="btn lighter-pale">4</button>
-    <button type="button" class="btn lighter-pale"><i class="icon icon-angle-right"></i></button>
+    <button type="button" class="btn lighter-pale"><i class="chevron-right"></i></button>
   </div>
 </div>
 ```
@@ -243,8 +243,8 @@ new Pager('#pagerGoto', {
 
 ```html:example:
 <div class="pager justify-between">
-  <button type="button" class="btn"><i class="icon icon-angle-left"></i></button>
-  <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
+  <button type="button" class="btn"><i class="chevron-left"></i></button>
+  <button type="button" class="btn"><i class="chevron-right"></i></button>
 </div>
 <div class="pager justify-between">
   <button type="button" class="btn">上一页</button>
@@ -257,32 +257,32 @@ new Pager('#pagerGoto', {
 ```html:example: row gap-2
 <div class="pager size-sm">
   <div class="btn-group size-sm">
-    <button type="button" class="btn"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn"><i class="chevron-left"></i></button>
     <button type="button" class="btn">1</button>
     <button type="button" class="btn active primary">2</button>
     <button type="button" class="btn">3</button>
     <button type="button" class="btn">4</button>
-    <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
+    <button type="button" class="btn"><i class="chevron-right"></i></button>
   </div>
 </div>
 <div class="pager">
   <div class="btn-group">
-    <button type="button" class="btn"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn"><i class="chevron-left"></i></button>
     <button type="button" class="btn">1</button>
     <button type="button" class="btn active primary">2</button>
     <button type="button" class="btn">3</button>
     <button type="button" class="btn">4</button>
-    <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
+    <button type="button" class="btn"><i class="chevron-right"></i></button>
   </div>
 </div>
 <div class="pager size-lg">
   <div class="btn-group size-lg">
-    <button type="button" class="btn"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn"><i class="chevron-left"></i></button>
     <button type="button" class="btn">1</button>
     <button type="button" class="btn active primary">2</button>
     <button type="button" class="btn">3</button>
     <button type="button" class="btn">4</button>
-    <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
+    <button type="button" class="btn"><i class="chevron-right"></i></button>
   </div>
 </div>
 ```
@@ -293,22 +293,22 @@ new Pager('#pagerGoto', {
 <div class="pager">
   <div class="pager-text">共<span class="font-bold">40</span>项</div>
   <div class="btn-group">
-    <button type="button" class="btn"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn"><i class="chevron-left"></i></button>
     <button type="button" class="btn">1</button>
     <button type="button" class="btn active primary">2</button>
     <button type="button" class="btn">3</button>
     <button type="button" class="btn">4</button>
-    <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
+    <button type="button" class="btn"><i class="chevron-right"></i></button>
   </div>
 </div>
 <div class="pager borderless">
   <div class="pager-text">共<span class="font-bold">40</span>项</div>
-  <button type="button" class="btn"><i class="icon icon-angle-left"></i></button>
+  <button type="button" class="btn"><i class="chevron-left"></i></button>
   <button type="button" class="btn">1</button>
   <button type="button" class="btn active primary">2</button>
   <button type="button" class="btn">3</button>
   <button type="button" class="btn">4</button>
-  <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
+  <button type="button" class="btn"><i class="chevron-right"></i></button>
 </div>
 ```
 
@@ -330,12 +330,12 @@ new Pager('#pagerGoto', {
     </div>
   </div>
   <div class="btn-group">
-    <button type="button" class="btn"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn"><i class="chevron-left"></i></button>
     <button type="button" class="btn">1</button>
     <button type="button" class="btn active primary">2</button>
     <button type="button" class="btn">3</button>
     <button type="button" class="btn">4</button>
-    <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
+    <button type="button" class="btn"><i class="chevron-right"></i></button>
   </div>
 </div>
 ```
@@ -345,12 +345,12 @@ new Pager('#pagerGoto', {
 ```html:example:flex gap-3 flex-wrap
 <div class="pager">
   <div class="btn-group">
-    <button type="button" class="btn"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn"><i class="chevron-left"></i></button>
     <button type="button" class="btn">1</button>
     <button type="button" class="btn active primary">2</button>
     <button type="button" class="btn">3</button>
     <button type="button" class="btn">4</button>
-    <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
+    <button type="button" class="btn"><i class="chevron-right"></i></button>
   </div>
   <div class="pager-jump">
     <span>前往</span>
@@ -381,12 +381,12 @@ new Pager('#pagerGoto', {
     </div>
   </div>
   <div class="btn-group">
-    <button type="button" class="btn"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn"><i class="chevron-left"></i></button>
     <button type="button" class="btn">1</button>
     <button type="button" class="btn active primary">2</button>
     <button type="button" class="btn">3</button>
     <button type="button" class="btn">4</button>
-    <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
+    <button type="button" class="btn"><i class="chevron-right"></i></button>
   </div>
   <div class="pager-jump">
     <span>前往</span>

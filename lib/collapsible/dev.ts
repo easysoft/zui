@@ -1,7 +1,7 @@
 import '@zui/button';
 import '@zui/list';
 import '@zui/menu';
-import '@zui/icons';
+import '@zui/css-icons';
 import '@zui/panel';
 import 'zui-dev';
 import 'preact/debug';

@@ -14,7 +14,7 @@
 
 ## 可选图标
 
-通过 `fileIcon` 指定图标；调用方负责引入相应图标资源。本例使用 `@zui/icons`，并通过 Preact 组件的 `FileList.getFileIconMap()` 取得对应映射。
+通过 `fileIcon` 指定图标；内置文件类型图标使用本库 SVG，无需图标字体。通过 Preact 组件的 `FileList.getFileIconMap()` 取得名称映射；自定义字体名称仍由调用方提供资源。
 
 ```html:example
 <div id="fileListWithIcons"></div>
@@ -104,7 +104,7 @@ Preact 组件从 `@zui/file-list/react` 导入。`FileInfo`、`FileListProps` �
 
 ```tsx
 import {FileList} from '@zui/file-list/react';
-import '@zui/icons';
+import '@zui/css-icons';
 
 <FileList items={files} fileIcon={{pdf: 'file-pdf', md: 'file-code'}} />;
 ```

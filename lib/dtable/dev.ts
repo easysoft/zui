@@ -2,7 +2,7 @@ import 'preact/debug';
 import 'zui-dev';
 import '@zui/label';
 import '@zui/avatar';
-import '@zui/icons';
+import '@zui/css-icons';
 import '@zui/dropdown';
 import '@zui/form';
 import '@zui/input-control';
@@ -47,9 +47,9 @@ onPageUpdate(() => {
             {name: 'endDate', title: '开始日期', width: 90, align: 'center', sortType: true, border: 'right'},
             {name: 'progress', title: '进度', sortType: true},
             {name: 'actions', title: '操作', width: 100, fixed: 'right', sortType: false, type: 'actions', actionsMap: {
-                add: {icon: 'icon-plus', hint: '添加'},
-                delete: {icon: 'icon-pencil', hint: '删除'},
-                edit: {icon: 'icon-edit', hint: '编辑'},
+                add: {icon: {className: 'i-plus', 'aria-hidden': true}, hint: '添加'},
+                delete: {icon: {className: 'i-edit', 'aria-hidden': true}, hint: '删除'},
+                edit: {icon: {className: 'i-edit', 'aria-hidden': true}, hint: '编辑'},
             }},
         ],
         data: Array(20).fill(0).map((_, index) => ({
@@ -148,7 +148,7 @@ onPageUpdate(() => {
             cell: [
                 {
                     text: 'copy',
-                    icon: 'icon-copy',
+                    icon: {className: 'i-copy', 'aria-hidden': true},
                     hint: '复制',
                 },
             ],
@@ -226,9 +226,9 @@ onPageUpdate(() => {
             {name: 'endDate', title: '开始日期', width: 90, align: 'center', sortType: true, border: 'right'},
             {name: 'progress', title: '进度', sortType: true},
             {name: 'actions', title: '操作', width: 100, fixed: 'right', sortType: false, type: 'actions', actionsMap: {
-                add: {icon: 'icon-plus', hint: '添加'},
-                delete: {icon: 'icon-pencil', hint: '删除'},
-                edit: {icon: 'icon-edit', hint: '编辑'},
+                add: {icon: {className: 'i-plus', 'aria-hidden': true}, hint: '添加'},
+                delete: {icon: {className: 'i-edit', 'aria-hidden': true}, hint: '删除'},
+                edit: {icon: {className: 'i-edit', 'aria-hidden': true}, hint: '编辑'},
             }},
         ],
         data: Array(20).fill(0).map((_, index) => ({
@@ -259,11 +259,11 @@ onPageUpdate(() => {
             items: [
                 {type: 'info', text: '共 {recTotal} 项'},
                 {type: 'size-menu', text: '每页 {recPerPage} 项'},
-                {type: 'link', page: 'first', icon: 'icon-double-angle-left', hint: '第一页'},
-                {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
+                {type: 'link', page: 'first', icon: {className: 'i-first-page', 'aria-hidden': true}, hint: '第一页'},
+                {type: 'link', page: 'prev', icon: {className: 'chevron-left', 'aria-hidden': true}, hint: '上一页'},
                 {type: 'info', text: '{page}/{pageTotal}'},
-                {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
-                {type: 'link', page: 'last', icon: 'icon-double-angle-right', hint: '最后一页'},
+                {type: 'link', page: 'next', icon: {className: 'chevron-right', 'aria-hidden': true}, hint: '下一页'},
+                {type: 'link', page: 'last', icon: {className: 'i-last-page', 'aria-hidden': true}, hint: '最后一页'},
             ],
             page: 1,
             recTotal: 101,

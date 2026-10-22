@@ -18,7 +18,7 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
     protected _getChildren(props: RenderableProps<P>) {
         const {loading, loadingIcon, loadingText, icon, iconClass, text, textClass, children, trailingIcon, trailingIconClass, caret} = props;
         return [
-            loading ? <Icon icon={loadingIcon || 'icon-spinner-snake'} className="spin" /> : <Icon icon={icon} className={iconClass} />,
+            loading ? <Icon icon={loadingIcon || {className: 'spinner', 'aria-hidden': true}} className={loadingIcon ? 'spin' : undefined} /> : <Icon icon={icon} className={iconClass} />,
             (text === undefined || text === null) ? null : <span className={classes('text', textClass)}>{loading ? loadingText : text}</span>,
             loading ? null : children,
             loading ? null : <Icon icon={trailingIcon} className={trailingIconClass} />,

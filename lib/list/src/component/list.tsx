@@ -602,7 +602,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     protected _renderItem(props: RenderableProps<P>, item: Item, index: number): ComponentChildren {
         if (item.type === 'item' && this._hasIcons && item.icon === undefined) {
-            item.icon = 'EMPTY';
+            item.icon = {className: 'item-icon-placeholder', 'aria-hidden': true};
         }
         return super._renderItem(props, item, index);
     }

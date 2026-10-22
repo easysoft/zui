@@ -37,7 +37,6 @@
         "@types/sortablejs": "^1.15.1",
         "@zui/avatar": "workspace:^3.1.0",
         "@zui/button": "workspace:^3.1.0",
-        "@zui/checkbox": "workspace:^3.1.0",
-        "@zui/icons": "workspace:^3.1.0"
+        "@zui/checkbox": "workspace:^3.1.0"
     }
 }

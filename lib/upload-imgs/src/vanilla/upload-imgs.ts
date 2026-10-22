@@ -19,11 +19,11 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
         uploadText: '添加文件',
         renameBtn: true,
         renameText: '重命名',
-        renameIcon: 'edit',
+        renameIcon: {className: 'i-edit', 'aria-hidden': true},
         renameClass: '',
         deleteBtn: true,
         deleteText: '删除',
-        deleteIcon: 'trash',
+        deleteIcon: {className: 'i-trash', 'aria-hidden': true},
         deleteClass: '',
         showIcon: false,
         multiple: true,
@@ -61,7 +61,7 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
             .attr('for', this.options.name)
             .addClass('flex justify-center items-center cursor-pointer')
             .css({width: 120, height: 120, background: 'var(--color-slate-100)'})
-            .append($('<i></i>').addClass('icon icon-plus'));
+            .append($('<i></i>').addClass('i-plus'));
     }
 
     protected initUploadCash() {
@@ -73,7 +73,7 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
             .addClass('text-primary cursor-pointer')
             .text(uploadText!);
         if (uploadIcon) {
-            const $uploadIcon = $('<i></i>').addClass(`icon icon-${uploadIcon} mr-1`);
+            const $uploadIcon = this.createIcon(uploadIcon, 'mr-1');
             $uploadText.prepend($uploadIcon);
         }
         this.$tip = $('<div class="absolute inset-0 col justify-center items-center"></div>')

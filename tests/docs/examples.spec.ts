@@ -80,7 +80,7 @@ async function exercise(page: Page, key: string) {
             await expect(tree.getByText('研发团队', {exact: true})).not.toBeVisible();
         }
         if (key === 'tree-icons') {
-            await expect(tree.locator('.icon-folder-close')).toBeVisible();
+            await expect(tree.locator('.example-icon-folder-close')).toBeVisible();
         }
         if (key === 'tree-hover') {
             await expect(tree.locator('.tree').first()).toHaveClass(/tree-lines/);
@@ -143,14 +143,14 @@ async function exercise(page: Page, key: string) {
         } else if (key === 'files-thumbnails') {
             await expect(list.locator('img')).toHaveCount(1);
             await expect.poll(() => list.locator('img').evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
-            await expect(list.locator('.icon-file-pdf')).toBeVisible();
+            await expect(list.locator('.file-icon-file-pdf')).toBeVisible();
         } else {
             await expect(list).toContainText('使用指南.pdf');
             if (key === 'files-basic') {
                 await expect(list.locator('.avatar, .item-icon')).toHaveCount(0);
             }
             if (key === 'files-icons') {
-                await expect(list.locator('.icon-file-pdf')).toBeVisible();
+                await expect(list.locator('.file-icon-file-pdf')).toBeVisible();
                 await list.getByRole('link', {name: /使用指南\.pdf/}).click();
                 await expect(page).toHaveURL(/#filesIcons$/);
             }

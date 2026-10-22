@@ -1,5 +1,5 @@
 import {createRef, RefObject, render} from 'preact';
-import {delay, i18n, $, nextGid, HtmlContent, classes, CustomContent, dom} from '@zui/core';
+import {delay, i18n, $, nextGid, HtmlContent, Icon, classes, CustomContent, dom} from '@zui/core';
 import {ModalBase} from './modal-base';
 import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions, ModalPromptOptions} from '../types';
 import {ModalDialog} from '../component';
@@ -349,13 +349,13 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         if (typeof options === 'string') {
             options = {message: options} as ModalAlertOptions;
         }
-        const {type, message, icon, iconClass = 'icon-lg muted', actions = 'confirm', onClickAction, custom, key = '__alert', ...otherOptions} = options;
+        const {type, message, icon, iconClass = 'text-lg muted', actions = 'confirm', onClickAction, custom, key = '__alert', ...otherOptions} = options;
         const customOptions = (typeof custom === 'function' ? custom() : custom) || {};
         let content = <CustomContent content={message} />;
         if (icon) {
             content = (
                 <div className={classes('modal-body row gap-4 items-center', customOptions.bodyClass)}>
-                    <div className={`icon ${icon} ${iconClass}`} />
+                    <Icon icon={typeof icon === 'string' ? {className: icon} : icon} className={iconClass} />
                     {content}
                 </div>
             );

@@ -77,15 +77,15 @@ if(window.zui) {
                 "type": "actions",
                 "actionsMap": {
                     "add": {
-                        "icon": "icon-plus",
+                        "icon": {"className": "i-plus", "aria-hidden": true},
                         "hint": "添加"
                     },
                     "delete": {
-                        "icon": "icon-pencil",
+                        "icon": {"className": "i-edit", "aria-hidden": true},
                         "hint": "删除"
                     },
                     "edit": {
-                        "icon": "icon-edit",
+                        "icon": {"className": "i-edit", "aria-hidden": true},
                         "hint": "编辑"
                     }
                 }
@@ -523,13 +523,13 @@ if(window.zui) {
                 {
                     "type": "link",
                     "page": "first",
-                    "icon": "icon-double-angle-left",
+                    "icon": {"className": "i-first-page", "aria-hidden": true},
                     "hint": "第一页"
                 },
                 {
                     "type": "link",
                     "page": "prev",
-                    "icon": "icon-angle-left",
+                    "icon": {"className": "chevron-left", "aria-hidden": true},
                     "hint": "上一页"
                 },
                 {
@@ -539,13 +539,13 @@ if(window.zui) {
                 {
                     "type": "link",
                     "page": "next",
-                    "icon": "icon-angle-right",
+                    "icon": {"className": "chevron-right", "aria-hidden": true},
                     "hint": "下一页"
                 },
                 {
                     "type": "link",
                     "page": "last",
-                    "icon": "icon-double-angle-right",
+                    "icon": {"className": "i-last-page", "aria-hidden": true},
                     "hint": "最后一页"
                 }
             ],

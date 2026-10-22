@@ -1,0 +1,3 @@
+export const filterIcon = <svg className="dtable-filter-icon" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 4h18l-7 8v7l-4 2v-9z" /></svg>;
+
+export const hideColumnIcon = <svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 3l18 18M10 5a12 12 0 0 1 11 7l-3 4M6 6a16 16 0 0 0-4 6c4 7 11 9 16 5M10 10a3 3 0 0 0 4 4" /></svg>;

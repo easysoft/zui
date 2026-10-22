@@ -3,7 +3,7 @@ import {expect, test} from '@playwright/test';
 test('renders headings, inferred icons and custom tags in the playground', async ({page}) => {
     await page.goto('/file-list/');
     await page.locator('#libPage.is-loaded').waitFor();
-    await expect(page.locator('#fileListWithIcons [z-key="79939"] .icon-file-pdf')).toBeVisible();
+    await expect(page.locator('#fileListWithIcons [z-key="79939"] .file-icon-file-pdf')).toBeVisible();
     const list = page.locator('#fileListTags');
     await expect(list.locator('[z-type="heading"] .item-title')).toHaveText('共享附件');
     await expect(list.locator('.file-list-tags .label.primary-pale')).toHaveText('使用文档');

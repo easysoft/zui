@@ -34,7 +34,7 @@ const instance = new zui.FileList('#filesBasic', {heading: '附件', items: [{id
 
 ## 标题与标签
 
-`heading` 支持标题字符串，或 `{title: '附件', icon: 'paper-clip'}` 这样的列表项配置对象；空字符串不显示标题。
+`heading` 支持标题字符串，或 `{title: '附件', icon: {"className": "example-icon example-icon-paper-clip", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M8%2013l7-7c4-4%209%201%205%205L9%2022c-6%206-13-2-7-8L13%203m-8%2013%2010-10%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}}` 这样的列表项配置对象；空字符串不显示标题。
 
 文件的 `tags` 支持一个完整字符串或字符串数组。字符串中的逗号和空格不会拆分，空字符串和仅含空白的标签会被忽略。默认使用 Label 显示，标签文字不会作为 HTML 执行。
 
@@ -256,7 +256,7 @@ const instance = new zui.FileList('#filesGrid', {
     fileIcon: {pdf: 'file-pdf'},
     hoverItemActions: true,
     fileActions(file) {
-        return [{text: '查看', icon: 'eye-open', onClick() {
+        return [{text: '查看', icon: {"className": "example-icon example-icon-eye", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%2012c5-10%2015-10%2020%200-5%2010-15%2010-20%200zM9%2012a3%203%200%201%200%206%200%203%203%200%201%200-6%200%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, onClick() {
             document.querySelector('#filesGridResult').textContent = '已选择：' + file.title;
         }}];
     },
@@ -334,7 +334,7 @@ const instance = new zui.FileList('#filesLimited', {
 const instance = new zui.FileList('#filesActions', {
     items: [{id: 'guide', title: '使用指南.pdf', extension: 'pdf', size: 2048, pathname: 'guide.pdf', addedBy: '团队', addedDate: '2026-09-01'}],
     fileActions(file) {
-        return [{text: '移除', icon: 'trash', onClick() {
+        return [{text: '移除', icon: {"className": "i-trash", "aria-hidden": true}, onClick() {
             zui.FileList.get('#filesActions').render({items: []});
             document.querySelector('#filesActionsResult').textContent = '已移除：' + file.title;
         }}];
@@ -513,7 +513,7 @@ const filesGridOptions = {
     fileIcon: {pdf: 'file-pdf'},
     hoverItemActions: true,
     fileActions(file) {
-        return [{text: '查看', icon: 'eye-open', onClick() {
+        return [{text: '查看', icon: {"className": "example-icon example-icon-eye", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%2012c5-10%2015-10%2020%200-5%2010-15%2010-20%200zM9%2012a3%203%200%201%200%206%200%203%203%200%201%200-6%200%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, onClick() {
             document.querySelector('#filesGridResult').textContent = '已选择：' + file.title;
         }}];
     },
@@ -533,7 +533,7 @@ const filesLimitedOptions = {
 const filesActionsOptions = {
     items: [{id: 'guide', title: '使用指南.pdf', extension: 'pdf', size: 2048, pathname: 'guide.pdf', addedBy: '团队', addedDate: '2026-09-01'}],
     fileActions(file) {
-        return [{text: '移除', icon: 'trash', onClick() {
+        return [{text: '移除', icon: {"className": "i-trash", "aria-hidden": true}, onClick() {
             zui.FileList.get('#filesActions').render({items: []});
             document.querySelector('#filesActionsResult').textContent = '已移除：' + file.title;
         }}];

@@ -103,3 +103,34 @@
 <span class="i-calendar text-primary"></span>
 <span class="i-calendar text-xl"></span>
 ```
+
+## 常用操作
+
+使用 `currentColor`，边长为 `1em`，随字号缩放。仅图标按钮应在按钮上设置 `aria-label`。
+
+```html:example:flex items-center gap-4
+<span class="i-plus" title="添加" aria-hidden="true"></span>
+<span class="i-minus" title="减去" aria-hidden="true"></span>
+<span class="i-check" title="确认" aria-hidden="true"></span>
+<span class="i-edit" title="编辑" aria-hidden="true"></span>
+<span class="i-trash" title="删除" aria-hidden="true"></span>
+<span class="i-info" title="信息" aria-hidden="true"></span>
+<span class="i-first-page" title="首页" aria-hidden="true"></span>
+<span class="i-last-page" title="末页" aria-hidden="true"></span>
+<span class="i-upload" title="上传" aria-hidden="true"></span>
+<span class="i-download" title="下载" aria-hidden="true"></span>
+<span class="i-copy" title="复制" aria-hidden="true"></span>
+<span class="i-paste" title="粘贴" aria-hidden="true"></span>
+<span class="i-menu" title="菜单" aria-hidden="true"></span>
+<span class="i-move" title="拖动" aria-hidden="true"></span>
+```
+
+## 组件配置
+
+支持 `IconType` 的组件可以用 CSS 描述对象，无需字体库：
+
+```js
+{icon: {className: 'i-plus', 'aria-hidden': true}, text: '添加'}
+```
+
+复杂图形由组件库自身维护内嵌 SVG；Preact 图标可直接传入 SVG VNode。字符串图标名保持兼容，使用自定义字体名时需要由调用方加载对应字体资源。

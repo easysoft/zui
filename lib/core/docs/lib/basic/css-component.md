@@ -43,7 +43,7 @@ CSS 组件通常提供了多种样式修饰，例如按钮的颜色、大小、�
   <button type="button" class="btn black rounded-none">预览报告</button>
   <button type="button" class="btn secondary-outline square">正</button>
   <button type="button" class="btn dark-outline circle">描边</button>
-  <button type="button" class="btn danger-pale square circle" aria-label="喜欢"><i class="icon icon-heart" aria-hidden="true"></i></button>
+  <button type="button" class="btn danger-pale square circle" aria-label="喜欢"><i class="example-icon example-icon-heart" aria-hidden="true" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%2021S2%2015%202%208c0-6%208-7%2010-2%202-5%2010-4%2010%202%200%207-10%2013-10%2013z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></button>
   <button type="button" class="btn text-primary ghost">查看详情</button>
 </Example>
 
@@ -54,7 +54,7 @@ CSS 组件通常提供了多种样式修饰，例如按钮的颜色、大小、�
 <button type="button" class="btn black rounded-none">预览报告</button>
 <button type="button" class="btn secondary-outline square">正</button>
 <button type="button" class="btn dark-outline circle">描边</button>
-<button type="button" class="btn danger-pale square circle" aria-label="喜欢"><i class="icon icon-heart" aria-hidden="true"></i></button>
+<button type="button" class="btn danger-pale square circle" aria-label="喜欢"><i class="example-icon example-icon-heart" aria-hidden="true" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%2021S2%2015%202%208c0-6%208-7%2010-2%202-5%2010-4%2010%202%200%207-10%2013-10%2013z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></i></button>
 <button type="button" class="btn text-primary ghost">查看详情</button>
 ```
 

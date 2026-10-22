@@ -1,4 +1,4 @@
-import '@zui/icons';
+import '@zui/css-icons';
 import '@zui/button/css';
 import {Button} from '@zui/button/react';
 import {action} from 'storybook/actions';

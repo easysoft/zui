@@ -1,4 +1,4 @@
-import type {CustomContentType} from '@zui/core';
+import type {CustomContentType, IconType} from '@zui/core';
 import type {ToolbarItemOptions} from '@zui/toolbar';
 import type {ModalDialogOptions} from './modal-dialog-options';
 import type {ModalBaseOptions} from './modal-base-options';
@@ -45,7 +45,7 @@ export interface ModalIframeOptions extends ModalOptions {
 
 export interface ModalAlertOptions extends ModalCustomOptions {
     message: CustomContentType;
-    icon?: string;
+    icon?: IconType;
     iconClass?: string;
     actions?: ToolbarItemOptions[] | string | string[];
     onClickAction?: (item: ToolbarItemOptions, modal: Modal) => false | void;

@@ -1,0 +1,170 @@
+/* Font-independent icon slots. Geometry belongs to the individual CSS/SVG icon. */
+.icon {
+  @apply -inline-block -align-middle -not-italic -flex-none;
+  line-height: 1;
+}
+svg.icon {
+  width: 1em;
+  height: 1em;
+}
+.i-plus, .i-minus, .i-check, .i-edit, .i-trash, .i-info,
+.i-first-page, .i-last-page, .i-upload, .i-download, .i-copy,
+.i-paste, .i-menu, .i-move {
+  @apply -inline-block -relative -align-middle -flex-none;
+  width: 1em;
+  height: 1em;
+}
+.i-plus::before, .i-plus::after, .i-minus::before {
+  content: '';
+  @apply -absolute -bg-current;
+  width: .85em;
+  height: .1em;
+  left: .075em;
+  top: .45em;
+}
+.i-plus::after { transform: rotate(90deg); }
+.i-check::before {
+  content: '';
+  @apply -absolute -border-current;
+  width: .35em;
+  height: .65em;
+  left: .3em;
+  top: .05em;
+  border-width: 0 .12em .12em 0;
+  transform: rotate(45deg);
+}
+.i-edit::before {
+  content: '';
+  @apply -absolute -border-current -border;
+  width: .28em;
+  height: .8em;
+  left: .35em;
+  top: .05em;
+  transform: rotate(40deg);
+  border-radius: .06em .06em 0 0;
+}
+.i-edit::after {
+  content: '';
+  @apply -absolute -bg-current;
+  width: .16em;
+  height: .16em;
+  left: .08em;
+  bottom: .04em;
+  transform: rotate(40deg);
+}
+.i-trash::before {
+  content: '';
+  @apply -absolute -border-current -border;
+  width: .6em;
+  height: .7em;
+  left: .2em;
+  top: .25em;
+  border-radius: 0 0 .1em .1em;
+}
+.i-trash::after {
+  content: '';
+  @apply -absolute -bg-current;
+  width: .8em;
+  height: .1em;
+  left: .1em;
+  top: .15em;
+  box-shadow: 0 -.15em 0 -.01em currentColor;
+}
+.i-info {
+  @apply -border -border-current -rounded-full;
+}
+.i-info::before, .i-info::after {
+  content: '';
+  @apply -absolute -bg-current;
+  width: .1em;
+  left: calc(50% - .05em);
+}
+.i-info::before { height: .1em; top: .15em; }
+.i-info::after { height: .35em; top: .4em; }
+.i-first-page::before, .i-last-page::before {
+  content: '';
+  @apply -absolute -border-current;
+  width: .5em;
+  height: .5em;
+  top: .25em;
+  left: .35em;
+  border-width: 0 0 .1em .1em;
+  transform: rotate(45deg);
+}
+.i-first-page::after, .i-last-page::after {
+  content: '';
+  @apply -absolute -bg-current;
+  width: .1em;
+  height: .8em;
+  left: .05em;
+  top: .1em;
+}
+.i-last-page { transform: rotate(180deg); }
+.i-upload::before, .i-download::before {
+  content: '';
+  @apply -absolute -border-current;
+  width: .45em;
+  height: .45em;
+  left: .275em;
+  top: .15em;
+  border-width: .1em .1em 0 0;
+  transform: rotate(-45deg);
+}
+.i-upload::after, .i-download::after {
+  content: '';
+  @apply -absolute -bg-current;
+  width: .1em;
+  height: .75em;
+  left: .45em;
+  top: .15em;
+}
+.i-download { transform: rotate(180deg); }
+.i-copy::before, .i-copy::after, .i-paste::before {
+  content: '';
+  @apply -absolute -border -border-current -rounded-sm;
+  width: .65em;
+  height: .75em;
+}
+.i-copy::before { left: .05em; top: .05em; border-right: 0; border-bottom: 0; }
+.i-copy::after { left: .3em; top: .25em; }
+.i-paste::before { left: .15em; top: .2em; }
+.i-paste::after {
+  content: '';
+  @apply -absolute -border -border-current;
+  width: .4em;
+  height: .2em;
+  left: .275em;
+  top: .05em;
+}
+.i-menu::before {
+  content: '';
+  @apply -absolute -bg-current;
+  width: .9em;
+  height: .1em;
+  left: .05em;
+  top: .45em;
+  box-shadow: 0 -.3em currentColor, 0 .3em currentColor;
+}
+.i-move::before {
+  content: '';
+  @apply -absolute -bg-current -rounded-full;
+  width: .16em;
+  height: .16em;
+  left: .22em;
+  top: .12em;
+  box-shadow: .4em 0 currentColor, 0 .3em currentColor, .4em .3em currentColor, 0 .6em currentColor, .4em .6em currentColor;
+}
+
+/* These shapes also work alongside the optional legacy font stylesheet. */
+svg.icon,
+.icon:is(.close, .spinner, .magnifier, .more, .more-vert, [class^="i-"], [class*=" i-"], [class^="chevron-"], [class*=" chevron-"]) {
+  font-family: inherit;
+}
+/* Keep explicit public font-size utilities available on icon elements. */
+svg.icon:not(:where(.text-root, .text-sm, .text-base, .text-md, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl)),
+.icon:is(.close, .spinner, .magnifier, .more, .more-vert, [class^="i-"], [class*=" i-"], [class^="chevron-"], [class*=" chevron-"]):not(:where(.text-root, .text-sm, .text-base, .text-md, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl)) {
+  font-size: inherit;
+}
+.icon:is(.close, .spinner, .magnifier, .more, .more-vert, [class^="i-"], [class*=" i-"], [class^="chevron-"], [class*=" chevron-"])::before {
+  min-width: 0;
+}

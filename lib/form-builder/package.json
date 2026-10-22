@@ -29,7 +29,6 @@
         "@zui/css-icons": "workspace:*",
         "@zui/datetime-picker": "workspace:*",
         "@zui/form": "workspace:*",
-        "@zui/icons": "workspace:*",
         "@zui/input-control": "workspace:*",
         "@zui/input-group": "workspace:*",
         "@zui/list": "workspace:*",

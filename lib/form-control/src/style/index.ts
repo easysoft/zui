@@ -1,3 +1,4 @@
+import '@zui/css-icons';
 import './vars.css';
 import './placeholder.css';
 import './form-control.css';

@@ -1,5 +1,5 @@
 import {Component, JSX} from 'preact';
-import {classes} from '@zui/core';
+import {classes, Icon, type IconType} from '@zui/core';
 
 type InputProps = {
     className?: string;
@@ -10,7 +10,7 @@ type InputProps = {
     disabled?: boolean;
     readonly?: boolean;
     onChange?: (value: string) => void;
-    icon?: string;
+    icon?: IconType;
 };
 
 type InputState = {
@@ -59,14 +59,14 @@ export default class Input extends Component<InputProps, InputState> {
         const {type = 'text', icon, value: controlledValue, defaultValue, className, style, onChange, disabled, readonly, ...rest} = this.props;
         const value = controlledValue ?? this.state.value;
 
-        const iconView = icon ? <span className="input-control-prefix" aria-hidden="true"><i className={`icon icon-${icon}`}></i></span> : null;
+        const iconView = icon ? <span className="input-control-prefix" aria-hidden="true"><Icon icon={icon} /></span> : null;
 
         return (
             <div className={classes('zui-input input-control', icon ? 'has-prefix-icon' : '', className)} style={style}>
                 {iconView}
                 <input className="form-control" type={type} value={value} disabled={disabled} readonly={readonly} onChange={this.handleChange} {...rest} />
                 <button type="button" className={classes('-absolute -w-8 -h-8 -right-0 -top-0 -flex -justify-center -items-center -cursor-pointer -appearance-none -border-0 -bg-transparent -p-0', {'-hidden': !value || disabled || readonly})} onClick={this.handleClear} aria-label="Clear input">
-                    <i className="icon icon-close" aria-hidden="true"></i>
+                    <span className="close" aria-hidden="true"></span>
                 </button>
             </div>
         );

@@ -171,7 +171,7 @@ new zui.Calendar('#calendarCategories', {
 new zui.Calendar('#calendarStyle', {
     headerTitle: '自定义事件样式',
     events: [
-        {id: 'report', title: '提交发布验收报告', start: new Date().setHours(9, 30, 0, 0), icon: 'icon-bell', color: 'var(--color-danger-500)'},
+        {id: 'report', title: '提交发布验收报告', start: new Date().setHours(9, 30, 0, 0), icon: {"className": "example-icon example-icon-bell", "aria-hidden": true, "style": {"display": "inline-block", "width": "1em", "height": "1em", "backgroundColor": "currentColor", "mask": "url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M5%208a7%207%200%200%201%2014%200v8l3%203H2l3-3zM9%2022h6%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"}}, color: 'var(--color-danger-500)'},
         {id: 'accepted', title: '客户门户验收通过', start: new Date().setHours(14, 0, 0, 0), background: 'var(--color-success-500)', color: '#fff'},
     ],
 });

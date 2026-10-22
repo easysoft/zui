@@ -15,10 +15,10 @@
   @apply -m-0;
 }
 
-.color-picker-item.color-input .icon-check {
+.color-picker-item.color-input .i-check {
   @apply -opacity-0 -scale-75;
 }
-.color-picker-row.is-custom .color-picker-item.color-input .icon-check {
+.color-picker-row.is-custom .color-picker-item.color-input .i-check {
   @apply -opacity-100;
 }
 .color-picker-item.color-input > label::before {

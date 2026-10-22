@@ -1,6 +1,8 @@
 import {expect, test} from '@playwright/test';
 
-test('ZUI-DOC-009: component navigation starts with task groups and exposes the current button', async ({page}) => {
+test('ZUI-DOC-009: component navigation starts with task groups and exposes the current button', async ({page, baseURL}) => {
+    const libraries = await (await page.request.get(new URL('zui-libs.json', baseURL).href)).json() as {name: string}[];
+    const hasFontIcons = libraries.some(lib => lib.name === '@zui/icons');
     await page.setViewportSize({width: 1280, height: 720});
     await page.goto('lib/components/button/');
     const sidebar = page.locator('.VPSidebar');
@@ -13,7 +15,7 @@ test('ZUI-DOC-009: component navigation starts with task groups and exposes the 
     const controls = groups.filter({has: page.getByRole('heading', {name: '基础控件', exact: true})});
     await expect(controls).not.toHaveClass(/collapsed/);
     await expect(controls.getByRole('link', {name: '按钮', exact: true})).toBeInViewport({ratio: 1});
-    await expect(controls.getByRole('link', {name: '字体图标', exact: true})).toHaveCount(1);
+    await expect(controls.getByRole('link', {name: '字体图标', exact: true})).toHaveCount(hasFontIcons ? 1 : 0);
     await expect(controls.getByRole('link', {name: 'CSS 图标', exact: true})).toHaveCount(1);
     expect(await page.evaluate(() => window.scrollY)).toBe(0);
 
@@ -93,7 +95,9 @@ test('ZUI-DOC-009: mobile menu reveals the current helper without taking over ma
     await expect(menu).toBeFocused();
 });
 
-test('ZUI-DOC-009: component overview provides grouped document links with purpose descriptions', async ({page}) => {
+test('ZUI-DOC-009: component overview provides grouped document links with purpose descriptions', async ({page, baseURL}) => {
+    const libraries = await (await page.request.get(new URL('zui-libs.json', baseURL).href)).json() as {name: string}[];
+    const entryCount = libraries.some(lib => lib.name === '@zui/icons') ? 70 : 69;
     await page.goto('lib/components/button/');
     const overviewLink = page.locator('.VPSidebar').getByRole('link', {name: '组件总览', exact: true});
     await expect(overviewLink).toHaveCount(1);
@@ -108,8 +112,8 @@ test('ZUI-DOC-009: component overview provides grouped document links with purpo
         '基础控件', '表单与输入', '导航与菜单', '数据展示', '布局与交互', '反馈与浮层',
     ]);
     const descriptions = groups.locator('.component-overview-description');
-    await expect(descriptions).toHaveCount(70);
-    await expect(groups.locator(':scope > ul > li > a[href]')).toHaveCount(70);
+    await expect(descriptions).toHaveCount(entryCount);
+    await expect(groups.locator(':scope > ul > li > a[href]')).toHaveCount(entryCount);
     const entries = await descriptions.evaluateAll(elements => elements.map((element) => {
         const links = element.parentElement!.querySelectorAll(':scope > a[href]');
         const link = links[0];
@@ -120,7 +124,7 @@ test('ZUI-DOC-009: component overview provides grouped document links with purpo
             url: link ? new URL(link.getAttribute('href')!, location.href).href : '',
         };
     }));
-    expect(new Set(entries.map(entry => entry.url)).size).toBe(70);
+    expect(new Set(entries.map(entry => entry.url)).size).toBe(entryCount);
     for (const entry of entries) {
         expect(entry.linkCount, entry.description).toBe(1);
         expect(entry.name, entry.url).toBeTruthy();

@@ -18,10 +18,10 @@
         "@zui/list": "workspace:*",
         "@zui/popover": "workspace:*",
         "@zui/utilities": "workspace:*",
-        "preact": "^10.27.2"
+        "preact": "^10.27.2",
+        "@zui/css-icons": "workspace:*"
     },
     "devDependencies": {
-        "@zui/icons": "workspace:*",
         "zui-dev": "workspace:*"
     },
     "zui": {

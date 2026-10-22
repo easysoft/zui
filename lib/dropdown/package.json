@@ -18,7 +18,6 @@
     },
     "devDependencies": {
         "@zui/base": "workspace:*",
-        "@zui/icons": "workspace:*",
         "@zui/utilities": "workspace:*",
         "zui-dev": "workspace:*",
         "@zui/checkbox": "workspace:*",

@@ -1,4 +1,4 @@
-import {Component, type CopyContents, $, copy, i18n, Cash} from '@zui/core';
+import {Component, getIconClass, type CopyContents, $, copy, i18n, Cash} from '@zui/core';
 import {Tooltip} from '@zui/tooltip';
 import type {CopyBtnOptions} from '../types';
 
@@ -110,7 +110,16 @@ export class CopyBtn extends Component<CopyBtnOptions> {
             }
             $element.addClass('hide-children');
             if (copiedIcon) {
-                $element.append($('<i class="copied-overlay icon"></i>').addClass(copiedIcon.startsWith('icon-') ? copiedIcon : `icon-${copiedIcon}`).attr('style', 'display:inline!important'));
+                const $icon = $('<i class="copied-overlay" aria-hidden="true"></i>').addClass(getIconClass(copiedIcon));
+                if (typeof copiedIcon === 'object' && copiedIcon.style) {
+                    if (typeof copiedIcon.style === 'string') {
+                        $icon.attr('style', copiedIcon.style);
+                    } else {
+                        $icon.css(copiedIcon.style as Record<string, string>);
+                    }
+                }
+                ($icon[0] as HTMLElement).style.setProperty('display', 'inline-block', 'important');
+                $element.append($icon);
             }
             $element.append($('<span class="copied-overlay text"></span>').text(text).attr('style', 'display:inline!important'));
         }
