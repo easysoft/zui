@@ -18,8 +18,12 @@ const meta = {
     },
     render({text, appearance, size}) {
         const label = document.createElement('span');
-        label.className = ['label', appearance, size && `size-${size}`].filter(Boolean).join(' ');
-        label.textContent = text;
+        label.className = ['label max-w-full', appearance, size && `size-${size}`].filter(Boolean).join(' ');
+        label.title = text;
+        const content = document.createElement('span');
+        content.className = 'text-ellipsis';
+        content.textContent = text;
+        label.append(content);
         return label;
     },
 } satisfies Meta<LabelArgs>;
@@ -29,6 +33,11 @@ type Story = StoryObj<LabelArgs>;
 
 export const Playground: Story = {
     name: '外观与尺寸',
+};
+
+export const LongText: Story = {
+    name: '长文本省略',
+    args: {text: '等待项目负责人完成全部验收条目并确认本次版本的发布计划，包含跨团队协作、风险检查与最终交付确认'},
 };
 
 export const StatusDot: Story = {

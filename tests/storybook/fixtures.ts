@@ -40,8 +40,8 @@ export function storyId(lib: string, variant: string) {
     return story.id;
 }
 
-export async function openStory(page: Page, lib: string, variant: string) {
-    await page.goto(`./?path=/story/${encodeURIComponent(storyId(lib, variant))}`);
+export async function openStory(page: Page, lib: string, variant: string, theme?: 'light' | 'dark') {
+    await page.goto(`./?path=/story/${encodeURIComponent(storyId(lib, variant))}${theme ? `&globals=theme:${theme}` : ''}`);
     const canvas = page.frameLocator('#storybook-preview-iframe');
     await expect(canvas.locator('#storybook-root')).toBeVisible({timeout: 30_000});
     await expect(canvas.locator('.sb-errordisplay:visible, vite-error-overlay')).toHaveCount(0);

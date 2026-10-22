@@ -21,7 +21,7 @@ function makeTabsRender(fade = false) {
             root.className = 'tabs';
             root.dataset.storyTabs = '';
             const target = document.createElement('ul');
-            target.className = `nav ${args.appearance}`;
+            target.className = `nav flex-wrap ${args.appearance}`;
             target.setAttribute('role', 'tablist');
             target.setAttribute('aria-label', '项目标签页');
             const content = document.createElement('div');
@@ -36,15 +36,20 @@ function makeTabsRender(fade = false) {
             for (const entry of entries) {
                 const selected = entry.name === args.active;
                 const item = document.createElement('li');
-                item.className = 'nav-item';
+                item.className = 'nav-item max-w-full';
                 item.setAttribute('role', 'presentation');
                 const link = document.createElement('a');
                 link.id = `${id}-${entry.name}-tab`;
                 link.href = `#${id}-${entry.name}-pane`;
                 link.dataset.toggle = 'tab';
                 link.dataset.name = entry.name;
+                link.className = 'max-w-full';
                 link.classList.toggle('active', selected);
-                link.textContent = entry.text;
+                link.title = entry.text;
+                const text = document.createElement('span');
+                text.className = 'text-ellipsis';
+                text.textContent = entry.text;
+                link.append(text);
                 link.setAttribute('role', 'tab');
                 link.setAttribute('aria-controls', `${id}-${entry.name}-pane`);
                 link.setAttribute('aria-selected', String(selected));
@@ -85,8 +90,9 @@ function makeTabsRender(fade = false) {
         },
         options: () => ({}),
         update(tabs, _options, args, host) {
-            host.target.className = `nav ${args.appearance}`;
-            host.links[0].textContent = args.overviewText;
+            host.target.className = `nav flex-wrap ${args.appearance}`;
+            host.links[0].firstElementChild!.textContent = args.overviewText;
+            host.links[0].title = args.overviewText;
             host.select(tabs, args.active);
         },
         ready(tabs, _args, host, api) {
@@ -127,6 +133,11 @@ type Story = StoryObj<TabsArgs>;
 
 export const Controlled: Story = {
     name: '受控标签页',
+};
+
+export const LongLabel: Story = {
+    name: '长标签与窄屏',
+    args: {overviewText: '当前项目的完整进展、交付安排与所有成员的协作概览，包含跨团队依赖和待确认事项'},
 };
 
 export const Fade: Story = {

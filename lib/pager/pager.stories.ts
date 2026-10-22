@@ -19,22 +19,23 @@ type PagerArgs = Pick<PagerInfo, 'page' | 'recTotal' | 'recPerPage'>;
 const onChangePageInfo = action('onChangePageInfo');
 const onChange = action('zui-change');
 
-function createItems(sizeMenu = false) {
+function createItems(sizeMenu = false, compact = false) {
     return [
         {type: 'info', text: '共 {recTotal} 条 · 第 {page}/{pageTotal} 页'},
         {type: 'link', page: 'prev', text: '上一页'},
-        {type: 'nav', count: 5},
+        ...(compact ? [] : [{type: 'nav', count: 5}]),
         {type: 'link', page: 'next', text: '下一页'},
         ...(sizeMenu ? [{type: 'size-menu', text: '每页 {recPerPage} 条', items: [10, 20, 50]}] : []),
     ];
 }
 
-function renderPager(sizeMenu = false) {
+function renderPager(sizeMenu = false, compact = false) {
     return createPreactRender(PagerView, {
         props: (args: PagerArgs, api): PagerOptions => ({
             ...PagerView.format({...args, pageTotal: 0}),
             useState: false,
-            items: createItems(sizeMenu),
+            items: createItems(sizeMenu, compact),
+            className: compact ? 'flex-wrap' : undefined,
             attrs: {role: 'navigation', 'aria-label': '分页'},
             onChangePageInfo: api.guard((info: PagerInfo, event: Event) => {
                 onChangePageInfo(info, event);
@@ -60,6 +61,27 @@ type Story = StoryObj<PagerArgs>;
 
 export const Controlled: Story = {
     name: '受控分页',
+};
+
+export const Empty: Story = {
+    name: '空数据',
+    args: {page: 0, recTotal: 0},
+    argTypes: {page: {control: {type: 'number', min: 0, step: 1}}},
+};
+
+export const SinglePage: Story = {
+    name: '仅一页',
+    args: {page: 1, recTotal: 8},
+};
+
+export const LastPage: Story = {
+    name: '末页',
+    args: {page: 11},
+};
+
+export const Compact: Story = {
+    name: '窄屏分页',
+    render: renderPager(false, true),
 };
 
 export const PageSizeMenu: Story = {

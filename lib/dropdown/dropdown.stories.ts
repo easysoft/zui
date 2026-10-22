@@ -23,7 +23,7 @@ const onShow = action('show');
 const onHide = action('hide');
 const onClickItem = action('menu action');
 
-function renderDropdown(nested = false) {
+function renderDropdown(nested = false, longMenu = false) {
     return createPreactRender(DropdownButton, {
         // DropdownButton only merges options; remount when trigger bindings or the open panel change.
         key: (args: DropdownArgs) => JSON.stringify([args.trigger, args.placement, args.arrow, args.disabled]),
@@ -68,7 +68,11 @@ function renderDropdown(nested = false) {
                             {key: 'png', text: '导出为 PNG'},
                         ],
                     }] : [{key: 'archive', text: '归档'}]),
-                ],
+                ].map(item => longMenu && item.key === 'copy' ? {
+                    ...item,
+                    text: '复制项目的完整配置、成员权限与通知设置（保留全部字段）',
+                    hint: '复制项目的完整配置、成员权限与通知设置（保留全部字段）',
+                } : item),
                 menu: {nestedTrigger: 'click'},
                 onClickItem: api.guard(({item}) => {
                     onClickItem({key: item.key, text: item.text});
@@ -100,6 +104,16 @@ type Story = StoryObj<DropdownArgs>;
 
 export const Playground: Story = {
     name: '点击打开',
+};
+
+export const Disabled: Story = {
+    name: '禁用触发按钮',
+    args: {disabled: true},
+};
+
+export const LongMenu: Story = {
+    name: '长菜单项',
+    render: renderDropdown(false, true),
 };
 
 export const Nested: Story = {

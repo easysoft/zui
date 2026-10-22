@@ -48,6 +48,10 @@ const meta = {
         props: (args: ButtonArgs, api): ButtonProps => ({
             ...args,
             size: args.size || undefined,
+            className: 'max-w-full',
+            textClass: 'text-ellipsis',
+            hint: args.text,
+            attrs: {'aria-label': args.loading ? (args.loadingText || args.text) : undefined, 'aria-busy': args.loading},
             onClick: api.guard(onClick),
         }),
     }),
@@ -58,6 +62,21 @@ type Story = StoryObj<ButtonArgs>;
 
 export const Preact: Story = {
     name: 'Preact 组件',
+};
+
+export const Disabled: Story = {
+    name: '禁用',
+    args: {disabled: true},
+};
+
+export const Loading: Story = {
+    name: '加载中',
+    args: {loading: true},
+};
+
+export const LongText: Story = {
+    name: '长文本省略',
+    args: {text: '保存当前项目的全部设置、成员权限和通知偏好并返回项目概览'},
 };
 
 export const Native: Story = {

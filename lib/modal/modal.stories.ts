@@ -29,7 +29,7 @@ function makeModalRender(scenario: 'playground' | 'confirmation' | 'long-content
         <div class="modal">
             <div class="modal-dialog" role="dialog" tabindex="-1">
                 <div class="modal-content">
-                    <div class="modal-header"><h2 class="modal-title"></h2></div>
+                    <div class="modal-header"><h2 class="modal-title pr-8"></h2></div>
                     <div class="modal-actions">
                         <button type="button" class="btn square ghost" data-dismiss="modal" aria-label="关闭对话框"><span class="close" aria-hidden="true"></span></button>
                     </div>
@@ -141,6 +141,16 @@ type Story = StoryObj<ModalArgs>;
 
 export const Playground: Story = {
     name: '尺寸与关闭方式',
+};
+
+export const Static: Story = {
+    name: '仅按钮关闭',
+    args: {backdrop: 'static', keyboard: false, body: '此场景禁止通过 Esc 和遮罩关闭。请使用右上角关闭按钮或页脚按钮返回。'},
+};
+
+export const LongTitle: Story = {
+    name: '长标题与窄屏',
+    args: {title: '确认当前项目的成员权限、通知偏好与全部验收条目，并检查本次版本发布前的设置', size: 'sm'},
 };
 
 export const Confirmation: Story = {
