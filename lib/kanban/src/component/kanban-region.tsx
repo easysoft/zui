@@ -3,12 +3,21 @@ import {$, ClassNameLike, HElement, mergeProps} from '@zui/core';
 import {Listitem} from '@zui/list/react';
 import {Kanban} from './kanban';
 import {mergeData, mergeList, sortByOrder} from '../helpers/kanban-helpers';
-import type {KanbanData, KanbanDataset, KanbanProps, KanbanRegionProps, KanbanRegionState} from '../types';
+import type {
+    KanbanBackgroundPattern,
+    KanbanData,
+    KanbanDataset,
+    KanbanProps,
+    KanbanRegionProps,
+    KanbanRegionState,
+} from '../types';
 
 export class KanbanRegion extends HElement<KanbanRegionProps, KanbanRegionState> {
     protected _kanbanRefs = new Map<string, RefObject<Kanban>>();
 
     protected _needUpdateData = new Map<string, Partial<KanbanData>>();
+
+    protected _pendingBackgroundPattern?: KanbanBackgroundPattern;
 
     componentDidUpdate(): void {
         if (this.state.collapsed) {
@@ -22,6 +31,9 @@ export class KanbanRegion extends HElement<KanbanRegionProps, KanbanRegionState>
                 needUpdateData.delete(key);
             }
         });
+        if (this._pendingBackgroundPattern !== undefined) {
+            this._applyBackgroundPattern();
+        }
     }
 
     getDefaultState(props?: RenderableProps<KanbanRegionProps> | undefined): KanbanRegionState {
@@ -39,6 +51,26 @@ export class KanbanRegion extends HElement<KanbanRegionProps, KanbanRegionState>
 
     getKanban(key: unknown) {
         return this._kanbanRefs.get(String(key))?.current;
+    }
+
+    updateBackgroundPattern(backgroundPattern: KanbanBackgroundPattern): Promise<unknown[]> {
+        this._pendingBackgroundPattern = backgroundPattern;
+        return this._applyBackgroundPattern();
+    }
+
+    protected _applyBackgroundPattern(): Promise<unknown[]> {
+        const backgroundPattern = this._pendingBackgroundPattern;
+        if (backgroundPattern === undefined || this.state.collapsed) {
+            return Promise.resolve([]);
+        }
+        const kanbans = [...this._kanbanRefs.values()]
+            .map(ref => ref.current)
+            .filter((kanban): kanban is Kanban => kanban !== null);
+        if (!kanbans.length) {
+            return Promise.resolve([]);
+        }
+        this._pendingBackgroundPattern = undefined;
+        return Promise.all(kanbans.map(kanban => kanban.updateBackgroundPattern(backgroundPattern)));
     }
 
     toggle(expanded?: boolean) {

@@ -5,6 +5,8 @@ import {createRef} from 'preact';
 import {describe, expect, it, vi} from 'vitest';
 import {Kanban as VanillaKanban} from '@zui/kanban';
 import {Kanban} from '@zui/kanban/src/component/kanban';
+import {KanbanList} from '@zui/kanban/src/component/kanban-list';
+import {KanbanRegion} from '@zui/kanban/src/component/kanban-region';
 import {flushAnimationFrame} from '../setup/dom';
 
 import type {
@@ -54,6 +56,18 @@ describe('Kanban background pattern', () => {
                 color: 'rgb(7, 8, 9)',
                 backgroundColor: 'rgb(1, 2, 3)',
             },
+            {name: 'done', title: 'Done'},
+        ],
+        items: {},
+    };
+
+    const rangeData = {
+        lanes: [
+            {name: 'lane-a', title: 'Lane A', color: 'rgb(4, 5, 6)'},
+            {name: 'lane-b', title: 'Lane B', color: 'rgb(6, 7, 8)'},
+        ],
+        cols: [
+            {name: 'todo', title: 'Todo'},
             {name: 'done', title: 'Done'},
         ],
         items: {},
@@ -204,6 +218,231 @@ describe('Kanban background pattern', () => {
         expect(lane.style.getPropertyValue('--kanban-lane-color')).toBe('rgb(4, 5, 6)');
         expect(header.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(20, 21, 22)');
         expect(todoCol.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(20, 21, 22)');
+    });
+
+    it('updates all backgrounds when the pattern changes', async () => {
+        const ref = createRef<Kanban>();
+        const {container} = render(
+            <Kanban
+                ref={ref}
+                data={data}
+                draggable={false}
+                responsive={false}
+            />,
+        );
+        const kanban = container.querySelector('.kanban')!;
+        const header = container.querySelector<HTMLElement>('.kanban-header-col[z-col="todo"]')!;
+        const todoCol = container.querySelector<HTMLElement>('.kanban-lane-col[z-col="todo"]')!;
+
+        act(() => {
+            void ref.current!.updateBackgroundPattern('horizontal');
+        });
+
+        expect(kanban.classList.contains('is-bg-horizontal')).toBe(true);
+        expect(header.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(4, 5, 6)');
+        expect(todoCol.style.getPropertyValue('--kanban-col-bg')).toBe('var(--kanban-lane-color)');
+
+        act(() => {
+            void ref.current!.updateBackgroundPattern('vertical');
+        });
+
+        expect(kanban.classList.contains('is-bg-vertical')).toBe(true);
+        expect(header.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(1, 2, 3)');
+        expect(todoCol.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(1, 2, 3)');
+    });
+
+    it('updates all kanbans in a kanban list', () => {
+        const ref = createRef<KanbanList>();
+        const {container} = render(
+            <KanbanList
+                ref={ref}
+                items={[
+                    {key: 'a', data},
+                    {key: 'b', data},
+                ]}
+                responsive={false}
+            />,
+        );
+
+        act(() => {
+            void ref.current!.updateBackgroundPattern('horizontal');
+        });
+
+        const kanbans = [...container.querySelectorAll<HTMLElement>('.kanban')];
+        expect(kanbans).toHaveLength(2);
+        expect(kanbans.every(kanban => kanban.classList.contains('is-bg-horizontal'))).toBe(true);
+    });
+
+    it('applies the latest pattern after a collapsed region expands', () => {
+        const ref = createRef<KanbanRegion>();
+        const {container} = render(
+            <KanbanRegion
+                ref={ref}
+                collapsed
+                items={[{key: 'kanban', data}]}
+            />,
+        );
+
+        act(() => {
+            void ref.current!.updateBackgroundPattern('horizontal');
+        });
+
+        expect(container.querySelector('.kanban')).toBeNull();
+
+        act(() => {
+            ref.current!.toggle(true);
+        });
+
+        const kanban = container.querySelector('.kanban');
+        expect(kanban).not.toBeNull();
+        expect(kanban!.classList.contains('is-bg-horizontal')).toBe(true);
+    });
+
+    it('normalizes an unknown pattern when updated at runtime', async () => {
+        const ref = createRef<Kanban>();
+        const {container} = render(
+            <Kanban
+                ref={ref}
+                data={data}
+                draggable={false}
+                responsive={false}
+            />,
+        );
+        const kanban = container.querySelector('.kanban')!;
+
+        act(() => {
+            void ref.current!.updateBackgroundPattern('unknown' as KanbanBackgroundPattern);
+        });
+
+        expect([...kanban.classList].some(name => name.startsWith('is-bg-'))).toBe(false);
+    });
+
+    it('syncs a changed background pattern from props', () => {
+        const {container, rerender} = render(
+            <Kanban
+                data={data}
+                backgroundPattern="vertical"
+                draggable={false}
+                responsive={false}
+            />,
+        );
+
+        rerender(
+            <Kanban
+                data={data}
+                backgroundPattern="horizontal"
+                draggable={false}
+                responsive={false}
+            />,
+        );
+
+        const kanban = container.querySelector('.kanban')!;
+        const header = container.querySelector<HTMLElement>('.kanban-header-col[z-col="todo"]')!;
+
+        expect(kanban.classList.contains('is-bg-horizontal')).toBe(true);
+        expect(header.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(4, 5, 6)');
+    });
+
+    it('updates only the target lane in vertical pattern', async () => {
+        const ref = createRef<Kanban>();
+        const {container} = render(
+            <Kanban
+                ref={ref}
+                data={rangeData}
+                backgroundPattern="vertical"
+                draggable={false}
+                responsive={false}
+            />,
+        );
+        const laneA = container.querySelector<HTMLElement>('.kanban-lane[z-lane="lane-a"]')!;
+        const laneB = container.querySelector<HTMLElement>('.kanban-lane[z-lane="lane-b"]')!;
+        const header = container.querySelector<HTMLElement>('.kanban-header-col[z-col="todo"]')!;
+
+        act(() => {
+            void ref.current!.updateLane({name: 'lane-a', color: 'rgb(9, 9, 9)'});
+        });
+
+        expect(laneA.style.getPropertyValue('--kanban-lane-color')).toBe('rgb(9, 9, 9)');
+        expect(laneB.style.getPropertyValue('--kanban-lane-color')).toBe('rgb(6, 7, 8)');
+        expect(header.style.getPropertyValue('--kanban-col-bg')).toBe('');
+    });
+
+    it('updates only the target row in horizontal pattern', async () => {
+        const ref = createRef<Kanban>();
+        const {container} = render(
+            <Kanban
+                ref={ref}
+                data={rangeData}
+                backgroundPattern="horizontal"
+                draggable={false}
+                responsive={false}
+            />,
+        );
+        const laneA = container.querySelector<HTMLElement>('.kanban-lane[z-lane="lane-a"]')!;
+        const laneB = container.querySelector<HTMLElement>('.kanban-lane[z-lane="lane-b"]')!;
+        const header = container.querySelector<HTMLElement>('.kanban-header-col[z-col="todo"]')!;
+
+        act(() => {
+            void ref.current!.updateLane({name: 'lane-b', color: 'rgb(9, 9, 9)'});
+        });
+
+        expect(laneA.style.getPropertyValue('--kanban-lane-color')).toBe('rgb(4, 5, 6)');
+        expect(laneB.style.getPropertyValue('--kanban-lane-color')).toBe('rgb(9, 9, 9)');
+        expect(header.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(4, 5, 6)');
+
+        act(() => {
+            void ref.current!.updateLane({name: 'lane-a', color: 'rgb(10, 10, 10)'});
+        });
+
+        expect(header.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(10, 10, 10)');
+    });
+
+    it('updates only the target column in vertical pattern', async () => {
+        const ref = createRef<Kanban>();
+        const {container} = render(
+            <Kanban
+                ref={ref}
+                data={rangeData}
+                backgroundPattern="vertical"
+                draggable={false}
+                responsive={false}
+            />,
+        );
+        const header = container.querySelector<HTMLElement>('.kanban-header-col[z-col="todo"]')!;
+        const doneHeader = container.querySelector<HTMLElement>('.kanban-header-col[z-col="done"]')!;
+        const todoCol = container.querySelector<HTMLElement>('.kanban-lane-col[z-col="todo"]')!;
+        const doneCol = container.querySelector<HTMLElement>('.kanban-lane-col[z-col="done"]')!;
+
+        act(() => {
+            void ref.current!.updateCol({name: 'todo', backgroundColor: 'rgb(8, 8, 8)'});
+        });
+
+        expect(header.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(8, 8, 8)');
+        expect(todoCol.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(8, 8, 8)');
+        expect(doneHeader.style.getPropertyValue('--kanban-col-bg')).toBe('');
+        expect(doneCol.style.getPropertyValue('--kanban-col-bg')).toBe('');
+    });
+
+    it('ignores column background color in horizontal pattern', async () => {
+        const ref = createRef<Kanban>();
+        const {container} = render(
+            <Kanban
+                ref={ref}
+                data={rangeData}
+                backgroundPattern="horizontal"
+                draggable={false}
+                responsive={false}
+            />,
+        );
+        const header = container.querySelector<HTMLElement>('.kanban-header-col[z-col="todo"]')!;
+        const todoCol = container.querySelector<HTMLElement>('.kanban-lane-col[z-col="todo"]')!;
+
+        act(() => {
+            void ref.current!.updateCol({name: 'todo', backgroundColor: 'rgb(8, 8, 8)'});
+        });
+
+        expect(header.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(4, 5, 6)');
+        expect(todoCol.style.getPropertyValue('--kanban-col-bg')).toBe('var(--kanban-lane-color)');
     });
 });
 

@@ -8,7 +8,27 @@ import {getCols, mergeData, getLanes, getColItems, normalizeData} from '../helpe
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType, SizeSetting} from '@zui/core';
 import type {ItemKey} from '@zui/common-list';
-import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataset, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState, KanbanDataMap, KanbanItemsMap, KanbanElementInfo, KanbanDropInfo, KanbanDropSide, KanbanItemInfo} from '../types';
+import type {
+    KanbanBackgroundPattern,
+    KanbanColName,
+    KanbanColOptions,
+    KanbanData,
+    KanbanDataset,
+    KanbanDataFetcher,
+    KanbanDataSetting,
+    KanbanItem,
+    KanbanLaneName,
+    KanbanLaneOptions,
+    KanbanLinkOptions,
+    KanbanProps,
+    KanbanState,
+    KanbanDataMap,
+    KanbanItemsMap,
+    KanbanElementInfo,
+    KanbanDropInfo,
+    KanbanDropSide,
+    KanbanItemInfo,
+} from '../types';
 import {createLinkID} from '../helpers/link-helpers';
 
 export type KanbanSnap = {
@@ -120,7 +140,10 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         }
     }
 
-    componentDidUpdate(): void {
+    componentDidUpdate(prevProps: RenderableProps<P>): void {
+        if (prevProps.backgroundPattern !== this.props.backgroundPattern) {
+            this.setState({backgroundPattern: this.props.backgroundPattern});
+        }
         this._afterRender(false);
         this.tryLoad();
     }
@@ -233,6 +256,13 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         return this.changeState(prevState => ({
             changes: mergeData({...prevState.changes}, changes, this.itemKey),
         } as Partial<S>));
+    }
+
+    updateBackgroundPattern(backgroundPattern: KanbanBackgroundPattern): Promise<S> {
+        const nextPattern = backgroundPattern === 'vertical' || backgroundPattern === 'horizontal'
+            ? backgroundPattern
+            : '';
+        return this.changeState({backgroundPattern: nextPattern} as Partial<S>);
     }
 
     createSnap(): KanbanSnap {
@@ -786,10 +816,13 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         });
     }
 
+    protected _getBackgroundPattern(props: RenderableProps<P>): KanbanBackgroundPattern {
+        const pattern = this.state.backgroundPattern ?? props.backgroundPattern;
+        return pattern === 'vertical' || pattern === 'horizontal' ? pattern : '';
+    }
+
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
-        const backgroundPattern = props.backgroundPattern === 'horizontal' || props.backgroundPattern === 'vertical'
-            ? props.backgroundPattern
-            : '';
+        const backgroundPattern = this._getBackgroundPattern(props);
         return [
             'kanban',
             props.className,
@@ -883,7 +916,8 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
         const data = this._data.value;
         const {cols, lanes, items} = data;
-        const {laneNameWidth, backgroundPattern, colBgColor, rowBgColor} = props;
+        const {laneNameWidth, colBgColor, rowBgColor} = props;
+        const backgroundPattern = this._getBackgroundPattern(props);
         const layoutCols = this._layoutCols(cols, props);
         const layoutLanes = this._layoutLanes(lanes, props);
         const firstLaneColor = layoutLanes[0]?.color;

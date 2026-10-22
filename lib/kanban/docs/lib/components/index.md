@@ -420,6 +420,8 @@ kanban.$?.updateLayout();
 
 `update(changes)` 按键合并增量数据；泳道和列分别使用 `addLane/updateLane/deleteLane`、`addCol/updateCol/deleteCol`。隐藏面板变为可见或外部布局变化时，可以调用 `updateLayout()` 重新计算尺寸。
 
+`updateBackgroundPattern(pattern)` 更新看板背景色规则并刷新全部区域；`pattern` 支持 `'vertical'`、`'horizontal'`，传空字符串或非法值恢复默认背景。`KanbanList` 和 `KanbanRegion` 提供同名方法，用于批量更新其子看板。
+
 ## 连线与多个看板
 
 `data.links` 中的每条连线用 `from`、`to` 指定卡片 ID，可设置 `shape: 'straight' | 'fold' | 'curve'`、`lineStyle`、`color`、`text`、`fromSide` 和 `toSide`。

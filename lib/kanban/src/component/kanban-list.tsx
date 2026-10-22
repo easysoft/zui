@@ -6,7 +6,18 @@ import {KanbanLinks} from './kanban-links';
 
 import type {ComponentChildren, RefObject, RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
-import type {KanbanData, KanbanDataSetting, KanbanRegionProps, KanbanListProps, KanbanListState, KanbanProps, KanbanRegionState, KanbanDataset, KanbanLinkOptions} from '../types';
+import type {
+    KanbanBackgroundPattern,
+    KanbanData,
+    KanbanDataSetting,
+    KanbanRegionProps,
+    KanbanListProps,
+    KanbanListState,
+    KanbanProps,
+    KanbanRegionState,
+    KanbanDataset,
+    KanbanLinkOptions,
+} from '../types';
 import {createLinkID} from '../helpers/link-helpers';
 import {mergeList} from '../helpers/kanban-helpers';
 
@@ -141,6 +152,18 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
             return (kanban as Kanban).update(data as Partial<KanbanDataset>);
         }
         return Promise.reject(new Error(`[ZUI] Kanban not found: ${key}`));
+    }
+
+    updateBackgroundPattern(backgroundPattern: KanbanBackgroundPattern): Promise<unknown[]> {
+        return Promise.all(
+            [...this._kanbanRefs.values()].map((ref) => {
+                const component = ref.current;
+                if (component instanceof KanbanRegion) {
+                    return component.updateBackgroundPattern(backgroundPattern);
+                }
+                return component?.updateBackgroundPattern(backgroundPattern);
+            }),
+        );
     }
 
     updateLayout(): void {
