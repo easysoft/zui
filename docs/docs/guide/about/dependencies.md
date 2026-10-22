@@ -43,6 +43,7 @@
 | --- | --- |
 | 包管理器 | `pnpm` 12.10.1（含 `@pnpm/exe.*` 平台包）；[MIT 版权文件](https://github.com/easysoft/zui/blob/main/licenses/LICENSE-pnpm.txt) |
 | 开发服务器与编译 | `vite`、`@preact/preset-vite`、`typescript`、`tsx` |
+| 独立组件场景预览 | `storybook`、`@storybook/html-vite` 10.6.2（HTML/Vite、Controls、Actions 和静态预览）；[MIT 版权文件](https://github.com/easysoft/zui/blob/main/licenses/LICENSE-storybook.txt) |
 | 构建脚本与辅助工具 | `fs-extra`、`fast-glob`、`chokidar`、`colorette`、`minimist`、`jszip`、`pinyin-pro` |
 | CSS 生成与处理 | `tailwindcss`、`@mertasan/tailwindcss-variables`、`postcss`、`postcss-import`、`postcss-inset`、`postcss-rem-to-pixel`、`autoprefixer`、`cssnano` |
 | 代码检查 | `eslint`、`@eslint/js`、`@stylistic/eslint-plugin`、`@typescript-eslint/parser`、`typescript-eslint` |

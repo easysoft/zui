@@ -12,6 +12,8 @@ export interface SharedViteConfigOptions {
     libsCache?: Record<string, LibInfo>;
     /** Packages allowed to replace other libraries; omitted enables all discovered extensions. */
     replacementLibs?: string[];
+    /** Let Vite bundle library public assets instead of using distribution URLs. */
+    bundlePublicAssets?: boolean;
     buildHash?: string;
     buildTime?: number;
     appVersion?: string;
@@ -53,6 +55,7 @@ export function createSharedViteConfig(options: SharedViteConfigOptions = {}): U
         rootPath = projectRoot,
         libsCache = {},
         replacementLibs,
+        bundlePublicAssets = false,
         buildHash = 'test',
         buildTime = 0,
         appVersion = packageJson.version,
@@ -112,7 +115,7 @@ export function createSharedViteConfig(options: SharedViteConfigOptions = {}): U
                         if (!lib) {
                             return Path.join(rootPath, source);
                         }
-                        if (source.startsWith('/public/') && mode !== 'development') {
+                        if (source.startsWith('/public/') && mode !== 'development' && !bundlePublicAssets) {
                             return `/${lib.zui.publicPath || lib.zui.name}/${source.replace('/public/', '')}`;
                         }
                         return Path.join(lib.zui.path, source);

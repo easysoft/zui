@@ -28,10 +28,10 @@ function colorToVars(colorObject, parentName = 'color', vars = {}) {
 }
 
 /** Each call owns its theme and presets, including mutations made by preset functions. */
-function createTailwindConfig({development = false, preflight = true, tailwindConfigs = []} = {}) {
+function createTailwindConfig({development = false, preflight = true, tailwindConfigs = [], content} = {}) {
     const config = {
         darkMode: 'media',
-        content: development ? [
+        content: content ?? (development ? [
             './index.html',
             './index.md',
             './src/**/*.{vue,js,ts,jsx,tsx}',
@@ -39,7 +39,7 @@ function createTailwindConfig({development = false, preflight = true, tailwindCo
             './lib/*/README.md',
             './lib/*/src/**/*.{vue,js,ts,jsx,tsx}',
             './exts/*/*/src/**/*.{vue,js,ts,jsx,tsx}',
-        ] : [{raw: ''}],
+        ] : [{raw: ''}]),
         safelist: ['dark'],
         theme: copyConfig(defaultTheme),
         plugins: [require('@mertasan/tailwindcss-variables')({colorVariables: true, darkToRoot: false})],

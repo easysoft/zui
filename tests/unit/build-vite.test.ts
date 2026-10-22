@@ -168,6 +168,16 @@ test('Tailwind retains default utilities and the public preflight switch', async
     expect(result.css).not.toContain('box-sizing: border-box');
 });
 
+test.each([false, true])('explicit Tailwind content generates utilities with development=%s without changing defaults', async (development) => {
+    const content = {files: [{raw: '<div class="-w-[137px]"></div>', extension: 'html'}]};
+    const result = await postcss(createPostcssConfig({development, content}).plugins)
+        .process('@tailwind utilities;', {from: undefined});
+    expect(result.css).toContain('width: 137px');
+    expect(createTailwindConfig().content).toEqual([{raw: ''}]);
+    expect(createTailwindConfig({development: true}).content).toContain('./lib/*/README.md');
+    expect(createTailwindConfig({development, content: []}).content).toEqual([]);
+});
+
 function findAlias(config: UserConfig, source: string) {
     const aliases = config.resolve!.alias;
     if (!Array.isArray(aliases)) {
@@ -198,6 +208,29 @@ function replacementFixture(): Record<string, LibInfo> {
         },
     };
 }
+
+test.each([
+    ['development', undefined, true],
+    ['production', undefined, false],
+    ['production', false, false],
+    ['production', true, true],
+    ['development', true, true],
+] as const)('resolves public assets with mode=%s and bundlePublicAssets=%s', (mode, bundlePublicAssets, bundled) => {
+    const libsCache = replacementFixture();
+    const lib = libsCache.button;
+    lib.zui.publicPath = 'custom-assets';
+    const config = createSharedViteConfig({mode, libsCache, bundlePublicAssets});
+    const {alias} = findAlias(config, '@/');
+    if (typeof alias.customResolver !== 'function') {
+        throw new Error('Missing library source resolver');
+    }
+    const source = '/public/icons.woff2?url';
+    const expected = bundled ? Path.join(lib.zui.path, source) : '/custom-assets/icons.woff2?url';
+    for (const importer of [Path.join(lib.zui.path, 'src/main.ts'), Path.join(rootDir, 'node_modules/@zui/button/src/main.ts')]) {
+        expect(Reflect.apply(alias.customResolver, {}, [source, importer])).toBe(expected);
+        expect(Reflect.apply(alias.customResolver, {}, ['/src/style.css', importer])).toBe(Path.join(lib.zui.path, 'src/style.css'));
+    }
+});
 
 test('extension replacements precede builtin aliases and retain subpath exports', () => {
     const libsCache = replacementFixture();

@@ -143,6 +143,8 @@ pnpm dev
 | --- | --- |
 | `pnpm dev` | 启动内置库的开发服务 |
 | `pnpm dev:exts` | 启动包含 `exts/` 扩展库的开发服务 |
+| `pnpm storybook` | 启动独立的组件场景预览（默认端口 6006） |
+| `pnpm storybook:build` | 构建 Storybook 静态站点到 `dist/storybook` |
 | `pnpm lint` | 运行 ESLint 检查 |
 | `pnpm typecheck` | 检查源码、工具与测试的 TypeScript 类型 |
 | `pnpm test` | 运行 Vitest 单元和 DOM 组件测试 |
@@ -163,6 +165,61 @@ pnpm dev
 `pack:npm` 默认输出到 `dist/npm/run-*`，可通过 `--out-dir <directory>` 指定目录；版本读取根 `package.json`，发布模板保持只读，打包失败保留旧包。生成候选包或持有 `artifact.json` 摘要清单不代表通过发布检查。`publish:npm` 必须显式指定 `.tgz`，执行 `check` 和消费该文件的 `test:build` 后发布同字节快照，不重新构建或打包该候选包。CI 保存本次验证过的 npm 包与摘要，不自动发布。完整流程见[打包与发布指南](./docs/docs/guide/customize/build.md#npm-候选包与发布)。
 
 测试分层、浏览器安装和视觉基线更新方式请查看[自动化测试指南](./docs/docs/guide/contributes/testing.md)。
+
+### Storybook 调试
+
+运行 `pnpm storybook` 后访问 <http://localhost:6006>。目前提供 6 个库共 19 个场景，可以在 Controls 中调整参数，在 Actions 中观察事件，也可以切换视口与预览背景。背景切换只改变画布背景，不切换 ZUI 主题。
+
+| 批次 | 组件 | 主要验证内容 |
+| --- | --- | --- |
+| 第一批 | Label、Button、Pager（10 个场景） | 外观与状态、Preact、原生 HTML 与 Web Component、表单提交、分页参数同步 |
+| 第二批 | Dropdown、Modal、Tabs（9 个场景） | Preact 内容与原生交互、嵌套菜单与悬停浮层、弹窗关闭与焦点恢复、标签切换与参数同步、实例销毁 |
+
+`pnpm storybook:build` 生成可由普通 HTTP 静态服务器托管的 `dist/storybook`，包括场景使用的图标字体。它与原有 `pnpm dev`、官网文档和分发构建独立，不加载本机 `exts/`。
+
+场景位于各库根目录的 `<name>.stories.ts` 或 `<name>.stories.tsx`，使用 HTML/Vite 和 CSF 3，通过组件公开入口导入组件与样式。Button 的 Web Component 原型场景从本库 `src/web-component` 导入，不代表包主入口已公开该原型。首次接入一个库时，同步修改 `.storybook/main.ts` 的 `stories`、`.storybook/vite.config.ts` 的 CSS `content` 和 `.storybook/tsconfig.json` 的 `include`；新建库后重启 Storybook，使其重新发现库入口。使用已公开的 ZUI CSS 类、确定性数据和独立 DOM 容器，不导入 `dev.ts` 或复用全局实例。
+
+新增场景优先使用公开的 `@zui/<name>/react` 入口，并通过 `.storybook/zui.ts` 的 `createPreactRender` 渲染；纯原生组件或原生接口回归使用 `createZuiRender`。不自动拆解原生包装类，也不将原生 Options 当作 Preact Props。两个适配器都返回 HTML/Vite 可用的 DOM，无需新增 Storybook framework 或插件。
+
+```ts
+import '@zui/button/css';
+import {Button} from '@zui/button/react';
+import {action} from 'storybook/actions';
+import {createPreactRender} from '../../.storybook/zui';
+import type {Meta, StoryObj} from '@storybook/html-vite';
+
+type Args = {text: string; disabled: boolean};
+const clicked = action('click');
+const meta = {
+    title: '控件/Example',
+    args: {text: '保存', disabled: false},
+    argTypes: {text: {control: 'text'}, disabled: {control: 'boolean'}},
+    render: createPreactRender(Button, {
+        props: (args: Args, api) => ({...args, onClick: api.guard(clicked)}),
+    }),
+} satisfies Meta<Args>;
+export default meta;
+export const Playground: StoryObj<Args> = {};
+```
+
+按组件需求显式导入样式与图标。`props(args, api)` 返回完整受控 props；普通参数更新保留 Preact 树，卸载时执行 `render(null, host)`，从而触发组件及其内部原生实例的清理。构造阶段参数变更需要重新挂载时，提供 `key(args)`；例如 DropdownButton 内部只合并 options，触发方式或浮层配置变化通过 key 重挂载。不要为了普通文字更新更换 key。
+
+原生适配器接受 `createZuiRender(Component, {host, options, update, ready, beforeDestroy})`：
+
+- `host(args, api)` 可选，返回 `{root, target, ...局部状态}`；默认提供独立 div。`options(args, api, host)` 负责完整配置映射。
+- `update` 必填，可设为 `'recreate'`，或提供 `(instance, options, args, host, api) => void`。基类 `render()` 不保证重绘，必须根据组件契约明确更新策略；清空参数也要显式映射，不能依赖浅合并删除旧值。
+- `ready(instance, args, host, api)` 在 `$onInited` 后绑定依赖实例的交互；此前应禁用触发器。适配器组合原 `$onInited`，初始化期间参数变化会重建，销毁后迟到的就绪通知无效。
+- `beforeDestroy(instance, host)` 处理专属关闭行为，随后适配器始终调用 `destroy()`。宿主由适配器管理，固定关闭 dataset 配置、节点替换和延迟 detach 销毁。
+
+两个适配器中的 `api.guard(callback)` 保留回调的 this、参数和返回值，并屏蔽已经卸载、脱离文档或重挂载前的旧回调；`api.updateArgs(patch)` 将用户操作回写 Controls；`api.onCleanup(fn)` 注册局部监听、计时器等清理。监听 Component 事件时使用包含 `instance.namespace` 的专属命名空间，避免 `off('show')` 移除组件内部监听。Actions 与回写都只放在实际用户事件中，程序更新不伪造操作。Pager 使用 `useState: false`，参考 `lib/pager/pager.stories.ts` 中的 Preact 与原生完整示例。
+
+适配器使用 `storybook/preview-api` 的 hooks，不使用 Preact hooks；挂载发生在 Storybook 的预览 effect 中，当前不支持依赖首次挂载内容的 `play()` 交互脚本（该版本先执行 play，再触发预览 effect）。浏览器交互回归使用外部 Playwright。Meta 保持普通对象字面量，使用 `Meta<Args>` / `StoryObj<Args>`。当前 Storybook 的 URL args 校验不接受中文字符串；中文 Controls 在当前预览中生效，但直链刷新不会保留该自定义文字，需保存到 story 的 args 中。
+
+Modal 的 Preact 场景只展示内容布局；完整开关使用无过渡动画的 ModalBase，清理时先隐藏以释放滚动锁，再销毁。现有 Modal 不提供 Tab 焦点循环，场景不额外模拟此能力。Tabs 通过专属 update 更新原有节点，点击后立即同步 Controls 并保留淡入和焦点。自定义元素场景继续使用自身连接/断开生命周期。
+
+stories 和 CSS 使用热更新；组件源码的 TS/TSX 变更会刷新预览 iframe，以重新注册自定义元素。目前未接入额外插件、CI 或发布流程。
+
+`pnpm typecheck` 同时检查原项目和 Storybook。Storybook 使用独立 TypeScript 配置跳过其第三方声明内部检查，避免要求安装其他渲染器；场景与导入的项目源码仍接受严格类型检查，原项目的声明检查策略保持不变。
 
 ### 定制构建
 

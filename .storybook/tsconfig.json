@@ -1,0 +1,16 @@
+{
+    "extends": "../tsconfig.typecheck.json",
+    "compilerOptions": {
+        "skipLibCheck": true
+    },
+    "include": [
+        "./*.ts",
+        "./*.tsx",
+        "../lib/label/*.stories.*",
+        "../lib/button/*.stories.*",
+        "../lib/pager/*.stories.*",
+        "../lib/dropdown/*.stories.*",
+        "../lib/modal/*.stories.*",
+        "../lib/tabs/*.stories.*"
+    ]
+}

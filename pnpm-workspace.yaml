@@ -7,6 +7,8 @@ packages:
 allowBuilds:
   esbuild: true
 overrides:
+  # Storybook's auto-installed React peer must also satisfy VitePress 1.x DocSearch (<19).
+  react: "18.3.1"
   # Keep the legacy transforms on the patched PostCSS API used by the build.
   "postcss-inset@1.0.0>postcss": "^8.5.28"
   "postcss-rem-to-pixel@4.1.2>postcss": "^8.5.28"
