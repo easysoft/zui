@@ -97,4 +97,6 @@ PR 的 `Chromium browser contracts` 和 main/nightly 的 `Chromium, Firefox and 
 
 本地先构建，再运行 `pnpm test:storybook`。测试默认用 Vite 在 `127.0.0.1:6007` 预览静态产物，端口占用时失败，结束后停止自己的服务；`PLAYWRIGHT_STORYBOOK_BASE_URL` 可指向已确认的开发或静态服务，URL 以 `/` 结尾，本地构建索引须与该服务的场景一致。此模式只连接，不负责启动或停止外部服务。
 
+`tests/storybook/visual.spec.ts` 在本机 Chromium 比较 12 张元素级基线，覆盖深浅主题下的按钮状态、展开菜单、弹窗和窄屏分页。基线按 project／操作系统保存在 `tests/storybook/__screenshots__/`；普通运行不自动生成缺失基线。CI 或 `PLAYWRIGHT_SKIP_VISUAL=1` 跳过这 12 项像素比对，保留其他布局与交互断言，也不会生成或接受快照。更新命令与评审步骤见 [README](../README.md#storybook-调试)。
+
 HTML 报告保存在 `playwright-report/storybook/`，失败截图、视频和 trace 保存在 `test-results/storybook/`。现有 `browser` / `browsers` 归档会保留这些诊断，即使检查失败也会执行留存；不自动发布或部署 Storybook。

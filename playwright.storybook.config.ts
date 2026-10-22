@@ -11,11 +11,21 @@ if (!existsSync('dist/storybook/index.html') || !existsSync('dist/storybook/inde
 export default defineConfig({
     testDir: './tests/storybook',
     outputDir: 'test-results/storybook',
+    snapshotPathTemplate: '{testDir}/__screenshots__/{projectName}/{platform}/{testFilePath}/{arg}{ext}',
+    updateSnapshots: 'none',
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 0,
     workers: process.env.CI ? 1 : undefined,
     timeout: process.env.CI ? 60_000 : 30_000,
+    expect: {
+        toHaveScreenshot: {
+            animations: 'disabled',
+            caret: 'hide',
+            maxDiffPixels: 0,
+            scale: 'css',
+        },
+    },
     reporter: [['list'], ['html', {open: 'never', outputFolder: 'playwright-report/storybook'}]],
     use: {
         baseURL,

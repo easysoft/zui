@@ -270,6 +270,17 @@ stories 和 CSS 使用热更新；组件源码的 TS/TSX 变更会刷新预览 i
 
 浏览器检查不隐式重建，默认在 `http://127.0.0.1:6007/` 临时托管静态产物，结束后关闭自身服务；端口被占用时失败。复用已确认的服务时设置 `PLAYWRIGHT_STORYBOOK_BASE_URL=http://127.0.0.1:端口/`，该模式不启动服务，要求本地构建索引与服务中的场景一致。截图和 trace 位于 `test-results/storybook/`，HTML 报告位于 `playwright-report/storybook/`。
 
+本机 Chromium 另有 12 张元素级视觉基线，覆盖 Button 默认／禁用／加载、展开的 Dropdown、打开的 Modal，以及 390px 宽度下的紧凑 Pager，均包含浅色和深色。桌面视口固定为 1280 × 900，手机视口为 390 × 844；截图只包含组件区域，不包含 Storybook 工具栏。测试等待主题、字体和浮层就绪，截图时禁用动画；错误和资源检查仍然生效。
+
+```sh
+pnpm storybook:build
+pnpm test:storybook visual.spec.ts --project=chromium
+# 确认预期外观后显式更新，并逐张查看 PNG，再运行上面的比较命令
+pnpm test:storybook visual.spec.ts --project=chromium --update-snapshots
+```
+
+预期 PNG 位于 `tests/storybook/__screenshots__/chromium/<platform>/visual.spec.ts/`。普通运行遇到缺失或变化的基线会失败，不自动写入；更新后应将已评审的 PNG 与测试一起提交。使用锁文件对应的 Playwright Chromium 和一致的本机字体环境，浏览器或字体升级后需重新核查差异。CI 或 `PLAYWRIGHT_SKIP_VISUAL=1` 跳过这 12 项平台相关的像素比对，继续执行现有双主题加载、布局和交互回归，不生成基线。
+
 PR 和 main/nightly 在现有浏览器 job 中执行静态构建与 Chromium 场景检查，失败诊断沿用 runner 本地归档；不自动发布 Storybook。CI 以 `--fail-on-flaky-tests` 拒绝仅靠重试通过的测试，详情见 [.github/CI.md](./.github/CI.md#storybook-场景门禁)。
 
 ### 定制构建
