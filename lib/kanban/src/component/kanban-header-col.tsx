@@ -4,6 +4,10 @@ import {Toolbar} from '@zui/toolbar/react';
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
 import type {KanbanColProps} from '../types';
+import {
+    getColumnBackgroundStyle,
+    getRowBackgroundStyle,
+} from '../helpers/kanban-helpers';
 
 export class KanbanHeaderCol extends HElement<KanbanColProps> {
     protected _getClassName(props: RenderableProps<KanbanColProps>): ClassNameLike {
@@ -14,17 +18,31 @@ export class KanbanHeaderCol extends HElement<KanbanColProps> {
         const {
             width,
             color,
+            backgroundColor,
+            backgroundPattern,
+            colBgColor,
+            rowBgColor,
+            rowColor,
             name,
             gapLeft,
             gapRight,
         } = props;
+        const style: Record<string, string | null | undefined> = {
+            '--kanban-col-color': color,
+            '--kanban-col-width': toCssSize(width),
+            '--kanban-col-gap-left': toCssSize(gapLeft),
+            '--kanban-col-gap-right': toCssSize(gapRight),
+        };
+        if (backgroundPattern === 'horizontal') {
+            Object.assign(style, getRowBackgroundStyle(rowBgColor, rowColor || 'var(--kanban-lane-color)'));
+        } else if (backgroundPattern === 'vertical') {
+            const colBgStyle = getColumnBackgroundStyle(backgroundColor, colBgColor);
+            if (colBgStyle) {
+                Object.assign(style, colBgStyle);
+            }
+        }
         return mergeProps(super._getProps(props), {
-            style: {
-                '--kanban-col-color': color,
-                '--kanban-col-width': toCssSize(width),
-                '--kanban-col-gap-left': toCssSize(gapLeft),
-                '--kanban-col-gap-right': toCssSize(gapRight),
-            },
+            style,
             'z-col': name,
         });
     }

@@ -158,6 +158,33 @@ export function getColItems(this: unknown, items: KanbanItem[] | undefined, lane
     return items;
 }
 
+export function toCssColor(value: string): string {
+    return value.startsWith('--') ? `var(${value})` : value;
+}
+
+export function getColumnBackgroundStyle(
+    backgroundColor: string | undefined,
+    colBgColor: string | undefined,
+): Record<string, string> | undefined {
+    if (colBgColor && colBgColor !== '--kanban-col-bg') {
+        return {'--kanban-col-bg': toCssColor(colBgColor)};
+    }
+    if (backgroundColor) {
+        return {'--kanban-col-bg': backgroundColor};
+    }
+    return undefined;
+}
+
+export function getRowBackgroundStyle(
+    rowBgColor: string | undefined,
+    fallback: string,
+): Record<string, string> {
+    if (rowBgColor && rowBgColor !== '--kanban-lane-color') {
+        return {'--kanban-col-bg': toCssColor(rowBgColor)};
+    }
+    return {'--kanban-col-bg': fallback};
+}
+
 export function sortByOrder(a: {order?: number}, b: {order?: number}) {
     const orderA = typeof a.order === 'number' && Number.isFinite(a.order) ? a.order : 0;
     const orderB = typeof b.order === 'number' && Number.isFinite(b.order) ? b.order : 0;

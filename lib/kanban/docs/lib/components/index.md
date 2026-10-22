@@ -317,6 +317,23 @@ const data = {
 
 通过 `laneProps`、`colProps`、`itemProps` 设置共享属性，通过 `getLane`、`getCol`、`getItem` 调整数据或返回 `false` 过滤内容。`itemRender({item, lane, col})` 可自定义卡片内容。
 
+## 背景色规则
+
+`backgroundPattern` 控制背景色的扩展方向：默认空字符串不应用行或列的颜色规则，仅使用默认背景；`vertical` 时同一列共用列背景色；`horizontal` 时同一行共用泳道颜色，列头使用首条泳道的颜色。`colBgColor`、`rowBgColor` 用于按需覆盖列、行背景色，可传颜色值或变量名（如 `var(--my-color)`、`--my-color`）；默认值分别为 `--kanban-col-bg`、`--kanban-lane-color`，不会覆盖数据中的颜色。
+
+列背景色通过列的 `backgroundColor` 设置；行背景色取泳道的 `color`。外部参数仅设置现有的 `--kanban-col-bg` 等背景色变量，不写入列或泳道数据。
+
+```js
+const kanban = new zui.Kanban('#kanban', {
+    backgroundPattern: 'vertical',
+    data: {
+        lanes: [{name: 'team', title: '团队', color: '#7ec5ff'}],
+        cols: [{name: 'todo', title: '待处理', backgroundColor: '#F2F4F7'}],
+        items: [],
+    },
+});
+```
+
 ## 选择与点击
 
 `selectable: true` 启用卡片选择；`defaultSelected` 设置初始卡片键，`onSelect(newSelected, oldSelected)` 通知变化。`onClickItem(event, info)` 中的 `info` 包含 `item`、`lane`、`col`，返回 `false` 会取消这次点击的默认选择行为。
@@ -424,6 +441,9 @@ responsive?: boolean | string = true; // 按容器尺寸适配，字符串指定
 sticky?: boolean = true; // 固定表头和泳道名称。
 selectable?: boolean; // 启用卡片选择。
 defaultSelected?: string | string[]; // 初始选择的卡片键。
+backgroundPattern?: "" | "vertical" | "horizontal" = ""; // 背景色规则，默认不应用。
+colBgColor?: string = "--kanban-col-bg"; // 列背景色覆盖值，颜色值或变量名。
+rowBgColor?: string = "--kanban-lane-color"; // 行背景色覆盖值，颜色值或变量名。
 draggable?: boolean | DraggableOptions = true; // 拖放开关及设置。
 dragTypes?: KanbanDnDType | KanbanDnDType[]; // 可拖动对象类型。
 onDrop?: (changes: Partial&lt;KanbanData&gt;, info: KanbanDropInfo, restore: () =&gt; void) =&gt; void | false; // 拖放数据变化回调。

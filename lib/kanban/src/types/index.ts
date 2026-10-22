@@ -1,6 +1,7 @@
 export * from './kanban-lane-name';
 export * from './kanban-col-name';
 export * from './kanban-item';
+export * from './kanban-background-pattern';
 export * from './kanban-col-options';
 export * from './kanban-col-props';
 export * from './kanban-lane-options';

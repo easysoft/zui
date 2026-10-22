@@ -7,7 +7,10 @@ import {Kanban as VanillaKanban} from '@zui/kanban';
 import {Kanban} from '@zui/kanban/src/component/kanban';
 import {flushAnimationFrame} from '../setup/dom';
 
-import type {KanbanProps} from '@zui/kanban';
+import type {
+    KanbanBackgroundPattern,
+    KanbanProps,
+} from '@zui/kanban';
 
 async function mountDraggableKanban(options: Partial<KanbanProps> = {}) {
     const element = document.createElement('div');
@@ -34,6 +37,175 @@ function startDrag(card: HTMLElement) {
     fireEvent.mouseDown(card);
     fireEvent.dragStart(card);
 }
+
+describe('Kanban background pattern', () => {
+    const data = {
+        lanes: [
+            {
+                name: 'lane',
+                title: 'Lane',
+                color: 'rgb(4, 5, 6)',
+            },
+        ],
+        cols: [
+            {
+                name: 'todo',
+                title: 'Todo',
+                color: 'rgb(7, 8, 9)',
+                backgroundColor: 'rgb(1, 2, 3)',
+            },
+            {name: 'done', title: 'Done'},
+        ],
+        items: {},
+    };
+
+    it('uses default background when backgroundPattern is empty', () => {
+        const {container} = render(
+            <Kanban
+                data={data}
+                draggable={false}
+                responsive={false}
+            />,
+        );
+        const kanban = container.querySelector('.kanban')!;
+        const header = container.querySelector<HTMLElement>('.kanban-header-col[z-col="todo"]')!;
+        const todoCol = container.querySelector<HTMLElement>('.kanban-lane-col[z-col="todo"]')!;
+        const doneCol = container.querySelector<HTMLElement>('.kanban-lane-col[z-col="done"]')!;
+
+        expect([...kanban.classList].some(name => name.startsWith('is-bg-'))).toBe(false);
+        expect(header.style.getPropertyValue('--kanban-col-color')).toBe('rgb(7, 8, 9)');
+        expect(header.style.getPropertyValue('--kanban-col-bg')).toBe('');
+        expect(todoCol.style.getPropertyValue('--kanban-col-bg')).toBe('');
+        expect(doneCol.style.getPropertyValue('--kanban-col-bg')).toBe('');
+    });
+
+    it('uses column background in vertical pattern', () => {
+        const {container} = render(
+            <Kanban
+                data={data}
+                backgroundPattern="vertical"
+                draggable={false}
+                responsive={false}
+            />,
+        );
+        const kanban = container.querySelector('.kanban')!;
+        const header = container.querySelector<HTMLElement>('.kanban-header-col[z-col="todo"]')!;
+        const todoCol = container.querySelector<HTMLElement>('.kanban-lane-col[z-col="todo"]')!;
+        const doneCol = container.querySelector<HTMLElement>('.kanban-lane-col[z-col="done"]')!;
+
+        expect(kanban.classList.contains('is-bg-vertical')).toBe(true);
+        expect(header.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(1, 2, 3)');
+        expect(todoCol.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(1, 2, 3)');
+        expect(doneCol.style.getPropertyValue('--kanban-col-bg')).toBe('');
+    });
+
+    it('falls back to no rule for an unknown pattern', () => {
+        const {container} = render(
+            <Kanban
+                data={data}
+                backgroundPattern={'unknown' as KanbanBackgroundPattern}
+                draggable={false}
+                responsive={false}
+            />,
+        );
+        const kanban = container.querySelector('.kanban')!;
+        expect([...kanban.classList].some(name => name.startsWith('is-bg-'))).toBe(false);
+    });
+
+    it('uses lane color for rows in horizontal pattern', () => {
+        const {container} = render(
+            <Kanban
+                data={data}
+                backgroundPattern="horizontal"
+                draggable={false}
+                responsive={false}
+            />,
+        );
+        const kanban = container.querySelector('.kanban')!;
+        const header = container.querySelector<HTMLElement>('.kanban-header-col[z-col="todo"]')!;
+        const todoCol = container.querySelector<HTMLElement>('.kanban-lane-col[z-col="todo"]')!;
+
+        expect(kanban.classList.contains('is-bg-horizontal')).toBe(true);
+        expect(todoCol.style.getPropertyValue('--kanban-col-bg')).toBe('var(--kanban-lane-color)');
+        expect(header.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(4, 5, 6)');
+    });
+
+    it('supports a custom column background variable', () => {
+        const {container} = render(
+            <Kanban
+                data={data}
+                backgroundPattern="vertical"
+                colBgColor="var(--custom-col-bg)"
+                draggable={false}
+                responsive={false}
+            />,
+        );
+        const header = container.querySelector<HTMLElement>('.kanban-header-col[z-col="todo"]')!;
+        const todoCol = container.querySelector<HTMLElement>('.kanban-lane-col[z-col="todo"]')!;
+
+        expect(header.style.getPropertyValue('--kanban-col-bg')).toBe('var(--custom-col-bg)');
+        expect(todoCol.style.getPropertyValue('--kanban-col-bg')).toBe('var(--custom-col-bg)');
+    });
+
+    it('supports a custom row background variable', () => {
+        const {container} = render(
+            <Kanban
+                data={data}
+                backgroundPattern="horizontal"
+                rowBgColor="var(--custom-row-bg)"
+                draggable={false}
+                responsive={false}
+            />,
+        );
+        const lane = container.querySelector<HTMLElement>('.kanban-lane')!;
+        const header = container.querySelector<HTMLElement>('.kanban-header-col[z-col="todo"]')!;
+        const todoCol = container.querySelector<HTMLElement>('.kanban-lane-col[z-col="todo"]')!;
+
+        expect(lane.style.getPropertyValue('--kanban-lane-color')).toBe('rgb(4, 5, 6)');
+        expect(header.style.getPropertyValue('--kanban-col-bg')).toBe('var(--custom-row-bg)');
+        expect(todoCol.style.getPropertyValue('--kanban-col-bg')).toBe('var(--custom-row-bg)');
+    });
+
+    it('supports a column background color value', () => {
+        const {container} = render(
+            <Kanban
+                data={data}
+                backgroundPattern="vertical"
+                colBgColor="rgb(10, 11, 12)"
+                draggable={false}
+                responsive={false}
+            />,
+        );
+        const header = container.querySelector<HTMLElement>('.kanban-header-col[z-col="todo"]')!;
+        const doneHeader = container.querySelector<HTMLElement>('.kanban-header-col[z-col="done"]')!;
+        const todoCol = container.querySelector<HTMLElement>('.kanban-lane-col[z-col="todo"]')!;
+        const doneCol = container.querySelector<HTMLElement>('.kanban-lane-col[z-col="done"]')!;
+
+        expect(header.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(10, 11, 12)');
+        expect(doneHeader.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(10, 11, 12)');
+        expect(todoCol.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(10, 11, 12)');
+        expect(doneCol.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(10, 11, 12)');
+    });
+
+    it('supports a row background color value', () => {
+        const {container} = render(
+            <Kanban
+                data={data}
+                backgroundPattern="horizontal"
+                rowBgColor="rgb(20, 21, 22)"
+                draggable={false}
+                responsive={false}
+            />,
+        );
+        const lane = container.querySelector<HTMLElement>('.kanban-lane')!;
+        const header = container.querySelector<HTMLElement>('.kanban-header-col[z-col="todo"]')!;
+        const todoCol = container.querySelector<HTMLElement>('.kanban-lane-col[z-col="todo"]')!;
+
+        expect(lane.style.getPropertyValue('--kanban-lane-color')).toBe('rgb(4, 5, 6)');
+        expect(header.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(20, 21, 22)');
+        expect(todoCol.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(20, 21, 22)');
+    });
+});
 
 describe('Kanban', () => {
     it('does not collapse auto-width columns when runtime bounds are also auto', () => {

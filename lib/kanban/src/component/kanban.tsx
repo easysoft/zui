@@ -26,6 +26,9 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         itemKey: 'id',
         colWidth: 200,
         colsGap: 10,
+        backgroundPattern: '',
+        colBgColor: '--kanban-col-bg',
+        rowBgColor: '--kanban-lane-color',
     };
 
     static customProps = ['onDrop', 'onDragStart'];
@@ -784,7 +787,16 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
-        return ['kanban', props.className, props.sticky ? 'kanban-sticky' : '', this.data.hasSubCols ? 'has-sub-cols' : ''];
+        const backgroundPattern = props.backgroundPattern === 'horizontal' || props.backgroundPattern === 'vertical'
+            ? props.backgroundPattern
+            : '';
+        return [
+            'kanban',
+            props.className,
+            props.sticky ? 'kanban-sticky' : '',
+            this.data.hasSubCols ? 'has-sub-cols' : '',
+            backgroundPattern ? `is-bg-${backgroundPattern}` : '',
+        ];
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
@@ -871,11 +883,19 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
         const data = this._data.value;
         const {cols, lanes, items} = data;
-        const {laneNameWidth} = props;
+        const {laneNameWidth, backgroundPattern, colBgColor, rowBgColor} = props;
         const layoutCols = this._layoutCols(cols, props);
         const layoutLanes = this._layoutLanes(lanes, props);
+        const firstLaneColor = layoutLanes[0]?.color;
         return [
-            <KanbanHeader key="header" cols={layoutCols} />,
+            <KanbanHeader
+                key="header"
+                cols={layoutCols}
+                backgroundPattern={backgroundPattern}
+                colBgColor={colBgColor}
+                rowBgColor={rowBgColor}
+                rowColor={firstLaneColor}
+            />,
             <KanbanBody
                 key="body"
                 itemRender={props.itemRender}
@@ -884,6 +904,9 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 lanes={layoutLanes}
                 items={items}
                 hideLaneName={laneNameWidth === 0}
+                backgroundPattern={backgroundPattern}
+                colBgColor={colBgColor}
+                rowBgColor={rowBgColor}
             />,
             this._renderLinks(props),
             props.children,

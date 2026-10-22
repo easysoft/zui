@@ -12,11 +12,22 @@ import {$} from '@zui/core';
 import {KanbanRegionProps, KanbanList, KanbanProps} from './src/main';
 import {createKanbanData} from './dev/create-kanban-data';
 
+// 共享背景色设置
+const COLOR_LIGHT_RED = '#FFE5E5';
+const COLOR_LIGHT_BLUE = '#E5E5FF';
+
 onPageUpdate(() => {
+    const kanban1Data = createKanbanData(4, 4);
+    kanban1Data.lanes.forEach((lane, index) => {
+        lane.color = index % 2 ? COLOR_LIGHT_RED : COLOR_LIGHT_BLUE;
+    });
+    if (kanban1Data.cols[0]) kanban1Data.cols[0].backgroundColor = COLOR_LIGHT_RED;
+    if (kanban1Data.cols[2]) kanban1Data.cols[2].backgroundColor = COLOR_LIGHT_BLUE;
     const kanban1Options: KanbanProps = {
         key: 'kanban1',
+        backgroundPattern: 'vertical',
         data: {
-            ...createKanbanData(),
+            ...kanban1Data,
             links: [
                 {from: '5', to: '12'},
                 {from: '16', to: '20'},
@@ -94,7 +105,7 @@ onPageUpdate(() => {
         getCol(col) {
             /* 通过 content 属性自定义列额外内容。 */
             return $.extend({
-                contentClass: 'bg-surface shadow-sm',
+                contentClass: 'shadow-sm',
                 content: function (info) {
                     const id = `content-${info.lane}-${info.name}`;
                     const toggleID = `toggle-${info.lane}-${info.name}`;
@@ -136,11 +147,16 @@ onPageUpdate(() => {
         showLinkOnHover: true,
         showLinkOnSelected: true,
     };
+    const kanban2Data = createKanbanData(4, 4);
+    kanban2Data.lanes.forEach((lane, index) => {
+        lane.color = index % 2 ? COLOR_LIGHT_RED : COLOR_LIGHT_BLUE;
+    });
     const kanban2Options: KanbanProps = {
         key: 'kanban2',
+        backgroundPattern: 'horizontal',
         itemCountPerRow: 3,
         colWidth: 400,
-        data: createKanbanData(),
+        data: kanban2Data,
         onDrop: (changes, info) => {
             console.log('> onDrop', changes, info);
         },

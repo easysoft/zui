@@ -10,6 +10,7 @@ import type {KanbanLinkOptions} from './kanban-link-options';
 import type {KanbanDnDType, KanbanDragInfo, KanbanDropInfo, KanbanElementInfo} from './kanban-dnd-info';
 import type {KanbanColName} from './kanban-col-name';
 import type {KanbanLaneName} from './kanban-lane-name';
+import type {KanbanBackgroundPattern} from './kanban-background-pattern';
 
 export interface KanbanProps extends HElementProps {
     /* Data definition. */
@@ -45,6 +46,11 @@ export interface KanbanProps extends HElementProps {
     defaultSelected?: string | string[];
     onClickItem?: (event: MouseEvent, item: KanbanItemInfo) => false | void;
     onSelect?: (newSelected: string[], oldSelected: string[]) => void;
+
+    /* Background. */
+    backgroundPattern?: KanbanBackgroundPattern;
+    colBgColor?: string;
+    rowBgColor?: string;
 
     /* Async load. */
     onLoad?: (data: KanbanData) => void | KanbanData;

@@ -4,6 +4,7 @@ import type {KanbanColOptions} from './kanban-col-options';
 import type {KanbanItem} from './kanban-item';
 import type {KanbanItemInfo} from './kanban-item-info';
 import type {KanbanLaneOptions} from './kanban-lane-options';
+import type {KanbanBackgroundPattern} from './kanban-background-pattern';
 
 export interface KanbanLaneProps extends KanbanLaneOptions {
     index: number;
@@ -13,4 +14,7 @@ export interface KanbanLaneProps extends KanbanLaneOptions {
     hideName?: boolean;
     itemRender?: (info: KanbanItemInfo) => CustomContentType;
     getLaneCol?: (lane: KanbanLaneOptions, col: KanbanColOptions) => KanbanColOptions | void;
+    backgroundPattern?: KanbanBackgroundPattern;
+    colBgColor?: string;
+    rowBgColor?: string;
 }

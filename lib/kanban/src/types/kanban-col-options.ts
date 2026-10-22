@@ -15,6 +15,7 @@ export interface KanbanColOptions extends HElementProps {
     gapLeft?: SizeSetting;
     gapRight?: SizeSetting;
     color?: string;
+    backgroundColor?: string;
     order?: number;
     prefix?: CustomContentType;
     prefixClass?: ClassNameLike;

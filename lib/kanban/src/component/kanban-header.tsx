@@ -21,11 +21,22 @@ export class KanbanHeader extends Component<KanbanHeaderProps> {
     }
 
     render(props: KanbanHeaderProps) {
+        const {cols, backgroundPattern, colBgColor, rowBgColor, rowColor} = props;
         return (
             <div className="kanban-header" ref={this._ref}>
                 <div key="name" className="kanban-header-lane-name"></div>
                 <div key="cols" className="kanban-header-cols">
-                    {props.cols.map((col, index) => <KanbanHeaderCol key={col.name} index={index} {...col} />)}
+                    {cols.map((col, index) => (
+                        <KanbanHeaderCol
+                            key={col.name}
+                            index={index}
+                            {...col}
+                            backgroundPattern={backgroundPattern}
+                            colBgColor={colBgColor}
+                            rowBgColor={rowBgColor}
+                            rowColor={rowColor}
+                        />
+                    ))}
                 </div>
             </div>
         );

@@ -3,6 +3,7 @@ import type {KanbanColOptions} from './kanban-col-options';
 import type {KanbanItemInfo} from './kanban-item-info';
 import type {KanbanItemsMap} from './kanban-items-map';
 import type {KanbanLaneOptions} from './kanban-lane-options';
+import type {KanbanBackgroundPattern} from './kanban-background-pattern';
 
 export interface KanbanBodyProps {
     cols: KanbanColOptions[];
@@ -11,4 +12,7 @@ export interface KanbanBodyProps {
     hideLaneName?: boolean;
     itemRender?: (info: KanbanItemInfo) => CustomContentType;
     getLaneCol?: (lane: KanbanLaneOptions, col: KanbanColOptions) => KanbanColOptions | void;
+    backgroundPattern?: KanbanBackgroundPattern;
+    colBgColor?: string;
+    rowBgColor?: string;
 }

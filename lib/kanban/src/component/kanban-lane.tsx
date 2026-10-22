@@ -22,15 +22,16 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
             gapTop,
             gapBottom,
         } = props;
+        const style: Record<string, string | null | undefined> = {
+            '--kanban-lane-color': color,
+            height: toCssSize(height),
+            minHeight: toCssSize(minHeight),
+            maxHeight: toCssSize(maxHeight),
+            '--kanban-col-gap-top': toCssSize(gapTop),
+            '--kanban-col-gap-bottom': toCssSize(gapBottom),
+        };
         return mergeProps(super._getProps(props), {
-            style: {
-                '--kanban-lane-color': color,
-                height: toCssSize(height),
-                minHeight: toCssSize(minHeight),
-                maxHeight: toCssSize(maxHeight),
-                '--kanban-col-gap-top': toCssSize(gapTop),
-                '--kanban-col-gap-bottom': toCssSize(gapBottom),
-            },
+            style,
             'z-lane': name,
         });
     }
@@ -42,7 +43,18 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
                 col = {...col, ...newCol};
             }
         }
-        return <KanbanLaneCol key={col.name} itemRender={itemRender} lane={lane.name} items={items[col.name]} {...(col as KanbanColProps)} />;
+        return (
+            <KanbanLaneCol
+                key={col.name}
+                itemRender={itemRender}
+                lane={lane.name}
+                items={items[col.name]}
+                {...(col as KanbanColProps)}
+                backgroundPattern={lane.backgroundPattern}
+                colBgColor={lane.colBgColor}
+                rowBgColor={lane.rowBgColor}
+            />
+        );
     }
 
     protected _getChildren(props: RenderableProps<KanbanLaneProps>): ComponentChildren {
