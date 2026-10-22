@@ -169,7 +169,9 @@ pnpm dev
 
 ### Storybook 调试
 
-运行 `pnpm storybook` 后访问 <http://localhost:6006>。目前提供 6 个库共 19 个场景，可以在 Controls 中调整参数，在 Actions 中观察事件，也可以切换视口与预览背景。背景切换只改变画布背景，不切换 ZUI 主题。
+运行 `pnpm storybook` 后访问 <http://localhost:6006>。目前提供 6 个库共 19 个场景，可以在 Controls 中调整参数，在 Actions 中观察事件，也可以切换视口与 ZUI 主题。主题工具栏提供“浅色”“深色”“跟随系统”，默认跟随系统并实时响应系统外观变化。主题作用于整个预览文档，包含挂到 body 的菜单、弹窗和原生表单控件；切换时保留场景参数。主题选择由 Storybook globals 管理，可通过 `globals=theme:dark` 分享深色场景链接。
+
+预览直接使用 `config/tailwind-theme/` 经 `@zui/base` 生成的颜色变量，通过根元素 `.dark` 切换，原生控件同步设置 `color-scheme`。不维护另一套背景色或组件皮肤；主题只作用于预览区域，Storybook 管理界面沿用自身外观。
 
 | 批次 | 组件 | 主要验证内容 |
 | --- | --- | --- |
@@ -260,7 +262,7 @@ stories 和 CSS 使用热更新；组件源码的 TS/TSX 变更会刷新预览 i
 
 `pnpm typecheck` 同时检查原项目和 Storybook。Storybook 使用独立 TypeScript 配置跳过其第三方声明内部检查，避免要求安装其他渲染器；场景与导入的项目源码仍接受严格类型检查，原项目的声明检查策略保持不变。
 
-运行 `pnpm storybook:build` 后执行 `pnpm test:storybook`。测试从构建索引自动发现全部场景，核对源码文件与索引一致，检查非空渲染、脚本错误和资源加载；同时验证 Button 表单与 Actions、三种 Pager 的双向参数同步、Dropdown 和 Modal 的卸载清理、焦点恢复、Tabs 切换及手机宽度下的表单。新增场景自动获得加载巡检，特有交互应补充到 `tests/storybook/`。
+运行 `pnpm storybook:build` 后执行 `pnpm test:storybook`。测试从构建索引自动发现全部场景，在浅色与深色下检查非空渲染、脚本错误和资源加载，并核对源码文件与索引一致；同时验证主题工具栏、系统外观变化与浮层主题继承，Button 表单与 Actions、三种 Pager 的双向参数同步、Dropdown 和 Modal 的卸载清理、焦点恢复、Tabs 切换及手机宽度下的表单。新增场景自动获得双主题加载巡检，特有交互应补充到 `tests/storybook/`。
 
 浏览器检查不隐式重建，默认在 `http://127.0.0.1:6007/` 临时托管静态产物，结束后关闭自身服务；端口被占用时失败。复用已确认的服务时设置 `PLAYWRIGHT_STORYBOOK_BASE_URL=http://127.0.0.1:端口/`，该模式不启动服务，要求本地构建索引与服务中的场景一致。截图和 trace 位于 `test-results/storybook/`，HTML 报告位于 `playwright-report/storybook/`。
 

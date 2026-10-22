@@ -93,7 +93,7 @@ PR 的 `Distribution and documentation builds` 在文档构建后运行 `pnpm te
 
 PR 的 `Chromium browser contracts` 和 main/nightly 的 `Chromium, Firefox and WebKit browser contracts` 在原有浏览器测试后执行 `pnpm storybook:build`，再运行 `pnpm test:storybook --workers=1 --fail-on-flaky-tests`。Storybook 使用 Chromium，复用该 job 安装的浏览器，必需检查名称和前置质量门禁保持不变。
 
-巡检从 `dist/storybook/index.json` 自动发现所有 story，并核对 `lib/*/*.stories.ts`、`lib/*/*.stories.tsx` 均已进入构建；每个场景检查有效渲染、页面和控制台错误、失败资源。交互回归覆盖 Controls、Actions、原生表单、分页双向同步、嵌套菜单、弹窗关闭和焦点恢复、场景切换后的浮层与滚动锁清理、Tabs 和窄屏表单。新增场景自动纳入基础巡检，业务特有的交互仍需新增断言。
+巡检从 `dist/storybook/index.json` 自动发现所有 story，并核对 `lib/*/*.stories.ts`、`lib/*/*.stories.tsx` 均已进入构建；每个场景分别在浅色与深色下检查有效渲染、页面和控制台错误、失败资源。交互回归覆盖主题工具栏、系统外观变化与浮层主题继承，Controls、Actions、原生表单、分页双向同步、嵌套菜单、弹窗关闭和焦点恢复、场景切换后的浮层与滚动锁清理、Tabs 和窄屏表单。新增场景自动纳入双主题基础巡检，业务特有的交互仍需新增断言。
 
 本地先构建，再运行 `pnpm test:storybook`。测试默认用 Vite 在 `127.0.0.1:6007` 预览静态产物，端口占用时失败，结束后停止自己的服务；`PLAYWRIGHT_STORYBOOK_BASE_URL` 可指向已确认的开发或静态服务，URL 以 `/` 结尾，本地构建索引须与该服务的场景一致。此模式只连接，不负责启动或停止外部服务。
 

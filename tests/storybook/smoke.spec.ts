@@ -11,11 +11,14 @@ test('indexes every built-in story file and serves the matching index', async ({
 });
 
 for (const story of stories) {
-    test(`renders ${story.title} / ${story.name} (${story.id})`, async ({page}) => {
-        await page.goto(`./iframe.html?id=${encodeURIComponent(story.id)}&viewMode=story`);
-        const root = page.locator('#storybook-root');
-        await expect(root).toBeVisible({timeout: 30_000});
-        await expect(root).not.toBeEmpty();
-        await expect(page.locator('.sb-errordisplay:visible, vite-error-overlay')).toHaveCount(0);
-    });
+    for (const theme of ['light', 'dark']) {
+        test(`renders ${story.title} / ${story.name} (${story.id}, ${theme})`, async ({page}) => {
+            await page.goto(`./iframe.html?id=${encodeURIComponent(story.id)}&viewMode=story&globals=theme:${theme}`);
+            const root = page.locator('#storybook-root');
+            await expect(root).toBeVisible({timeout: 30_000});
+            await expect(root).not.toBeEmpty();
+            await expect(page.locator('html')).toHaveCSS('color-scheme', theme);
+            await expect(page.locator('.sb-errordisplay:visible, vite-error-overlay')).toHaveCount(0);
+        });
+    }
 }
