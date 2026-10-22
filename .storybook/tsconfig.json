@@ -6,11 +6,7 @@
     "include": [
         "./*.ts",
         "./*.tsx",
-        "../lib/label/*.stories.*",
-        "../lib/button/*.stories.*",
-        "../lib/pager/*.stories.*",
-        "../lib/dropdown/*.stories.*",
-        "../lib/modal/*.stories.*",
-        "../lib/tabs/*.stories.*"
+        "../lib/*/*.stories.ts",
+        "../lib/*/*.stories.tsx"
     ]
 }

@@ -88,3 +88,13 @@ PR 的 `Distribution and documentation builds` 在文档构建后运行 `pnpm te
 新增示例遵循现有 `<Example>`、`<ZUI>` 和代码标签写法，完整运行示例用 `data-doc-example` 标识。官网测试直接提取页面代码，不复制到独立 fixture；新增标识时同时补充行为断言。第三方 CDN 在修改版本或地址时单独检查，不成为 PR 的网络依赖。
 
 基础巡检不把示例容器中的示意链接当作文档导航，也不验证外部站点的可用性。它覆盖全部页面的加载与基础完整性，不等同于所有组件交互、版本及发布文案均已验收；已有资源路径缺陷仍会使对应部署路径的检查失败。
+
+## Storybook 场景门禁
+
+PR 的 `Chromium browser contracts` 和 main/nightly 的 `Chromium, Firefox and WebKit browser contracts` 在原有浏览器测试后执行 `pnpm storybook:build`，再运行 `pnpm test:storybook --workers=1 --fail-on-flaky-tests`。Storybook 使用 Chromium，复用该 job 安装的浏览器，必需检查名称和前置质量门禁保持不变。
+
+巡检从 `dist/storybook/index.json` 自动发现所有 story，并核对 `lib/*/*.stories.ts`、`lib/*/*.stories.tsx` 均已进入构建；每个场景检查有效渲染、页面和控制台错误、失败资源。交互回归覆盖 Controls、Actions、原生表单、分页双向同步、嵌套菜单、弹窗关闭和焦点恢复、场景切换后的浮层与滚动锁清理、Tabs 和窄屏表单。新增场景自动纳入基础巡检，业务特有的交互仍需新增断言。
+
+本地先构建，再运行 `pnpm test:storybook`。测试默认用 Vite 在 `127.0.0.1:6007` 预览静态产物，端口占用时失败，结束后停止自己的服务；`PLAYWRIGHT_STORYBOOK_BASE_URL` 可指向已确认的开发或静态服务，URL 以 `/` 结尾，本地构建索引须与该服务的场景一致。此模式只连接，不负责启动或停止外部服务。
+
+HTML 报告保存在 `playwright-report/storybook/`，失败截图、视频和 trace 保存在 `test-results/storybook/`。现有 `browser` / `browsers` 归档会保留这些诊断，即使检查失败也会执行留存；不自动发布或部署 Storybook。

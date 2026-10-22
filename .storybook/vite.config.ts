@@ -19,7 +19,7 @@ export default defineConfig(async ({mode}) => {
                 minify: mode === 'production',
                 content: [
                     '.storybook/**/*.{ts,tsx}',
-                    'lib/{label,button,pager,dropdown,modal,tabs}/*.stories.{ts,tsx}',
+                    'lib/*/*.stories.{ts,tsx}',
                     'lib/*/src/**/*.{ts,tsx}',
                 ].map(pattern => normalizePath(Path.join(rootPath, pattern))),
             }),

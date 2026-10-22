@@ -138,9 +138,15 @@ jobs:
           PLAYWRIGHT_SKIP_VISUAL: '1'
         run: pnpm test:e2e:all --workers=1 --fail-on-flaky-tests
 
+      - name: Build Storybook
+        run: pnpm storybook:build
+
+      - name: Verify Storybook stories in Chromium
+        run: pnpm test:storybook --workers=1 --fail-on-flaky-tests
+
       - name: Preserve browser diagnostics on runner
         if: ${{ !cancelled() }}
-        run: bash scripts/ci/preserve-results.sh browsers playwright-report test-results/playwright
+        run: bash scripts/ci/preserve-results.sh browsers playwright-report test-results/playwright test-results/storybook
 
   docs:
     name: Build documentation for deployment

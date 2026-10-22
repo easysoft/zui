@@ -131,6 +131,12 @@ jobs:
           PLAYWRIGHT_SKIP_VISUAL: '1'
         run: pnpm test:e2e --workers=1 --fail-on-flaky-tests
 
+      - name: Build Storybook
+        run: pnpm storybook:build
+
+      - name: Verify Storybook stories
+        run: pnpm test:storybook --workers=1 --fail-on-flaky-tests
+
       - name: Preserve browser diagnostics on runner
         if: ${{ !cancelled() }}
-        run: bash scripts/ci/preserve-results.sh browser playwright-report test-results/playwright
+        run: bash scripts/ci/preserve-results.sh browser playwright-report test-results/playwright test-results/storybook

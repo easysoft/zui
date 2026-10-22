@@ -10,14 +10,7 @@ const config: StorybookConfig = {
             },
         },
     },
-    stories: [
-        '../lib/label/label.stories.@(ts|tsx)',
-        '../lib/button/button.stories.@(ts|tsx)',
-        '../lib/pager/pager.stories.@(ts|tsx)',
-        '../lib/dropdown/dropdown.stories.@(ts|tsx)',
-        '../lib/modal/modal.stories.@(ts|tsx)',
-        '../lib/tabs/tabs.stories.@(ts|tsx)',
-    ],
+    stories: ['../lib/*/*.stories.@(ts|tsx)'],
 };
 
 export default config;

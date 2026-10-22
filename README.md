@@ -145,6 +145,7 @@ pnpm dev
 | `pnpm dev:exts` | 启动包含 `exts/` 扩展库的开发服务 |
 | `pnpm storybook` | 启动独立的组件场景预览（默认端口 6006） |
 | `pnpm storybook:build` | 构建 Storybook 静态站点到 `dist/storybook` |
+| `pnpm test:storybook` | 用 Chromium 验收已构建的 Storybook 场景（先运行 `storybook:build`） |
 | `pnpm lint` | 运行 ESLint 检查 |
 | `pnpm typecheck` | 检查源码、工具与测试的 TypeScript 类型 |
 | `pnpm test` | 运行 Vitest 单元和 DOM 组件测试 |
@@ -177,7 +178,7 @@ pnpm dev
 
 `pnpm storybook:build` 生成可由普通 HTTP 静态服务器托管的 `dist/storybook`，包括场景使用的图标字体。它与原有 `pnpm dev`、官网文档和分发构建独立，不加载本机 `exts/`。
 
-场景位于各库根目录的 `<name>.stories.ts` 或 `<name>.stories.tsx`，使用 HTML/Vite 和 CSF 3，通过组件公开入口导入组件与样式。Button 的 Web Component 原型场景从本库 `src/web-component` 导入，不代表包主入口已公开该原型。首次接入一个库时，同步修改 `.storybook/main.ts` 的 `stories`、`.storybook/vite.config.ts` 的 CSS `content` 和 `.storybook/tsconfig.json` 的 `include`；新建库后重启 Storybook，使其重新发现库入口。使用已公开的 ZUI CSS 类、确定性数据和独立 DOM 容器，不导入 `dev.ts` 或复用全局实例。
+场景统一放在内置库根目录，命名为 `lib/<lib>/<scene>.stories.ts` 或 `.stories.tsx`，使用 HTML/Vite 和 CSF 3，通过组件公开入口导入组件与样式。Storybook、CSS 扫描、TypeScript 检查和浏览器巡检都按此规则自动接入，无需维护库名列表；新建库后重启 Storybook，使其重新发现库入口。嵌套目录、`dev.ts` 和本机 `exts/` 不属于该规则。Button 的 Web Component 原型场景从本库 `src/web-component` 导入，不代表包主入口已公开该原型。使用已公开的 ZUI CSS 类、确定性数据和独立 DOM 容器，不导入 `dev.ts` 或复用全局实例。
 
 新增场景优先使用公开的 `@zui/<name>/react` 入口，并通过 `.storybook/zui.ts` 的 `createPreactRender` 渲染；纯原生组件或原生接口回归使用 `createZuiRender`。不自动拆解原生包装类，也不将原生 Options 当作 Preact Props。两个适配器都返回 HTML/Vite 可用的 DOM，无需新增 Storybook framework 或插件。
 
@@ -202,6 +203,44 @@ export default meta;
 export const Playground: StoryObj<Args> = {};
 ```
 
+原生组件可从下面的 Pager 模板开始；显式使用该组件的 `render()` 更新实例，并将用户切页回写 Controls。需要在参数变化时重新构造的组件可使用 `update: 'recreate'`，具体生命周期参考下文。
+
+```ts
+import '@zui/button/css';
+import '@zui/css-icons';
+import '@zui/dropdown';
+import '@zui/toolbar';
+import '@zui/pager/css';
+import {Pager} from '@zui/pager/vanilla';
+import {createZuiRender} from '../../.storybook/zui';
+import type {Meta, StoryObj} from '@storybook/html-vite';
+import type {PagerOptions} from '@zui/pager';
+
+type Args = {page: number};
+const meta = {
+    title: '组件/Pager 最小示例',
+    args: {page: 1},
+    argTypes: {page: {control: {type: 'number', min: 1}}},
+    render: createZuiRender(Pager<PagerOptions>, {
+        options: (args: Args, api): Partial<PagerOptions> => ({
+            ...args,
+            recTotal: 101,
+            recPerPage: 10,
+            useState: false,
+            items: [
+                {type: 'info', text: '第 {page} 页'},
+                {type: 'link', page: 'prev', text: '上一页'},
+                {type: 'link', page: 'next', text: '下一页'},
+            ],
+            onChangePageInfo: api.guard(info => api.updateArgs({page: info.page})),
+        }),
+        update: (instance, options) => instance.render(options),
+    }),
+} satisfies Meta<Args>;
+export default meta;
+export const Playground: StoryObj<Args> = {};
+```
+
 按组件需求显式导入样式与图标。`props(args, api)` 返回完整受控 props；普通参数更新保留 Preact 树，卸载时执行 `render(null, host)`，从而触发组件及其内部原生实例的清理。构造阶段参数变更需要重新挂载时，提供 `key(args)`；例如 DropdownButton 内部只合并 options，触发方式或浮层配置变化通过 key 重挂载。不要为了普通文字更新更换 key。
 
 原生适配器接受 `createZuiRender(Component, {host, options, update, ready, beforeDestroy})`：
@@ -217,9 +256,15 @@ export const Playground: StoryObj<Args> = {};
 
 Modal 的 Preact 场景只展示内容布局；完整开关使用无过渡动画的 ModalBase，清理时先隐藏以释放滚动锁，再销毁。现有 Modal 不提供 Tab 焦点循环，场景不额外模拟此能力。Tabs 通过专属 update 更新原有节点，点击后立即同步 Controls 并保留淡入和焦点。自定义元素场景继续使用自身连接/断开生命周期。
 
-stories 和 CSS 使用热更新；组件源码的 TS/TSX 变更会刷新预览 iframe，以重新注册自定义元素。目前未接入额外插件、CI 或发布流程。
+stories 和 CSS 使用热更新；组件源码的 TS/TSX 变更会刷新预览 iframe，以重新注册自定义元素。
 
 `pnpm typecheck` 同时检查原项目和 Storybook。Storybook 使用独立 TypeScript 配置跳过其第三方声明内部检查，避免要求安装其他渲染器；场景与导入的项目源码仍接受严格类型检查，原项目的声明检查策略保持不变。
+
+运行 `pnpm storybook:build` 后执行 `pnpm test:storybook`。测试从构建索引自动发现全部场景，核对源码文件与索引一致，检查非空渲染、脚本错误和资源加载；同时验证 Button 表单与 Actions、三种 Pager 的双向参数同步、Dropdown 和 Modal 的卸载清理、焦点恢复、Tabs 切换及手机宽度下的表单。新增场景自动获得加载巡检，特有交互应补充到 `tests/storybook/`。
+
+浏览器检查不隐式重建，默认在 `http://127.0.0.1:6007/` 临时托管静态产物，结束后关闭自身服务；端口被占用时失败。复用已确认的服务时设置 `PLAYWRIGHT_STORYBOOK_BASE_URL=http://127.0.0.1:端口/`，该模式不启动服务，要求本地构建索引与服务中的场景一致。截图和 trace 位于 `test-results/storybook/`，HTML 报告位于 `playwright-report/storybook/`。
+
+PR 和 main/nightly 在现有浏览器 job 中执行静态构建与 Chromium 场景检查，失败诊断沿用 runner 本地归档；不自动发布 Storybook。CI 以 `--fail-on-flaky-tests` 拒绝仅靠重试通过的测试，详情见 [.github/CI.md](./.github/CI.md#storybook-场景门禁)。
 
 ### 定制构建
 
