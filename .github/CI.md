@@ -95,7 +95,7 @@ PR 的 `Chromium browser contracts` 和 main/nightly 的 `Chromium, Firefox and 
 
 巡检从 `dist/storybook/index.json` 自动发现所有 story，并核对 `lib/*/*.stories.ts`、`lib/*/*.stories.tsx` 均已进入构建；每个场景分别在浅色与深色下检查有效渲染、页面和控制台错误、失败资源。交互回归覆盖主题工具栏、系统外观变化与浮层主题继承，Controls、Actions、原生表单、分页双向同步、嵌套菜单、弹窗关闭和焦点恢复、场景切换后的浮层与滚动锁清理、Tabs 和窄屏表单。新增场景自动纳入双主题基础巡检，业务特有的交互仍需新增断言。
 
-表单回归包含 InputControl 输入／清空、禁用与只读的原生提交语义、邮箱和必填校验恢复，以及 Picker 单选／多选提交、Controls 双向同步、搜索无匹配、禁用选项、键盘选择与删除、空数据、浮层卸载和手机宽度下的长内容。
+表单回归包含 Checkbox 未选／已选／半选状态、Controls 与 Actions、Tab／空格操作、禁用与原生提交语义、开关外观及窄屏长文案，InputControl 输入／清空、禁用与只读的原生提交语义、邮箱和必填校验恢复，以及 Picker 单选／多选提交、Controls 双向同步、搜索无匹配、禁用选项、键盘选择与删除、空数据、浮层卸载和手机宽度下的长内容。
 
 本地先构建，再运行 `pnpm test:storybook`。测试默认用 Vite 在 `127.0.0.1:6007` 预览静态产物，端口占用时失败，结束后停止自己的服务；`PLAYWRIGHT_STORYBOOK_BASE_URL` 可指向已确认的开发或静态服务，URL 以 `/` 结尾，本地构建索引须与该服务的场景一致。此模式只连接，不负责启动或停止外部服务。
 
