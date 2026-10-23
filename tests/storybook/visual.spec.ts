@@ -36,6 +36,58 @@ test.describe('Storybook visual contracts', () => {
             });
         }
 
+        test(`invalid InputControl (${theme})`, async ({page}) => {
+            await openPreview(page, 'input-control', 'invalid', theme);
+            const input = page.getByRole('textbox', {name: '通知邮箱', exact: true});
+            await expect(input).toHaveValue('invalid-email');
+            await expect(input).toHaveAttribute('aria-invalid', 'true');
+            await expect(page.getByRole('alert')).toHaveText('请输入有效的邮箱地址。');
+            await expect(page.locator('form')).toHaveScreenshot(`input-control-invalid-${theme}.png`);
+        });
+
+        for (const variant of ['single', 'multiple', 'empty']) {
+            test(`expanded Picker ${variant} (${theme})`, async ({page}) => {
+                await openPreview(page, 'picker', variant, theme);
+                const picker = page.locator('.picker-select');
+                if (variant === 'multiple') {
+                    await expect(picker.locator('.picker-multi-selection')).toHaveText(['林悦 · 产品', '陈晨 · 研发']);
+                    await expect(page.locator('select[name="owner[]"]')).toHaveValues(['linyue', 'chenchen']);
+                } else {
+                    await expect(picker).toContainText('请选择项目成员');
+                    await expect(page.locator('input[name="owner"]')).toHaveValue('');
+                }
+                await picker.click();
+                const popup = page.locator('.pick-pop');
+                await expect(popup).toHaveClass(/\bin\b/);
+                await expect(popup).toHaveCSS('opacity', '1');
+                await expect(page.getByPlaceholder('搜索姓名或部门', {exact: true})).toBeFocused();
+                if (variant === 'empty') {
+                    await expect(popup.getByText('暂无可选成员', {exact: true})).toBeVisible();
+                } else {
+                    await expect(popup.getByText('王宁 · 测试', {exact: true})).toBeVisible();
+                    await expect(popup.getByText('何雨 · 客户支持（休假中）', {exact: true})).toBeVisible();
+                }
+                if (variant === 'multiple') {
+                    await expect.poll(() => popup.locator('.checkbox-primary > label').evaluateAll(
+                        labels => labels.map(label => getComputedStyle(label, '::after').opacity),
+                    )).toEqual(['1', '1', '0', '0']);
+                }
+                await page.mouse.move(1200, 800);
+                // The popup is portaled to body; include it and the trigger in one component-sized capture.
+                const clip = await page.locator('.picker-select, .pick-pop').evaluateAll((elements) => {
+                    const bounds = elements.map(element => element.getBoundingClientRect());
+                    const x = Math.floor(Math.min(...bounds.map(rect => rect.left))) - 8;
+                    const y = Math.floor(Math.min(...bounds.map(rect => rect.top))) - 8;
+                    return {
+                        x, y,
+                        width: Math.ceil(Math.max(...bounds.map(rect => rect.right))) + 8 - x,
+                        height: Math.ceil(Math.max(...bounds.map(rect => rect.bottom))) + 8 - y,
+                    };
+                });
+                await expect(page).toHaveScreenshot(`picker-${variant}-expanded-${theme}.png`, {clip});
+            });
+        }
+
         test(`expanded Dropdown (${theme})`, async ({page}) => {
             await openPreview(page, 'dropdown', 'playground', theme);
             const trigger = page.getByRole('button', {name: '操作菜单', exact: true});
