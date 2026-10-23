@@ -281,6 +281,8 @@ stories 和 CSS 使用热更新；组件源码的 TS/TSX 变更会刷新预览 i
 
 浏览器检查不隐式重建，默认在 `http://127.0.0.1:6007/` 临时托管静态产物，结束后关闭自身服务；端口被占用时失败。复用已确认的服务时设置 `PLAYWRIGHT_STORYBOOK_BASE_URL=http://127.0.0.1:端口/`，该模式不启动服务，要求本地构建索引与服务中的场景一致。截图和 trace 位于 `test-results/storybook/`，HTML 报告位于 `playwright-report/storybook/`。
 
+`tests/storybook/accessibility.spec.ts` 为 InputControl 和 SearchBox 的可清空／禁用／只读状态、Checkbox 的半选／禁用／开关，以及展开的 Dropdown 和 Modal 确认框建立双主题可访问性门禁。axe 执行 WCAG 2.1 A/AA 自动规则（包含对比度，不禁用规则），扫描真实预览和 body 浮层；失败时附加完整违规 JSON。键盘回归验证 Tab 顺序、清空后焦点返回、空格切换、菜单触发器焦点和 Modal 焦点循环／Escape 返回。该门禁随 `pnpm test:storybook` 进入现有 CI，不受视觉基线跳过开关影响。覆盖范围为这些代表场景，不代表完整可访问性认证；InputControl 错误提示、Picker 和 DatetimePicker 的对比度及语义问题尚待独立治理，屏幕阅读器与缩放仍需人工验收。
+
 本机 Chromium 另有 46 张组件区域视觉基线，覆盖 Button 默认／禁用／加载、Checkbox 半选／禁用／开启的开关、SearchBox 默认／禁用／紧凑／窄屏长内容、InputControl 校验错误、Picker 单选／多选／空数据的展开状态及异步加载／失败／空结果、DatetimePicker 日期时间弹层／范围限制／窄屏分钟步长、展开的 Dropdown、打开的 Modal，以及 390px 宽度下的紧凑 Pager，均包含浅色和深色。Picker 和 DatetimePicker 截图同时包含输入区与挂到 body 的浮层；日期场景固定为上海时区的 2026-10-15 09:30，异步场景用受控时钟冻结加载状态并推进确定性响应。桌面视口固定为 1280 × 900，手机视口为 390 × 844；截图只包含组件区域，不包含 Storybook 工具栏。测试等待主题、字体和浮层就绪，截图时禁用动画；错误和资源检查仍然生效。
 
 ```sh

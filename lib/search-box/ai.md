@@ -209,6 +209,8 @@ export type SearchBoxState = {
 
 ## constraints
 
+清空按钮具有可访问名称，跟随 `@zui/core` 的全局 `i18n` 语言（`zh_cn`／`zh_tw`／`en`，其他语言回退英文）。可通过 `i18n.addLang({zh_cn: {searchBox: {clear: '清空搜索'}}})` 覆盖名称；`i18n.setCode()` 不主动重绘已挂载组件，新语言在下一次渲染时生效。输入框本身仍需调用方通过 `id` 与外部 `<label>` 关联。
+
 默认 delay=500ms（onChange 防抖）、searchIcon/clearIcon/hotkeys=true。value 为受控值，defaultValue 初始化内部状态；受控使用方在 onChange 回写 value。等待防抖通知期间保留输入草稿，回写上一次通知值不会覆盖更新的草稿；外部传入不同的新值会替换草稿并取消旧的待执行通知，输入法组合期间延后到组合结束再应用。onChange 保留原始输入字符串，不自动 trim，Enter 调用 onEnter，清除立即取消等待并触发 onClear，再对非空旧值触发 onChange('',event)。disabled/readonly 下不执行清除。
 
 视图公开 id/input getter 及 focus/blur/clear；vanilla 通过实例 `$` 访问。compact/circle/mergeIcon 和前后缀类影响外观，底层依赖 input-control；不会自动发起搜索请求。卸载清理防抖计时器和 hotkeys。

@@ -99,6 +99,8 @@ PR 的 `Chromium browser contracts` 和 main/nightly 的 `Chromium, Firefox and 
 
 本地先构建，再运行 `pnpm test:storybook`。测试默认用 Vite 在 `127.0.0.1:6007` 预览静态产物，端口占用时失败，结束后停止自己的服务；`PLAYWRIGHT_STORYBOOK_BASE_URL` 可指向已确认的开发或静态服务，URL 以 `/` 结尾，本地构建索引须与该服务的场景一致。此模式只连接，不负责启动或停止外部服务。
 
+`tests/storybook/accessibility.spec.ts` 为 InputControl 和 SearchBox 的可清空／禁用／只读状态、Checkbox 的半选／禁用／开关，以及展开的 Dropdown 和 Modal 确认框建立双主题可访问性门禁。axe 执行 WCAG 2.1 A/AA 自动规则（包含对比度，不禁用规则），扫描真实预览和 body 浮层；失败时附加完整违规 JSON。键盘回归验证 Tab 顺序、清空后焦点返回、空格切换、菜单触发器焦点和 Modal 焦点循环／Escape 返回。该门禁随 `pnpm test:storybook` 进入现有 CI，不受视觉基线跳过开关影响。覆盖范围为这些代表场景，不代表完整可访问性认证；InputControl 错误提示、Picker 和 DatetimePicker 的对比度及语义问题尚待独立治理，屏幕阅读器与缩放仍需人工验收。
+
 `tests/storybook/visual.spec.ts` 在本机 Chromium 比较 46 张组件区域基线，覆盖深浅主题下的按钮状态、Checkbox 半选／禁用／开关、SearchBox 默认／禁用／紧凑／窄屏长内容、输入校验错误、Picker 单选／多选／空数据展开及异步加载／失败／空结果、DatetimePicker 弹层／范围限制／窄屏分钟步长、菜单、弹窗和窄屏分页。日期场景固定时钟及上海时区，异步场景用受控时钟固定响应阶段。基线按 project／操作系统保存在 `tests/storybook/__screenshots__/`；普通运行不自动生成缺失基线。CI 或 `PLAYWRIGHT_SKIP_VISUAL=1` 跳过这 46 项像素比对，保留其他布局与交互断言，也不会生成或接受快照。更新命令与评审步骤见 [README](../README.md#storybook-调试)。
 
 HTML 报告保存在 `playwright-report/storybook/`，失败截图、视频和 trace 保存在 `test-results/storybook/`。现有 `browser` / `browsers` 归档会保留这些诊断，即使检查失败也会执行留存；不自动发布或部署 Storybook。

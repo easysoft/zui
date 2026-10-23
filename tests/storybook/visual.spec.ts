@@ -1,18 +1,6 @@
-import {expect, storyId, test} from './fixtures';
+import {expect, openPreview, test} from './fixtures';
 
 import type {Page} from '@playwright/test';
-
-async function openPreview(page: Page, lib: string, variant: string, theme: 'light' | 'dark') {
-    const id = storyId(lib, variant);
-    await page.goto(`./iframe.html?id=${encodeURIComponent(id)}&viewMode=story&globals=theme:${theme}`);
-    await expect(page).toHaveURL(new RegExp(`id=${encodeURIComponent(id)}&`));
-    await expect(page).toHaveTitle(id);
-    await expect(page.locator('#storybook-root')).toBeVisible({timeout: 30_000});
-    await expect(page.locator('#storybook-root')).not.toBeEmpty();
-    await expect(page.locator('.sb-errordisplay:visible, vite-error-overlay')).toHaveCount(0);
-    await expect(page.locator('html')).toHaveCSS('color-scheme', theme);
-    await page.evaluate(() => document.fonts.ready);
-}
 
 async function componentClip(page: Page, selector: string) {
     return page.locator(selector).evaluateAll((elements) => {

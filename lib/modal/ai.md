@@ -778,6 +778,8 @@ void confirmAction();
 
 ## constraints
 
+带背景遮罩的最上层 Modal 将 Tab／Shift+Tab 焦点限制在当前 `.modal-dialog` 的可用控件内，跳过隐藏、禁用和 inert 内容；无可聚焦控件时回到对话框本身。`keyboard: false` 仅禁止 Escape 关闭，焦点循环仍生效；`backdrop: false` 不限制 Tab。子控件已取消默认键盘行为时 Modal 不再接管。跨域 iframe 内部的键盘事件不进入父文档，该路径需宿主另行处理。
+
 `ModalBase` 管理已有 `.modal > .modal-dialog > .modal-content` 结构；`Modal` 构建 custom/ajax/iframe 内容；`ModalTrigger` 为点击触发元素选择静态或动态对话框。基础默认 show=true、position=fit、keyboard/animation/backdrop/responsive=true、transTime=300ms。动态 Modal 默认 loadTimeout=10000ms、destroyOnHide=true。
 
 `Modal.open(options)` 返回在 hidden 事件后 resolve 的 Promise<Modal>，不是“打开完成”Promise；需要立即持有实例时通过 options.ref 获取。`alert` 返回被选 action 字符串或 undefined，`confirm` 返回 boolean，`prompt` 返回输入字符串或 null（取消）。`show/hide` 返回是否执行成功，onHide 返回 false 可阻止关闭。公开事件是 show/shown/hide/hidden，均无额外载荷；不要推导 load/loaded 事件。hideOthers/closeOthers 会影响其他模态框，具体布局由 position/size 规则控制。

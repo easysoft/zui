@@ -333,7 +333,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
             const modal = ModalBase.query(target);
             return modal?.shown ? modal : undefined;
         }
-        return ModalBase.getAll(undefined, modal => modal.shown).reduce<ModalBase | undefined>((topmost, modal) => {
+        return ModalBase.getAll(undefined, modal => !!modal.shown).reduce<ModalBase | undefined>((topmost, modal) => {
             if (!topmost) {
                 return modal;
             }
@@ -362,12 +362,40 @@ $(window).on(`resize.${ModalBase.NAMESPACE}`, () => {
 });
 
 $(document).on(`keydown.${ModalBase.NAMESPACE}`, (event: KeyboardEvent) => {
-    if (event.key !== 'Escape' || event.defaultPrevented) {
+    if ((event.key !== 'Escape' && event.key !== 'Tab') || event.defaultPrevented) {
         return;
     }
     const modal = ModalBase.last();
-    if (modal?.options.keyboard) {
+    if (!modal) {
+        return;
+    }
+    if (event.key === 'Escape' && modal.options.keyboard) {
         event.preventDefault();
         modal.hide();
+    } else if (event.key === 'Tab' && modal.options.backdrop) {
+        const {dialog} = modal;
+        if (!dialog) return;
+        const candidates = Array.from(dialog.querySelectorAll<HTMLElement>(
+            'a[href], area[href], button, input, select, textarea, iframe, object, embed, summary, audio[controls], video[controls], [contenteditable], [tabindex]',
+        )).filter((element) => {
+            const editable = element.isContentEditable && !element.hasAttribute('tabindex') && !element.parentElement?.isContentEditable;
+            return (element.tabIndex >= 0 || editable)
+                && !element.matches(':disabled') && !element.closest('[hidden], [inert]')
+                && element.getClientRects().length > 0 && getComputedStyle(element).visibility === 'visible';
+        });
+        const controls = candidates.filter((element) => {
+            if (!(element instanceof HTMLInputElement) || element.type !== 'radio' || !element.name) return true;
+            const group = candidates.filter((candidate): candidate is HTMLInputElement => candidate instanceof HTMLInputElement
+                && candidate.type === 'radio' && candidate.name === element.name && candidate.form === element.form);
+            return element === (group.find(radio => radio.checked) ?? group[0]);
+        }).sort((a, b) => (a.tabIndex > 0 ? a.tabIndex : Infinity) - (b.tabIndex > 0 ? b.tabIndex : Infinity));
+        const active = document.activeElement;
+        const edge = event.shiftKey ? controls[0] : controls.at(-1);
+        if (!controls.length || !controls.includes(active as HTMLElement) || active === edge) {
+            event.preventDefault();
+            if (!controls.length && !dialog.hasAttribute('tabindex')) dialog.tabIndex = -1;
+            (event.shiftKey ? controls.at(-1) : controls[0])?.focus();
+            if (!controls.length) dialog.focus();
+        }
     }
 });

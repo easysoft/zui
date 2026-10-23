@@ -1,5 +1,6 @@
 import {act, fireEvent, render} from '@testing-library/preact';
 import {describe, expect, it, vi} from 'vitest';
+import {i18n} from '@zui/core';
 import {SearchBox} from '@zui/search-box/react';
 
 async function flushSearch() {
@@ -7,6 +8,44 @@ async function flushSearch() {
         await vi.advanceTimersByTimeAsync(500);
     });
 }
+
+describe('SearchBox accessibility', () => {
+    it.each([
+        ['zh-CN', '清空搜索'],
+        ['zh-TW', '清空搜尋'],
+        ['en', 'Clear search'],
+        ['fr', 'Clear search'],
+    ])('names the clear button in %s and restores input focus', (language, label) => {
+        const previousLanguage = i18n.getCode();
+        i18n.setCode(language);
+        try {
+            const {getByRole, queryByRole} = render(<SearchBox defaultValue="ZUI" />);
+            const input = getByRole('textbox');
+            const clear = getByRole('button', {name: label});
+            act(() => clear.focus());
+            fireEvent.click(clear);
+            expect(input).toHaveValue('');
+            expect(input).toHaveFocus();
+            expect(queryByRole('button')).toBeNull();
+        } finally {
+            i18n.setCode(previousLanguage);
+        }
+    });
+
+    it('uses the namespaced global translation for a custom clear icon', () => {
+        const previousLanguage = i18n.getCode();
+        const language = 'search_box_test';
+        i18n.addLang({[language]: {searchBox: {clear: 'Reset query'}}});
+        i18n.setCode(language);
+        try {
+            const {getByRole} = render(<SearchBox defaultValue="ZUI" clearIcon="icon-trash" />);
+            expect(getByRole('button', {name: 'Reset query'})).toBeEnabled();
+        } finally {
+            if (i18n.map) delete i18n.map[language];
+            i18n.setCode(previousLanguage);
+        }
+    });
+});
 
 describe('SearchBox composition', () => {
     it.each([0, 500])('searches once after committing Chinese text (delay: %s)', async (delay) => {

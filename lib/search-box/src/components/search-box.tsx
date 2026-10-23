@@ -1,5 +1,6 @@
 import {Component, createRef} from 'preact';
-import {$, classes, getHotkeysMap, Icon, nextGid} from '@zui/core';
+import {$, classes, getHotkeysMap, i18n, Icon, nextGid} from '@zui/core';
+import searchBoxI18n from '../i18n';
 import '../style';
 
 import type {ComponentChildren, RenderableProps} from 'preact';
@@ -193,10 +194,11 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
                 <button
                     type="button"
                     className="btn ghost size-sm square rounded-full"
+                    aria-label={i18n(searchBoxI18n, 'clear', 'Clear search', undefined, 'searchBox')}
                     disabled={disabled || readonly}
                     onClick={this._handleClearBtnClick}
                 >
-                    {clearIcon === true ? <span className="close" /> : <Icon icon={clearIcon} />}
+                    {clearIcon === true ? <span className="close" aria-hidden="true" /> : <Icon icon={clearIcon} />}
                 </button>
             );
         } else if (mergeIcon && searchIcon) {

@@ -28,6 +28,21 @@ function createModal(options: {keyboard?: boolean; responsive?: boolean; show?: 
 }
 
 describe('ModalBase keyboard and focus contracts', () => {
+    it('does not intercept keyboard navigation before a modal has been opened', async () => {
+        const {trigger} = createModal();
+        trigger.focus();
+        for (const initialized of [false, true]) {
+            if (initialized) await flushAnimationFrame();
+            expect(ModalBase.last()).toBeUndefined();
+            for (const key of ['Tab', 'Escape']) {
+                const event = new KeyboardEvent('keydown', {bubbles: true, cancelable: true, key});
+                document.dispatchEvent(event);
+                expect(event.defaultPrevented).toBe(false);
+            }
+            expect(trigger).toHaveFocus();
+        }
+    });
+
     it('does not reopen a modal dismissed before deferred initialization', async () => {
         const {element, modal, trigger} = createModal({show: true});
         trigger.focus();
