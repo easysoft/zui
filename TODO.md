@@ -44,6 +44,188 @@
 - [ ] 浏览器验证同页容器内外存在同名类时的样式边界，以及按钮、表单和动态浮层在深浅主题、不同宿主根字号下的表现。
 - [ ] 补充构建配置和接入文档，说明只加载作用域版 CSS、容器标记、浮层挂载、尺寸策略及隔离限制。
 
+## JSON UI 第二阶段：远程数据源
+
+目标：通过纯 JSON 声明远程数据源，连接第一阶段的状态、数据绑定和组件联动。新增 `dataSources` 配置和只读 `sources` 数据域，沿用 `state → computed → bind/model/when`。以下为拟议方案，尚未实施。
+
+本阶段范围：GET 数据读取、自动加载、手动刷新、请求取消、搜索防抖、加载和错误状态。POST 写操作、响应自动写回 state、数据源之间的自动请求链、跨实例共享缓存和持久化暂不纳入。
+
+### 数据职责与联动
+
+| 数据域 | 用途 | 更新方式 |
+| --- | --- | --- |
+| `state` | 用户输入、选择、查询条件、页码 | 现有 `model`、`set`、`patchState` |
+| `sources.<name>` | 请求结果、加载状态、错误 | 数据源运行时管理，只读 |
+| `computed` | 派生展示数据 | 可同时读取 `state` 和 `sources` |
+
+```mermaid
+flowchart LR
+    A[选择省份] --> B[state.province]
+    B --> C[watch 清空 state.city]
+    B --> D[数据源请求城市列表]
+    D --> E[sources.cities]
+    E --> F[bind 更新城市选项和加载提示]
+    F --> G[选择城市]
+    G --> H[state.city]
+```
+
+远程响应只更新 `sources`。需要把详情复制到编辑表单时，通过显式 `set` 动作写入 `state`，避免后台响应覆盖用户正在修改的内容。搜索、分页沿用同一模型：输入和页码进入 `state`，作为数据源的查询参数。
+
+### 声明协议
+
+文档继续使用 `version: 1`，新增可选 `dataSources` 字段。没有数据源的现有文档和旧节点协议保持原有行为；使用新增字段需要升级运行时。
+
+| 数据源字段 | 语义与默认值 |
+| --- | --- |
+| `url` | 必填，字符串或表达式，求值后检查请求地址 |
+| `query` | 查询参数映射，每个值单独作为表达式求值 |
+| `enabled` | 布尔表达式，默认 `true`；关闭时取消请求并将结果恢复为 `initialData` |
+| `auto` | 默认 `true`；挂载和请求参数变化时自动加载 |
+| `initialData` | 默认 `null`；首次加载和参数切换时的占位数据，不代表请求成功 |
+| `select` | 从响应中提取数据，默认返回整个响应 |
+| `debounce` | 自动请求的防抖时间，默认 `0` 毫秒 |
+| `timeout` | 请求超时，默认 `30000` 毫秒 |
+
+`query` 接受标量及标量数组，统一编码，`null` 表示省略。继续保持显式表达式规则，普通对象内部不递归解释 `$ref`。
+
+请求参数和 `enabled` 只能依赖 `state`，以及仅依赖 state 的 computed；`select` 只读取 `response`。这样请求条件不会被自己的响应再次改变。`auto: false` 时参数变化仍使旧结果失效，但等待显式刷新才发请求。
+
+每个数据源向表达式暴露以下只读状态：
+
+```json
+{
+    "data": [],
+    "status": "idle",
+    "loading": false,
+    "error": null
+}
+```
+
+`status` 为 `idle / loading / success / error`。`error` 是可序列化的错误摘要，包含类别、消息和可用的 HTTP 状态码；不暴露原生 Error、Promise 或请求对象。`set`、`model` 等写入入口仍只能修改 `state`。
+
+### 省市联动示例
+
+保留第一阶段的 `model` 和清空城市的 `watch`，把本地城市映射替换为远程结果。示例假定已加载 Picker、Button，接口返回 `{"items":[{"value":"gz","text":"广州"}]}`。
+
+```json
+{
+    "version": 1,
+    "state": {"province": "", "city": ""},
+    "dataSources": {
+        "cities": {
+            "url": "/api/cities",
+            "query": {"province": {"$ref": "state.province"}},
+            "enabled": {"$op": "ne", "args": [{"$ref": "state.province"}, ""]},
+            "initialData": [],
+            "select": {"$ref": "response.items"}
+        }
+    },
+    "watch": [
+        {
+            "paths": ["state.province"],
+            "do": {"type": "set", "path": "state.city", "value": ""}
+        }
+    ],
+    "ui": [
+        {
+            "component": "Picker",
+            "props": {
+                "placeholder": "选择省份",
+                "items": [
+                    {"value": "gd", "text": "广东"},
+                    {"value": "zj", "text": "浙江"}
+                ]
+            },
+            "model": {
+                "value": {
+                    "path": "state.province",
+                    "event": "onChange",
+                    "value": {"$ref": "args.0"}
+                }
+            }
+        },
+        {
+            "component": "Picker",
+            "props": {"placeholder": "选择城市"},
+            "bind": {
+                "props.items": {"$ref": "sources.cities.data"},
+                "props.disabled": {
+                    "$op": "ne",
+                    "args": [{"$ref": "sources.cities.status"}, "success"]
+                }
+            },
+            "model": {
+                "value": {
+                    "path": "state.city",
+                    "event": "onChange",
+                    "value": {"$ref": "args.0"}
+                }
+            }
+        },
+        {
+            "tag": "p",
+            "when": {"$ref": "sources.cities.loading"},
+            "children": "正在加载城市…"
+        },
+        {
+            "tag": "p",
+            "when": {"$op": "eq", "args": [{"$ref": "sources.cities.status"}, "error"]},
+            "bind": {"children": {"$ref": "sources.cities.error.message", "default": ""}}
+        },
+        {
+            "component": "Button",
+            "props": {"text": "重新加载"},
+            "when": {"$op": "eq", "args": [{"$ref": "sources.cities.status"}, "error"]},
+            "events": {"onClick": {"type": "reload", "source": "cities"}}
+        }
+    ]
+}
+```
+
+### 事务、并发与生命周期
+
+1. 请求在事务提交后启动。`model → JSON 动作 → watch` 仍同步执行。根据最终状态计算请求参数，将相关数据源的失效状态与本地状态一起校验、提交，然后发请求。事务失败不产生网络请求。新增 `reload` 动作只登记提交后执行的任务，不改变现有动作链和 `return` 的同步语义。
+2. 参数变化立即使旧结果失效。切换省份时，城市选项立即恢复为 `initialData`，随后加载新列表；防抖期间也不能继续展示旧省份的城市。同参数手动刷新保留已有结果，并显示加载状态。无关状态变化和同值更新不重复请求。
+3. 取消与过期响应检查同时存在。参数变化时取消旧请求，并立即更新请求序号。响应提交前检查实例、数据源配置和请求序号；即使取消未生效，旧响应也不能覆盖新结果。
+4. 响应单独完成一次受校验的更新。响应经过 JSON 校验、`select`、computed 和最终绑定校验后，才能进入可见的 `sources`。网络失败展示数据源错误；非法响应或绑定结果不覆盖有效数据。响应不会回滚之前已经提交的用户输入，也不会触发 `onStateChange`。现有 `watch.paths` 仍只监听 `state`。
+5. 编译与校验不发请求。`validateJsonUI` 和编译阶段保持纯校验，挂载后才启动请求。不能在组件 render 中直接启动网络副作用。
+6. 全量重置取消旧请求、恢复数据源初态，再按默认状态决定加载。普通 schema 更新保留定义和参数均未变化的数据源；无效更新继续使用旧文档。销毁时清理请求、订阅和防抖计时器。节点被 `when` 隐藏不会自动停止文档级数据源，需要通过 `enabled` 控制。
+
+### 实现与宿主接入
+
+复用现有 [createQuery](lib/core/src/query/create-query.ts) 和 [Ajax](lib/core/src/ajax/ajax.ts)，在 `json-ui` 内新增私有数据源协调器，不新增第三方依赖。
+
+- 每个 JsonUI 实例持有独立 QueryClient，显式关闭自动重试、窗口聚焦刷新和重连刷新。
+- 本阶段只复用当前请求，不开放跨实例缓存，也不把整套 Query/Ajax 配置透传到 JSON。
+- 请求沿用现有 `allowRequest` 来源策略，默认同源 HTTP(S)；认证由宿主 Ajax 配置负责。新增数据源默认拒绝重定向，响应始终按数据处理。
+- 原有 `fetcher` 节点继续负责内容加载，保持原协议。
+
+新增宿主 API：
+
+| API | 契约 |
+| --- | --- |
+| `getDataSourceState(name)` | 返回独立状态快照；`getState()` 仍只返回业务状态。 |
+| `reloadDataSource(name)` | 返回 Promise，成功返回本次提交的数据；失败、取消或数据源被禁用时拒绝。JSON `reload` 动作由运行时承接错误，供界面展示。 |
+
+实施路径：
+
+- [ ] 在 `lib/json-ui/src/types.ts` 增加数据源配置、只读状态类型和 `reload` 动作；同步原生实例与 Preact ref API。
+- [ ] 在表达式编译和依赖校验中接入 `sources`、`response`，限制请求条件及 select 的读取范围，禁止写入 sources。
+- [ ] 在文档事务中接入请求参数计算、数据源失效快照和提交后调度，保留原有同步动作、失败回滚及 onStateChange 语义。
+- [ ] 实现私有数据源协调器，复用 Query/Ajax，完成自动加载、刷新、防抖、超时、取消、过期响应检查和结果校验。
+- [ ] 将协调器接入组件挂载、有效文档更新、重置与销毁；校验与 render 阶段不得发请求。
+- [ ] 同步正式文档、`lib/json-ui/ai.md`、AI 索引和开发页，增加远程省市、搜索和分页示例，明确新增协议和宿主边界。
+
+完成条件：
+
+- [ ] 省市级联、搜索防抖和分页均能通过 JSON 完成，加载、错误和重试有可见反馈。
+- [ ] 用户输入与宿主 patchState 使用相同联动路径；无关状态变化、同值更新不重复请求。
+- [ ] 快速切换、响应乱序和取消未生效时，旧响应不能覆盖当前结果；防抖期间不展示错误条件下的旧数据。
+- [ ] 本地事务失败不发请求；非法响应、select 错误和最终绑定校验失败不覆盖有效界面；远程更新不冒充业务状态变更通知。
+- [ ] 覆盖未挂载校验、参数禁用、全量重置、普通 schema 更新、无效更新和销毁的请求与订阅清理。
+- [ ] 覆盖来源策略、重定向拒绝、只读 sources 和 JSON 数据边界；响应不能作为代码或 UI 文档执行。
+- [ ] 保留第一阶段和旧节点协议回归测试，完成新增 DOM、浏览器、文档复制示例及 AI 参考验收。
+
 ## 长期：清理构建工具链中的 braces 依赖
 
 目标：通过升级或替换上游工具，移除 `braces` 的全部引入路径，最终删除本地补丁及对应的安全审计例外。
