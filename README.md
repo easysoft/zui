@@ -169,7 +169,7 @@ pnpm dev
 
 ### Storybook 调试
 
-运行 `pnpm storybook` 后访问 <http://localhost:6006>。目前提供 6 个库共 32 个场景，可以在 Controls 中调整参数，在 Actions 中观察事件，也可以切换视口与 ZUI 主题。主题工具栏提供“浅色”“深色”“跟随系统”，默认跟随系统并实时响应系统外观变化。主题作用于整个预览文档，包含挂到 body 的菜单、弹窗和原生表单控件；切换时保留场景参数。主题选择由 Storybook globals 管理，可通过 `globals=theme:dark` 分享深色场景链接。
+运行 `pnpm storybook` 后访问 <http://localhost:6006>。目前提供 8 个库共 44 个场景，可以在 Controls 中调整参数，在 Actions 中观察事件，也可以切换视口与 ZUI 主题。主题工具栏提供“浅色”“深色”“跟随系统”，默认跟随系统并实时响应系统外观变化。主题作用于整个预览文档，包含挂到 body 的菜单、弹窗和原生表单控件；切换时保留场景参数。主题选择由 Storybook globals 管理，可通过 `globals=theme:dark` 分享深色场景链接。
 
 预览直接使用 `config/tailwind-theme/` 经 `@zui/base` 生成的颜色变量，通过根元素 `.dark` 切换，原生控件同步设置 `color-scheme`。不维护另一套背景色或组件皮肤；主题只作用于预览区域，Storybook 管理界面沿用自身外观。
 
@@ -177,7 +177,9 @@ pnpm dev
 | --- | --- | --- |
 | Label | 3 | 外观、状态圆点、长文本省略与完整提示 |
 | Button | 7 | Preact、原生 HTML、Web Component、表单、禁用、加载中、长文本 |
+| InputControl | 6 | 原生输入、清空、禁用、只读、邮箱校验与恢复、长内容与窄屏 |
 | Pager | 8 | 受控与原生接口、Web Component、每页条数、空数据、单页、末页、窄屏布局 |
+| Picker | 6 | 受控单选与多选、搜索与清空、禁用、只读、空数据、长选项与窄屏 |
 | Dropdown | 5 | 点击、悬停、嵌套菜单、禁用触发按钮、长菜单项 |
 | Modal | 6 | 尺寸、确认与取消、仅按钮关闭、长标题、长正文滚动、Preact 内容 |
 | Tabs | 3 | 受控切换、淡入效果、长标签与窄屏布局 |
@@ -262,11 +264,17 @@ export const Playground: StoryObj<Args> = {};
 
 Modal 的 Preact 场景只展示内容布局；完整开关使用无过渡动画的 ModalBase，清理时先隐藏以释放滚动锁，再销毁。现有 Modal 不提供 Tab 焦点循环，场景不额外模拟此能力。Tabs 通过专属 update 更新原有节点，点击后立即同步 Controls 并保留淡入和焦点。自定义元素场景继续使用自身连接/断开生命周期。
 
+InputControl 的公开入口只提供 CSS；场景用原生 `input`／`form` 展示前后缀、清空按钮、禁用与只读，未使用库内尚未导出的 Preact Input。邮箱与必填校验调用原生约束校验，错误关联到字段，只有有效表单触发提交 Action。
+
+Picker 使用公开的 `@zui/picker/react`，选择同步回 Controls，Controls 写入不会重复产生选择 Action；多选按真实 `owner[]` 字段提交。切换单／多选、禁用或只读时重建实例并清理浮层，普通值更新保留实例。空数据通过公开的 `popHeader` 配置提示，`searchEmptyHint` 用于搜索无匹配结果；所有选项为本地确定性数据。
+
+Picker 的搜索键盘操作从已打开的搜索框开始，场景不额外模拟触发器键盘行为。已知组件边界：只有一个已激活的匹配项时，再按 ArrowDown 会取消激活；筛选后直接 Enter 可选择当前激活项。回归分别覆盖筛选后 Enter 确认和多选项的箭头导航。
+
 stories 和 CSS 使用热更新；组件源码的 TS/TSX 变更会刷新预览 iframe，以重新注册自定义元素。
 
 `pnpm typecheck` 同时检查原项目和 Storybook。Storybook 使用独立 TypeScript 配置跳过其第三方声明内部检查，避免要求安装其他渲染器；场景与导入的项目源码仍接受严格类型检查，原项目的声明检查策略保持不变。
 
-运行 `pnpm storybook:build` 后执行 `pnpm test:storybook`。测试从构建索引自动发现全部场景，在浅色与深色下检查非空渲染、脚本错误和资源加载，并核对源码文件与索引一致；同时验证主题工具栏、系统外观变化与浮层主题继承，禁用与加载状态恢复、空数据与分页边界、长文本和窄屏浮层，Button 表单与 Actions、三种 Pager 的双向参数同步、Dropdown 和 Modal 的卸载清理、焦点恢复、Tabs 切换及手机宽度下的表单。新增场景自动获得双主题加载巡检，特有交互应补充到 `tests/storybook/`。
+运行 `pnpm storybook:build` 后执行 `pnpm test:storybook`。测试从构建索引自动发现全部场景，在浅色与深色下检查非空渲染、脚本错误和资源加载，并核对源码文件与索引一致；同时验证主题工具栏、系统外观变化与浮层主题继承，禁用与加载状态恢复、空数据与分页边界、长文本和窄屏浮层，InputControl 输入、清空、原生表单语义和校验恢复，Picker 单／多选提交、搜索、键盘操作、Controls 同步和浮层卸载，Button 表单与 Actions、三种 Pager 的双向参数同步、Dropdown 和 Modal 的卸载清理、焦点恢复、Tabs 切换及手机宽度下的表单。新增场景自动获得双主题加载巡检，特有交互应补充到 `tests/storybook/`。
 
 浏览器检查不隐式重建，默认在 `http://127.0.0.1:6007/` 临时托管静态产物，结束后关闭自身服务；端口被占用时失败。复用已确认的服务时设置 `PLAYWRIGHT_STORYBOOK_BASE_URL=http://127.0.0.1:端口/`，该模式不启动服务，要求本地构建索引与服务中的场景一致。截图和 trace 位于 `test-results/storybook/`，HTML 报告位于 `playwright-report/storybook/`。
 
