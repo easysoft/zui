@@ -19,6 +19,37 @@ async function flushPicker() {
     });
 }
 
+describe('Picker keyboard search', () => {
+    it.each(['ArrowDown', 'ArrowUp'])('keeps a single match active after repeated %s and selects it with Enter', async (key) => {
+        const id = 'filtered-picker';
+        const onChange = vi.fn();
+        render(<Picker id={id} name={id} items={items} onChange={onChange} />);
+        const trigger = mockTriggerLayout(id);
+        fireEvent.click(trigger);
+        await flushPicker();
+
+        const search = trigger.querySelector('input[type="text"]')!;
+        fireEvent.input(search, {target: {value: 'ZUI'}});
+        await flushPicker();
+        const pop = document.getElementById(`pick-pop-${id}`)!;
+        fireEvent.keyDown(search, {key, code: key});
+        expect(pop.querySelector('.active')).toHaveTextContent('ZUI');
+
+        for (let count = 0; count < 3; count++) {
+            fireEvent.keyDown(search, {key, code: key});
+            expect(pop.querySelector('.active')).toHaveTextContent('ZUI');
+            expect(document.getElementById(id)).toHaveValue('');
+        }
+        expect(onChange).not.toHaveBeenCalled();
+
+        fireEvent.keyDown(search, {key: 'Enter', code: 'Enter'});
+        await flushPicker();
+        expect(document.getElementById(id)).toHaveValue('zui');
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(pop).not.toBeInTheDocument();
+    });
+});
+
 describe('Picker field IDs', () => {
     it.each(['repository', 'inputs.repository', 'inputs.repositories[0]'])('positions and sizes the popup for %s', async (id) => {
         const {unmount} = render(<Picker id={id} name={id} items={items} popPlacement="bottom-start" />);

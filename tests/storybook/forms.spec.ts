@@ -166,6 +166,11 @@ for (const theme of ['light', 'dark'] as const) {
             await expect(pop.getByText('陈晨 · 研发', {exact: true})).toBeVisible();
             await expect(unavailable).toHaveCount(0);
             await expect(pop.locator('.active')).toContainText('陈晨 · 研发');
+            for (const key of ['ArrowDown', 'ArrowDown', 'ArrowUp', 'ArrowUp']) {
+                await search.press(key);
+                await expect(pop.locator('.active')).toContainText('陈晨 · 研发');
+                await expect(canvas.locator('input[name="owner"]')).toHaveValue('');
+            }
             await search.press('Enter');
             await expect(page.locator('#control-value')).toHaveValue('chenchen');
             await expect(pop).toHaveCount(0);
@@ -187,6 +192,8 @@ for (const theme of ['light', 'dark'] as const) {
             const canvas = await openStory(page, 'picker', 'empty', theme);
             await canvas.locator('.picker-select').click();
             await expect(canvas.getByText('暂无可选成员', {exact: true})).toBeVisible();
+            await canvas.getByPlaceholder('搜索姓名或部门', {exact: true}).press('ArrowDown');
+            await canvas.getByPlaceholder('搜索姓名或部门', {exact: true}).press('ArrowUp');
             await canvas.getByPlaceholder('搜索姓名或部门', {exact: true}).press('Enter');
             await expect(canvas.locator('input[name="owner"]')).toHaveValue('');
             await expect(page.locator('#control-value')).toHaveValue('');

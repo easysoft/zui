@@ -302,7 +302,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
     activeNext(condition?: (item: Item, index: number) => boolean, step = 1) {
         const nextItem = this.getNextItem(this.getActiveKey(), condition, step);
         if (nextItem) {
-            this.toggleActive(nextItem.key!);
+            this.toggleActive(nextItem.key!, true);
         }
     }
 

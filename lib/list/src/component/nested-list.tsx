@@ -448,21 +448,23 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     activeNext(condition?: (item: Item, index: number) => boolean, step = 1) {
         const nextItem = this.getNextItem(this.getActiveKey(), condition, step);
         if (nextItem) {
-            this.toggleActive(nextItem._keyPath as string);
+            this.toggleActive(nextItem._keyPath as string, true);
         }
     }
 
     getNextItem(key: string | undefined, condition?: (item: Item, index: number) => boolean, step = 1, items: Item[] | undefined = undefined): Item | undefined {
         items = items || reduceNestedItems<Item[]>(this._items, this.props.itemKey, (list, info) => {
-            if (info.data.disabled) {
+            const keyPath = this.getKeyPath(info.keyPath);
+            const renderedItem = this._renderedItemMap.get(keyPath);
+            if (!renderedItem || info.data.disabled) {
                 return list;
             }
             list.push({
-                _keyPath: info.keyPath,
+                _keyPath: keyPath,
                 type: 'item',
                 ...info.data,
-                ...this._renderedItemMap.get(info.keyPath),
-                key: info.keyPath,
+                ...renderedItem,
+                key: keyPath,
             });
             return list;
         }, []);

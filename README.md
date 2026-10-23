@@ -268,7 +268,7 @@ InputControl 的公开入口只提供 CSS；场景用原生 `input`／`form` 展
 
 Picker 使用公开的 `@zui/picker/react`，选择同步回 Controls，Controls 写入不会重复产生选择 Action；多选按真实 `owner[]` 字段提交。切换单／多选、禁用或只读时重建实例并清理浮层，普通值更新保留实例。空数据通过公开的 `popHeader` 配置提示，`searchEmptyHint` 用于搜索无匹配结果；所有选项为本地确定性数据。
 
-Picker 的搜索键盘操作从已打开的搜索框开始，场景不额外模拟触发器键盘行为。已知组件边界：只有一个已激活的匹配项时，再按 ArrowDown 会取消激活；筛选后直接 Enter 可选择当前激活项。回归分别覆盖筛选后 Enter 确认和多选项的箭头导航。
+Picker 的搜索键盘操作从已打开的搜索框开始，场景不额外模拟触发器键盘行为。只有一个可用匹配项时，重复按 ArrowDown／ArrowUp 保持该项激活，Enter 选择当前项；多项结果仍循环导航并跳过禁用项。回归同时覆盖单项反复导航后确认、多项导航和空数据。
 
 stories 和 CSS 使用热更新；组件源码的 TS/TSX 变更会刷新预览 iframe，以重新注册自定义元素。
 
