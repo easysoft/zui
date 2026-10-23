@@ -14,6 +14,19 @@ async function openPreview(page: Page, lib: string, variant: string, theme: 'lig
     await page.evaluate(() => document.fonts.ready);
 }
 
+async function componentClip(page: Page, selector: string) {
+    return page.locator(selector).evaluateAll((elements) => {
+        const bounds = elements.map(element => element.getBoundingClientRect());
+        const x = Math.floor(Math.min(...bounds.map(rect => rect.left))) - 8;
+        const y = Math.floor(Math.min(...bounds.map(rect => rect.top))) - 8;
+        return {
+            x, y,
+            width: Math.ceil(Math.max(...bounds.map(rect => rect.right))) + 8 - x,
+            height: Math.ceil(Math.max(...bounds.map(rect => rect.bottom))) + 8 - y,
+        };
+    });
+}
+
 test.describe('Storybook visual contracts', () => {
     test.skip(
         ({browserName}) => browserName !== 'chromium' || !!process.env.CI || process.env.PLAYWRIGHT_SKIP_VISUAL === '1',
@@ -44,6 +57,32 @@ test.describe('Storybook visual contracts', () => {
             await expect(page.getByRole('alert')).toHaveText('请输入有效的邮箱地址。');
             await expect(page.locator('form')).toHaveScreenshot(`input-control-invalid-${theme}.png`);
         });
+
+        for (const variant of ['playground', 'disabled', 'compact', 'long-value']) {
+            test(`SearchBox ${variant} (${theme})`, async ({page}) => {
+                if (variant === 'compact' || variant === 'long-value') {
+                    await page.setViewportSize({width: 390, height: 844});
+                }
+                await openPreview(page, 'search-box', variant, theme);
+                const input = page.getByRole('textbox', {name: '搜索项目', exact: true});
+                if (variant === 'disabled') {
+                    await expect(input).toBeDisabled();
+                    await expect(input).toHaveValue('已停用项目');
+                } else if (variant === 'long-value') {
+                    await expect(input).toHaveValue('跨部门协作项目：需求评审、设计交付、研发联调、测试验收与版本发布');
+                    await expect(page.locator('.search-box .input-control-suffix button')).toBeVisible();
+                } else {
+                    await expect(input).toHaveValue('');
+                    await expect(input).toBeEnabled();
+                }
+                if (variant === 'compact') {
+                    await expect(input).toHaveCSS('height', '24px');
+                    await expect(page.locator('.input-control-suffix .magnifier')).toBeVisible();
+                }
+                expect(await page.locator('body').evaluate(body => body.scrollWidth <= innerWidth)).toBe(true);
+                await expect(page.locator('form')).toHaveScreenshot(`search-box-${variant}-${theme}.png`);
+            });
+        }
 
         for (const variant of ['indeterminate', 'disabled', 'switch']) {
             test(`Checkbox ${variant} (${theme})`, async ({page}) => {
@@ -101,16 +140,7 @@ test.describe('Storybook visual contracts', () => {
                     }
                     await page.mouse.move(380, 800);
                     // Include the portaled calendar and its input in the same capture.
-                    const clip = await page.locator('form, .pick-pop').evaluateAll((elements) => {
-                        const bounds = elements.map(element => element.getBoundingClientRect());
-                        const x = Math.floor(Math.min(...bounds.map(rect => rect.left))) - 8;
-                        const y = Math.floor(Math.min(...bounds.map(rect => rect.top))) - 8;
-                        return {
-                            x, y,
-                            width: Math.ceil(Math.max(...bounds.map(rect => rect.right))) + 8 - x,
-                            height: Math.ceil(Math.max(...bounds.map(rect => rect.bottom))) + 8 - y,
-                        };
-                    });
+                    const clip = await componentClip(page, 'form, .pick-pop');
                     await expect(page).toHaveScreenshot(`datetime-picker-${variant}-expanded-${theme}.png`, {clip});
                 });
             }
@@ -145,17 +175,34 @@ test.describe('Storybook visual contracts', () => {
                 }
                 await page.mouse.move(1200, 800);
                 // The popup is portaled to body; include it and the trigger in one component-sized capture.
-                const clip = await page.locator('.picker-select, .pick-pop').evaluateAll((elements) => {
-                    const bounds = elements.map(element => element.getBoundingClientRect());
-                    const x = Math.floor(Math.min(...bounds.map(rect => rect.left))) - 8;
-                    const y = Math.floor(Math.min(...bounds.map(rect => rect.top))) - 8;
-                    return {
-                        x, y,
-                        width: Math.ceil(Math.max(...bounds.map(rect => rect.right))) + 8 - x,
-                        height: Math.ceil(Math.max(...bounds.map(rect => rect.bottom))) + 8 - y,
-                    };
-                });
+                const clip = await componentClip(page, '.picker-select, .pick-pop');
                 await expect(page).toHaveScreenshot(`picker-${variant}-expanded-${theme}.png`, {clip});
+            });
+        }
+
+        for (const state of ['loading', 'failure', 'empty']) {
+            test(`asynchronous Picker ${state} (${theme})`, async ({page}) => {
+                await openPreview(page, 'picker', state === 'loading' ? 'async' : `async-${state}`, theme);
+                await page.locator('.picker-select').click();
+                const popup = page.locator('.pick-pop');
+                await expect(popup).toHaveCSS('opacity', '1');
+                if (state === 'loading') {
+                    await expect(popup.locator('.menu-item')).toHaveCount(4);
+                }
+                // Freeze the fixture response so the screenshot cannot race the loading state.
+                const now = new Date('2026-10-15T09:30:00+08:00');
+                await page.clock.install({time: now});
+                await page.clock.pauseAt(now);
+                await page.getByPlaceholder('搜索姓名或部门', {exact: true}).fill('不存在');
+                await page.clock.runFor(state === 'loading' ? 450 : 2000);
+                const hint = state === 'loading' ? '正在加载...' : state === 'failure'
+                    ? '加载失败，请在 Controls 中切换返回结果重试' : '无匹配选项';
+                await expect(popup.getByText(hint, {exact: true})).toBeVisible();
+                await expect(popup.locator('.menu-item')).toHaveCount(0);
+                await expect(page.locator('input[name="owner"]')).toHaveValue('');
+                await page.mouse.move(1200, 800);
+                const clip = await componentClip(page, 'form, .pick-pop');
+                await expect(page).toHaveScreenshot(`picker-async-${state}-${theme}.png`, {clip});
             });
         }
 
