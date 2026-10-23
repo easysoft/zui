@@ -125,6 +125,8 @@ export async function runBuild(plan: BuildPlan, options: BuildRunOptions = {}): 
         if (await canonical(plan.outDir) !== outDir || (plan.zip && await canonical(plan.zip) !== zip)) {
             throw new Error('Build output paths changed during compilation; no artifacts were published.');
         }
+        // Do not publish the private 0700 directory mode inherited from mkdtemp.
+        await fs.chmod(stagingDir, 0o755);
         await publishBuild(outputs);
         console.log(cyan(`Build complete: ${plan.outDir}${plan.zip ? ` and ${plan.zip}` : ''}`));
     } finally {

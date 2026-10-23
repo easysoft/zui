@@ -79,6 +79,12 @@ beforeAll(async () => {
     await runBuild(['--config', externalConfigPath]);
 }, 120_000);
 
+test.skipIf(process.platform === 'win32')('publishes output directories with 0755 permissions', async () => {
+    for (const directory of [bundledOutput, externalOutput]) {
+        expect((await fs.stat(directory)).mode & 0o777, directory).toBe(0o755);
+    }
+});
+
 describe('bundled library distribution', () => {
     const baseName = 'zui-test';
     const cssPath = Path.join(bundledOutput, `${baseName}.css`);
