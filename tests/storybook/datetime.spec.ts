@@ -61,6 +61,29 @@ for (const theme of ['light', 'dark'] as const) {
             expect(await canvas.locator('form').evaluate(form => new FormData(form as HTMLFormElement).get('start'))).toBe('');
         });
 
+        test('keeps a rapid clear while the previous selection is still synchronizing with Controls', async ({page}) => {
+            const canvas = await openStory(page, 'datetime-picker', 'empty', theme);
+            const input = canvas.getByRole('textbox', {name: '计划开始时间', exact: true});
+            await input.click();
+            await expect(canvas.locator('.pick-pop')).toHaveClass(/\bin\b/);
+            // Dispatch both changes in one browser task, before the manager can echo args back.
+            const selected = await canvas.locator('form').evaluate(async (form) => {
+                document.querySelector<HTMLButtonElement>('[data-date="2026-10-18"] button')!.click();
+                for (let step = 0; step < 20; step++) {
+                    await Promise.resolve();
+                }
+                const value = form.querySelector<HTMLInputElement>('input.form-control')!.value;
+                form.querySelector<HTMLButtonElement>('.date-picker .input-control-suffix button')!.click();
+                return value;
+            });
+            expect(selected).toBe('2026-10-18 09:30');
+            await page.getByRole('tab', {name: /^Actions/}).click();
+            await expect(page.getByText('datetime change', {exact: true})).toHaveCount(2);
+            await page.getByRole('tab', {name: /^Controls/}).click();
+            await expect(page.locator('#control-value')).toHaveValue('');
+            await expect(input).toHaveValue('');
+        });
+
         for (const state of [{variant: 'disabled', property: 'disabled'}, {variant: 'read-only', property: 'readonly'}]) {
             test(`${state.variant} prevents editing, preserves form semantics and can recover`, async ({page}) => {
                 const canvas = await openStory(page, 'datetime-picker', state.variant, theme);

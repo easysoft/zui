@@ -58,28 +58,32 @@ const meta = {
     },
     render: createPreactRender(DatetimePreview, {
         key: (args: DatetimeArgs) => JSON.stringify([args.disabled, args.readonly]),
-        props: (args: DatetimeArgs, api) => ({
-            options: {
-                ...args,
-                id: 'storybook-datetime',
-                name: 'start',
-                format: 'yyyy-MM-dd hh:mm',
-                placeholder: '请选择日期时间',
-                actions: [],
-                limitPopInScreen: true,
-                popMaxWidth: 'calc(100vw - 32px)',
-                popStyle: {overflowX: 'auto'},
-                onChange: api.guard((value: string, oldValue: string) => {
-                    if (value === args.value) return;
-                    api.updateArgs({value});
-                    onChange({value, oldValue});
-                }),
-                onInvalid: api.guard((value: string) => {
-                    if (value) onInvalid({value});
-                }),
-            },
-            submit: api.guard((values: [string, FormDataEntryValue][]) => onSubmit(values)),
-        }),
+        props: (args: DatetimeArgs, api) => {
+            let currentValue = args.value;
+            return {
+                options: {
+                    ...args,
+                    id: 'storybook-datetime',
+                    name: 'start',
+                    format: 'yyyy-MM-dd hh:mm',
+                    placeholder: '请选择日期时间',
+                    actions: [],
+                    limitPopInScreen: true,
+                    popMaxWidth: 'calc(100vw - 32px)',
+                    popStyle: {overflowX: 'auto'},
+                    onChange: api.guard((value: string, oldValue: string) => {
+                        if (value === currentValue) return;
+                        currentValue = value;
+                        api.updateArgs({value});
+                        onChange({value, oldValue});
+                    }),
+                    onInvalid: api.guard((value: string) => {
+                        if (value) onInvalid({value});
+                    }),
+                },
+                submit: api.guard((values: [string, FormDataEntryValue][]) => onSubmit(values)),
+            };
+        },
     }),
 } satisfies Meta<DatetimeArgs>;
 
