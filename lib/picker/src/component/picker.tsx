@@ -381,7 +381,8 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             const newState = typeof state === 'function' ? state(prevState) : state;
             if ((newState.value !== undefined && newState.value !== prevState.value) || (newState.items && newState.items !== prevState.items)) {
                 const items = newState.items || prevState.items;
-                const map = new Map<string, PickerItemOptions>();
+                // Remote filters may omit selected values for several consecutive responses.
+                const map = new Map<string, PickerItemOptions>(prevState.selections.map(item => [item.value, {...item}]));
                 if (Array.isArray(prevState.items) && prevState.items !== newState.items) {
                     getValueMap(prevState.items as PickerItemOptions[], map);
                 }
@@ -409,15 +410,18 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         this._itemsCacheInfo = cache;
         if (!state.loading && (force || cache.search !== state.search || props.items !== cache.items)) {
             await this.changeState({loading: true} as Partial<S>);
-            let loadItems = await this.load();
+            const loading = this.load();
+            const abort = this._abort;
+            let loadItems = await loading;
             if (this._destroyed) {
                 return;
             }
-            loadItems = mergeCreatedItems(this._normalizeItems(loadItems), this.state.createdItems);
-            if (state.search !== this.state.search || props.items !== this.props.items) {
+            // A cancelled request stays stale even if the search has returned to the same text.
+            if (abort?.signal.aborted || state.search !== this.state.search || props.items !== this.props.items) {
                 await this.changeState({loading: false} as Partial<S>);
                 return;
             }
+            loadItems = mergeCreatedItems(this._normalizeItems(loadItems), this.state.createdItems);
             newState.loading = false;
             newState.items = loadItems as PickerItemOptions[];
             cache.items = props.items;
