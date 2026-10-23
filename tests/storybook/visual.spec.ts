@@ -45,6 +45,77 @@ test.describe('Storybook visual contracts', () => {
             await expect(page.locator('form')).toHaveScreenshot(`input-control-invalid-${theme}.png`);
         });
 
+        for (const variant of ['indeterminate', 'disabled', 'switch']) {
+            test(`Checkbox ${variant} (${theme})`, async ({page}) => {
+                await openPreview(page, 'checkbox', variant, theme);
+                const checkbox = page.getByRole('checkbox', {name: '接收项目更新通知', exact: true});
+                if (variant === 'indeterminate') {
+                    await expect(checkbox).toHaveJSProperty('indeterminate', true);
+                    await expect(checkbox).not.toBeChecked();
+                    await expect(page.locator('output')).toHaveText('当前状态：半选');
+                } else if (variant === 'disabled') {
+                    await expect(checkbox).toBeChecked();
+                    await expect(checkbox).toBeDisabled();
+                } else {
+                    await checkbox.focus();
+                    await page.keyboard.press('Space');
+                    await expect(checkbox).toBeChecked();
+                    await expect(page.locator('.switch')).toBeVisible();
+                    await checkbox.blur();
+                }
+                await page.mouse.move(1200, 800);
+                await expect(page.locator('form')).toHaveScreenshot(`checkbox-${variant}-${theme}.png`);
+            });
+        }
+
+        test.describe(`DatetimePicker visuals (${theme})`, () => {
+            test.use({timezoneId: 'Asia/Shanghai'});
+
+            for (const variant of ['playground', 'date-range', 'minute-step']) {
+                test(`expanded ${variant}`, async ({page}) => {
+                    await page.clock.setFixedTime(new Date('2026-10-15T09:30:00+08:00'));
+                    if (variant === 'minute-step') {
+                        await page.setViewportSize({width: 390, height: 844});
+                    }
+                    await openPreview(page, 'datetime-picker', variant, theme);
+                    const input = page.getByRole('textbox', {name: '计划开始时间', exact: true});
+                    await expect(input).toHaveValue('2026-10-15 09:30');
+                    await input.click();
+                    const popup = page.locator('.pick-pop');
+                    await expect(popup).toHaveClass(/\bin\b/);
+                    await expect(popup).toHaveCSS('opacity', '1');
+                    await expect(popup.locator('[data-date="2026-10-15"]')).toHaveClass(/\bselected\b/);
+                    if (variant === 'date-range') {
+                        await expect(popup.locator('[data-date="2026-10-09"] button')).toBeDisabled();
+                        await expect(popup.locator('[data-date="2026-10-21"] button')).toBeDisabled();
+                        await expect(popup.locator('[data-date="2026-10-10"] button')).toBeEnabled();
+                    } else if (variant === 'minute-step') {
+                        const minutes = popup.locator('.time-picker-menu .menu').last();
+                        await expect(minutes.locator('.menu-item')).toHaveText(['00', '15', '30', '45']);
+                        await minutes.getByText('45', {exact: true}).click();
+                        await expect(input).toHaveValue('2026-10-15 09:45');
+                        expect(await page.locator('body').evaluate(body => body.scrollWidth <= innerWidth)).toBe(true);
+                        const bounds = await popup.boundingBox();
+                        expect(bounds!.x).toBeGreaterThanOrEqual(0);
+                        expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(390);
+                    }
+                    await page.mouse.move(380, 800);
+                    // Include the portaled calendar and its input in the same capture.
+                    const clip = await page.locator('form, .pick-pop').evaluateAll((elements) => {
+                        const bounds = elements.map(element => element.getBoundingClientRect());
+                        const x = Math.floor(Math.min(...bounds.map(rect => rect.left))) - 8;
+                        const y = Math.floor(Math.min(...bounds.map(rect => rect.top))) - 8;
+                        return {
+                            x, y,
+                            width: Math.ceil(Math.max(...bounds.map(rect => rect.right))) + 8 - x,
+                            height: Math.ceil(Math.max(...bounds.map(rect => rect.bottom))) + 8 - y,
+                        };
+                    });
+                    await expect(page).toHaveScreenshot(`datetime-picker-${variant}-expanded-${theme}.png`, {clip});
+                });
+            }
+        });
+
         for (const variant of ['single', 'multiple', 'empty']) {
             test(`expanded Picker ${variant} (${theme})`, async ({page}) => {
                 await openPreview(page, 'picker', variant, theme);
