@@ -5,43 +5,17 @@ import type {ComponentType, ComponentChildren} from 'preact';
 import type {ContentRenderPolicy, CustomContentType, LazyContentProps} from '@zui/core';
 import {JsonUIError} from './types';
 import type {JsonUICapabilities, JsonUIMarkdown, JsonUIOptions} from './types';
+import type {JsonUIDocument, JsonUIValue} from './types';
+import {checkJSON, fail, isRecord} from './json';
+import {JsonUIDocumentRuntime} from './document';
 
 const elementFields = new Set(['tag', 'component', 'key', 'props', 'children', 'events']);
 const htmlFields = new Set(['html', 'tag', 'key', 'props', 'executeScript']);
 const markdownFields = new Set(['markdown', 'inline', 'key', 'props']);
 const lazyFields = new Set(['fetcher', 'type', 'tag', 'key', 'props', 'executeScript', 'loadingContent', 'loadingText', 'errorText', 'clearBeforeLoad', 'loadingIndicator']);
 const htmlTags = new Set('a abbr address area article aside audio b bdi bdo blockquote br button canvas caption cite code col colgroup data datalist dd del details dfn dialog div dl dt em fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 header hgroup hr i img input ins kbd label legend li main map mark menu meter nav noscript ol optgroup option output p picture pre progress q rp rt ruby s samp search section select slot small source span strong sub summary sup table tbody td textarea tfoot th thead time tr track u ul var video wbr'.split(' '));
-const forbiddenKeys = new Set(['__proto__', 'prototype', 'constructor', '__k', '__v', '__e']);
-const hostProps = new Set(['capabilities', 'actions', 'allowRequest', 'onError', 'renderMarkdown']);
+const hostProps = new Set(['capabilities', 'actions', 'allowRequest', 'onError', 'renderMarkdown', 'onStateChange']);
 const callbackProps = new Set(['transformContent', 'generatorThis', 'generatorArgs', 'fetcherThis', 'fetcherArgs', 'forwardRef', 'ref']);
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-    return !!value && typeof value === 'object' && !Array.isArray(value) && (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null);
-}
-
-function fail(path: string, message: string): never {
-    throw new JsonUIError(path, message);
-}
-
-function checkJSON(value: unknown, path: string, ancestors = new Set<object>(), depth = 0, budget = {remaining: 10000}): void {
-    if (--budget.remaining < 0 || depth > 100) {
-        fail(path, 'JSON exceeds the 100-level or 10000-value limit.');
-    }
-    if (value === null || typeof value === 'string' || typeof value === 'boolean' || (typeof value === 'number' && Number.isFinite(value))) {
-        return;
-    }
-    if ((!Array.isArray(value) && !isRecord(value)) || ancestors.has(value as object)) {
-        fail(path, 'Expected finite, acyclic JSON data.');
-    }
-    ancestors.add(value as object);
-    Object.entries(value as object).forEach(([key, item]) => {
-        if (forbiddenKeys.has(key)) {
-            fail(`${path}.${key}`, 'This property is reserved.');
-        }
-        checkJSON(item, `${path}.${key}`, ancestors, depth + 1, budget);
-    });
-    ancestors.delete(value as object);
-}
 
 function checkTag(tag: unknown, path: string): asserts tag is string {
     if (typeof tag !== 'string' || !htmlTags.has(tag)) {
@@ -65,6 +39,12 @@ export class JsonUIRuntime {
 
     private _reportedErrors = new WeakSet<object>();
 
+    private _document?: JsonUIDocumentRuntime;
+
+    private _activeDocument?: JsonUIDocumentRuntime;
+
+    private _documentSource?: string;
+
     constructor(public options: JsonUIOptions = {}) {
         this.capabilities = Object.freeze({...options.capabilities});
         this._allowRequest = options.allowRequest;
@@ -77,9 +57,80 @@ export class JsonUIRuntime {
         };
     }
 
-    compile(schema: unknown, path = '$'): CustomContentType {
+    compile(schema: unknown, path = '$', reset = false): CustomContentType {
         checkJSON(schema, path);
-        return this._compileNode(structuredClone(schema), path);
+        if (isRecord(schema) && Object.hasOwn(schema, 'version')) {
+            if (path !== '$') fail(path, 'A document can only be loaded at the root.');
+            const source = JSON.stringify(schema);
+            let candidate = this._document;
+            if (!candidate || source !== this._documentSource || reset) {
+                candidate = new JsonUIDocumentRuntime(structuredClone(schema) as JsonUIDocument, reset ? undefined : this._document?.getState(), (node, nodePath) => this._compileNode(node, nodePath, true));
+            }
+            try {
+                const content = this._compileDocument(candidate);
+                if (candidate !== this._document) this._document?.destroy();
+                this._document = candidate;
+                this._documentSource = source;
+                candidate.validate = (context) => {
+                    this._compileDocument(candidate, context);
+                };
+                candidate.changed = (state, previous) => this.options.onStateChange?.(state, previous);
+                candidate.report = (error) => {
+                    this.renderError(error);
+                };
+                return content;
+            } catch (error) {
+                if (candidate !== this._document) candidate.destroy();
+                throw error;
+            }
+        }
+        const content = this._compileNode(structuredClone(schema), path);
+        if (path === '$') {
+            this._document?.destroy();
+            this._document = undefined;
+            this._documentSource = undefined;
+        }
+        return content;
+    }
+
+    private _compileDocument(document: JsonUIDocumentRuntime, context?: Parameters<JsonUIDocumentRuntime['project']>[0]) {
+        const previous = this._activeDocument;
+        this._activeDocument = document;
+        try {
+            const node = document.project(context);
+            checkJSON(node, '$.ui');
+            return this._compileNode(node, '$.ui');
+        } finally {
+            this._activeDocument = previous;
+        }
+    }
+
+    trackState() {
+        this._document?.track();
+    }
+
+    refreshDocument() {
+        return this._document ? this._compileDocument(this._document) : undefined;
+    }
+
+    getState() {
+        return this._requireDocument().getState();
+    }
+
+    patchState(patch: Record<string, JsonUIValue>) {
+        return this._requireDocument().patchState(patch);
+    }
+
+    resetState() {
+        return this._requireDocument().resetState();
+    }
+
+    private _requireDocument() {
+        return this._document ?? fail('$', 'State methods require a version 1 document.');
+    }
+
+    destroy() {
+        this._document?.destroy();
     }
 
     private _remember<T extends object>(value: T, path: string): T {
@@ -88,12 +139,12 @@ export class JsonUIRuntime {
         return value;
     }
 
-    private _compileNode(schema: unknown, path: string): CustomContentType {
+    private _compileNode(schema: unknown, path: string, shapeOnly = false): CustomContentType {
         if (schema === null || typeof schema === 'string' || typeof schema === 'number') {
             return schema;
         }
         if (Array.isArray(schema)) {
-            return this._remember(schema.map((node, index) => this._compileNode(node, `${path}[${index}]`)), path);
+            return this._remember(schema.map((node, index) => this._compileNode(node, `${path}[${index}]`, shapeOnly)), path);
         }
         if (!isRecord(schema)) {
             fail(path, 'Expected a UI node, text, number, array or null.');
@@ -176,14 +227,15 @@ export class JsonUIRuntime {
             component = getReactComponent(schema.component) ?? fail(`${path}.component`, `Component "${schema.component}" is not registered.`);
         }
         this._bindEvents(schema.events, path, props);
-        const prepared = this.prepareElement(component, props);
+        if (!shapeOnly) this._activeDocument?.bindEvents(path, props);
+        const prepared = shapeOnly ? {props} : this.prepareElement(component, props);
         const node = {
             // Keep the validated name so already-loaded lazy trees also pick up
             // registry replacements on their next render without another request.
             ...(schema.tag ? {tag: schema.tag} : {component: schema.component}),
             key: schema.key,
             props: prepared.props,
-            ...(Object.hasOwn(schema, 'children') ? {children: this._compileNode(schema.children, `${path}.children`)} : {}),
+            ...(Object.hasOwn(schema, 'children') ? {children: this._compileNode(schema.children, `${path}.children`, shapeOnly)} : {}),
         };
         return this._remember(node, path) as CustomContentType;
     }
@@ -466,10 +518,13 @@ export class JsonUIRuntime {
 
 /** Validate without rendering or loading remote content. The first error includes its JSON path. */
 export function validateJsonUI(schema: unknown, options?: JsonUIOptions): JsonUIError[] {
+    const runtime = new JsonUIRuntime(options);
     try {
-        new JsonUIRuntime(options).compile(schema);
+        runtime.compile(schema);
         return [];
     } catch (error) {
         return [error instanceof JsonUIError ? error : new JsonUIError('$', error instanceof Error ? error.message : String(error))];
+    } finally {
+        runtime.destroy();
     }
 }

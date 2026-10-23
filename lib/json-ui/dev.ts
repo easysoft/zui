@@ -1,13 +1,16 @@
 import '@zui/button';
 import '@zui/menu';
+import '@zui/picker';
 import '@zui/form-control';
 import '@zui/utilities';
 import 'zui-dev';
 import {JsonUI, validateJsonUI} from './src/main';
 
-import type {JsonUINode} from './src/main';
+import stateDocument from './assets/state-ui.json';
+import type {JsonUISchema} from './src/main';
 
-const samples: Record<string, JsonUINode> = {
+const samples: Record<string, JsonUISchema> = {
+    state: stateDocument as JsonUISchema,
     basic: {
         tag: 'section',
         props: {className: 'col gap-4'},
@@ -84,6 +87,9 @@ function initialize() {
         onError: (error: Error) => {
             errors.textContent = error.message;
         },
+        onStateChange: (state: Record<string, unknown>) => {
+            events.value = JSON.stringify(state);
+        },
     });
     const apply = () => {
         errors.textContent = '';
@@ -96,15 +102,18 @@ function initialize() {
                 return;
             }
             if (view) {
-                view.render({schema: schema as JsonUINode});
+                view.render({schema: schema as JsonUISchema});
             } else {
-                view = new JsonUI(preview, {schema: schema as JsonUINode, ...options});
+                view = new JsonUI(preview, {schema: schema as JsonUISchema, ...options});
             }
         } catch (error) {
             errors.textContent = error instanceof Error ? error.message : String(error);
         }
     };
     const selectSample = () => {
+        view?.destroy();
+        view = undefined;
+        events.value = '尚未触发事件。';
         source.value = JSON.stringify(samples[scenario.value], null, 2);
         apply();
     };

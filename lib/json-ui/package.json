@@ -17,6 +17,7 @@
     "devDependencies": {
         "@zui/button": "workspace:*",
         "@zui/menu": "workspace:*",
+        "@zui/picker": "workspace:*",
         "@zui/form-control": "workspace:*",
         "@zui/utilities": "workspace:*",
         "zui-dev": "workspace:*"

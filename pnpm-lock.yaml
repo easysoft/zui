@@ -1327,6 +1327,9 @@ importers:
       '@zui/menu':
         specifier: workspace:*
         version: link:../menu
+      '@zui/picker':
+        specifier: workspace:*
+        version: link:../picker
       '@zui/utilities':
         specifier: workspace:*
         version: link:../utilities

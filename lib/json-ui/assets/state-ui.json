@@ -1,0 +1,59 @@
+{
+    "version": 1,
+    "state": {"province": "", "city": "", "showSummary": true},
+    "computed": {
+        "cities": {
+            "$op": "get",
+            "args": [
+                {"$literal": {"gd": [{"value": "gz", "text": "广州"}], "zj": [{"value": "hz", "text": "杭州"}]}},
+                {"$ref": "state.province"},
+                []
+            ]
+        },
+        "summary": {"$op": "concat", "args": ["省份：", {"$ref": "state.province"}, "；城市：", {"$ref": "state.city"}]}
+    },
+    "actions": {
+        "clearCity": {"type": "set", "path": "state.city", "value": ""},
+        "reset": {"type": "reset"}
+    },
+    "watch": [{"paths": ["state.province"], "do": {"action": "clearCity"}}],
+    "ui": {
+        "tag": "section",
+        "props": {"className": "col gap-4"},
+        "children": [
+            {"tag": "h3", "children": "本地省市联动"},
+            {
+                "component": "Picker",
+                "key": "province",
+                "props": {
+                    "id": "jsonUIProvince", "name": "province", "placeholder": "选择省份",
+                    "items": [{"value": "gd", "text": "广东"}, {"value": "zj", "text": "浙江"}]
+                },
+                "model": {"value": {"path": "state.province", "event": "onChange", "value": {"$ref": "args.0"}}}
+            },
+            {
+                "component": "Picker",
+                "key": "city",
+                "props": {"id": "jsonUICity", "name": "city", "placeholder": "选择城市"},
+                "bind": {
+                    "props.items": {"$ref": "computed.cities"},
+                    "props.disabled": {"$op": "eq", "args": [{"$ref": "state.province"}, ""]}
+                },
+                "model": {"value": {"path": "state.city", "event": "onChange", "value": {"$ref": "args.0"}}}
+            },
+            {
+                "tag": "label",
+                "children": [
+                    {
+                        "tag": "input",
+                        "props": {"type": "checkbox"},
+                        "model": {"checked": {"path": "state.showSummary", "event": "onChange", "value": {"$ref": "event.checked"}}}
+                    },
+                    " 显示摘要"
+                ]
+            },
+            {"tag": "p", "props": {"role": "status"}, "when": {"$ref": "state.showSummary"}, "bind": {"children": {"$ref": "computed.summary"}}},
+            {"component": "Button", "props": {"text": "重置状态"}, "events": {"onClick": {"action": "reset"}}}
+        ]
+    }
+}

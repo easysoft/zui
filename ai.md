@@ -708,17 +708,22 @@
 
 包：`@zui/json-ui`；状态：无额外构建标记。
 
-[使用参考](lib/json-ui/ai.md) — 将 JSON 节点渲染为已注册组件，连接宿主事件并约束内容权限。
+[使用参考](lib/json-ui/ai.md) — 将 JSON 节点或带状态的文档渲染为已注册组件，连接宿主事件并约束内容权限。
 
-关键词：JSON UI、声明式界面、宿主动作、JsonUI、validateJsonUI。
+关键词：JSON UI、声明式界面、状态、表达式、绑定、宿主动作、JsonUI、validateJsonUI。
 
-- [JsonUI](lib/json-ui/ai.md#vanilla-json-ui)（vanilla）：创建或更新 JSON 节点界面，并在销毁时卸载子树。
-- [JsonUI](lib/json-ui/ai.md#preact-json-ui)（preact）：使用 Preact 渲染 JSON 节点树并保留上次有效界面。
+- [JsonUI](lib/json-ui/ai.md#vanilla-json-ui)（vanilla）：创建界面、更新 schema 并管理文档状态。
+- [JsonUI](lib/json-ui/ai.md#preact-json-ui)（preact）：使用 Preact 管理节点树或有状态文档。
 - [.json-ui-error](lib/json-ui/ai.md#css-json-ui-error)（css / js-component）：标识内容或协议失败时生成的错误占位。
-- [validateJsonUI](lib/json-ui/ai.md#javascript-validate)（javascript）：不渲染、不加载远程内容地校验 JSON 节点协议。
-- [JsonUIError](lib/json-ui/ai.md#javascript-error)（javascript）：提供包含 JSON 路径的标准错误。
-- [JsonUIProps / JsonUIOptions 与完整协议类型](lib/json-ui/ai.md#types-json-ui)（types）：定义公开节点、宿主动作和权限类型。
-- [JsonUINode 与节点形态](lib/json-ui/ai.md#types-nodes)（types）：说明每种节点的字段、默认值和递归位置。
+- [validateJsonUI](lib/json-ui/ai.md#javascript-validate)（javascript）：不渲染、不加载远程内容地校验 UI 协议。
+- [JsonUIError](lib/json-ui/ai.md#javascript-error)（javascript）：提供可定位 JSON 路径的标准错误。
+- [JsonUIProps / JsonUIOptions 与完整协议类型](lib/json-ui/ai.md#types-json-ui)（types）：定义公开节点、文档、动作、权限和状态类型。
+- [JsonUINode 与五种节点](lib/json-ui/ai.md#types-nodes)（types）：说明每种节点的字段、默认值和递归位置。
+- [JsonUIDocument / bind / model / when](lib/json-ui/ai.md#types-document)（types）：定义有状态文档及受控绑定。
+- [JsonUIExpression](lib/json-ui/ai.md#types-expressions)（types）：使用受限 JSON 表达式读取和组合数据。
+- [JsonUICommand / JsonUICommands / JsonUIWatch](lib/json-ui/ai.md#types-commands)（types）：在同步事务中修改 state、分支、返回和响应字段变化。
+- [原生输入双向绑定](lib/json-ui/ai.md#recipe-native-model)（recipes）：利用 event 投影更新文档 state。
+- [本地省市联动](lib/json-ui/ai.md#recipe-local-cascade)（recipes）：通过 computed、model 和 watch 连接两个 Picker，无需业务回调。 关键词：级联选择、Picker、组件联动。
 - [宿主事件、Markdown、HTML 与异步内容](lib/json-ui/ai.md#recipe-host-and-permissions)（recipes）：为声明式节点提供受控的宿主能力。
 
 ### modal

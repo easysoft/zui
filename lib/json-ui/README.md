@@ -10,6 +10,7 @@
 <label for="jsonUIScenario">示例</label>
 <select id="jsonUIScenario" class="form-control">
   <option value="basic">组件与原生元素</option>
+  <option value="state">状态、双向绑定与省市联动</option>
   <option value="html">HTML 内容</option>
   <option value="lazy">异步 JSON UI</option>
   <option value="lazyHTML">异步 HTML</option>
@@ -27,6 +28,8 @@
 <output id="jsonUIEvents" role="status" aria-live="polite">尚未触发事件。</output>
 ```
 
-组件必须先加载并注册，名称不区分大小写；`tag: "button"` 明确渲染原生元素，`component: "Button"` 使用已注册组件。调试页显式加载 Button 和 Menu，生产页面需加载实际使用的组件和样式。
+组件必须先加载并注册，名称不区分大小写；`tag: "button"` 明确渲染原生元素，`component: "Button"` 使用已注册组件。调试页显式加载 Button、Menu 和 Picker，生产页面需加载实际使用的组件和样式。
 
-`props` 使用目标组件原本的参数，`events` 使用原本的回调属性名。JSON 只保存动作名称，函数保存在宿主的 `actions` 中。完整格式与 API 见正式文档。
+`props` 使用目标组件原本的参数，`events` 使用原本的回调属性名。旧节点的事件字符串映射到宿主函数；`version: 1` 文档通过 `state`、`computed`、`bind`、`model`、`watch` 和 JSON 动作实现本地联动。
+
+选择“状态、双向绑定与省市联动”，先选省份和城市，再切换省份观察城市清空；勾选框控制摘要显隐，重置按钮恢复初值。状态变更会显示在下方反馈中。修改 JSON 后“渲染”保留当前状态，切换示例会重建实例。完整协议见正式文档，供 AI 按章节检索的参考位于 `ai.md`。

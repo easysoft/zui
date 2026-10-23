@@ -1,5 +1,36 @@
 import {expect, test} from '@playwright/test';
 
+test('links local Pickers, conditionally renders a summary and resets JSON state', async ({page}) => {
+    const errors: string[] = [];
+    page.on('pageerror', error => errors.push(error.message));
+    await page.goto('/json-ui/');
+    await page.locator('#libPage.is-loaded').waitFor();
+    await page.locator('#jsonUIScenario').selectOption('state');
+    const preview = page.locator('#jsonUIPreview');
+    const province = preview.locator('#pick-jsonUIProvince');
+    const city = preview.locator('#pick-jsonUICity');
+    await expect(city).toHaveClass(/disabled/);
+    await province.click();
+    await page.locator('#pick-pop-jsonUIProvince').getByText('广东', {exact: true}).click();
+    await expect(city).not.toHaveClass(/disabled/);
+    await city.click();
+    await page.locator('#pick-pop-jsonUICity').getByText('广州', {exact: true}).click();
+    await expect(preview.getByRole('status')).toHaveText('省份：gd；城市：gz');
+    await province.click();
+    await page.locator('#pick-pop-jsonUIProvince').getByText('浙江', {exact: true}).click();
+    await expect(preview.getByRole('status')).toHaveText('省份：zj；城市：');
+    await city.click();
+    await page.locator('#pick-pop-jsonUICity').getByText('杭州', {exact: true}).click();
+    await expect(preview.getByRole('status')).toHaveText('省份：zj；城市：hz');
+    await preview.getByLabel('显示摘要').uncheck();
+    await expect(preview.getByRole('status')).toHaveCount(0);
+    await preview.getByRole('button', {name: '重置状态'}).click();
+    await expect(preview.getByRole('status')).toHaveText('省份：；城市：');
+    await expect(city).toHaveClass(/disabled/);
+    await expect(page.locator('#jsonUIErrors')).toBeEmpty();
+    expect(errors).toEqual([]);
+});
+
 test('edits JSON UI, dispatches registered actions, and keeps valid content after invalid updates', async ({page}) => {
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(error.message));
