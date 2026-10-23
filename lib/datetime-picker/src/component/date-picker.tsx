@@ -20,6 +20,8 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
 
     protected _date: Date | null | undefined;
 
+    protected _draftValue?: string;
+
     getDefaultState(props?: RenderableProps<T> | undefined): PickState {
         const state = super.getDefaultState(props);
         return {
@@ -46,6 +48,7 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
             value = beforeChangeResult;
         }
         const newValue = this._calcValue(value);
+        this._draftValue = undefined;
         if (silent) {
             const trigger = this._trigger.current;
             if (trigger) {
@@ -97,6 +100,11 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
         this.setDate((event.target as HTMLInputElement).value);
     };
 
+    _handleInput = (event: Event) => {
+        // Keep uncommitted text across popup state updates until change commits it.
+        this._draftValue = (event.target as HTMLInputElement).value;
+    };
+
     _handleClearBtnClick = (event: MouseEvent) => {
         event.stopPropagation();
         this.setDate('');
@@ -128,11 +136,12 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
                 type="text"
                 className="form-control"
                 placeholder={placeholder}
-                value={displayValue}
+                value={this._draftValue ?? displayValue}
                 disabled={disabled}
                 readOnly={readonly}
                 autoComplete="off"
                 onFocus={this._handleInputFocus}
+                onInput={this._handleInput}
                 onChange={this._handleInputChange}
             />,
             iconView ? <span key="icon" className="input-control-suffix">{iconView}</span> : null,

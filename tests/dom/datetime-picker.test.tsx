@@ -1,11 +1,38 @@
 // @vitest-environment jsdom
 
-import {render} from '@testing-library/preact';
+import {act, fireEvent, render} from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import {describe, expect, it, vi} from 'vitest';
 import {DatePicker, DatetimePicker} from '@zui/datetime-picker/react';
 
 describe('DatetimePicker manual input', () => {
+    it('keeps a pasted draft when opening the popup finishes before blur', async () => {
+        const user = userEvent.setup({advanceTimers: vi.advanceTimersByTime});
+        const onChange = vi.fn();
+        const {container, rerender} = render(<DatetimePicker value="2026-10-15 09:30" onChange={onChange} />);
+        const input = container.querySelector<HTMLInputElement>('input.form-control')!;
+
+        await user.click(input);
+        fireEvent.input(input, {target: {value: '2026-11-06 12:35'}});
+        expect(input).toHaveValue('2026-11-06 12:35');
+        await act(async () => {
+            await vi.advanceTimersByTimeAsync(100);
+        });
+
+        expect(input).toHaveValue('2026-11-06 12:35');
+        expect(onChange).not.toHaveBeenCalled();
+        await act(async () => {
+            fireEvent.change(input);
+        });
+        expect(onChange).toHaveBeenCalledWith('2026-11-06 12:35', '2026-10-15 09:30');
+
+        fireEvent.input(input, {target: {value: '2026-12-07 10:15'}});
+        await act(async () => {
+            rerender(<DatetimePicker value="2027-01-02 08:00" onChange={onChange} />);
+        });
+        expect(input).toHaveValue('2027-01-02 08:00');
+    });
+
     it('keeps the DatePicker pop open when switching the year selector', async () => {
         const user = userEvent.setup({advanceTimers: vi.advanceTimersByTime});
         const {container, getByRole} = render(<DatePicker defaultValue="2024-12-20" />);
