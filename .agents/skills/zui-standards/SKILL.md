@@ -22,7 +22,7 @@ description: "查询 ZUI 主仓库的开发规范，为库开发及本地 exts �
    - 官网文档：[references/documentation.md](references/documentation.md)
    - `README.md` 与 `dev.ts`：[references/dev-page.md](references/dev-page.md)
    - 国际化：[references/i18n.md](references/i18n.md)
-3. 新增组件或工具前按[先查找，再复用](references/workflow.md#复用已有能力)检索已有能力；定位目标或筛选架构参考时使用原有盘点模式：
+3. 新增组件或工具前按[先查找，再复用](references/workflow.md#复用已有能力)，先用根 `ai.md` 和库级参考定位能力，再从公开入口核实；盘点报告中的 `aiReference` 仅表示文件存在。定位目标或筛选架构参考时使用盘点模式：
 
 ```sh
 node <本技能目录>/scripts/inspect-zui-lib.mjs --root <repo-root>

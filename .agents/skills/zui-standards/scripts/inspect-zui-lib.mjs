@@ -456,6 +456,7 @@ async function inspectLibrary(root, folder) {
         pages: {
             readme,
             devMarkdown,
+            aiReference: await isFile(path.join(libPath, 'ai.md')),
             source: devMarkdown ? 'dev.md' : (readme ? 'README.md' : null),
             dev: await isFile(path.join(libPath, 'dev.ts')),
             docs,
@@ -499,8 +500,8 @@ function escapeCell(value) {
 
 function printTable(root, libraries) {
     const rows = [
-        ['Library', 'Type', 'Status', 'Contributes', 'Source dirs', 'Screening signals', 'i18n', 'README', 'dev.md', 'Page source', 'dev.ts', 'Docs'],
-        ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---'],
+        ['Library', 'Type', 'Status', 'Contributes', 'Source dirs', 'Screening signals', 'i18n', 'README', 'dev.md', 'Page source', 'dev.ts', 'Docs', 'ai.md'],
+        ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---'],
     ];
     for (const lib of libraries) {
         const i18nSignals = [
@@ -522,6 +523,7 @@ function printTable(root, libraries) {
             lib.pages.source ?? '-',
             lib.pages.dev ? 'yes' : 'no',
             lib.pages.docs.categories.join(',') || '-',
+            lib.pages.aiReference ? 'yes' : 'no',
         ]);
     }
     console.log(`ZUI library signals in ${root}`);
@@ -602,7 +604,7 @@ async function searchLibrary(library, terms) {
     const docFiles = (await listFiles(path.join(libraryPath, 'docs')))
         .filter(file => path.extname(file).toLowerCase() === '.md').sort();
     const pageFiles = [];
-    for (const page of ['README.md', 'dev.md']) {
+    for (const page of ['README.md', 'dev.md', 'ai.md']) {
         const file = path.join(libraryPath, page);
         if (await isFile(file)) {
             pageFiles.push(file);

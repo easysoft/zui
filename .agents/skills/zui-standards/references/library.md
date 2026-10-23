@@ -32,6 +32,8 @@
 - 仅包含真实导入所需的 `dependencies` 与 `devDependencies`；
 - 含 TS/TSX 时提供对应 `tsconfig.json`，TSX 配置使用 Preact。
 
+新库同时交付 `ai.md`，按 [AI 参考联动](workflow.md#ai-参考联动) 使用固定模板记录真实公开能力，并由主流程生成全局索引。
+
 提供可视 UI 的库还必须交付 `assets/preview.html`，按[组件预览规范](component-preview.md)实现标准静态封面；纯 helper、store 或配置库按实际用途判断适用性。
 
 不要机械复制旧包中缺失或多余的字段。`browser`、`module` 和 `exports` 只在确有相应消费入口时添加；每个目标路径必须存在。不要为了“完整”声明不存在的子路径导出。
@@ -105,3 +107,4 @@ src/
 - 可视组件库检查 `assets/preview.html` 及展示页入口，并按[组件预览验收](component-preview.md#验证与交付)核实 120 × 120、深浅主题和无脚本消费。
 - 运行受影响的 lint、类型或现有测试；改变入口、依赖、资源或分发时补充所需目标构建。
 - 若新增文档或调试页，再执行对应规范中的验证。
+- 新库或公开契约变化按 [AI 参考联动](workflow.md#ai-参考联动) 核对参考与源码，并检查索引同步。

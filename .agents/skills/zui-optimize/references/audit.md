@@ -47,7 +47,7 @@
 
 ### 3. 公开 API 文档
 
-同时检查源码 JSDoc 和官网正式文档：
+按任务范围检查源码 JSDoc、库级 AI 参考和官网正式文档：
 
 - 公开组件、函数、类、构造器、options/props、方法、成员、事件和类型是否有准确说明；
 - 默认值、错误、异步、生命周期、返回值和兼容性是否明确；
@@ -57,6 +57,8 @@
 - CSS 类、变量、无障碍和限制是否与源码一致。
 
 正式文档只写库内源文件，不编辑生成目录 `docs/_`。
+
+AI 参考按 [AI 使用参考规范](../../zui-standards/references/ai-documentation.md) 核对公开入口、参数默认值、事件、CSS 角色及消费示例。只读 `pnpm ai:check` 检查结构、链接、缺失文档和索引同步；全局检查的范围外问题单独报告。只读审计不运行 `ai:build`，不补文档；实施阶段按 [AI 参考联动](../../zui-standards/references/workflow.md#ai-参考联动) 更新。结构通过或 `pages.aiReference` 为 true 均不能证明语义完整。
 
 可视组件库同时按[组件预览规范](../../zui-standards/references/component-preview.md)检查：
 

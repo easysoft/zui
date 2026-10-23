@@ -1,4 +1,4 @@
 interface:
   display_name: "ZUI Documentation"
-  short_description: "Maintain ZUI 3 documentation and static component previews"
-  default_prompt: "Use $zui-doc to maintain documentation or static component previews for the specified ZUI 3 library."
+  short_description: "Maintain ZUI AI references, docs and component previews"
+  default_prompt: "Use $zui-doc to maintain the AI reference, website documentation or static preview for the specified ZUI 3 library."

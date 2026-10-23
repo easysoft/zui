@@ -64,6 +64,8 @@ pnpm build --extension <EXTS_NAME> --lib '<PACKAGE_NAME>' --no-minify
 
 `--extension` 选择注册组或目录，可重复；`--lib` 使用 `package.json#name` 的完整包名，不使用目录名或自定义 `ZUI_NAME`。内置库始终可供选择；未指定 `--lib` 时构建符合筛选规则的内置库及所选扩展。`--extensions` 加载全部已注册扩展，与 `--extension` 互斥。也可使用 `--extension <TARGET_LIB_ROOT 的绝对路径>` 指定单库，或传入集合目录；CLI 来源整体覆盖 JSON 的 `extensions`。
 
+上下文解析器的 `--lib` 允许目录名、`ZUI_NAME` 和能唯一匹配的短名，用于定位库；取得结果后，构建必须改用其 `packageName`。例如目录为 `chart`、`package.json#name` 为 `@acme/chart`、`zui.name` 为 `customChart` 时，构建选择器是 `--lib @acme/chart`。多库构建重复 `--lib`；当前构建 CLI 不接受旧组合 DSL、位置参数或短别名。dev/docs 的参数另按各自脚本核实，不套用构建选择器规则。
+
 显式 `--lib` 可以选择 `zui.wip` 和独立库；全量构建用 `--include-wip` 纳入 WIP，`--exclude-not-ready` 排除未就绪库。`--dry-run` 可查看归一化计划而不改动构建目录。
 
 正式文档通过宿主扩展脚本同步和构建，例如：

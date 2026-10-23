@@ -419,6 +419,7 @@ async function inspectLibrary(root, folder) {
         pages: {
             readme: await isFile(path.join(libPath, 'README.md')),
             devMarkdown: await isFile(path.join(libPath, 'dev.md')),
+            aiReference: await isFile(path.join(libPath, 'ai.md')),
             source: await isFile(path.join(libPath, 'dev.md'))
                 ? 'dev.md'
                 : (await isFile(path.join(libPath, 'README.md')) ? 'README.md' : null),
@@ -432,14 +433,14 @@ function printTable(root, libraries) {
     console.log(`ZUI extension library signals in ${root}`);
     console.log('Screening signals narrow candidates only; read source before deciding architecture.');
     console.log('');
-    console.log('| Folder | Package | ZUI name | Type | Status | Source signals | i18n | Pages |');
-    console.log('| --- | --- | --- | --- | --- | --- | --- | --- |');
+    console.log('| Folder | Package | ZUI name | Type | Status | Source signals | i18n | Pages | ai.md |');
+    console.log('| --- | --- | --- | --- | --- | --- | --- | --- | --- |');
     for (const library of libraries) {
         const status = [library.wip && 'wip', library.notReady && 'not-ready'].filter(Boolean).join(',') || '-';
         const sourceSignals = Object.entries(library.signals).filter(([, value]) => value).map(([key]) => key).join(',') || '-';
         const i18n = [library.i18n.directory && 'dir', library.i18n.addLang && 'global', library.i18n.staticMap && 'static'].filter(Boolean).join(',') || '-';
         const pages = [library.pages.readme && 'README', library.pages.devMarkdown && 'dev.md', library.pages.dev && 'dev.ts', ...library.pages.docs.categories].filter(Boolean).join(',') || '-';
-        console.log(`| ${library.folderName} | ${library.packageName ?? '-'} | ${library.zuiName ?? '-'} | ${library.type ?? '-'} | ${status} | ${sourceSignals} | ${i18n} | ${pages} |`);
+        console.log(`| ${library.folderName} | ${library.packageName ?? '-'} | ${library.zuiName ?? '-'} | ${library.type ?? '-'} | ${status} | ${sourceSignals} | ${i18n} | ${pages} | ${library.pages.aiReference ? 'yes' : 'no'} |`);
     }
 }
 
@@ -513,7 +514,7 @@ async function searchLibrary(library, terms) {
     const docFiles = (await listFiles(path.join(libraryPath, 'docs')))
         .filter(file => path.extname(file).toLowerCase() === '.md').sort();
     const pageFiles = [];
-    for (const page of ['README.md', 'dev.md']) {
+    for (const page of ['README.md', 'dev.md', 'ai.md']) {
         const file = path.join(libraryPath, page);
         if (await isFile(file)) {
             pageFiles.push(file);

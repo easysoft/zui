@@ -117,6 +117,48 @@ for (const script of SCRIPTS) {
         assert.equal(longLine.line, 1);
     });
 
+    test(label + ': inventories AI references independently of development and website pages', (t) => {
+        const root = fixture(t);
+        writeFile(root, 'lib/core/ai.md', '# Core AI reference\n');
+        const report = inspect(script, root);
+        const core = report.libraries.find(library => library.packageName === '@zui/core');
+        const button = report.libraries.find(library => library.packageName === '@zui/button');
+        assert.equal(core.pages.aiReference, true);
+        assert.equal(core.pages.source, 'dev.md');
+        assert.deepEqual(core.pages.docs, {categories: ['helpers'], files: ['helpers/core.md']});
+        assert.equal(button.pages.aiReference, false);
+        assert.equal(button.pages.source, null);
+        assert.deepEqual(button.pages.docs, {categories: [], files: []});
+        const table = inspect(script, root, [], false).trim().split('\n');
+        const rows = table.filter(line => line.startsWith('| ')).map(line => line.split('|').slice(1, -1).map(cell => cell.trim()));
+        const aiColumn = rows[0].indexOf('ai.md');
+        assert.ok(aiColumn >= 0);
+        assert.equal(rows.find(row => row[0] === 'core')[aiColumn], 'yes');
+        assert.equal(rows.find(row => row[0] === 'button')[aiColumn], 'no');
+    });
+
+    test(label + ': finds AI-only literal matches with source lines in repositories, collections and installed copies', (t) => {
+        const root = fixture(t);
+        writeFile(root, 'lib/core/ai.md', '# AI reference\n\nUse aiOnlyCapability for the x+y case.\n');
+        const args = ['--search', 'AIONLYCAPABILITY x+y'];
+        for (const searchRoot of [root, path.join(root, 'lib'), path.join(root, 'lib/core')]) {
+            const report = inspect(script, searchRoot, args);
+            assert.equal(report.count, 1);
+            assert.equal(report.libraries[0].packageName, '@zui/core');
+            assert.equal(report.libraries[0].matchesTotal, 1);
+            assert.deepEqual(report.libraries[0].matches, [{
+                kind: 'docs', file: 'ai.md', line: 3, text: 'Use aiOnlyCapability for the x+y case.',
+            }]);
+        }
+        assert.equal(inspect(script, root, ['--search', 'x.y']).count, 0);
+        assert.equal(inspect(script, root, ['--search', 'aiOnlyCapability', '--lib', 'button']).count, 0);
+        const pathMatch = inspect(script, root, ['--search', 'ai.md']).libraries[0].matches;
+        assert.deepEqual(pathMatch, [{kind: 'path', file: 'ai.md', line: null, text: 'ai.md'}]);
+        assert.match(inspect(script, root, args, false), /ai\.md:3 \[docs\] Use aiOnlyCapability/);
+        const installed = writeFile(root, 'installed/inspect-zui-lib.mjs', fs.readFileSync(script, 'utf8'));
+        assert.deepEqual(inspect(installed, root, args), inspect(script, root, args));
+    });
+
     test(label + ': searches only the explicit root and supports extension collections and single packages', (t) => {
         const root = fixture(t);
         const extensionRoot = path.join(root, 'extension-project');

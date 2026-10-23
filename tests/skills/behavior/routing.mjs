@@ -14,6 +14,36 @@ const domains = [
 
 // Expectations stay in the scoring process; prepareCase exposes only scenario inputs.
 export const ROUTING_GROUPS = [
+    {
+        id: 'routing-ai-workflow',
+        scenarios: [
+            {
+                id: 'ai-01', context: 'ZUI 主源码仓库，lib/math/ai.md 是供 Agent 阅读与按条目提取的参考。',
+                request: '核对源码并修正 ai.md 中错误的参数默认值和示例，保持文档约定。',
+                primary: 'zui-doc', mode: 'edit',
+            },
+            {
+                id: 'ai-02', context: 'ZUI 主源码仓库，lib/math 已有公开入口、单元测试和 ai.md。',
+                request: '新增一个检查计数是否有效的公开 helper，完成实现、使用说明和必要验证。',
+                primary: 'zui-helper', mode: 'edit',
+            },
+            {
+                id: 'ai-03', context: 'ZUI 主源码仓库，公开 CSS 组件需要新的尺寸变体。',
+                request: '为 lib/button 增加紧凑尺寸并同步公开 CSS 类的使用说明和测试。',
+                primary: 'zui-component', mode: 'edit',
+            },
+            {
+                id: 'ai-04', context: 'ZUI 主源码仓库，已有未提交的公开 API 与 AI 文档变更。',
+                request: '只读评审这些变更及索引是否一致，报告问题，不修复。',
+                primary: 'zui-review', mode: 'readonly',
+            },
+            {
+                id: 'ai-05', context: 'ZUI 主源码仓库，准备选用已有组件完成列表筛选。',
+                request: '查找可复用能力和相关接入规范，给出库与 API 依据，不修改文件。',
+                primary: 'zui-standards', mode: 'readonly',
+            },
+        ],
+    },
     ...[
         ['routing-main', 'main', 'zui', '目标是 ZUI 主源码仓库，内置包位于 lib/*，包名为 @zui/*。'],
         ['routing-extension', 'ext', 'zuix', '目标是独立扩展项目，包位于 lib/*、名为 @acme/*；Git 根属于扩展项目，ZUI 宿主在另一个目录。'],

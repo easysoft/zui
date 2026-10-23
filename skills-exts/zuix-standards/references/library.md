@@ -57,5 +57,5 @@
 - 解析 `package.json` 并确认所有入口、exports、files 和 public 目标存在。
 - 对照源码 import 与发布类型检查依赖分类。
 - 对照宿主类型定义检查 `zui.type`、`contributes`、`replace` 和 `publicPath`。
-- 在 `EXT_ROOT` 运行受影响的现有检查；改变宿主发现、入口、依赖、资源或分发时，以准确 `EXTS_NAME` 与 `ZUI_NAME` 补充所需联合验证。
+- 在 `EXT_ROOT` 运行受影响的现有检查；改变宿主发现、入口、依赖、资源或分发时，以已确认的 `EXTS_NAME` 补充所需联合验证，构建 `--lib` 使用真实 `PACKAGE_NAME`。
 - 验证不得修改宿主 package、锁文件或扩展注册状态。

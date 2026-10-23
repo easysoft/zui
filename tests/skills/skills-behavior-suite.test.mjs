@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {execFileSync} from 'node:child_process';
+import {execFileSync, spawnSync} from 'node:child_process';
 import {URL, fileURLToPath} from 'node:url';
 import test from 'node:test';
 import {validateFinal} from '../../scripts/tests/skills-behavior.mjs';
@@ -13,6 +13,7 @@ const REPO = fileURLToPath(new URL('../..', import.meta.url));
 const DOC = 'lib/example/docs/lib/components/index.md';
 const SOURCE = 'lib/math/src/main.ts';
 const TEST = 'tests/math.test.mjs';
+const AI_DOC = 'lib/math/ai.md';
 const result = (primary, summary = '已完成。', findings = []) => ({primary, summary, findings, commitMessage: primary === 'zui-commit' ? 'docs: 修正文档用词' : ''});
 
 async function fixture(t, id, repoRoot = REPO) {
@@ -32,9 +33,18 @@ function correct(workspace, file = DOC) {
     fs.writeFileSync(target, fs.readFileSync(target, 'utf8').replace('支恃', '支持'));
 }
 
+function command(workspace, args) {
+    const run = spawnSync(process.execPath, args, {cwd: workspace, encoding: 'utf8'});
+    return {item: {type: 'command_execution', command: `node ${args.join(' ')}`, exit_code: run.status, aggregated_output: run.stdout + run.stderr}};
+}
+
+function buildAndCheckAi(workspace) {
+    return ['build', 'check'].map(operation => command(workspace, ['tools/ai.mjs', operation]));
+}
+
 test('routing catalog is live and expected answers never enter model prompt', async (t) => {
     const cases = await listCases(REPO);
-    assert.equal(cases.filter(({kind}) => kind === 'execution').length, 6);
+    assert.equal(cases.filter(({kind}) => kind === 'execution').length, 10);
     for (const group of ROUTING_GROUPS) {
         const {prompt, schema, grade} = await fixture(t, group.id);
         const scenarios = JSON.parse(prompt.split('\n场景：')[1]);
@@ -154,6 +164,89 @@ test('helper must pass independent boundaries and author a test that catches the
     fs.appendFileSync(path.join(workspace, TEST), 'test(\'negative counts clamp to zero\', () => { assert.equal(clampCount(-5), 0); });\n');
     const report = await grade(final);
     assert.equal(report.passed, true, JSON.stringify(report));
+    fs.appendFileSync(path.join(workspace, AI_DOC), '\nUnnecessary documentation change.\n');
+    assert.equal((await grade(final)).passed, false);
+});
+
+test('AI reference editing requires corrected runnable content, generated index and check evidence', async (t) => {
+    const {workspace, grade} = await fixture(t, 'ai-reference-edit');
+    const final = result('zui-doc');
+    assert.equal((await grade(final)).passed, false);
+    const corrected = fs.readFileSync(path.join(workspace, AI_DOC), 'utf8').replace(/\b10\b/g, '100').replace('console.assert(clampCount(120) === 100);', 'console.assert(clampCount(120) === 100);\nconsole.assert(clampCount(10) === 10);');
+    fs.writeFileSync(path.join(workspace, AI_DOC), corrected);
+    assert.equal((await grade(final)).passed, false, 'Editing only the library reference leaves a stale index.');
+    const events = buildAndCheckAi(workspace);
+    assert.equal((await grade(final)).passed, false, 'A claimed or externally generated index is not model execution evidence.');
+    const report = await grade(final, events);
+    assert.equal(report.passed, true, JSON.stringify(report));
+    fs.writeFileSync(path.join(workspace, AI_DOC), corrected.replace('有限数字；先截断小数，限制到 0 至 100。', '有限数字；先截断小数，限制到 0 至 10。'));
+    const staleParameter = await grade(final, events);
+    assert.equal(staleParameter.checks.find(({name}) => name === 'incorrect-upper-bound-removed').passed, false);
+    assert.equal(staleParameter.passed, false);
+    fs.writeFileSync(path.join(workspace, AI_DOC), corrected.replace('clampCount(120) === 100', 'clampCount(120) === 99'));
+    const invalidExample = await grade(final, events);
+    assert.equal(invalidExample.checks.find(({name}) => name === 'runnable-document-example').passed, false);
+    assert.equal(invalidExample.passed, false);
+});
+
+test('new public helper needs real boundaries, regression tests and an extractable documented example', async (t) => {
+    const {workspace, grade} = await fixture(t, 'helper-public-contract');
+    const final = result('zui-helper');
+    fs.appendFileSync(path.join(workspace, SOURCE), '\nexport function isCount(value: number): boolean { return Number.isInteger(value) && value >= 0 && value <= 100; }\n');
+    fs.appendFileSync(path.join(workspace, TEST), '\nimport {isCount} from \'../lib/math/src/main.ts\';\ntest(\'valid counts\', () => { assert.equal(isCount(100), true); assert.equal(isCount(-1), false); assert.equal(isCount(Infinity), false); });\n');
+    assert.equal((await grade(final, buildAndCheckAi(workspace))).passed, false, 'Source and tests alone omit the public documentation.');
+    const entry = '### js-is-count\n\n```json\n{"name":"isCount","summary":"判断是否为有效整数计数。"}\n```\n\n#### 签名\n\n```ts\nisCount(value: number): boolean;\n```\n\nvalue 是必填 number，无默认值；返回是否为 0 至 100（含边界）的有限整数，无副作用。\n\n#### 示例\n\nworkspace：\n\n```ts\nimport {isCount} from \'@zui/math\';\nconsole.assert(isCount(100));\nconsole.assert(!isCount(-1));\n```\n\n';
+    fs.writeFileSync(path.join(workspace, AI_DOC), fs.readFileSync(path.join(workspace, AI_DOC), 'utf8').replace('## types', entry + '## types'));
+    const events = buildAndCheckAi(workspace);
+    const report = await grade(final, events);
+    assert.equal(report.passed, true, JSON.stringify(report));
+    fs.writeFileSync(path.join(workspace, SOURCE), fs.readFileSync(path.join(workspace, SOURCE), 'utf8').replace('Number.isInteger(value)', 'Number.isFinite(value)'));
+    const wrongBoundary = await grade(final, events);
+    assert.equal(wrongBoundary.checks.find(({name}) => name === 'public-helper-boundaries').passed, false);
+    assert.equal(wrongBoundary.passed, false);
+});
+
+test('AI readonly review must observe stale index without generating it even if writes are restored', async (t) => {
+    const {workspace, grade} = await fixture(t, 'ai-review-readonly');
+    const final = result('zui-review', '发现索引不同步。', [{file: 'ai.md', line: 3, description: '根索引摘要已过期，与库文档不同步。'}]);
+    assert.equal((await grade(final)).passed, false, 'A finding alone does not prove the check ran.');
+    const check = command(workspace, ['tools/ai.mjs', 'check']);
+    assert.equal(check.item.exit_code, 1);
+    const report = await grade(final, [check]);
+    assert.equal(report.passed, true, JSON.stringify(report));
+    for (const command of ['rg -n "pnpm ai:build" .agents/skills/zui-standards/references/workflow.md', 'echo "node tools/ai.mjs build"']) {
+        assert.equal((await grade(final, [check, {item: {type: 'command_execution', command, exit_code: 0}}])).passed, true, command);
+    }
+    assert.equal((await grade({...final, findings: []}, [check])).passed, false);
+    const original = fs.readFileSync(path.join(workspace, 'ai.md'));
+    const build = command(workspace, ['tools/ai.mjs', 'build']);
+    fs.writeFileSync(path.join(workspace, 'ai.md'), original);
+    const wrote = await grade(final, [check, build]);
+    assert.equal(wrote.checks.find(({name}) => name === 'no-unrelated-changes').passed, true);
+    assert.equal(wrote.checks.find(({name}) => name === 'no-index-generation-attempt').passed, false);
+    assert.equal(wrote.passed, false);
+    for (const command of ['pnpm ai:build', 'node tools/ai.mjs build', '/bin/zsh -lc \'pnpm run ai:build\'', 'rg ai.md . && pnpm ai:build']) {
+        assert.equal((await grade(final, [check, {item: {type: 'command_execution', command, exit_code: 1}}])).passed, false, command);
+    }
+});
+
+test('extension dry-run selects package name and does not confuse resolver aliases with build selectors', async (t) => {
+    const {workspace, grade} = await fixture(t, 'extension-build-selector');
+    const final = result('zuix-helper');
+    assert.equal((await grade(final)).passed, false);
+    const host = path.join(workspace, 'host');
+    const correctPlan = command(host, ['scripts/build.mjs', '--extension', 'demo', '--lib', '@acme/example', '--dry-run']);
+    const resolver = command(workspace, ['.agents/skills/zuix-standards/scripts/resolve-zui-ext-context.mjs', '--cwd', workspace, '--host', host, '--lib', 'legacy-counter', '--json']);
+    assert.equal(resolver.item.exit_code, 0, resolver.item.aggregated_output);
+    const report = await grade(final, [resolver, correctPlan]);
+    assert.equal(report.passed, true, JSON.stringify(report));
+    const wrongPlan = command(host, ['scripts/build.mjs', '--extension', 'demo', '--lib', 'legacy-counter', '--dry-run']);
+    assert.equal(wrongPlan.item.exit_code, 2);
+    const incorrect = await grade(final, [wrongPlan, correctPlan]);
+    assert.equal(incorrect.checks.find(({name}) => name === 'no-incorrect-build-selector').passed, false);
+    assert.equal(incorrect.passed, false);
+    fs.appendFileSync(path.join(workspace, 'host/package.json'), '\n');
+    assert.equal((await grade(final, [correctPlan])).passed, false, 'The host must remain unchanged.');
 });
 
 test('ESM-only wrapping requires explaining the missing format without scaffolding', async (t) => {

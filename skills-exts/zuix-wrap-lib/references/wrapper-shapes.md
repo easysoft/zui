@@ -97,6 +97,6 @@
 按共享工作流选择本次所需检查；新增封装或改变对应契约时覆盖相关项目：
 
 - 扩展侧：package/exports/files、依赖分类、type-only import、lint、类型、测试和 `git diff --check`。
-- 宿主侧：唯一 `EXTS_NAME` 注册、准确 `ZUI_NAME` 选择、联合构建、public 复制结果、dev 地址、HMR 和文档。
+- 宿主侧：唯一 `EXTS_NAME` 注册、联合构建按 `PACKAGE_NAME` 选择目标、public 复制结果、dev 地址、HMR 和文档。
 - 运行时：首次加载、预载复用、并发/多实例、失败、显式重试、销毁竞态、更新、重复初始化和最终清理。
 - 交付：分别说明 `EXT_ROOT` 与 `ZUI_ROOT` 的通过、基线失败、未执行和未验证项。

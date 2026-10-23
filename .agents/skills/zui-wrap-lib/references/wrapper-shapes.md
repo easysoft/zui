@@ -20,6 +20,7 @@
 ```text
 lib/<name>/
   package.json
+  ai.md                            # 新库的 AI 使用参考
   tsconfig.json                    # 有 TS/TSX 时
   public/<vendor>/...              # 本地托管的原始 UMD/CSS/license
   src/main.ts

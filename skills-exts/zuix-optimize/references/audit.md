@@ -139,7 +139,7 @@
 
 - 在 `EXT_ROOT` 执行目标 lint、TypeScript、测试和依赖检查；
 - 使用 `git -C <GIT_ROOT> diff --check -- <扩展相对路径>`；
-- resolver 唯一确认 `ZUI_ROOT + EXTS_NAME` 后，以准确 `ZUI_NAME` 运行扩展联合构建；
+- resolver 唯一确认 `ZUI_ROOT + EXTS_NAME` 后，以真实 `PACKAGE_NAME` 作为 `--lib` 运行扩展联合构建；
 - 宿主扩展 docs 同步/构建；
 - 宿主扩展 dev 下的首次加载、public 资源、HMR 和主要交互；
 - 多库批次的组合构建和依赖方回归。

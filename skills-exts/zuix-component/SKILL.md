@@ -43,7 +43,7 @@ description: "在独立 ZUI 扩展项目中设计、实现或修复组件；区�
 
 1. 当前模式允许编辑时检查 `gitRoot` 状态，按共享工作流复用或刷新受影响的上下文。
 2. 仅在 `targetLibRoot` 和任务所需的扩展项目文件内实施。依赖安装、lockfile、lint、类型检查和扩展项目测试都从 `extensionRoot` 执行；不修改宿主源码、依赖、lockfile 或注册配置；宿主生成物和缓存写入遵循共享工作流的验证隔离与批准规则。
-3. 使用 Preact 而不是 React，并遵循[状态与副作用规范](../zuix-standards/references/component.md#preact-状态与副作用)：禁止 hooks，响应式状态推荐 signals，按生命周期清理 `effect`。跨库导入使用真实 `packageName`；显式维护局部入口、库入口及必要副作用导入。`zuiName` 只用于宿主发现/构建选择，不能代替模块包名。
+3. 使用 Preact 而不是 React，并遵循[状态与副作用规范](../zuix-standards/references/component.md#preact-状态与副作用)：禁止 hooks，响应式状态推荐 signals，按生命周期清理 `effect`。跨库导入使用真实 `packageName`；显式维护局部入口、库入口及必要副作用导入。`zuiName` 是宿主发现元数据，不能代替模块包名或构建 `--lib` 所需的 `packageName`。
 4. 运行时外部依赖统一通过目标库内单例 `LibLoader<T>` 按需加载，落实加载失败、显式重试、异步销毁竞态及第三方实例清理；不要在组件中维护第二份模块缓存。
 5. 按 [布局与样式规范](../zuix-standards/references/component.md#布局与样式) 优先组合 `@zui/utilities` 辅助类，只有无法快捷实现时才补充最少自定义 CSS。使用 `src/style/*.css` 时尽可能采用语义等价的 Tailwind `@apply`，全部 CSS 通过 `src/style/index.ts` 接入真实样式消费入口；前缀和生成效果以当前扩展与宿主配置共同验证。落实语义标签、键盘、焦点和 ARIA。
 6. 若任务范围包含其他领域，按需读取对应技能并传递已有发现和任务范围：
@@ -55,6 +55,6 @@ description: "在独立 ZUI 扩展项目中设计、实现或修复组件；区�
 
 ## 验证与交付
 
-按共享工作流选择本次所需的扩展检查及宿主检查，完成范围内修复和复验。涉及宿主运行时、样式或分发时，使用已确认的 `zuiRoot + extsName` 和准确 `zuiName` 验证；实际执行位置及服务管理遵循共享规则。
+按共享工作流选择本次所需的扩展检查及宿主检查，完成范围内修复和复验。涉及宿主运行时、样式或分发时，使用已确认的 `zuiRoot + extsName` 验证；构建 `--lib` 使用真实 `packageName`，实际执行位置及服务管理遵循共享规则。
 
 新增或改变对应行为时，验证相关消费方式、状态、事件、键盘/焦点、异步竞态和销毁。交付时报告实现文件、公开 API、影响交付的上下文及分层验证结果，不自动提交、推送或发布。

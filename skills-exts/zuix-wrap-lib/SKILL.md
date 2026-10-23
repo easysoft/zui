@@ -77,7 +77,7 @@ description: "将已经可用的 UMD/IIFE 资源封装为独立 ZUI 扩展包，
 
 - `git -C <gitRoot> diff --check -- <extensionRoot 相对路径>`；
 - `extensionRoot` 的目标 lint、类型、测试和依赖解析；
-- 在 resolver 唯一确认 `zuiRoot + extsName` 后，使用准确 `zuiName` 的扩展联合构建；
+- 在 resolver 唯一确认 `zuiRoot + extsName` 后，使用真实 `packageName` 作为 `--lib` 的扩展联合构建；
 - 调试需要时从宿主启动扩展 dev，按宿主发现结果进入页面，不从 `folderName` 猜路由；
 - 首次使用才加载、预载全局不重复加载、并发/多实例、失败与显式重试、加载返回前销毁、更新、重复初始化、最终清理；
 - 构建后的 public 路径、license 和第三方类型解析。

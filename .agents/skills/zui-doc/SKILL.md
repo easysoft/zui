@@ -1,25 +1,29 @@
 ---
 name: zui-doc
-description: "维护 ZUI 主仓库 lib/* 的官网文档源、API 说明、示例与静态组件预览。需求明确时直接实施；只要求审阅时保持只读。"
+description: "维护 ZUI 主仓库 lib/*/ai.md 使用参考、官网文档、API 示例与静态组件预览。需求明确时直接实施；只要求审阅时保持只读。"
 ---
 
-# ZUI 正式文档
+# ZUI 文档与 AI 使用参考
 
-## AI 使用参考
+## 共同工作流
 
-维护 `lib/<name>/ai.md` 时读取 [AI 使用参考规范](../zui-standards/references/ai-documentation.md)，使用其固定章节与条目格式，沿用下述事实核实、范围和接入约束。此类文件使用普通 Markdown，不套用官网 `<Example>`、`<Props>`、页面目录和预览资源规则。维护后运行 `pnpm ai:build` 与 `pnpm ai:check`；按新增消费方式验证示例，格式检查不代替运行验收。
+1. 按 [共享工作流](../zui-standards/references/workflow.md) 定位目标、检查所有权并复用已有上下文。根据用户指定文件区分 AI 参考和官网文档，只进入对应流程；两者都在范围内时共享事实核实结果。
+2. 阅读目标文档和判断本次说明所需的公开入口、类型、实现与测试。按 [消费规范](../zui-standards/references/consumption.md) 核实 workspace、npm 和 browser 的真实入口。自定义元素同时读取 [Web Component 规范](../zui-standards/references/web-component.md)，区分元素 API 与原组件 API。
+3. 新增或修改布局类、示例容器类或可复制代码时，按 [CSS utilities 核实流程](../zui-standards/references/utilities.md) 确认实际支持和效果；不发明 API，也不为了让文档成立而修改无关运行时代码。源码问题单独报告。
+4. 完成下列对应流程后，汇报覆盖内容、验证结果及仍存在的源码/文档差异；需求明确时直接实施，只要求审阅或建议时保持只读，不自动提交。
 
-## 工作流
+## AI 参考：lib/<name>/ai.md
 
-1. 按 [共享工作流](../zui-standards/references/workflow.md) 定位目标、检查已有改动并复用上下文；按其澄清规则消除影响本次交付的歧义，需求明确时直接实施。
-2. 按需阅读 [documentation 规范](../zui-standards/references/documentation.md) 中与本次变更有关的部分；自定义元素文档同时读取 [Web Component 规范](../zui-standards/references/web-component.md)，区分元素 API 与原组件 API。
-   - 新建组件库文档、维护组件外观说明或制作封面/展示墙时，读取[组件预览规范](../zui-standards/references/component-preview.md)，检查并按范围交付 `assets/preview.html` 及组件封面页入口。纯文案修订遵循该规范的范围边界。
-3. 阅读目标文档和核实本次说明所需的公开类型、入口或实现；新建或重构页面时再检查相关页面结构和必要参考，不发明 API。新增或修改布局类、示例容器类或可复制代码时，读取并执行 [CSS utilities 核实流程](../zui-standards/references/utilities.md)。
-4. 优先沿用已有分类；否则按内容选择 `lib/<name>/docs/lib/<basic|components|forms|helpers>/index.md`。`index.md` 是默认主页面，仅在已有结构或用户明确要求时维护额外页面。
-5. 新建或重构文档时，第一屏提供可运行基础示例，再按实际 API 和请求范围补充场景、选项、事件、方法和类型；引入说明遵循[接入与构建说明](../zui-standards/references/documentation.md#接入与构建说明)，只补充影响使用步骤的特殊条件。官网使用 `<Example>`、`::: tabs`、`<Props>` 与 `<ZUI use="...">`，不得混用调试页的 `html:example`；可运行示例按[示例完整性与反馈](../zui-standards/references/documentation.md#示例完整性与反馈)补齐独立代码，并对齐预览的布局、配置和交互。
-6. 只修改正式文档及其明确需要的文档资源和回归测试；不得手工编辑 `docs/_` 代替修改文档源，不得为了让文档成立而悄悄修改运行时代码。发现源码问题时单独报告。
-7. 按共享工作流选择必要的文案、链接或同步/构建检查；运行示例变更按[示例验收](../zui-standards/references/documentation.md#示例验收)核实预览与复制代码，静态组件预览变更执行组件预览规范。修复本次引入且位于范围内的问题并复验，生成物遵循验证隔离要求。
-8. 汇报目标页面、覆盖内容、验证结果与源码/文档差异，不自动提交。
+1. 读取 [AI 使用参考规范](../zui-standards/references/ai-documentation.md)；新文件使用其模板，已有文件只更新受影响条目，保留固定章节、元信息和稳定 ID。包含必要接入、参数、示例及来源，不套用官网组件或目录规则。
+2. 按 [AI 参考联动](../zui-standards/references/workflow.md#ai-参考联动) 维护库文档、生成根索引并检查；组合任务由主流程统一生成，独立任务自行完成。只读审阅仅检查和报告，不生成索引。
+3. 对改变的示例选择必要的类型或运行验证。`ai:check` 只验证结构、链接和索引，不替代内容验收；纯 AI 参考修改无需官网构建、`docs/_` 同步或静态封面。
+
+## 官网文档与静态组件预览
+
+1. 按需读取 [官网文档规范](../zui-standards/references/documentation.md)。新建组件库官网文档、维护外观说明或制作封面/展示墙时，按 [组件预览规范](../zui-standards/references/component-preview.md) 检查并在范围内交付 `assets/preview.html` 及封面入口；纯文案修订遵循其范围边界。
+2. 沿用已有分类，否则选择 `lib/<name>/docs/lib/<basic|components|forms|helpers>/index.md`；仅在已有结构或用户明确要求时维护额外页面。
+3. 新建或重构页面时，第一屏提供可运行基础示例，再补充本次相关 API。按 [接入与构建说明](../zui-standards/references/documentation.md#接入与构建说明) 说明特殊条件；使用 `<Example>`、`::: tabs`、`<Props>` 与 `<ZUI use="...">`，不得混用调试页的 `html:example`。按 [示例完整性与反馈](../zui-standards/references/documentation.md#示例完整性与反馈) 补齐独立代码，并对齐预览配置和交互。
+4. 只修改范围内的官网文档、必要资源和回归测试，不手工编辑 `docs/_`。按 [示例验收](../zui-standards/references/documentation.md#示例验收) 验证运行示例，静态预览执行对应规范；按共享工作流保护生成物、复用有效检查并修复本次引入的问题。
 
 ## 组合边界
 

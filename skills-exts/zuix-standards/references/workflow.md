@@ -26,7 +26,7 @@ node <本技能目录>/../zuix-standards/scripts/resolve-zui-ext-context.mjs \
   --cwd <目标路径> [--lib <目录名或包名>] [--host <宿主根>] --json
 ```
 
-`--cwd` 可以是扩展根、`lib/`、目标库或通过宿主 `exts/` 进入的符号链接路径。解析器先使用真实路径，避免把宿主误判成扩展根。`--lib` 可使用目录名、`PACKAGE_NAME` 或 `ZUI_NAME`。未找到唯一宿主或注册组时，`zuiRoot` / `extsName` 返回 `null`；此时继续不依赖宿主的已授权扩展侧工作，但禁止猜测并运行宿主命令。
+`--cwd` 可以是扩展根、`lib/`、目标库或通过宿主 `exts/` 进入的符号链接路径。解析器先使用真实路径，避免把宿主误判成扩展根。解析器的 `--lib` 可使用目录名、`PACKAGE_NAME`、`ZUI_NAME` 或能唯一匹配的短名；这不代表构建参数接受相同名称，宿主 `pnpm build --lib` 对扩展只接受 `PACKAGE_NAME`，详见[联合构建规范](extension-library.md#联合构建与文档)。未找到唯一宿主或注册组时，`zuiRoot` / `extsName` 返回 `null`；此时继续不依赖宿主的已授权扩展侧工作，但禁止猜测并运行宿主命令。
 
 ## 规则优先级
 

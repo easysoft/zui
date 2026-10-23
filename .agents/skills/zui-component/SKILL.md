@@ -49,6 +49,6 @@ description: "在 ZUI 主仓库的 lib/* 中设计、实现或修复组件及 We
 2. 使用 Preact 而不是 React，并遵循[状态与副作用规范](../zui-standards/references/component.md#preact-状态与副作用)：禁止 hooks，响应式状态推荐 signals，按生命周期清理 `effect`。跨库导入使用 `@zui/<name>`；显式维护局部和库入口导出。
 3. 运行时外部依赖统一通过库内单例 `LibLoader<T>` 按需加载，并落实加载失败、重试、异步销毁竞态和第三方实例清理；不要在组件内直接调用 `$.getLib`、注入资源标签或维护第二份模块缓存。
 4. 按 [布局与样式规范](../zui-standards/references/component.md#布局与样式) 实现样式，落实组件 CSS 的 `@apply` 优先和 `src/style/index.ts` 统一入口规则；新增或修改布局类时，读取并执行 [CSS utilities 核实流程](../zui-standards/references/utilities.md)，核对公开支持、实际效果及目标产物后再使用。落实语义标签、键盘、焦点和 ARIA。
-5. 按组件预览规范交付或维护目标库的静态预览及封面页入口；其余 i18n、正式文档与调试页仅在任务范围内调用或遵循 `$zui-i18n`、`$zui-doc`、`$zui-dev`。
+5. 按组件预览规范交付或维护目标库的静态预览及封面页入口；新库及公开契约变化按 [AI 参考联动](../zui-standards/references/workflow.md#ai-参考联动) 维护 `ai.md`。其余 i18n、正式文档与调试页仅在任务范围内调用或遵循 `$zui-i18n`、`$zui-doc`、`$zui-dev`。
 6. 按共享工作流验证本次改动、修复范围内问题并复跑受影响检查；组件验收项目按本次涉及的行为选择。
 7. 汇报实现文件、公开 API、验证结果和未验证风险，不自动提交。
