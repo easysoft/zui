@@ -56,8 +56,14 @@
   @apply -flex -flex-row -h-[--kanban-lane-height] -min-h-[96px];
 }
 .kanban-lane-name {
-  @apply -bg-[--kanban-lane-color] -text-white -w-[--kanban-lane-name-width] -flex-none -flex -items-center -justify-center -relative -rounded-[--kanban-radius];
+  @apply -bg-[--kanban-lane-color] -text-black -w-[--kanban-lane-name-width] -flex-none -flex -items-center -justify-center -relative -rounded-[--kanban-radius];
   writing-mode: vertical-rl;
+}
+
+@supports (color: contrast-color(red)) {
+  .kanban .kanban-lane-name {
+    color: contrast-color(var(--kanban-lane-color));
+  }
 }
 .kanban-lane.is-first .kanban-lane-name {
   @apply -rounded-t-[0];
@@ -79,7 +85,7 @@
   @apply -w-[--kanban-lane-name-width];
 }
 .kanban-lane-title {
-  @apply -flex-auto -flex -justify-center -items-center -overflow-hidden -whitespace-nowrap;
+  @apply -flex-auto -flex -justify-center -items-center -overflow-hidden -whitespace-nowrap -py-2;
 }
 .kanban-lane-cols {
   @apply -flex -flex-row -gap-[--kanban-cols-gap];

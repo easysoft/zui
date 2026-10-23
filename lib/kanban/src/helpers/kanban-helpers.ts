@@ -113,7 +113,7 @@ export function getLanes(this: unknown, lanes: KanbanLaneOptions[] | undefined, 
             lane.name = String(lane.name);
         }
         if (lane.color === undefined) {
-            lane.color = `hsl(${(43 * getUniqueCode(lane.name)) % 360}deg 40% 50%)`;
+            lane.color = `hsl(${(43 * getUniqueCode(lane.name)) % 360}deg 100% 96%)`;
         }
         forEachLane?.call(this, lane);
         list.push(lane);
