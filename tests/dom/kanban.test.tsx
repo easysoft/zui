@@ -113,6 +113,81 @@ describe('Kanban background pattern', () => {
         expect(doneCol.style.getPropertyValue('--kanban-col-bg')).toBe('');
     });
 
+    it('applies a sub-column background when the parent has no background', () => {
+        const subColumnData = {
+            lanes: [{name: 'lane-a'}],
+            cols: [
+                {name: 'doing', title: 'Doing'},
+                {
+                    name: 'sub-a',
+                    title: 'Sub A',
+                    parentName: 'doing',
+                    backgroundColor: 'rgb(40, 50, 60)',
+                },
+            ],
+            items: {},
+        };
+        const {container} = render(
+            <Kanban
+                data={subColumnData}
+                backgroundPattern="vertical"
+                draggable={false}
+                responsive={false}
+            />,
+        );
+        const parentHeader = container.querySelector<HTMLElement>('.kanban-header-col[z-col="doing"]')!;
+        const subHeader = container.querySelector<HTMLElement>('.kanban-header-col[z-col="sub-a"]')!;
+        const subCell = container.querySelector<HTMLElement>('.kanban-lane-col[z-col="sub-a"]')!;
+
+        expect(parentHeader.style.getPropertyValue('--kanban-col-bg')).toBe('');
+        expect(subHeader.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(40, 50, 60)');
+        expect(subCell.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(40, 50, 60)');
+    });
+
+    it('uses its own sub-column background and inherits the parent only when unset', () => {
+        const subColumnData = {
+            lanes: [{name: 'lane-a'}],
+            cols: [
+                {
+                    name: 'doing',
+                    title: 'Doing',
+                    backgroundColor: 'rgb(10, 20, 30)',
+                },
+                {
+                    name: 'sub-a',
+                    title: 'Sub A',
+                    parentName: 'doing',
+                    backgroundColor: 'rgb(40, 50, 60)',
+                },
+                {
+                    name: 'sub-b',
+                    title: 'Sub B',
+                    parentName: 'doing',
+                },
+            ],
+            items: {},
+        };
+        const {container} = render(
+            <Kanban
+                data={subColumnData}
+                backgroundPattern="vertical"
+                draggable={false}
+                responsive={false}
+            />,
+        );
+        const parentHeader = container.querySelector<HTMLElement>('.kanban-header-col[z-col="doing"]')!;
+        const subAHeader = container.querySelector<HTMLElement>('.kanban-header-col[z-col="sub-a"]')!;
+        const subBHeader = container.querySelector<HTMLElement>('.kanban-header-col[z-col="sub-b"]')!;
+        const subACell = container.querySelector<HTMLElement>('.kanban-lane-col[z-col="sub-a"]')!;
+        const subBCell = container.querySelector<HTMLElement>('.kanban-lane-col[z-col="sub-b"]')!;
+
+        expect(parentHeader.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(10, 20, 30)');
+        expect(subAHeader.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(40, 50, 60)');
+        expect(subACell.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(40, 50, 60)');
+        expect(subBHeader.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(10, 20, 30)');
+        expect(subBCell.style.getPropertyValue('--kanban-col-bg')).toBe('rgb(10, 20, 30)');
+    });
+
     it('falls back to no rule for an unknown pattern', () => {
         const {container} = render(
             <Kanban

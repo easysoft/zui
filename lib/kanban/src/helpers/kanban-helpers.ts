@@ -70,6 +70,22 @@ export function getCols(this: unknown, cols: KanbanColOptions[] | undefined, opt
         }
     });
 
+    [...rootColMap.values()].forEach((col) => {
+        const parentBackground = col.backgroundColor;
+        if (!parentBackground || !col.subCols?.length) {
+            return;
+        }
+        col.subCols = col.subCols.map((subCol) => {
+            if (subCol.backgroundColor) {
+                return subCol;
+            }
+            return {
+                ...subCol,
+                backgroundColor: parentBackground,
+            };
+        });
+    });
+
     if (needSort) {
         cols.sort(sortByOrder);
         [...rootColMap.values()].forEach((col) => {

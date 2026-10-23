@@ -60,6 +60,10 @@ export class KanbanHeaderCol extends HElement<KanbanColProps> {
             trailingIcon,
             actions,
             subCols,
+            backgroundPattern,
+            colBgColor,
+            rowBgColor,
+            rowColor,
         } = props;
 
         return [
@@ -75,7 +79,17 @@ export class KanbanHeaderCol extends HElement<KanbanColProps> {
             </div>,
             subCols ? (
                 <div key="subs" className="kanban-header-sub-cols">
-                    {subCols.map((col, index) => <KanbanHeaderCol key={col.name} index={index} {...col} />)}
+                    {subCols.map((col, index) => (
+                        <KanbanHeaderCol
+                            key={col.name}
+                            index={index}
+                            {...col}
+                            backgroundPattern={backgroundPattern}
+                            colBgColor={colBgColor}
+                            rowBgColor={rowBgColor}
+                            rowColor={rowColor}
+                        />
+                    ))}
                 </div>
             ) : null,
         ];
