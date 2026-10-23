@@ -10,7 +10,7 @@
 
 提供预设颜色弹出选择器和原生颜色输入框，支持颜色同步。
 
-`ColorPicker` 继承 [Pick](../pick/ai.md#preact-pick) 的值、弹层及清理契约；颜色列表可为字符串数组或逗号串。`custom` 开启/配置原生 `ColorInput`；内嵌输入框的 value 由父 Picker 显式覆盖，仅当当前值不在预设颜色中时传实际颜色，否则传空字符串，所以 custom.value/defaultValue 没有独立初始化优先级。`syncBackground`/`syncBorder`/`syncColor`/`syncValue` 是要修改的外部元素选择器，使用时确认元素归属。`required` 不应当作自动填入首个颜色或原生表单校验的保证。
+`ColorPicker` 继承 [Pick](../pick/ai.md#preact-pick) 的值、弹层及清理契约；颜色列表可为字符串数组或逗号串。`custom` 开启/配置原生 `ColorInput`；内嵌输入框优先使用选择器当前的非空颜色，当前颜色为空时依次使用 `custom.value`、`custom.defaultValue` 和空字符串，显式的 `custom.value: ''` 会保留空值。备用颜色不会自动改变选择器值或表单值，清空后仍遵循此规则；是否显示自定义颜色的选中标记仅由选择器当前值是否属于预设颜色决定。`syncBackground`/`syncBorder`/`syncColor`/`syncValue` 是要修改的外部元素选择器，使用时确认元素归属。`required` 不应当作自动填入首个颜色或原生表单校验的保证。
 
 `ColorInput` 用 `<input type="color">`，value 受控、defaultValue 初始化非受控状态；`onInput(value,event)` 即时通知，`onChange` 在提交变化时通知。原生颜色输入框收到空字符串时可显示黑色；隐藏字段保留用于提交的空字符串，不改变原生控件的规范化行为。`alpha` 虽在类型中声明，目前渲染没有使用它，不能承诺透明度编辑。
 
@@ -304,7 +304,7 @@ export type ColorInputOptions = {
 
 ## constraints
 
-`ColorPicker` 继承 [Pick](../pick/ai.md#preact-pick) 的值、弹层及清理契约；颜色列表可为字符串数组或逗号串。`custom` 开启/配置原生 `ColorInput`；内嵌输入框的 value 由父 Picker 显式覆盖，仅当当前值不在预设颜色中时传实际颜色，否则传空字符串，所以 custom.value/defaultValue 没有独立初始化优先级。`syncBackground`/`syncBorder`/`syncColor`/`syncValue` 是要修改的外部元素选择器，使用时确认元素归属。`required` 不应当作自动填入首个颜色或原生表单校验的保证。
+`ColorPicker` 继承 [Pick](../pick/ai.md#preact-pick) 的值、弹层及清理契约；颜色列表可为字符串数组或逗号串。`custom` 开启/配置原生 `ColorInput`；内嵌输入框优先使用选择器当前的非空颜色，当前颜色为空时依次使用 `custom.value`、`custom.defaultValue` 和空字符串，显式的 `custom.value: ''` 会保留空值。备用颜色不会自动改变选择器值或表单值，清空后仍遵循此规则；是否显示自定义颜色的选中标记仅由选择器当前值是否属于预设颜色决定。`syncBackground`/`syncBorder`/`syncColor`/`syncValue` 是要修改的外部元素选择器，使用时确认元素归属。`required` 不应当作自动填入首个颜色或原生表单校验的保证。
 
 `ColorInput` 用 `<input type="color">`，value 受控、defaultValue 初始化非受控状态；`onInput(value,event)` 即时通知，`onChange` 在提交变化时通知。原生颜色输入框收到空字符串时可显示黑色；隐藏字段保留用于提交的空字符串，不改变原生控件的规范化行为。`alpha` 虽在类型中声明，目前渲染没有使用它，不能承诺透明度编辑。
 

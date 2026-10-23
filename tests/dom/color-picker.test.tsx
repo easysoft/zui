@@ -77,18 +77,21 @@ describe('ColorPicker custom colors', () => {
     it.each(['value', 'defaultValue'] as const)('forwards ColorInput options and callbacks with an initial %s', async (valueOption) => {
         const onChange = vi.fn();
         const onCustomChange = vi.fn();
-        const {getByLabelText} = render(
-            <ColorPicker
-                custom={{
-                    id: 'customColor',
-                    name: 'customAccent',
-                    className: 'custom-swatch',
-                    hint: 'Custom color',
-                    [valueOption]: '#3b82f6',
-                    onChange: onCustomChange,
-                }}
-                onChange={onChange}
-            />,
+        const {getByLabelText, container} = render(
+            <form>
+                <ColorPicker
+                    name="accent"
+                    custom={{
+                        id: 'customColor',
+                        name: 'customAccent',
+                        className: 'custom-swatch',
+                        hint: 'Custom color',
+                        [valueOption]: '#3b82f6',
+                        onChange: onCustomChange,
+                    }}
+                    onChange={onChange}
+                />
+            </form>,
         );
 
         await openPicker();
@@ -96,6 +99,8 @@ describe('ColorPicker custom colors', () => {
         expect(input).toHaveValue('#3b82f6');
         expect(input).toHaveAttribute('name', 'customAccent');
         expect(document.getElementById('customColor')).toHaveClass('color-input', 'color-picker-item', 'custom-swatch');
+        expect(new FormData(container.querySelector('form')!).get('accent')).toBe('');
+        expect(onChange).not.toHaveBeenCalled();
 
         fireEvent.change(input, {target: {value: '#abcdef'}});
         await flushPicker();
@@ -104,6 +109,31 @@ describe('ColorPicker custom colors', () => {
 
         await openPicker();
         expect(getByLabelText('Custom color')).toHaveValue('#abcdef');
+        fireEvent.click(document.querySelector('[data-pick-value=""]')!);
+        await flushPicker();
+        expect(onChange).toHaveBeenLastCalledWith('', '#abcdef');
+
+        const cleared = await openPicker();
+        expect(getByLabelText('Custom color')).toHaveValue('#3b82f6');
+        expect(cleared.querySelector('.color-picker-row')).not.toHaveClass('is-custom');
+        expect(new FormData(container.querySelector('form')!).get('accent')).toBe('');
+        expect(onChange).toHaveBeenCalledTimes(2);
+        expect(onCustomChange).toHaveBeenCalledTimes(1);
+    });
+
+    it.each([
+        ['#ef4444', '#123456', '#ef4444'],
+        ['', '#123456', '#123456'],
+        ['', '', '#000000'],
+    ])('uses the current color %s before custom value %s', async (defaultValue, customValue, expected) => {
+        render(<ColorPicker defaultValue={defaultValue} custom={{value: customValue, defaultValue: '#abcdef'}} />);
+
+        const pop = await openPicker();
+        expect(pop.querySelector('input[type="color"]')).toHaveValue(expected);
+        expect(pop.querySelector('.color-picker-row')).not.toHaveClass('is-custom');
+        if (!customValue && !defaultValue) {
+            expect(pop.querySelector('.color-input')).toHaveClass('is-empty');
+        }
     });
 
     it.each([

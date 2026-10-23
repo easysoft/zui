@@ -70,7 +70,7 @@
 
 :::
 
-通过 JavaScript 初始化时，`custom` 也可传入 [ColorInput 选项](#color-input)，例如 `custom: {hint: '自定义主题颜色'}`。其中 `hint`、`className` 和回调可用于定制内部输入框；当前颜色应设置在 `ColorPicker` 顶层的 `value` 或 `defaultValue` 上。内部输入框的 `value` 和 `icon` 由选择器管理，`custom.value`、`custom.defaultValue` 和 `custom.icon` 不用于设置独立的初始颜色或图标。
+通过 JavaScript 初始化时，`custom` 也可传入 [ColorInput 选项](#color-input)，例如 `custom: {hint: '自定义主题颜色'}`。其中 `hint`、`className` 和回调可用于定制内部输入框；当前颜色应设置在 `ColorPicker` 顶层的 `value` 或 `defaultValue` 上。内部输入框优先使用选择器当前的非空颜色；当前颜色为空时，依次使用 `custom.value`、`custom.defaultValue` 和空字符串，其中显式的 `custom.value: ''` 会保留空值。这个备用颜色不会自动填入选择器或表单，清空后也只作为下一次打开原生选色框的起点。内部选中图标由选择器管理，`custom.icon` 不会覆盖它。
 
 原生 `change` 事件触发后，选择器先执行 `beforeChange`，通过后更新值、同步关联元素并关闭面板。`beforeChange` 返回 `false` 时保留原值和已打开的面板。
 

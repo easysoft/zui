@@ -107,7 +107,7 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
                         hint={getLang('more', 'More')}
                         {...customOptions}
                         className={classes('color-picker-item color-picker-custom', customOptions?.className)}
-                        value={isCustomColor ? value : ''}
+                        value={value || (customOptions?.value ?? customOptions?.defaultValue ?? '')}
                         icon={{className: 'i-check', 'aria-hidden': true}}
                         onChange={async (color, event) => {
                             const nextState = await this.setValue(color);

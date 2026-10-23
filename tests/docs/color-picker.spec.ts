@@ -236,7 +236,7 @@ for (const width of [1280, 320]) {
             await expect(output).toHaveText('#22c55e');
             await trigger.click();
             await expect(row).not.toHaveClass(/\bis-custom\b/);
-            await expect(input).toHaveValue('#000000');
+            await expect(input).toHaveValue('#22c55e');
             await expect(custom.locator('.i-check')).toHaveCSS('opacity', '0');
             await input.evaluate((element) => {
                 (element as HTMLInputElement).value = '#abcdef';
