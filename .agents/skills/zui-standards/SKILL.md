@@ -18,6 +18,7 @@ description: "查询 ZUI 主仓库的开发规范，为库开发及本地 exts �
    - 组件、调试页和文档示例的布局、CSS 声明与样式入口：[布局与样式规范](references/component.md#布局与样式)；新增或修改布局类、示例容器类或可复制代码时，读取 [CSS utilities 使用与核实](references/utilities.md)
    - 组件运行时按需加载外部 JS/CSS：[references/external-library.md](references/external-library.md)，并同时读取组件规范
    - helper、store 或 utils：[references/helper.md](references/helper.md)
+   - 库级 `ai.md`、全局 AI 索引、按章节提取与校验：[AI 使用参考规范](references/ai-documentation.md)；新文档从 [模板](templates/ai.md) 创建。
    - 官网文档：[references/documentation.md](references/documentation.md)
    - `README.md` 与 `dev.ts`：[references/dev-page.md](references/dev-page.md)
    - 国际化：[references/i18n.md](references/i18n.md)

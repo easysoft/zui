@@ -5,6 +5,10 @@ description: "维护 ZUI 主仓库 lib/* 的官网文档源、API 说明、示�
 
 # ZUI 正式文档
 
+## AI 使用参考
+
+维护 `lib/<name>/ai.md` 时读取 [AI 使用参考规范](../zui-standards/references/ai-documentation.md)，使用其固定章节与条目格式，沿用下述事实核实、范围和接入约束。此类文件使用普通 Markdown，不套用官网 `<Example>`、`<Props>`、页面目录和预览资源规则。维护后运行 `pnpm ai:build` 与 `pnpm ai:check`；按新增消费方式验证示例，格式检查不代替运行验收。
+
 ## 工作流
 
 1. 按 [共享工作流](../zui-standards/references/workflow.md) 定位目标、检查已有改动并复用上下文；按其澄清规则消除影响本次交付的歧义，需求明确时直接实施。

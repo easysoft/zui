@@ -17,11 +17,14 @@ pnpm typecheck             # 检查源码、工具和测试的 TypeScript 类型
 pnpm test                  # 运行 Vitest 单元测试与 jsdom 组件测试
 pnpm test:coverage         # 运行单元/DOM 测试并生成覆盖率
 pnpm test:skills           # 验证仓库内 ZUI 技能脚本
+pnpm ai:build              # 从 lib/*/ai.md 生成根 AI 使用索引
+pnpm ai:check              # 检查 AI 文档结构、链接、覆盖与索引同步
+pnpm ai:read --lib menu --section vanilla # 按库/章节/条目提取 Markdown
 pnpm test:build            # 验证 ESM/UMD/CSS/source map/ZIP/外置 Cash 及 npm 包消费契约
 pnpm test:e2e              # 使用 Chromium 运行 Playwright（需先安装浏览器）
 pnpm test:e2e:all          # 使用 Chromium、Firefox、WebKit 运行 Playwright
 pnpm test:docs             # 用 Chromium 验收已构建的官网示例（先运行 docs:build）
-pnpm check                 # lint + typecheck + 单元/DOM + skills 的常用提交前检查
+pnpm check                 # lint + typecheck + 单元/DOM + skills + AI 文档的常用提交前检查
 pnpm build                 # CLI/JSON → BuildPlan → 独立 build/run-* 入口 → 暂存产物 → 更新输出，不隐式执行类型检查
 pnpm build:npm             # 同一次构建生成 npm 运行时与声明，全部成功后更新 dist/zui
 pnpm pack:npm              # 独立构建并打包 npm 候选包，默认输出 dist/npm/run-* 的 tgz 与摘要
@@ -116,6 +119,9 @@ build/、dist/、publish/   构建中间产物 / 最终产物（gitignored）
 涉及跨库导入、公开入口、类型导出或接入示例时，遵循[源码与文档接入规范](.agents/skills/zui-standards/references/consumption.md)：仓库源码通过 `@zui/*` 的真实公开入口复用能力；官网普通 JS 示例使用全局 `zui`；npm 示例以目标发布包的实际导出为准。源码工作区入口、Preact 组件和独立插件不能按名称推定为 npm 可用入口。接入说明修复不顺带改变目标版本或发布配置。
 
 ### 文档与样式
+
+- 查找现有能力时先读根目录 [ai.md](ai.md)，再按需读 `lib/<name>/ai.md`；也可使用 `pnpm ai:read --lib <name> --section <section> --entry <entry>` 精确提取（entry 要求同时指定 section）。
+- 新库及公开 API、CSS 契约或接入方式变更时，按 [AI 使用参考规范](.agents/skills/zui-standards/references/ai-documentation.md) 维护库内 `ai.md`，然后运行 `pnpm ai:build` 与 `pnpm ai:check`。根 `ai.md` 为生成物，不手工编辑；结构通过不代表 API 和示例已完成运行验收。
 
 - 文档源在每个 `lib/<name>/docs/lib/components/*.md`，`pnpm docs:dev` 会先跑 `scripts/docs/prepare.ts` 同步到 `docs/_`，再启 VitePress。监听阶段 `scripts/docs/watch.ts` 会增量同步。
 - 每个可视组件库须提供 `assets/preview.html` 标准预览；新建时随库交付，维护时检查缺失并随主要外观或用途变化同步更新。适用范围、无文字骨架风格、纯 HTML、120 × 120、深浅主题、文档接入与验收统一遵循[组件预览规范](.agents/skills/zui-standards/references/component-preview.md)。
