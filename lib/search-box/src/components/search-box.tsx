@@ -23,12 +23,17 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
 
     protected _lastChangeValue: string;
 
+    protected _valueProp?: string;
+
+    protected _valueVersion = 0;
+
     protected _hotkeysScope?: string;
 
     constructor(props: SearchBoxOptions) {
         super(props);
-        this.state = {focus: false, value: props.defaultValue || ''};
-        this._lastChangeValue = props.value ?? this.state.value;
+        this.state = {focus: false, value: props.value ?? props.defaultValue ?? ''};
+        this._lastChangeValue = this.state.value;
+        this._valueProp = props.value;
         this._gid = props.id || `search-box-${nextGid()}`;
     }
 
@@ -88,7 +93,8 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         if (this.props.disabled || this.props.readonly) {
             return;
         }
-        const oldValue = this.props.value ?? this.state.value;
+        const oldValue = this.state.value;
+        this._valueVersion++;
         this._clearTimer();
         this._lastChangeValue = '';
         this.setState({value: ''}, () => {
@@ -110,8 +116,9 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         const composing = this._composing || (event as InputEvent).isComposing;
         const value = (event.target as HTMLInputElement).value;
         const {onChange, delay} = this.props;
+        const version = this._valueVersion;
         this.setState({value}, () => {
-            if (composing || this._composing || !onChange) {
+            if (composing || this._composing || !onChange || version !== this._valueVersion) {
                 return;
             }
             this._clearTimer();
@@ -155,23 +162,23 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         this._timer = 0;
     }
 
-    componentDidUpdate(previousProps: Readonly<SearchBoxOptions>): void {
-        if (!this._composing && this.props.value !== undefined) {
-            if (this.props.value !== previousProps.value) {
-                this._lastChangeValue = this.props.value;
-            }
-            if (this.props.value !== this.state.value) {
-                this.setState({value: this.props.value});
-            }
-        }
+    componentDidUpdate(): void {
+        const {value} = this.props;
+        if (this._composing || value === this._valueProp) return;
+        this._valueProp = value;
+        // An echoed notification must not replace a newer, still debouncing draft.
+        if (value === undefined || value === this._lastChangeValue) return;
+        this._valueVersion++;
+        this._clearTimer();
+        this._lastChangeValue = value;
+        this.setState({value});
     }
 
     render(props: RenderableProps<SearchBoxOptions>, state: Readonly<SearchBoxState>) {
-        const {style, className, rootClass, rootStyle, readonly, disabled, circle, placeholder, mergeIcon, searchIcon, clearIcon, value: controlledValue, compact, prefixClass, suffixClass, name} = props;
+        const {style, className, rootClass, rootStyle, readonly, disabled, circle, placeholder, mergeIcon, searchIcon, clearIcon, compact, prefixClass, suffixClass, name} = props;
         const {focus, value} = state;
         const {id} = this;
-        const finalValue = this._composing ? value : (controlledValue ?? value);
-        const empty = typeof finalValue !== 'string' || !finalValue.trim().length;
+        const empty = typeof value !== 'string' || !value.trim().length;
         let prefixView: ComponentChildren;
         let suffixView: ComponentChildren;
         let searchIconView: ComponentChildren;
@@ -217,7 +224,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
                     placeholder={placeholder}
                     disabled={disabled}
                     readOnly={readonly}
-                    value={finalValue}
+                    value={value}
                     onInput={this._handleChange}
                     onFocus={this._handleFocus}
                     onBlur={this._handleFocus}

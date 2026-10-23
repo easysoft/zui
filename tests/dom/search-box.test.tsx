@@ -120,3 +120,99 @@ describe('SearchBox composition', () => {
         expect(onChange).toHaveBeenLastCalledWith('', expect.any(Event));
     });
 });
+
+describe('SearchBox controlled input and cleanup', () => {
+    it('preserves a draft before the debounced value is echoed and gives Enter the current text', async () => {
+        const onChange = vi.fn();
+        const onEnter = vi.fn();
+        const {getByRole, rerender} = render(<SearchBox value="" onChange={onChange} onEnter={onEnter} />);
+        const input = getByRole('textbox');
+        fireEvent.input(input, {target: {value: 'sto'}});
+        fireEvent.input(input, {target: {value: 'storybook'}});
+        rerender(<SearchBox value="" onChange={onChange} onEnter={onEnter} placeholder="Search" />);
+        expect(input).toHaveValue('storybook');
+        expect(onChange).not.toHaveBeenCalled();
+        fireEvent.keyDown(input, {key: 'Enter'});
+        expect(onEnter).toHaveBeenLastCalledWith('storybook', expect.any(Event));
+        await flushSearch();
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(onChange).toHaveBeenLastCalledWith('storybook', expect.any(Event));
+        rerender(<SearchBox value="storybook" onChange={onChange} onEnter={onEnter} />);
+        expect(input).toHaveValue('storybook');
+    });
+
+    it('cancels a pending draft notification when an external value replaces it', async () => {
+        const onChange = vi.fn();
+        const {getByRole, rerender} = render(<SearchBox value="initial" onChange={onChange} />);
+        const input = getByRole('textbox');
+        fireEvent.input(input, {target: {value: 'draft'}});
+        rerender(<SearchBox value="external" onChange={onChange} />);
+        expect(input).toHaveValue('external');
+        await flushSearch();
+        expect(onChange).not.toHaveBeenCalled();
+    });
+
+    it('does not replace a newer draft when the previous notification is echoed', async () => {
+        const onChange = vi.fn();
+        const {getByRole, rerender} = render(<SearchBox value="" onChange={onChange} />);
+        const input = getByRole('textbox');
+        fireEvent.input(input, {target: {value: 'first'}});
+        await flushSearch();
+        fireEvent.input(input, {target: {value: 'second'}});
+        rerender(<SearchBox value="first" onChange={onChange} />);
+        expect(input).toHaveValue('second');
+        await flushSearch();
+        expect(onChange).toHaveBeenCalledTimes(2);
+        expect(onChange).toHaveBeenLastCalledWith('second', expect.any(Event));
+    });
+
+    it('clears an unnotified controlled draft immediately and cancels its timer', async () => {
+        const onChange = vi.fn();
+        const onClear = vi.fn();
+        const {getByRole} = render(<SearchBox value="" onChange={onChange} onClear={onClear} />);
+        const input = getByRole('textbox');
+        fireEvent.input(input, {target: {value: 'draft'}});
+        fireEvent.keyDown(input, {key: 'Escape'});
+        expect(input).toHaveValue('');
+        expect(input).toHaveFocus();
+        expect(onClear).toHaveBeenCalledTimes(1);
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(onChange).toHaveBeenLastCalledWith('', expect.any(Event));
+        await flushSearch();
+        expect(onChange).toHaveBeenCalledTimes(1);
+    });
+
+    it.each([0, 500])('applies a deferred external replacement after composition ends (delay: %s)', async (delay) => {
+        const onChange = vi.fn();
+        const {getByRole, rerender} = render(<SearchBox value="initial" onChange={onChange} delay={delay} />);
+        const input = getByRole('textbox') as HTMLInputElement;
+        fireEvent(input, new CompositionEvent('compositionstart', {bubbles: true}));
+        fireEvent.input(input, {target: {value: 'zhong'}, isComposing: true});
+        rerender(<SearchBox value="external" onChange={onChange} delay={delay} />);
+        expect(input).toHaveValue('zhong');
+        act(() => {
+            input.value = '中';
+            input.dispatchEvent(new CompositionEvent('compositionend', {bubbles: true, data: '中'}));
+            input.dispatchEvent(new InputEvent('input', {bubbles: true}));
+        });
+        await flushSearch();
+        expect(input).toHaveValue('external');
+        expect(onChange).not.toHaveBeenCalled();
+    });
+
+    it('releases pending notifications and hotkeys on unmount', async () => {
+        const onChange = vi.fn();
+        const onEnter = vi.fn();
+        const onClear = vi.fn();
+        const {getByRole, unmount} = render(<SearchBox onChange={onChange} onEnter={onEnter} onClear={onClear} />);
+        const input = getByRole('textbox');
+        fireEvent.input(input, {target: {value: 'pending'}});
+        unmount();
+        fireEvent.keyDown(input, {key: 'Enter'});
+        fireEvent.keyDown(input, {key: 'Escape'});
+        await flushSearch();
+        expect(onChange).not.toHaveBeenCalled();
+        expect(onEnter).not.toHaveBeenCalled();
+        expect(onClear).not.toHaveBeenCalled();
+    });
+});

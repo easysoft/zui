@@ -10,7 +10,7 @@
 
 提供带图标、清空按钮、延迟通知与键盘操作的搜索输入框。
 
-默认 delay=500ms（onChange 防抖）、searchIcon/clearIcon/hotkeys=true。value 为受控值，defaultValue 初始化内部状态；受控使用方在 onChange 回写 value。onChange 保留原始输入字符串，不自动 trim，Enter 调用 onEnter，清除立即取消等待并触发 onClear，再对非空旧值触发 onChange('',event)。disabled/readonly 下不执行清除。
+默认 delay=500ms（onChange 防抖）、searchIcon/clearIcon/hotkeys=true。value 为受控值，defaultValue 初始化内部状态；受控使用方在 onChange 回写 value。等待防抖通知期间保留输入草稿，回写上一次通知值不会覆盖更新的草稿；外部传入不同的新值会替换草稿并取消旧的待执行通知，输入法组合期间延后到组合结束再应用。onChange 保留原始输入字符串，不自动 trim，Enter 调用 onEnter，清除立即取消等待并触发 onClear，再对非空旧值触发 onChange('',event)。disabled/readonly 下不执行清除。
 
 视图公开 id/input getter 及 focus/blur/clear；vanilla 通过实例 `$` 访问。compact/circle/mergeIcon 和前后缀类影响外观，底层依赖 input-control；不会自动发起搜索请求。卸载清理防抖计时器和 hotkeys。
 
@@ -209,7 +209,7 @@ export type SearchBoxState = {
 
 ## constraints
 
-默认 delay=500ms（onChange 防抖）、searchIcon/clearIcon/hotkeys=true。value 为受控值，defaultValue 初始化内部状态；受控使用方在 onChange 回写 value。onChange 保留原始输入字符串，不自动 trim，Enter 调用 onEnter，清除立即取消等待并触发 onClear，再对非空旧值触发 onChange('',event)。disabled/readonly 下不执行清除。
+默认 delay=500ms（onChange 防抖）、searchIcon/clearIcon/hotkeys=true。value 为受控值，defaultValue 初始化内部状态；受控使用方在 onChange 回写 value。等待防抖通知期间保留输入草稿，回写上一次通知值不会覆盖更新的草稿；外部传入不同的新值会替换草稿并取消旧的待执行通知，输入法组合期间延后到组合结束再应用。onChange 保留原始输入字符串，不自动 trim，Enter 调用 onEnter，清除立即取消等待并触发 onClear，再对非空旧值触发 onChange('',event)。disabled/readonly 下不执行清除。
 
 视图公开 id/input getter 及 focus/blur/clear；vanilla 通过实例 `$` 访问。compact/circle/mergeIcon 和前后缀类影响外观，底层依赖 input-control；不会自动发起搜索请求。卸载清理防抖计时器和 hotkeys。
 

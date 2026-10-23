@@ -93,7 +93,7 @@ PR 的 `Distribution and documentation builds` 在文档构建后运行 `pnpm te
 
 PR 的 `Chromium browser contracts` 和 main/nightly 的 `Chromium, Firefox and WebKit browser contracts` 在原有浏览器测试后执行 `pnpm storybook:build`，再运行 `pnpm test:storybook --workers=1 --fail-on-flaky-tests`。Storybook 使用 Chromium，复用该 job 安装的浏览器，必需检查名称和前置质量门禁保持不变。
 
-巡检从 `dist/storybook/index.json` 自动发现所有 story，并核对 `lib/*/*.stories.ts`、`lib/*/*.stories.tsx` 均已进入构建；每个场景分别在浅色与深色下检查有效渲染、页面和控制台错误、失败资源。交互回归覆盖主题工具栏、系统外观变化与浮层主题继承，Controls、Actions、原生表单、分页双向同步、嵌套菜单、弹窗关闭和焦点恢复、场景切换后的浮层与滚动锁清理、Tabs 和窄屏表单。新增场景自动纳入双主题基础巡检，业务特有的交互仍需新增断言。
+巡检从 `dist/storybook/index.json` 自动发现所有 story，并核对 `lib/*/*.stories.ts`、`lib/*/*.stories.tsx` 均已进入构建；每个场景分别在浅色与深色下检查有效渲染、页面和控制台错误、失败资源。交互回归覆盖主题工具栏、系统外观变化与浮层主题继承，Controls、Actions、原生表单、分页双向同步、嵌套菜单、弹窗关闭和焦点恢复、场景切换后的浮层与滚动锁清理、Tabs 和窄屏表单；SearchBox 另覆盖防抖、Enter／Escape、中文输入、清空取消待执行通知、快捷键重新配置和卸载清理。新增场景自动纳入双主题基础巡检，业务特有的交互仍需新增断言。
 
 表单回归包含 Checkbox 未选／已选／半选状态、Controls 与 Actions、Tab／空格操作、禁用与原生提交语义、开关外观及窄屏长文案，InputControl 输入／清空、禁用与只读的原生提交语义、邮箱和必填校验恢复，以及 Picker 单选／多选提交、Controls 双向同步、搜索无匹配、禁用选项、键盘选择与删除、空数据、异步加载／空结果／失败恢复、快速搜索、浮层卸载和手机宽度下的长内容；DatetimePicker 覆盖日期／时间选择、手工输入校验、清空、范围限制、禁用／只读、分钟步长、手机宽度和浮层卸载。
 
