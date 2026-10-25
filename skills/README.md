@@ -33,6 +33,31 @@ $zui-build 从零做一个可直接打开的管理后台原型
 - 空目录、不要 npm/bundler、只要能打开的静态页：用 `zui-build`。
 - 不要用 `zui-build` 往已有项目里塞脚手架；它会拒绝写入非空目录。
 
+## 随包 AI 参考
+
+两个技能都完整携带 `references/ai/`：生成的 `ai.md` 索引、所有内置库的 `lib/<name>/ai.md`、精简的版本与来源清单 `manifest.json`、供脚本提取章节的 `catalog.json`，以及只依赖 Node 内置模块的 `read.mjs`。必须复制整个技能目录；每个技能均可单独安装，不依赖另一个技能或 ZUI 源码仓库。直接阅读 Markdown 不需要 Node 或网络。
+
+```sh
+node <skill-root>/references/ai/read.mjs
+node <skill-root>/references/ai/read.mjs --lib menu --section setup --runtime-version 3.0.0
+node <skill-root>/references/ai/read.mjs --lib menu --section vanilla --entry vanilla-menu
+node <skill-root>/references/ai/read.mjs --lib menu --section constraints
+```
+
+阅读器按导出时生成的章节范围提取原文并校验 SHA-256；每次输出带版本提示。`zui` 未指定运行版本时报告未知，`zui-build` 默认读取自带资源清单；选择 CDN 或其他构建时显式传入该运行版本。
+
+参考描述**源码快照**，不是任意发布包的 API 保证。清单独立记录源码版本、基线提交、内容摘要、未提交修改状态及内置运行版本。版本不同或未知时先核实目标包导出、类型、CSS 和行为；版本相同也不保证自定义构建、可选库和注册方式相同。保留文档中的 `workspace` / `browser` / `npm` 边界。跨库 AI 链接保持包内可用，源码出处改为固定提交的在线链接；有未提交修改时在线出处仅表示提交基线。
+
+维护者在源码仓库中运行：
+
+```sh
+pnpm ai:build
+pnpm ai:export
+pnpm ai:check-exports
+```
+
+`ai:export` 从库级文档生成两个技能的独立副本，不修改运行资源。`ai:check-exports` 只读检查内容、链接转换、提取范围、阅读器和资源版本清单同步，并已纳入 `pnpm check`。生成前要求源码 AI 参考检查通过；生成目录只存放导出产物，不手工修改。文档或公开源码、根版本、阅读器、内置资源清单变化后重新导出。快照摘要不变时保留原始捕获提交，避免无关提交引起副本变动。
+
 ## 技能一览
 
 | 技能 | 用途 | 不要用于 |
@@ -89,4 +114,4 @@ pnpm eval:skills --score /absolute/path/existing-eval-run
 - 不把不可信数据插进会求值的声明式属性（`zui-create-*`、`zui-toggle-*`、`zui-on-*`、`zui-init`）。
 - 做最小改动。未要求时不升级 ZUI、不更换引入方式、不顺带迁移无关界面。
 
-每个技能目录都包含 `SKILL.md` 和 `agents/openai.yaml`。`zui/references/` 覆盖接入、组件模式、框架生命周期和排障；`zui-build/references/` 覆盖资源分发、声明式用法和页面质量。`zui-build/assets/` 内含起始模板和打包好的 ZUI 3.0.0 浏览器资源。
+每个技能目录都包含 `SKILL.md`、`agents/openai.yaml` 和自包含的 `references/ai/`。`zui/references/` 还覆盖接入、组件模式、框架生命周期和排障；`zui-build/references/` 还覆盖资源分发、声明式用法和页面质量。`zui-build/assets/` 内含起始模板和打包好的 ZUI 3.0.0 浏览器资源。

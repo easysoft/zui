@@ -40,6 +40,16 @@ node <skill-root>/scripts/create-zui-page.mjs \
 
 Read [references/resources-and-delivery.md](references/resources-and-delivery.md) before selecting CDN, ESM, another ZUI version, multiple pages, or updating the bundled release. Prefer the bundled exact version over network retrieval for speed and reproducibility.
 
+Use the bundled [AI index](references/ai/ai.md) for library discovery and detailed source API references. Read `setup`, the relevant entry, and `constraints`, directly or with the standalone reader:
+
+```sh
+node <skill-root>/references/ai/read.mjs --lib menu --section setup
+node <skill-root>/references/ai/read.mjs --lib menu --section vanilla --entry vanilla-menu
+node <skill-root>/references/ai/read.mjs --lib menu --section constraints
+```
+
+Without `--runtime-version`, the reader uses the bundled vendor manifest and reports its relationship to the source documentation version. For CDN or another selected runtime, pass `--runtime-version <selected-exact-version>` instead. The [reference manifest](references/ai/manifest.json) records both versions independently. A version mismatch means the source entry is only a discovery aid: verify the actual bundled JS/CSS or matching release documentation before using its options, methods, classes, or examples. Equal version numbers still do not establish build/API equivalence. When evidence is unavailable, stay with verified bundled patterns; never introduce source-only Web Components or replace/upgrade the runtime to make an example work. The reader needs only Node; Markdown can also be read directly offline.
+
 If Node is unavailable, copy `assets/starter/` and `assets/vendor/zui-3.0.0/` manually, preserve the CSS-to-`icons/` layout, replace every `{{TOKEN}}`, and apply the same empty-destination safety rule.
 
 ## Turn the starter into the requested interface

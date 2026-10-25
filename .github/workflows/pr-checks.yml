@@ -46,6 +46,9 @@ jobs:
       - name: Run static and skills checks
         run: pnpm lint && pnpm typecheck && pnpm test:skills
 
+      - name: Check AI references and portable skill exports
+        run: pnpm ai:check && pnpm ai:check-exports
+
       - name: Run tests with coverage
         run: pnpm test:coverage --maxWorkers=1 --no-file-parallelism
 

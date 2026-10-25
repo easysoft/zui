@@ -19,6 +19,8 @@ pnpm test:coverage         # 运行单元/DOM 测试并生成覆盖率
 pnpm test:skills           # 验证仓库内 ZUI 技能脚本
 pnpm ai:build              # 从 lib/*/ai.md 生成根 AI 使用索引
 pnpm ai:check              # 检查 AI 文档结构、链接、覆盖与索引同步
+pnpm ai:export             # 将 AI 参考和独立阅读器导出到 skills/*/references/ai
+pnpm ai:check-exports      # 只读检查随包参考、来源与内置运行版本清单同步
 pnpm ai:read --lib menu --section vanilla # 按库/章节/条目提取 Markdown
 pnpm test:build            # 验证 ESM/UMD/CSS/source map/ZIP/外置 Cash 及 npm 包消费契约
 pnpm test:e2e              # 使用 Chromium 运行 Playwright（需先安装浏览器）
@@ -122,6 +124,7 @@ build/、dist/、publish/   构建中间产物 / 最终产物（gitignored）
 
 - 查找现有能力时先读根目录 [ai.md](ai.md)，再按需读 `lib/<name>/ai.md`；也可使用 `pnpm ai:read --lib <name> --section <section> --entry <entry>` 精确提取（entry 要求同时指定 section）。
 - 新库及公开 API、CSS 契约或接入方式变更时，按 [AI 使用参考规范](.agents/skills/zui-standards/references/ai-documentation.md) 维护库内 `ai.md`，然后运行 `pnpm ai:build` 与 `pnpm ai:check`。根 `ai.md` 为生成物，不手工编辑；结构通过不代表 API 和示例已完成运行验收。
+- `skills/zui` 与 `skills/zui-build` 随包携带独立 AI 参考。更新库级参考、公开源码、根版本、阅读器或内置资源清单后运行 `pnpm ai:export`，再用 `pnpm ai:check-exports` 验证同步；后者纳入 `pnpm check`。只读任务不生成副本。随包文档是带提交及内容摘要的源码快照，运行版本单独记录；不能据此将当前源码 API 视为已发布能力。详见 [应用侧技能说明](skills/README.md#随包-ai-参考)。
 
 - 文档源在每个 `lib/<name>/docs/lib/components/*.md`，`pnpm docs:dev` 会先跑 `scripts/docs/prepare.ts` 同步到 `docs/_`，再启 VitePress。监听阶段 `scripts/docs/watch.ts` 会增量同步。
 - 每个可视组件库须提供 `assets/preview.html` 标准预览；新建时随库交付，维护时检查缺失并随主要外观或用途变化同步更新。适用范围、无文字骨架风格、纯 HTML、120 × 120、深浅主题、文档接入与验收统一遵循[组件预览规范](.agents/skills/zui-standards/references/component-preview.md)。

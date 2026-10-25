@@ -1,0 +1,6545 @@
+{
+  "lib/base/ai.md": {
+    "integrity": "sha256-7e09d9fcd205e7251adc266c8b8b581d4da5a00a3f2b0d64493c63e0da0f8687",
+    "sections": {
+      "meta": [
+        192,
+        372
+      ],
+      "overview": [
+        372,
+        501
+      ],
+      "setup": [
+        501,
+        779
+      ],
+      "vanilla": [
+        779,
+        795
+      ],
+      "preact": [
+        795,
+        810
+      ],
+      "web-components": [
+        810,
+        833
+      ],
+      "css": [
+        833,
+        1372
+      ],
+      "css-variables": [
+        1372,
+        6956
+      ],
+      "javascript": [
+        6956,
+        6975
+      ],
+      "types": [
+        6975,
+        6989
+      ],
+      "recipes": [
+        6989,
+        7122
+      ],
+      "constraints": [
+        7122,
+        7275
+      ],
+      "references": [
+        7275,
+        8137
+      ]
+    },
+    "entries": {
+      "css/css-base-theme": [
+        841,
+        1372
+      ],
+      "css-variables/vars-base-layout": [
+        1390,
+        3897
+      ],
+      "css-variables/vars-base-colors": [
+        3897,
+        6956
+      ]
+    }
+  },
+  "lib/typography/ai.md": {
+    "integrity": "sha256-b56c64a3a3eab531e82b5f425b16f9a577d7d8edd10da02846286bb5e3facc68",
+    "sections": {
+      "meta": [
+        188,
+        371
+      ],
+      "overview": [
+        371,
+        476
+      ],
+      "setup": [
+        476,
+        700
+      ],
+      "vanilla": [
+        700,
+        716
+      ],
+      "preact": [
+        716,
+        731
+      ],
+      "web-components": [
+        731,
+        754
+      ],
+      "css": [
+        754,
+        1915
+      ],
+      "css-variables": [
+        1915,
+        2621
+      ],
+      "javascript": [
+        2621,
+        2640
+      ],
+      "types": [
+        2640,
+        2654
+      ],
+      "recipes": [
+        2654,
+        2739
+      ],
+      "constraints": [
+        2739,
+        2882
+      ],
+      "references": [
+        2882,
+        3543
+      ]
+    },
+    "entries": {
+      "css/css-typography-blocks": [
+        762,
+        1370
+      ],
+      "css/css-article": [
+        1370,
+        1738
+      ],
+      "css/css-article-block": [
+        1738,
+        1915
+      ],
+      "css-variables/vars-typography": [
+        1933,
+        2621
+      ]
+    }
+  },
+  "lib/alert/ai.md": {
+    "integrity": "sha256-1dfe15e566b43850edfa8b3b9f2d41a0eb2561f273df4059fef2058cc5080207",
+    "sections": {
+      "meta": [
+        190,
+        345
+      ],
+      "overview": [
+        345,
+        442
+      ],
+      "setup": [
+        442,
+        656
+      ],
+      "vanilla": [
+        656,
+        672
+      ],
+      "preact": [
+        672,
+        1318
+      ],
+      "web-components": [
+        1318,
+        1341
+      ],
+      "css": [
+        1341,
+        1968
+      ],
+      "css-variables": [
+        1968,
+        2215
+      ],
+      "javascript": [
+        2215,
+        2234
+      ],
+      "types": [
+        2234,
+        3116
+      ],
+      "recipes": [
+        3116,
+        3306
+      ],
+      "constraints": [
+        3306,
+        3432
+      ],
+      "references": [
+        3432,
+        3920
+      ]
+    },
+    "entries": {
+      "preact/preact-alert": [
+        683,
+        1318
+      ],
+      "css/css-alert": [
+        1349,
+        1769
+      ],
+      "css/css-alert-helpers": [
+        1769,
+        1968
+      ],
+      "css-variables/css-alert-variables": [
+        1986,
+        2215
+      ],
+      "types/types-alert-options": [
+        2244,
+        3116
+      ],
+      "recipes/recipe-alert-close": [
+        3128,
+        3306
+      ]
+    }
+  },
+  "lib/breadcrumb/ai.md": {
+    "integrity": "sha256-01941ec9cd44f972a9f2a11091b08021646683257bba35b316b0c75941b6ffaf",
+    "sections": {
+      "meta": [
+        189,
+        361
+      ],
+      "overview": [
+        361,
+        420
+      ],
+      "setup": [
+        420,
+        644
+      ],
+      "vanilla": [
+        644,
+        660
+      ],
+      "preact": [
+        660,
+        675
+      ],
+      "web-components": [
+        675,
+        698
+      ],
+      "css": [
+        698,
+        1322
+      ],
+      "css-variables": [
+        1322,
+        1774
+      ],
+      "javascript": [
+        1774,
+        1793
+      ],
+      "types": [
+        1793,
+        1807
+      ],
+      "recipes": [
+        1807,
+        1898
+      ],
+      "constraints": [
+        1898,
+        1977
+      ],
+      "references": [
+        1977,
+        2490
+      ]
+    },
+    "entries": {
+      "css/css-breadcrumb": [
+        706,
+        1141
+      ],
+      "css/css-breadcrumb-active": [
+        1141,
+        1322
+      ],
+      "css-variables/vars-breadcrumb": [
+        1340,
+        1774
+      ]
+    }
+  },
+  "lib/button/ai.md": {
+    "integrity": "sha256-e5c53cc994303430c79bdbbf264f5ab922c4ac42ce3fdc9fe9e325bfccc117bb",
+    "sections": {
+      "meta": [
+        188,
+        360
+      ],
+      "overview": [
+        360,
+        538
+      ],
+      "setup": [
+        538,
+        1043
+      ],
+      "vanilla": [
+        1043,
+        1105
+      ],
+      "preact": [
+        1105,
+        3884
+      ],
+      "web-components": [
+        3884,
+        4029
+      ],
+      "css": [
+        4029,
+        5041
+      ],
+      "css-variables": [
+        5041,
+        5533
+      ],
+      "javascript": [
+        5533,
+        5613
+      ],
+      "types": [
+        5613,
+        5959
+      ],
+      "recipes": [
+        5959,
+        6287
+      ],
+      "constraints": [
+        6287,
+        6522
+      ],
+      "references": [
+        6522,
+        7506
+      ]
+    },
+    "entries": {
+      "preact/preact-button": [
+        1116,
+        3884
+      ],
+      "css/css-btn": [
+        4037,
+        4350
+      ],
+      "css/css-button-helpers": [
+        4350,
+        5041
+      ],
+      "css-variables/css-button-variables": [
+        5059,
+        5533
+      ],
+      "types/types-button-props": [
+        5623,
+        5959
+      ],
+      "recipes/recipe-submit-and-loading": [
+        5971,
+        6287
+      ]
+    }
+  },
+  "lib/checkbox/ai.md": {
+    "integrity": "sha256-27a353e718f462d56cce4a31dcd2db2279b302087ea993c77405875ee8bef5f8",
+    "sections": {
+      "meta": [
+        191,
+        388
+      ],
+      "overview": [
+        388,
+        500
+      ],
+      "setup": [
+        500,
+        863
+      ],
+      "vanilla": [
+        863,
+        1651
+      ],
+      "preact": [
+        1651,
+        3241
+      ],
+      "web-components": [
+        3241,
+        3264
+      ],
+      "css": [
+        3264,
+        4669
+      ],
+      "css-variables": [
+        4669,
+        5130
+      ],
+      "javascript": [
+        5130,
+        5149
+      ],
+      "types": [
+        5149,
+        7440
+      ],
+      "recipes": [
+        7440,
+        7593
+      ],
+      "constraints": [
+        7593,
+        7719
+      ],
+      "references": [
+        7719,
+        8646
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-checkbox": [
+        875,
+        1651
+      ],
+      "preact/preact-checkbox": [
+        1662,
+        2484
+      ],
+      "preact/preact-check-list": [
+        2484,
+        3241
+      ],
+      "css/css-checkbox-native": [
+        3272,
+        3633
+      ],
+      "css/css-checkbox-primary": [
+        3633,
+        4093
+      ],
+      "css/css-check-list": [
+        4093,
+        4325
+      ],
+      "css/css-checkbox-state": [
+        4325,
+        4669
+      ],
+      "css-variables/vars-checkbox": [
+        4687,
+        5130
+      ],
+      "types/types-checkbox": [
+        5159,
+        6271
+      ],
+      "types/types-check-list": [
+        6271,
+        7440
+      ]
+    }
+  },
+  "lib/collapsible/ai.md": {
+    "integrity": "sha256-512d5ff704b1789b535a0608d983cb8748c66201b26e35722e258cee46378024",
+    "sections": {
+      "meta": [
+        188,
+        378
+      ],
+      "overview": [
+        378,
+        488
+      ],
+      "setup": [
+        488,
+        845
+      ],
+      "vanilla": [
+        845,
+        1729
+      ],
+      "preact": [
+        1729,
+        2571
+      ],
+      "web-components": [
+        2571,
+        2594
+      ],
+      "css": [
+        2594,
+        3578
+      ],
+      "css-variables": [
+        3578,
+        3823
+      ],
+      "javascript": [
+        3823,
+        3842
+      ],
+      "types": [
+        3842,
+        5475
+      ],
+      "recipes": [
+        5475,
+        5572
+      ],
+      "constraints": [
+        5572,
+        5678
+      ],
+      "references": [
+        5678,
+        6625
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-collapsible": [
+        857,
+        1729
+      ],
+      "preact/preact-collapsible": [
+        1740,
+        2571
+      ],
+      "css/css-details": [
+        2602,
+        2948
+      ],
+      "css/css-collapsible": [
+        2948,
+        3296
+      ],
+      "css/css-collapsible-helpers": [
+        3296,
+        3578
+      ],
+      "css-variables/vars-collapsible": [
+        3596,
+        3823
+      ],
+      "types/types-collapsible": [
+        3852,
+        5475
+      ]
+    }
+  },
+  "lib/common-list/ai.md": {
+    "integrity": "sha256-8788239555078cdd9d8a2e1ddae8d686621d5038f40f13e5a6ee9655cb4d0385",
+    "sections": {
+      "meta": [
+        190,
+        366
+      ],
+      "overview": [
+        366,
+        499
+      ],
+      "setup": [
+        499,
+        733
+      ],
+      "vanilla": [
+        733,
+        1637
+      ],
+      "preact": [
+        1637,
+        2908
+      ],
+      "web-components": [
+        2908,
+        2945
+      ],
+      "css": [
+        2945,
+        3011
+      ],
+      "css-variables": [
+        3011,
+        3033
+      ],
+      "javascript": [
+        3033,
+        3112
+      ],
+      "types": [
+        3112,
+        5386
+      ],
+      "recipes": [
+        5386,
+        5727
+      ],
+      "constraints": [
+        5727,
+        5922
+      ],
+      "references": [
+        5922,
+        6587
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-common-list": [
+        745,
+        1637
+      ],
+      "preact/preact-common-list": [
+        1648,
+        2908
+      ],
+      "types/types-common-list-props": [
+        3122,
+        4847
+      ],
+      "types/types-item": [
+        4847,
+        5386
+      ],
+      "recipes/recipe-custom-item": [
+        5398,
+        5727
+      ]
+    }
+  },
+  "lib/form/ai.md": {
+    "integrity": "sha256-fa18dc85261cf607a3a09ffdd8078149d4b35065b2daee63106862569c614db0",
+    "sections": {
+      "meta": [
+        188,
+        362
+      ],
+      "overview": [
+        362,
+        460
+      ],
+      "setup": [
+        460,
+        672
+      ],
+      "vanilla": [
+        672,
+        688
+      ],
+      "preact": [
+        688,
+        703
+      ],
+      "web-components": [
+        703,
+        726
+      ],
+      "css": [
+        726,
+        2431
+      ],
+      "css-variables": [
+        2431,
+        3202
+      ],
+      "javascript": [
+        3202,
+        3221
+      ],
+      "types": [
+        3221,
+        3235
+      ],
+      "recipes": [
+        3235,
+        3354
+      ],
+      "constraints": [
+        3354,
+        3446
+      ],
+      "references": [
+        3446,
+        4077
+      ]
+    },
+    "entries": {
+      "css/css-form": [
+        734,
+        1441
+      ],
+      "css/css-form-layout": [
+        1441,
+        1895
+      ],
+      "css/css-form-parts": [
+        1895,
+        2431
+      ],
+      "css-variables/vars-form": [
+        2449,
+        3202
+      ]
+    }
+  },
+  "lib/form-control/ai.md": {
+    "integrity": "sha256-a2a0ce98944658c6a3c7ce2f09b806641dba4cb221e1a859537f5b0c491073f3",
+    "sections": {
+      "meta": [
+        190,
+        411
+      ],
+      "overview": [
+        411,
+        580
+      ],
+      "setup": [
+        580,
+        915
+      ],
+      "vanilla": [
+        915,
+        931
+      ],
+      "preact": [
+        931,
+        5452
+      ],
+      "web-components": [
+        5452,
+        5475
+      ],
+      "css": [
+        5475,
+        6730
+      ],
+      "css-variables": [
+        6730,
+        7633
+      ],
+      "javascript": [
+        7633,
+        7652
+      ],
+      "types": [
+        7652,
+        13147
+      ],
+      "recipes": [
+        13147,
+        13295
+      ],
+      "constraints": [
+        13295,
+        13483
+      ],
+      "references": [
+        13483,
+        14438
+      ]
+    },
+    "entries": {
+      "preact/preact-form-control": [
+        942,
+        2052
+      ],
+      "preact/preact-inputs": [
+        2052,
+        3015
+      ],
+      "preact/preact-map-edit": [
+        3015,
+        4002
+      ],
+      "preact/preact-string-list-edit": [
+        4002,
+        4737
+      ],
+      "preact/preact-form-group": [
+        4737,
+        5452
+      ],
+      "css/css-form-control": [
+        5483,
+        6008
+      ],
+      "css/css-form-control-state": [
+        6008,
+        6354
+      ],
+      "css/css-edit-lists": [
+        6354,
+        6730
+      ],
+      "css-variables/vars-form-control": [
+        6748,
+        7633
+      ],
+      "types/types-form-control": [
+        7662,
+        8469
+      ],
+      "types/types-input": [
+        8469,
+        9154
+      ],
+      "types/types-textarea": [
+        9154,
+        9787
+      ],
+      "types/types-select": [
+        9787,
+        10569
+      ],
+      "types/types-map-edit": [
+        10569,
+        11598
+      ],
+      "types/types-string-list-edit": [
+        11598,
+        12198
+      ],
+      "types/types-form-group": [
+        12198,
+        13147
+      ]
+    }
+  },
+  "lib/icons/ai.md": {
+    "integrity": "sha256-4213f5bf22e3fda0669674b429770b5c266cec7862ffa6b6771eedf5c2f07375",
+    "sections": {
+      "meta": [
+        190,
+        374
+      ],
+      "overview": [
+        374,
+        499
+      ],
+      "setup": [
+        499,
+        670
+      ],
+      "vanilla": [
+        670,
+        686
+      ],
+      "preact": [
+        686,
+        701
+      ],
+      "web-components": [
+        701,
+        724
+      ],
+      "css": [
+        724,
+        7531
+      ],
+      "css-variables": [
+        7531,
+        7553
+      ],
+      "javascript": [
+        7553,
+        7572
+      ],
+      "types": [
+        7572,
+        7586
+      ],
+      "recipes": [
+        7586,
+        7679
+      ],
+      "constraints": [
+        7679,
+        7773
+      ],
+      "references": [
+        7773,
+        8273
+      ]
+    },
+    "entries": {
+      "css/css-font-icons": [
+        732,
+        7243
+      ],
+      "css/css-icon-size": [
+        7243,
+        7531
+      ]
+    }
+  },
+  "lib/input-control/ai.md": {
+    "integrity": "sha256-74410dd57e8a942683232fb276589959d836c596ab35654e37fce039e807956e",
+    "sections": {
+      "meta": [
+        189,
+        326
+      ],
+      "overview": [
+        326,
+        694
+      ],
+      "setup": [
+        694,
+        1136
+      ],
+      "vanilla": [
+        1136,
+        1152
+      ],
+      "preact": [
+        1152,
+        1167
+      ],
+      "web-components": [
+        1167,
+        1253
+      ],
+      "css": [
+        1253,
+        3954
+      ],
+      "css-variables": [
+        3954,
+        5945
+      ],
+      "javascript": [
+        5945,
+        5964
+      ],
+      "types": [
+        5964,
+        5978
+      ],
+      "recipes": [
+        5978,
+        6055
+      ],
+      "constraints": [
+        6055,
+        6473
+      ],
+      "references": [
+        6473,
+        7055
+      ]
+    },
+    "entries": {
+      "css/css-structure": [
+        1261,
+        2735
+      ],
+      "css/css-modifiers": [
+        2735,
+        3401
+      ],
+      "css/css-input-affixes": [
+        3401,
+        3954
+      ],
+      "css-variables/css-variables-config": [
+        3972,
+        5945
+      ]
+    }
+  },
+  "lib/label/ai.md": {
+    "integrity": "sha256-e7b6de1fe4f477f734da7852a2d59dffa7bfee5e53a0f356df666c178b6783ef",
+    "sections": {
+      "meta": [
+        188,
+        354
+      ],
+      "overview": [
+        354,
+        419
+      ],
+      "setup": [
+        419,
+        633
+      ],
+      "vanilla": [
+        633,
+        649
+      ],
+      "preact": [
+        649,
+        664
+      ],
+      "web-components": [
+        664,
+        687
+      ],
+      "css": [
+        687,
+        1317
+      ],
+      "css-variables": [
+        1317,
+        1837
+      ],
+      "javascript": [
+        1837,
+        1856
+      ],
+      "types": [
+        1856,
+        1870
+      ],
+      "recipes": [
+        1870,
+        1997
+      ],
+      "constraints": [
+        1997,
+        2050
+      ],
+      "references": [
+        2050,
+        2543
+      ]
+    },
+    "entries": {
+      "css/css-label": [
+        695,
+        929
+      ],
+      "css/css-label-variants": [
+        929,
+        1317
+      ],
+      "css-variables/vars-label": [
+        1335,
+        1837
+      ]
+    }
+  },
+  "lib/list/ai.md": {
+    "integrity": "sha256-33907b076147445d4673dd5bbe002f42922f2c3ed116d2cc34bd0f25ccf16a92",
+    "sections": {
+      "meta": [
+        188,
+        370
+      ],
+      "overview": [
+        370,
+        583
+      ],
+      "setup": [
+        583,
+        884
+      ],
+      "vanilla": [
+        884,
+        1789
+      ],
+      "preact": [
+        1789,
+        4946
+      ],
+      "web-components": [
+        4946,
+        4969
+      ],
+      "css": [
+        4969,
+        5919
+      ],
+      "css-variables": [
+        5919,
+        6278
+      ],
+      "javascript": [
+        6278,
+        6326
+      ],
+      "types": [
+        6326,
+        11607
+      ],
+      "recipes": [
+        11607,
+        11859
+      ],
+      "constraints": [
+        11859,
+        12095
+      ],
+      "references": [
+        12095,
+        12835
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-list": [
+        896,
+        1789
+      ],
+      "preact/preact-list": [
+        1800,
+        3731
+      ],
+      "preact/preact-nested-list": [
+        3731,
+        4542
+      ],
+      "preact/preact-listitem": [
+        4542,
+        4946
+      ],
+      "css/css-list": [
+        4977,
+        5257
+      ],
+      "css/css-list-parts": [
+        5257,
+        5919
+      ],
+      "css-variables/css-list-indent": [
+        5937,
+        6278
+      ],
+      "types/types-list-props": [
+        6336,
+        8439
+      ],
+      "types/types-nested-list-props": [
+        8439,
+        9749
+      ],
+      "types/types-listitem-props": [
+        9749,
+        10942
+      ],
+      "types/types-list-state": [
+        10942,
+        11607
+      ],
+      "recipes/recipe-limited-list": [
+        11619,
+        11859
+      ]
+    }
+  },
+  "lib/menu/ai.md": {
+    "integrity": "sha256-ac95d6958fd544520b190abd491ed2e56d18e6b2dcc743a571881149ad2719fb",
+    "sections": {
+      "meta": [
+        188,
+        355
+      ],
+      "overview": [
+        355,
+        584
+      ],
+      "setup": [
+        584,
+        1054
+      ],
+      "vanilla": [
+        1054,
+        3066
+      ],
+      "preact": [
+        3066,
+        5258
+      ],
+      "web-components": [
+        5258,
+        5327
+      ],
+      "css": [
+        5327,
+        6955
+      ],
+      "css-variables": [
+        6955,
+        7959
+      ],
+      "javascript": [
+        7959,
+        9346
+      ],
+      "types": [
+        9346,
+        13286
+      ],
+      "recipes": [
+        13286,
+        13723
+      ],
+      "constraints": [
+        13723,
+        14017
+      ],
+      "references": [
+        14017,
+        15131
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-menu": [
+        1066,
+        2454
+      ],
+      "vanilla/vanilla-search-menu": [
+        2454,
+        3066
+      ],
+      "preact/preact-menu": [
+        3077,
+        4851
+      ],
+      "preact/preact-search-menu": [
+        4851,
+        5258
+      ],
+      "css/css-menu": [
+        5335,
+        5729
+      ],
+      "css/css-menu-helpers": [
+        5729,
+        6451
+      ],
+      "css/css-search-menu": [
+        6451,
+        6955
+      ],
+      "css-variables/css-menu-variables": [
+        6973,
+        7959
+      ],
+      "javascript/javascript-menu-render": [
+        7974,
+        8529
+      ],
+      "javascript/javascript-search-menu-helpers": [
+        8529,
+        9346
+      ],
+      "types/types-menu-options": [
+        9356,
+        11926
+      ],
+      "types/types-search-menu-options": [
+        11926,
+        13286
+      ],
+      "recipes/recipe-update-menu": [
+        13298,
+        13723
+      ]
+    }
+  },
+  "lib/messager/ai.md": {
+    "integrity": "sha256-a5e224b3730a3a97d2e89a294df9073398289a6497395aa62e582aa596a68f76",
+    "sections": {
+      "meta": [
+        190,
+        330
+      ],
+      "overview": [
+        330,
+        832
+      ],
+      "setup": [
+        832,
+        1462
+      ],
+      "vanilla": [
+        1462,
+        2729
+      ],
+      "preact": [
+        2729,
+        3644
+      ],
+      "web-components": [
+        3644,
+        3730
+      ],
+      "css": [
+        3730,
+        4747
+      ],
+      "css-variables": [
+        4747,
+        4839
+      ],
+      "javascript": [
+        4839,
+        4858
+      ],
+      "types": [
+        4858,
+        6946
+      ],
+      "recipes": [
+        6946,
+        7085
+      ],
+      "constraints": [
+        7085,
+        7636
+      ],
+      "references": [
+        7636,
+        8334
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-messager": [
+        1474,
+        2729
+      ],
+      "preact/preact-messager-item": [
+        2740,
+        3644
+      ],
+      "css/css-structure": [
+        3738,
+        4747
+      ],
+      "types/types-messager-placement": [
+        5186,
+        5616
+      ],
+      "types/types-messager-events": [
+        5616,
+        6003
+      ],
+      "types/types-messager-options": [
+        6003,
+        6540
+      ],
+      "types/types-messager-item-options": [
+        6540,
+        6946
+      ]
+    }
+  },
+  "lib/progress/ai.md": {
+    "integrity": "sha256-dc5990c8f461f93b8170bb63b543ef57e8caf899e65322dd0c4f1f92fd4b6608",
+    "sections": {
+      "meta": [
+        189,
+        377
+      ],
+      "overview": [
+        377,
+        466
+      ],
+      "setup": [
+        466,
+        719
+      ],
+      "vanilla": [
+        719,
+        1472
+      ],
+      "preact": [
+        1472,
+        2100
+      ],
+      "web-components": [
+        2100,
+        2123
+      ],
+      "css": [
+        2123,
+        2800
+      ],
+      "css-variables": [
+        2800,
+        3286
+      ],
+      "javascript": [
+        3286,
+        3305
+      ],
+      "types": [
+        3305,
+        3960
+      ],
+      "recipes": [
+        3960,
+        4053
+      ],
+      "constraints": [
+        4053,
+        4141
+      ],
+      "references": [
+        4141,
+        5206
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-progress": [
+        731,
+        1472
+      ],
+      "preact/preact-progress": [
+        1483,
+        2100
+      ],
+      "css/css-progress": [
+        2131,
+        2561
+      ],
+      "css/css-progress-effects": [
+        2561,
+        2800
+      ],
+      "css-variables/vars-progress": [
+        2818,
+        3286
+      ],
+      "types/types-progress": [
+        3315,
+        3960
+      ]
+    }
+  },
+  "lib/progress-circle/ai.md": {
+    "integrity": "sha256-46f09abdcd5767ba2a402a9c3155cccb5ee72bf01b796eb235c844870ce05e28",
+    "sections": {
+      "meta": [
+        191,
+        383
+      ],
+      "overview": [
+        383,
+        456
+      ],
+      "setup": [
+        456,
+        793
+      ],
+      "vanilla": [
+        793,
+        1568
+      ],
+      "preact": [
+        1568,
+        2154
+      ],
+      "web-components": [
+        2154,
+        2177
+      ],
+      "css": [
+        2177,
+        2189
+      ],
+      "css-variables": [
+        2189,
+        2464
+      ],
+      "javascript": [
+        2464,
+        2483
+      ],
+      "types": [
+        2483,
+        3422
+      ],
+      "recipes": [
+        3422,
+        3512
+      ],
+      "constraints": [
+        3512,
+        3625
+      ],
+      "references": [
+        3625,
+        4314
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-progress-circle": [
+        805,
+        1568
+      ],
+      "preact/preact-progress-circle": [
+        1579,
+        2154
+      ],
+      "css-variables/vars-progress-circle": [
+        2207,
+        2464
+      ],
+      "types/types-progress-circle": [
+        2493,
+        3422
+      ]
+    }
+  },
+  "lib/scrollbar/ai.md": {
+    "integrity": "sha256-4cbc3aec1d74003da0e7d6ee91aa971ca57e2e001686adf3a63eef80b653111a",
+    "sections": {
+      "meta": [
+        189,
+        342
+      ],
+      "overview": [
+        342,
+        908
+      ],
+      "setup": [
+        908,
+        1549
+      ],
+      "vanilla": [
+        1549,
+        1596
+      ],
+      "preact": [
+        1596,
+        2902
+      ],
+      "web-components": [
+        2902,
+        2988
+      ],
+      "css": [
+        2988,
+        5089
+      ],
+      "css-variables": [
+        5089,
+        7281
+      ],
+      "javascript": [
+        7281,
+        7300
+      ],
+      "types": [
+        7300,
+        9187
+      ],
+      "recipes": [
+        9187,
+        9326
+      ],
+      "constraints": [
+        9326,
+        9930
+      ],
+      "references": [
+        9930,
+        10632
+      ]
+    },
+    "entries": {
+      "preact/preact-scrollbar": [
+        1607,
+        2902
+      ],
+      "css/css-structure": [
+        2996,
+        4162
+      ],
+      "css/css-modifiers": [
+        4162,
+        4632
+      ],
+      "css/css-native-scrollbar": [
+        4632,
+        5089
+      ],
+      "css-variables/css-variables-config": [
+        5107,
+        7281
+      ],
+      "types/types-on-scroll-listener": [
+        7628,
+        8014
+      ],
+      "types/types-scrollbar-props": [
+        8014,
+        8771
+      ],
+      "types/types-scrollbar-state": [
+        8771,
+        9187
+      ]
+    }
+  },
+  "lib/time-span/ai.md": {
+    "integrity": "sha256-7777f55791ffcd1d209bec33fbed4cbe7c3a4368b89683c1eccc53690625b471",
+    "sections": {
+      "meta": [
+        190,
+        357
+      ],
+      "overview": [
+        357,
+        789
+      ],
+      "setup": [
+        789,
+        1424
+      ],
+      "vanilla": [
+        1424,
+        3264
+      ],
+      "preact": [
+        3264,
+        5209
+      ],
+      "web-components": [
+        5209,
+        5295
+      ],
+      "css": [
+        5295,
+        5541
+      ],
+      "css-variables": [
+        5541,
+        5633
+      ],
+      "javascript": [
+        5633,
+        6306
+      ],
+      "types": [
+        6306,
+        7976
+      ],
+      "recipes": [
+        7976,
+        8115
+      ],
+      "constraints": [
+        8115,
+        8581
+      ],
+      "references": [
+        8581,
+        9283
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-time-span": [
+        1436,
+        2361
+      ],
+      "vanilla/vanilla-time-ago": [
+        2361,
+        3264
+      ],
+      "preact/preact-time-span": [
+        3275,
+        4141
+      ],
+      "preact/preact-time-ago": [
+        4141,
+        5209
+      ],
+      "css/css-time-markers": [
+        5303,
+        5541
+      ],
+      "javascript/javascript-timeago": [
+        5648,
+        6306
+      ],
+      "types/types-time-span-props": [
+        6634,
+        7102
+      ],
+      "types/types-time-ago-props": [
+        7102,
+        7620
+      ],
+      "types/types-time-ago-state": [
+        7620,
+        7976
+      ]
+    }
+  },
+  "lib/core/ai.md": {
+    "integrity": "sha256-b7fb85e551c2841641d08c5e563a881fd7c4bcd929dd35609ad652353de6cefd",
+    "sections": {
+      "meta": [
+        193,
+        452
+      ],
+      "overview": [
+        452,
+        595
+      ],
+      "setup": [
+        595,
+        909
+      ],
+      "vanilla": [
+        909,
+        5209
+      ],
+      "preact": [
+        5209,
+        9400
+      ],
+      "web-components": [
+        9400,
+        11672
+      ],
+      "css": [
+        11672,
+        11768
+      ],
+      "css-variables": [
+        11768,
+        11790
+      ],
+      "javascript": [
+        11790,
+        36801
+      ],
+      "types": [
+        36801,
+        61180
+      ],
+      "recipes": [
+        61180,
+        61542
+      ],
+      "constraints": [
+        61542,
+        61902
+      ],
+      "references": [
+        61902,
+        62772
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-component": [
+        921,
+        3170
+      ],
+      "vanilla/vanilla-component-from-react": [
+        3170,
+        3856
+      ],
+      "vanilla/vanilla-custom": [
+        3856,
+        4500
+      ],
+      "vanilla/vanilla-sticky": [
+        4500,
+        5209
+      ],
+      "preact/preact-helement": [
+        5220,
+        6194
+      ],
+      "preact/preact-content": [
+        6194,
+        8001
+      ],
+      "preact/preact-bridge": [
+        8001,
+        9400
+      ],
+      "web-components/web-components-factory": [
+        9419,
+        11672
+      ],
+      "javascript/javascript-cash": [
+        11805,
+        12560
+      ],
+      "javascript/javascript-creator": [
+        12560,
+        13669
+      ],
+      "javascript/javascript-signals": [
+        13669,
+        14620
+      ],
+      "javascript/javascript-query": [
+        14620,
+        16362
+      ],
+      "javascript/javascript-ajax": [
+        16362,
+        17727
+      ],
+      "javascript/javascript-classes": [
+        17727,
+        18185
+      ],
+      "javascript/javascript-data": [
+        18185,
+        19009
+      ],
+      "javascript/javascript-raw-data": [
+        19009,
+        19650
+      ],
+      "javascript/javascript-z": [
+        19650,
+        20244
+      ],
+      "javascript/javascript-merge-props": [
+        20244,
+        20906
+      ],
+      "javascript/javascript-size": [
+        20906,
+        21509
+      ],
+      "javascript/javascript-is-diff": [
+        21509,
+        21900
+      ],
+      "javascript/javascript-gid": [
+        21900,
+        22211
+      ],
+      "javascript/javascript-delay": [
+        22211,
+        22618
+      ],
+      "javascript/javascript-debounce": [
+        22618,
+        23173
+      ],
+      "javascript/javascript-wait-until": [
+        23173,
+        23843
+      ],
+      "javascript/javascript-try-exec": [
+        23843,
+        24333
+      ],
+      "javascript/javascript-copy": [
+        24333,
+        24854
+      ],
+      "javascript/javascript-read-file": [
+        24854,
+        25263
+      ],
+      "javascript/javascript-select-file": [
+        25263,
+        25873
+      ],
+      "javascript/javascript-download-file": [
+        25873,
+        26380
+      ],
+      "javascript/javascript-scroll": [
+        26380,
+        26825
+      ],
+      "javascript/javascript-hotkeys": [
+        26825,
+        27756
+      ],
+      "javascript/javascript-fullscreen": [
+        27756,
+        28509
+      ],
+      "javascript/javascript-commands": [
+        28509,
+        29702
+      ],
+      "javascript/javascript-global-event": [
+        29702,
+        30219
+      ],
+      "javascript/javascript-run-js": [
+        30219,
+        30696
+      ],
+      "javascript/javascript-computed": [
+        30696,
+        31225
+      ],
+      "javascript/javascript-bus": [
+        31225,
+        31844
+      ],
+      "javascript/javascript-loader": [
+        31844,
+        33375
+      ],
+      "javascript/javascript-dom": [
+        33375,
+        34471
+      ],
+      "javascript/javascript-form-i18n-registry": [
+        34471,
+        36801
+      ],
+      "types/types-component-options": [
+        36811,
+        37980
+      ],
+      "types/types-helement-props": [
+        37980,
+        38963
+      ],
+      "types/types-ajax": [
+        38963,
+        41151
+      ],
+      "types/types-content": [
+        41151,
+        44395
+      ],
+      "types/types-helper-options": [
+        44395,
+        46202
+      ],
+      "types/types-command-options": [
+        46202,
+        47927
+      ],
+      "types/types-loading-options": [
+        47927,
+        49470
+      ],
+      "types/types-interaction-options": [
+        49470,
+        52122
+      ],
+      "types/types-component-events": [
+        52122,
+        55463
+      ],
+      "types/types-web-component-config": [
+        55463,
+        59407
+      ],
+      "types/types-query-controllers": [
+        59407,
+        61180
+      ]
+    }
+  },
+  "lib/dnd/ai.md": {
+    "integrity": "sha256-20406e55904f8e400918d5a07ae181067941ab61502dd8b7593e132e17283f6d",
+    "sections": {
+      "meta": [
+        193,
+        395
+      ],
+      "overview": [
+        395,
+        501
+      ],
+      "setup": [
+        501,
+        705
+      ],
+      "vanilla": [
+        705,
+        5423
+      ],
+      "preact": [
+        5423,
+        5438
+      ],
+      "web-components": [
+        5438,
+        5461
+      ],
+      "css": [
+        5461,
+        6286
+      ],
+      "css-variables": [
+        6286,
+        6783
+      ],
+      "javascript": [
+        6783,
+        6871
+      ],
+      "types": [
+        6871,
+        13420
+      ],
+      "recipes": [
+        13420,
+        13576
+      ],
+      "constraints": [
+        13576,
+        13673
+      ],
+      "references": [
+        13673,
+        13908
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-draggable": [
+        717,
+        2143
+      ],
+      "vanilla/vanilla-moveable": [
+        2143,
+        4007
+      ],
+      "vanilla/vanilla-resizable": [
+        4007,
+        5423
+      ],
+      "css/css-resizable": [
+        5469,
+        5941
+      ],
+      "css/css-dnd-states": [
+        5941,
+        6286
+      ],
+      "css-variables/css-variables-resizable": [
+        6304,
+        6783
+      ],
+      "types/types-draggable": [
+        6881,
+        8706
+      ],
+      "types/types-moveable": [
+        8706,
+        11565
+      ],
+      "types/types-resizable": [
+        11565,
+        13420
+      ]
+    }
+  },
+  "lib/event-bus/ai.md": {
+    "integrity": "sha256-91dd677ba68ee53e1cc692d78bf1630546d07f5bdd61dcde74f62c1987179c74",
+    "sections": {
+      "meta": [
+        195,
+        380
+      ],
+      "overview": [
+        380,
+        576
+      ],
+      "setup": [
+        576,
+        1327
+      ],
+      "vanilla": [
+        1327,
+        1343
+      ],
+      "preact": [
+        1343,
+        1358
+      ],
+      "web-components": [
+        1358,
+        1381
+      ],
+      "css": [
+        1381,
+        1393
+      ],
+      "css-variables": [
+        1393,
+        1415
+      ],
+      "javascript": [
+        1415,
+        7562
+      ],
+      "types": [
+        7562,
+        8139
+      ],
+      "recipes": [
+        8139,
+        8742
+      ],
+      "constraints": [
+        8742,
+        9154
+      ],
+      "references": [
+        9154,
+        9938
+      ]
+    },
+    "entries": {
+      "javascript/javascript-event-emitter": [
+        1430,
+        2983
+      ],
+      "javascript/javascript-event-bus": [
+        2983,
+        5022
+      ],
+      "javascript/javascript-event-hub": [
+        5022,
+        6629
+      ],
+      "javascript/javascript-native-events": [
+        6629,
+        7562
+      ],
+      "types/types-custom-events": [
+        7572,
+        8139
+      ],
+      "recipes/recipe-owned-target": [
+        8151,
+        8742
+      ]
+    }
+  },
+  "lib/form-helper/ai.md": {
+    "integrity": "sha256-e711136c3e35835ef6f6679fd060ef7865396ba5cc9e3a9964fddafbb862cdb5",
+    "sections": {
+      "meta": [
+        190,
+        383
+      ],
+      "overview": [
+        383,
+        485
+      ],
+      "setup": [
+        485,
+        656
+      ],
+      "vanilla": [
+        656,
+        672
+      ],
+      "preact": [
+        672,
+        687
+      ],
+      "web-components": [
+        687,
+        710
+      ],
+      "css": [
+        710,
+        722
+      ],
+      "css-variables": [
+        722,
+        744
+      ],
+      "javascript": [
+        744,
+        2579
+      ],
+      "types": [
+        2579,
+        3728
+      ],
+      "recipes": [
+        3728,
+        3849
+      ],
+      "constraints": [
+        3849,
+        3983
+      ],
+      "references": [
+        3983,
+        4503
+      ]
+    },
+    "entries": {
+      "javascript/javascript-form-helper": [
+        759,
+        2579
+      ],
+      "types/types-form-helper": [
+        2589,
+        3728
+      ]
+    }
+  },
+  "lib/sortable/ai.md": {
+    "integrity": "sha256-bdc9c00ce13f06b193bb5849f43b9ecbf0b159acace9f4faf1078007343aa023",
+    "sections": {
+      "meta": [
+        190,
+        408
+      ],
+      "overview": [
+        408,
+        521
+      ],
+      "setup": [
+        521,
+        814
+      ],
+      "vanilla": [
+        814,
+        3136
+      ],
+      "preact": [
+        3136,
+        4257
+      ],
+      "web-components": [
+        4257,
+        4280
+      ],
+      "css": [
+        4280,
+        5008
+      ],
+      "css-variables": [
+        5008,
+        5072
+      ],
+      "javascript": [
+        5072,
+        5133
+      ],
+      "types": [
+        5133,
+        7595
+      ],
+      "recipes": [
+        7595,
+        7697
+      ],
+      "constraints": [
+        7697,
+        7797
+      ],
+      "references": [
+        7797,
+        8176
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-sortable": [
+        826,
+        2347
+      ],
+      "vanilla/vanilla-sortable-list-tree": [
+        2347,
+        3136
+      ],
+      "preact/preact-sortable-views": [
+        3147,
+        4257
+      ],
+      "css/css-sortable-list": [
+        4288,
+        4725
+      ],
+      "css/css-sortable-shadow": [
+        4725,
+        5008
+      ],
+      "types/types-sortable-options": [
+        5143,
+        6317
+      ],
+      "types/types-sortable-views": [
+        6317,
+        7595
+      ]
+    }
+  },
+  "lib/split/ai.md": {
+    "integrity": "sha256-ce5a60958a95959e11e50831deaad588db3afed9c8a79aefbc5689f58965fc42",
+    "sections": {
+      "meta": [
+        197,
+        363
+      ],
+      "overview": [
+        363,
+        449
+      ],
+      "setup": [
+        449,
+        636
+      ],
+      "vanilla": [
+        636,
+        2595
+      ],
+      "preact": [
+        2595,
+        2610
+      ],
+      "web-components": [
+        2610,
+        2633
+      ],
+      "css": [
+        2633,
+        3249
+      ],
+      "css-variables": [
+        3249,
+        3672
+      ],
+      "javascript": [
+        3672,
+        3935
+      ],
+      "types": [
+        3935,
+        4484
+      ],
+      "recipes": [
+        4484,
+        4619
+      ],
+      "constraints": [
+        4619,
+        4720
+      ],
+      "references": [
+        4720,
+        5322
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-split": [
+        648,
+        2595
+      ],
+      "css/css-split": [
+        2641,
+        2953
+      ],
+      "css/css-split-state": [
+        2953,
+        3249
+      ],
+      "css-variables/variables-split": [
+        3267,
+        3672
+      ],
+      "javascript/javascript-splitjs": [
+        3687,
+        3935
+      ],
+      "types/types-split-options": [
+        3945,
+        4484
+      ]
+    }
+  },
+  "lib/store/ai.md": {
+    "integrity": "sha256-bda85a92e8a97648ee323034580645b616ff87daf540e2394984d5e67c482d5c",
+    "sections": {
+      "meta": [
+        190,
+        387
+      ],
+      "overview": [
+        387,
+        489
+      ],
+      "setup": [
+        489,
+        647
+      ],
+      "vanilla": [
+        647,
+        663
+      ],
+      "preact": [
+        663,
+        678
+      ],
+      "web-components": [
+        678,
+        701
+      ],
+      "css": [
+        701,
+        713
+      ],
+      "css-variables": [
+        713,
+        735
+      ],
+      "javascript": [
+        735,
+        2516
+      ],
+      "types": [
+        2516,
+        2686
+      ],
+      "recipes": [
+        2686,
+        2802
+      ],
+      "constraints": [
+        2802,
+        2930
+      ],
+      "references": [
+        2930,
+        3287
+      ]
+    },
+    "entries": {
+      "javascript/javascript-store": [
+        750,
+        1997
+      ],
+      "javascript/javascript-default-store": [
+        1997,
+        2516
+      ],
+      "types/types-store-type": [
+        2526,
+        2686
+      ]
+    }
+  },
+  "lib/avatar/ai.md": {
+    "integrity": "sha256-f414e965e1aa3ae5d58ec946de76c72f1791e3eedd9b68eab17e0944d3cb78d0",
+    "sections": {
+      "meta": [
+        188,
+        377
+      ],
+      "overview": [
+        377,
+        473
+      ],
+      "setup": [
+        473,
+        823
+      ],
+      "vanilla": [
+        823,
+        1561
+      ],
+      "preact": [
+        1561,
+        2175
+      ],
+      "web-components": [
+        2175,
+        2198
+      ],
+      "css": [
+        2198,
+        3081
+      ],
+      "css-variables": [
+        3081,
+        3465
+      ],
+      "javascript": [
+        3465,
+        3484
+      ],
+      "types": [
+        3484,
+        4869
+      ],
+      "recipes": [
+        4869,
+        4961
+      ],
+      "constraints": [
+        4961,
+        5082
+      ],
+      "references": [
+        5082,
+        6131
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-avatar": [
+        835,
+        1561
+      ],
+      "preact/preact-avatar": [
+        1572,
+        2175
+      ],
+      "css/css-avatar": [
+        2206,
+        2552
+      ],
+      "css/css-avatar-size": [
+        2552,
+        2789
+      ],
+      "css/css-avatar-generated": [
+        2789,
+        3081
+      ],
+      "css-variables/vars-avatar": [
+        3099,
+        3465
+      ],
+      "types/types-avatar": [
+        3494,
+        4869
+      ]
+    }
+  },
+  "lib/avatar-group/ai.md": {
+    "integrity": "sha256-6dff8b1dcedd6969aff2e618bb3ee5c31c96b0717b89f64aa6216161975fc7f2",
+    "sections": {
+      "meta": [
+        189,
+        364
+      ],
+      "overview": [
+        364,
+        453
+      ],
+      "setup": [
+        453,
+        642
+      ],
+      "vanilla": [
+        642,
+        658
+      ],
+      "preact": [
+        658,
+        673
+      ],
+      "web-components": [
+        673,
+        696
+      ],
+      "css": [
+        696,
+        1412
+      ],
+      "css-variables": [
+        1412,
+        1780
+      ],
+      "javascript": [
+        1780,
+        1799
+      ],
+      "types": [
+        1799,
+        1813
+      ],
+      "recipes": [
+        1813,
+        1877
+      ],
+      "constraints": [
+        1877,
+        1942
+      ],
+      "references": [
+        1942,
+        2463
+      ]
+    },
+    "entries": {
+      "css/css-avatar-group": [
+        704,
+        1114
+      ],
+      "css/css-avatar-group-size": [
+        1114,
+        1412
+      ],
+      "css-variables/vars-avatar-group": [
+        1430,
+        1780
+      ]
+    }
+  },
+  "lib/btn-group/ai.md": {
+    "integrity": "sha256-3f9382dd6ae48781a6556547078ce699a7ea31048dce2fcede72371a69942f41",
+    "sections": {
+      "meta": [
+        189,
+        363
+      ],
+      "overview": [
+        363,
+        474
+      ],
+      "setup": [
+        474,
+        815
+      ],
+      "vanilla": [
+        815,
+        1588
+      ],
+      "preact": [
+        1588,
+        2358
+      ],
+      "web-components": [
+        2358,
+        2381
+      ],
+      "css": [
+        2381,
+        2782
+      ],
+      "css-variables": [
+        2782,
+        2804
+      ],
+      "javascript": [
+        2804,
+        2823
+      ],
+      "types": [
+        2823,
+        3685
+      ],
+      "recipes": [
+        3685,
+        3780
+      ],
+      "constraints": [
+        3780,
+        3880
+      ],
+      "references": [
+        3880,
+        4679
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-btn-group": [
+        827,
+        1588
+      ],
+      "preact/preact-btn-group": [
+        1599,
+        2358
+      ],
+      "css/css-btn-group": [
+        2389,
+        2782
+      ],
+      "types/types-btn-group": [
+        2833,
+        3685
+      ]
+    }
+  },
+  "lib/calendar/ai.md": {
+    "integrity": "sha256-800c548454ae258703237b71204595ccb2ffb85e9d7e0b4171d1cb03bf7b4347",
+    "sections": {
+      "meta": [
+        188,
+        334
+      ],
+      "overview": [
+        334,
+        947
+      ],
+      "setup": [
+        947,
+        1577
+      ],
+      "vanilla": [
+        1577,
+        2542
+      ],
+      "preact": [
+        2542,
+        4626
+      ],
+      "web-components": [
+        4626,
+        4712
+      ],
+      "css": [
+        4712,
+        8154
+      ],
+      "css-variables": [
+        8154,
+        8246
+      ],
+      "javascript": [
+        8246,
+        9490
+      ],
+      "types": [
+        9490,
+        14894
+      ],
+      "recipes": [
+        14894,
+        15033
+      ],
+      "constraints": [
+        15033,
+        15687
+      ],
+      "references": [
+        15687,
+        16385
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-calendar": [
+        1589,
+        2542
+      ],
+      "preact/preact-calendar": [
+        2553,
+        4626
+      ],
+      "css/css-structure": [
+        4720,
+        7458
+      ],
+      "css/css-modifiers": [
+        7458,
+        8154
+      ],
+      "javascript/javascript-calendar-helpers": [
+        8261,
+        9490
+      ],
+      "types/types-calendar-event": [
+        9818,
+        10737
+      ],
+      "types/types-calendar-view-mode": [
+        10737,
+        11100
+      ],
+      "types/types-calendar-category": [
+        11100,
+        11903
+      ],
+      "types/types-calendar-props": [
+        11903,
+        13481
+      ],
+      "types/types-calendar-state": [
+        13481,
+        14041
+      ],
+      "types/types-calendar-month-view-props": [
+        14041,
+        14894
+      ]
+    }
+  },
+  "lib/color-picker/ai.md": {
+    "integrity": "sha256-400bf4142de42049cac79c989084120a647c63654702fe97b82989fdaef7b0f5",
+    "sections": {
+      "meta": [
+        191,
+        361
+      ],
+      "overview": [
+        361,
+        995
+      ],
+      "setup": [
+        995,
+        1660
+      ],
+      "vanilla": [
+        1660,
+        3604
+      ],
+      "preact": [
+        3604,
+        6361
+      ],
+      "web-components": [
+        6361,
+        6447
+      ],
+      "css": [
+        6447,
+        8760
+      ],
+      "css-variables": [
+        8760,
+        9391
+      ],
+      "javascript": [
+        9391,
+        9410
+      ],
+      "types": [
+        9410,
+        11093
+      ],
+      "recipes": [
+        11093,
+        11232
+      ],
+      "constraints": [
+        11232,
+        11910
+      ],
+      "references": [
+        11910,
+        12624
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-color-picker": [
+        1672,
+        2651
+      ],
+      "vanilla/vanilla-color-input": [
+        2651,
+        3604
+      ],
+      "preact/preact-color-picker": [
+        3615,
+        5254
+      ],
+      "preact/preact-color-input": [
+        5254,
+        6361
+      ],
+      "css/css-structure": [
+        6455,
+        8167
+      ],
+      "css/css-modifiers": [
+        8167,
+        8760
+      ],
+      "css-variables/css-variables-config": [
+        8778,
+        9391
+      ],
+      "types/types-color-picker-options": [
+        9738,
+        10437
+      ],
+      "types/types-color-input-options": [
+        10437,
+        11093
+      ]
+    }
+  },
+  "lib/copy-btn/ai.md": {
+    "integrity": "sha256-86a05d630d60ba8d48fff5d401e7c194a63ba0a50318ff5b11c03f489ecff514",
+    "sections": {
+      "meta": [
+        190,
+        336
+      ],
+      "overview": [
+        336,
+        771
+      ],
+      "setup": [
+        771,
+        1401
+      ],
+      "vanilla": [
+        1401,
+        2683
+      ],
+      "preact": [
+        2683,
+        3832
+      ],
+      "web-components": [
+        3832,
+        3918
+      ],
+      "css": [
+        3918,
+        4203
+      ],
+      "css-variables": [
+        4203,
+        4295
+      ],
+      "javascript": [
+        4295,
+        4314
+      ],
+      "types": [
+        4314,
+        6190
+      ],
+      "recipes": [
+        6190,
+        6329
+      ],
+      "constraints": [
+        6329,
+        6806
+      ],
+      "references": [
+        6806,
+        7504
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-copy-btn": [
+        1413,
+        2683
+      ],
+      "preact/preact-copy-btn": [
+        2694,
+        3832
+      ],
+      "css/css-copy-state": [
+        3926,
+        4203
+      ],
+      "types/types-copy-btn-options": [
+        4642,
+        5829
+      ],
+      "types/types-copy-btn-props": [
+        5829,
+        6190
+      ]
+    }
+  },
+  "lib/datetime-picker/ai.md": {
+    "integrity": "sha256-ef1103b32e8d994bb10a0dcef14b97b7e9b2a1fe34ecbe132f0f6864db51c3a2",
+    "sections": {
+      "meta": [
+        193,
+        392
+      ],
+      "overview": [
+        392,
+        1211
+      ],
+      "setup": [
+        1211,
+        1876
+      ],
+      "vanilla": [
+        1876,
+        4821
+      ],
+      "preact": [
+        4821,
+        11512
+      ],
+      "web-components": [
+        11512,
+        11598
+      ],
+      "css": [
+        11598,
+        14302
+      ],
+      "css-variables": [
+        14302,
+        14751
+      ],
+      "javascript": [
+        14751,
+        15661
+      ],
+      "types": [
+        15661,
+        21380
+      ],
+      "recipes": [
+        21380,
+        21519
+      ],
+      "constraints": [
+        21519,
+        22377
+      ],
+      "references": [
+        22377,
+        23097
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-time-picker": [
+        1888,
+        2847
+      ],
+      "vanilla/vanilla-date-picker": [
+        2847,
+        3811
+      ],
+      "vanilla/vanilla-datetime-picker": [
+        3811,
+        4821
+      ],
+      "preact/preact-time-picker": [
+        4832,
+        6549
+      ],
+      "preact/preact-time-picker-menu": [
+        6549,
+        7540
+      ],
+      "preact/preact-date-picker": [
+        7540,
+        9170
+      ],
+      "preact/preact-date-picker-menu": [
+        9170,
+        10148
+      ],
+      "preact/preact-datetime-picker": [
+        10148,
+        11512
+      ],
+      "css/css-structure": [
+        11606,
+        13427
+      ],
+      "css/css-modifiers": [
+        13427,
+        14302
+      ],
+      "css-variables/css-variables-config": [
+        14320,
+        14751
+      ],
+      "javascript/javascript-date-helpers": [
+        14766,
+        15661
+      ],
+      "types/types-date-getter": [
+        15989,
+        16337
+      ],
+      "types/types-date-setting": [
+        16337,
+        16697
+      ],
+      "types/types-time-picker-options": [
+        16697,
+        17276
+      ],
+      "types/types-time-picker-menu-props": [
+        17276,
+        17843
+      ],
+      "types/types-date-picker-options": [
+        17843,
+        18940
+      ],
+      "types/types-date-picker-menu-props": [
+        18940,
+        19730
+      ],
+      "types/types-date-picker-menu-state": [
+        19730,
+        20199
+      ],
+      "types/types-datetime-picker-options": [
+        20199,
+        20637
+      ],
+      "types/types-mini-calendar-props": [
+        20637,
+        21380
+      ]
+    }
+  },
+  "lib/file-list/ai.md": {
+    "integrity": "sha256-5db84b5cdee2fe0183e15f190ba60c4aebc39293b35eab62e42ce7c252fabcce",
+    "sections": {
+      "meta": [
+        190,
+        349
+      ],
+      "overview": [
+        349,
+        451
+      ],
+      "setup": [
+        451,
+        656
+      ],
+      "vanilla": [
+        656,
+        1251
+      ],
+      "preact": [
+        1251,
+        1928
+      ],
+      "web-components": [
+        1928,
+        1951
+      ],
+      "css": [
+        1951,
+        2423
+      ],
+      "css-variables": [
+        2423,
+        2727
+      ],
+      "javascript": [
+        2727,
+        3702
+      ],
+      "types": [
+        3702,
+        5616
+      ],
+      "recipes": [
+        5616,
+        5855
+      ],
+      "constraints": [
+        5855,
+        6014
+      ],
+      "references": [
+        6014,
+        6645
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-file-list": [
+        668,
+        1251
+      ],
+      "preact/preact-file-list": [
+        1262,
+        1928
+      ],
+      "css/css-file-list": [
+        1959,
+        2423
+      ],
+      "css-variables/css-file-list-vars": [
+        2441,
+        2727
+      ],
+      "javascript/javascript-file-icons": [
+        2742,
+        3702
+      ],
+      "types/types-file-list-props": [
+        3712,
+        5150
+      ],
+      "types/types-file-info": [
+        5150,
+        5616
+      ],
+      "recipes/recipe-file-grid": [
+        5628,
+        5855
+      ]
+    }
+  },
+  "lib/file-selector/ai.md": {
+    "integrity": "sha256-b32860b06c737b3dd9116c81e81f5d3e1cbf5d145b27b1ff1a14e0c0629141a3",
+    "sections": {
+      "meta": [
+        191,
+        372
+      ],
+      "overview": [
+        372,
+        1076
+      ],
+      "setup": [
+        1076,
+        1731
+      ],
+      "vanilla": [
+        1731,
+        3779
+      ],
+      "preact": [
+        3779,
+        8015
+      ],
+      "web-components": [
+        8015,
+        8101
+      ],
+      "css": [
+        8101,
+        12128
+      ],
+      "css-variables": [
+        12128,
+        12747
+      ],
+      "javascript": [
+        12747,
+        12766
+      ],
+      "types": [
+        12766,
+        17867
+      ],
+      "recipes": [
+        17867,
+        18006
+      ],
+      "constraints": [
+        18006,
+        18749
+      ],
+      "references": [
+        18749,
+        19467
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-file-selector": [
+        1743,
+        2756
+      ],
+      "vanilla/vanilla-image-selector": [
+        2756,
+        3779
+      ],
+      "preact/preact-file-selector": [
+        3790,
+        6799
+      ],
+      "preact/preact-image-selector": [
+        6799,
+        8015
+      ],
+      "css/css-structure": [
+        8109,
+        11355
+      ],
+      "css/css-modifiers": [
+        11355,
+        12128
+      ],
+      "css-variables/css-variables-config": [
+        12146,
+        12747
+      ],
+      "types/types-file-size": [
+        13094,
+        13442
+      ],
+      "types/types-file-info": [
+        13442,
+        13861
+      ],
+      "types/types-static-file-info": [
+        13861,
+        14288
+      ],
+      "types/types-file-selector-mode": [
+        14288,
+        14657
+      ],
+      "types/types-file-selector-props": [
+        14657,
+        16954
+      ],
+      "types/types-file-selector-state": [
+        16954,
+        17494
+      ],
+      "types/types-image-selector-props": [
+        17494,
+        17867
+      ]
+    }
+  },
+  "lib/form-builder/ai.md": {
+    "integrity": "sha256-593495cd93483631a1b245e438e0557378c654cda5ba3ecb11e8473b89b8f497",
+    "sections": {
+      "meta": [
+        191,
+        353
+      ],
+      "overview": [
+        353,
+        1039
+      ],
+      "setup": [
+        1039,
+        1689
+      ],
+      "vanilla": [
+        1689,
+        2729
+      ],
+      "preact": [
+        2729,
+        5419
+      ],
+      "web-components": [
+        5419,
+        5505
+      ],
+      "css": [
+        5505,
+        7845
+      ],
+      "css-variables": [
+        7845,
+        7937
+      ],
+      "javascript": [
+        7937,
+        7956
+      ],
+      "types": [
+        7956,
+        23026
+      ],
+      "recipes": [
+        23026,
+        23165
+      ],
+      "constraints": [
+        23165,
+        23890
+      ],
+      "references": [
+        23890,
+        24599
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-form-builder": [
+        1701,
+        2729
+      ],
+      "preact/preact-form-builder": [
+        2740,
+        5419
+      ],
+      "css/css-structure": [
+        5513,
+        7170
+      ],
+      "css/css-modifiers": [
+        7170,
+        7845
+      ],
+      "types/types-form-widget-type": [
+        8284,
+        8660
+      ],
+      "types/types-form-widget-value-change-handler": [
+        8660,
+        9094
+      ],
+      "types/types-form-widget-setting": [
+        9094,
+        9545
+      ],
+      "types/types-form-widget-setting-definition": [
+        9545,
+        10080
+      ],
+      "types/types-form-widget-map": [
+        10080,
+        10453
+      ],
+      "types/types-form-builder-options": [
+        10453,
+        11947
+      ],
+      "types/types-jsonschema-type": [
+        11947,
+        12368
+      ],
+      "types/types-form-validate-rule": [
+        12368,
+        12797
+      ],
+      "types/types-form-extra": [
+        12797,
+        13123
+      ],
+      "types/types-form-grid-width": [
+        13123,
+        13514
+      ],
+      "types/types-form-display-type": [
+        13514,
+        13871
+      ],
+      "types/types-form-display-mode": [
+        13871,
+        14219
+      ],
+      "types/types-form-validate-rule-pattern": [
+        14219,
+        14635
+      ],
+      "types/types-base-schema": [
+        14635,
+        16210
+      ],
+      "types/types-string-schema": [
+        16210,
+        16858
+      ],
+      "types/types-number-schema": [
+        16858,
+        17295
+      ],
+      "types/types-integer-schema": [
+        17295,
+        17738
+      ],
+      "types/types-boolean-schema": [
+        17738,
+        18112
+      ],
+      "types/types-object-schema": [
+        18112,
+        18803
+      ],
+      "types/types-map-schema": [
+        18803,
+        19291
+      ],
+      "types/types-array-schema": [
+        19291,
+        19854
+      ],
+      "types/types-jsonschema": [
+        19854,
+        20258
+      ],
+      "types/types-jsonschema-types": [
+        20258,
+        20769
+      ],
+      "types/types-jsonschema-data-type": [
+        20769,
+        21178
+      ],
+      "types/types-expression-or-value": [
+        21178,
+        21541
+      ],
+      "types/types-form-layout": [
+        21541,
+        21975
+      ],
+      "types/types-form-schema": [
+        21975,
+        22515
+      ],
+      "types/types-field-schema-info": [
+        22515,
+        23026
+      ]
+    }
+  },
+  "lib/input-group/ai.md": {
+    "integrity": "sha256-4ab65ad1d3613e64d23f504ec638778aee790c34f309a1180687c1f4f620657c",
+    "sections": {
+      "meta": [
+        189,
+        374
+      ],
+      "overview": [
+        374,
+        450
+      ],
+      "setup": [
+        450,
+        676
+      ],
+      "vanilla": [
+        676,
+        692
+      ],
+      "preact": [
+        692,
+        707
+      ],
+      "web-components": [
+        707,
+        730
+      ],
+      "css": [
+        730,
+        1588
+      ],
+      "css-variables": [
+        1588,
+        1931
+      ],
+      "javascript": [
+        1931,
+        1950
+      ],
+      "types": [
+        1950,
+        1964
+      ],
+      "recipes": [
+        1964,
+        2063
+      ],
+      "constraints": [
+        2063,
+        2176
+      ],
+      "references": [
+        2176,
+        2842
+      ]
+    },
+    "entries": {
+      "css/css-input-group": [
+        738,
+        1215
+      ],
+      "css/css-input-group-parts": [
+        1215,
+        1588
+      ],
+      "css-variables/vars-input-group": [
+        1606,
+        1931
+      ]
+    }
+  },
+  "lib/json-ui/ai.md": {
+    "integrity": "sha256-49756f5ea94979a1d0ab31d64830779a741eefc0a2236229091fe162277294c2",
+    "sections": {
+      "meta": [
+        193,
+        447
+      ],
+      "overview": [
+        447,
+        789
+      ],
+      "setup": [
+        789,
+        1290
+      ],
+      "vanilla": [
+        1290,
+        2725
+      ],
+      "preact": [
+        2725,
+        4172
+      ],
+      "web-components": [
+        4172,
+        4195
+      ],
+      "css": [
+        4195,
+        4459
+      ],
+      "css-variables": [
+        4459,
+        4481
+      ],
+      "javascript": [
+        4481,
+        5487
+      ],
+      "types": [
+        5487,
+        15858
+      ],
+      "recipes": [
+        15858,
+        18583
+      ],
+      "constraints": [
+        18583,
+        19185
+      ],
+      "references": [
+        19185,
+        20786
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-json-ui": [
+        1302,
+        2725
+      ],
+      "preact/preact-json-ui": [
+        2736,
+        4172
+      ],
+      "css/css-json-ui-error": [
+        4203,
+        4459
+      ],
+      "javascript/javascript-validate": [
+        4496,
+        5133
+      ],
+      "javascript/javascript-error": [
+        5133,
+        5487
+      ],
+      "types/types-json-ui": [
+        5497,
+        10405
+      ],
+      "types/types-nodes": [
+        10405,
+        12128
+      ],
+      "types/types-document": [
+        12128,
+        13029
+      ],
+      "types/types-expressions": [
+        13029,
+        14545
+      ],
+      "types/types-commands": [
+        14545,
+        15858
+      ],
+      "recipes/recipe-native-model": [
+        15870,
+        16566
+      ],
+      "recipes/recipe-local-cascade": [
+        16566,
+        17368
+      ],
+      "recipes/recipe-host-and-permissions": [
+        17368,
+        18583
+      ]
+    }
+  },
+  "lib/modal/ai.md": {
+    "integrity": "sha256-b6162f6019d54a978afeee49e7ec2b1ec320eb8b13f3de25f0bcb2aa8199ec28",
+    "sections": {
+      "meta": [
+        189,
+        369
+      ],
+      "overview": [
+        369,
+        1184
+      ],
+      "setup": [
+        1184,
+        1799
+      ],
+      "vanilla": [
+        1799,
+        6811
+      ],
+      "preact": [
+        6811,
+        8938
+      ],
+      "web-components": [
+        8938,
+        9024
+      ],
+      "css": [
+        9024,
+        13236
+      ],
+      "css-variables": [
+        13236,
+        14081
+      ],
+      "javascript": [
+        14081,
+        14100
+      ],
+      "types": [
+        14100,
+        25101
+      ],
+      "recipes": [
+        25101,
+        25466
+      ],
+      "constraints": [
+        25466,
+        26531
+      ],
+      "references": [
+        26531,
+        27219
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-modal-base": [
+        1811,
+        3766
+      ],
+      "vanilla/vanilla-modal": [
+        3766,
+        5681
+      ],
+      "vanilla/vanilla-modal-trigger": [
+        5681,
+        6811
+      ],
+      "preact/preact-modal-dialog": [
+        6822,
+        7788
+      ],
+      "preact/preact-modal-iframe-content": [
+        7788,
+        8938
+      ],
+      "css/css-structure": [
+        9032,
+        12260
+      ],
+      "css/css-modifiers": [
+        12260,
+        13236
+      ],
+      "css-variables/css-variables-config": [
+        13254,
+        14081
+      ],
+      "types/types-modal-position": [
+        14428,
+        14819
+      ],
+      "types/types-modal-position-preset": [
+        14819,
+        15209
+      ],
+      "types/types-modal-position-callback": [
+        15209,
+        15630
+      ],
+      "types/types-modal-position-setting": [
+        15630,
+        16049
+      ],
+      "types/types-modal-backdrop-type": [
+        16049,
+        16409
+      ],
+      "types/types-modal-size-preset": [
+        16409,
+        16767
+      ],
+      "types/types-modal-size-setting": [
+        16767,
+        17161
+      ],
+      "types/types-modal-base-options": [
+        17161,
+        18031
+      ],
+      "types/types-modal-events": [
+        18031,
+        18397
+      ],
+      "types/types-modal-trigger-static-options": [
+        18397,
+        18818
+      ],
+      "types/types-modal-trigger-options": [
+        18818,
+        19258
+      ],
+      "types/types-modal-dialog-options": [
+        19258,
+        20169
+      ],
+      "types/types-modal-dialog-state": [
+        20169,
+        20530
+      ],
+      "types/types-modal-options": [
+        20530,
+        21163
+      ],
+      "types/types-modal-custom-options": [
+        21163,
+        21668
+      ],
+      "types/types-modal-ajax-options": [
+        21668,
+        22222
+      ],
+      "types/types-modal-iframe-options": [
+        22222,
+        22668
+      ],
+      "types/types-modal-alert-options": [
+        22668,
+        23247
+      ],
+      "types/types-modal-confirm-options": [
+        23247,
+        23683
+      ],
+      "types/types-modal-prompt-options": [
+        23683,
+        24187
+      ],
+      "types/types-modal-typed-options": [
+        24187,
+        24581
+      ],
+      "types/types-modal-iframe-content-props": [
+        24581,
+        25101
+      ],
+      "recipes/recipe-confirm": [
+        25113,
+        25466
+      ]
+    }
+  },
+  "lib/nav/ai.md": {
+    "integrity": "sha256-d5d358e2477eada5b49e069e8a4374bdd83d5c97a2b94d36779d5ec900932012",
+    "sections": {
+      "meta": [
+        188,
+        331
+      ],
+      "overview": [
+        331,
+        472
+      ],
+      "setup": [
+        472,
+        648
+      ],
+      "vanilla": [
+        648,
+        1228
+      ],
+      "preact": [
+        1228,
+        1798
+      ],
+      "web-components": [
+        1798,
+        1821
+      ],
+      "css": [
+        1821,
+        2585
+      ],
+      "css-variables": [
+        2585,
+        3637
+      ],
+      "javascript": [
+        3637,
+        4032
+      ],
+      "types": [
+        4032,
+        4907
+      ],
+      "recipes": [
+        4907,
+        5081
+      ],
+      "constraints": [
+        5081,
+        5158
+      ],
+      "references": [
+        5158,
+        5624
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-nav": [
+        660,
+        1228
+      ],
+      "preact/preact-nav": [
+        1239,
+        1798
+      ],
+      "css/css-nav": [
+        1829,
+        2163
+      ],
+      "css/css-nav-variants": [
+        2163,
+        2585
+      ],
+      "css-variables/css-nav-vars": [
+        2603,
+        3637
+      ],
+      "javascript/javascript-nav-render": [
+        3652,
+        4032
+      ],
+      "types/types-nav-options": [
+        4042,
+        4907
+      ],
+      "recipes/recipe-nav-active": [
+        4919,
+        5081
+      ]
+    }
+  },
+  "lib/pager/ai.md": {
+    "integrity": "sha256-2c45a926d4338d3924b2d0eaeadba261b6fbfa9d0bafacd13ed02c6d669d9429",
+    "sections": {
+      "meta": [
+        188,
+        374
+      ],
+      "overview": [
+        374,
+        603
+      ],
+      "setup": [
+        603,
+        1342
+      ],
+      "vanilla": [
+        1342,
+        2728
+      ],
+      "preact": [
+        2728,
+        5474
+      ],
+      "web-components": [
+        5474,
+        7348
+      ],
+      "css": [
+        7348,
+        8265
+      ],
+      "css-variables": [
+        8265,
+        8471
+      ],
+      "javascript": [
+        8471,
+        9869
+      ],
+      "types": [
+        9869,
+        12895
+      ],
+      "recipes": [
+        12895,
+        13441
+      ],
+      "constraints": [
+        13441,
+        13809
+      ],
+      "references": [
+        13809,
+        15186
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-pager": [
+        1354,
+        2728
+      ],
+      "preact/preact-pager": [
+        2739,
+        3690
+      ],
+      "preact/preact-pager-items": [
+        3690,
+        5474
+      ],
+      "web-components/web-component-pager": [
+        5493,
+        7348
+      ],
+      "css/css-pager": [
+        7356,
+        7689
+      ],
+      "css/css-pager-parts": [
+        7689,
+        8265
+      ],
+      "javascript/javascript-pager-format": [
+        8486,
+        9087
+      ],
+      "javascript/javascript-update-pager-info": [
+        9087,
+        9869
+      ],
+      "types/types-pager-options": [
+        9879,
+        11548
+      ],
+      "types/types-pager-item-props": [
+        11548,
+        12253
+      ],
+      "types/types-pager-element": [
+        12253,
+        12895
+      ],
+      "recipes/recipe-goto": [
+        12907,
+        13441
+      ]
+    }
+  },
+  "lib/panel/ai.md": {
+    "integrity": "sha256-e8e9953b904c8fb3c4c50a68ade8c0c674d3d1864e93629a9f6fa66225f3200d",
+    "sections": {
+      "meta": [
+        188,
+        321
+      ],
+      "overview": [
+        321,
+        382
+      ],
+      "setup": [
+        382,
+        505
+      ],
+      "vanilla": [
+        505,
+        521
+      ],
+      "preact": [
+        521,
+        536
+      ],
+      "web-components": [
+        536,
+        559
+      ],
+      "css": [
+        559,
+        1226
+      ],
+      "css-variables": [
+        1226,
+        1564
+      ],
+      "javascript": [
+        1564,
+        1583
+      ],
+      "types": [
+        1583,
+        1597
+      ],
+      "recipes": [
+        1597,
+        1786
+      ],
+      "constraints": [
+        1786,
+        1840
+      ],
+      "references": [
+        1840,
+        2423
+      ]
+    },
+    "entries": {
+      "css/css-panel": [
+        567,
+        1052
+      ],
+      "css/css-panel-size": [
+        1052,
+        1226
+      ],
+      "css-variables/css-panel-vars": [
+        1244,
+        1564
+      ],
+      "recipes/recipe-panel-form": [
+        1609,
+        1786
+      ]
+    }
+  },
+  "lib/pick/ai.md": {
+    "integrity": "sha256-fd19a47d99b2e382ae5a5f1d27a0879f9862f08eba148f0eadd47b9adef1c556",
+    "sections": {
+      "meta": [
+        189,
+        324
+      ],
+      "overview": [
+        324,
+        1054
+      ],
+      "setup": [
+        1054,
+        1664
+      ],
+      "vanilla": [
+        1664,
+        2590
+      ],
+      "preact": [
+        2590,
+        6920
+      ],
+      "web-components": [
+        6920,
+        7006
+      ],
+      "css": [
+        7006,
+        7847
+      ],
+      "css-variables": [
+        7847,
+        7939
+      ],
+      "javascript": [
+        7939,
+        8448
+      ],
+      "types": [
+        8448,
+        14751
+      ],
+      "recipes": [
+        14751,
+        14890
+      ],
+      "constraints": [
+        14890,
+        15661
+      ],
+      "references": [
+        15661,
+        16338
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-pick": [
+        1676,
+        2590
+      ],
+      "preact/preact-pick": [
+        2601,
+        4626
+      ],
+      "preact/preact-pick-pop": [
+        4626,
+        5825
+      ],
+      "preact/preact-pick-trigger": [
+        5825,
+        6920
+      ],
+      "css/css-structure": [
+        7014,
+        7586
+      ],
+      "css/css-modifiers": [
+        7586,
+        7847
+      ],
+      "javascript/javascript-event-pick": [
+        7954,
+        8448
+      ],
+      "types/types-pick-options": [
+        8776,
+        10732
+      ],
+      "types/types-pick-state": [
+        10732,
+        11090
+      ],
+      "types/types-picker-state-changer": [
+        11090,
+        11549
+      ],
+      "types/types-pick-pop-props": [
+        11549,
+        12872
+      ],
+      "types/types-pick-trigger-props": [
+        12872,
+        14004
+      ],
+      "types/types-pick-pop-layout": [
+        14004,
+        14398
+      ],
+      "types/types-pick-pop-placement": [
+        14398,
+        14751
+      ]
+    }
+  },
+  "lib/picker/ai.md": {
+    "integrity": "sha256-412d396d3f4ea1d66e33fdb4c8f92ddd3212819dcb6a3fca9fa550bee0e959fb",
+    "sections": {
+      "meta": [
+        191,
+        331
+      ],
+      "overview": [
+        331,
+        1119
+      ],
+      "setup": [
+        1119,
+        1739
+      ],
+      "vanilla": [
+        1739,
+        2689
+      ],
+      "preact": [
+        2689,
+        10025
+      ],
+      "web-components": [
+        10025,
+        10337
+      ],
+      "css": [
+        10337,
+        14773
+      ],
+      "css-variables": [
+        14773,
+        15777
+      ],
+      "javascript": [
+        15777,
+        15796
+      ],
+      "types": [
+        15796,
+        22595
+      ],
+      "recipes": [
+        22595,
+        22734
+      ],
+      "constraints": [
+        22734,
+        23566
+      ],
+      "references": [
+        23566,
+        24251
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-picker": [
+        1751,
+        2689
+      ],
+      "preact/preact-picker": [
+        2700,
+        5458
+      ],
+      "preact/preact-picker-single-select": [
+        5458,
+        6598
+      ],
+      "preact/preact-picker-multi-select": [
+        6598,
+        7732
+      ],
+      "preact/preact-picker-menu": [
+        7732,
+        8932
+      ],
+      "preact/preact-picker-search": [
+        8932,
+        10025
+      ],
+      "css/css-structure": [
+        10345,
+        13716
+      ],
+      "css/css-modifiers": [
+        13716,
+        14773
+      ],
+      "css-variables/css-variables-config": [
+        14791,
+        15777
+      ],
+      "types/types-picker-options": [
+        16124,
+        17627
+      ],
+      "types/types-picker-menu-props": [
+        17627,
+        18907
+      ],
+      "types/types-picker-search-props": [
+        18907,
+        19466
+      ],
+      "types/types-picker-item-basic": [
+        19466,
+        19896
+      ],
+      "types/types-picker-item-options": [
+        19896,
+        20280
+      ],
+      "types/types-picker-item-props": [
+        20280,
+        20628
+      ],
+      "types/types-picker-select-props": [
+        20628,
+        21714
+      ],
+      "types/types-picker-state": [
+        21714,
+        22214
+      ],
+      "types/types-picker-search-state": [
+        22214,
+        22595
+      ]
+    }
+  },
+  "lib/popover/ai.md": {
+    "integrity": "sha256-e5bfc8aa2b05df7e382d54aeda04044cdaaa39d1efb16246266d0e5412cdcdda",
+    "sections": {
+      "meta": [
+        190,
+        347
+      ],
+      "overview": [
+        347,
+        1119
+      ],
+      "setup": [
+        1119,
+        1744
+      ],
+      "vanilla": [
+        1744,
+        5196
+      ],
+      "preact": [
+        5196,
+        6119
+      ],
+      "web-components": [
+        6119,
+        6205
+      ],
+      "css": [
+        6205,
+        7766
+      ],
+      "css-variables": [
+        7766,
+        7858
+      ],
+      "javascript": [
+        7858,
+        7877
+      ],
+      "types": [
+        7877,
+        12258
+      ],
+      "recipes": [
+        12258,
+        12397
+      ],
+      "constraints": [
+        12397,
+        13213
+      ],
+      "references": [
+        13213,
+        13907
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-popover-panel": [
+        1756,
+        2715
+      ],
+      "vanilla/vanilla-popover": [
+        2715,
+        5196
+      ],
+      "preact/preact-popover-panel": [
+        5207,
+        6119
+      ],
+      "css/css-structure": [
+        6213,
+        7099
+      ],
+      "css/css-modifiers": [
+        7099,
+        7766
+      ],
+      "types/types-popover-side": [
+        8205,
+        8549
+      ],
+      "types/types-popover-layout-info": [
+        8549,
+        9094
+      ],
+      "types/types-popover-options": [
+        9094,
+        10686
+      ],
+      "types/types-popover-events": [
+        10686,
+        11066
+      ],
+      "types/types-popover-panel-options": [
+        11066,
+        11841
+      ],
+      "types/types-popover-show-options": [
+        11841,
+        12258
+      ]
+    }
+  },
+  "lib/responsive-nav/ai.md": {
+    "integrity": "sha256-6962bc2c94f817d980fed65725da91d6e3d46feb1e128751718547b2385de770",
+    "sections": {
+      "meta": [
+        191,
+        352
+      ],
+      "overview": [
+        352,
+        428
+      ],
+      "setup": [
+        428,
+        632
+      ],
+      "vanilla": [
+        632,
+        1761
+      ],
+      "preact": [
+        1761,
+        1776
+      ],
+      "web-components": [
+        1776,
+        1799
+      ],
+      "css": [
+        1799,
+        1954
+      ],
+      "css-variables": [
+        1954,
+        1976
+      ],
+      "javascript": [
+        1976,
+        1995
+      ],
+      "types": [
+        1995,
+        3498
+      ],
+      "recipes": [
+        3498,
+        3710
+      ],
+      "constraints": [
+        3710,
+        3876
+      ],
+      "references": [
+        3876,
+        4301
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-responsive-nav": [
+        644,
+        1761
+      ],
+      "types/types-responsive-nav-props": [
+        2005,
+        3498
+      ],
+      "recipes/recipe-responsive-fixed": [
+        3510,
+        3710
+      ]
+    }
+  },
+  "lib/search-box/ai.md": {
+    "integrity": "sha256-9d0f23ccf5846ea4a132804ecc566fb0f031523a031a36c3a5c0edd2e1ecceaf",
+    "sections": {
+      "meta": [
+        189,
+        338
+      ],
+      "overview": [
+        338,
+        841
+      ],
+      "setup": [
+        841,
+        1481
+      ],
+      "vanilla": [
+        1481,
+        2449
+      ],
+      "preact": [
+        2449,
+        3778
+      ],
+      "web-components": [
+        3778,
+        3864
+      ],
+      "css": [
+        3864,
+        4324
+      ],
+      "css-variables": [
+        4324,
+        4959
+      ],
+      "javascript": [
+        4959,
+        4978
+      ],
+      "types": [
+        4978,
+        6843
+      ],
+      "recipes": [
+        6843,
+        6982
+      ],
+      "constraints": [
+        6982,
+        7742
+      ],
+      "references": [
+        7742,
+        8448
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-search-box": [
+        1493,
+        2449
+      ],
+      "preact/preact-search-box": [
+        2460,
+        3778
+      ],
+      "css/css-structure": [
+        3872,
+        4324
+      ],
+      "css-variables/css-variables-config": [
+        4342,
+        4959
+      ],
+      "types/types-search-box-options": [
+        5306,
+        6472
+      ],
+      "types/types-search-box-state": [
+        6472,
+        6843
+      ]
+    }
+  },
+  "lib/sidebar/ai.md": {
+    "integrity": "sha256-35419bc15c5d39e97651ad3ccd6a56ca2d66bbc7a6ca9cdeb0187dc43743795f",
+    "sections": {
+      "meta": [
+        189,
+        343
+      ],
+      "overview": [
+        343,
+        416
+      ],
+      "setup": [
+        416,
+        636
+      ],
+      "vanilla": [
+        636,
+        1660
+      ],
+      "preact": [
+        1660,
+        2420
+      ],
+      "web-components": [
+        2420,
+        2443
+      ],
+      "css": [
+        2443,
+        2792
+      ],
+      "css-variables": [
+        2792,
+        3211
+      ],
+      "javascript": [
+        3211,
+        3230
+      ],
+      "types": [
+        3230,
+        4301
+      ],
+      "recipes": [
+        4301,
+        4545
+      ],
+      "constraints": [
+        4545,
+        4670
+      ],
+      "references": [
+        4670,
+        5300
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-sidebar": [
+        648,
+        1660
+      ],
+      "preact/preact-sidebar": [
+        1671,
+        2420
+      ],
+      "css/css-sidebar": [
+        2451,
+        2792
+      ],
+      "css-variables/css-sidebar-vars": [
+        2810,
+        3211
+      ],
+      "types/types-sidebar-options": [
+        3240,
+        4301
+      ],
+      "recipes/recipe-sidebar-share": [
+        4313,
+        4545
+      ]
+    }
+  },
+  "lib/table/ai.md": {
+    "integrity": "sha256-b4da2eb6c2ab786f224d57063d033bf46d525c4d1101a6d143388d6892bb297b",
+    "sections": {
+      "meta": [
+        188,
+        337
+      ],
+      "overview": [
+        337,
+        421
+      ],
+      "setup": [
+        421,
+        537
+      ],
+      "vanilla": [
+        537,
+        553
+      ],
+      "preact": [
+        553,
+        568
+      ],
+      "web-components": [
+        568,
+        591
+      ],
+      "css": [
+        591,
+        1339
+      ],
+      "css-variables": [
+        1339,
+        1855
+      ],
+      "javascript": [
+        1855,
+        1874
+      ],
+      "types": [
+        1874,
+        1888
+      ],
+      "recipes": [
+        1888,
+        2079
+      ],
+      "constraints": [
+        2079,
+        2132
+      ],
+      "references": [
+        2132,
+        2586
+      ]
+    },
+    "entries": {
+      "css/css-table": [
+        599,
+        928
+      ],
+      "css/css-table-helpers": [
+        928,
+        1339
+      ],
+      "css-variables/css-table-vars": [
+        1357,
+        1855
+      ],
+      "recipes/recipe-table-dense": [
+        1900,
+        2079
+      ]
+    }
+  },
+  "lib/toolbar/ai.md": {
+    "integrity": "sha256-7d7625b4cf48ea3e629891ce4a5276155028e34ecb75f902d7d1991c37385c99",
+    "sections": {
+      "meta": [
+        189,
+        345
+      ],
+      "overview": [
+        345,
+        536
+      ],
+      "setup": [
+        536,
+        791
+      ],
+      "vanilla": [
+        791,
+        1520
+      ],
+      "preact": [
+        1520,
+        2146
+      ],
+      "web-components": [
+        2146,
+        2169
+      ],
+      "css": [
+        2169,
+        2725
+      ],
+      "css-variables": [
+        2725,
+        2777
+      ],
+      "javascript": [
+        2777,
+        3293
+      ],
+      "types": [
+        3293,
+        5394
+      ],
+      "recipes": [
+        5394,
+        5639
+      ],
+      "constraints": [
+        5639,
+        5807
+      ],
+      "references": [
+        5807,
+        6571
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-toolbar": [
+        803,
+        1520
+      ],
+      "preact/preact-toolbar": [
+        1531,
+        2146
+      ],
+      "css/css-toolbar": [
+        2177,
+        2428
+      ],
+      "css/css-toolbar-parts": [
+        2428,
+        2725
+      ],
+      "javascript/javascript-toolbar-render": [
+        2792,
+        3293
+      ],
+      "types/types-toolbar-options": [
+        3303,
+        4466
+      ],
+      "types/types-toolbar-items": [
+        4466,
+        5394
+      ],
+      "recipes/recipe-toolbar-update": [
+        5406,
+        5639
+      ]
+    }
+  },
+  "lib/tooltip/ai.md": {
+    "integrity": "sha256-6cae48bf4990f00829e83c2682246ed224c9e2eaa7dbdbc4775931b3de6b7223",
+    "sections": {
+      "meta": [
+        190,
+        349
+      ],
+      "overview": [
+        349,
+        752
+      ],
+      "setup": [
+        752,
+        1176
+      ],
+      "vanilla": [
+        1176,
+        2381
+      ],
+      "preact": [
+        2381,
+        2396
+      ],
+      "web-components": [
+        2396,
+        2482
+      ],
+      "css": [
+        2482,
+        4385
+      ],
+      "css-variables": [
+        4385,
+        5790
+      ],
+      "javascript": [
+        5790,
+        5809
+      ],
+      "types": [
+        5809,
+        6500
+      ],
+      "recipes": [
+        6500,
+        6639
+      ],
+      "constraints": [
+        6639,
+        7069
+      ],
+      "references": [
+        7069,
+        7638
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-tooltip": [
+        1188,
+        2381
+      ],
+      "css/css-structure": [
+        2490,
+        3922
+      ],
+      "css/css-hint": [
+        3922,
+        4385
+      ],
+      "css-variables/css-variables-config": [
+        4403,
+        5790
+      ],
+      "types/types-tooltip-options": [
+        6137,
+        6500
+      ]
+    }
+  },
+  "lib/tree/ai.md": {
+    "integrity": "sha256-8a51d68b147f64edff8786dd7befff4a9fcb1f9af812a6f2ee3f4983087ac5ea",
+    "sections": {
+      "meta": [
+        190,
+        351
+      ],
+      "overview": [
+        351,
+        472
+      ],
+      "setup": [
+        472,
+        668
+      ],
+      "vanilla": [
+        668,
+        1406
+      ],
+      "preact": [
+        1406,
+        2174
+      ],
+      "web-components": [
+        2174,
+        2197
+      ],
+      "css": [
+        2197,
+        2499
+      ],
+      "css-variables": [
+        2499,
+        2885
+      ],
+      "javascript": [
+        2885,
+        3247
+      ],
+      "types": [
+        3247,
+        3943
+      ],
+      "recipes": [
+        3943,
+        4140
+      ],
+      "constraints": [
+        4140,
+        4237
+      ],
+      "references": [
+        4237,
+        4845
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-tree": [
+        680,
+        1406
+      ],
+      "preact/preact-tree": [
+        1417,
+        2174
+      ],
+      "css/css-tree": [
+        2205,
+        2499
+      ],
+      "css-variables/css-tree-vars": [
+        2517,
+        2885
+      ],
+      "javascript/javascript-tree-item": [
+        2900,
+        3247
+      ],
+      "types/types-tree-options": [
+        3257,
+        3943
+      ],
+      "recipes/recipe-tree-expand": [
+        3955,
+        4140
+      ]
+    }
+  },
+  "lib/upload/ai.md": {
+    "integrity": "sha256-62246afda728ee202a5e3d7c59d15c6a6b142f6deecad4eabe16dd9b7d28ba0a",
+    "sections": {
+      "meta": [
+        190,
+        333
+      ],
+      "overview": [
+        333,
+        1012
+      ],
+      "setup": [
+        1012,
+        1433
+      ],
+      "vanilla": [
+        1433,
+        3049
+      ],
+      "preact": [
+        3049,
+        3064
+      ],
+      "web-components": [
+        3064,
+        3150
+      ],
+      "css": [
+        3150,
+        3778
+      ],
+      "css-variables": [
+        3778,
+        3870
+      ],
+      "javascript": [
+        3870,
+        3889
+      ],
+      "types": [
+        3889,
+        5654
+      ],
+      "recipes": [
+        5654,
+        5793
+      ],
+      "constraints": [
+        5793,
+        6512
+      ],
+      "references": [
+        6512,
+        7078
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-upload": [
+        1445,
+        3049
+      ],
+      "css/css-structure": [
+        3158,
+        3778
+      ],
+      "types/types-upload-options": [
+        4217,
+        5654
+      ]
+    }
+  },
+  "lib/upload-imgs/ai.md": {
+    "integrity": "sha256-67c53b182153bf1d74a05105613c050e5869711f12b2f612271fa23d3bc5d439",
+    "sections": {
+      "meta": [
+        190,
+        344
+      ],
+      "overview": [
+        344,
+        749
+      ],
+      "setup": [
+        749,
+        1185
+      ],
+      "vanilla": [
+        1185,
+        2983
+      ],
+      "preact": [
+        2983,
+        2998
+      ],
+      "web-components": [
+        2998,
+        3084
+      ],
+      "css": [
+        3084,
+        3663
+      ],
+      "css-variables": [
+        3663,
+        3755
+      ],
+      "javascript": [
+        3755,
+        3774
+      ],
+      "types": [
+        3774,
+        4506
+      ],
+      "recipes": [
+        4506,
+        4645
+      ],
+      "constraints": [
+        4645,
+        5093
+      ],
+      "references": [
+        5093,
+        5674
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-upload-imgs": [
+        1197,
+        2983
+      ],
+      "css/css-structure": [
+        3092,
+        3663
+      ],
+      "types/types-upload-imgs-options": [
+        4102,
+        4506
+      ]
+    }
+  },
+  "lib/virtualize/ai.md": {
+    "integrity": "sha256-a8d843be86e2985cab911943c1d1351f5a6f787afd129ada9e28db9d2de059d6",
+    "sections": {
+      "meta": [
+        190,
+        422
+      ],
+      "overview": [
+        422,
+        537
+      ],
+      "setup": [
+        537,
+        830
+      ],
+      "vanilla": [
+        830,
+        1958
+      ],
+      "preact": [
+        1958,
+        3748
+      ],
+      "web-components": [
+        3748,
+        3771
+      ],
+      "css": [
+        3771,
+        4282
+      ],
+      "css-variables": [
+        4282,
+        4360
+      ],
+      "javascript": [
+        4360,
+        6825
+      ],
+      "types": [
+        6825,
+        8629
+      ],
+      "recipes": [
+        8629,
+        8786
+      ],
+      "constraints": [
+        8786,
+        8894
+      ],
+      "references": [
+        8894,
+        9400
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-virtual-list": [
+        842,
+        1958
+      ],
+      "preact/preact-virtual-list": [
+        1969,
+        3748
+      ],
+      "css/css-virtual-list": [
+        3779,
+        4282
+      ],
+      "javascript/javascript-virtualizer-factories": [
+        4375,
+        6073
+      ],
+      "javascript/javascript-tanstack-virtualizer": [
+        6073,
+        6825
+      ],
+      "types/types-virtual-list-props": [
+        6835,
+        7654
+      ],
+      "types/types-virtualizer": [
+        7654,
+        8629
+      ]
+    }
+  },
+  "lib/cards/ai.md": {
+    "integrity": "sha256-630c537a770a97f355749ff23fd8c63b78000119c74cb464d5b098fd8847de73",
+    "sections": {
+      "meta": [
+        188,
+        342
+      ],
+      "overview": [
+        342,
+        422
+      ],
+      "setup": [
+        422,
+        684
+      ],
+      "vanilla": [
+        684,
+        1523
+      ],
+      "preact": [
+        1523,
+        2251
+      ],
+      "web-components": [
+        2251,
+        2274
+      ],
+      "css": [
+        2274,
+        2988
+      ],
+      "css-variables": [
+        2988,
+        3359
+      ],
+      "javascript": [
+        3359,
+        3378
+      ],
+      "types": [
+        3378,
+        4632
+      ],
+      "recipes": [
+        4632,
+        4824
+      ],
+      "constraints": [
+        4824,
+        4977
+      ],
+      "references": [
+        4977,
+        5584
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-cards": [
+        696,
+        1523
+      ],
+      "preact/preact-cards": [
+        1534,
+        2251
+      ],
+      "css/css-card": [
+        2282,
+        2656
+      ],
+      "css/css-card-helpers": [
+        2656,
+        2988
+      ],
+      "css-variables/css-cards-vars": [
+        3006,
+        3359
+      ],
+      "types/types-card-props": [
+        3388,
+        4306
+      ],
+      "types/types-card-list-props": [
+        4306,
+        4632
+      ],
+      "recipes/recipe-card-inner-list": [
+        4644,
+        4824
+      ]
+    }
+  },
+  "lib/contextmenu/ai.md": {
+    "integrity": "sha256-e8da52ee2f16b5b135965c7d781a8b721b0e69ff41b2c61a954e52fc306455ff",
+    "sections": {
+      "meta": [
+        191,
+        355
+      ],
+      "overview": [
+        355,
+        634
+      ],
+      "setup": [
+        634,
+        1070
+      ],
+      "vanilla": [
+        1070,
+        2326
+      ],
+      "preact": [
+        2326,
+        2341
+      ],
+      "web-components": [
+        2341,
+        2427
+      ],
+      "css": [
+        2427,
+        3183
+      ],
+      "css-variables": [
+        3183,
+        3275
+      ],
+      "javascript": [
+        3275,
+        3294
+      ],
+      "types": [
+        3294,
+        3990
+      ],
+      "recipes": [
+        3990,
+        4129
+      ],
+      "constraints": [
+        4129,
+        4443
+      ],
+      "references": [
+        4443,
+        5024
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-context-menu": [
+        1082,
+        2326
+      ],
+      "css/css-structure": [
+        2435,
+        2916
+      ],
+      "css/css-modifiers": [
+        2916,
+        3183
+      ],
+      "types/types-context-menu-options": [
+        3622,
+        3990
+      ]
+    }
+  },
+  "lib/dashboard/ai.md": {
+    "integrity": "sha256-265d3a17766ccb1f09c88f589ec7ce97d16a8c18a38ff6020f3aeda56559bccd",
+    "sections": {
+      "meta": [
+        189,
+        349
+      ],
+      "overview": [
+        349,
+        450
+      ],
+      "setup": [
+        450,
+        701
+      ],
+      "vanilla": [
+        701,
+        1471
+      ],
+      "preact": [
+        1471,
+        2688
+      ],
+      "web-components": [
+        2688,
+        2711
+      ],
+      "css": [
+        2711,
+        3124
+      ],
+      "css-variables": [
+        3124,
+        3344
+      ],
+      "javascript": [
+        3344,
+        3363
+      ],
+      "types": [
+        3363,
+        6077
+      ],
+      "recipes": [
+        6077,
+        6298
+      ],
+      "constraints": [
+        6298,
+        6485
+      ],
+      "references": [
+        6485,
+        7121
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-dashboard": [
+        713,
+        1471
+      ],
+      "preact/preact-dashboard": [
+        1482,
+        2688
+      ],
+      "css/css-dashboard": [
+        2719,
+        3124
+      ],
+      "css-variables/css-dashboard-vars": [
+        3142,
+        3344
+      ],
+      "types/types-dashboard-options": [
+        3373,
+        4829
+      ],
+      "types/types-dashboard-blocks": [
+        4829,
+        6077
+      ],
+      "recipes/recipe-dashboard-refresh": [
+        6089,
+        6298
+      ]
+    }
+  },
+  "lib/dropdown/ai.md": {
+    "integrity": "sha256-2eabe4785fa9721112fe95aee1e99de1dff2bfa83a24e7952f3fd903f3773eaa",
+    "sections": {
+      "meta": [
+        190,
+        340
+      ],
+      "overview": [
+        340,
+        992
+      ],
+      "setup": [
+        992,
+        1622
+      ],
+      "vanilla": [
+        1622,
+        3095
+      ],
+      "preact": [
+        3095,
+        5789
+      ],
+      "web-components": [
+        5789,
+        5875
+      ],
+      "css": [
+        5875,
+        7445
+      ],
+      "css-variables": [
+        7445,
+        7985
+      ],
+      "javascript": [
+        7985,
+        8004
+      ],
+      "types": [
+        8004,
+        10227
+      ],
+      "recipes": [
+        10227,
+        10366
+      ],
+      "constraints": [
+        10366,
+        11057
+      ],
+      "references": [
+        11057,
+        11755
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-dropdown": [
+        1634,
+        3095
+      ],
+      "preact/preact-dropdown-button": [
+        3106,
+        4336
+      ],
+      "preact/preact-dropdown-menu": [
+        4336,
+        5789
+      ],
+      "css/css-structure": [
+        5883,
+        6622
+      ],
+      "css/css-modifiers": [
+        6622,
+        7445
+      ],
+      "css-variables/css-variables-config": [
+        7463,
+        7985
+      ],
+      "types/types-dropdown-menu-options": [
+        8332,
+        8932
+      ],
+      "types/types-dropdown-options": [
+        8932,
+        9533
+      ],
+      "types/types-dropdown-button-options": [
+        9533,
+        10227
+      ]
+    }
+  },
+  "lib/dtable/ai.md": {
+    "integrity": "sha256-77e7a2a28f5b9a338dc2966049946499a2dc4a8ffdd8911ce894543c2f2ca429",
+    "sections": {
+      "meta": [
+        190,
+        392
+      ],
+      "overview": [
+        392,
+        530
+      ],
+      "setup": [
+        530,
+        934
+      ],
+      "vanilla": [
+        934,
+        2197
+      ],
+      "preact": [
+        2197,
+        5868
+      ],
+      "web-components": [
+        5868,
+        5891
+      ],
+      "css": [
+        5891,
+        7320
+      ],
+      "css-variables": [
+        7320,
+        8860
+      ],
+      "javascript": [
+        8860,
+        27788
+      ],
+      "types": [
+        27788,
+        45836
+      ],
+      "recipes": [
+        45836,
+        46068
+      ],
+      "constraints": [
+        46068,
+        46417
+      ],
+      "references": [
+        46417,
+        46922
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-dtable": [
+        946,
+        2197
+      ],
+      "preact/preact-dtable": [
+        2208,
+        5319
+      ],
+      "preact/preact-table-parts": [
+        5319,
+        5868
+      ],
+      "css/css-dtable": [
+        5899,
+        6444
+      ],
+      "css/css-dtable-helpers": [
+        6444,
+        7320
+      ],
+      "css-variables/css-variables-dtable": [
+        7338,
+        8860
+      ],
+      "javascript/javascript-plugin-registry": [
+        8875,
+        10430
+      ],
+      "javascript/javascript-plugin-rich": [
+        10430,
+        12626
+      ],
+      "javascript/javascript-plugin-sort": [
+        12626,
+        13798
+      ],
+      "javascript/javascript-plugin-custom": [
+        13798,
+        15228
+      ],
+      "javascript/javascript-plugin-checkable": [
+        15228,
+        17397
+      ],
+      "javascript/javascript-plugin-nested": [
+        17397,
+        19715
+      ],
+      "javascript/javascript-plugin-avatar": [
+        19715,
+        20809
+      ],
+      "javascript/javascript-plugin-sort-type": [
+        20809,
+        22130
+      ],
+      "javascript/javascript-plugin-group": [
+        22130,
+        22728
+      ],
+      "javascript/javascript-plugin-header-group": [
+        22728,
+        23511
+      ],
+      "javascript/javascript-plugin-cellspan": [
+        23511,
+        24873
+      ],
+      "javascript/javascript-plugin-sortable": [
+        24873,
+        26993
+      ],
+      "javascript/javascript-plugin-pager": [
+        26993,
+        27788
+      ],
+      "types/types-options": [
+        27798,
+        31312
+      ],
+      "types/types-rows-columns": [
+        31312,
+        33497
+      ],
+      "types/types-rendering": [
+        33497,
+        36187
+      ],
+      "types/types-layout": [
+        36187,
+        37843
+      ],
+      "types/types-state-events": [
+        37843,
+        38681
+      ],
+      "types/types-plugins": [
+        38681,
+        45836
+      ]
+    }
+  },
+  "lib/kanban/ai.md": {
+    "integrity": "sha256-a68aeacaeb485ac3af09cdad921e0a15200b93a13013f1ae113c5c673de5bcb6",
+    "sections": {
+      "meta": [
+        188,
+        349
+      ],
+      "overview": [
+        349,
+        464
+      ],
+      "setup": [
+        464,
+        767
+      ],
+      "vanilla": [
+        767,
+        1754
+      ],
+      "preact": [
+        1754,
+        4707
+      ],
+      "web-components": [
+        4707,
+        4730
+      ],
+      "css": [
+        4730,
+        5753
+      ],
+      "css-variables": [
+        5753,
+        6584
+      ],
+      "javascript": [
+        6584,
+        6678
+      ],
+      "types": [
+        6678,
+        14902
+      ],
+      "recipes": [
+        14902,
+        15185
+      ],
+      "constraints": [
+        15185,
+        15514
+      ],
+      "references": [
+        15514,
+        16643
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-kanban": [
+        779,
+        1754
+      ],
+      "preact/preact-kanban": [
+        1765,
+        3713
+      ],
+      "preact/preact-kanban-list": [
+        3713,
+        4262
+      ],
+      "preact/preact-kanban-region": [
+        4262,
+        4707
+      ],
+      "css/css-kanban-layout": [
+        4738,
+        5302
+      ],
+      "css/css-kanban-interaction": [
+        5302,
+        5753
+      ],
+      "css-variables/css-kanban-vars": [
+        5771,
+        6584
+      ],
+      "types/types-kanban-data": [
+        6688,
+        7633
+      ],
+      "types/types-kanban-props": [
+        7633,
+        10274
+      ],
+      "types/types-kanban-structure": [
+        10274,
+        11095
+      ],
+      "types/types-kanban-links": [
+        11095,
+        12060
+      ],
+      "types/types-kanban-containers": [
+        12060,
+        12887
+      ],
+      "types/types-kanban-view-contracts": [
+        12887,
+        14902
+      ],
+      "recipes/recipe-kanban-update": [
+        14914,
+        15185
+      ]
+    }
+  },
+  "lib/tabs/ai.md": {
+    "integrity": "sha256-868770d9f15ad796b61426c941b1c241133bd5424286f0a10637e298343c54ea",
+    "sections": {
+      "meta": [
+        189,
+        349
+      ],
+      "overview": [
+        349,
+        412
+      ],
+      "setup": [
+        412,
+        559
+      ],
+      "vanilla": [
+        559,
+        1544
+      ],
+      "preact": [
+        1544,
+        1559
+      ],
+      "web-components": [
+        1559,
+        1582
+      ],
+      "css": [
+        1582,
+        1803
+      ],
+      "css-variables": [
+        1803,
+        1825
+      ],
+      "javascript": [
+        1825,
+        1844
+      ],
+      "types": [
+        1844,
+        1858
+      ],
+      "recipes": [
+        1858,
+        2045
+      ],
+      "constraints": [
+        2045,
+        2147
+      ],
+      "references": [
+        2147,
+        2512
+      ]
+    },
+    "entries": {
+      "vanilla/vanilla-tabs": [
+        571,
+        1544
+      ],
+      "css/css-tab-pane": [
+        1590,
+        1803
+      ],
+      "recipes/recipe-tabs-programmatic": [
+        1870,
+        2045
+      ]
+    }
+  },
+  "lib/css-icons/ai.md": {
+    "integrity": "sha256-8801c3d8c1f787a0de8e7ef52000dca0fb85a24b7e5af32d0dc731514a6088f2",
+    "sections": {
+      "meta": [
+        192,
+        388
+      ],
+      "overview": [
+        388,
+        475
+      ],
+      "setup": [
+        475,
+        697
+      ],
+      "vanilla": [
+        697,
+        713
+      ],
+      "preact": [
+        713,
+        728
+      ],
+      "web-components": [
+        728,
+        751
+      ],
+      "css": [
+        751,
+        2777
+      ],
+      "css-variables": [
+        2777,
+        3208
+      ],
+      "javascript": [
+        3208,
+        3227
+      ],
+      "types": [
+        3227,
+        3241
+      ],
+      "recipes": [
+        3241,
+        3343
+      ],
+      "constraints": [
+        3343,
+        3417
+      ],
+      "references": [
+        3417,
+        3793
+      ]
+    },
+    "entries": {
+      "css/css-action-icons": [
+        759,
+        1507
+      ],
+      "css/css-direction-icons": [
+        1507,
+        2027
+      ],
+      "css/css-arrow": [
+        2027,
+        2411
+      ],
+      "css/css-icon-helpers": [
+        2411,
+        2777
+      ],
+      "css-variables/vars-css-icons": [
+        2795,
+        3208
+      ]
+    }
+  },
+  "lib/utilities/ai.md": {
+    "integrity": "sha256-420464ee63a24e71e7d56eaf1775e698851067383a8351d6e2aacd8954a459ae",
+    "sections": {
+      "meta": [
+        193,
+        361
+      ],
+      "overview": [
+        361,
+        559
+      ],
+      "setup": [
+        559,
+        1270
+      ],
+      "vanilla": [
+        1270,
+        1286
+      ],
+      "preact": [
+        1286,
+        1301
+      ],
+      "web-components": [
+        1301,
+        1324
+      ],
+      "css": [
+        1324,
+        59178
+      ],
+      "css-variables": [
+        59178,
+        64147
+      ],
+      "javascript": [
+        64147,
+        64166
+      ],
+      "types": [
+        64166,
+        64180
+      ],
+      "recipes": [
+        64180,
+        65676
+      ],
+      "constraints": [
+        65676,
+        66118
+      ],
+      "references": [
+        66118,
+        67015
+      ]
+    },
+    "entries": {
+      "css/css-layout-aspect-ratio": [
+        1498,
+        2016
+      ],
+      "css/css-layout-container": [
+        2016,
+        2489
+      ],
+      "css/css-layout-display": [
+        2489,
+        3040
+      ],
+      "css/css-layout-floats": [
+        3040,
+        3570
+      ],
+      "css/css-layout-object": [
+        3570,
+        4331
+      ],
+      "css/css-layout-overflow": [
+        4331,
+        5108
+      ],
+      "css/css-layout-popup": [
+        5108,
+        5593
+      ],
+      "css/css-layout-position": [
+        5593,
+        6153
+      ],
+      "css/css-layout-top-right-bottom-left": [
+        6153,
+        7432
+      ],
+      "css/css-layout-visibility": [
+        7432,
+        7956
+      ],
+      "css/css-layout-z-index": [
+        7956,
+        8690
+      ],
+      "css/css-flex-align-content": [
+        8690,
+        9298
+      ],
+      "css/css-flex-align-items": [
+        9298,
+        9814
+      ],
+      "css/css-flex-align-self": [
+        9814,
+        10391
+      ],
+      "css/css-flex-basis": [
+        10391,
+        11646
+      ],
+      "css/css-flex-direction": [
+        11646,
+        12313
+      ],
+      "css/css-flex-flex": [
+        12313,
+        12914
+      ],
+      "css/css-flex-gap": [
+        12914,
+        13852
+      ],
+      "css/css-flex-grow": [
+        13852,
+        14353
+      ],
+      "css/css-flex-justify-content": [
+        14353,
+        15029
+      ],
+      "css/css-flex-order": [
+        15029,
+        15751
+      ],
+      "css/css-flex-shrink": [
+        15751,
+        16293
+      ],
+      "css/css-flex-wrap": [
+        16293,
+        16754
+      ],
+      "css/css-spacing-margin": [
+        16754,
+        18136
+      ],
+      "css/css-spacing-padding": [
+        18136,
+        19425
+      ],
+      "css/css-spacing-space": [
+        19425,
+        20311
+      ],
+      "css/css-sizing-height": [
+        20311,
+        21400
+      ],
+      "css/css-sizing-width": [
+        21400,
+        22744
+      ],
+      "css/css-skin-ghost": [
+        22744,
+        23330
+      ],
+      "css/css-skin-outline": [
+        23330,
+        24139
+      ],
+      "css/css-skin-pale": [
+        24139,
+        25008
+      ],
+      "css/css-skin-skin": [
+        25008,
+        25615
+      ],
+      "css/css-skin-solid": [
+        25615,
+        26467
+      ],
+      "css/css-skin-surface": [
+        26467,
+        27070
+      ],
+      "css/css-typography-decoration": [
+        27070,
+        27619
+      ],
+      "css/css-typography-font-family": [
+        27619,
+        28105
+      ],
+      "css/css-typography-font-size": [
+        28105,
+        28807
+      ],
+      "css/css-typography-font-weight": [
+        28807,
+        29444
+      ],
+      "css/css-typography-leading": [
+        29444,
+        30194
+      ],
+      "css/css-typography-line-clamp": [
+        30194,
+        30871
+      ],
+      "css/css-typography-list-style": [
+        30871,
+        31431
+      ],
+      "css/css-typography-text-align": [
+        31431,
+        32050
+      ],
+      "css/css-typography-text-color": [
+        32050,
+        33669
+      ],
+      "css/css-typography-text-opacity": [
+        33669,
+        34477
+      ],
+      "css/css-typography-text-overflow": [
+        34477,
+        35086
+      ],
+      "css/css-typography-text-transform": [
+        35086,
+        35641
+      ],
+      "css/css-typography-whitespace": [
+        35641,
+        36326
+      ],
+      "css/css-typography-word-break": [
+        36326,
+        36971
+      ],
+      "css/css-backgrounds-background-image": [
+        36971,
+        37891
+      ],
+      "css/css-backgrounds-background-opacity": [
+        37891,
+        38654
+      ],
+      "css/css-backgrounds-background": [
+        38654,
+        40166
+      ],
+      "css/css-borders-border-color": [
+        40166,
+        41354
+      ],
+      "css/css-borders-border-opacity": [
+        41354,
+        42214
+      ],
+      "css/css-borders-border-style": [
+        42214,
+        42817
+      ],
+      "css/css-borders-border-width": [
+        42817,
+        43566
+      ],
+      "css/css-borders-divider": [
+        43566,
+        44201
+      ],
+      "css/css-borders-ring": [
+        44201,
+        45734
+      ],
+      "css/css-borders-rounded": [
+        45734,
+        46508
+      ],
+      "css/css-effects-animation": [
+        46508,
+        47378
+      ],
+      "css/css-effects-filters": [
+        47378,
+        48261
+      ],
+      "css/css-effects-opacity": [
+        48261,
+        49021
+      ],
+      "css/css-effects-shadow-color": [
+        49021,
+        49992
+      ],
+      "css/css-effects-shadow": [
+        49992,
+        50578
+      ],
+      "css/css-effects-transforms": [
+        50578,
+        51337
+      ],
+      "css/css-effects-transition": [
+        51337,
+        52237
+      ],
+      "css/css-interactivity-cursor": [
+        52237,
+        52784
+      ],
+      "css/css-interactivity-disabled": [
+        52784,
+        53360
+      ],
+      "css/css-interactivity-hover": [
+        53360,
+        55353
+      ],
+      "css/css-interactivity-loading": [
+        55353,
+        56065
+      ],
+      "css/css-interactivity-pointer-events": [
+        56065,
+        56667
+      ],
+      "css/css-interactivity-scroll": [
+        56667,
+        57167
+      ],
+      "css/css-interactivity-state": [
+        57167,
+        57916
+      ],
+      "css/css-interactivity-user-select": [
+        57916,
+        58444
+      ],
+      "css/css-state-modifiers": [
+        58444,
+        59178
+      ],
+      "css-variables/css-variables-state": [
+        59196,
+        61194
+      ],
+      "css-variables/css-variables-skin": [
+        61194,
+        62995
+      ],
+      "css-variables/css-variables-text-animation": [
+        62995,
+        64147
+      ],
+      "recipes/recipe-layout": [
+        64192,
+        64660
+      ],
+      "recipes/recipe-loading": [
+        64660,
+        65214
+      ],
+      "recipes/recipe-custom-skin": [
+        65214,
+        65676
+      ]
+    }
+  },
+  "lib/helpers/ai.md": {
+    "integrity": "sha256-c90aeef9f0cc2a0f1a84160e93a7ffe0955af2124221db52bec88a72da9fe071",
+    "sections": {
+      "meta": [
+        193,
+        383
+      ],
+      "overview": [
+        383,
+        474
+      ],
+      "setup": [
+        474,
+        685
+      ],
+      "vanilla": [
+        685,
+        701
+      ],
+      "preact": [
+        701,
+        716
+      ],
+      "web-components": [
+        716,
+        739
+      ],
+      "css": [
+        739,
+        751
+      ],
+      "css-variables": [
+        751,
+        773
+      ],
+      "javascript": [
+        773,
+        8663
+      ],
+      "types": [
+        8663,
+        9189
+      ],
+      "recipes": [
+        9189,
+        9578
+      ],
+      "constraints": [
+        9578,
+        9704
+      ],
+      "references": [
+        9704,
+        10440
+      ]
+    },
+    "entries": {
+      "javascript/javascript-create-date": [
+        788,
+        1560
+      ],
+      "javascript/javascript-add-date": [
+        1560,
+        2072
+      ],
+      "javascript/javascript-date-comparison": [
+        2072,
+        3009
+      ],
+      "javascript/javascript-format-date": [
+        3009,
+        3873
+      ],
+      "javascript/javascript-string-format": [
+        3873,
+        5519
+      ],
+      "javascript/javascript-bytes": [
+        5519,
+        6076
+      ],
+      "javascript/javascript-encoding": [
+        6076,
+        6903
+      ],
+      "javascript/javascript-color": [
+        6903,
+        7674
+      ],
+      "javascript/javascript-deep-access": [
+        7674,
+        8663
+      ],
+      "types/types-helper-values": [
+        8673,
+        9189
+      ]
+    }
+  },
+  "ai.md": {
+    "integrity": "sha256-9858e984414e27bdc54978673151d363591b82439324ca1aa30e2dd3e1bc3196",
+    "sections": {},
+    "entries": {}
+  }
+}

@@ -3,16 +3,17 @@ import {fileURLToPath} from 'node:url';
 import fs from 'fs-extra';
 import {AI_ID, extractAiDocument, parseAiDocument} from './document';
 import {buildAiIndex, checkAiCatalog, readAiCatalog} from './catalog';
+import {exportAiReferences} from './export';
 
-const HELP = `ZUI AI 使用参考\n\n用法：\n  pnpm ai:build\n  pnpm ai:check\n  pnpm ai:read --lib <name> [--section <id> [--entry <id>]]\n\nbuild 自动生成根 ai.md；check 只读校验；read 原样输出文档或选定范围。\n`;
+const HELP = `ZUI AI 使用参考\n\n用法：\n  pnpm ai:build\n  pnpm ai:check\n  pnpm ai:export\n  pnpm ai:check-exports\n  pnpm ai:read --lib <name> [--section <id> [--entry <id>]]\n\nbuild 自动生成根 ai.md；check 只读校验；export 生成技能随包参考；check-exports 只读检查随包参考；read 原样输出文档或选定范围。\n`;
 
 export function parseAiArgs(args: string[]): {command: string; lib?: string; section?: string; entry?: string} {
     if (args.includes('--help') || args.includes('-h')) {
         return {command: 'help'};
     }
     const [command, ...options] = args;
-    if (!['build', 'check', 'read'].includes(command)) {
-        throw new Error('请指定 build、check 或 read；使用 --help 查看用法。');
+    if (!['build', 'check', 'read', 'export', 'check-exports'].includes(command)) {
+        throw new Error('请指定 build、check、read、export 或 check-exports；使用 --help 查看用法。');
     }
     const result: {command: string; lib?: string; section?: string; entry?: string} = {command};
     for (let index = 0; index < options.length; index += 2) {
@@ -43,6 +44,10 @@ export async function runAiCli(args: string[], root = process.cwd()): Promise<{c
     const {command, lib, section, entry} = parseAiArgs(args);
     if (command === 'help') {
         return {code: 0, output: HELP};
+    }
+    if (command === 'export' || command === 'check-exports') {
+        const issues = await exportAiReferences(root, command === 'check-exports');
+        return {code: issues.length ? 1 : 0, output: issues.length ? `${issues.join('\n')}\n` : command === 'export' ? '已生成 zui 和 zui-build 的随包 AI 参考。\n' : '技能随包 AI 参考检查通过。\n'};
     }
     if (command === 'build') {
         const catalog = await buildAiIndex(root);

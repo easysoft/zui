@@ -60,24 +60,24 @@ function text(value: string): string {
     return value.replace(/[\\`*_[\]<>|]/g, character => `\\${character}`).replace(/[\r\n]+/g, ' ');
 }
 
-export function renderAiIndex(catalog: AiCatalog): string {
+export function renderAiIndex(catalog: AiCatalog, introduction?: string[]): string {
     const available = catalog.libraries.filter(library => library.document).length;
     const lines = [
-        '# ZUI AI 使用索引',
-        '',
-        '<!-- 本文件由 pnpm ai:build 自动生成，请修改 lib/<name>/ai.md 后重新生成。 -->',
-        '',
-        '本索引用于查找 ZUI 内置库及其主要能力。先按场景和关键词选择库，再读取库级 `ai.md` 中的入口、参数、示例和约束。文档描述当前仓库源码，不能据此推定已经发布的版本具有相同行为。',
-        '',
-        '## 使用方式',
-        '',
-        '- `pnpm ai:read --lib menu`：读取整库使用参考。',
-        '- `pnpm ai:read --lib menu --section vanilla`：读取固定章节。',
-        '- `pnpm ai:read --lib menu --section vanilla --entry vanilla-menu`：读取单个条目。',
-        '- `pnpm ai:build` 更新索引；`pnpm ai:check` 只读检查结构、链接、覆盖和索引同步状态。',
-        '',
-        '消费环境须按各库 `setup` 章节确认：`browser` 使用已加载的全局 `zui`；`npm` 以目标发布包的真实导出为准；`workspace` 使用源码工作区的公开入口。`@zui/*` 路径、Preact 入口、独立插件和自定义元素实现文件不能自动视为 npm 入口或已注册能力。',
-        '',
+        ...(introduction ?? ['# ZUI AI 使用索引',
+            '',
+            '<!-- 本文件由 pnpm ai:build 自动生成，请修改 lib/<name>/ai.md 后重新生成。 -->',
+            '',
+            '本索引用于查找 ZUI 内置库及其主要能力。先按场景和关键词选择库，再读取库级 `ai.md` 中的入口、参数、示例和约束。文档描述当前仓库源码，不能据此推定已经发布的版本具有相同行为。',
+            '',
+            '## 使用方式',
+            '',
+            '- `pnpm ai:read --lib menu`：读取整库使用参考。',
+            '- `pnpm ai:read --lib menu --section vanilla`：读取固定章节。',
+            '- `pnpm ai:read --lib menu --section vanilla --entry vanilla-menu`：读取单个条目。',
+            '- `pnpm ai:build` 更新索引；`pnpm ai:check` 只读检查结构、链接、覆盖和索引同步状态。',
+            '',
+            '消费环境须按各库 `setup` 章节确认：`browser` 使用已加载的全局 `zui`；`npm` 以目标发布包的真实导出为准；`workspace` 使用源码工作区的公开入口。`@zui/*` 路径、Preact 入口、独立插件和自定义元素实现文件不能自动视为 npm 入口或已注册能力。',
+            '']),
         '## 文档覆盖',
         '',
         `已发现 ${catalog.libraries.length} 个内置库，${available} 个具有结构有效的使用参考，${catalog.libraries.length - available} 个缺少参考。仅收录内置库，不包含本机 exts。`,

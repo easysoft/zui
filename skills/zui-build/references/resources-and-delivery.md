@@ -13,6 +13,14 @@ The runtime directory contains `zui.css`, `zui.js`, `zui.esm.js`, and the `icons
 
 Both bundled JavaScript files include a local spelling fix for the DTable plugin lifecycle hook `onDestroy`. The manifest's `integrity` identifies the original npm tarball; its per-file checksums describe the patched local assets.
 
+## Portable AI reference and version matching
+
+[The AI index](ai/ai.md) and its library documents ship inside this skill. [The reference manifest](ai/manifest.json) identifies the source snapshot independently from the runtime above, records whether the snapshot includes uncommitted source changes, and pins the bundled vendor manifest's SHA-256. Source links point to a fixed commit; cross-library AI links resolve locally. An uncommitted source snapshot may differ from those online baseline links.
+
+`node <skill-root>/references/ai/read.mjs --lib menu --section setup` reports the bundled runtime version by default. Use `--runtime-version <exact-version>` for a different CDN/runtime selection. Every extracted section includes the version boundary; a modified document or changed vendor manifest is rejected until the skill is exported again. No checkout, pnpm, or network access is needed for reading.
+
+The source snapshot is not certified against the published 3.0.0 bundle. Use it to locate candidate APIs, then verify the selected runtime's actual exports, signatures, CSS, and behavior. Matching version strings alone are insufficient for custom builds, optional libraries, and registration. In particular, do not treat source-workspace imports or newer Web Components as available in this bundle. Keep the bundled release unchanged unless the task authorizes a runtime change.
+
 ## Web Component availability
 
 The bundled `zui@3.0.0` assets do not expose `ZuiButtonElement`, `ZuiPickerElement`, or `ZuiPagerElement`. A source-branch implementation does not make these APIs available in that published bundle.
@@ -68,4 +76,4 @@ Copy the ZUI release once at the site root. Adjust relative URLs from nested pag
 
 ## Updating the bundled release
 
-Treat the manifest as the bundled source of truth. To refresh this skill, query the npm registry, download the published tarball, copy its runtime files and licenses, update every checksum and version reference, then rerun local and CDN forward tests. Never substitute an unpublished repository build for a published release without labeling it clearly.
+Treat the manifest as the bundled source of truth. To refresh this skill, query the npm registry, download the published tarball, copy its runtime files and licenses, update every checksum and version reference, regenerate portable references with `pnpm ai:export` in the source repository, then rerun local and CDN forward tests. Never substitute an unpublished repository build for a published release without labeling it clearly.

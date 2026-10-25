@@ -48,6 +48,7 @@ A custom bundle may intentionally omit components. Check its build configuration
 
 ## Handle versions conservatively
 
+- Use [the bundled AI index](ai/ai.md) for discovery and [its manifest](ai/manifest.json) for source provenance. Run `node <skill-root>/references/ai/read.mjs --lib <name> --section setup --runtime-version <installed-exact-version>` to expose the version boundary before applying an example. The source version is not evidence that an npm package or custom build exports the documented API; compare actual exports, types, CSS, and behavior. Both differing and unknown runtime versions require target-specific evidence; equal versions still require checking build contents.
 - Treat `zui@1.x` and ZUI 3 as different frameworks with different markup and JS APIs.
 - Do not infer the major version from class names such as `.btn` alone.
 - When application code, documentation, and declarations disagree, prefer runtime artifacts for the installed version and mention the mismatch.

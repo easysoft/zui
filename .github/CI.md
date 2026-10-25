@@ -73,6 +73,8 @@ pnpm 安装 Action 固定为支持 pnpm 12 原生发行方式的 `pnpm/action-se
 
 按变更范围运行 `pnpm check`、`pnpm test:build`、文档构建和 Chromium 检查。构建、文档及浏览器验证会写入生成目录，应在隔离副本中执行，避免覆盖已有 `build/`、`dist/`、`docs/_` 和测试报告。
 
+PR 和 main/nightly 的质量检查运行 `pnpm ai:check` 与 `pnpm ai:check-exports`，核对源码参考、根索引及 `skills/*/references/ai/` 随包副本。CI 只读检查，不自动生成；维护者更新参考、公开源码或内置资源清单后运行 `pnpm ai:export`，将对应副本一起交付。内容摘要未变时复用随包记录的捕获提交，支持不含旧提交的浅克隆。文档结构、导出同步和版本提示通过，不代表目标发布包的全部 API 已经运行验收。
+
 本地通过用于提交前验证，不能冒充或替代 GitHub 必需检查的状态。
 
 ## 官网示例门禁

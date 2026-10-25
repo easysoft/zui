@@ -27,6 +27,18 @@ Reuse established project context while it remains applicable; refresh it when d
 
 ## Resolve facts before choosing an API
 
+Use the bundled [AI index](references/ai/ai.md) to find candidate libraries, then read that library's `setup`, the relevant API entry, and `constraints`. These files are a source snapshot, not a release-specific API guarantee. Check [manifest.json](references/ai/manifest.json) for its source version, revision, and content hash. The snapshot is available without a ZUI checkout or network access.
+
+For precise extraction, use Node with no package installation:
+
+```sh
+node <skill-root>/references/ai/read.mjs --lib menu --section setup --runtime-version <installed-exact-version>
+node <skill-root>/references/ai/read.mjs --lib menu --section vanilla --entry vanilla-menu --runtime-version <installed-exact-version>
+node <skill-root>/references/ai/read.mjs --lib menu --section constraints --runtime-version <installed-exact-version>
+```
+
+Omit `--runtime-version` if it is unknown; the reader reports that uncertainty. A differing version requires checking the target's exports, declarations, CSS, and behavior before applying an entry. An equal version does not prove that a custom build includes the same components or APIs. Keep `workspace` examples in their stated source-workspace context; do not turn `@zui/*` examples into assumed npm imports. If no matching runtime evidence is available, use only the capabilities already verified in the application. Fixed-revision online source links are optional provenance; cross-library AI links stay inside this skill.
+
 Use this evidence order:
 
 1. the user's request and repository instructions;
