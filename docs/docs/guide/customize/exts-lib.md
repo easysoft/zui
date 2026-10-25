@@ -41,13 +41,13 @@ $ pnpm extend-lib -- /Users/TaiJi/Projects/zui3_exts/lib/ zentao
 要在开发模式中包含对扩展组件库的开发调试，只需要执行如下命令代替 `pnpm dev` 命令即可：
 
 ```shell
-$ pnpm dev:exts
+$ pnpm dev --extensions
 ```
 
-当添加了多个扩展库时，上述命令会包含所有扩展库，有时只需要包含特定的扩展库，只需要自定义 `--lib` 参数即可：
+当添加了多个扩展库时，上述命令会包含所有扩展库，有时只需要包含特定的扩展库，只需要重复指定 `--extension` 参数即可：
 
 ```shell
-$ pnpm dev:exts --lib=zui,zentao
+$ pnpm dev --extension zentao
 ```
 
 ## 启动文档服务器
@@ -55,7 +55,7 @@ $ pnpm dev:exts --lib=zui,zentao
 要在文档网站服务模式中包含对扩展组件库的文档支持，只需要如下命令代替 `pnpm docs:dev` 命令即可：
 
 ```shell
-$ pnpm docs:dev:exts
+$ pnpm docs:dev --extensions
 ```
 
 ## 打包

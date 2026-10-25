@@ -33,7 +33,7 @@ docs/lib/<category>/index.md
 按共享工作流选择相关 Markdown、链接或示例检查；涉及文档组件、交互示例、导航、资源或同步规则时，再补充必要的宿主文档验证，例如：
 
 ```sh
-pnpm docs:build:exts
+pnpm docs:build --extensions
 ```
 
 确认脚本实际包含 `EXTS_NAME` 与 `ZUI_NAME`。若宿主提供可限定 group 的 prepare/build 参数，优先使用。需要浏览器验证时复用或启动扩展 docs dev，检查本次涉及的示例、依赖、资源、主题或锚点，服务管理遵循 [共享工作流](workflow.md)。

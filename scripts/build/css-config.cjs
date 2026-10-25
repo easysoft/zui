@@ -28,7 +28,7 @@ function colorToVars(colorObject, parentName = 'color', vars = {}) {
 }
 
 /** Each call owns its theme and presets, including mutations made by preset functions. */
-function createTailwindConfig({development = false, preflight = true, tailwindConfigs = [], content} = {}) {
+function createTailwindConfig({development = false, preflight = true, tailwindConfigs = [], tailwindPresets = [], content} = {}) {
     const config = {
         darkMode: 'media',
         content: content ?? (development ? [
@@ -59,6 +59,7 @@ function createTailwindConfig({development = false, preflight = true, tailwindCo
         }
     };
     tailwindConfigs.forEach(path => mergePreset(loadConfig(path)));
+    tailwindPresets.forEach(mergePreset);
     if (!preflight) {
         config.corePlugins = {preflight: false};
     }

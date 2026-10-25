@@ -215,7 +215,7 @@ async function isZuiHost(candidate) {
         safeStat(path.join(candidate, 'lib', 'core'))?.isDirectory()
         && safeStat(path.join(candidate, 'scripts', 'libs', 'query.ts'))?.isFile()
         && packageJson?.scripts
-        && (packageJson.scripts['dev:exts'] || packageJson.scripts['extend-lib']),
+        && (packageJson.scripts.dev || packageJson.scripts['extend-lib']),
     );
 }
 

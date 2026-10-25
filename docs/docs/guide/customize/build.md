@@ -161,7 +161,7 @@ CLI 显式值优先于 JSON，再使用默认值。重复 `--lib` 整体替换 J
 | `--config` 读取旧构建快照 | 改写为本文的声明式 JSON；计划输出仅供诊断 |
 | `pnpm build:vite` | `pnpm build`；单独类型检查使用 `pnpm typecheck` |
 
-开发服务的 `pnpm dev:exts -- --lib=...` 参数有独立含义，保持原有接口。
+开发服务与 Storybook 统一使用 `--extensions` 或重复 `--extension <组名或目录>` 选择扩展来源；旧 `*:exts` 命令、来源 `--lib` / `--exts` 和 `BUILD_LIBS` 已移除。本文构建命令的 `--lib` 仍用于选择具体库。
 
 ## 打包文档
 
@@ -171,4 +171,6 @@ CLI 显式值优先于 JSON，再使用默认值。重复 `--lib` 整体替换 J
 pnpm docs:build
 ```
 
-包含全部已注册扩展文档使用 `pnpm docs:build:exts`。需要限定扩展来源或入口时，先执行 `pnpm docs:prepare --copy --extension zentao --lib @zentao/status-label`，再在 `docs/` 执行 `pnpm build`。文档准备与组件构建共用选择规则，不提前清空 public 目录；`--build=no` 可只同步文档而跳过产物构建，并保留已有 ZUI 产物与 ZIP。文档清单和图标在构建成功后更新，整个文档站不作为一个事务替换。
+包含全部已注册扩展文档使用 `pnpm docs:build --extensions`。需要限定扩展来源或入口时，先执行 `pnpm docs:prepare --copy --extension zentao --lib @zentao/status-label`，再执行 `pnpm docs:build --prepared`。文档准备与组件构建共用选择规则，不提前清空 public 目录；`--build=no` 可只同步文档而跳过产物构建，并保留已有 ZUI 产物与 ZIP。文档清单和图标在构建成功后更新，整个文档站不作为一个事务替换。
+
+文档开发与生成流程共用单写入者锁；服务运行期间准备或构建会明确失败，需先结束所属服务或使用隔离副本。默认文档服务为 `http://127.0.0.1:5174`，端口占用即失败，可用 `--port` 更换。

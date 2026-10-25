@@ -56,22 +56,22 @@ pnpm extend-lib <外部路径> --name=<扩展组名>
 
 ## 联合调试
 
-注册完成后检查现有服务是否需要重启，并遵循 `AGENTS.md` 的开发服务管理规则。默认加载全部内置库和全部已注册扩展库：
+注册完成后检查现有服务是否需要重启，并遵循 `AGENTS.md` 的开发服务管理规则。下列命令加载全部内置库和全部已注册扩展库；不传扩展参数时仅加载内置库：
 
 ```sh
-pnpm dev:exts
+pnpm dev --extensions
 ```
 
 缩小发现范围时使用扩展组名，而不是猜测包的短名称：
 
 ```sh
-pnpm dev:exts -- --lib=buildIn,<扩展组名>
-pnpm dev:exts -- --lib=<扩展组名>
+pnpm dev --extension <扩展组名>
+pnpm dev --extension ../external-library
 ```
 
 从开发页左侧导航进入目标库；扩展项会显示扩展组标签。开发服务器优先加载库根目录的 `dev.ts`，缺失时回退到 `src/main.ts`；页面内容优先使用 `dev.md`，再回退到 `README.md`。修改符号链接指向的源码后应由 Vite/HMR 直接更新。
 
-新增注册、增删库目录或修改 `package.json` 后，核对服务是否需要重启，并按 `AGENTS.md` 的服务归属规则处理。若元数据仍陈旧，检查生成缓存 `.cache/zui-libs.json`；只有确认是缓存问题时才清理这个精确文件。
+源码服务在新增注册、增删库或修改包元数据与 Tailwind 配置后自动重启并重新发现来源；开发发现不读取清单缓存。Storybook 新增库或改变注册仍需按服务归属规则重启。
 
 ## 构建与文档
 
@@ -96,8 +96,8 @@ pnpm build --extension <扩展组名> --lib '<准确的 package.json#name>' --no
 需要把已注册扩展库的正式文档和资源一起同步、监听或构建时使用：
 
 ```sh
-pnpm docs:dev:exts
-pnpm docs:build:exts
+pnpm docs:dev --extensions
+pnpm docs:build --extensions
 ```
 
 文档服务管理及验证隔离遵循 [共享工作流](workflow.md)。不要手工编辑生成目录 `docs/_` 代替修改文档源。
@@ -112,7 +112,7 @@ pnpm docs:build:exts
 按共享工作流及本次接入范围验证：
 
 1. `exts/<扩展组名>` 指向预期目标，`exts/libs.json` 的单库/集合映射正确；
-2. 交付包含联合调试时，`pnpm dev:exts` 导航能识别目标库并显示扩展组标签；
+2. 交付包含联合调试时，`pnpm dev --extensions` 导航能识别目标库并显示扩展组标签；
 3. 按本次接入或变更涉及的内容验证入口、页面、样式、跨库导入或 HMR；
 4. 若交付包含构建或文档，运行对应的扩展构建/文档命令；
 5. 当前仓库和外部仓库的既有未提交改动均未被覆盖，注册没有引入应提交的根项目依赖或锁文件变化。

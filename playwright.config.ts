@@ -61,7 +61,7 @@ export default defineConfig({
     },
     projects,
     webServer: process.env.PLAYWRIGHT_BASE_URL ? undefined : {
-        command: 'pnpm exec vite --host 127.0.0.1 --port 4173 --strictPort',
+        command: 'pnpm dev --host 127.0.0.1 --port 4173',
         url: baseURL,
         reuseExistingServer: !process.env.CI,
         timeout: 120_000,

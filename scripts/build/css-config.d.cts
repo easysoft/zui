@@ -5,6 +5,7 @@ export interface CssConfigOptions {
     development?: boolean;
     preflight?: boolean;
     tailwindConfigs?: string[];
+    tailwindPresets?: unknown[];
     content?: Config['content'];
     minify?: boolean;
     remToPx?: boolean;

@@ -1,70 +1,105 @@
-import path from 'path';
+import Path from 'node:path';
+import {pathToFileURL} from 'node:url';
 import chokidar from 'chokidar';
-import minimist from 'minimist';
-import {blue, yellow, bold, gray, green} from 'colorette';
-import {syncLibDocFile} from './sync';
-import {getExtLibPaths} from '../libs/ext-libs';
-import {getLibs} from '../libs/query';
-import {LibInfo} from '../libs/lib-info';
+import fs from 'fs-extra';
+import {isWithin} from '../build/paths';
+import type {LibInfo} from '../libs/lib-info';
+import {getDocTarget, syncLibDocFile} from './sync';
 
-const libPath = path.resolve(process.cwd(), './lib/');
-const docsPath = path.resolve(process.cwd(), './docs/docs/');
-const extsPath = path.resolve(process.cwd(), './exts/');
-const watchPath = [
-    `${libPath}/*/@(docs|assets)/**/*`,
-    `${docsPath}/**/*.md`,
-];
-
-const argv = minimist(process.argv.slice(2).filter((x, i) => i || x !== '--'));
-const exts = argv.exts;
-const libsMap = await getLibs(exts === true ? 'all' : (exts?.split(',') ?? 'buildIn'));
-const libsList = Object.values(libsMap);
-
-if (exts) {
-    const extLibPaths = await getExtLibPaths();
-    if (exts === true) {
-        watchPath.push(
-            ...Object.keys(extLibPaths).map(libName => path.join(extsPath, libName, `${extLibPaths[libName].endsWith('*') ? '*/' : ''}@(docs|assets)/**/*`)),
-        );
-    } else if (typeof exts === 'string') {
-        exts.split(',').forEach((ext) => {
-            ext = ext.trim();
-            if (ext.length && extLibPaths[ext]) {
-                watchPath.push(
-                    path.join(extsPath, ext, `${extLibPaths[ext].endsWith('*') ? '*/' : ''}@(docs|assets)/**/*`),
-                );
+/** Events are buffered until preparation has finished; one queue owns all writes. */
+export function createDocsWatcher(libs: readonly LibInfo[], root = process.cwd()) {
+    const docsSource = Path.join(root, 'docs/docs');
+    // Watch existing library roots so later docs/assets directories are also discovered.
+    const paths = [docsSource, ...libs.map(lib => lib.zui.path)];
+    const polling = process.env.CHOKIDAR_USEPOLLING?.toLowerCase();
+    const watcher = chokidar.watch(paths, {
+        ignoreInitial: true,
+        // Chokidar 3 selects fsevents before applying its environment override.
+        usePolling: polling === undefined ? undefined : !['', 'false', '0'].includes(polling),
+        ignored(file) {
+            const lib = libs.find(item => isWithin(file, item.zui.path));
+            const base = lib?.zui.path ?? (isWithin(file, docsSource) ? docsSource : undefined);
+            if (!base) return false;
+            const relative = Path.relative(base, file);
+            if (!relative) return false;
+            const parts = relative.split(Path.sep);
+            return parts.some(part => part.startsWith('.')) || !!(lib && !['docs', 'assets'].includes(parts[0]));
+        },
+    });
+    const pending = new Map<string, {file: string; lib?: LibInfo}>();
+    let started = false;
+    let closed = false;
+    let failed: Error | undefined;
+    let running = Promise.resolve();
+    let rejectReady!: (error: Error) => void;
+    let rejectFailure!: (error: Error) => void;
+    const ready = new Promise<void>((resolve, reject) => {
+        rejectReady = reject;
+        watcher.once('ready', resolve);
+    });
+    const failure = new Promise<never>((_resolve, reject) => {
+        rejectFailure = reject;
+    });
+    void failure.catch(() => undefined);
+    void ready.catch(() => undefined);
+    const report = (error: unknown) => {
+        if (failed) return;
+        failed = error instanceof Error ? error : new Error(String(error));
+        rejectReady(failed);
+        rejectFailure(failed);
+    };
+    const drain = async () => {
+        while (pending.size && !failed) {
+            const [target, {file, lib}] = pending.entries().next().value!;
+            pending.delete(target);
+            const exists = await fs.pathExists(file);
+            try {
+                await syncLibDocFile(file, !exists, lib, root);
+            } catch (error) {
+                // A delete can race the copy; reconcile the final state, never hide other I/O failures.
+                if ((error as NodeJS.ErrnoException).code !== 'ENOENT' || await fs.pathExists(file)) throw error;
+                await syncLibDocFile(file, true, lib, root);
             }
-        });
-    }
-}
-
-const watcher = chokidar.watch(watchPath, {persistent: true, ignoreInitial: false, ignored: [/(^|[/\\])\../, /\.git/]});
-
-console.log(`${bold(green('Watch docs...'))} ${watchPath.map(x => gray(path.relative(process.cwd(), x))).join(', ')}`);
-
-const libsMapCache = new Map<string, LibInfo | null>();
-function getLibFromFile(file: string): LibInfo | null {
-    if (libsMapCache.has(file)) {
-        return libsMapCache.get(file) ?? null;
-    }
-    for (const lib of libsList) {
-        if (file.startsWith(`${lib.zui.path}${path.sep}`)) {
-            libsMapCache.set(file, lib);
-            return lib;
         }
-    }
-    return null;
+    };
+    const flush = async () => {
+        running = running.then(drain).catch(report);
+        await running;
+        if (failed) throw failed;
+    };
+    const enqueue = (file: string) => {
+        if (closed || failed) return;
+        try {
+            const lib = libs.find(item => isWithin(file, item.zui.path));
+            pending.set(getDocTarget(file, lib, root), {file, lib});
+            if (started) void flush().catch(report);
+        } catch (error) {
+            report(error);
+        }
+    };
+    watcher.on('add', enqueue).on('change', enqueue).on('unlink', enqueue).on('error', report);
+    return {
+        ready,
+        failure,
+        get pendingCount() {
+            return pending.size;
+        },
+        async start() {
+            await ready;
+            started = true;
+            await flush();
+        },
+        async close() {
+            if (closed) return;
+            closed = true;
+            await watcher.close();
+            if (started) await flush();
+            pending.clear();
+        },
+    };
 }
 
-async function syncFile(type: 'add' | 'change' | 'unlink', file: string) {
-    const destFile = await syncLibDocFile(file, type === 'unlink', getLibFromFile(file));
-    if (destFile) {
-        const typeName = type.toUpperCase();
-
-        console.log(` ${bold(typeName === 'unlink' ? yellow(typeName) : blue(typeName))} ${path.relative(process.cwd(), destFile)}`);
-    }
+if (process.argv[1] && import.meta.url === pathToFileURL(Path.resolve(process.argv[1])).href) {
+    const {runDocsCommand} = await import('./index');
+    process.exitCode = await runDocsCommand(['watch', ...process.argv.slice(2)]);
 }
-
-watcher.on('add', syncFile.bind(null, 'add'));
-watcher.on('change', syncFile.bind(null, 'change'));
-watcher.on('unlink', syncFile.bind(null, 'unlink'));

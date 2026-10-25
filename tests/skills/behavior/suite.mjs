@@ -74,7 +74,7 @@ function prepareExtensionHost(workspace) {
     const manifest = JSON.parse(fs.readFileSync(path.join(workspace, 'package.json'), 'utf8'));
     manifest.zui.name = 'legacy-counter';
     write(workspace, 'package.json', manifest);
-    write(workspace, 'host/package.json', {name: 'zui', private: true, type: 'module', scripts: {build: 'node scripts/build.mjs', 'dev:exts': 'node scripts/build.mjs --help'}});
+    write(workspace, 'host/package.json', {name: 'zui', private: true, type: 'module', scripts: {build: 'node scripts/build.mjs', dev: 'node scripts/build.mjs --help'}});
     fs.mkdirSync(path.join(workspace, 'host/lib/core'), {recursive: true});
     write(workspace, 'host/scripts/libs/query.ts', '// Offline fixture host discovery marker.\n');
     write(workspace, 'host/exts/libs.json', {demo: '../'});

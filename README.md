@@ -135,14 +135,14 @@ pnpm install
 pnpm dev
 ```
 
-开发服务默认运行在 `http://localhost:5173/`。访问 `http://localhost:5173/<lib-name>/` 可以直接打开指定库的调试页，例如 `http://localhost:5173/button/`。
+开发服务默认运行在 `http://127.0.0.1:5173/`。访问 `http://127.0.0.1:5173/<lib-name>/` 可以直接打开指定库的调试页，例如 `http://127.0.0.1:5173/button/`。
 
 ### 常用命令
 
 | 命令 | 说明 |
 | --- | --- |
 | `pnpm dev` | 启动内置库的开发服务 |
-| `pnpm dev:exts` | 启动包含 `exts/` 扩展库的开发服务 |
+| `pnpm dev --extensions` | 启动包含 `exts/` 扩展库的开发服务 |
 | `pnpm storybook` | 启动独立的组件场景预览（默认端口 6006） |
 | `pnpm storybook --extensions` | 启动包含已注册 `exts/` 扩展库的 Storybook |
 | `pnpm storybook:build` | 构建 Storybook 静态站点到 `dist/storybook` |
@@ -194,16 +194,20 @@ pnpm dev
 
 场景统一放在库根目录，命名为 `<scene>.stories.ts` 或 `.stories.tsx`，内置库对应 `lib/<lib>/`，扩展库对应注册后的单库或集合中的库目录。使用 HTML/Vite 和 CSF 3，通过组件公开入口导入组件与样式。Storybook、CSS 扫描、TypeScript 检查和浏览器巡检共用所选库清单，无需维护库名列表；已发现库内增删场景会自动更新索引，新增库、注册或修改包元数据后须重启 Storybook。嵌套目录和 `dev.ts` 不会自动转换为场景。Button 的 Web Component 原型场景从本库 `src/web-component` 导入，不代表包主入口已公开该原型。使用已公开的 ZUI CSS 类、确定性数据和独立 DOM 容器，不导入 `dev.ts` 或复用全局实例。
 
-Storybook 的扩展来源与构建命令统一：默认仅加载内置库，`--extensions` 加载全部已注册扩展，重复 `--extension <组名或目录>` 加载指定来源，两者互斥。内置库始终可用；可直接传入单库、集合或含 `lib/` 的项目目录，无须先注册。
+扩展来源与构建命令统一：默认仅加载内置库，`--extensions` 加载全部已注册扩展，重复 `--extension <组名或目录>` 加载指定来源，两者互斥。内置库始终可用；可直接传入单库、集合或含 `lib/` 的项目目录，无须先注册。旧的 `*:exts` 命令、来源参数 `--lib` / `--exts` 和 `BUILD_LIBS` 已移除，构建命令用于选择具体库的 `--lib` 保持不变。
 
 ```sh
+pnpm dev --extension zentao --port 5180
+pnpm docs:dev --extension zentao
 pnpm storybook --extension zentao
 pnpm typecheck:storybook --extension zentao
 pnpm storybook:build --extension zentao --output-dir dist/storybook-zentao
 STORYBOOK_OUTPUT_DIR=dist/storybook-zentao pnpm test:storybook --extension zentao smoke.spec.ts
 ```
 
-Storybook 默认绑定 `127.0.0.1:6006`，占用即失败；用 `--port` 指定新端口，局域网访问须显式指定 `--host 0.0.0.0`。`--help` 不发现库或准备文件。每次开发服务启动使用独立临时缓存，退出时清理。
+三个开发服务默认绑定 `127.0.0.1`，端口依次为 `5173`、`5174`、`6006`；占用即失败，用 `--port` 指定新端口。局域网访问须显式指定 `--host 0.0.0.0`；自定义域名通过工具的受信任主机配置放行。`--help` 不发现库、不准备文件或启动服务，原生工具参数直接透传。 源码开发与 Storybook 每次启动使用独立临时优化缓存，配置重启沿用本会话缓存，退出时清理，避免多个端口之间互相使缓存失效。
+
+文档生成目录采用单写入者约束：`docs:dev`、`docs:dev-fast`、`docs:watch`、`docs:prepare`、`docs:build` 和 `docs:serve` 共享占用锁，冲突会报告 PID 与锁路径；换端口不能绕过目录占用。`docs:dev` 完成准备后同步 Markdown 与资源；组件源码变化需要重新准备运行时。`docs:dev-fast` 只服务已准备内容，`docs:watch` 只同步准备清单中的库。正常退出会释放监听器、所属子进程及锁；强杀残留锁须确认所属进程结束后再清理。
 
 扩展库使用自己的包名导入（例如 `@zentao/user-avatar`），使用 `~/.storybook/zui` 导入宿主的 `createPreactRender` / `createZuiRender` 适配器。预览与构建同时接入所选扩展的公开子入口、`zui.replace`、Tailwind 预设、源码扫描和公共资源；修改扩展源码会刷新预览，CSS 继续使用热更新。扩展主题和替换会作用于同一次预览中的内置场景，因此内置视觉基线应在默认模式检查。扩展需要的第三方依赖仍由扩展项目管理。没有 `.stories.ts(x)` 的库可供其他场景导入，但不会自动出现在侧栏。CI 默认不依赖本机扩展；团队复现需先检出并注册相同扩展。
 

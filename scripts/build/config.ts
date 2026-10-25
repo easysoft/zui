@@ -2,7 +2,7 @@ import Path from 'node:path';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import fs from 'fs-extra';
-import {getLibs} from '../libs/query';
+import {discoverLibraries} from '../libs/discover';
 import {LibInfo} from '../libs/lib-info';
 import {LibType} from '../libs/lib-type';
 import {canonical, isWithin} from './paths';
@@ -259,42 +259,7 @@ export async function validateDirectories(plan: BuildPlan) {
 export async function resolveBuildPlan(options: BuildOptions, rootDir = process.cwd()): Promise<BuildPlan> {
     validateBuildOptions(options);
     rootDir = Path.resolve(rootDir);
-    const sources = [Path.join(rootDir, 'lib')];
-    const libsMap = await getLibs('buildIn', {root: rootDir, cache: false});
-    if (options.extensions) {
-        const registryPath = Path.join(rootDir, 'exts/libs.json');
-        const registry: Record<string, string> = await fs.pathExists(registryPath) ? await fs.readJSON(registryPath) : {};
-        record(registry, 'Extension registry');
-        const selected = options.extensions === true ? Object.keys(registry) : options.extensions;
-        for (const source of selected) {
-            let path = registry[source];
-            if (path !== undefined) {
-                nonempty(path, `Extension ${source}`);
-                path = Path.resolve(rootDir, path.replace(/[/\\]\*$/, ''));
-            } else {
-                path = Path.resolve(rootDir, source);
-                if (!(await fs.pathExists(path))) {
-                    throw new Error(`Unknown extension group or directory "${source}".`);
-                }
-            }
-            if (!(await fs.pathExists(path)) || !(await fs.stat(path)).isDirectory()) {
-                throw new Error(`Invalid extension directory "${path}".`);
-            }
-            if (sources.includes(path)) {
-                continue;
-            }
-            const packagePath = Path.join(path, 'package.json');
-            const pkg = await fs.pathExists(packagePath) ? await fs.readJSON(packagePath) : undefined;
-            const collectionPath = Path.join(path, 'lib');
-            const discoveryPath = !pkg?.zui && await fs.pathExists(collectionPath) && (await fs.stat(collectionPath)).isDirectory() ? collectionPath : path;
-            const extensions = await getLibs(discoveryPath, {root: rootDir, cache: false, sourceType: 'exts', extsName: source, hasSubs: !pkg?.zui, idx: sources.length});
-            if (!Object.keys(extensions).length) {
-                throw new Error(`No extension libraries found in "${path}".`);
-            }
-            Object.assign(libsMap, extensions);
-            sources.push(path);
-        }
-    }
+    const {sources, libsMap} = await discoverLibraries({rootDir, extensions: options.extensions});
     const byName = Object.fromEntries(Object.values(libsMap).map(lib => [lib.zui.sourceType === 'build-in' ? lib.zui.name : lib.name, lib]));
     const lookup = (name: string) => {
         if (!Object.hasOwn(byName, name)) {

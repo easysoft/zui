@@ -1,92 +1,60 @@
-import Path from 'path';
+import Path from 'node:path';
 import glob from 'fast-glob';
 import fs from 'fs-extra';
-import {yellow, red, underline} from 'colorette';
-import {LibInfo} from '../libs/lib-info';
+import {isWithin} from '../build/paths';
+import type {LibInfo} from '../libs/lib-info';
 
-export async function syncLibDocs(lib: LibInfo) {
-    const docsPath = Path.resolve(process.cwd(), 'docs/_');
-    const docsPublicPath = Path.resolve(docsPath, 'public');
-    const libDocsDir = Path.join(lib.zui.path, 'docs');   // 'libs/avatar/docs'
-    const name = lib.zui.name;
-    const libDocsDirExists = await fs.pathExists(libDocsDir);
-    if (libDocsDirExists) {
-        const dirs = await glob('*/*/', {cwd: libDocsDir, onlyDirectories: true});
-        for (const dir of dirs) {
-            const libDir = Path.join(docsPath, dir, name);
-            await fs.copy(Path.join(libDocsDir, dir), libDir);
-        }
+/** Initial copying and watch events share the same library-relative destination. */
+export function getDocTarget(file: string, lib: LibInfo | null | undefined, root = process.cwd()): string {
+    const docsDir = Path.resolve(root, 'docs/_');
+    const sourceDir = lib ? lib.zui.path : Path.resolve(root, 'docs/docs');
+    if (!isWithin(file, sourceDir) || Path.resolve(file) === Path.resolve(sourceDir)) {
+        throw new Error(`Documentation source "${file}" is outside "${sourceDir}".`);
     }
-
-    const libAssetsDir = Path.resolve(lib.zui.path, 'assets');
-    const libAssetsDirExists = await fs.pathExists(libAssetsDir);
-    if (libAssetsDirExists) {
-        const docsAssetsDir = Path.resolve(docsPublicPath, './assets', name);
-        await fs.copy(libAssetsDir, docsAssetsDir);
-    }
-}
-
-export async function syncLibDocFile(file: string, isRemove?: boolean, lib?: LibInfo | null): Promise<string> {
-    const libPath = Path.resolve(process.cwd(), 'lib');
-    const docsPath = Path.resolve(process.cwd(), 'docs/docs');
-    const docsDestPath = Path.resolve(process.cwd(), 'docs/_');
-    const extsPath = Path.resolve(process.cwd(), 'exts');
-    let targetFile = '';
-    if (file.startsWith(libPath) || file.startsWith(extsPath)) {
-        let relativePath = '';
-        if (file.startsWith(extsPath)) {
-            relativePath = Path.relative(extsPath, file);
-            const relativePathParts = relativePath.split(Path.sep);
-            if (relativePathParts[2] === 'docs') {
-                relativePath = relativePath.split(Path.sep).slice(1).join(Path.sep);
-            }
+    const relative = Path.relative(sourceDir, file);
+    let target: string;
+    if (lib) {
+        const [type, ...parts] = relative.split(Path.sep);
+        if (type === 'assets' && parts.length) {
+            target = Path.join(docsDir, 'public/assets', lib.zui.name, ...parts);
+        } else if (type === 'docs' && parts.length >= 3) {
+            const [sidebar, section, ...rest] = parts;
+            target = Path.join(docsDir, sidebar, section, lib.zui.name, ...rest);
         } else {
-            relativePath = Path.relative(libPath, file);
+            throw new Error(`Invalid documentation source "${file}"; use docs/<sidebar>/<section>/<file> or assets/<file>.`);
         }
-        const [libName, type, ...restPath] = relativePath.split(Path.sep);
-        const fullLibName = lib?.zui.name ?? libName;
-        if (type === 'assets') {
-            targetFile = Path.join(docsDestPath, 'public', 'assets', fullLibName, ...restPath);
-        } else if (restPath.length < 3) {
-            console.log(` ${red('ERROR')} file ${underline(yellow(relativePath))} is in wrong place.`);
-            return '';
-        } else {
-            const [sidebar, section, ...fileParts] = restPath;
-            targetFile = Path.join(docsDestPath, sidebar, section, fullLibName, ...fileParts);
-        }
-    } else if (file.startsWith(docsPath)) {
-        const relativePath = Path.relative(docsPath, file);
-        targetFile = Path.resolve(docsDestPath, relativePath);
     } else {
-        console.log(` ${red('ERROR')} file ${underline(yellow(file))} is place in wrong place.`);
-        return '';
+        target = Path.join(docsDir, relative);
     }
+    if (!isWithin(target, docsDir)) throw new Error(`Documentation target "${target}" is outside "${docsDir}".`);
+    return target;
+}
 
-    try {
-        if (isRemove) {
-            if (await fs.pathExists(targetFile)) {
-                await fs.remove(targetFile);
-            }
-        } else {
-            await fs.ensureDir(Path.dirname(targetFile));
-            await fs.copyFile(file, targetFile);
-        }
-        return targetFile;
-    } catch (error) {
-        console.log(` ${red('ERROR')} cannot ${isRemove ? 'delete' : 'copy'} file ${underline(file)} to ${underline(Path.relative(process.cwd(), targetFile))}.`, error);
-        return '';
+export async function syncLibDocs(lib: LibInfo, root = process.cwd()) {
+    const files = await glob(['docs/*/*/**/*', 'assets/**/*'], {cwd: lib.zui.path, onlyFiles: true, dot: false});
+    for (const file of files) {
+        await syncLibDocFile(Path.join(lib.zui.path, file), false, lib, root);
     }
 }
 
-export async function emptySidebarLibDocs() {
-    const docsDestPath = Path.resolve(process.cwd(), 'docs/_');
-    const baseDocsPath = Path.resolve(process.cwd(), 'docs/docs');
-    const filePaths = await fs.readdir(docsDestPath);
-    for (const filePath of filePaths) {
-        if (filePath === '.vitepress' || filePath === 'public') {
-            continue;
-        }
-        await fs.remove(Path.join(docsDestPath, filePath));
+export async function syncLibDocFile(file: string, isRemove = false, lib?: LibInfo | null, root = process.cwd()): Promise<string> {
+    const target = getDocTarget(file, lib, root);
+    if (isRemove) {
+        await fs.remove(target);
+    } else {
+        await fs.ensureDir(Path.dirname(target));
+        await fs.copyFile(file, target);
     }
-    await fs.copy(baseDocsPath, docsDestPath);
+    return target;
+}
+
+export async function emptySidebarLibDocs(root = process.cwd()) {
+    const docsDir = Path.resolve(root, 'docs/_');
+    await fs.ensureDir(docsDir);
+    for (const entry of await fs.readdir(docsDir)) {
+        if (entry !== '.vitepress' && entry !== 'public') {
+            await fs.remove(Path.join(docsDir, entry));
+        }
+    }
+    await fs.copy(Path.resolve(root, 'docs/docs'), docsDir);
 }

@@ -5,9 +5,9 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "vitepress dev ./_ --host --port 5174",
-        "build": "vitepress build ./_",
-        "serve": "vitepress serve ./_"
+        "dev": "cd .. && tsx ./scripts/docs/index.ts dev",
+        "build": "cd .. && tsx ./scripts/docs/index.ts build --prepared",
+        "serve": "cd .. && tsx ./scripts/docs/index.ts serve"
     },
     "dependencies": {
         "vue": "^3.5.21"

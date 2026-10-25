@@ -35,7 +35,7 @@
 按共享工作流选择相关 fence、selector、import 或清理检查。涉及渲染、交互或 HMR 时，再通过已确认的宿主和注册组使用实际扩展 dev script，例如：
 
 ```sh
-pnpm dev:exts -- --lib=buildIn,<EXTS_NAME>
+pnpm dev --extension <EXTS_NAME>
 ```
 
 从宿主导航确定目标 URL；短名冲突时使用宿主生成的安全 scoped URL。验证本次涉及的首次加载、Markdown HMR、交互或控制台行为；服务管理及宿主写入遵循 [共享工作流](workflow.md) 的服务与验证隔离规则。

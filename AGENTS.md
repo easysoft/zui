@@ -11,7 +11,7 @@ ZUI 3 是一个不依赖 JavaScript 框架的 Web UI 组件库。以 pnpm worksp
 ```sh
 pnpm install               # 安装依赖
 pnpm dev                   # 启动开发服务器，自动遍历 lib/* 生成左侧导航
-pnpm dev:exts              # 带扩展库 (exts/) 一起开发
+pnpm dev --extensions     # 带全部注册扩展一起开发；--extension 可重复指定组名或目录
 pnpm storybook            # 内置库 Storybook，默认 127.0.0.1:6006
 pnpm storybook --extensions # 包含全部注册扩展；--extension zentao 选择来源
 pnpm storybook:build --extensions # 构建扩展场景，可用 --output-dir 指定独立产物目录
@@ -34,7 +34,7 @@ pnpm check                 # lint + typecheck + 单元/DOM + skills + AI 文档�
 pnpm build                 # CLI/JSON → BuildPlan → 独立 build/run-* 入口 → 暂存产物 → 更新输出，不隐式执行类型检查
 pnpm build:npm             # 同一次构建生成 npm 运行时与声明，全部成功后更新 dist/zui
 pnpm pack:npm              # 独立构建并打包 npm 候选包，默认输出 dist/npm/run-* 的 tgz 与摘要
-pnpm docs:dev              # 准备并启动 VitePress 文档站；docs:dev-fast 跳过预处理
+pnpm docs:dev              # 准备并启动 VitePress 文档站；docs:dev-fast 只服务已准备内容
 pnpm docs:build            # 构建文档（CI 中使用 .github/workflows/deploy-docs.yml）
 pnpm extend-lib <path>     # 通过软链将外部目录加入 exts/ 并写入 exts/libs.json
 pnpm publish:npm --tarball <file> # check + test:build 验证指定包的私有快照后发布同一文件
@@ -42,13 +42,17 @@ pnpm publish:npm --tarball <file> # check + test:build 验证指定包的私有�
 
 ### 开发服务管理
 
-需要使用开发服务（包括 `pnpm dev`、`pnpm dev:exts` 和文档服务等）时：
+需要使用开发服务（包括 `pnpm dev`、`pnpm dev --extensions` 和文档服务等）时：
 
 - 启动前先检查目标端口、相关进程和页面响应，复用可用服务，并记录服务归属及用途（临时验证或持续预览）。
 - 现有服务无法通过简单热更新满足验证需求时，优先选用已确认空闲的新端口启动临时开发服务，无需询问用户。
 - 用户启动或归属不明的服务只复用，不代用户停止或重启；只有无法通过新端口完成验证且确需重启这类服务时，才说明原因并请用户自行操作。
 - 没有可复用服务时，由 Codex 启动。本任务启动的服务由 Codex 管理，后续步骤仍沿用这一归属；需要时可重启，不因它已在运行而再次要求用户操作。
 - 仅为临时验证启动的服务在验证后结束；用户要求持续预览的服务保持运行。每次启动或重启后都必须告知用户服务地址、端口和运行状态。
+
+开发服务默认仅绑定 `127.0.0.1`，源码、文档、Storybook 默认端口分别为 `5173`、`5174`、`6006`，占用即失败；`--port` 选择新端口，局域网须显式 `--host 0.0.0.0`。`--help` 不发现库或写文件。源码服务在库元数据、注册及 Tailwind 配置变化后自动重启；Storybook 新增库或改变注册仍需重启。
+
+文档 `dev`、`dev-fast`、`watch`、`prepare`、`build` 和 `serve` 共用生成目录占用锁；同一 checkout 的第二个文档流程即使更换端口也会失败。需并行验收时使用隔离副本。`docs:watch` 读取已有准备清单；`docs:dev-fast` 不同步源文件。普通退出会释放资源，强杀遗留锁须确认所属进程已结束后清理。文档服务只增量同步文档和资源，不自动重打包组件运行时。
 
 `pnpm build` 支持的关键参数（透传给 `scripts/build/index.ts`）：
 
@@ -120,7 +124,7 @@ build/、dist/、publish/   构建中间产物 / 最终产物（gitignored）
 
 `scripts/libs/query.ts` 的 `getLibs()` 是发现/合并 build-in 与 exts 库的统一入口；同时会做缓存（`.cache/`）。
 
-Storybook 复用无写入的来源发现入口，默认仅内置库；`--extensions` 与可重复的 `--extension <组名或目录>` 互斥，内置库始终可用。场景位于每个库根目录的 `*.stories.ts(x)`；不加载 `dev.ts`。扩展场景通过 `~/.storybook/zui` 使用宿主适配器，扩展包别名、替换、Tailwind 预设与源码刷新一同生效。已发现库内增删场景会自动更新索引；新增库或改变注册后须重启本任务服务或另开端口验证。扩展巡检使用与构建一致的 `--extension` / `--extensions`，独立产物目录通过 `STORYBOOK_OUTPUT_DIR` 传给 `pnpm test:storybook`；不要让默认 CI 依赖本机扩展。
+开发服务与 Storybook 复用无写入的来源发现入口，默认仅内置库；`--extensions` 与可重复的 `--extension <组名或目录>` 互斥，内置库始终可用。旧 `*:exts`、来源 `--lib` / `--exts` 及 `BUILD_LIBS` 已移除，构建的具体库 `--lib` 保持不变。场景位于每个库根目录的 `*.stories.ts(x)`；不加载 `dev.ts`。扩展场景通过 `~/.storybook/zui` 使用宿主适配器，扩展包别名、替换、Tailwind 预设与源码刷新一同生效。已发现库内增删场景会自动更新索引；新增库或改变注册后须重启本任务服务或另开端口验证。扩展巡检使用与构建一致的 `--extension` / `--extensions`，独立产物目录通过 `STORYBOOK_OUTPUT_DIR` 传给 `pnpm test:storybook`；不要让默认 CI 依赖本机扩展。
 
 ### 源码与文档接入边界
 

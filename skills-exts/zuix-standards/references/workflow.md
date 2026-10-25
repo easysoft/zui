@@ -135,8 +135,8 @@ pnpm exec tsc --noEmit -p lib/<LIB_FOLDER>/tsconfig.json
 
 # ZUI_ROOT：仅在 ZUI_ROOT + EXTS_NAME 已唯一解析时
 pnpm build --extension <EXTS_NAME> --lib '<PACKAGE_NAME>' --no-minify
-pnpm dev:exts -- --lib=buildIn,<EXTS_NAME>
-pnpm docs:build:exts
+pnpm dev --extension <EXTS_NAME>
+pnpm docs:build --extensions
 ```
 
 这些是当前常见形式，不得替代各仓库 `AGENTS.md` 和 `package.json#scripts`。显式 `--lib` 使用扩展完整包名，并可选择 `zui.wip`／独立库；`--exclude-not-ready` 会排除未就绪库。持续进程遵循下述开发服务管理规则。

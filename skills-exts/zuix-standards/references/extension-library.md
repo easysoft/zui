@@ -39,7 +39,7 @@
 在 `ZUI_ROOT` 使用实际脚本，常见命令为：
 
 ```sh
-pnpm dev:exts -- --lib=buildIn,<EXTS_NAME>
+pnpm dev --extension <EXTS_NAME>
 ```
 
 从宿主导航取得页面 URL。短目录名唯一时通常可访问 `/<LIB_FOLDER>/`；冲突时宿主可能使用 `<scope>_<folder>` 等安全形式，不能硬编码。
@@ -71,8 +71,8 @@ pnpm build --extension <EXTS_NAME> --lib '<PACKAGE_NAME>' --no-minify
 正式文档通过宿主扩展脚本同步和构建，例如：
 
 ```sh
-pnpm docs:dev:exts
-pnpm docs:build:exts
+pnpm docs:dev --extensions
+pnpm docs:build --extensions
 ```
 
 运行前核对这些脚本是否能限定或包含目标 `EXTS_NAME`。宿主生成目录不是扩展源码，不手工编辑代替源文件修改，也不纳入扩展提交。

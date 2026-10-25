@@ -1,9 +1,9 @@
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs-extra';
-import {HtmlTagDescriptor, Plugin} from 'vite';
+import {normalizePath} from 'vite';
+import type {HtmlTagDescriptor, Plugin, ViteDevServer} from 'vite';
 import {generateLibDoc} from '../docs/lib-doc-generator';
-import {getLibs} from '../libs/query';
-import {LibInfo} from '../libs/lib-info';
+import type {LibInfo} from '../libs/lib-info';
 
 /**
  * Convert scoped lib key to a URL-friendly name without `/`.
@@ -49,112 +49,120 @@ function getLibNameFromUrl(url: string, libs?: Record<string, LibInfo>): string 
     return resolveLibName(name, libs);
 }
 
-const buildLibs = process.env.BUILD_LIBS ?? 'buildIn';
-let libsCache: Record<string, LibInfo> | undefined = await getLibs(buildLibs.split(','));
-const libsPaths = new Map<string, LibInfo>();
+export default function configDevServer(options: {rootPath: string; libsCache: Record<string, LibInfo>; sources: string[]; configFiles?: string[]; watchExtensions?: boolean}): Plugin {
+    const {rootPath, libsCache, sources} = options;
+    const visited = new Map<string, LibInfo>();
+    let cleanup: (() => void) | undefined;
 
-export default (options: {rootPath: string}): Plugin => ({
-    name: 'config-dev-server',
-    configureServer(server) {
-        server.middlewares.use(async (req, res, next) => {
-            if (!req.url) {
-                return next();
+    async function renderMarkdown(lib: LibInfo) {
+        for (const name of ['dev.md', 'README.md']) {
+            const file = path.join(lib.zui.path, name);
+            try {
+                return {file, content: generateLibDoc(await fs.readFile(file, 'utf8'), lib.zui.name)};
+            } catch (error) {
+                if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
             }
+        }
+        return {file: path.join(lib.zui.path, 'dev.md'), content: '<h1>未找到调试文档</h1><p>请在组件库目录中创建 dev.md 或 README.md。</p>'};
+    }
 
-            if (req.url.startsWith('/libs/')) {
-                res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify(libsCache));
-                return;
-            }
-
-            if (/^\/lib\/[\w-\d%]+\/(README|dev).md$/.test(req.url)) {
-                const rawLibName = decodeURIComponent(req.url.replace('/lib/', '').split('/')[0]);
-                if (!libsCache) {
-                    libsCache = await getLibs();
-                }
-                const libName = resolveLibName(rawLibName, libsCache) ?? rawLibName;
-
-                let markdownFile = path.join(options.rootPath, req.url);
-                const libInfo = libsCache[libName];
-                let markdownFileExits = false;
-                if (libInfo) {
-                    markdownFile = path.join(libInfo.zui.path, 'dev.md');
-                    markdownFileExits = await fs.pathExists(markdownFile);
-                    if (!markdownFileExits) {
-                        markdownFile = path.join(libInfo.zui.path, 'README.md');
-                    }
-                    libsPaths.set(libInfo.zui.path, libInfo);
-                }
-                if (!markdownFileExits) {
-                    markdownFileExits = await fs.pathExists(markdownFile);
-                }
-                if (markdownFileExits) {
-                    const content = await fs.readFile(markdownFile, 'utf-8');
-                    const html = generateLibDoc(content, libName);
-                    res.setHeader('Content-Type', 'text/html');
-                    res.end(html);
-                    return;
-                } else {
-                    res.setHeader('Content-Type', 'text/html');
-                    res.end([
-                        `<h1>404 - ${libInfo?.zui.displayName ?? libName}</h1>`,
-                        '<p>Cannot found the README.md or dev.md file in library folder, your can create one:</p>',
-                        `<pre class="lighter border-light"><code><span class="text-primary">echo</span> <span class="text-success">"# ${libInfo?.zui.displayName ?? libName}"</span> &gt; ${markdownFile}</code></pre>`,
-                    ].join('\n'));
-                    return;
-                }
-            }
-            next();
+    async function updateMarkdown(file: string, server: ViteDevServer) {
+        const lib = visited.get(path.dirname(file));
+        if (!lib || !/^(README|dev)\.md$/.test(path.basename(file))) return false;
+        const result = await renderMarkdown(lib);
+        if (visited.get(path.dirname(file)) !== lib) return false;
+        server.ws.send('zui:lib-page-updated', {
+            libName: lib.zui.name,
+            path: path.relative(rootPath, result.file),
+            content: result.content,
         });
-    },
-    handleHotUpdate({file, server}) {
-        if (/\/(README|dev).md$/g.test(file)) {
-            const libPath = path.dirname(file);
-            const libName = libsPaths.get(libPath)?.zui.name;
-            if (!libName) {
-                return;
-            }
-            const content = fs.readFileSync(file, 'utf-8');
-            const html = generateLibDoc(content, libName);
-            server.ws.send('zui:lib-page-updated', {
-                libName: libName,
-                path: path.relative(options.rootPath, file),
-                content: html,
+        return true;
+    }
+
+    function isStructure(file: string) {
+        if (options.configFiles?.includes(file)) return true;
+        if (options.watchExtensions && file === path.join(rootPath, 'exts/libs.json')) return true;
+        if (!/^(package\.json|tailwind\.(cjs|js))$/.test(path.basename(file))) return false;
+        return sources.some((source) => {
+            const relative = path.relative(source, file);
+            return !relative.startsWith(`..${path.sep}`) && !path.isAbsolute(relative)
+                && !relative.split(path.sep).some(part => part === 'node_modules' || part === '.git');
+        });
+    }
+
+    return {
+        name: 'config-dev-server',
+        configureServer(server) {
+            let timer: ReturnType<typeof setTimeout> | undefined;
+            const onFile = (event: string, file: string) => {
+                if (!['add', 'change', 'unlink'].includes(event)) return;
+                if (isStructure(file)) {
+                    clearTimeout(timer);
+                    timer = setTimeout(() => {
+                        void server.restart().catch(error => server.config.logger.error(String(error)));
+                    }, 100);
+                } else if (event !== 'change') {
+                    void updateMarkdown(file, server).catch(error => server.config.logger.error(String(error)));
+                }
+            };
+            server.watcher.add([...sources, ...options.configFiles ?? [], ...(options.watchExtensions ? [path.join(rootPath, 'exts/libs.json')] : [])]);
+            server.watcher.on('all', onFile);
+            cleanup = () => {
+                clearTimeout(timer);
+                server.watcher.off('all', onFile);
+                visited.clear();
+            };
+            server.middlewares.use(async (req, res, next) => {
+                try {
+                    if (!req.url) return next();
+                    const pathname = req.url.split('?')[0];
+                    if (pathname === '/libs/') {
+                        res.setHeader('Content-Type', 'application/json');
+                        res.end(JSON.stringify(libsCache));
+                        return;
+                    }
+                    if (/^\/lib\/[\w%-]+\/(README|dev)\.md$/.test(pathname)) {
+                        const rawName = decodeURIComponent(pathname.split('/')[2]);
+                        const name = resolveLibName(rawName, libsCache);
+                        if (!name) return next();
+                        const lib = libsCache[name];
+                        visited.set(lib.zui.path, lib);
+                        const {content} = await renderMarkdown(lib);
+                        res.setHeader('Content-Type', 'text/html');
+                        res.end(content);
+                        return;
+                    }
+                    next();
+                } catch (error) {
+                    next(error);
+                }
             });
-            return [];
-        }
-    },
-    transformIndexHtml(html, ctx) {
-        if (!ctx.originalUrl) {
-            return html;
-        }
-        const libName = getLibNameFromUrl(ctx.originalUrl, libsCache);
-        const lib = libName && libsCache && libsCache[libName];
-        if (lib) {
-            let devEntryFile = path.join(lib.zui.path, 'dev.ts');
-            if (!fs.existsSync(devEntryFile)) {
-                devEntryFile = path.join(lib.zui.path, 'src/main.ts');
-            }
+        },
+        async handleHotUpdate({file, server}) {
+            if (await updateMarkdown(file, server)) return [];
+        },
+        closeBundle() {
+            cleanup?.();
+        },
+        transformIndexHtml(html, ctx) {
+            if (!ctx.originalUrl) return html;
+            const libName = getLibNameFromUrl(ctx.originalUrl, libsCache);
+            const lib = libName && libsCache[libName];
+            if (!lib) return html;
+            const devEntryFile = ['dev.ts', 'dev.tsx', 'src/main.ts'].map(name => path.join(lib.zui.path, name)).find(file => fs.existsSync(file));
+            if (!devEntryFile) return html;
+            const relative = path.relative(rootPath, devEntryFile);
+            const outside = relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative);
+            const url = outside ? `/@fs/${normalizePath(devEntryFile)}` : `/${normalizePath(relative)}`;
             const descriptors: HtmlTagDescriptor[] = [{
                 tag: 'script',
-                attrs: {
-                    type: 'module',
-                    src: `/${path.relative(options.rootPath, devEntryFile)}`,
-                },
+                attrs: {type: 'module', src: encodeURI(url).replace(/[?#]/g, encodeURIComponent)},
                 injectTo: 'body',
             }];
             if (libName !== 'utilities' && libName !== 'base') {
-                descriptors.push({
-                    tag: 'script',
-                    attrs: {
-                        type: 'module',
-                        src: '/lib/utilities/src/main.ts',
-                    },
-                    injectTo: 'body',
-                });
+                descriptors.push({tag: 'script', attrs: {type: 'module', src: '/lib/utilities/src/main.ts'}, injectTo: 'body'});
             }
             return descriptors;
-        }
-        return html;
-    },
-});
+        },
+    };
+}

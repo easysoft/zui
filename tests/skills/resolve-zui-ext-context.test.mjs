@@ -34,7 +34,7 @@ function fixture(t) {
 
 function host(root, name, extension, registrations) {
     const target = path.join(root, name);
-    write(target, 'package.json', {name: 'zui', scripts: {'dev:exts': 'vite'}});
+    write(target, 'package.json', {name: 'zui', scripts: {dev: 'vite'}});
     write(target, 'scripts/libs/query.ts', '');
     fs.mkdirSync(path.join(target, 'lib/core'), {recursive: true});
     write(target, 'exts/libs.json', registrations ?? {acme: path.relative(target, path.join(extension, 'lib')) + '/*'});

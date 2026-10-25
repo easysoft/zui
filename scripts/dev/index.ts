@@ -1,21 +1,27 @@
-import minimist from 'minimist';
-import {getLibList} from '../libs/query';
-import {exec} from '../utilities/exec';
+import Path from 'node:path';
+import {tmpdir} from 'node:os';
+import {mkdtemp, rm} from 'node:fs/promises';
+import {EXTENSION_HELP, parseServiceArgs, serviceEnvironment} from '../services/args';
+import {resolveToolBin, runService} from '../services/process';
 
-const argv = minimist(process.argv.slice(2).filter((x, i) => i || x !== '--'));
-const libSetting = argv.lib ?? 'all';
-const libs = await getLibList(libSetting.split(','));
-const tailwindConfigs = libs.reduce<string[]>((list, libConfig) => {
-    if (libConfig.zui.tailwindConfigPath && libConfig.name !== '@zui/base') {
-        list.push(libConfig.zui.tailwindConfigPath);
+try {
+    const {extensions, args, help} = parseServiceArgs(process.argv.slice(2));
+    if (help) {
+        console.log(`Usage: pnpm dev [extension options] [Vite options]\n${EXTENSION_HELP}\nDefault: http://127.0.0.1:5173; occupied ports fail. Use --port to choose another port.`);
     }
-    return list;
-}, []);
-
-await exec('pnpm', ['run', 'dev'], {
-    env: {
-        ...process.env,
-        BUILD_LIBS: libSetting,
-        TAILWIND_CONFIG: tailwindConfigs.length ? tailwindConfigs.join(',') : undefined,
-    },
-});
+    const env = serviceEnvironment(extensions);
+    let cacheDir: string | undefined;
+    process.exitCode = await runService(resolveToolBin('vite'), help ? ['--help'] : args, {
+        env,
+        prepare: help ? undefined : async () => {
+            cacheDir = await mkdtemp(Path.join(tmpdir(), 'zui-dev-'));
+            env.ZUI_DEV_CACHE_DIR = cacheDir;
+        },
+        cleanup: async () => {
+            if (cacheDir) await rm(cacheDir, {recursive: true, force: true});
+        },
+    });
+} catch (error) {
+    console.error(error instanceof Error ? error.message : error);
+    process.exitCode = 1;
+}
