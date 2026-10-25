@@ -136,3 +136,38 @@ for (const mode of ['light', 'dark'] as const) {
         });
     }
 }
+
+for (const mode of ['light', 'dark'] as const) {
+    test(`components: ${mode} calendar dates retain readable state colors`, async ({page}) => {
+        await page.clock.setFixedTime(new Date('2026-10-15T09:30:00+08:00'));
+        await page.addInitScript(appearance => localStorage.setItem('vitepress-theme-appearance', appearance), mode);
+        await page.goto('lib/forms/datetime-picker/date.html');
+        const input = page.locator('.example .date-picker input').first();
+        await input.click();
+        const popup = page.locator('.popup:visible').first();
+        await popup.locator('[data-date="2026-10-10"] button').click();
+        await expect(input).toHaveValue('2026-10-10');
+        await input.click();
+        await expect(popup).toHaveCSS('opacity', '1');
+        const colors = await popup.locator('.mini-calendar-day > button:not([disabled])').evaluateAll((buttons) => {
+            const parse = (value: string) => value.match(/[\d.]+/g)!.slice(0, 3).map(Number);
+            return buttons.map((button) => {
+                const style = getComputedStyle(button);
+                const surface = parse(getComputedStyle(button.closest('.popup')!).backgroundColor);
+                const background = style.backgroundColor === 'rgba(0, 0, 0, 0)' ? surface : parse(style.backgroundColor);
+                const opacity = Number(getComputedStyle(button.parentElement!).opacity);
+                const foreground = parse(style.color).map((channel, index) => channel * opacity + surface[index] * (1 - opacity));
+                return {date: button.parentElement!.getAttribute('data-date'), foreground, background: background.map((channel, index) => channel * opacity + surface[index] * (1 - opacity))};
+            });
+        });
+        expect(colors).toHaveLength(42);
+        for (const {date, foreground, background} of colors) {
+            expect(contrast(foreground, background), `${mode} ${date}`).toBeGreaterThanOrEqual(4.5);
+        }
+        await popup.getByRole('button', {name: '2026年', exact: true}).click();
+        await expect(popup.locator('.date-pick-menu-years > .btn.active')).toHaveCSS('color', 'rgb(0, 0, 0)');
+        await popup.locator('.date-pick-menu-years > .btn.active').click();
+        await popup.locator('.date-picker-menu > .cell > .row').getByRole('button', {name: '10月', exact: true}).click();
+        await expect(popup.locator('.date-pick-menu-month > .btn.active')).toHaveCSS('color', 'rgb(0, 0, 0)');
+    });
+}

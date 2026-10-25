@@ -14,15 +14,15 @@
   @apply -w-8;
 }
 .mini-calendar-day.is-weekend > .btn {
-  @apply -text-gray-500;
+  @apply -text-gray-600;
 }
 .mini-calendar-day.active > .btn,
 .mini-calendar-day.is-today > .btn {
-  @apply -bg-primary-100 -text-primary-500;
+  @apply -bg-primary-100 -text-primary-800;
 }
 .mini-calendar-day.selected > .btn {
-  @apply -bg-primary-500 -text-canvas;
+  @apply -bg-primary-500 -text-on-primary;
 }
-.mini-calendar-day.is-out-month {
-  @apply -opacity-50;
+.mini-calendar-day.is-out-month:not(.selected):not(.active):not(.is-today) > .btn {
+  @apply -text-gray-600;
 }
