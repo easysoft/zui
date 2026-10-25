@@ -1,11 +1,13 @@
 :root {
   --form-control-radius: var(--radius);
-  --form-control-border: var(--color-border);
   --form-control-focus: var(--color-primary-500);
   --form-control-disabled: var(--color-surface);
   --form-control-readonly: var(--color-surface);
 }
 
-.dark {
-  --form-control-border: var(--color-border-strong);
+:root,
+.dark,
+.light-in-dark,
+.dark-auto {
+  --form-control-border: rgba(var(--color-fore-rgb), .5);
 }

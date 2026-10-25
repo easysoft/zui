@@ -38,3 +38,24 @@ for (const mode of ['light', 'dark'] as const) {
         }
     });
 }
+
+for (const mode of ['light', 'dark'] as const) {
+    test(`components: ${mode} form placeholders and boundaries remain visible`, async ({page}) => {
+        await page.addInitScript(appearance => localStorage.setItem('vitepress-theme-appearance', appearance), mode);
+        await page.goto('lib/forms/form-control/');
+        const input = page.locator('.example input.form-control[type="text"]').first();
+        await expect(input).toBeVisible();
+        await expect(input).toHaveCSS('box-shadow', /0px 0px 0px 1px/);
+        const colors = await input.evaluate((element) => {
+            const style = getComputedStyle(element);
+            const parse = (value: string) => value.match(/[\d.]+/g)!.map(Number);
+            return {placeholder: parse(getComputedStyle(element, '::placeholder').color), background: parse(style.backgroundColor), ring: parse(style.boxShadow.match(/rgba?\([^)]+\)/g)![1])};
+        });
+        expect(contrast(colors.placeholder, colors.background), 'placeholder').toBeGreaterThanOrEqual(4.5);
+        const ring = colors.ring.slice(0, 3).map((channel, index) => channel * (colors.ring[3] ?? 1) + colors.background[index] * (1 - (colors.ring[3] ?? 1)));
+        expect(contrast(ring, colors.background), 'control boundary').toBeGreaterThanOrEqual(3);
+        await input.focus();
+        await expect(input).toBeFocused();
+        await expect(input).not.toHaveCSS('outline-color', 'rgba(0, 0, 0, 0)');
+    });
+}

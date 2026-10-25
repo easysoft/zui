@@ -267,7 +267,7 @@ export function themeVariables(settings: ThemeSettings, mode: ThemeMode): Record
         'link-hover': linkColor(1),
         'link-visited': linkColor(2),
         'link-active': linkColor(3),
-        placeholder: derive(['fore', 'canvas'], isDark ? gray[600] : gray[400], mix(surface.fore, surface.canvas, 0.5)),
+        placeholder: derive(['fore', 'canvas'], isDark ? gray[400] : gray[500], mix(surface.fore, surface.canvas, 0.35)),
         border: surface.border,
         'border-light': derive(['border', 'canvas'], isDark ? gray[900] : gray[100], mix(surface.border, surface.canvas, 0.45)),
         'border-strong': derive(['border', 'fore'], isDark ? gray[700] : gray[300], mix(surface.border, surface.fore, 0.2)),

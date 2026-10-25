@@ -137,7 +137,7 @@ browser（已加载本库 CSS）：
 | `--color-link-hover` | `#2563eb` | `#60a5fa` |
 | `--color-link-visited` | `#1d4ed8` | `#93c5fd` |
 | `--color-link-active` | `#1e40af` | `#bfdbfe` |
-| `--color-placeholder` | `#94a3b8` | `#475569` |
+| `--color-placeholder` | `#64748b` | `#94a3b8` |
 | `--color-border` | `#e2e8f0` | `#1e293b` |
 | `--color-border-strong` | `#cbd5e1` | `#334155` |
 | `--color-border-light` | `#f1f5f9` | `#0f172a` |

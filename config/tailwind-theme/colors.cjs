@@ -83,7 +83,7 @@ const linkVisited = primary[700];
 const linkActive = primary[800];
 
 /* Placeholder text color. */
-const placeholder = gray[400];
+const placeholder = gray[500];
 
 /** Border. */
 const border = gray[200];
