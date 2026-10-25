@@ -64,44 +64,44 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-c-bg: #ffffff;
+  --vp-c-bg: var(--color-canvas);
 
-  --vp-c-bg-elv: #ffffff;
+  --vp-c-bg-elv: var(--color-canvas);
   --vp-c-bg-elv-up: #ffffff;
   --vp-c-bg-elv-down: #f6f6f7;
   --vp-c-bg-elv-mute: #f6f6f7;
 
-  --vp-c-bg-soft: #f6f6f7;
+  --vp-c-bg-soft: var(--color-surface-light);
   --vp-c-bg-soft-up: #ffffff;
   --vp-c-bg-soft-down: #e3e3e5;
   --vp-c-bg-soft-mute: #e3e3e5;
 
-  --vp-c-bg-alt: #f6f6f7;
+  --vp-c-bg-alt: var(--color-surface-light);
 
-  --vp-c-border: rgba(60, 60, 67, 0.29);
-  --vp-c-divider: rgba(60, 60, 67, 0.12);
-  --vp-c-gutter: rgba(60, 60, 67, 0.12);
+  --vp-c-border: var(--color-border);
+  --vp-c-divider: var(--color-border);
+  --vp-c-gutter: var(--color-border-light);
 
   --vp-c-neutral: var(--vp-c-black);
   --vp-c-neutral-inverse: var(--vp-c-white);
 
-  --vp-c-text-1: var(--vp-c-text-light-1);
-  --vp-c-text-2: var(--vp-c-text-light-2);
-  --vp-c-text-3: var(--vp-c-text-light-3);
+  --vp-c-text-1: var(--color-fore);
+  --vp-c-text-2: var(--color-gray-600);
+  --vp-c-text-3: var(--color-gray-600);
 
   --vp-c-text-inverse-1: var(--vp-c-text-dark-1);
   --vp-c-text-inverse-2: var(--vp-c-text-dark-2);
   --vp-c-text-inverse-3: var(--vp-c-text-dark-3);
 
-  --vp-c-text-code: var(--color-primary-700);
+  --vp-c-text-code: var(--color-link-hover);
 
   --vp-c-default-1: var(--vp-c-gray-1);
   --vp-c-default-2: var(--vp-c-gray-2);
   --vp-c-default-3: var(--vp-c-gray-3);
   --vp-c-default-soft: var(--vp-c-gray-soft);
 
-  --vp-c-brand-1: var(--color-primary-600);
-  --vp-c-brand-2: var(--color-primary-500);
+  --vp-c-brand-1: var(--color-link-hover);
+  --vp-c-brand-2: var(--color-link);
   --vp-c-brand-3: var(--color-primary-400);
   --vp-c-brand-soft: rgba(var(--color-primary-100-rgb),.14);
 
@@ -120,7 +120,7 @@
   --vp-c-danger-3: var(--vp-c-red-3);
   --vp-c-danger-soft: var(--vp-c-red-soft);
 
-  --vp-c-brand: var(--vp-c-blue);
+  --vp-c-brand: var(--color-link);
   --vp-c-brand-light: var(--vp-c-blue-light);
   --vp-c-brand-lighter: var(--vp-c-blue-lighter);
   --vp-c-brand-dark: var(--vp-c-blue-dark);
@@ -135,43 +135,44 @@
 }
 
 .dark {
-  --vp-c-bg: var(--color-canvas);
+  /* Reading surfaces sit above the quieter navigation and example canvas. */
+  --vp-c-bg: var(--color-surface-light);
 
   --vp-c-bg-elv: var(--color-surface);
   --vp-c-bg-elv-up: #313136;
   --vp-c-bg-elv-down: #1e1e20;
   --vp-c-bg-elv-mute: #313136;
 
-  --vp-c-bg-soft: var(--color-surface-light);
+  --vp-c-bg-soft: var(--color-canvas);
   --vp-c-bg-soft-up: #313136;
   --vp-c-bg-soft-down: #1e1e20;
   --vp-c-bg-soft-mute: #313136;
 
-  --vp-c-bg-alt: var(--color-surface-light);
+  --vp-c-bg-alt: var(--color-canvas);
 
-  --vp-c-border: rgba(82, 82, 89, 0.68);
-  --vp-c-divider: rgba(82, 82, 89, 0.32);
-  --vp-c-gutter: rgba(82, 82, 89, 0.2);
+  --vp-c-border: var(--color-border);
+  --vp-c-divider: var(--color-border);
+  --vp-c-gutter: var(--color-border-light);
 
   --vp-c-neutral: var(--vp-c-white);
   --vp-c-neutral-inverse: var(--vp-c-black);
 
-  --vp-c-text-1: var(--vp-c-text-dark-1);
-  --vp-c-text-2: var(--vp-c-text-dark-2);
-  --vp-c-text-3: var(--vp-c-text-dark-3);
+  --vp-c-text-1: var(--color-fore);
+  --vp-c-text-2: var(--color-gray-600);
+  --vp-c-text-3: var(--color-gray-600);
 
   --vp-c-text-inverse-1: var(--vp-c-text-light-1);
   --vp-c-text-inverse-2: var(--vp-c-text-light-2);
   --vp-c-text-inverse-3: var(--vp-c-text-light-3);
 
-  --vp-c-text-code: #c9def1;
+  --vp-c-text-code: var(--color-link-hover);
 
-  --vp-c-brand-1: var(--color-primary-600);
-  --vp-c-brand-2: var(--color-primary-700);
-  --vp-c-brand-3: var(--color-primary-800);
+  --vp-c-brand-1: var(--color-link-hover);
+  --vp-c-brand-2: var(--color-link-visited);
+  --vp-c-brand-3: var(--color-link-active);
   --vp-c-brand-soft: rgba(var(--color-primary-900-rgb),.14);
 
-  --vp-c-brand: var(--vp-c-blue);
+  --vp-c-brand: var(--color-link);
   --vp-c-brand-dark: var(--vp-c-blue-light);
   --vp-c-brand-darker: var(--vp-c-blue-lighter);
   --vp-c-brand-light: var(--vp-c-blue-dark);

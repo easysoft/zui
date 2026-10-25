@@ -59,6 +59,6 @@ const style = computed(() => {
 
 <style>
 .example {
-  @apply -ring-1 -ring-border -w-full -rounded -shadow;
+  @apply -ring-1 -ring-border -w-full -rounded -shadow -bg-canvas;
 }
 </style>

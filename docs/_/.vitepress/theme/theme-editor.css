@@ -1,27 +1,7 @@
-/* The documentation adapter follows ZUI tokens only while a custom theme is active. */
+/* Theme editor layout; documentation colors share the adapter in vars.css. */
 :root { scrollbar-color: var(--scrollbar-bar-bg) var(--scrollbar-bg); scrollbar-width: auto; }
 @media (forced-colors: active) { :root { scrollbar-color: auto; } }
-:root[data-zui-theme], :root.dark[data-zui-theme] {
-  font-size: var(--font-size-root);
-  --vp-c-bg: var(--color-canvas);
-  --vp-c-bg-alt: var(--color-surface);
-  --vp-c-bg-elv: var(--color-canvas);
-  --vp-c-bg-soft: var(--color-surface-light);
-  --vp-c-text-1: var(--color-fore);
-  --vp-c-text-2: var(--color-gray-600);
-  --vp-c-text-3: var(--color-gray-500);
-  --vp-c-border: var(--color-border);
-  --vp-c-divider: var(--color-border);
-  --vp-c-gutter: var(--color-border-light);
-  --vp-c-text-code: var(--color-link-hover);
-  --vp-c-brand: var(--color-link);
-  --vp-c-brand-1: var(--color-link-hover);
-  --vp-c-brand-2: var(--color-link);
-}
-:root.dark[data-zui-theme] {
-  --vp-c-brand-2: var(--color-link-visited);
-  --vp-c-brand-3: var(--color-link-active);
-}
+:root[data-zui-theme] { font-size: var(--font-size-root); }
 :root[data-zui-theme] .vp-doc .custom-block,
 :root[data-zui-theme] .VPDocFooter .pager-link { border-radius: var(--radius-lg); }
 :root[data-zui-theme] .VPFeature { border-radius: var(--radius-xl); }

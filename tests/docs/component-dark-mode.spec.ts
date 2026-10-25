@@ -82,7 +82,7 @@ for (const mode of ['light', 'dark'] as const) {
         await page.goto('lib/components/table/');
         const stripe = page.locator('.example .table-striped tbody tr:nth-child(2)').first();
         await expect(stripe).toBeVisible();
-        const colors = await stripe.evaluate(element => ({stripe: getComputedStyle(element).backgroundColor, canvas: getComputedStyle(document.body).backgroundColor}));
+        const colors = await stripe.evaluate(element => ({stripe: getComputedStyle(element).backgroundColor, canvas: getComputedStyle(element.closest('.example')!).backgroundColor}));
         expect(colors.stripe).not.toBe(colors.canvas);
         const row = page.locator('.example .table-hover tbody tr').first();
         await row.hover();
@@ -121,12 +121,13 @@ for (const mode of ['light', 'dark'] as const) {
             await trigger.click();
             const popup = page.locator('.popup:visible').first();
             await expect(popup).toBeVisible();
+            const canvas = await trigger.evaluate(element => getComputedStyle(element.closest('.example')!).backgroundColor);
             const colors = await popup.evaluate((element) => {
                 const style = getComputedStyle(element);
-                return {background: style.backgroundColor, canvas: getComputedStyle(document.body).backgroundColor, ring: style.boxShadow};
+                return {background: style.backgroundColor, ring: style.boxShadow};
             });
             expect(colors.background.startsWith('rgb(')).toBe(true);
-            expect(colors.background).not.toBe(colors.canvas);
+            expect(colors.background).not.toBe(canvas);
             expect(colors.ring).not.toContain('0.05)');
             if (name === 'member') {
                 await expect(popup.locator('.picker-menu-list')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');

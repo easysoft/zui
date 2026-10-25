@@ -87,8 +87,9 @@ test('theme: documentation navigation exposes the editor and all presets apply',
                 surfaces[key] = await editor.getByTestId(`theme-color-${key}`).inputValue();
                 expect(block).toContain(`--color-${key}: ${surfaces[key]};`);
             }
-            await expect(page.locator('body')).toHaveCSS('background-color', rgbColor(surfaces.canvas));
-            await expect(page.locator('.VPSidebar')).toHaveCSS('background-color', rgbColor(surfaces.surface));
+            const subtleSurface = await cssVariable(page, '--color-surface-light');
+            await expect(page.locator('body')).toHaveCSS('background-color', rgbColor(mode === '深色' ? subtleSurface : surfaces.canvas));
+            await expect(page.locator('.VPSidebar')).toHaveCSS('background-color', rgbColor(mode === '深色' ? surfaces.canvas : subtleSurface));
             await expect(preset.locator('.theme-preset-sample')).toHaveCSS('background-color', rgbColor(surfaces.canvas));
             await expect(preset.locator('.theme-preset-sample')).toHaveCSS('border-radius', `${radius * 2}px`);
             await expect(preset.locator('.theme-preset-sidebar')).toHaveCSS('background-color', rgbColor(surfaces.surface));
@@ -723,5 +724,23 @@ for (const mode of ['浅色', '深色']) {
         const screenshot = testInfo.outputPath(`theme-${mode === '深色' ? 'dark' : 'light'}.png`);
         await page.screenshot({path: screenshot, fullPage: true});
         await testInfo.attach(`${mode}主题编辑器`, {path: screenshot, contentType: 'image/png'});
+    });
+}
+
+for (const mode of ['浅色', '深色']) {
+    test(`theme: ${mode} default and saved ZUI preset share the same documentation palette`, async ({page}) => {
+        await openEditor(page);
+        const editor = page.getByTestId('theme-editor');
+        await editor.getByRole('button', {name: '恢复默认', exact: true}).click();
+        await editor.getByRole('button', {name: mode, exact: true}).click();
+        const snapshot = () => page.evaluate(() => {
+            const style = getComputedStyle(document.documentElement);
+            return Object.fromEntries(['--vp-c-bg', '--vp-c-bg-alt', '--vp-c-bg-elv', '--vp-c-bg-soft', '--vp-c-text-1', '--vp-c-text-2', '--vp-c-border'].map(name => [name, style.getPropertyValue(name).trim().replace(/^#([\da-f])([\da-f])([\da-f])$/i, '#$1$1$2$2$3$3')]));
+        });
+        const defaults = await snapshot();
+        await editor.getByRole('button', {name: '应用ZUI 蓝主题', exact: true}).click();
+        await expect.poll(snapshot).toEqual(defaults);
+        await page.reload();
+        await expect.poll(snapshot).toEqual(defaults);
     });
 }
