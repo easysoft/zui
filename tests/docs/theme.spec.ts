@@ -332,26 +332,38 @@ test('theme: edits apply to the whole site and survive navigation, reload and re
     await expectPrimaryPreview(reopened, '#25734c');
 });
 
-test('theme: production head restores saved colors before application hydration', async ({page, context}) => {
-    const response = await page.request.get('lib/components/button/');
-    test.skip((await response.text()).includes('src="/@vite/client"'), 'VitePress development HTML has no rendered head; first-paint restoration requires a production build.');
-    await openEditor(page);
-    await page.getByTestId('theme-color-primary').fill('#25734c');
-    const reopened = await context.newPage();
-
-    // The inline head script must restore the theme before the application can hydrate.
-    let blockedScripts = 0;
-    await reopened.route('**/*', (request) => {
-        if (request.request().resourceType() === 'script') {
-            blockedScripts++;
-            return request.abort();
+for (const legacy of [false, true]) {
+    test(`theme: production head restores ${legacy ? 'legacy' : 'current'} colors before application hydration`, async ({page, context}) => {
+        const response = await page.request.get('lib/components/button/');
+        test.skip((await response.text()).includes('src="/@vite/client"'), 'VitePress development HTML has no rendered head; first-paint restoration requires a production build.');
+        await openEditor(page);
+        await page.getByTestId('theme-color-primary').fill('#25734c');
+        if (legacy) {
+            await page.evaluate((key) => {
+                const saved = JSON.parse(localStorage.getItem(key)!);
+                for (const mode of ['light', 'dark']) {
+                    saved[mode] = Object.fromEntries(Object.entries(saved[mode]).filter(([name]) => !name.startsWith('--color-on-')));
+                }
+                localStorage.setItem(key, JSON.stringify(saved));
+            }, storageKey);
         }
-        return request.continue();
+        const reopened = await context.newPage();
+
+        // The inline head script must restore the theme before the application can hydrate.
+        let blockedScripts = 0;
+        await reopened.route('**/*', (request) => {
+            if (request.request().resourceType() === 'script') {
+                blockedScripts++;
+                return request.abort();
+            }
+            return request.continue();
+        });
+        await reopened.goto('lib/components/button/', {waitUntil: 'domcontentloaded'});
+        await expect.poll(() => cssVariable(reopened, '--color-primary-500')).toBe('#25734c');
+        await expect(reopened.locator('.example .btn.primary').first()).toHaveCSS('color', 'rgb(255, 255, 255)');
+        expect(blockedScripts).toBeGreaterThan(0);
     });
-    await reopened.goto('lib/components/button/', {waitUntil: 'domcontentloaded'});
-    await expect.poll(() => cssVariable(reopened, '--color-primary-500')).toBe('#25734c');
-    expect(blockedScripts).toBeGreaterThan(0);
-});
+}
 
 test('theme: semantic colors reach the preview labels without overriding native solid text', async ({page}) => {
     await openEditor(page);
