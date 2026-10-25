@@ -172,3 +172,33 @@ for (const mode of ['light', 'dark'] as const) {
         await expect(popup.locator('.date-pick-menu-month > .btn.active')).toHaveCSS('color', 'rgb(0, 0, 0)');
     });
 }
+
+for (const mode of ['light', 'dark'] as const) {
+    test(`documentation: ${mode} customized dtable surfaces keep text readable`, async ({page}) => {
+        await page.addInitScript(appearance => localStorage.setItem('vitepress-theme-appearance', appearance), mode);
+        await page.goto('lib/components/dtable/');
+        for (const selector of ['#dtable-header-custom .dtable-header .dtable-cell', '#dtable-striped-custom .dtable-body .dtable-cell.is-odd-row']) {
+            const cell = page.locator(`${selector}[data-col="project"]`).first();
+            await cell.scrollIntoViewIfNeeded();
+            await expect(cell).toBeVisible();
+            const colors = await cell.evaluate((element) => {
+                const parse = (value: string) => value.match(/[\d.]+/g)!.map(Number);
+                let foreground = parse(getComputedStyle(element).color);
+                let background = [0, 0, 0, 0];
+                let ancestor: Element | null = element;
+                while (background[3] < 1 && ancestor) {
+                    const below = parse(getComputedStyle(ancestor).backgroundColor);
+                    const alpha = background[3] + (below[3] ?? 1) * (1 - background[3]);
+                    background = background.slice(0, 3).map((channel, index) => alpha ? (channel * background[3] + below[index] * (below[3] ?? 1) * (1 - background[3])) / alpha : 0).concat(alpha);
+                    ancestor = ancestor.parentElement;
+                }
+                const link = element.querySelector('a');
+                if (link) {
+                    foreground = parse(getComputedStyle(link).color);
+                }
+                return {foreground, background};
+            });
+            expect(contrast(colors.foreground.slice(0, 3), colors.background.slice(0, 3)), selector).toBeGreaterThanOrEqual(4.5);
+        }
+    });
+}
