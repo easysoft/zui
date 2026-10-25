@@ -1194,7 +1194,7 @@
 - [浮动与清除](lib/utilities/ai.md#css-layout-floats)（css / utility）：pull-left/right 设置浮动；clearfix 用块级 ::after 清除两侧浮动，应加在包住浮动子项的容器。
 - [替换元素适配与位置](lib/utilities/ai.md#css-layout-object)（css / utility）：object-fit 类用于图片/视频等替换元素，需元素有约束尺寸才表现裁切；object-position 类控制内容位置。
 - [溢出](lib/utilities/ai.md#css-layout-overflow)（css / utility）：控制全部或单轴溢出。
-- [弹出层外观](lib/utilities/ai.md#css-layout-popup)（css / component）：单个 \`.popup\` 元素获得 xl 阴影、低透明度外圈、85% canvas 背景、背景模糊和默认圆角。
+- [弹出层外观](lib/utilities/ai.md#css-layout-popup)（css / component）：单个 \`.popup\` 元素获得 xl 阴影、border-strong 外圈、不透明 surface-light 背景和默认圆角。
 - [定位模式](lib/utilities/ai.md#css-layout-position)（css / utility）：设置 static/fixed/absolute/relative/sticky。
 - [定位偏移](lib/utilities/ai.md#css-layout-top-right-bottom-left)（css / utility）：top/right/bottom/left 需配合非 static 定位。
 - [可见性](lib/utilities/ai.md#css-layout-visibility)（css / utility）：visible/invisible 使用 !important 控制 visibility；invisible 仍保留布局空间，不等同 hidden。

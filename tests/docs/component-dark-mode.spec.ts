@@ -107,3 +107,32 @@ for (const mode of ['light', 'dark'] as const) {
         expect(Number(background.match(/[\d.]+/g)![3])).toBeGreaterThanOrEqual(0.1);
     });
 }
+
+for (const mode of ['light', 'dark'] as const) {
+    for (const [name, route, selector] of [
+        ['date', 'lib/forms/datetime-picker/date.html', '.example .date-picker input'],
+        ['member', 'lib/forms/picker/', '.example .picker-select'],
+    ]) {
+        test(`components: ${mode} ${name} picker popup has an opaque raised surface`, async ({page}) => {
+            await page.addInitScript(appearance => localStorage.setItem('vitepress-theme-appearance', appearance), mode);
+            await page.goto(route);
+            const trigger = page.locator(selector).first();
+            await expect(trigger).toBeVisible();
+            await trigger.click();
+            const popup = page.locator('.popup:visible').first();
+            await expect(popup).toBeVisible();
+            const colors = await popup.evaluate((element) => {
+                const style = getComputedStyle(element);
+                return {background: style.backgroundColor, canvas: getComputedStyle(document.body).backgroundColor, ring: style.boxShadow};
+            });
+            expect(colors.background.startsWith('rgb(')).toBe(true);
+            expect(colors.background).not.toBe(colors.canvas);
+            expect(colors.ring).not.toContain('0.05)');
+            if (name === 'member') {
+                await expect(popup.locator('.picker-menu-list')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+            }
+            await page.getByRole('heading', {level: 1}).click();
+            await expect(popup).toBeHidden();
+        });
+    }
+}

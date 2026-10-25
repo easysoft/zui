@@ -166,10 +166,10 @@ object-fit 类用于图片/视频等替换元素，需元素有约束尺寸才�
 ### css-layout-popup
 
 ```json
-{"name":"弹出层外观","summary":"单个 `.popup` 元素获得 xl 阴影、低透明度外圈、85% canvas 背景、背景模糊和默认圆角。","role":"component"}
+{"name":"弹出层外观","summary":"单个 `.popup` 元素获得 xl 阴影、border-strong 外圈、不透明 surface-light 背景和默认圆角。","role":"component"}
 ```
 
-单个 `.popup` 元素获得 xl 阴影、低透明度外圈、85% canvas 背景、背景模糊和默认圆角。不提供定位、显隐、遮罩、焦点管理或 JS；常与定位工具类组合。
+单个 `.popup` 元素获得 xl 阴影、border-strong 外圈、不透明 surface-light 背景和默认圆角。不提供定位、显隐、遮罩、焦点管理或 JS；常与定位工具类组合。
 
 支持类名（完整集合）：
 

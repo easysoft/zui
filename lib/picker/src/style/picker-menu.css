@@ -1,3 +1,6 @@
+.picker-menu {
+  --menu-bg: transparent;
+}
 .picker-menu-list {
   @apply -shadow-none -border-none -flex-auto -min-h-0 -overflow-y-auto;
 }
