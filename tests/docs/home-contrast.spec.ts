@@ -51,6 +51,8 @@ for (const colorScheme of ['light', 'dark'] as const) {
             await expect(page.locator('.VPFeature .title')).toHaveCount(3);
             await expect(page.locator('.VPFeature .details')).toHaveCount(3);
             await page.locator('.VPFeature').last().scrollIntoViewIfNeeded();
+            // In development VitePress adds the ZUI stylesheet after rendering the cards.
+            await expect(page.locator('.VPFeature').first()).toHaveCSS('background-color', /^rgb\(/);
             await expectTextContrast(page, '.VPFeatures');
             expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
         });

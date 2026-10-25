@@ -29,6 +29,9 @@ features:
 .VPContent.is-home {
   background: linear-gradient(125deg, var(--color-primary-50) 0%, var(--color-primary-50) 40%, var(--color-primary-100) calc(40% + 1px), var(--color-primary-100) 60%, var(--color-primary-200) calc(60% + 1px), var(--color-primary-200) 72%, var(--color-primary-500) calc(72% + 1px), var(--color-primary-500) 100%);
 }
+.dark .VPContent.is-home {
+  background: linear-gradient(125deg, transparent 0%, transparent 40%, rgba(var(--color-primary-500-rgb), .04) calc(40% + 1px), rgba(var(--color-primary-500-rgb), .04) 60%, rgba(var(--color-primary-500-rgb), .08) calc(60% + 1px), rgba(var(--color-primary-500-rgb), .08) 72%, rgba(var(--color-primary-500-rgb), .14) calc(72% + 1px), rgba(var(--color-primary-500-rgb), .14) 100%), var(--vp-c-bg);
+}
 .VPContent.is-home .VPFeature {
   border-color: rgba(var(--color-inverse-rgb), .1);
 }
@@ -38,5 +41,8 @@ features:
 }
 .VPContent.is-home + .VPFooter {
   background: var(--color-primary-50);
+}
+.dark .VPContent.is-home + .VPFooter {
+  background: var(--vp-c-bg);
 }
 </style>
