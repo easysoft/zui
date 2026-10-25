@@ -59,3 +59,19 @@ for (const mode of ['light', 'dark'] as const) {
         await expect(input).not.toHaveCSS('outline-color', 'rgba(0, 0, 0, 0)');
     });
 }
+
+for (const mode of ['light', 'dark'] as const) {
+    test(`components: ${mode} modal dims the page behind an opaque surface`, async ({page}) => {
+        await page.addInitScript(appearance => localStorage.setItem('vitepress-theme-appearance', appearance), mode);
+        await page.goto('lib/components/modal/');
+        await page.waitForFunction(() => 'zui' in window);
+        await page.locator('button[data-target="#myModal"]').click();
+        const modal = page.locator('#myModal');
+        await expect(modal).toBeVisible();
+        await expect(modal).toHaveCSS('background-color', 'rgba(0, 0, 0, 0.4)');
+        const surface = await modal.locator('.modal-dialog').evaluate(element => getComputedStyle(element).backgroundColor);
+        expect(surface.startsWith('rgb(')).toBe(true);
+        await modal.getByRole('button', {name: '关闭', exact: true}).click();
+        await expect(modal).toBeHidden();
+    });
+}

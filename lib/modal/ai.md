@@ -282,7 +282,7 @@ const dispose = mountExample();
 | `.modal.load-indicator::before` | `bg-transparent`（内部样式）；`transition-none`（内部样式） |
 | `.modal-no-backdrop` | `bg-transparent`（内部样式）；忽略指针命中 |
 | `.modal-hide` | 透明 |
-| `.modal-dialog` | 相对定位；`bg-canvas`（内部样式）；`bg-opacity-90`（内部样式）；`shadow-2xl`（内部样式）；`max-h-screen`（内部样式）；`pointer-events-auto`（内部样式）；`ring-1`（内部样式）；`ring-inverse`（内部样式）；`ring-opacity-5`（内部样式）；`backdrop-blur`（内部样式）；`w-[--modal-base]`（内部样式）；`rounded-[--modal-radius]`（内部样式） |
+| `.modal-dialog` | 相对定位；`bg-surface-light`（内部样式）；`shadow-2xl`（内部样式）；`max-h-screen`（内部样式）；`pointer-events-auto`（内部样式）；`ring-1`（内部样式）；`ring-border-strong`（内部样式）；`w-[--modal-base]`（内部样式）；`rounded-[--modal-radius]`（内部样式） |
 | `.modal-content` | Flex 布局；纵向布局；全高；`max-h-screen`（内部样式） |
 | `.modal-header` | 相对定位；`px-5`（内部样式）；`py-4`（内部样式）；Flex 布局；交叉轴居中；`flex-nowrap`（内部样式）；`flex-none`（内部样式）；`gap-4`（内部样式） |
 | `.modal-title` | 加粗；大字号；`flex-auto`（内部样式） |
@@ -337,7 +337,7 @@ const dispose = mountExample();
 | 变量 | 默认表达式 | 含义及取值 | 声明位置 | 推荐覆盖节点 |
 | --- | --- | --- | --- | --- |
 | `--modal-radius` | `var(--radius-lg)` | 圆角长度 | `:root` | 需要全局修改时 :root；局部在实际使用元素 |
-| `--modal-bg` | `rgba(var(--color-inverse-rgb), .4)` | 背景色或渐变 | `:root` | 需要全局修改时 :root；局部在实际使用元素 |
+| `--modal-bg` | `rgba(var(--color-black-rgb), .4)` | 遮罩背景色；深浅模式均压暗背后页面 | `:root` | 需要全局修改时 :root；局部在实际使用元素 |
 | `--modal-sm` | `37.5rem` | 尺寸/间距长度 | `:root` | 需要全局修改时 :root；局部在实际使用元素 |
 | `--modal-base` | `50rem` | 尺寸/间距长度 | `:root` | 需要全局修改时 :root；局部在实际使用元素 |
 | `--modal-lg` | `75rem` | 尺寸/间距长度 | `:root` | 需要全局修改时 :root；局部在实际使用元素 |
