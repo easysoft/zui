@@ -222,12 +222,19 @@ export function themeVariables(settings: ThemeSettings, mode: ThemeMode): Record
         variables[`--color-${name}`] = color;
         variables[`--color-${name}-rgb`] = rgb(color).join(', ');
     };
+    const onColor = (color: string) => contrast('#ffffff', color) >= 4.5 ? '#ffffff' : '#000000';
     const palettes = {} as Record<PaletteKey, Palette>;
     for (const {key} of paletteFields) {
         const palette = makePalette(settings.colors[key]);
         palettes[key] = Object.fromEntries(shades.map((shade, index) => [shade, palette[mode === 'dark' ? shades[shades.length - 1 - index] : shade]])) as Palette;
         for (const shade of shades) {
             addColor(`${key}-${shade}`, palettes[key][shade]);
+            if (key === 'gray') {
+                addColor(`on-gray-${shade}`, onColor(palettes[key][shade]));
+            }
+        }
+        if (key !== 'gray') {
+            addColor(`on-${key}`, onColor(palettes[key][500]));
         }
     }
     const surface = settings[mode];

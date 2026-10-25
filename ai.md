@@ -1218,9 +1218,9 @@
 - [宽度与宽度限制](lib/utilities/ai.md#css-sizing-width)（css / utility）：w 设置宽度，min-w/max-w 设置上下界。
 - [幽灵皮肤](lib/utilities/ai.md#css-skin-ghost)（css / utility）：包含 skin，透明背景和透明外圈，颜色用于文字及交互状态；ghost 默认继承文字，语义 ghost 使用对应 500 色阶。
 - [描边皮肤](lib/utilities/ai.md#css-skin-outline)（css / utility）：包含 skin，透明背景并使用指定颜色文字/边框/外圈；outline 默认取前景 RGB，gray-300/400-outline 文字取 gray-500。
-- [浅色皮肤](lib/utilities/ai.md#css-skin-pale)（css / utility）：这些类自身包含 skin；背景取指定 RGB 的 10% 透明度，文字取相应实色，较浅 gray 50/100/200 的文字用 gray-400、gray-300/400 用 gray-500。
+- [浅色皮肤](lib/utilities/ai.md#css-skin-pale)（css / utility）：这些类自身包含 skin；背景取指定 RGB 的 10% 透明度，语义颜色文字取相应实色，pale 与所有 gray 浅色皮肤使用普通前景 --color-fore。
 - [自定义皮肤](lib/utilities/ai.md#css-skin-skin)（css / utility）：\`.skin\` 将 --skin-\* 变量应用到背景、文字、边框和 1px 外圈，并处理 hover 背景/文字；使用前至少配置 --skin-color、--skin-text，或组合后续已有皮肤类。
-- [实色皮肤](lib/utilities/ai.md#css-skin-solid)（css / utility）：这些类自身包含 skin 基础效果；语义颜色默认使用相应 500 色阶，浅灰 50/100/200/300 使用普通前景，其他实色使用深色背景前景。
+- [实色皮肤](lib/utilities/ai.md#css-skin-solid)（css / utility）：这些类自身包含 skin 基础效果；语义颜色默认使用相应 500 色阶，文字通过 --color-on-\* 变量选用可读的黑色或白色，随深浅主题和灰阶反转同步切换。
 - [语义表面皮肤](lib/utilities/ai.md#css-skin-surface)（css / utility）：同时设置背景和文字（surface 系列及 white/black 还设置 ring 颜色）；transparent 仅透明背景/外圈，不设置文字。
 - [文字装饰线](lib/utilities/ai.md#css-typography-decoration)（css / utility）：underline/overline/line-through/no-underline 分别添加或移除装饰线，不改变链接行为。
 - [字体族](lib/utilities/ai.md#css-typography-font-family)（css / utility）：font-sans/serif/mono 设置对应主题字体栈，不加载字体文件。

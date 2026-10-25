@@ -1,3 +1,4 @@
+const onColors = require('./on-colors.cjs');
 const shades = require('tailwindcss/colors');
 const {reverseShade} = require('./reverse-shade.cjs');
 
@@ -80,6 +81,7 @@ const borderStrong = gray[300];
 const borderLight = gray[100];
 
 module.exports = {
+    on: onColors({primary, secondary, success, warning, danger, important, special, gray}),
     gray,
     primary,
     secondary,

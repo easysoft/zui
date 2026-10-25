@@ -26,13 +26,16 @@ async function savedTheme(page: Page) {
 }
 
 function rgbColor(hex: string) {
+    if (hex.length === 4) {
+        hex = `#${[...hex.slice(1)].map(char => char.repeat(2)).join('')}`;
+    }
     return `rgb(${[1, 3, 5].map(start => parseInt(hex.slice(start, start + 2), 16)).join(', ')})`;
 }
 
 async function expectPrimaryPreview(page: Page, primary: string) {
     for (const selector of ['.theme-preview-actions .btn.primary', '.theme-preview-mark', '.theme-export-actions .btn.primary']) {
         await expect(page.locator(selector)).toHaveCSS('background-color', rgbColor(primary));
-        await expect(page.locator(selector)).toHaveCSS('color', 'rgb(255, 255, 255)');
+        await expect(page.locator(selector)).toHaveCSS('color', rgbColor(await cssVariable(page, '--color-on-primary')));
     }
     await expect(page.locator('.theme-preview progress')).toHaveCSS('color', rgbColor(await cssVariable(page, '--color-link')));
 }
@@ -303,7 +306,7 @@ test('theme: edits apply to the whole site and survive navigation, reload and re
     await page.getByRole('main').getByRole('link', {name: '按钮', exact: true}).click();
     const exampleButton = page.locator('.example .btn.primary').first();
     await expect(exampleButton).toHaveCSS('background-color', rgbColor(primary));
-    await expect(exampleButton).toHaveCSS('color', 'rgb(255, 255, 255)');
+    await expect(exampleButton).toHaveCSS('color', rgbColor(await cssVariable(page, '--color-on-primary')));
     await page.reload();
     await expect.poll(() => cssVariable(page, '--color-primary-500')).toBe(primary);
     await expect(exampleButton).toHaveCSS('background-color', rgbColor(primary));
@@ -353,19 +356,19 @@ test('theme: semantic colors reach the preview labels without overriding native 
     await openEditor(page);
     const colors = [['success', '#237341'], ['warning', '#a56b14'], ['danger', '#b1354b']] as const;
     for (const [key, value] of colors) {
-        await expect(page.locator(`.theme-preview .label.${key}`).first()).toHaveCSS('color', 'rgb(255, 255, 255)');
+        await expect(page.locator(`.theme-preview .label.${key}`).first()).toHaveCSS('color', rgbColor(await cssVariable(page, `--color-on-${key}`)));
         await page.getByTestId(`theme-color-${key}`).fill(value);
         await expect(page.locator(`.theme-preview .label.${key}`).first()).toBeVisible();
         for (const label of await page.locator(`.theme-preview .label.${key}`).all()) {
             await expect(label).toHaveCSS('background-color', rgbColor(value));
-            await expect(label).toHaveCSS('color', 'rgb(255, 255, 255)');
+            await expect(label).toHaveCSS('color', rgbColor(await cssVariable(page, `--color-on-${key}`)));
         }
     }
     await page.reload();
     for (const [key, value] of colors) {
         for (const label of await page.locator(`.theme-preview .label.${key}`).all()) {
             await expect(label).toHaveCSS('background-color', rgbColor(value));
-            await expect(label).toHaveCSS('color', 'rgb(255, 255, 255)');
+            await expect(label).toHaveCSS('color', rgbColor(await cssVariable(page, `--color-on-${key}`)));
         }
     }
 });
@@ -713,23 +716,7 @@ for (const mode of ['浅色', '深色']) {
         await page.getByRole('textbox', {name: '主题 CSS', exact: true}).scrollIntoViewIfNeeded();
         expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
         const accessibility = await new AxeBuilder({page}).include('[data-testid="theme-editor"]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
-        // Preserve ZUI's native solid white text. These exact existing contrasts are
-        // recorded as a baseline, not a WCAG pass; any additional failure still fails.
-        expect(accessibility.violations.filter(violation => violation.id !== 'color-contrast')).toEqual([]);
-        const contrast = accessibility.violations.filter(violation => violation.id === 'color-contrast').flatMap(violation => violation.nodes.map((node) => {
-            const data = node.any.find(check => check.id === 'color-contrast')!.data;
-            return {selector: node.target.join(' '), foreground: data.fgColor, background: data.bgColor, ratio: data.contrastRatio};
-        })).sort((a, b) => a.selector.localeCompare(b.selector));
-        expect(contrast).toEqual([
-            {selector: '.theme-preview-top > .success.label', foreground: '#ffffff', background: '#22c55e', ratio: 2.27},
-            {selector: '.theme-preview-actions > .primary.btn[type="button"]', foreground: '#ffffff', background: '#3b82f6', ratio: 3.67},
-            {selector: '.theme-preview-labels > .success.label', foreground: '#ffffff', background: '#22c55e', ratio: 2.27},
-            {selector: '.warning', foreground: '#ffffff', background: '#f59e0b', ratio: 2.14},
-            {selector: '.danger', foreground: '#ffffff', background: '#ef4444', ratio: 3.76},
-            {selector: '.theme-export-actions > .primary.btn[type="button"]', foreground: '#ffffff', background: '#3b82f6', ratio: 3.67},
-        ].sort((a, b) => a.selector.localeCompare(b.selector)));
-        testInfo.annotations.push({type: 'accessibility-baseline', description: 'Six native ZUI solid skin nodes retain known white-text contrast failures (2.14–3.76:1). No new violations allowed; this is not full WCAG conformance.'});
-        await testInfo.attach('原生 ZUI 对比度基线', {body: JSON.stringify(accessibility.violations, null, 2), contentType: 'application/json'});
+        expect(accessibility.violations).toEqual([]);
         await page.setViewportSize({width: 1440, height: 1000});
         await page.evaluate(() => window.scrollTo(0, 0));
         await expect(page.locator('.VPSidebar').getByRole('link', {name: '主题', exact: true})).toBeInViewport({ratio: 1});
