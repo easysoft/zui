@@ -69,8 +69,8 @@ browser：
 | 变量 | 默认表达式 | 含义及取值 | 声明位置 | 推荐覆盖节点 |
 | --- | --- | --- | --- | --- |
 | `--table-head-bg` | `var(--color-surface)` | 表头背景 | `.table` | 目标 table |
-| `--table-striped-color` | `var(--color-gray-50)` | 斑马纹色 | `.table` | 目标 table |
-| `--table-hover-color` | `rgba(var(--color-primary-500-rgb), .05)` | 悬停背景 | `.table` | 目标 table |
+| `--table-striped-color` | `var(--color-surface-light)` | 斑马纹色 | `.table` | 目标 table |
+| `--table-hover-color` | `rgba(var(--color-primary-500-rgb), .12)` | 悬停背景 | `.table` | 目标 table |
 | `--table-border-color` | `var(--color-border)` | 边框色 | `.table` | 目标 table |
 
 ## javascript

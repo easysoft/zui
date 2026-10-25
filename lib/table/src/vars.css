@@ -1,6 +1,6 @@
 .table {
     --table-head-bg:       var(--color-surface);
-    --table-striped-color: var(--color-gray-50);
-    --table-hover-color:   rgba(var(--color-primary-500-rgb), .05);
+    --table-striped-color: var(--color-surface-light);
+    --table-hover-color:   rgba(var(--color-primary-500-rgb), .12);
     --table-border-color:  var(--color-border);
 }

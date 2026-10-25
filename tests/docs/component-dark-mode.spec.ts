@@ -75,3 +75,18 @@ for (const mode of ['light', 'dark'] as const) {
         await expect(modal).toBeHidden();
     });
 }
+
+for (const mode of ['light', 'dark'] as const) {
+    test(`components: ${mode} table stripes and hover remain distinct`, async ({page}) => {
+        await page.addInitScript(appearance => localStorage.setItem('vitepress-theme-appearance', appearance), mode);
+        await page.goto('lib/components/table/');
+        const stripe = page.locator('.example .table-striped tbody tr:nth-child(2)').first();
+        await expect(stripe).toBeVisible();
+        const colors = await stripe.evaluate(element => ({stripe: getComputedStyle(element).backgroundColor, canvas: getComputedStyle(document.body).backgroundColor}));
+        expect(colors.stripe).not.toBe(colors.canvas);
+        const row = page.locator('.example .table-hover tbody tr').first();
+        await row.hover();
+        const background = await row.locator('td').first().evaluate(element => getComputedStyle(element).backgroundColor);
+        expect(Number(background.match(/[\d.]+/g)![3])).toBeGreaterThanOrEqual(0.1);
+    });
+}
