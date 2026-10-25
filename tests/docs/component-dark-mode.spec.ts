@@ -90,3 +90,20 @@ for (const mode of ['light', 'dark'] as const) {
         expect(Number(background.match(/[\d.]+/g)![3])).toBeGreaterThanOrEqual(0.1);
     });
 }
+
+for (const mode of ['light', 'dark'] as const) {
+    test(`components: ${mode} dtable stripes and hover remain distinct`, async ({page}) => {
+        await page.addInitScript(appearance => localStorage.setItem('vitepress-theme-appearance', appearance), mode);
+        await page.goto('lib/components/dtable/');
+        const host = page.locator('#dtable-striped');
+        await host.scrollIntoViewIfNeeded();
+        const cell = host.locator('.dtable-body .dtable-cell.is-odd-row').first();
+        await expect(cell).toBeVisible();
+        const colors = await cell.evaluate(element => ({stripe: getComputedStyle(element).backgroundColor, canvas: getComputedStyle(element.closest('.dtable')!).backgroundColor}));
+        expect(colors.stripe).not.toBe(colors.canvas);
+        await cell.hover();
+        await expect(cell).toHaveClass(/is-hover-row/);
+        const background = await cell.evaluate(element => getComputedStyle(element, '::before').backgroundColor);
+        expect(Number(background.match(/[\d.]+/g)![3])).toBeGreaterThanOrEqual(0.1);
+    });
+}

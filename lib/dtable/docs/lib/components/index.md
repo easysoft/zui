@@ -2084,8 +2084,8 @@ new zui.DTable({
 
 | 变量      | 定义  | 默认值 |
 | ------------- | ----- | ----- |
-| `--dtable-striped-bg` | 隔行背景色 | `var(--color-gray-100)` |
-| `--dtable-hover-bg` | 鼠标悬停背景色 | `rgba(var(--color-gray-500-rgb), .1)` |
+| `--dtable-striped-bg` | 隔行背景色 | `var(--color-surface-light)` |
+| `--dtable-hover-bg` | 鼠标悬停背景色 | `rgba(var(--color-primary-500-rgb), .12)` |
 | `--dtable-header-bg` | 表头背景色 | `var(--color-surface)` |
 | `--dtable-border-color` | 边框颜色 | `var(--color-border)` |
 | `--dtable-sorter-size` | 排序标记大小 | `0.3125rem` |
