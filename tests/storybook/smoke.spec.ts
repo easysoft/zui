@@ -1,8 +1,13 @@
-import glob from 'fast-glob';
+import Path from 'node:path';
+import {normalizePath} from 'vite';
+import {getStorybookFiles, getStorybookLibraries, rootPath} from '../../.storybook/libraries';
 import {expect, stories, test} from './fixtures';
 
-test('indexes every built-in story file and serves the matching index', async ({request}) => {
-    const files = glob.sync('lib/*/*.stories.{ts,tsx}').map(file => `./${file}`).sort();
+test('indexes every selected story file and serves the matching index', async ({request}) => {
+    const files = (await getStorybookFiles(await getStorybookLibraries())).map((file) => {
+        const relative = normalizePath(Path.relative(rootPath, file));
+        return relative.startsWith('.') ? relative : `./${relative}`;
+    }).sort();
     expect([...new Set(stories.map(story => story.importPath))].sort()).toEqual(files);
     const response = await request.get('./index.json');
     expect(response.ok()).toBe(true);

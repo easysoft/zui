@@ -144,7 +144,10 @@ pnpm dev
 | `pnpm dev` | 启动内置库的开发服务 |
 | `pnpm dev:exts` | 启动包含 `exts/` 扩展库的开发服务 |
 | `pnpm storybook` | 启动独立的组件场景预览（默认端口 6006） |
+| `pnpm storybook --extensions` | 启动包含已注册 `exts/` 扩展库的 Storybook |
 | `pnpm storybook:build` | 构建 Storybook 静态站点到 `dist/storybook` |
+| `pnpm storybook:build --extensions` | 构建包含已注册扩展场景的 Storybook |
+| `pnpm typecheck:storybook` | 检查所选库的 Storybook 场景及其导入源码 |
 | `pnpm test:storybook` | 用 Chromium 验收已构建的 Storybook 场景（先运行 `storybook:build`） |
 | `pnpm lint` | 运行 ESLint 检查 |
 | `pnpm typecheck` | 检查源码、工具与测试的 TypeScript 类型 |
@@ -169,7 +172,7 @@ pnpm dev
 
 ### Storybook 调试
 
-运行 `pnpm storybook` 后访问 <http://localhost:6006>。目前提供 11 个库共 65 个场景，可以在 Controls 中调整参数，在 Actions 中观察事件，也可以切换视口与 ZUI 主题。主题工具栏提供“浅色”“深色”“跟随系统”，默认跟随系统并实时响应系统外观变化。主题作用于整个预览文档，包含挂到 body 的菜单、弹窗和原生表单控件；切换时保留场景参数。主题选择由 Storybook globals 管理，可通过 `globals=theme:dark` 分享深色场景链接。
+运行 `pnpm storybook` 后访问 <http://127.0.0.1:6006>。目前提供 11 个库共 65 个场景，可以在 Controls 中调整参数，在 Actions 中观察事件，也可以切换视口与 ZUI 主题。主题工具栏提供“浅色”“深色”“跟随系统”，默认跟随系统并实时响应系统外观变化。主题作用于整个预览文档，包含挂到 body 的菜单、弹窗和原生表单控件；切换时保留场景参数。主题选择由 Storybook globals 管理，可通过 `globals=theme:dark` 分享深色场景链接。
 
 预览直接使用 `config/tailwind-theme/` 经 `@zui/base` 生成的颜色变量，通过根元素 `.dark` 切换，原生控件同步设置 `color-scheme`。不维护另一套背景色或组件皮肤；主题只作用于预览区域，Storybook 管理界面沿用自身外观。
 
@@ -187,9 +190,24 @@ pnpm dev
 | Modal | 6 | 尺寸、确认与取消、仅按钮关闭、长标题、长正文滚动、Preact 内容 |
 | Tabs | 3 | 受控切换、淡入效果、长标签与窄屏布局 |
 
-`pnpm storybook:build` 生成可由普通 HTTP 静态服务器托管的 `dist/storybook`，包括场景使用的图标字体。它与原有 `pnpm dev`、官网文档和分发构建独立，不加载本机 `exts/`。
+`pnpm storybook:build` 生成可由普通 HTTP 静态服务器托管的 `dist/storybook`，包括场景使用的图标字体。它与原有 `pnpm dev`、官网文档和分发构建独立，默认只加载内置库；扩展模式显式启用本机 `exts/`。
 
-场景统一放在内置库根目录，命名为 `lib/<lib>/<scene>.stories.ts` 或 `.stories.tsx`，使用 HTML/Vite 和 CSF 3，通过组件公开入口导入组件与样式。Storybook、CSS 扫描、TypeScript 检查和浏览器巡检都按此规则自动接入，无需维护库名列表；新建库后重启 Storybook，使其重新发现库入口。嵌套目录、`dev.ts` 和本机 `exts/` 不属于该规则。Button 的 Web Component 原型场景从本库 `src/web-component` 导入，不代表包主入口已公开该原型。使用已公开的 ZUI CSS 类、确定性数据和独立 DOM 容器，不导入 `dev.ts` 或复用全局实例。
+场景统一放在库根目录，命名为 `<scene>.stories.ts` 或 `.stories.tsx`，内置库对应 `lib/<lib>/`，扩展库对应注册后的单库或集合中的库目录。使用 HTML/Vite 和 CSF 3，通过组件公开入口导入组件与样式。Storybook、CSS 扫描、TypeScript 检查和浏览器巡检共用所选库清单，无需维护库名列表；已发现库内增删场景会自动更新索引，新增库、注册或修改包元数据后须重启 Storybook。嵌套目录和 `dev.ts` 不会自动转换为场景。Button 的 Web Component 原型场景从本库 `src/web-component` 导入，不代表包主入口已公开该原型。使用已公开的 ZUI CSS 类、确定性数据和独立 DOM 容器，不导入 `dev.ts` 或复用全局实例。
+
+Storybook 的扩展来源与构建命令统一：默认仅加载内置库，`--extensions` 加载全部已注册扩展，重复 `--extension <组名或目录>` 加载指定来源，两者互斥。内置库始终可用；可直接传入单库、集合或含 `lib/` 的项目目录，无须先注册。
+
+```sh
+pnpm storybook --extension zentao
+pnpm typecheck:storybook --extension zentao
+pnpm storybook:build --extension zentao --output-dir dist/storybook-zentao
+STORYBOOK_OUTPUT_DIR=dist/storybook-zentao pnpm test:storybook --extension zentao smoke.spec.ts
+```
+
+Storybook 默认绑定 `127.0.0.1:6006`，占用即失败；用 `--port` 指定新端口，局域网访问须显式指定 `--host 0.0.0.0`。`--help` 不发现库或准备文件。每次开发服务启动使用独立临时缓存，退出时清理。
+
+扩展库使用自己的包名导入（例如 `@zentao/user-avatar`），使用 `~/.storybook/zui` 导入宿主的 `createPreactRender` / `createZuiRender` 适配器。预览与构建同时接入所选扩展的公开子入口、`zui.replace`、Tailwind 预设、源码扫描和公共资源；修改扩展源码会刷新预览，CSS 继续使用热更新。扩展主题和替换会作用于同一次预览中的内置场景，因此内置视觉基线应在默认模式检查。扩展需要的第三方依赖仍由扩展项目管理。没有 `.stories.ts(x)` 的库可供其他场景导入，但不会自动出现在侧栏。CI 默认不依赖本机扩展；团队复现需先检出并注册相同扩展。
+
+Storybook 按所选库隔离依赖预构建缓存，内置与扩展预览可在不同端口同时运行。
 
 新增场景优先使用公开的 `@zui/<name>/react` 入口，并通过 `.storybook/zui.ts` 的 `createPreactRender` 渲染；纯原生组件或原生接口回归使用 `createZuiRender`。不自动拆解原生包装类，也不将原生 Options 当作 Preact Props。两个适配器都返回 HTML/Vite 可用的 DOM，无需新增 Storybook framework 或插件。
 
@@ -275,11 +293,11 @@ Picker 的搜索键盘操作从已打开的搜索框开始，场景不额外模�
 
 stories 和 CSS 使用热更新；组件源码的 TS/TSX 变更会刷新预览 iframe，以重新注册自定义元素。
 
-`pnpm typecheck` 同时检查原项目和 Storybook。Storybook 使用独立 TypeScript 配置跳过其第三方声明内部检查，避免要求安装其他渲染器；场景与导入的项目源码仍接受严格类型检查，原项目的声明检查策略保持不变。
+`pnpm typecheck` 同时检查原项目和默认内置 Storybook。`pnpm typecheck:storybook --extension <组名>` 按所选库的包入口与替换关系检查扩展场景。Storybook 使用独立 TypeScript 配置跳过其第三方声明内部检查，避免要求安装其他渲染器；场景与导入的项目源码仍接受严格类型检查，原项目的声明检查策略保持不变。
 
 运行 `pnpm storybook:build` 后执行 `pnpm test:storybook`。测试从构建索引自动发现全部场景，在浅色与深色下检查非空渲染、脚本错误和资源加载，并核对源码文件与索引一致；同时验证主题工具栏、系统外观变化与浮层主题继承，禁用与加载状态恢复、空数据与分页边界、长文本和窄屏浮层，Checkbox 选中状态、Controls 与 Actions、Tab／空格操作、原生表单提交、禁用恢复和长文案换行，InputControl 输入、清空、原生表单语义和校验恢复，SearchBox 防抖输入与 Controls、Enter／Escape、清空取消待执行通知、中文输入、禁用／只读、快捷键重新配置和场景卸载，Picker 单／多选提交、搜索、键盘操作、Controls 同步、异步加载／空结果／失败恢复、快速搜索与浮层卸载，DatetimePicker 日期／时间选择、手工输入校验、清空、范围限制、禁用／只读、分钟步长和浮层卸载，Button 表单与 Actions、三种 Pager 的双向参数同步、Dropdown 和 Modal 的卸载清理、焦点恢复、Tabs 切换及手机宽度下的表单。新增场景自动获得双主题加载巡检，特有交互应补充到 `tests/storybook/`。
 
-浏览器检查不隐式重建，默认在 `http://127.0.0.1:6007/` 临时托管静态产物，结束后关闭自身服务；端口被占用时失败。复用已确认的服务时设置 `PLAYWRIGHT_STORYBOOK_BASE_URL=http://127.0.0.1:端口/`，该模式不启动服务，要求本地构建索引与服务中的场景一致。截图和 trace 位于 `test-results/storybook/`，HTML 报告位于 `playwright-report/storybook/`。
+浏览器检查不隐式重建，默认在 `http://127.0.0.1:6007/` 临时托管静态产物，结束后关闭自身服务；端口被占用时失败。`STORYBOOK_OUTPUT_DIR` 可选择独立构建目录，`--extension` / `--extensions` 必须与构建时的来源选择一致。复用已确认的服务时设置 `PLAYWRIGHT_STORYBOOK_BASE_URL=http://127.0.0.1:端口/`，该模式不启动服务，要求本地构建索引与服务中的场景一致。截图和 trace 位于 `test-results/storybook/`，HTML 报告位于 `playwright-report/storybook/`。
 
 `tests/storybook/accessibility.spec.ts` 为 InputControl 和 SearchBox 的可清空／禁用／只读状态、Checkbox 的半选／禁用／开关，以及展开的 Dropdown 和 Modal 确认框建立双主题可访问性门禁。axe 执行 WCAG 2.1 A/AA 自动规则（包含对比度，不禁用规则），扫描真实预览和 body 浮层；失败时附加完整违规 JSON。键盘回归验证 Tab 顺序、清空后焦点返回、空格切换、菜单触发器焦点和 Modal 焦点循环／Escape 返回。该门禁随 `pnpm test:storybook` 进入现有 CI，不受视觉基线跳过开关影响。覆盖范围为这些代表场景，不代表完整可访问性认证；InputControl 错误提示、Picker 和 DatetimePicker 的对比度及语义问题尚待独立治理，屏幕阅读器与缩放仍需人工验收。
 

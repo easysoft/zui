@@ -1,10 +1,12 @@
 import {existsSync} from 'node:fs';
+import Path from 'node:path';
 import {defineConfig} from '@playwright/test';
 
 const externalURL = process.env.PLAYWRIGHT_STORYBOOK_BASE_URL;
 const baseURL = externalURL ?? 'http://127.0.0.1:6007/';
 
-if (!existsSync('dist/storybook/index.html') || !existsSync('dist/storybook/index.json')) {
+const outputDir = process.env.STORYBOOK_OUTPUT_DIR ?? 'dist/storybook';
+if (!existsSync(Path.join(outputDir, 'index.html')) || !existsSync(Path.join(outputDir, 'index.json'))) {
     throw new Error('Storybook build missing. Run pnpm storybook:build first; an external URL must serve the same stories.');
 }
 

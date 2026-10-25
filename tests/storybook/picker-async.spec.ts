@@ -105,7 +105,7 @@ for (const theme of ['light', 'dark'] as const) {
             await canvas.locator('.picker-select').click();
             await canvas.getByPlaceholder('搜索姓名或部门', {exact: true}).fill('研发');
             await expect(canvas.getByText('加载失败，请在 Controls 中切换返回结果重试', {exact: true})).toBeVisible();
-            expect(warnings.some(message => message.includes('[ZUI] Picker: Failed to load items.'))).toBe(true);
+            await expect.poll(() => warnings.some(message => message.includes('[ZUI] Picker: Failed to load items.'))).toBe(true);
             await expect(canvas.locator('input[name="owner"]')).toHaveValue('');
             await page.locator('#control-response').selectOption('success');
             await expect(canvas.locator('.pick-pop')).toHaveCount(0);

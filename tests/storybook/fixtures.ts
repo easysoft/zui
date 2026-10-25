@@ -1,14 +1,15 @@
 import {readFileSync} from 'node:fs';
+import Path from 'node:path';
 import {expect, test as base} from '@playwright/test';
 
 import type {Page} from '@playwright/test';
 
 type StoryEntry = {id: string; title: string; name: string; type: string; importPath: string};
-const index = JSON.parse(readFileSync('dist/storybook/index.json', 'utf8')) as {entries: Record<string, StoryEntry>};
+const index = JSON.parse(readFileSync(Path.join(process.env.STORYBOOK_OUTPUT_DIR ?? 'dist/storybook', 'index.json'), 'utf8')) as {entries: Record<string, StoryEntry>};
 export const stories = Object.values(index.entries).filter(entry => entry.type === 'story');
 
 if (!stories.length) {
-    throw new Error('Storybook index contains no stories. Run pnpm storybook:build and check lib/*/*.stories.ts(x).');
+    throw new Error('Storybook index contains no stories. Build Storybook with the same --extension selection and check library-root *.stories.ts(x).');
 }
 
 export const test = base.extend({

@@ -12,6 +12,10 @@ ZUI 3 是一个不依赖 JavaScript 框架的 Web UI 组件库。以 pnpm worksp
 pnpm install               # 安装依赖
 pnpm dev                   # 启动开发服务器，自动遍历 lib/* 生成左侧导航
 pnpm dev:exts              # 带扩展库 (exts/) 一起开发
+pnpm storybook            # 内置库 Storybook，默认 127.0.0.1:6006
+pnpm storybook --extensions # 包含全部注册扩展；--extension zentao 选择来源
+pnpm storybook:build --extensions # 构建扩展场景，可用 --output-dir 指定独立产物目录
+pnpm typecheck:storybook   # Storybook 类型检查，支持 --extension zentao
 pnpm lint                  # 独立运行 ESLint（开发和构建不隐式执行 lint）
 pnpm typecheck             # 检查源码、工具和测试的 TypeScript 类型
 pnpm test                  # 运行 Vitest 单元测试与 jsdom 组件测试
@@ -115,6 +119,8 @@ build/、dist/、publish/   构建中间产物 / 最终产物（gitignored）
 - exts 中 `sourceType === 'exts'` 的库会按其 `name` 自动注册别名
 
 `scripts/libs/query.ts` 的 `getLibs()` 是发现/合并 build-in 与 exts 库的统一入口；同时会做缓存（`.cache/`）。
+
+Storybook 复用无写入的来源发现入口，默认仅内置库；`--extensions` 与可重复的 `--extension <组名或目录>` 互斥，内置库始终可用。场景位于每个库根目录的 `*.stories.ts(x)`；不加载 `dev.ts`。扩展场景通过 `~/.storybook/zui` 使用宿主适配器，扩展包别名、替换、Tailwind 预设与源码刷新一同生效。已发现库内增删场景会自动更新索引；新增库或改变注册后须重启本任务服务或另开端口验证。扩展巡检使用与构建一致的 `--extension` / `--extensions`，独立产物目录通过 `STORYBOOK_OUTPUT_DIR` 传给 `pnpm test:storybook`；不要让默认 CI 依赖本机扩展。
 
 ### 源码与文档接入边界
 

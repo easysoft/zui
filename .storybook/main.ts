@@ -1,5 +1,6 @@
 import {fileURLToPath} from 'node:url';
 import type {StorybookConfig} from '@storybook/html-vite';
+import {getStorybookLibraries, getStorybookPatterns} from './libraries';
 
 const config: StorybookConfig = {
     framework: {
@@ -10,7 +11,7 @@ const config: StorybookConfig = {
             },
         },
     },
-    stories: ['../lib/*/*.stories.@(ts|tsx)'],
+    stories: async () => getStorybookPatterns(await getStorybookLibraries()),
 };
 
 export default config;
