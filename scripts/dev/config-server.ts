@@ -1,6 +1,6 @@
 import path from 'node:path';
 import fs from 'fs-extra';
-import {normalizePath} from 'vite';
+import {isFileServingAllowed, normalizePath, send} from 'vite';
 import type {HtmlTagDescriptor, Plugin, ViteDevServer} from 'vite';
 import {generateLibDoc} from '../docs/lib-doc-generator';
 import type {LibInfo} from '../libs/lib-info';
@@ -49,6 +49,11 @@ function getLibNameFromUrl(url: string, libs?: Record<string, LibInfo>): string 
     return resolveLibName(name, libs);
 }
 
+function isWithin(file: string, directory: string) {
+    const relative = path.relative(directory, file);
+    return relative !== '..' && !relative.startsWith(`..${path.sep}`) && !path.isAbsolute(relative);
+}
+
 export default function configDevServer(options: {rootPath: string; libsCache: Record<string, LibInfo>; sources: string[]; configFiles?: string[]; watchExtensions?: boolean}): Plugin {
     const {rootPath, libsCache, sources} = options;
     const visited = new Map<string, LibInfo>();
@@ -93,6 +98,7 @@ export default function configDevServer(options: {rootPath: string; libsCache: R
     return {
         name: 'config-dev-server',
         configureServer(server) {
+            const publicRoots = Promise.all(Object.values(libsCache).map(lib => fs.realpath(path.join(lib.zui.path, 'public')).catch(() => undefined)));
             let timer: ReturnType<typeof setTimeout> | undefined;
             const onFile = (event: string, file: string) => {
                 if (!['add', 'change', 'unlink'].includes(event)) return;
@@ -116,6 +122,33 @@ export default function configDevServer(options: {rootPath: string; libsCache: R
                 try {
                     if (!req.url) return next();
                     const pathname = req.url.split('?')[0];
+                    // Library public bundles are already built; source transforms can corrupt them.
+                    if ((req.method === 'GET' || req.method === 'HEAD') && /\/public\/.*\.(?:[cm]?js|css)$/.test(pathname)) {
+                        const query = new URLSearchParams(req.url.split('?')[1]);
+                        const isModuleRequest = ['raw', 'url', 'import', 'worker', 'sharedworker', 'inline'].some(key => query.has(key));
+                        const isLinkedCSS = req.headers.accept?.includes('text/css') || query.has('direct');
+                        if (!isModuleRequest && (!pathname.endsWith('.css') || isLinkedCSS)) {
+                            const decoded = decodeURIComponent(pathname);
+                            const fsPath = decoded.slice('/@fs/'.length);
+                            const requestedFile = decoded.startsWith('/@fs/')
+                                ? path.resolve(/^(?:\/|[a-z]:)/i.test(fsPath) ? fsPath : `/${fsPath}`)
+                                : path.resolve(rootPath, `.${decoded}`);
+                            const directory = await fs.realpath(path.dirname(requestedFile)).catch(() => undefined);
+                            const publicRoot = directory && (await publicRoots).find(root => root && isWithin(directory, root));
+                            if (publicRoot) {
+                                const file = await fs.realpath(requestedFile).catch(() => undefined);
+                                if (!file) return next();
+                                if (!isWithin(file, publicRoot) || !isFileServingAllowed(server.config, normalizePath(requestedFile)) || !isFileServingAllowed(server.config, normalizePath(file))) {
+                                    res.statusCode = 403;
+                                    res.end('Restricted public asset');
+                                    return;
+                                }
+                                if (!(await fs.stat(file)).isFile()) return next();
+                                send(req, res, await fs.readFile(file), pathname.endsWith('.css') ? 'text/css; charset=utf-8' : 'text/javascript; charset=utf-8', {headers: server.config.server.headers});
+                                return;
+                            }
+                        }
+                    }
                     if (pathname === '/libs/') {
                         res.setHeader('Content-Type', 'application/json');
                         res.end(JSON.stringify(libsCache));
