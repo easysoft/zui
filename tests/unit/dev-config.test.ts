@@ -2,6 +2,7 @@ import Path from 'node:path';
 import {execFile} from 'node:child_process';
 import {createRequire} from 'node:module';
 import {tmpdir} from 'node:os';
+import {pathToFileURL} from 'node:url';
 import {promisify} from 'node:util';
 import fs from 'fs-extra';
 import postcss from 'postcss';
@@ -105,6 +106,52 @@ test('recreating the server reloads Tailwind presets and their local dependencie
         expect(result.css).toContain(expected);
         expect(result.css).toContain('.-from-plugin');
     }
+});
+
+test.each(['cjs', 'mjs'])('loads extensionless %s theme directories and watches their dependencies', async (format) => {
+    const lib = libsCache['@example/controls'];
+    lib.zui.tailwindConfigPath = Path.join(lib.zui.path, 'tailwind.cjs');
+    const theme = Path.join(lib.zui.path, 'tailwind-theme');
+    const index = Path.join(theme, `index.${format}`);
+    const colors = Path.join(theme, `colors.${format}`);
+    await fs.ensureDir(theme);
+    await fs.writeFile(lib.zui.tailwindConfigPath, 'module.exports = require("./tailwind-theme");');
+    await fs.writeFile(index, format === 'cjs'
+        ? 'const colors = require("./colors"); module.exports = () => ({theme: {extend: {colors}}});'
+        : 'import colors from "./colors"; export default () => ({theme: {extend: {colors}}});');
+    await fs.writeFile(Path.join(lib.zui.path, 'dev.md'), '<div class="-text-selected"></div>');
+    for (const [color, expected] of [['#123456', 'rgb(18 52 86'], ['#abcdef', 'rgb(171 205 239']]) {
+        await fs.writeFile(colors, `${format === 'cjs' ? 'module.exports =' : 'export default'} {selected: "${color}"};`);
+        const config = await createDevViteConfig({rootPath, libsCache, sources: [rootPath], mode: 'development', development: true});
+        const css = config.css?.postcss;
+        if (!css || typeof css === 'string') throw new Error('Expected inline PostCSS configuration');
+        const result = await postcss(css.plugins).process('@tailwind utilities;', {from: undefined});
+        expect(result.css).toContain(expected);
+
+        const plugin = (config.plugins?.flat(2) as Plugin[]).find(item => item.name === 'config-dev-server');
+        if (typeof plugin?.configureServer !== 'function') throw new Error('Expected development server plugin');
+        let watched: string[] = [];
+        Reflect.apply(plugin.configureServer, {}, [{
+            watcher: {add: (files: string[]) => {watched = files;}, on: () => undefined},
+            middlewares: {use: () => undefined},
+        }]);
+        expect(watched).toEqual(expect.arrayContaining(await Promise.all([index, colors].map(file => fs.realpath(file)))));
+        expect(watched.some(file => file.includes('zui-dev-presets-'))).toBe(false);
+    }
+});
+
+test.each(['cjs', 'mjs'])('preserves the original %s preset file context without caching the temporary bundle', async (format) => {
+    const file = Path.join(libsCache['@example/controls'].zui.path, `tailwind.${format}`);
+    await fs.writeFile(file, format === 'cjs'
+        ? '#!/usr/bin/env node\nmodule.exports = {directory: __dirname, filename: __filename};'
+        : 'export default {directory: import.meta.dirname, filename: import.meta.filename, url: import.meta.url};');
+    const require = createRequire(import.meta.url);
+    const {loadPresets} = require('../../scripts/dev/load-presets.cjs') as typeof import('../../scripts/dev/load-presets.cjs');
+    const loaded = await loadPresets([file], rootPath);
+    const filename = await fs.realpath(file);
+    expect(loaded.presets[0]).toEqual({directory: Path.dirname(filename), filename, ...(format === 'mjs' ? {url: pathToFileURL(filename).href} : {})});
+    expect(loaded.dependencies).toEqual([filename]);
+    expect(Object.keys(require.cache).some(id => id.includes('zui-dev-presets-'))).toBe(false);
 });
 
 test('native Node reloads ESM function presets and their imported dependencies', async () => {

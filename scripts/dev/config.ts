@@ -1,9 +1,8 @@
-import {mkdtemp, realpath, rm, writeFile} from 'node:fs/promises';
+import {realpath} from 'node:fs/promises';
 import {createRequire} from 'node:module';
-import {tmpdir} from 'node:os';
 import path from 'node:path';
 import glob from 'fast-glob';
-import {loadConfigFromFile, mergeConfig} from 'vite';
+import {mergeConfig} from 'vite';
 import preact from '@preact/preset-vite';
 import type {LibInfo} from '../libs/lib-info';
 import {createSharedViteConfig} from '../../vite.shared';
@@ -11,6 +10,7 @@ import configDevServer from './config-server';
 
 const require = createRequire(import.meta.url);
 const cssConfigPath = require.resolve('../build/css-config.cjs');
+const {loadPresets} = require('./load-presets.cjs') as typeof import('./load-presets.cjs');
 
 function localConfigModules(entries: string[]) {
     const modules = new Set<string>();
@@ -21,27 +21,6 @@ function localConfigModules(entries: string[]) {
     };
     entries.forEach(visit);
     return modules;
-}
-
-async function loadPresets(files: string[], rootPath: string, mode: string) {
-    if (!files.length) return {presets: [], dependencies: []};
-    const directory = await realpath(await mkdtemp(path.join(tmpdir(), 'zui-dev-presets-')));
-    const wrapper = path.join(directory, 'presets.cjs');
-    try {
-        await writeFile(wrapper, [
-            ...files.map((file, index) => `import preset${index} from ${JSON.stringify(file)};`),
-            `export default {presets: [${files.map((_, index) => `preset${index}`).join(',')}]};`,
-        ].join('\n'));
-        // Bundling refreshes both CommonJS and native ESM graphs on each restart.
-        const loaded = await loadConfigFromFile({command: 'serve', mode}, wrapper, rootPath, 'silent');
-        if (!loaded) throw new Error('Unable to load development Tailwind presets');
-        return {
-            presets: ((loaded.config as {presets?: unknown[]}).presets ?? []).map(value => (value as {default?: unknown} | null)?.default ?? value),
-            dependencies: loaded.dependencies.map(file => path.resolve(file)).filter(file => file !== wrapper),
-        };
-    } finally {
-        await rm(directory, {recursive: true, force: true});
-    }
 }
 
 export async function createDevViteConfig(options: {rootPath: string; libsCache: Record<string, LibInfo>; sources: string[]; mode: string; development: boolean; watchExtensions?: boolean; cacheDir?: string}) {
@@ -61,7 +40,7 @@ export async function createDevViteConfig(options: {rootPath: string; libsCache:
     // Vite restarts in the same process; reload local presets and theme dependencies.
     for (const id of localConfigModules(configEntries)) delete require.cache[id];
     const {createPostcssConfig} = require(cssConfigPath) as typeof import('../build/css-config.cjs');
-    const {presets, dependencies} = await loadPresets(tailwindConfigs, rootPath, mode);
+    const {presets, dependencies} = await loadPresets(tailwindConfigs, rootPath);
     const postcss = createPostcssConfig({development, minify: false, tailwindPresets: presets, content});
     const configFiles = [...localConfigModules(configEntries), ...dependencies];
     return mergeConfig(createSharedViteConfig({
