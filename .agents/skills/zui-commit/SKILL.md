@@ -48,7 +48,7 @@ has not been verified.
 
 ## 与代码评审技能协作
 
-候选范围、写操作授权、验证编排和最终提交结果始终由本技能负责。审查候选组时，完整读取 [ZUI 代码评审](../zui-review/SKILL.md)，只复用其中与评审阶段有关的只读边界、评审方法、严重度和 findings 输出规则。
+候选范围、写操作授权、验证编排和最终提交结果始终由本技能负责。审查候选组时，读取[共享评审方法与输出](../zui-review/references/review-protocol.md)，只复用其中与评审阶段有关的只读边界、评审方法、严重度和 findings 输出规则。
 
 - 将当前候选提交组声明为显式评审范围，不让代码评审技能重新执行默认范围选择。
 - 现有暂存快照只评审 cached 内容；尚未暂存的候选组只评审精确 diff、pathspec 或 hunk；用户明确给出的 revision/range 保留原有语义。
@@ -82,7 +82,7 @@ has not been verified.
 5. **执行验证**：
    - 始终对候选或暂存的 tracked diff 运行相应的 `git diff --check`；未跟踪文本文件使用 `zui-review` 的等价 whitespace 检查。
    - 选择覆盖候选风险的最小充分组合，不机械运行全部命令：
-     - 仓库内 `.agents/skills/*`、`skills/*` 和 `skills-exts/*` 使用 `skill-creator` 的 `quick_validate.py` 并检查引用；另行解析 `agents/openai.yaml`，核对界面字段、`$skill-name` 默认提示及资源路径，因为 quick validator 不覆盖该文件。修改这些目录下的技能脚本或相关测试时再运行 `pnpm test:skills`，并确认测试实际覆盖修改的脚本。
+     - 仓库内 `.agents/skills/*`、`skills/*` 和 `skills-exts/*` 运行 `pnpm test:skills`，统一检查元数据、引用、`agents/openai.yaml` 和配套脚本；按变更补充显式行为评测。离线测试通过不代表模型行为通过。
      - 普通 TS/TSX/JS、工具和测试改动通常运行 `pnpm check`；只有范围窄、目标检查能明确覆盖且完整检查成本不相称时，才改用目标 lint、类型检查及相关 unit/DOM 测试，并说明收窄后的覆盖边界。
      - 库级 `ai.md`、索引或相关公开契约变更，按 [AI 参考联动](../zui-standards/references/workflow.md#ai-参考联动) 核对候选快照并运行 `pnpm ai:check`；`pnpm check` 已包含此项。已有有效结果可复用，纯 AI 参考改动不触发官网构建；仅提交授权不自动包含刷新索引，存在本任务实施授权时才生成。混合任务使用隔离候选快照，避免把未提交功能的说明一并提交。
      - 公共导出、包元数据、依赖锁、构建脚本、Vite/Tailwind 或分发契约改动增加 `pnpm test:build`，并在代表性构建未覆盖目标库时增加目标库构建。

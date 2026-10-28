@@ -68,7 +68,7 @@ node .agents/skills/zuix-standards/scripts/inspect-zui-lib.mjs \
 | `zuix-lib` | 新建完整扩展包或编排跨领域改动 | 汇总集成计划后直接实施 |
 | `zuix-i18n` | 审计、接入和完善国际化 | 目标明确时直接实施 |
 | `zuix-doc` | 维护扩展包官网正式文档源 | 目标明确时直接实施 |
-| `zuix-dev` | 维护 README/dev 页面和 `dev.ts` | 目标明确时直接实施 |
+| `zuix-dev` | 维护 README/dev 页面、`dev.ts` 和 Storybook 场景 | 目标明确时直接实施 |
 | `zuix-review` | 只读评审指定 diff，默认未提交改动或未推送提交 | 始终只读 |
 | `zuix-optimize` | 审计或优化一个、多个或全部扩展包 | 仅审计时只读；要求优化或修复时连续完成规划与实施 |
 | `zuix-wrap-lib` | 将 ready-to-use UMD/IIFE 封装为扩展包 | 完成集成计划后直接实施 |

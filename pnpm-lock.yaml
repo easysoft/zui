@@ -313,6 +313,9 @@ importers:
       jquery:
         specifier: ^3.7.1
         version: 3.7.1
+      js-yaml:
+        specifier: ^4.3.2
+        version: 4.3.2
       jsdom:
         specifier: 30.0.1
         version: 30.0.1

@@ -16,6 +16,8 @@ description: "只读评审 ZUI 主仓库的指定变更；默认评审本地未�
 
 按以下优先级选择唯一范围，并在输出中说明最终使用的范围和基线：
 
+用户以功能或产物限定范围（如“AI 参考及根索引”）时，先映射为相关路径，再应用下列选择规则。范围外只收集必要的路径与状态，不展开其未提交或未跟踪内容；判断变更所需的基线上下文仍可只读查看。
+
 1. **用户指定范围**：严格使用用户点名的暂存层级、提交、commit range、分支、diff 或 PR 作为变更来源，解析并验证引用，但不混入其他来源；保留用户明确给出的 `..` / `...` 语义。单个普通提交按 parent-to-commit 评审；单个 merge commit 先检查其父提交，若用户需要的 parent 或 combined 语义仍不明确则询问，不擅自固定为 first-parent。用户只点名文件、目录或库时，将其作为 path filter，并在该 filter 内按下面规则确定变更来源；把 pathspec 追加到每个适用命令的 `--` 后。范围仍有多种实质解释且无法从上下文消除时，先提出最少必要问题。
 2. **本地未提交改动**：用户未指定变更来源时，先运行 `git --no-optional-locks status --short --branch`，再用 `git --no-optional-locks status --porcelain=v1 --untracked-files=all -- <pathspec>` 判断当前范围；没有 path filter 时省略末尾的 `-- <pathspec>`。只要该 porcelain 存在 staged、unstaged、untracked 或冲突条目，就评审它们的并集：
    - 分别读取 `git diff --cached --no-ext-diff --find-renames` 与 `git diff --no-ext-diff --find-renames`，保留暂存和未暂存边界；
@@ -28,40 +30,6 @@ description: "只读评审 ZUI 主仓库的指定变更；默认评审本地未�
 
 ignored 文件不属于默认未提交范围，用户点名时才纳入。显式 path filter 可能被普通 status 和 `--exclude-standard` 隐藏；先用 `git check-ignore -- <pathspec>` 识别，再以 `git ls-files --others --ignored --exclude-standard -z -- <pathspec>` 或直接逐文件读取，只纳入用户点名的 ignored 目标。子模块默认只评审父仓库记录的 gitlink 变化，不自动递归 dirty 子模块或嵌套仓库。所有 pathspec 放在 `--` 后；不要通过 `eval` 执行用户提供的 revision 或路径。
 
-## 评审方法
+## 评审与输出
 
-1. 读取完整 diff、变更文件及必要上下文，不只看改动行。追踪相关入口、公共类型、调用方、消费者、测试/调试页、配置和生成源，确认变更实际进入的执行路径与公开契约。
-2. 重点检查本次变更是否引入或暴露以下问题：
-   - 逻辑错误、错误恢复缺口、空值与边界条件、异步竞态、重复执行和状态不同步；
-   - 公共 API、类型、事件、DOM/CSS、序列化、包元数据或向后兼容性回归；
-   - 本次新增、替换或升级的第三方依赖及资源，按[版权与文档规则](../zui-standards/references/workflow.md#第三方依赖的版权与文档)核对版权文件、适用版本与公共依赖说明；保留开发依赖部分，不因外置加载或声明在 `devDependencies` 中而漏检运行时资源；
-   - listener、timer、observer、portal、实例、缓存及其他资源的初始化、更新与销毁不对称；
-   - 安全、数据损坏、无障碍、国际化及有可复现场景的性能退化；
-   - Preact 组件违反[状态与副作用规范](../zui-standards/references/component.md#preact-状态与副作用)：使用 hooks（含 signals hooks），或未在卸载/销毁时清理 `effect`；
-   - Web Component 变更按 [专用规范](../zui-standards/references/web-component.md) 核对具体组件定义是否实际位于 `lib/<lib-name>/src/web-component/`、是否经目录 `index.ts` 和 `src/main.ts` 导出，以及注册时机、渲染目标推导、配置缓存、属性反射及断开清理；
-   - ZUI 的 Preact/vanilla 双形态、组件注册、`@zui/*` 跨库导入、`contributes`、主题和 HMR 约定；
-   - 导入、公开入口、类型或文档接入变化按[源码与文档接入规范](../zui-standards/references/consumption.md)核实：是否把工作区入口当作 npm 入口、虚构子路径或组件形态、混用类型与运行时成员、依赖仅在文档站存在的环境，或在接入修复中夹带版本变化；
-   - 组件 CSS 与样式入口变更按 [布局与样式规范](../zui-standards/references/component.md#布局与样式) 核实 `@apply` 优先、`style/index.ts` 导入完整性、层叠顺序及消费入口；遵循原生 CSS 的适用情形，不把等价写法差异当作运行时缺陷；
-   - 布局或示例类名变更按 [CSS utilities 核实流程](../zui-standards/references/utilities.md) 检查：是否照搬未公开的 Tailwind 类、变体或任意值，误用同名类的默认值或语义，或依赖仅在开发/文档环境生成的样式；结合组件自定义样式和实际消费入口确认影响，不能仅因 utilities 中没有该类就报告缺陷；
-   - 新建可视组件库、改变主要外观/用途或修改封面时，按[组件预览规范](../zui-standards/references/component-preview.md)检查标准预览是否缺失、过时或违反静态/主题契约；不把与当前 diff 无关的历史缺图列为 finding；
-   - 生成文件与 source-of-truth 不一致。遇到生成产物时找到生成器或映射并审查源头，不只评审生成结果。
-   - 新库或公开 API、默认值、事件、CSS 契约、接入方式变化时，按 [AI 参考联动](../zui-standards/references/workflow.md#ai-参考联动) 核对库级 `ai.md` 及生成索引；语义核对限定在评审范围。可运行只读 `pnpm ai:check`，不运行 `ai:build` 或修改文档；格式通过不能代替源码与示例核实。
-3. 搜索相关符号、相似成熟实现和调用点来验证判断。发现看似异常的代码时，先确认是否为现有约定、兼容处理或基线问题。
-4. 对 tracked Git diff 运行对应范围的 `git diff --check`。它不覆盖未跟踪文件；对未跟踪文本文件使用等价 whitespace 检查，或以 `git diff --no-index --check -- /dev/null <file>` 检查诊断内容，并注意 no-index 因“存在内容差异”返回非零不等于 whitespace 失败。按风险选择不会修改工作区的目标 lint、类型或现有测试命令；先从当前 `package.json` 确认可用脚本，不臆造 `pnpm test`。lint 输出先作为验证结果，只有它证明本次变更引入真实缺陷或确定阻断既有门禁时才升级为 finding。把静态检查、构建、浏览器/runtime 验证分开报告。无法安全运行的验证说明原因和剩余风险，不把“未运行”写成“通过”。
-5. 只报告由当前范围引入、可操作且有充分证据的问题。不要把以下内容列为 finding：纯风格偏好、没有具体后果的防御性建议、范围外历史缺陷、与改动无关的基线失败，或仅凭猜测成立的风险。测试缺口只有在明确导致关键行为无法验证或违反现有契约时才作为 finding；否则放入残余风险。
-
-## 严重度
-
-- `P0`：阻断发布或核心使用，或造成广泛安全问题、数据损坏、构建完全失败。
-- `P1`：常见路径上的明确运行时故障、公共 API/兼容性回归或严重生命周期问题。
-- `P2`：有现实触发条件的重要边界错误、资源泄漏、无障碍问题或显著行为偏差。
-- `P3`：影响有限但真实、可操作的缺陷；不要用 P3 容纳风格和可选改进。
-
-严重度按影响和触发概率判断，不按改动大小、文件数量或修复难度判断。
-
-## 输出
-
-1. 先列 findings，按 `P0` 到 `P3` 排序。每项只描述一个根因，使用简短标题，并包含最窄的文件/行号、触发场景、实际影响和判断依据；行号尽量落在当前评审终点的改动行上。纯删除导致的问题锚定最近的存续改动行并说明删除关系。宿主支持行内评论时使用行内评论，否则使用可点击路径与行号。
-2. 不确定但值得关注的事项单列为风险或问题，不与已确认 findings 混排。
-3. 没有 finding 时明确写“未发现可操作问题”，不要为了显得完整而制造建议。
-4. 最后简要列出已评审范围、运行过的验证及结果、未覆盖的 runtime/浏览器场景和其他残余风险。不要用 lint、构建或测试通过代替代码评审结论。
+范围确定后读取[评审方法与输出](references/review-protocol.md)，按其证据要求、严重度和 findings 格式完成只读评审。提交技能可直接复用该参考，继续沿用其显式候选范围与授权。

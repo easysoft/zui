@@ -1,5 +1,15 @@
 # Application-local ZUI components
 
+## Contents
+
+- [Choose the component boundary](#choose-the-component-boundary)
+- [Use the application's runtime](#use-the-application's-runtime)
+- [DOM component example](#dom-component-example)
+- [Preact view and vanilla wrapper example](#preact-view-and-vanilla-wrapper-example)
+- [State, props, and cleanup](#state,-props,-and-cleanup)
+- [Register, instantiate, update, dispose](#register,-instantiate,-update,-dispose)
+- [Verify in the target application](#verify-in-the-target-application)
+
 Use this guide to create components inside an existing application. Keep business data, callbacks, styles, and registration in its normal modules or page scripts. The examples describe ZUI 3 public APIs; verify them against the runtime the application actually loads, especially for older or custom bundles.
 
 ## Choose the component boundary

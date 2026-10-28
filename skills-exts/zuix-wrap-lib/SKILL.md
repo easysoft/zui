@@ -61,7 +61,7 @@ description: "将已经可用的 UMD/IIFE 资源封装为独立 ZUI 扩展包，
 
 1. 当前模式允许编辑时检查 `gitRoot` 状态，按共享工作流复用或刷新受影响的上下文，仅修改任务范围。新库最小 package 建立后重新解析，把 `plannedTargetLibRoot` 升级为真实 `targetLibRoot` 并核对实际标识。
 2. 新包的 scope、版本、description、入口、exports、依赖协议和 `zui` 元数据从 `extensionRoot` 当前配置及成熟兄弟包推导；不用 `@zui/*`、`workspace:*`、`link:` 或固定版本模板代替事实。`publicPath` 只在宿主实际要求或非默认路径时声明。
-3. 将用户提供的 UMD/CSS/license 原样放入任务所需的 `targetLibRoot/public/`，或使用任务确定且版本固定的绝对 URL。同时按[第三方依赖的版权与文档](../zuix-standards/references/workflow.md#第三方依赖的版权与文档)补齐 `extensionRoot` 内的版权文件与依赖说明，外置或远程加载也须覆盖；不编辑、压缩、转译或生成第三方产物。
+3. 将用户提供的 UMD/CSS/license 原样放入任务所需的 `targetLibRoot/public/`，或使用任务确定且版本固定的绝对 URL。同时按[第三方依赖的版权与文档](../zuix-standards/references/third-party.md)补齐 `extensionRoot` 内的版权文件与依赖说明，外置或远程加载也须覆盖；不编辑、压缩、转译或生成第三方产物。
 4. 在目标包私有 helper 中创建唯一 `LibLoader<T>`，显式配置 `src` 和 `check`。多个 facade 共享 loader，不在组件类维护第二份模块缓存。
 5. 优先使用与 UMD 全局形状一致的第三方类型声明；只使用 `import type`。没有可靠声明时手写 facade 实际需要的窄接口；公共类型引用第三方包时确保消费者可解析。
 6. 每次异步加载后检查模块结果和实例存活状态；定义加载前方法、失败和显式重试行为；`destroy()` 清理第三方实例、监听、DOM 及其他副作用。

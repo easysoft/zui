@@ -15,6 +15,17 @@ const domains = [
 // Expectations stay in the scoring process; prepareCase exposes only scenario inputs.
 export const ROUTING_GROUPS = [
     {
+        id: 'routing-context',
+        scenarios: [
+            {id: 'context-01', context: 'ZUI 主仓库 lib/button/button.stories.ts 已有场景。', request: '加一个长文字的 Controls 演示并检查切换场景时清理，不改组件 API。', primary: 'zui-dev', mode: 'edit'},
+            {id: 'context-02', context: '独立扩展项目的 lib/table/table.stories.ts，宿主位于另一个目录。', request: '修复 Storybook 中重复的事件反馈，只改场景。', primary: 'zuix-dev', mode: 'edit'},
+            {id: 'context-03', context: '已有 Vue 业务应用通过 npm 使用 ZUI。', request: '用 ZUI 搭一个页面，沿用这个应用的路由与目录。', primary: 'zui', mode: 'edit'},
+            {id: 'context-04', context: 'ZUI 主仓库 lib/widget 有已暂存的改动。', request: '检查这份 diff 有没有遗漏销毁逻辑，只报告问题。', primary: 'zui-review', mode: 'readonly'},
+            {id: 'context-05', context: 'ZUI 主仓库 lib/widget，无待评审 diff。', request: '检查整个库的销毁、API 文档和文案接线，先不要改。', primary: 'zui-optimize', mode: 'readonly'},
+            {id: 'context-06', context: '普通后端项目，没有 ZUI 或界面。', request: '解释这个 SQL 查询为何返回重复记录，不改文件。', primary: 'none', mode: 'readonly'},
+        ],
+    },
+    {
         id: 'routing-ai-workflow',
         scenarios: [
             {

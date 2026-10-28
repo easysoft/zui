@@ -4,6 +4,7 @@ import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 import {codexArgs, parseArgs, runCli, validateFinal} from '../../scripts/tests/skills-behavior.mjs';
+import {traceMetrics} from '../../scripts/tests/skill-metrics.mjs';
 
 const schema = {type: 'object', properties: {selected: {type: 'array', items: {type: 'string'}}}, required: ['selected'], additionalProperties: false};
 
@@ -12,9 +13,10 @@ function fixture(t) {
     const repoRoot = path.join(root, 'repo');
     t.after(() => fs.rmSync(root, {recursive: true, force: true}));
     fs.mkdirSync(path.join(repoRoot, 'tests/skills/behavior'), {recursive: true});
-    for (const name of ['suite.mjs', 'routing.mjs']) fs.writeFileSync(path.join(repoRoot, 'tests/skills/behavior', name), '// Harness fixture; never used for model behavior results.\n');
+    for (const name of ['suite.mjs', 'routing.mjs', 'browser.mjs']) fs.writeFileSync(path.join(repoRoot, 'tests/skills/behavior', name), '// Harness fixture; never used for model behavior results.\n');
     fs.mkdirSync(path.join(repoRoot, 'scripts/tests'), {recursive: true});
     fs.writeFileSync(path.join(repoRoot, 'scripts/tests/skills-behavior.mjs'), '// Harness runner source fixture.\n');
+    for (const name of ['skill-metadata.mjs', 'skill-metrics.mjs']) fs.writeFileSync(path.join(repoRoot, 'scripts/tests', name), '// Harness input fixture.\n');
     const calls = [];
     const suite = {
         listCases: async () => [{id: 'routing-example', kind: 'routing'}, {id: 'execution-example', kind: 'execution'}],
@@ -120,6 +122,14 @@ test('CLI argv preserves literal paths, sandbox modes, stdin, schema and raw tra
     assert.ok(result.manifest.suiteHashes['scripts/tests/skills-behavior.mjs']);
 });
 
+test('only the staged-commit fixture explicitly grants its own Git directory write access', () => {
+    const entry = {id: 'commit-staged', kind: 'execution', workspace: '/tmp/fixture/workspace'};
+    const args = codexArgs(entry);
+    assert.equal(args[args.indexOf('--add-dir') + 1], '/tmp/fixture/workspace/.git');
+    assert.equal(args[args.indexOf('--sandbox') + 1], 'workspace-write');
+    assert.ok(!codexArgs({...entry, id: 'commit-message-only'}).includes('--add-dir'));
+});
+
 test('rescoring refuses changed suite or runner sources and does not certify unscored cases', async (t) => {
     const {repoRoot, invoke} = fixture(t);
     const prepared = await invoke(['--prepare']);
@@ -184,4 +194,30 @@ test('final response schema rejects missing, extra, mistyped and unsupported fie
     assert.throws(() => validateFinal(schema, {selected: [], passed: true}), /unexpected passed/);
     assert.throws(() => validateFinal(schema, {selected: [true]}), /expected string/);
     assert.throws(() => validateFinal({type: 'string', format: 'date'}, '2026-10-17'), /unsupported schema keyword/);
+});
+
+test('trace metrics distinguish missing metadata and count only observed completed operations', () => {
+    const read = {type: 'item.completed', item: {type: 'command_execution', command: 'cat .agents/skills/example/SKILL.md', exit_code: 0, aggregated_output: 'Example reference'}};
+    const metrics = traceMetrics([read, read, {type: 'turn.completed', usage: {input_tokens: 100, cached_input_tokens: 40, output_tokens: 20}}], {startedAt: '2026-01-01T00:00:00Z', completedAt: '2026-01-01T00:00:02Z'}, {skillDocuments: {'.agents/skills/example/SKILL.md': 'Example reference'}});
+    assert.equal(metrics.models, null);
+    assert.equal(metrics.inputTokens, 100);
+    assert.equal(metrics.cachedInputTokens, 40);
+    assert.equal(metrics.durationMs, 2000);
+    assert.equal(metrics.toolCalls, 2);
+    assert.equal(metrics.repeatedSkillReads, 1);
+    assert.equal(traceMetrics([], {}).inputTokens, null);
+});
+
+test('run comparison uses matching task inputs and scoring sources', async (t) => {
+    const {root, invoke} = fixture(t);
+    const options = {codexCommand: fakeCodex(root)};
+    const a = await invoke(['--run', '--case', 'execution-example'], options);
+    const b = await invoke(['--run', '--case', 'execution-example', '--variant', 'none'], options);
+    const {comparison} = await invoke(['--compare', a.manifest.runDir, b.manifest.runDir]);
+    assert.equal(comparison.rows[0].after, 'passed');
+    assert.equal(comparison.rows[0].delta.inputTokens, 0);
+    assert.equal(comparison.runs[1].variant, 'none');
+    fs.writeFileSync(b.manifest.cases[0].before, JSON.stringify({content: 'different task'}));
+    await assert.rejects(invoke(['--compare', a.manifest.runDir, b.manifest.runDir]), /different task inputs/);
+    assert.throws(() => parseArgs(['--run', '--variant', 'unknown']), /skills or none/);
 });

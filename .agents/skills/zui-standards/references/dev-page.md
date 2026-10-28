@@ -43,6 +43,17 @@ import './src/main';
 
 如果组件可销毁，在重建前或重新实例化时清理旧实例。只需要 CSS 的页面可以仅导入入口和演示依赖，不强行添加生命周期代码。
 
+## Storybook
+
+场景位于库根 `*.stories.ts(x)`，使用 `@storybook/html-vite` 的类型，独立于 README/dev.md 和 dev.ts。先查看目标现有场景和 `.storybook/zui.ts`，内置库通过相对路径引用该宿主适配器；Preact 与 vanilla 场景分别复用 `createPreactRender`、`createZuiRender`，按 args 更新和卸载生命周期管理实例。Storybook 的 preview hooks 仅用于场景宿主，不引入组件源码或 Preact hooks。
+
+按本次变更维护 args、Controls、Actions 和可观察状态；验证 Controls 更新不会遗留旧实例或监听，切换场景后能清理资源。纯 HTML/CSS 场景不强制创建 JS 实例。
+
+- `pnpm typecheck:storybook` 检查场景类型。
+- 复用或启动 `pnpm storybook` 验证目标场景、Controls、交互和卸载；默认 `127.0.0.1:6006`，新端口用 `--port`。
+- 涉及场景发现、资源或分发时，按范围使用 `pnpm storybook:build --output-dir <临时目录>` 和 `STORYBOOK_OUTPUT_DIR=<临时目录> pnpm test:storybook`，先确认实际巡检范围。
+- 已发现库内增删场景自动刷新；新增库或改变注册需要重启本任务服务或另开端口。服务归属与清理遵循 AGENTS.md。
+
 ## 场景矩阵
 
 根据组件能力选择，不机械覆盖：

@@ -1,4 +1,4 @@
 interface:
   display_name: "ZUI Dev Page"
-  short_description: "Build and maintain ZUI 3 playground pages"
-  default_prompt: "Use $zui-dev to build or improve the playground page for the specified ZUI 3 library."
+  short_description: "Maintain playgrounds, Storybook stories and lifecycle"
+  default_prompt: "Use $zui-dev to update the requested playground or Storybook scenario and validate its interactions."

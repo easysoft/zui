@@ -6,13 +6,14 @@ import path from 'node:path';
 import {setTimeout, clearTimeout} from 'node:timers';
 import {fileURLToPath, pathToFileURL} from 'node:url';
 import {isDeepStrictEqual} from 'node:util';
+import {compareRuns, runSummary, traceMetrics} from './skill-metrics.mjs';
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const TIMEOUT_MS = 180000;
 const SCHEMA_KEYS = new Set(['type', 'properties', 'required', 'additionalProperties', 'items', 'enum', 'description', 'title', 'minItems', 'maxItems']);
 
 function suiteHashes(repoRoot) {
-    return Object.fromEntries(['tests/skills/behavior/suite.mjs', 'tests/skills/behavior/routing.mjs', 'scripts/tests/skills-behavior.mjs']
+    return Object.fromEntries(['tests/skills/behavior/suite.mjs', 'tests/skills/behavior/routing.mjs', 'tests/skills/behavior/browser.mjs', 'scripts/tests/skills-behavior.mjs', 'scripts/tests/skill-metadata.mjs', 'scripts/tests/skill-metrics.mjs']
         .map(file => [file, createHash('sha256').update(fs.readFileSync(path.join(repoRoot, file))).digest('hex')]));
 }
 
@@ -28,23 +29,35 @@ export function parseArgs(args) {
     const options = {cases: []};
     for (let index = 0; index < args.length; index++) {
         const arg = args[index];
-        if (['--list', '--prepare', '--run', '--score'].includes(arg)) {
+        if (arg === '--compare') {
+            if (options.mode) throw new Error('Choose exactly one evaluation mode.');
+            options.mode = 'compare';
+            options.compare = args.slice(index + 1, index + 3);
+            if (options.compare.length !== 2 || options.compare.some(value => value.startsWith('--'))) throw new Error('--compare requires two run directories.');
+            index += 2;
+        } else if (['--list', '--prepare', '--run', '--score'].includes(arg)) {
             if (options.mode) throw new Error('Choose exactly one of --list, --prepare, --run, or --score.');
             options.mode = arg.slice(2);
             if (arg !== '--score') continue;
             options.runDir = args[++index];
             if (!options.runDir || options.runDir.startsWith('--')) throw new Error('--score requires a run directory.');
-        } else if (arg === '--case' || arg === '--out-dir') {
+        } else if (['--case', '--out-dir', '--variant', '--skills-from'].includes(arg)) {
             const value = args[++index];
             if (!value || value.startsWith('--')) throw new Error(`${arg} requires a value.`);
             if (arg === '--case') options.cases.push(value);
-            else options.outDir = value;
+            else if (arg === '--out-dir') options.outDir = value;
+            else if (arg === '--variant') options.variant = value;
+            else options.skillsFrom = path.resolve(value);
         } else {
             throw new Error(`Unknown argument: ${arg}`);
         }
     }
     if (!options.mode) throw new Error('Choose --list, --prepare, --run, or --score <run-dir>.');
     if (options.outDir && !['prepare', 'run'].includes(options.mode)) throw new Error('--out-dir is only valid with --prepare or --run.');
+    if ((options.variant || options.skillsFrom) && !['prepare', 'run'].includes(options.mode)) throw new Error('--variant and --skills-from are only valid with --prepare or --run.');
+    if (options.variant && !['skills', 'none'].includes(options.variant)) throw new Error('--variant must be skills or none.');
+    if (options.variant === 'none' && options.skillsFrom) throw new Error('--skills-from cannot be used without skills.');
+    if (options.mode === 'compare' && options.cases.length) throw new Error('--case is not valid with --compare.');
     return options;
 }
 
@@ -86,6 +99,7 @@ export function validateFinal(schema, value, location = 'final') {
 export function codexArgs(entry) {
     return ['-a', 'never', 'exec', '--ignore-user-config', '--ephemeral', '--skip-git-repo-check',
         '--sandbox', entry.kind === 'routing' ? 'read-only' : 'workspace-write', '-C', entry.workspace,
+        ...(entry.id === 'commit-staged' ? ['--add-dir', path.join(entry.workspace, '.git')] : []),
         '--json', '--output-schema', entry.schema, '--output-last-message', entry.final, '-'];
 }
 
@@ -159,7 +173,7 @@ function casePaths(runDir, entry) {
     };
 }
 
-async function prepare(suite, repoRoot, cases, requestedDir) {
+async function prepare(suite, repoRoot, cases, requestedDir, options) {
     let runDir;
     if (requestedDir) {
         runDir = path.resolve(requestedDir);
@@ -172,14 +186,14 @@ async function prepare(suite, repoRoot, cases, requestedDir) {
     } else {
         runDir = fs.mkdtempSync(path.join(os.tmpdir(), `zui-skill-eval-${new Date().toISOString().replace(/[:.]/g, '-')}-`));
     }
-    const manifest = {version: 1, createdAt: new Date().toISOString(), repoRoot, runDir, suiteHashes: suiteHashes(repoRoot), codexVersion: null, model: 'CLI default (no override)', timeoutMs: TIMEOUT_MS, status: 'preparing', cases: []};
+    const manifest = {version: 1, createdAt: new Date().toISOString(), repoRoot, runDir, suiteHashes: suiteHashes(repoRoot), codexVersion: null, model: 'CLI default (no override)', variant: options.variant ?? 'skills', skillsFrom: options.skillsFrom ?? repoRoot, timeoutMs: TIMEOUT_MS, status: 'preparing', cases: []};
     const save = () => writeJson(path.join(runDir, 'manifest.json'), manifest);
     save();
     try {
         for (const candidate of cases) {
             const entry = casePaths(runDir, {id: candidate.id, kind: candidate.kind, status: 'prepared'});
             fs.mkdirSync(entry.workspace, {recursive: true});
-            const input = await suite.prepareCase(repoRoot, entry.id, entry.workspace);
+            const input = await suite.prepareCase(repoRoot, entry.id, entry.workspace, {variant: manifest.variant, skillsFrom: manifest.skillsFrom});
             if (typeof input.prompt !== 'string' || input.schema?.type !== 'object' || input.before === undefined) throw new Error(`${entry.id}: invalid prepared case.`);
             fs.writeFileSync(entry.prompt, input.prompt);
             writeJson(entry.schema, input.schema);
@@ -215,7 +229,7 @@ async function scoreCase(suite, repoRoot, entry) {
             throw new Error('Grader returned an invalid result.');
         }
         const passed = grade.passed && grade.checks.every(check => check.passed);
-        return {...grade, passed, status: passed ? 'passed' : 'failed'};
+        return {...grade, passed, status: passed ? 'passed' : 'failed', metrics: traceMetrics(events, execution, readJson(entry.before))};
     } catch (error) {
         return {passed: false, status: 'infrastructure_error', checks: [], error: error.message};
     }
@@ -223,6 +237,11 @@ async function scoreCase(suite, repoRoot, entry) {
 
 export async function runCli(args, {repoRoot = REPO_ROOT, suite, codexCommand = 'codex', timeoutMs = TIMEOUT_MS, log = console.log} = {}) {
     const options = parseArgs(args);
+    if (options.mode === 'compare') {
+        const comparison = compareRuns(...options.compare);
+        log(JSON.stringify(comparison, null, 2));
+        return {exitCode: 0, comparison};
+    }
     suite ??= await import(pathToFileURL(path.join(repoRoot, 'tests/skills/behavior/suite.mjs')).href);
     const allCases = await suite.listCases(repoRoot);
     const cases = selectCases(allCases, options.cases);
@@ -251,7 +270,7 @@ export async function runCli(args, {repoRoot = REPO_ROOT, suite, codexCommand = 
             entry.status = result.status;
         }
     } else {
-        manifest = await prepare(suite, repoRoot, cases, options.outDir);
+        manifest = await prepare(suite, repoRoot, cases, options.outDir, options);
         evaluated = manifest.cases;
         manifest.timeoutMs = timeoutMs;
         log(`Prepared: ${manifest.runDir}`);
@@ -279,6 +298,7 @@ export async function runCli(args, {repoRoot = REPO_ROOT, suite, codexCommand = 
         : manifest.cases.some(entry => entry.status === 'prepared') ? 'partial'
             : manifest.cases.every(entry => entry.status === 'passed') ? 'passed' : 'failed';
     writeJson(path.join(manifest.runDir, 'manifest.json'), manifest);
+    writeJson(path.join(manifest.runDir, 'summary.json'), runSummary(manifest));
     const exitCode = evaluated.every(entry => entry.status === 'passed') ? 0 : 1;
     log(`${manifest.status}: ${manifest.runDir}`);
     return {exitCode, manifest};

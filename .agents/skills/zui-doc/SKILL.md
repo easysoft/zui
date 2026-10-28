@@ -1,6 +1,6 @@
 ---
 name: zui-doc
-description: "维护 ZUI 主仓库 lib/*/ai.md 使用参考、官网文档、API 示例与静态组件预览。需求明确时直接实施；只要求审阅时保持只读。"
+description: "维护 ZUI 主仓库 lib/*/ai.md 使用参考、官网文档、API 示例与静态组件预览。"
 ---
 
 # ZUI 文档与 AI 使用参考

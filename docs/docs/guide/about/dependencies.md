@@ -46,6 +46,7 @@
 | 独立组件场景预览 | `storybook`、`@storybook/html-vite` 10.6.2（HTML/Vite、Controls、Actions 和静态预览）；[MIT 版权文件](https://github.com/easysoft/zui/blob/main/licenses/LICENSE-storybook.txt) |
 | 构建脚本与辅助工具 | `fs-extra`、`fast-glob`、`chokidar`、`colorette`、`minimist`、`jszip`、`pinyin-pro` |
 | CSS 生成与处理 | `tailwindcss`、`@mertasan/tailwindcss-variables`、`postcss`、`postcss-import`、`postcss-inset`、`postcss-rem-to-pixel`、`autoprefixer`、`cssnano` |
+| 技能元数据校验 | `js-yaml` 4.3.2（与 form-builder 调试示例复用）；[MIT 版权文件](https://github.com/easysoft/zui/blob/main/licenses/LICENSE-js-yaml.txt) |
 | 代码检查 | `eslint`、`@eslint/js`、`@stylistic/eslint-plugin`、`@typescript-eslint/parser`、`typescript-eslint` |
 | 单元、DOM、浏览器与可访问性测试 | `vitest`、`@vitest/coverage-v8`、`jsdom`、`@testing-library/jest-dom`、`@testing-library/preact`、`@testing-library/user-event`、`@playwright/test`、`@axe-core/playwright`、`jquery` |
 | 文档站与调试示例 | `vue`、`vitepress`、`vitepress-plugin-tabs`、`markdown-it`、`markdown-it-anchor`、`markdown-it-toc-done-right`、`highlight.js`、`@faker-js/faker`、`js-yaml` |

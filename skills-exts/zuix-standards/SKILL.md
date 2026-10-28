@@ -9,6 +9,7 @@ description: "查询独立 ZUI 扩展项目的开发规范，解析目标库、�
 
 1. 按 [references/workflow.md](references/workflow.md) 解析本次所需的目标、扩展、Git 和宿主上下文，并复用已有发现。
 2. 按当前任务读取对应规范：
+   - 新增或升级第三方依赖、复制代码或资源：[版权与文档要求](references/third-party.md)
    - 包角色、骨架、元数据与依赖：[references/library.md](references/library.md)
    - 宿主注册、联合调试、构建和文档：[references/extension-library.md](references/extension-library.md)
    - UI 组件：[references/component.md](references/component.md)

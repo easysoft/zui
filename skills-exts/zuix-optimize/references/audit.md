@@ -1,5 +1,13 @@
 # ZUI 扩展库优化审计清单
 
+## 目录
+
+- [发现记录](#发现记录)
+- [审计维度](#审计维度)
+- [范围策略](#范围策略)
+- [基线与验收](#基线与验收)
+- [计划记录格式](#计划记录格式)
+
 ## 发现记录
 
 每项发现同时标注状态、严重度和所有权层。
@@ -36,7 +44,7 @@
 - `zui.replace` 是否确有替换意图且无 alias 冲突；`publicPath` 是否与生产资源结果一致；
 - 兄弟扩展包依赖是否使用真实公开 package name，协议是否符合 `EXT_ROOT` 的 workspace/link/version/peer 策略；
 - 宿主库依赖和第三方运行时、类型、文档/调试依赖是否正确分类，发布类型是否可由消费者解析；
-- 按[第三方依赖的版权与文档](../../zuix-standards/references/workflow.md#第三方依赖的版权与文档)核对审计范围内的版权文件和依赖说明；优化中引入新依赖时在 `EXT_ROOT` 内同步完成；
+- 按[第三方依赖的版权与文档](../../zuix-standards/references/third-party.md)核对审计范围内的版权文件和依赖说明；优化中引入新依赖时在 `EXT_ROOT` 内同步完成；
 - 源码入口、局部入口、注册副作用和 `zui.contributes` 是否互相一致；
 - 宿主是否以唯一 `extsName` 发现目标，package/name/replace alias、Tailwind 和 public 复制是否正确；
 - 是否通过相对路径或 `exts/` 符号链接穿越包/仓库边界，或把本机注册、绝对路径和宿主 cache 当作可发布配置。

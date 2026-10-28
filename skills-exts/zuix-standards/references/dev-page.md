@@ -39,3 +39,18 @@ pnpm dev --extension <EXTS_NAME>
 ```
 
 从宿主导航确定目标 URL；短名冲突时使用宿主生成的安全 scoped URL。验证本次涉及的首次加载、Markdown HMR、交互或控制台行为；服务管理及宿主写入遵循 [共享工作流](workflow.md) 的服务与验证隔离规则。
+
+## Storybook
+
+扩展场景位于目标库根 `*.stories.ts(x)`，使用宿主的 `~/.storybook/zui` 适配器；先从当前宿主核实 `createPreactRender` / `createZuiRender` 的类型与生命周期。场景不加载 dev.ts，不使用 `onPageLoad` / `onPageUpdate`。组件源码继续遵守 Preact 无 hooks 规范，Storybook preview hooks 仅用于场景宿主。
+
+已有源码场景修改可以先在扩展侧完成；需要预览、类型检查或资源验收时才解析宿主。确认宿主提供对应脚本后，在符合[隔离规则](workflow.md#实施与验证)的位置运行：
+
+```sh
+pnpm typecheck:storybook --extension <EXTS_NAME>
+pnpm storybook --extension <EXTS_NAME>
+pnpm storybook:build --extension <EXTS_NAME> --output-dir <临时目录>
+STORYBOOK_OUTPUT_DIR=<临时目录> pnpm test:storybook --extension <EXTS_NAME>
+```
+
+命令按所需验证选用；不修改宿主依赖或注册来绕过失败。验证 args/Controls 更新、事件反馈、键盘交互及场景卸载清理，核对扩展别名、样式和资源。已发现库内增删场景自动更新；新增库或改变注册后另开端口或重启本任务服务。缺少宿主时报告未验证项，继续可行的源文件工作。

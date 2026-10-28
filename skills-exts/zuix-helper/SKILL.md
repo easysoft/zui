@@ -1,6 +1,6 @@
 ---
 name: zuix-helper
-description: "在独立 ZUI 扩展项目中设计、实现或修复函数、类、store 和其他 helper；需求明确时完成必要规划后直接实施。"
+description: "在独立 ZUI 扩展项目中设计、实现或修复函数、类、store 和其他 helper。"
 ---
 
 # ZUI 扩展 Helper 开发

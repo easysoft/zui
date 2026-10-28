@@ -1,5 +1,16 @@
 # AI 使用参考规范
 
+## 目录
+
+- [目的与文件](#目的与文件)
+- [文件结构](#文件结构)
+- [条目与提取](#条目与提取)
+- [API 正文](#api-正文)
+- [CSS 类与变量](#css-类与变量)
+- [AI 编写与维护](#ai-编写与维护)
+- [全局索引](#全局索引)
+- [命令与验收](#命令与验收)
+
 ## 目的与文件
 
 `lib/<name>/ai.md` 是面向使用者的单库参考；根目录 `ai.md` 是自动生成的检索入口。两者纳入 Git。开发流程和 Agent 行为继续由 `AGENTS.md` 与技能约束；AI 参考不覆盖这些规则。
@@ -134,6 +145,8 @@ UTF-8、LF 换行，末尾保留一个换行。一级标题只有一个，使用
 ```sh
 pnpm ai:build
 pnpm ai:check
+pnpm ai:export
+pnpm ai:check-exports
 pnpm ai:read --lib menu
 pnpm ai:read --lib menu --section vanilla
 pnpm ai:read --lib menu --section vanilla --entry vanilla-menu
@@ -141,4 +154,4 @@ pnpm ai:read --lib menu --section vanilla --entry vanilla-menu
 
 `ai:build` 生成根 ai.md；`ai:check` 只读检查缺失文档、格式、未完成标记、本地链接及索引同步；`ai:read` 输出所选范围的 Markdown。指定 entry 必须同时指定 section，不存在的库/章节/条目和未知参数返回非零退出码。命令不联网、不执行示例。
 
-校验分两层：脚本验证结构、链接和确定性；作者核对公开 API 覆盖和语义，针对新增消费方式验证示例。不得把结构检查写成所有示例的浏览器验收。脚本变更运行对应单元测试、lint、typecheck；文档变更运行 ai:build 和 ai:check。`pnpm check` 包含 ai:check。
+校验分两层：脚本验证结构、链接和确定性；作者核对公开 API 覆盖和语义，针对新增消费方式验证示例。不得把结构检查写成所有示例的浏览器验收。脚本变更运行对应单元测试、lint、typecheck；文档变更运行 ai:build、ai:check，并按[共享流程](workflow.md#ai-参考联动)导出和检查应用侧参考。`pnpm check` 包含 ai:check 和 ai:check-exports；只读任务不生成文件。

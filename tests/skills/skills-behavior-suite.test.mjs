@@ -28,6 +28,30 @@ async function fixture(t, id, repoRoot = REPO) {
     }};
 }
 
+test('staged commit evaluation verifies the exact tree and preserves unstaged content', async (t) => {
+    const {workspace, grade} = await fixture(t, 'commit-staged');
+    assert.equal((await grade(result('zui-commit'))).passed, false);
+    execFileSync('git', ['commit', '-m', '* proj: correct documentation wording'], {cwd: workspace, stdio: 'pipe'});
+    assert.equal((await grade(result('zui-commit'))).passed, true);
+    fs.appendFileSync(path.join(workspace, DOC), 'Unrelated edit.\n');
+    assert.equal((await grade(result('zui-commit'))).passed, false);
+});
+
+test('a sandbox Git permission denial is an environment error rather than a skill failure', async (t) => {
+    const {grade} = await fixture(t, 'commit-staged');
+    await assert.rejects(grade(result('zui-commit'), [{item: {type: 'command_execution', exit_code: 1, aggregated_output: 'fatal: Unable to create \'/tmp/fixture/.git/index.lock\': Operation not permitted'}}]), /Git writes were denied/);
+});
+
+test('no-skill execution preserves the task and does not require reading a missing skill', async (t) => {
+    const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'zui-no-skill-'));
+    t.after(() => fs.rmSync(workspace, {recursive: true, force: true}));
+    const {before, prompt} = await prepareCase(REPO, 'save-no-commit', workspace, {variant: 'none'});
+    assert.equal(fs.existsSync(path.join(workspace, '.agents/skills')), false);
+    assert.ok(prompt.includes('不加载本机或外部技能'));
+    correct(workspace);
+    assert.equal((await gradeCase(REPO, 'save-no-commit', {workspace, before, final: result('')})).passed, true);
+});
+
 function correct(workspace, file = DOC) {
     const target = path.join(workspace, file);
     fs.writeFileSync(target, fs.readFileSync(target, 'utf8').replace('支恃', '支持'));
@@ -39,12 +63,12 @@ function command(workspace, args) {
 }
 
 function buildAndCheckAi(workspace) {
-    return ['build', 'check'].map(operation => command(workspace, ['tools/ai.mjs', operation]));
+    return ['build', 'check', 'export', 'check-exports'].map(operation => command(workspace, ['tools/ai.mjs', operation]));
 }
 
 test('routing catalog is live and expected answers never enter model prompt', async (t) => {
     const cases = await listCases(REPO);
-    assert.equal(cases.filter(({kind}) => kind === 'execution').length, 10);
+    assert.equal(cases.filter(({kind}) => kind === 'execution').length, 14);
     for (const group of ROUTING_GROUPS) {
         const {prompt, schema, grade} = await fixture(t, group.id);
         const scenarios = JSON.parse(prompt.split('\n场景：')[1]);
@@ -66,13 +90,15 @@ test('routing rejects missing, duplicate, extra, wrong and malformed decisions',
     assert.equal((await grade({decisions: valid, leaked: true})).passed, false);
 });
 
-test('unsupported multiline metadata fails loudly instead of sending a YAML marker', async (t) => {
+test('routing reads folded YAML descriptions as text', async (t) => {
     const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zui-behavior-catalog-'));
     t.after(() => fs.rmSync(root, {recursive: true, force: true}));
     for (const directory of ['.agents/skills/example', 'skills', 'skills-exts', 'tests/skills/behavior', 'workspace']) fs.mkdirSync(path.join(root, directory), {recursive: true});
     fs.copyFileSync(path.join(REPO, 'tests/skills/behavior/routing.mjs'), path.join(root, 'tests/skills/behavior/routing.mjs'));
     fs.writeFileSync(path.join(root, '.agents/skills/example/SKILL.md'), '---\nname: example\ndescription: >\n  A multiline description.\n---\n');
-    await assert.rejects(prepareCase(root, ROUTING_GROUPS[0].id, path.join(root, 'workspace')), /Unsupported skill metadata/u);
+    const {prompt} = await prepareCase(root, ROUTING_GROUPS[0].id, path.join(root, 'workspace'));
+    const catalog = JSON.parse(prompt.split('\n候选：')[1].split('\n场景：')[0]);
+    assert.deepEqual(catalog, [{name: 'example', description: 'A multiline description.'}]);
 });
 
 test('save requires an actual exact correction and rejects unrelated writes', async (t) => {
@@ -122,9 +148,10 @@ test('commit-message-only preserves a partially staged file and rejects Git atte
     const {workspace, before, grade} = await fixture(t, 'commit-message-only');
     assert.notEqual(execFileSync('git', ['show', `:${DOC}`], {cwd: workspace, encoding: 'utf8'}), fs.readFileSync(path.join(workspace, DOC), 'utf8'));
     assert.ok(before.files['notes/local.txt']);
-    const final = result('zui-commit', 'docs: 修正文档用词');
+    const final = {...result('zui-commit'), commitMessage: '* example: 修正按需加载说明中的错别字'};
     assert.equal((await grade(final, [{item: {type: 'command_execution', command: 'rg \'git add\' .agents/skills/zui-commit/SKILL.md'}}])).passed, true);
     assert.equal((await grade({...final, commitMessage: '已生成。'})).passed, false);
+    assert.equal((await grade({...final, commitMessage: '* unrelated: 修正按需加载说明中的错别字'})).passed, false);
     for (const command of ['git add .', 'git -C . commit -m test', '/bin/zsh -lc \'git --no-optional-locks push\'', 'git status && git add file', 'command git add foo', 'exec git restore file', 'git reset --hard', 'git clean -fd']) {
         const report = await grade(final, [{item: {type: 'command_execution', command, exit_code: 1}}]);
         assert.equal(report.checks.find(({name}) => name === 'no-direct-git-write-attempt').passed, false, command);
@@ -152,6 +179,19 @@ test('fixture test script explicitly enables TypeScript stripping and runs its t
     delete env.NODE_TEST_CONTEXT;
     const output = execFileSync('/bin/sh', ['-c', scripts.test], {cwd: workspace, env, encoding: 'utf8', timeout: 10000});
     assert.match(output, /ordinary counts/u);
+});
+
+test('fixture package scripts run without package-manager bootstrap or generated files', async (t) => {
+    const {workspace, grade} = await fixture(t, 'ai-review-readonly');
+    const config = fs.readFileSync(path.join(workspace, 'pnpm-workspace.yaml'), 'utf8');
+    assert.match(config, /^verifyDepsBeforeRun: false$/mu);
+    assert.match(config, /^pmOnFail: ignore$/mu);
+    const run = spawnSync('pnpm', ['run', 'ai:check'], {cwd: workspace, encoding: 'utf8', timeout: 15000});
+    assert.equal(run.status, 1, run.stderr || run.error?.message);
+    assert.match(run.stdout, /"synchronized":false/u);
+    const report = await grade(result('zui-review'), [{item: {type: 'command_execution', command: 'pnpm run ai:check', exit_code: run.status, aggregated_output: run.stdout + run.stderr}}]);
+    assert.equal(report.checks.find(check => check.name === 'stale-index-checked').passed, true);
+    assert.equal(report.checks.find(check => check.name === 'no-unrelated-changes').passed, true);
 });
 
 test('helper must pass independent boundaries and author a test that catches the original bug', async (t) => {
@@ -208,12 +248,14 @@ test('new public helper needs real boundaries, regression tests and an extractab
 
 test('AI readonly review must observe stale index without generating it even if writes are restored', async (t) => {
     const {workspace, grade} = await fixture(t, 'ai-review-readonly');
-    const final = result('zui-review', '发现索引不同步。', [{file: 'ai.md', line: 3, description: '根索引摘要已过期，与库文档不同步。'}]);
+    const final = result('zui-review', '发现同步遗漏。', [{file: 'ai.md', line: 3, description: '根 ai.md 仍使用旧摘要，检索入口与库参考不一致。', sourceValue: '提供整数计数的截断和范围限制工具。', generatedValue: '提供 0 至 100 的计数工具。'}]);
     assert.equal((await grade(final)).passed, false, 'A finding alone does not prove the check ran.');
     const check = command(workspace, ['tools/ai.mjs', 'check']);
     assert.equal(check.item.exit_code, 1);
     const report = await grade(final, [check]);
     assert.equal(report.passed, true, JSON.stringify(report));
+    assert.equal((await grade({...final, findings: [{...final.findings[0], generatedValue: '虚构的旧摘要'}]}, [check])).passed, false);
+    assert.equal((await grade(final, [check, {item: {type: 'command_execution', exit_code: 0, aggregated_output: '用户自己的未跟踪笔记。\n'}}])).passed, false);
     for (const command of ['rg -n "pnpm ai:build" .agents/skills/zui-standards/references/workflow.md', 'echo "node tools/ai.mjs build"']) {
         assert.equal((await grade(final, [check, {item: {type: 'command_execution', command, exit_code: 0}}])).passed, true, command);
     }

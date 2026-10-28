@@ -1,24 +1,35 @@
 ---
 name: zui-dev
-description: "维护 ZUI 主仓库 lib/* 的开发调试页、README 示例及 dev.ts 生命周期。需求明确时直接实施。"
+description: "维护 ZUI 主仓库 lib/* 的 README/dev.md、dev.ts 和 Storybook 场景；用于开发示例、Controls、交互与 HMR，不用于官网文档。"
 ---
 
-# ZUI 开发调试页
+# ZUI 开发示例
 
-## 工作流
+## 发现与分流
 
-1. 按 [共享工作流](../zui-standards/references/workflow.md) 定位目标、检查已有改动并复用上下文；按其澄清规则消除影响本次交付的歧义，需求明确时直接实施。
-2. 按需阅读 [dev-page 规范](../zui-standards/references/dev-page.md) 中与本次变更有关的部分；自定义元素示例同时读取 [Web Component 示例与验证](../zui-standards/references/web-component.md#示例与验证)。
-3. 阅读本次涉及的页面内容、dev.ts 及相关 API 或样式；需要设计新场景或判断生命周期时再检查对应实现和必要参考。新增或修改布局类、示例容器类或可复制代码时，读取并执行 [CSS utilities 核实流程](../zui-standards/references/utilities.md)。
-4. 在 `README.md` 中使用 info string 为 `html:example:<utility classes>` 的代码围栏构建实例 DOM；通过 `@/` 引用库内资源。
-   - 需要展示组件封面时复用 `assets/preview.html`，遵循[组件预览规范](../zui-standards/references/component-preview.md)；不要将 `dev.ts` 初始化或真实交互实例作为静态预览的依赖。新增或维护封面资源由 `$zui-doc` 对应流程处理。
-5. 在 `dev.ts` 中导入目标入口和演示依赖。DOM 每次重建后都要执行的初始化放进 `onPageUpdate`；真正的一次性全局设置才放进 `onPageLoad`。
-6. 避免重复全局监听、冲突 ID、不可清理的计时器和遗留实例。不要修改正式文档或运行时 API，除非请求或共享任务范围明确包含它们。
-7. 按共享工作流验证本次改动并完成范围内修复；涉及渲染、交互或 HMR 时复用或启动 `pnpm dev` 验证对应场景，服务按归属和用途管理。
-8. 汇报调试场景、生命周期处理、验证结果和未覆盖项，不自动提交。
+按[共享工作流](../zui-standards/references/workflow.md)定位目标、保留已有改动并复用上下文。读取[开发示例规范](../zui-standards/references/dev-page.md)的相关章节；需求明确后直接完成范围内修改与验证，只要求审阅时保持只读。
 
-## 组合边界
+| 目标 | 流程 |
+| --- | --- |
+| README.md / dev.md、dev.ts | Markdown 调试页 |
+| *.stories.ts(x)、Controls、Actions | Storybook |
+| 官网 API 说明、静态封面 | zui-doc |
 
-- 独立调用且目标明确时不设置额外确认门禁。
-- 作为子流程时只处理共享范围内的本领域工作；上下文、任务范围及必要澄清统一遵循共享工作流。
-- 用户只要求评审时保持只读。
+涉及布局类时读取[CSS utilities 核实流程](../zui-standards/references/utilities.md)；自定义元素示例读取[Web Component 示例与验证](../zui-standards/references/web-component.md#示例与验证)。先核实真实公开 API，不为演示修改范围外运行时、文档或 i18n。
+
+## Markdown 调试页
+
+1. 核实实际来源：已有 dev.md 优先，否则 README.md；不无理由迁移。
+2. 使用 `html:example:<utility classes>` fence 创建 DOM，资源通过 `@/` 引用。封面复用 [assets/preview.html](../zui-standards/references/component-preview.md)。
+3. dev.ts 导入目标入口与演示依赖。每次 DOM 重建后的初始化放在 `onPageUpdate`，真正一次性设置放在 `onPageLoad`。
+4. 清理旧实例、监听、timer 和 observer，覆盖本次涉及的首次加载、交互和 HMR。
+
+## Storybook
+
+按[Storybook 规范](../zui-standards/references/dev-page.md#storybook)维护库根的场景文件。沿用现有宿主适配器，处理 args 更新和卸载清理；Storybook 不加载 dev.ts，不使用其全局生命周期函数。
+
+## 验证与交付
+
+Markdown 页面通过目标 dev 页验收；Storybook 使用目标类型检查与场景预览，必要时构建/巡检。选择受影响状态、键盘/焦点和销毁场景，修复本次引入的问题后复验。按共享工作流管理服务及临时产物，复用已有有效检查。
+
+汇报实际页面源、场景、生命周期处理、验证结果和未覆盖项；组合任务沿用共同范围，不自动提交。

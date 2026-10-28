@@ -67,7 +67,7 @@ description: "将已经可用的 UMD/IIFE 资源封装为 ZUI 主仓库的 lib/*
 
 1. 重新检查工作区状态，仅修改任务范围。
 2. 新库按 `@zui/<kebab-name>`、`0.0.1`、真实入口、准确依赖和 `zui.contributes` 创建最小骨架；`publicPath` 只在构建后的资源目录不同于库名时声明。已有库沿用合理结构，不顺带规范化。
-3. 将用户提供的 UMD/CSS/许可证文件原样放入计划中的 `public/` 位置，或为选定的绝对 URL 配置 loader。同时按[第三方依赖的版权与文档](../zui-standards/references/workflow.md#第三方依赖的版权与文档)补齐根目录 `licenses/` 和公共依赖说明，外置或远程加载也须覆盖。不要编辑、压缩、转译或生成第三方产物。
+3. 将用户提供的 UMD/CSS/许可证文件原样放入计划中的 `public/` 位置，或为选定的绝对 URL 配置 loader。同时按[第三方依赖的版权与文档](../zui-standards/references/third-party.md)补齐根目录 `licenses/` 和公共依赖说明，外置或远程加载也须覆盖。不要编辑、压缩、转译或生成第三方产物。
 4. 在库内私有 helper 中创建唯一的 `LibLoader<T>`，显式配置 `src` 和 `check`；多个组件共享同一个 loader，不在组件类维护第二份模块缓存。
 5. 优先使用第三方声明的 `import type`；没有可靠声明时只手写封装实际使用的窄接口。公共类型引用第三方包时，确保消费者能解析相应依赖。
 6. 按选定形态实现 facade。每次异步加载后检查模块结果和实例存活状态；定义加载前方法行为；在 `destroy()` 中清理第三方实例、监听、DOM 和其他副作用。

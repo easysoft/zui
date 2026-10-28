@@ -1,6 +1,6 @@
 ---
 name: zuix-dev
-description: "维护独立 ZUI 扩展库的 README/dev.md 调试页及 dev.ts，并按需通过宿主验证交互和 HMR。需求明确时直接实施。"
+description: "维护独立 ZUI 扩展库的 README/dev.md、dev.ts 和 Storybook 场景，按需通过宿主验证交互、Controls 与 HMR；不用于官网文档。"
 ---
 
 # ZUI 扩展库开发调试页
@@ -11,7 +11,9 @@ description: "维护独立 ZUI 扩展库的 README/dev.md 调试页及 dev.ts，
 
 检查实际页面源及相关 `dev.ts`、API 或样式。开发管线通常优先 `dev.md`、缺失时回退 `README.md`，以目标现状和当前宿主为准，不无理由迁移或复制两份。需要新场景或生命周期判断时再参考相关实现；真实交互/HMR 验收需要已确认的宿主。
 
-## 实施
+按目标文件选择流程：README/dev.md 和 dev.ts 使用下列调试页步骤；`*.stories.ts(x)`、Controls 或 Actions 使用 [Storybook 流程](../zuix-standards/references/dev-page.md#storybook)，不执行 Markdown 初始化步骤。
+
+## Markdown 调试页实施
 
 1. 按共享工作流先检查请求、已确认决定和目标现状，合理沿用既有约定；仅有无法可靠消除且会实质改变调试页目标、公开契约或交付边界的歧义时询问，否则直接在本领域内实施，不增加确认门禁。
 2. 在实际页面源中使用当前宿主支持的 `html:example` fence 和 utility class 语法构建实例 DOM；资源通过扩展开发管线实际支持的路径引用，不硬编码某个扩展品牌或组名。
