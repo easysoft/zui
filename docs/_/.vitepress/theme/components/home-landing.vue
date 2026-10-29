@@ -22,6 +22,36 @@ let media: MediaQueryList | undefined;
 let tileObserver: IntersectionObserver | undefined;
 let taglineObserver: IntersectionObserver | undefined;
 let frame = 0;
+let glowFrame = 0;
+let glowX = 0;
+let glowY = 0;
+let glowActive = false;
+
+function clearGlow() {
+    cancelAnimationFrame(glowFrame);
+    glowFrame = 0;
+    if (!glowActive) return;
+    glowActive = false;
+    tiles.value.forEach(tile => tile.element?.style.removeProperty('--home-glow-visible'));
+}
+
+function onFeaturePointerMove(event: PointerEvent) {
+    if (event.pointerType !== 'mouse' || reducedMotion.value) return;
+    glowX = event.clientX;
+    glowY = event.clientY;
+    glowActive = true;
+    if (glowFrame) return;
+    glowFrame = requestAnimationFrame(() => {
+        glowFrame = 0;
+        const positions = tiles.value.map(tile => ({element: tile.element, rect: tile.element?.getBoundingClientRect()}));
+        for (const {element, rect} of positions) {
+            if (!element || !rect) continue;
+            element.style.setProperty('--home-glow-x', `${glowX - rect.left}px`);
+            element.style.setProperty('--home-glow-y', `${glowY - rect.top}px`);
+            element.style.setProperty('--home-glow-visible', '1');
+        }
+    });
+}
 
 function stopScroll() {
     window.removeEventListener('scroll', requestReveal);
@@ -54,11 +84,17 @@ function requestReveal() {
 
 function onPreferenceChange() {
     reducedMotion.value = media?.matches ?? true;
-    if (reducedMotion.value) finishReveal();
+    if (reducedMotion.value) {
+        finishReveal();
+        clearGlow();
+    }
 }
 
 function onVisibilityChange() {
-    if (document.hidden) tiles.value.forEach(tile => tile.settle());
+    if (document.hidden) {
+        tiles.value.forEach(tile => tile.settle());
+        clearGlow();
+    }
 }
 
 onMounted(() => {
@@ -66,6 +102,7 @@ onMounted(() => {
     onPreferenceChange();
     media.addEventListener('change', onPreferenceChange);
     document.addEventListener('visibilitychange', onVisibilityChange);
+    window.addEventListener('scroll', clearGlow, {passive: true});
     if (!('IntersectionObserver' in window)) return;
 
     tileObserver = new IntersectionObserver((entries) => {
@@ -102,6 +139,8 @@ onUnmounted(() => {
     taglineObserver?.disconnect();
     media?.removeEventListener('change', onPreferenceChange);
     document.removeEventListener('visibilitychange', onVisibilityChange);
+    window.removeEventListener('scroll', clearGlow);
+    clearGlow();
     stopScroll();
 });
 </script>
@@ -116,13 +155,13 @@ onUnmounted(() => {
             <path d="M810-80 124 900M970-80 284 900" fill="none" stroke="currentColor" stroke-opacity=".12" />
         </svg>
         <section class="home-hero" aria-labelledby="home-title">
-            <h1 id="home-title">用熟悉的代码，<br>搭建完整的界面。</h1>
+            <h1 id="home-title"><span class="home-title-line">用熟悉的代码，</span><span class="home-title-line">搭建完整的界面。</span></h1>
             <p class="home-intro">ZUI 3 是可组合、可定制的前端开发框架。用 HTML、CSS 与 JavaScript，组合常用控件、交互和数据表格。</p>
             <a class="btn primary size-lg home-primary" :href="withBase('/guide/start/')">快速开始<span class="vpi-arrow-right" aria-hidden="true"></span></a>
             <p class="home-proof">MIT 开源<span aria-hidden="true">·</span>原生 DOM 调用<span aria-hidden="true">·</span>支持主题定制</p>
         </section>
 
-        <section class="home-features" aria-label="ZUI 核心能力">
+        <section class="home-features" aria-label="ZUI 核心能力" @pointermove="onFeaturePointerMove" @pointerleave="clearGlow" @pointercancel="clearGlow">
             <HomeFeatureTile v-for="feature in features" :key="feature.id" ref="tiles" v-bind="feature" :reduced-motion="reducedMotion">
                 <div v-if="feature.id === 'compose'" class="home-compose">
                     <div class="home-wire-window compose-window">

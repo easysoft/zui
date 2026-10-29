@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {inject, onMounted, onUnmounted, ref, watch} from 'vue';
+import {inject, nextTick, onMounted, onUnmounted, ref, watch} from 'vue';
 import {useData, useRoute, withBase} from 'vitepress';
 import {createTheme, presets} from '../theme-model';
 import {theme, updateTheme} from '../theme-state';
@@ -10,6 +10,38 @@ const closeScreen = inject<() => void>('close-screen', () => {});
 const open = ref(false);
 const root = ref<HTMLElement>();
 const trigger = ref<HTMLButtonElement>();
+let themeTransition: ViewTransition | undefined;
+const pendingThemeChanges: (() => void)[] = [];
+
+async function applyThemeChanges() {
+    // A skipped snapshot still runs its callback; drain each accepted change once.
+    for (const change of pendingThemeChanges.splice(0)) change();
+    await nextTick();
+}
+
+function changeTheme(change: () => void) {
+    pendingThemeChanges.push(change);
+    themeTransition?.skipTransition();
+    if (!document.startViewTransition || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        void applyThemeChanges();
+        return;
+    }
+    document.documentElement.classList.add('zui-theme-changing');
+    const current = document.startViewTransition(applyThemeChanges);
+    themeTransition = current;
+    const finish = () => {
+        if (themeTransition !== current) return;
+        themeTransition = undefined;
+        document.documentElement.classList.remove('zui-theme-changing');
+    };
+    // Rapid selections may skip the animation while keeping the theme update.
+    void current.ready.catch(() => {});
+    void current.finished.then(finish, finish);
+}
+
+function setAppearance(dark: boolean) {
+    changeTheme(() => {isDark.value = dark;});
+}
 
 function toggle() {
     open.value = !open.value;
@@ -33,12 +65,16 @@ function onEscape(event: KeyboardEvent) {
     }
 }
 
-watch(() => route.path, () => {open.value = false;});
+watch(() => route.path, () => {
+    open.value = false;
+    themeTransition?.skipTransition();
+});
 onMounted(() => {
     document.addEventListener('pointerdown', onOutside);
     document.addEventListener('focusin', onOutside);
 });
 onUnmounted(() => {
+    themeTransition?.skipTransition();
     document.removeEventListener('pointerdown', onOutside);
     document.removeEventListener('focusin', onOutside);
 });
@@ -55,12 +91,12 @@ onUnmounted(() => {
             <div class="nav-theme-heading">
                 <strong>选择主题</strong>
                 <div class="theme-appearance" role="group" aria-label="主题外观">
-                    <button type="button" :aria-pressed="!isDark" @click="isDark = false"><span class="example-icon example-icon-sun" aria-hidden="true" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M8%2012a4%204%200%201%200%208%200%204%204%200%201%200-8%200M12%201v3m0%2016v3M1%2012h3m16%200h3M4%204l2%202m12%2012%202%202M4%2020l2-2M18%206l2-2%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></span>浅色</button>
-                    <button type="button" :aria-pressed="isDark" @click="isDark = true"><span class="example-icon example-icon-moon" aria-hidden="true" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M20%2015.5A8.5%208.5%200%200%201%208.5%204a8.5%208.5%200%201%200%2011.5%2011.5Z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></span>深色</button>
+                    <button type="button" :aria-pressed="!isDark" @click="setAppearance(false)"><span class="example-icon example-icon-sun" aria-hidden="true" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M8%2012a4%204%200%201%200%208%200%204%204%200%201%200-8%200M12%201v3m0%2016v3M1%2012h3m16%200h3M4%204l2%202m12%2012%202%202M4%2020l2-2M18%206l2-2%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></span>浅色</button>
+                    <button type="button" :aria-pressed="isDark" @click="setAppearance(true)"><span class="example-icon example-icon-moon" aria-hidden="true" style="display:inline-block;width:1em;height:1em;background-color:currentColor;mask:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M20%2015.5A8.5%208.5%200%200%201%208.5%204a8.5%208.5%200%201%200%2011.5%2011.5Z%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E) center / contain no-repeat"></span>深色</button>
                 </div>
             </div>
             <div class="nav-theme-presets" role="group" aria-label="预设主题">
-                <button v-for="preset in presets" :key="preset.id" type="button" :aria-label="`应用${preset.name}主题`" :aria-pressed="theme.preset === preset.id" @click="updateTheme(createTheme(preset.id))">
+                <button v-for="preset in presets" :key="preset.id" type="button" :aria-label="`应用${preset.name}主题`" :aria-pressed="theme.preset === preset.id" @click="changeTheme(() => updateTheme(createTheme(preset.id)))">
                     <span class="nav-theme-swatch" :style="{background: preset.settings.colors.primary}" aria-hidden="true"></span>
                     <span>{{preset.name}}</span>
                     <span class="nav-theme-check icon" :class="{'i-check': theme.preset === preset.id}" aria-hidden="true"></span>
@@ -78,10 +114,18 @@ onUnmounted(() => {
 .nav-theme button:active { filter: brightness(.96); }
 .nav-theme-trigger { display: flex; align-items: center; gap: 7px; min-height: 36px; padding: 0 10px; border: 1px solid var(--vp-c-divider); border-radius: 6px; font-weight: 500; }
 .nav-theme-trigger:hover, .nav-theme-trigger[aria-expanded="true"] { background: var(--vp-c-bg-soft); border-color: var(--vp-c-brand-1); }
-.nav-theme-trigger .vpi-chevron-down { font-size: 12px; color: var(--vp-c-text-2); }
+.nav-theme-trigger .vpi-chevron-down { font-size: 12px; color: var(--vp-c-text-2); transition: transform 160ms ease-out; }
+.nav-theme-trigger[aria-expanded='true'] .vpi-chevron-down { transform: rotate(180deg); }
 .nav-theme-swatch { flex-shrink: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--color-primary-500); box-shadow: inset 0 0 0 1px #0001; }
 .nav-theme-panel { position: absolute; z-index: 1; top: calc(100% + 12px); right: 0; width: 304px; max-height: calc(100vh - 96px); max-height: calc(100dvh - 96px); overflow-y: auto; padding: 16px; border: 1px solid var(--vp-c-divider); border-radius: 12px; background: var(--vp-c-bg-elv); box-shadow: var(--vp-shadow-3); white-space: normal; }
 .nav-theme-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+@media (prefers-reduced-motion: no-preference) {
+  .nav-theme-panel { animation: nav-theme-enter 160ms cubic-bezier(.22, 1, .36, 1); }
+}
+@keyframes nav-theme-enter { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .nav-theme-trigger .vpi-chevron-down { transition: none; }
+}
 .nav-theme-presets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .nav-theme-presets button { display: flex; align-items: center; gap: 7px; min-height: 40px; padding: 6px 9px; border: 1px solid var(--vp-c-divider); border-radius: 6px; }
 .nav-theme-presets button:hover { background: var(--vp-c-bg-soft); border-color: var(--vp-c-brand-1); }
@@ -94,5 +138,17 @@ onUnmounted(() => {
   .nav-theme-trigger { min-height: 40px; }
   .nav-theme-panel { position: fixed; top: calc(var(--vp-nav-height) + 8px); right: 16px; width: min(304px, calc(100vw - 32px)); }
   .nav-theme-panel .theme-appearance button { min-height: 36px; }
+}
+</style>
+
+<style>
+html.zui-theme-changing::view-transition { pointer-events: none; }
+html.zui-theme-changing::view-transition-group(root),
+html.zui-theme-changing::view-transition-old(root),
+html.zui-theme-changing::view-transition-new(root) { animation-duration: 220ms; animation-timing-function: ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  html.zui-theme-changing::view-transition-group(root),
+  html.zui-theme-changing::view-transition-old(root),
+  html.zui-theme-changing::view-transition-new(root) { animation: none !important; }
 }
 </style>

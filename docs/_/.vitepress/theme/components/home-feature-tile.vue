@@ -61,6 +61,7 @@ defineExpose({element, enter, settle});
     <a ref="element" class="home-feature" :class="`home-feature-${id}`" :href="withBase(href)"
         :data-motion="motion" :aria-labelledby="`home-${id}-title`" :aria-describedby="`home-${id}-description`"
         @pointerenter="onPointerEnter" @focus="replay">
+        <span class="home-feature-glow" aria-hidden="true"></span>
         <div class="home-feature-copy">
             <span class="home-category">{{ category }}<span class="vpi-arrow-right" aria-hidden="true"></span></span>
             <h2 :id="`home-${id}-title`">{{ title }}</h2>
