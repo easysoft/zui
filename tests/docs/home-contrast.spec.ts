@@ -197,9 +197,9 @@ test('home remains complete with JavaScript disabled', async ({browser, baseURL}
     try {
         await page.goto(baseURL!);
         await expect(page.locator('h1')).toBeVisible();
-        await expect(page).toHaveTitle('用熟悉的代码，搭建完整的界面 | ZUI 3');
-        await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', 'ZUI 3 · 用熟悉的代码，搭建完整的界面');
-        await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /主题定制与深色模式/);
+        await expect(page).toHaveTitle('回归 HTML，声明即界面 | ZUI 3');
+        await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', 'ZUI 3 · 回归 HTML，声明即界面');
+        await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /无需编译，无需搭建脚手架/);
         await expect(page.locator('.home-feature')).toHaveCount(5);
         await expect(page.locator('.home-tagline')).toHaveAttribute('data-revealing', 'false');
         await expect(page.locator('.home-scene').first()).toHaveCSS('opacity', '1');

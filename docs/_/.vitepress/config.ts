@@ -9,6 +9,8 @@ import {renderComponentOverview} from './component-overview';
 import {themeBootstrapScript} from './theme/theme-bootstrap';
 
 const base = process.env.BASE_PATH ?? '/';
+// Social crawlers require an absolute image URL.
+const shareImage = `${process.env.SITE_ORIGIN ?? 'https://easysoft.github.io'}${base}og-image.png`;
 const root = fileURLToPath(new URL('../../../', import.meta.url));
 
 /** Define vitepress config */
@@ -35,6 +37,11 @@ export default defineConfig({
         ['link', {id: 'zui-stylesheet', rel: 'stylesheet', href: `${base}zui/zui.css?v=${Date.now() % 10000}`}],
         ['script', {src: `${base}zui/zui.js?v=${Date.now() % 10000}`}],
         ['script', {}, themeBootstrapScript],
+        ['meta', {property: 'og:image', content: shareImage}],
+        ['meta', {property: 'og:image:width', content: '1200'}],
+        ['meta', {property: 'og:image:height', content: '630'}],
+        ['meta', {property: 'og:image:alt', content: 'ZUI 3：用熟悉的代码，搭建完整的界面'}],
+        ['meta', {name: 'twitter:image', content: shareImage}],
     ],
     lastUpdated: true,
     markdown: {
