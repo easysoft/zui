@@ -7,6 +7,7 @@ import {getBuildMetadata} from './metadata';
 import type {BuildPlan} from './config';
 import type {BuildContext} from './context';
 import {isWithin} from './paths';
+import type {BuildAnalysis} from './analysis';
 
 export {ensureExtsTsconfig} from './metadata';
 
@@ -44,7 +45,7 @@ export async function loadCustomViteConfig(plan: BuildPlan): Promise<UserConfig>
 }
 
 /** Create the distribution configuration after library prebuilds have prepared their presets. */
-export async function createBuildViteConfig(plan: BuildPlan, context: BuildContext, customConfig?: UserConfig): Promise<InlineConfig> {
+export async function createBuildViteConfig(plan: BuildPlan, context: BuildContext, customConfig?: UserConfig, analysis?: BuildAnalysis): Promise<InlineConfig> {
     customConfig ??= await loadCustomViteConfig(plan);
     checkCustomConfig(customConfig);
     const metadata = await getBuildMetadata(plan.rootDir, Object.values(plan.libsMap));
@@ -65,7 +66,7 @@ export async function createBuildViteConfig(plan: BuildPlan, context: BuildConte
         mode: 'production',
         base: './',
         publicDir: context.publicDir,
-        plugins: [cssOrderPlugin(context.entry, plan.libs.filter(lib => lib.zui.path).map(lib => lib.zui.path))],
+        plugins: [cssOrderPlugin(context.entry, plan.libs.filter(lib => lib.zui.path).map(lib => lib.zui.path), analysis?.recordCss)],
         resolve: {
             dedupe: sharedRuntimes.filter(name => !plan.dependencies[name]),
             alias: sharedRuntimes.filter(name => plan.dependencies[name]).map(name => ({
@@ -112,5 +113,7 @@ export async function createBuildViteConfig(plan: BuildPlan, context: BuildConte
             },
         },
     });
-    return mergeConfig(config, customConfig);
+    const merged = mergeConfig(config, customConfig);
+    if (analysis) merged.plugins.push(analysis.plugin);
+    return merged;
 }

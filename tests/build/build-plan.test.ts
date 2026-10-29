@@ -11,6 +11,8 @@ const fixture = Path.join(root, 'test-results/build-plan');
 const extensions = Path.join(fixture, 'extensions');
 const output = Path.join(fixture, 'output');
 const pnpm = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
+const legacyConfig = Path.join(root, 'build/vite.config.json');
+let legacyConfigBefore: Buffer | undefined;
 
 async function write(file: string, content: string) {
     await fs.mkdir(Path.dirname(file), {recursive: true});
@@ -18,6 +20,10 @@ async function write(file: string, content: string) {
 }
 
 beforeAll(async () => {
+    legacyConfigBefore = await fs.readFile(legacyConfig).catch((error: NodeJS.ErrnoException) => {
+        if (error.code !== 'ENOENT') throw error;
+        return undefined;
+    });
     await fs.rm(fixture, {recursive: true, force: true});
     for (const name of ['alpha', 'beta']) {
         await write(Path.join(extensions, name, 'package.json'), JSON.stringify({
@@ -94,5 +100,10 @@ test('builds a CLI extension source with structured exports and executable Vite 
     const files = await fs.readdir(output);
     expect(files).toContain('zui-plan-test.js');
     expect(files.some(file => file.endsWith('.map'))).toBe(false);
-    await expect(fs.stat(Path.join(root, 'build/vite.config.json'))).rejects.toMatchObject({code: 'ENOENT'});
+    expect(files.some(file => file.startsWith('build-analysis.'))).toBe(false);
+    if (legacyConfigBefore) {
+        expect(await fs.readFile(legacyConfig)).toEqual(legacyConfigBefore);
+    } else {
+        await expect(fs.stat(legacyConfig)).rejects.toMatchObject({code: 'ENOENT'});
+    }
 });

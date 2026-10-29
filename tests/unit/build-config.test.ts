@@ -45,6 +45,16 @@ describe('build CLI and configuration', () => {
     it('rejects conflicting flags', () => {
         expect(() => parseBuildArgs(['--extensions', '--extension', 'one'])).toThrow(/mutually exclusive/);
         expect(() => parseBuildArgs(['--minify', '--no-minify'])).toThrow(/mutually exclusive/);
+        expect(() => parseBuildArgs(['--analyze', '--no-analyze'])).toThrow(/mutually exclusive/);
+    });
+
+    it('enables analysis on demand and lets CLI disable JSON analysis', async () => {
+        expect((await resolveBuildPlan({}, root)).analyze).toBe(false);
+        expect((await resolveBuildPlan(parseBuildArgs(['--analyze']).options, root)).analyze).toBe(true);
+        await fs.outputJSON(Path.join(root, 'analysis.json'), {analyze: true});
+        expect((await loadBuildOptions(parseBuildArgs(['--config', 'analysis.json']), root)).analyze).toBe(true);
+        expect((await loadBuildOptions(parseBuildArgs(['--config', 'analysis.json', '--no-analyze']), root)).analyze).toBe(false);
+        expect(() => validateBuildOptions({analyze: 'true'})).toThrow(/boolean/);
     });
 
     it('merges CLI over JSON, resolves paths by origin, and unions exclusions', async () => {

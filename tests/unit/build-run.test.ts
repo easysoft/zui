@@ -185,6 +185,19 @@ describe('complete build lifecycle', () => {
         await expectTemporaryFilesCleaned();
     });
 
+    it('analyzes runtime outputs before npm declarations add their metadata', async () => {
+        const emit = vi.mocked(emitNpmTypes).getMockImplementation()!;
+        vi.mocked(emitNpmTypes).mockImplementation(async (options) => {
+            await emit(options);
+            await fs.outputJSON(Path.join(options.outDir, 'types/package.json'), {type: 'commonjs'});
+        });
+        await runBuild({...plan, analyze: true}, {npmTypes: true});
+        const report = await fs.readJSON(Path.join(plan.outDir, 'build-analysis.json'));
+        expect(report.files.map((file: {file: string}) => file.file).sort()).toEqual(['first/asset.txt', 'second/asset.txt', 'zui.css', 'zui.js']);
+        expect(await fs.pathExists(Path.join(plan.outDir, 'types/package.json'))).toBe(true);
+        await expectTemporaryFilesCleaned();
+    });
+
     it('emits declarations through the logical build path and cleans the external physical work directory', async () => {
         const physicalRoot = await externalBuildDirectory();
         await runBuild(plan, {npmTypes: true});

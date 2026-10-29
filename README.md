@@ -158,6 +158,7 @@ pnpm dev
 | `pnpm test:e2e:all` | 使用 Chromium、Firefox 和 WebKit 运行浏览器测试 |
 | `pnpm check` | 运行 lint、typecheck、单元/DOM 测试和技能测试 |
 | `pnpm build` | 构建完整的 ZUI 产物 |
+| `pnpm build --analyze` | 构建并输出按包拆分的离线 HTML 体积报告和 JSON 明细 |
 | `pnpm build:npm` | 构建用于 npm 发布的 `dist/zui` 及 TypeScript 声明，不执行发布 |
 | `pnpm pack:npm` | 独立构建并打包 npm 候选包，输出 `.tgz` 与摘要清单 |
 | `pnpm publish:npm --tarball <file>` | 检查并验证指定包的私有快照，通过后发布同一文件 |

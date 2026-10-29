@@ -20,6 +20,31 @@ pnpm build --lib utilities --lib dtable --name zui-table
 
 此规则适用于压缩和未压缩构建，`@zui/utilities` 与其他库使用相同规则；不改变 JavaScript 执行顺序和开发服务的样式加载顺序。最终覆盖结果仍遵循选择器优先级和 `!important` 等 CSS 层叠规则。
 
+### 按库查看打包体积
+
+在需要分析的构建命令后添加 `--analyze`：
+
+```sh
+pnpm build --analyze
+pnpm build --lib button --lib dropdown --analyze
+pnpm build --extension zentao --analyze
+pnpm build:npm --analyze --out-dir ./dist/npm-preview
+```
+
+构建成功后，输出目录增加 `build-analysis.html` 和 `build-analysis.json`。直接用浏览器打开 HTML，即可切换输出文件，查看实际体积、gzip 大小、来源占比和包体积排行；支持搜索包名、按来源筛选、排序和展开模块明细。页面内嵌样式、脚本和数据，不依赖 CDN 或服务器，离线也可查看；深浅主题跟随系统。搜索和筛选只影响当前页面，不修改报告数据。
+
+JSON 保留每个包内的模块明细，大小单位为字节，也可从 HTML 页面下载。报告随本次构建更新，指定 ZIP 时也会进入归档。默认不生成报告；JSON 配置支持 `"analyze": true`，`pnpm build --no-analyze` 可覆盖它。`--dry-run` 仍只输出计划。
+
+统计口径：
+
+- 最终文件分别列出实际大小和整文件 gzip 大小。ESM、UMD 是不同分发格式，应分别查看。
+- JS 包贡献使用 Rollup tree-shaking 后、最终压缩前的模块代码字节，与最终压缩文件大小不是同一口径；占比以模块贡献合计为分母，不表示移除该库就能节省同样大小。共享依赖按实际模块归属统计，每个输出文件内只计算一次。
+- CSS 按最终输出片段归属到样式入口；PostCSS `@import` 展开的样式和 Tailwind 生成内容归入该入口。无法归属的内容单列，不摊给某个组件。
+- 随库复制及构建输出的独立资源按实际文件统计，内联资源已包含在 JS/CSS 内。source map、类型声明和报告自身不计入。
+- 实际引用的外置依赖单独列出，不计入包内体积；没有输出代码的库不列入贡献表。关闭 source map 时仍可生成相同口径的报告。
+
+该分析不改变模块选择、压缩设置和运行时代码，也不会自动保存历次构建的对比；保留不同构建的输出目录即可比较 JSON 明细。
+
 ### npm 运行时与声明
 
 ```sh
@@ -79,6 +104,7 @@ PR 和 main/nightly CI 保存 `test:build` 本次生成并验证的同一候选�
 | `--out-dir <directory>` | 指定产物目录 |
 | `--minify`、`--no-minify` | 启用或关闭压缩；关闭时同时影响 JS 和 CSS |
 | `--sourcemap`、`--no-sourcemap` | 启用或关闭 source map |
+| `--analyze`、`--no-analyze` | 启用或关闭本次构建的按包体积报告，默认关闭 |
 | `--include-wip` | 将 `zui.wip` 库纳入全量选择 |
 | `--exclude-not-ready` | 排除 `zui.notReady` 库 |
 | `--zip <path>` | 指定 ZIP 的完整输出路径，例如 `./dist/zui-custom.zip` |
@@ -126,7 +152,7 @@ pnpm build --extension zentao --lib @zentao/status-label
 }
 ```
 
-配置使用 `name`、`version`、`libs`、`exclude`、`extensions`、`outDir`、`minify`、`sourcemap`、`includeWip`、`excludeNotReady`、`zip` 等字段。扩展来源支持 `false`、`true` 或组名／目录数组。
+配置使用 `name`、`version`、`libs`、`exclude`、`extensions`、`outDir`、`minify`、`sourcemap`、`analyze`、`includeWip`、`excludeNotReady`、`zip` 等字段。扩展来源支持 `false`、`true` 或组名／目录数组。
 
 CLI 显式值优先于 JSON，再使用默认值。重复 `--lib` 整体替换 JSON 的 `libs`；扩展来源参数整体替换 `extensions`；`--exclude` 与 JSON 的 `exclude` 合并。CLI 路径相对当前工作目录，JSON 路径相对配置文件所在目录。
 

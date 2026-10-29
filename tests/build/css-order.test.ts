@@ -89,6 +89,7 @@ test.each([
         outDir: output,
         minify,
         sourcemap: false,
+        analyze: true,
         viteConfig: Path.join(fixture, `custom-${reverse}.vite.mjs`),
     }));
     await execFileAsync(pnpm, ['build', '--config', config], {
@@ -121,4 +122,14 @@ test.each([
     expect(selectors.filter(selector => selector === '.flex')).toHaveLength(1);
     expect(css).not.toContain('__ZUI_CSS_');
     expect(await fs.readFile(Path.join(output, 'zui-css-order.esm.js'), 'utf8')).not.toContain('__ZUI_CSS_');
+    const analysis = JSON.parse(await fs.readFile(Path.join(output, 'build-analysis.json'), 'utf8'));
+    const cssReport = analysis.files.find((file: {kind: string}) => file.kind === 'css');
+    expect(cssReport.bytes).toBe(Buffer.byteLength(css));
+    expect(cssReport.packages.reduce((sum: number, item: {bytes: number}) => sum + item.bytes, 0)).toBe(cssReport.bytes);
+    expect(cssReport.packages).toEqual(expect.arrayContaining([
+        expect.objectContaining({name: '@css-order/alpha', category: 'extension'}),
+        expect.objectContaining({name: '@css-order/beta', category: 'extension'}),
+        expect.objectContaining({name: '@css-order/npm', category: 'dependency'}),
+        expect.objectContaining({name: '@zui/utilities', category: 'builtin'}),
+    ]));
 });

@@ -90,7 +90,9 @@ export async function runBuild(plan: BuildPlan, options: BuildRunOptions = {}): 
             name: plan.name, version: plan.version, dependencies, main: 'main.ts',
         }, {spaces: 4});
         await exec('pnpm', ['install'], {cwd: workDir});
-        await build(await createBuildViteConfig(plan, context, customConfig));
+        const analysis = plan.analyze ? await (await import('./analysis')).createBuildAnalysis(plan) : undefined;
+        await build(await createBuildViteConfig(plan, context, customConfig, analysis));
+        if (analysis) await analysis.write(stagingDir);
         if (options.npmTypes) {
             const runtimeEntry = Path.join(plan.rootDir, 'build', Path.basename(context.workDir), 'main.ts');
             if (await canonical(runtimeEntry) !== context.entry) {
@@ -129,6 +131,7 @@ export async function runBuild(plan: BuildPlan, options: BuildRunOptions = {}): 
         await fs.chmod(stagingDir, 0o755);
         await publishBuild(outputs);
         console.log(cyan(`Build complete: ${plan.outDir}${plan.zip ? ` and ${plan.zip}` : ''}`));
+        if (analysis) console.log(cyan(`Size reports: ${Path.join(plan.outDir, 'build-analysis.html')} and build-analysis.json`));
     } finally {
         for (const path of cleanup.reverse()) {
             await fs.remove(path).catch(error => console.warn(`Cannot clean build temporary path "${path}":`, error));

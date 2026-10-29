@@ -15,6 +15,7 @@ export const BUILD_HELP = `Usage: pnpm build [options]
   --out-dir <directory>      Output directory
   --minify / --no-minify      Enable/disable JS and CSS minification
   --sourcemap / --no-sourcemap Enable/disable source maps
+  --analyze / --no-analyze    Write per-package size reports (build-analysis.html/json)
   --include-wip               Include WIP libraries in the default selection
   --exclude-not-ready         Exclude libraries marked notReady
   --zip <file>                Write a ZIP archive to this path
@@ -52,6 +53,8 @@ export function parseBuildArgs(args: string[]): {options: BuildOptions; config?:
                 'no-minify': {type: 'boolean'},
                 sourcemap: {type: 'boolean'},
                 'no-sourcemap': {type: 'boolean'},
+                analyze: {type: 'boolean'},
+                'no-analyze': {type: 'boolean'},
                 'include-wip': {type: 'boolean'},
                 'exclude-not-ready': {type: 'boolean'},
                 zip: {type: 'string'},
@@ -66,7 +69,7 @@ export function parseBuildArgs(args: string[]): {options: BuildOptions; config?:
     if (values.extensions && values.extension) {
         throw new Error('--extensions and --extension are mutually exclusive.');
     }
-    for (const key of ['minify', 'sourcemap'] as const) {
+    for (const key of ['minify', 'sourcemap', 'analyze'] as const) {
         if (values[key] && values[`no-${key}`]) {
             throw new Error(`--${key} and --no-${key} are mutually exclusive.`);
         }
@@ -81,6 +84,7 @@ export function parseBuildArgs(args: string[]): {options: BuildOptions; config?:
     if (values.zip !== undefined) options.zip = values.zip;
     if (values.minify !== undefined || values['no-minify'] !== undefined) options.minify = values.minify ?? !values['no-minify'];
     if (values.sourcemap !== undefined || values['no-sourcemap'] !== undefined) options.sourcemap = values.sourcemap ?? !values['no-sourcemap'];
+    if (values.analyze !== undefined || values['no-analyze'] !== undefined) options.analyze = values.analyze ?? !values['no-analyze'];
     if (values['include-wip'] !== undefined) options.includeWip = values['include-wip'];
     if (values['exclude-not-ready'] !== undefined) options.excludeNotReady = values['exclude-not-ready'];
     validateBuildOptions(options);
