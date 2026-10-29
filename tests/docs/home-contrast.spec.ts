@@ -21,21 +21,27 @@ async function expectButtonContrast(page: Page) {
         const overlay = rgba(state.backgroundColor);
         const alpha = (overlay[3] ?? 1) * Number(state.opacity);
         const blend = (color: number[]) => color.slice(0, 3).map((channel, index) => channel * (1 - alpha) + overlay[index] * alpha);
+        const sheen = element.querySelector('.home-primary-sheen');
+        const sheenStyle = sheen && getComputedStyle(sheen, '::before');
+        const highlights = sheenStyle?.animationName !== 'none' ? sheenStyle?.backgroundImage.match(/rgba?\([^)]+\)/g)?.map(rgba) : [];
+        const highlight = highlights?.reduce((peak, color) => (color[3] ?? 1) > (peak[3] ?? 1) ? color : peak, [0, 0, 0, 0]) ?? [0, 0, 0, 0];
+        const highlightAlpha = highlight[3] ?? 1;
+        const shine = (color: number[]) => color.slice(0, 3).map((channel, index) => channel * (1 - highlightAlpha) + highlight[index] * highlightAlpha);
         const luminance = (color: number[]) => color.slice(0, 3).map((channel) => {
             const value = channel / 255;
             return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
         }).reduce((sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index], 0);
-        const backgroundLight = luminance(blend(background));
-        const ratios = [foreground, blend(foreground)].map((color) => {
-            const foregroundLight = luminance(color);
+        const ratios = [false, true].flatMap(withSheen => [foreground, blend(foreground)].map((color) => {
+            const backgroundLight = luminance(withSheen ? shine(blend(background)) : blend(background));
+            const foregroundLight = luminance(withSheen ? shine(color) : color);
             return (Math.max(foregroundLight, backgroundLight) + 0.05) / (Math.min(foregroundLight, backgroundLight) + 0.05);
-        });
+        }));
         return {foregroundAlpha: foreground[3] ?? 1, backgroundAlpha: background[3] ?? 1, ratio: Math.min(...ratios)};
     }));
     for (const color of colors) {
         expect(color.foregroundAlpha).toBe(1);
         expect(color.backgroundAlpha).toBe(1);
-        expect(color.ratio, 'Button text must retain 4.5:1 contrast through its state layer').toBeGreaterThanOrEqual(4.5);
+        expect(color.ratio, 'Button text must retain 4.5:1 contrast through its state layer and peak sheen').toBeGreaterThanOrEqual(4.5);
     }
 }
 

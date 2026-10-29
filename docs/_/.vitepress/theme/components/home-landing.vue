@@ -157,7 +157,7 @@ onUnmounted(() => {
         <section class="home-hero" aria-labelledby="home-title">
             <h1 id="home-title"><span class="home-title-line">用熟悉的代码，</span><span class="home-title-line">搭建完整的界面。</span></h1>
             <p class="home-intro">ZUI 3 是可组合、可定制的前端开发框架。用 HTML、CSS 与 JavaScript，组合常用控件、交互和数据表格。</p>
-            <a class="btn primary size-lg home-primary" :href="withBase('/guide/start/')">快速开始<span class="vpi-arrow-right" aria-hidden="true"></span></a>
+            <a class="btn primary size-lg home-primary" :href="withBase('/guide/start/')"><span class="home-primary-sheen" aria-hidden="true"></span>快速开始<span class="vpi-arrow-right" aria-hidden="true"></span></a>
             <p class="home-proof">MIT 开源<span aria-hidden="true">·</span>原生 DOM 调用<span aria-hidden="true">·</span>支持主题定制</p>
         </section>
 
@@ -200,7 +200,12 @@ onUnmounted(() => {
 
                 <div v-else class="home-build">
                     <div class="build-modules"><div v-for="n in 3" :key="n" :class="`build-module-${n}`"><i></i><span class="home-wire-bar"></span><b class="home-wire-check"></b></div></div>
-                    <div class="build-connector"><i></i><i></i><i></i></div>
+                    <svg class="build-connector" viewBox="0 0 48 112" width="48" height="112" aria-hidden="true" focusable="false">
+                        <path class="build-route" d="M0 16H12Q24 16 24 28V44Q24 56 36 56H48" />
+                        <path class="build-route" d="M0 96H12Q24 96 24 84V68Q24 56 36 56H48" />
+                        <path class="build-beam build-beam-1" pathLength="100" d="M0 16H12Q24 16 24 28V44Q24 56 36 56H48" />
+                        <path class="build-beam build-beam-3" pathLength="100" d="M0 96H12Q24 96 24 84V68Q24 56 36 56H48" />
+                    </svg>
                     <div class="home-wire-window build-result"><span class="home-wire-bar"></span><span class="home-wire-bar"></span><span class="home-wire-bar"></span><i class="home-wire-check"></i></div>
                 </div>
             </HomeFeatureTile>
@@ -212,7 +217,7 @@ onUnmounted(() => {
 
         <section class="home-start" aria-labelledby="home-start-title">
             <div><h2 id="home-start-title">从第一个示例开始</h2><ol><li>选择接入方式</li><li>加载资源</li><li>运行示例</li></ol></div>
-            <a class="btn primary size-lg home-primary" :href="withBase('/guide/start/')">快速开始<span class="vpi-arrow-right" aria-hidden="true"></span></a>
+            <a class="btn primary size-lg home-primary" :href="withBase('/guide/start/')"><span class="home-primary-sheen" aria-hidden="true"></span>快速开始<span class="vpi-arrow-right" aria-hidden="true"></span></a>
         </section>
     </div>
 </template>

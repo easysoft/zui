@@ -86,3 +86,70 @@ for (const fallback of ['unsupported', 'reduced-motion'] as const) {
         }
     });
 }
+
+test('build beams lead to a completed artifact and settle without a loop', async ({page}, testInfo) => {
+    await page.emulateMedia({reducedMotion: 'no-preference'});
+    await page.goto('./');
+    const card = page.locator('.home-feature-build');
+    await card.scrollIntoViewIfNeeded();
+    await expect(card).toHaveAttribute('data-motion', 'playing');
+    const frame = async (time: number) => card.evaluate((element, currentTime) => {
+        for (const animation of element.getAnimations({subtree: true})) {
+            animation.pause();
+            animation.currentTime = currentTime;
+        }
+        const style = (selector: string) => getComputedStyle(element.querySelector(selector)!);
+        return {
+            firstBeam: Number(style('.build-beam-1').opacity),
+            lastBeam: Number(style('.build-beam-3').opacity),
+            progress: Number.parseFloat(style('.build-beam-1').strokeDashoffset),
+            complete: Number(style('.build-result .home-wire-check').opacity),
+        };
+    }, time);
+    const transfer = await frame(1200);
+    expect(transfer.firstBeam).toBe(1);
+    expect(transfer.lastBeam).toBe(0);
+    expect(transfer.progress).toBeLessThan(0);
+    expect(transfer.complete).toBe(0);
+    await page.screenshot({path: testInfo.outputPath('build-beam-transfer.png')});
+    const complete = await frame(2500);
+    expect(complete.firstBeam).toBe(0);
+    expect(complete.lastBeam).toBe(0);
+    expect(complete.complete).toBe(1);
+    await expect(card).toHaveAttribute('data-motion', 'complete');
+    expect(await card.evaluate(element => element.getAnimations({subtree: true}).length)).toBe(0);
+
+    await card.hover();
+    await expect(card).toHaveAttribute('data-motion', 'playing');
+    await page.emulateMedia({reducedMotion: 'reduce'});
+    await expect(card).toHaveAttribute('data-motion', 'complete');
+    await expect(card.locator('.build-result .home-wire-check')).toHaveCSS('opacity', '1');
+    await expect(card.locator('.build-beam').first()).toHaveCSS('opacity', '0');
+});
+
+test('quick start sheen runs once and preserves keyboard focus and navigation', async ({page}) => {
+    await page.emulateMedia({reducedMotion: 'no-preference'});
+    await page.goto('./');
+    const action = page.getByRole('link', {name: '快速开始', exact: true}).first();
+    const before = await action.boundingBox();
+    const sheen = action.locator('.home-primary-sheen');
+    await action.hover();
+    await expect(action.locator('.vpi-arrow-right')).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 3, 0)');
+    await sheen.evaluate(element => Promise.all(element.getAnimations({subtree: true}).map(animation => animation.finished)));
+    expect(await sheen.evaluate(element => getComputedStyle(element, '::before').opacity)).toBe('0');
+    expect(await sheen.evaluate(element => element.getAnimations({subtree: true}).filter(animation => animation.playState === 'running').length)).toBe(0);
+    expect(await action.boundingBox()).toEqual(before);
+
+    await page.mouse.move(0, 0);
+    await action.focus();
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Shift+Tab');
+    await expect(action).toBeFocused();
+    await expect.poll(() => action.evaluate(element => getComputedStyle(element, '::before').boxShadow)).toContain('3px');
+    expect(await action.evaluate(element => getComputedStyle(element).overflow)).toBe('visible');
+    await page.emulateMedia({reducedMotion: 'reduce'});
+    expect(await action.evaluate(element => element.getAnimations({subtree: true}).length)).toBe(0);
+    await expect(action.locator('.vpi-arrow-right')).toHaveCSS('transform', 'none');
+    await action.press('Enter');
+    await expect(page).toHaveURL(/\/guide\/start\/$/);
+});
