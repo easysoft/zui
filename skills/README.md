@@ -1,6 +1,6 @@
 # ZUI 应用侧技能
 
-本目录提供面向 **ZUI 用户** 的 Codex 技能：在已有应用中正确接入和使用 ZUI，或从零搭建不依赖构建工具的静态页面。
+本目录提供面向 **ZUI 用户** 的 AI Agent 技能：在已有应用中正确接入和使用 ZUI，或从零搭建不依赖构建工具的静态页面。
 
 它们服务的是应用项目，而不是本仓库的 `lib/*` 开发。
 
@@ -13,6 +13,8 @@
 三套技能使用不同名称，可以在同一环境中并存。若目标就是本仓库，并且请求会改 `lib/*`，不要使用本目录技能，改走 `.agents/skills/` 中的开发技能。
 
 ## 使用方式
+
+技能以 `SKILL.md` 为入口，可用于支持该格式的 AI Agent。以下以 `.agents/skills/` 目录和 `$技能名` 调用语法为例，具体按所用工具的技能加载与调用方式调整。
 
 建议把需要的技能复制到目标应用的 `.agents/skills/`：
 
@@ -124,4 +126,4 @@ pnpm eval:skills --compare /absolute/path/before-run /absolute/path/after-run
 - 不把不可信数据插进会求值的声明式属性（`zui-create-*`、`zui-toggle-*`、`zui-on-*`、`zui-init`）。
 - 做最小改动。未要求时不升级 ZUI、不更换引入方式、不顺带迁移无关界面。
 
-每个技能目录都包含 `SKILL.md`、`agents/openai.yaml` 和自包含的 `references/ai/`。`zui/references/` 还覆盖接入、组件模式、框架生命周期和排障；`zui-build/references/` 还覆盖资源分发、声明式用法和页面质量。`zui-build/assets/` 内含起始模板和打包好的 ZUI 3.0.0 浏览器资源。
+每个技能目录都包含 `SKILL.md`、`agents/openai.yaml` 和自包含的 `references/ai/`。其中 `agents/openai.yaml` 是工具专用元数据，通用技能说明以 `SKILL.md` 为准。`zui/references/` 还覆盖接入、组件模式、框架生命周期和排障；`zui-build/references/` 还覆盖资源分发、声明式用法和页面质量。`zui-build/assets/` 内含起始模板和打包好的 ZUI 3.0.0 浏览器资源。

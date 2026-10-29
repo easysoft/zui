@@ -16,16 +16,18 @@ ZUI 3 不绑定特定的 JavaScript 框架，在原生 Web 项目以及各类前
 - **灵活引入**：提供 UMD 和 ESM 产物，既可以直接通过 `<script>` 使用，也可以配合现代构建工具。
 - **可组合构建**：每个功能都是独立的 workspace 库，可以按项目需求生成定制组合版本。
 
-## Codex 插件
+## AI Agent 技能
 
-本仓库也是一个仅包含技能的 Codex 插件，提供两种互补工作流：
+本仓库提供可供支持 `SKILL.md` 的 AI Agent 使用的技能，覆盖两种互补的应用侧工作流：
 
-- `$zui`：识别现有项目的 ZUI 版本和接入方式，并安全地安装、集成、重构或排查 ZUI 3。
-- `$zui-build`：从需求描述创建无需安装依赖或构建工具即可运行的独立 ZUI 3 页面或小型静态站点。
+- `zui`：识别现有项目的 ZUI 版本和接入方式，并安全地安装、集成、重构或排查 ZUI 3。
+- `zui-build`：从需求描述创建无需安装依赖或构建工具即可运行的独立 ZUI 3 页面或小型静态站点。
 
-### 从 GitHub marketplace 安装
+按所用 AI Agent 的技能加载方式安装完整技能目录，目录与调用示例见[应用侧技能说明](./skills/README.md)。
 
-先添加本仓库提供的 marketplace，再安装 `zui` 插件：
+### 通过 Codex 插件安装
+
+本仓库同时提供仅包含技能的 Codex 插件。使用 Codex 时，先添加本仓库提供的 marketplace，再安装 `zui` 插件：
 
 ```sh
 codex plugin marketplace add easysoft/zui

@@ -16,16 +16,18 @@ ZUI 3 is not tied to a specific JavaScript framework. It works in vanilla Web pr
 - **Flexible consumption**: UMD and ESM bundles work with both classic `<script>` tags and modern build tools.
 - **Composable builds**: Each feature is an independent workspace library, allowing projects to create bundles that contain only the libraries they need.
 
-## Codex Plugin
+## AI Agent Skills
 
-This repository is also a skills-only Codex plugin with two complementary workflows:
+This repository provides skills for AI agents that support `SKILL.md`, covering two complementary application workflows:
 
-- `$zui`: Detect the ZUI version and consumption mode in an existing project, then safely install, integrate, refactor, or troubleshoot ZUI 3.
-- `$zui-build`: Turn a brief into a standalone ZUI 3 page or small static site that runs without installing dependencies or using a build tool.
+- `zui`: Detect the ZUI version and consumption mode in an existing project, then safely install, integrate, refactor, or troubleshoot ZUI 3.
+- `zui-build`: Turn a brief into a standalone ZUI 3 page or small static site that runs without installing dependencies or using a build tool.
 
-### Install from the GitHub marketplace
+Install the complete skill directories using your AI agent's skill-loading mechanism. See the [application skills guide](./skills/README.md) for directory and invocation examples.
 
-Add the marketplace provided by this repository, then install the `zui` plugin:
+### Install as a Codex Plugin
+
+This repository also provides a skills-only Codex plugin. When using Codex, add the marketplace provided by this repository, then install the `zui` plugin:
 
 ```sh
 codex plugin marketplace add easysoft/zui
