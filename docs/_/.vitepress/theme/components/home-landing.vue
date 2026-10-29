@@ -116,10 +116,9 @@ onUnmounted(() => {
             <path d="M810-80 124 900M970-80 284 900" fill="none" stroke="currentColor" stroke-opacity=".12" />
         </svg>
         <section class="home-hero" aria-labelledby="home-title">
-            <p class="home-eyebrow"><span class="home-brand">ZUI 3</span><span>可组合的前端开发框架</span></p>
             <h1 id="home-title">用熟悉的代码，<br>搭建完整的界面。</h1>
             <p class="home-intro">ZUI 3 是可组合、可定制的前端开发框架。用 HTML、CSS 与 JavaScript，组合常用控件、交互和数据表格。</p>
-            <a class="VPButton brand home-primary" :href="withBase('/guide/start/')">快速开始<span class="vpi-arrow-right" aria-hidden="true"></span></a>
+            <a class="btn primary size-lg home-primary" :href="withBase('/guide/start/')">快速开始<span class="vpi-arrow-right" aria-hidden="true"></span></a>
             <p class="home-proof">MIT 开源<span aria-hidden="true">·</span>原生 DOM 调用<span aria-hidden="true">·</span>支持主题定制</p>
         </section>
 
@@ -174,7 +173,7 @@ onUnmounted(() => {
 
         <section class="home-start" aria-labelledby="home-start-title">
             <div><h2 id="home-start-title">从第一个示例开始</h2><ol><li>选择接入方式</li><li>加载资源</li><li>运行示例</li></ol></div>
-            <a class="VPButton brand home-primary" :href="withBase('/guide/start/')">快速开始<span class="vpi-arrow-right" aria-hidden="true"></span></a>
+            <a class="btn primary size-lg home-primary" :href="withBase('/guide/start/')">快速开始<span class="vpi-arrow-right" aria-hidden="true"></span></a>
         </section>
     </div>
 </template>

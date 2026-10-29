@@ -9,6 +9,36 @@ async function expectTextContrast(page: Page, selector: string) {
     expect(result.incomplete, 'Text contrast must be measurable').toEqual([]);
 }
 
+async function expectButtonContrast(page: Page) {
+    // Axe cannot resolve ZUI's translucent ::before state layer. Check the
+    // composited colors, including the case where the layer also covers text.
+    const colors = await page.locator('.home-primary').evaluateAll(elements => elements.map((element) => {
+        const style = getComputedStyle(element);
+        const state = getComputedStyle(element, '::before');
+        const rgba = (value: string) => value.match(/[\d.]+/g)!.map(Number);
+        const foreground = rgba(style.color);
+        const background = rgba(style.backgroundColor);
+        const overlay = rgba(state.backgroundColor);
+        const alpha = (overlay[3] ?? 1) * Number(state.opacity);
+        const blend = (color: number[]) => color.slice(0, 3).map((channel, index) => channel * (1 - alpha) + overlay[index] * alpha);
+        const luminance = (color: number[]) => color.slice(0, 3).map((channel) => {
+            const value = channel / 255;
+            return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+        }).reduce((sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index], 0);
+        const backgroundLight = luminance(blend(background));
+        const ratios = [foreground, blend(foreground)].map((color) => {
+            const foregroundLight = luminance(color);
+            return (Math.max(foregroundLight, backgroundLight) + 0.05) / (Math.min(foregroundLight, backgroundLight) + 0.05);
+        });
+        return {foregroundAlpha: foreground[3] ?? 1, backgroundAlpha: background[3] ?? 1, ratio: Math.min(...ratios)};
+    }));
+    for (const color of colors) {
+        expect(color.foregroundAlpha).toBe(1);
+        expect(color.backgroundAlpha).toBe(1);
+        expect(color.ratio, 'Button text must retain 4.5:1 contrast through its state layer').toBeGreaterThanOrEqual(4.5);
+    }
+}
+
 for (const colorScheme of ['light', 'dark'] as const) {
     for (const width of [390, 768, 1440]) {
         test(`ZUI-DOC-007: home action stays readable in ${colorScheme} at ${width}px`, async ({page}) => {
@@ -22,7 +52,7 @@ for (const colorScheme of ['light', 'dark'] as const) {
             await expect(action).not.toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
             const checkContrast = async () => {
                 await action.evaluate(element => Promise.all(element.getAnimations().map(animation => animation.finished)));
-                await expectTextContrast(page, '.VPButton.brand');
+                await expectButtonContrast(page);
             };
 
             await checkContrast();
@@ -37,10 +67,10 @@ for (const colorScheme of ['light', 'dark'] as const) {
             await page.keyboard.press('Tab');
             await page.keyboard.press('Shift+Tab');
             await expect(action).toBeFocused();
-            await expect(action).toHaveCSS('outline-style', 'solid');
-            await expect(action).toHaveCSS('outline-width', '2px');
-            await expect(action).toHaveCSS('outline-offset', '4px');
-            await expect(action).not.toHaveCSS('outline-color', 'rgba(0, 0, 0, 0)');
+            await expect.poll(() => action.evaluate((element) => {
+                const state = getComputedStyle(element, '::before');
+                return {opacity: state.opacity, shadow: state.boxShadow};
+            })).toEqual({opacity: '1', shadow: expect.stringContaining('3px')});
             await checkContrast();
 
             await page.keyboard.press('Enter');

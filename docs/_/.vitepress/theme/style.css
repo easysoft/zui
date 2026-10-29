@@ -48,6 +48,9 @@ input:focus, textarea:focus, select:focus {
 .VPSidebar > .nav {
   @apply -block;
 }
+.VPSidebar .VPSidebarItem.level-0.collapsible {
+  padding-bottom: 10px;
+}
 .VPSidebarItem .caret {
   @apply -border-none;
 }
@@ -145,10 +148,12 @@ button.DocSearch-Button {
   @apply -shadow-none -rounded-t-none;
 }
 .plugin-tabs--content div[class*='language-'] {
-  @apply !-rounded-t-none !-bg-[--vp-code-block-bg];
+  @apply !-rounded-t-none !-rounded-b !-bg-[--vp-code-block-bg];
 }
 .plugin-tabs--tab-list {
-  @apply  -bg-surface;
+  @apply -bg-surface;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
 }
 .plugin-tabs--tab-list::after {
   @apply -bg-border -h-px;
