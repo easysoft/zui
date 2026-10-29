@@ -108,6 +108,13 @@ onUnmounted(() => {
 
 <template>
     <div class="home-landing">
+        <svg class="home-brand-backdrop" viewBox="0 0 800 900" preserveAspectRatio="xMidYMin slice" aria-hidden="true" focusable="false">
+            <path d="M630-80h180L124 900H-56Z" fill="currentColor" opacity=".045" />
+            <path d="M810-80h160L284 900H124Z" fill="currentColor" opacity=".085" />
+            <path d="M970-80h210L494 900H284Z" fill="currentColor" opacity=".15" />
+            <path d="M1180-80h110L604 900H494Z" fill="currentColor" opacity=".035" />
+            <path d="M810-80 124 900M970-80 284 900" fill="none" stroke="currentColor" stroke-opacity=".12" />
+        </svg>
         <section class="home-hero" aria-labelledby="home-title">
             <p class="home-eyebrow"><span class="home-brand">ZUI 3</span><span>可组合的前端开发框架</span></p>
             <h1 id="home-title">用熟悉的代码，<br>搭建完整的界面。</h1>
