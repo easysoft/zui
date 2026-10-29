@@ -27,6 +27,7 @@ export interface BuildOptions {
     css?: {minify?: boolean; remToPx?: boolean; preflight?: boolean};
     minify?: boolean;
     sourcemap?: boolean;
+    analyze?: boolean;
     zip?: string;
     includeWip?: boolean;
     excludeNotReady?: boolean;
@@ -52,6 +53,7 @@ export interface BuildPlan {
     tailwindConfigs: string[];
     minify: boolean;
     sourcemap: boolean;
+    analyze?: boolean;
     css: {minify: boolean; remToPx: boolean; preflight: boolean};
     externals: Record<string, string>;
     zip?: string;
@@ -59,7 +61,7 @@ export interface BuildPlan {
 }
 
 export const BUILD_MIGRATION = 'Use repeated --lib button --lib dropdown, --extension <group-or-directory>, or --config ./build.json. See --help.';
-const optionKeys = ['libs', 'exclude', 'name', 'version', 'outDir', 'extensions', 'dependencies', 'exports', 'externals', 'css', 'minify', 'sourcemap', 'zip', 'includeWip', 'excludeNotReady', 'viteConfig'];
+const optionKeys = ['libs', 'exclude', 'name', 'version', 'outDir', 'extensions', 'dependencies', 'exports', 'externals', 'css', 'minify', 'sourcemap', 'analyze', 'zip', 'includeWip', 'excludeNotReady', 'viteConfig'];
 const execFileAsync = promisify(execFile);
 const identifier = /^[A-Za-z_$][\w$]*$/;
 const packageName = /^(?:@[a-z0-9][\w.-]*\/)?[a-z0-9][\w.-]*$/;
@@ -99,7 +101,7 @@ export function validateBuildOptions(value: unknown): asserts value is BuildOpti
             nonempty(value[key], key);
         }
     }
-    for (const key of ['minify', 'sourcemap', 'includeWip', 'excludeNotReady']) {
+    for (const key of ['minify', 'sourcemap', 'analyze', 'includeWip', 'excludeNotReady']) {
         if (value[key] !== undefined && typeof value[key] !== 'boolean') {
             throw new Error(`${key} must be a boolean.`);
         }
@@ -305,7 +307,7 @@ export async function resolveBuildPlan(options: BuildOptions, rootDir = process.
         rootDir, outDir: Path.resolve(rootDir, options.outDir ?? `dist/${name}`),
         name, version, fileName: name.includes('zui') ? name : `zui.${name}`, libs, libsMap, sources, entries, dependencies,
         tailwindConfigs: libs.flatMap(lib => lib.zui.tailwindConfigPath ? [lib.zui.tailwindConfigPath] : []),
-        minify, sourcemap: options.sourcemap ?? true,
+        minify, sourcemap: options.sourcemap ?? true, analyze: options.analyze ?? false,
         css: {minify: minify && (options.css?.minify ?? true), remToPx: options.css?.remToPx ?? false, preflight: options.css?.preflight ?? true},
         externals: options.externals ?? {}, zip: options.zip ? Path.resolve(rootDir, options.zip) : undefined, viteConfig: options.viteConfig ? Path.resolve(rootDir, options.viteConfig) : undefined,
     };

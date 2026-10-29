@@ -1,11 +1,11 @@
-import postcss, {type ChildNode} from 'postcss';
+import postcss, {type ChildNode, type Node} from 'postcss';
 import {isCSSRequest, normalizePath, type Plugin} from 'vite';
 
 const start = '! __ZUI_CSS_START__:';
 const end = '! __ZUI_CSS_END__';
 
 /** Order extracted styles by the generated entry, without changing JS execution. */
-export function cssOrderPlugin(entry: string, libraryRoots: string[]): Plugin {
+export function cssOrderPlugin(entry: string, libraryRoots: string[], recordCss?: (file: string, source: string, contributions: {id: string; bytes: number}[]) => void): Plugin {
     const paths = libraryRoots.map(path => `${normalizePath(path)}/`).sort((a, b) => b.length - a.length);
     const ownerOf = (id: string) => paths.find(path => id.startsWith(path)) ?? id.match(/^.*\/node_modules\/(?:@[^/]+\/)?[^/]+\//)?.[0];
     return {
@@ -88,6 +88,17 @@ export function cssOrderPlugin(entry: string, libraryRoots: string[]): Plugin {
                     });
                     css.append(blocks.flatMap(block => block.nodes));
                     asset.source = css.toString();
+                    if (recordCss) {
+                        const owners = new Map<Node, string>(blocks.flatMap(block => block.nodes.map(node => [node, block.id] as const)));
+                        const sizes = new Map<string, number>();
+                        postcss.stringify(css, (text, node) => {
+                            let top: Node | undefined = node;
+                            while (top?.parent && top.parent !== css) top = top.parent;
+                            const id = (top && owners.get(top)) ?? '';
+                            sizes.set(id, (sizes.get(id) ?? 0) + Buffer.byteLength(text));
+                        });
+                        recordCss(asset.fileName, asset.source, [...sizes].map(([id, bytes]) => ({id, bytes})));
+                    }
                 }
             },
         },
