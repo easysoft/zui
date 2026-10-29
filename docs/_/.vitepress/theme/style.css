@@ -48,7 +48,7 @@ input:focus, textarea:focus, select:focus {
 .VPSidebar > .nav {
   @apply -block;
 }
-.VPSidebar .VPSidebarItem.level-0.collapsible {
+.VPSidebar .VPSidebarItem.level-0 {
   padding-bottom: 10px;
 }
 .VPSidebarItem .caret {
