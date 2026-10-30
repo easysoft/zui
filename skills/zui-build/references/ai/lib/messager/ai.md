@@ -22,9 +22,9 @@
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/messager`](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/messager/src/main.ts>) 公开原生组件和相应类型。
+主入口 [`@zui/messager`](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/messager/src/main.ts>) 公开原生组件和相应类型。
 
-Preact 入口 [`@zui/messager/react`](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/messager/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
+Preact 入口 [`@zui/messager/react`](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/messager/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/messager` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -75,7 +75,7 @@ const instance = Messager.show({content: '保存完成', time: 3000});
 // 所属页面退出时清理：instance.destroy();
 ```
 
-来源：[Messager](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/messager/src/vanilla/messager.ts>)。
+来源：[Messager](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/messager/src/vanilla/messager.ts>)。
 
 ## preact
 
@@ -106,7 +106,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[MessagerItem](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/messager/src/component/messager-item.tsx>)。
+来源：[MessagerItem](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/messager/src/component/messager-item.tsx>)。
 
 ## web-components
 
@@ -132,7 +132,7 @@ const dispose = mountExample();
 | `.messagers-center` | 主轴居中 |
 | `.messager` | `bg-inverse/80`（内部样式）；`text-canvas`（内部样式）；`backdrop-blur`（内部样式）；`shadow-xl`（内部样式）；`pointer-events-auto`（内部样式）；`duration-300`（内部样式） |
 
-来源：[src/style/messager.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/messager/src/style/messager.css>)。最小结构由前面的组件示例生成。
+来源：[src/style/messager.css](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/messager/src/style/messager.css>)。最小结构由前面的组件示例生成。
 ## css-variables
 
 本库没有新增可配置的 CSS 变量声明。依赖组件的变量按其 [AI 索引](../../ai.md) 查找；外部主题变量的使用不等于由本库定义。
@@ -157,7 +157,7 @@ const dispose = mountExample();
 export type MessagerPlacement = 'top' | 'top-left' | 'top-right' | 'bottom' | 'bottom-left' | 'bottom-right' | 'center';
 ```
 
-来源：[MessagerPlacement](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/messager/src/types/messager-placement.ts>)。
+来源：[MessagerPlacement](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/messager/src/types/messager-placement.ts>)。
 
 ### types-messager-events
 
@@ -176,7 +176,7 @@ export type MessagerEvents = {
 };
 ```
 
-来源：[MessagerEvents](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/messager/src/types/messager-events.ts>)。
+来源：[MessagerEvents](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/messager/src/types/messager-events.ts>)。
 
 ### types-messager-options
 
@@ -198,7 +198,7 @@ export interface MessagerOptions extends AlertOptions {
 }
 ```
 
-来源：[MessagerOptions](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/messager/src/types/messager-options.ts>)。
+来源：[MessagerOptions](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/messager/src/types/messager-options.ts>)。
 
 ### types-messager-item-options
 
@@ -214,7 +214,7 @@ export interface MessagerItemOptions extends MessagerOptions {
 }
 ```
 
-来源：[MessagerItemOptions](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/messager/src/types/messager-item-options.ts>)。
+来源：[MessagerItemOptions](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/messager/src/types/messager-item-options.ts>)。
 
 ## recipes
 
@@ -230,9 +230,9 @@ export interface MessagerItemOptions extends MessagerOptions {
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/messager/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/messager/src/main.ts>)
-- [Preact 入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/messager/src/main-react.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/messager/docs/lib/components/index.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/messager/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/messager/src/main.ts>)
+- [Preact 入口](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/messager/src/main-react.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/messager/docs/lib/components/index.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/.agents/skills/zui-standards/references/consumption.md>)

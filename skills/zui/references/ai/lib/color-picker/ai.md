@@ -22,9 +22,9 @@
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/color-picker`](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/color-picker/src/main.ts>) 公开原生组件；选项类型由 `/react` 入口导出。
+主入口 [`@zui/color-picker`](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/color-picker/src/main.ts>) 公开原生组件；选项类型由 `/react` 入口导出。
 
-Preact 入口 [`@zui/color-picker/react`](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/color-picker/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
+Preact 入口 [`@zui/color-picker/react`](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/color-picker/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/color-picker` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -56,7 +56,7 @@ const instance = new ColorPicker(host, {defaultValue: '#ef4444', colors: ['#ef44
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[ColorPicker](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/color-picker/src/vanilla/color-picker.ts>)。
+来源：[ColorPicker](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/color-picker/src/vanilla/color-picker.ts>)。
 
 ### vanilla-color-input
 
@@ -84,7 +84,7 @@ const instance = new ColorInput(host, {name: 'color', defaultValue: '#2563eb'});
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[ColorInput](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/color-picker/src/vanilla/color-input.ts>)。
+来源：[ColorInput](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/color-picker/src/vanilla/color-input.ts>)。
 
 ## preact
 
@@ -137,7 +137,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[ColorPicker](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/color-picker/src/components/color-picker.tsx>)。
+来源：[ColorPicker](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/color-picker/src/components/color-picker.tsx>)。
 
 ### preact-color-input
 
@@ -178,7 +178,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[ColorInput](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/color-picker/src/components/color-input.tsx>)。
+来源：[ColorInput](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/color-picker/src/components/color-input.tsx>)。
 
 ## web-components
 
@@ -210,7 +210,7 @@ const dispose = mountExample();
 | `.color-picker-item.color-input .i-check` | 透明；`scale-75`（内部样式） |
 | `.color-picker-item.color-input > label::before` | background-image: var(--color-input-empty-bg) |
 
-来源：[src/style/color-input.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/color-picker/src/style/color-input.css>), [src/style/color-picker.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/color-picker/src/style/color-picker.css>)。最小结构由前面的组件示例生成。
+来源：[src/style/color-input.css](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/color-picker/src/style/color-input.css>), [src/style/color-picker.css](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/color-picker/src/style/color-picker.css>)。最小结构由前面的组件示例生成。
 
 ### css-modifiers
 
@@ -275,7 +275,7 @@ export interface ColorPickerOptions extends PickOptions {
 }
 ```
 
-来源：[ColorPickerOptions](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/color-picker/src/types/color-picker-options.ts>)。
+来源：[ColorPickerOptions](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/color-picker/src/types/color-picker-options.ts>)。
 
 ### types-color-input-options
 
@@ -300,7 +300,7 @@ export type ColorInputOptions = {
 };
 ```
 
-来源：[ColorInputOptions](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/color-picker/src/types/color-input-options.ts>)。
+来源：[ColorInputOptions](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/color-picker/src/types/color-input-options.ts>)。
 
 ## recipes
 
@@ -316,9 +316,9 @@ export type ColorInputOptions = {
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/color-picker/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/color-picker/src/main.ts>)
-- [Preact 入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/color-picker/src/main-react.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/color-picker/docs/lib/components/index.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/color-picker/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/color-picker/src/main.ts>)
+- [Preact 入口](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/color-picker/src/main-react.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/color-picker/docs/lib/components/index.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/.agents/skills/zui-standards/references/consumption.md>)

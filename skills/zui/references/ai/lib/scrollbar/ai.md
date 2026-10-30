@@ -22,9 +22,9 @@ scrollPos 存在时为受控：scroll/scrollOffset 只发 onScroll(newPos,type)�
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/scrollbar`](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/scrollbar/src/main.ts>) 直接公开 Preact 组件和类型。
+主入口 [`@zui/scrollbar`](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/scrollbar/src/main.ts>) 直接公开 Preact 组件和类型。
 
-Preact 入口 [`@zui/scrollbar/react`](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/scrollbar/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
+Preact 入口 [`@zui/scrollbar/react`](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/scrollbar/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/scrollbar` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -73,7 +73,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[Scrollbar](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/scrollbar/src/component/scrollbar.tsx>)。
+来源：[Scrollbar](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/scrollbar/src/component/scrollbar.tsx>)。
 
 ## web-components
 
@@ -97,7 +97,7 @@ const dispose = mountExample();
 | `.scrollbar-bar` | 绝对定位；background: var(--scrollbar-bar-bg)；border-radius: var(--scrollbar-radius) |
 | `.scrollbar-bar:hover` | background: var(--scrollbar-hover-bg) |
 
-来源：[src/component/scrollbar.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/scrollbar/src/component/scrollbar.css>), [src/style/vars.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/scrollbar/src/style/vars.css>), [src/style/scrollbar.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/scrollbar/src/style/scrollbar.css>)。最小结构由前面的组件示例生成。
+来源：[src/component/scrollbar.css](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/scrollbar/src/component/scrollbar.css>), [src/style/vars.css](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/scrollbar/src/style/vars.css>), [src/style/scrollbar.css](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/scrollbar/src/style/scrollbar.css>)。最小结构由前面的组件示例生成。
 
 ### css-modifiers
 
@@ -178,7 +178,7 @@ const dispose = mountExample();
 export type OnScrollListener = (scrollPos: number, type: 'vert' | 'horz') => void;
 ```
 
-来源：[OnScrollListener](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/scrollbar/src/component/scrollbar.tsx>)。
+来源：[OnScrollListener](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/scrollbar/src/component/scrollbar.tsx>)。
 
 ### types-scrollbar-props
 
@@ -209,7 +209,7 @@ export interface ScrollbarProps {
 }
 ```
 
-来源：[ScrollbarProps](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/scrollbar/src/component/scrollbar.tsx>)。
+来源：[ScrollbarProps](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/scrollbar/src/component/scrollbar.tsx>)。
 
 ### types-scrollbar-state
 
@@ -226,7 +226,7 @@ export interface ScrollbarState {
 }
 ```
 
-来源：[ScrollbarState](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/scrollbar/src/component/scrollbar.tsx>)。
+来源：[ScrollbarState](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/scrollbar/src/component/scrollbar.tsx>)。
 
 ## recipes
 
@@ -242,9 +242,9 @@ scrollPos 存在时为受控：scroll/scrollOffset 只发 onScroll(newPos,type)�
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/scrollbar/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/scrollbar/src/main.ts>)
-- [Preact 入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/scrollbar/src/main-react.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/scrollbar/docs/lib/components/index.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/scrollbar/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/scrollbar/src/main.ts>)
+- [Preact 入口](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/scrollbar/src/main-react.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/scrollbar/docs/lib/components/index.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/.agents/skills/zui-standards/references/consumption.md>)

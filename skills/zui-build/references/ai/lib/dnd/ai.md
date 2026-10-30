@@ -58,7 +58,7 @@ const drag = new Draggable(root, {
 // 页面卸载：drag.destroy(); root.remove();
 ```
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dnd/src/vanilla/draggable.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dnd/src/vanilla/draggable.ts>)。
 
 
 ### vanilla-moveable
@@ -91,7 +91,7 @@ const move = new Moveable(box, {selector: 'self', container: 'window', container
 // 页面卸载：move.destroy(); box.remove();
 ```
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dnd/src/vanilla/moveable.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dnd/src/vanilla/moveable.ts>)。
 
 
 ### vanilla-resizable
@@ -119,7 +119,7 @@ const resize = new Resizable(box, {selector: 'self', minWidth: 80, minHeight: 40
 // 页面卸载：resize.destroy(); box.remove();
 ```
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dnd/src/vanilla/resizable.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dnd/src/vanilla/resizable.ts>)。
 
 ## preact
 
@@ -137,7 +137,7 @@ const resize = new Resizable(box, {selector: 'self', minWidth: 80, minHeight: 40
 {"name": "resizable / resizable-handle", "summary": "尺寸调整容器与手柄外观。", "role": "js-component"}
 ```
 
-作用域 .resizable；手柄 .resizable-handle 绝对定位，z-dir 为 n/e/s/w/ne/nw/se/sw 决定方向和 cursor。hover 或手柄 is-resizing 时着色。由 Resizable 创建结构；单独加类不会接入鼠标操作。不要删除 z-resizable-generated 标记，它供 refresh/destroy 清理。示例见 [Resizable](#vanilla-resizable)。来源：[样式](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dnd/src/css/resizable.css>)。
+作用域 .resizable；手柄 .resizable-handle 绝对定位，z-dir 为 n/e/s/w/ne/nw/se/sw 决定方向和 cursor。hover 或手柄 is-resizing 时着色。由 Resizable 创建结构；单独加类不会接入鼠标操作。不要删除 z-resizable-generated 标记，它供 refresh/destroy 清理。示例见 [Resizable](#vanilla-resizable)。来源：[样式](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dnd/src/css/resizable.css>)。
 
 
 ### css-dnd-states
@@ -156,7 +156,7 @@ const resize = new Resizable(box, {selector: 'self', minWidth: 80, minHeight: 40
 {"name": "--side-handle-* / --corner-handle-width", "summary": "在 .resizable 上设置手柄尺寸与颜色。"}
 ```
 
-声明于 .resizable：--side-handle-width:4px，--side-handle-shift:4px，--side-handle-color:var(--color-primary-400)，--corner-handle-width:8px。在实际组件根节点覆盖，例如 `.resizable {--corner-handle-width:12px}`；后代手柄继承。依赖 base 主题颜色，未提供独立全局 token。来源：[CSS](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dnd/src/css/resizable.css>)。
+声明于 .resizable：--side-handle-width:4px，--side-handle-shift:4px，--side-handle-color:var(--color-primary-400)，--corner-handle-width:8px。在实际组件根节点覆盖，例如 `.resizable {--corner-handle-width:12px}`；后代手柄继承。依赖 base 主题颜色，未提供独立全局 token。来源：[CSS](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dnd/src/css/resizable.css>)。
 
 ## javascript
 
@@ -197,7 +197,7 @@ export type DraggableOptions = {
 };
 ```
 
-来源：[src/types/draggable-options.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dnd/src/types/draggable-options.ts>)。
+来源：[src/types/draggable-options.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dnd/src/types/draggable-options.ts>)。
 
 ```ts
 export type DraggableState = {
@@ -206,7 +206,7 @@ export type DraggableState = {
 };
 ```
 
-来源：[src/types/draggable-state.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dnd/src/types/draggable-state.ts>)。
+来源：[src/types/draggable-state.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dnd/src/types/draggable-state.ts>)。
 
 
 ### types-moveable
@@ -256,7 +256,7 @@ export type MoveableOptions = {
 };
 ```
 
-来源：[src/types/moveable-options.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dnd/src/types/moveable-options.ts>)。
+来源：[src/types/moveable-options.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dnd/src/types/moveable-options.ts>)。
 
 ```ts
 export type MoveableState = {
@@ -282,13 +282,13 @@ export type MoveableState = {
 };
 ```
 
-来源：[src/types/moveable-state.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dnd/src/types/moveable-state.ts>)。
+来源：[src/types/moveable-state.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dnd/src/types/moveable-state.ts>)。
 
 ```ts
 export type MoveableStrategy = 'position' | 'transform' | 'scroll' | 'none';
 ```
 
-来源：[src/types/moveable-strategy.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dnd/src/types/moveable-strategy.ts>)。
+来源：[src/types/moveable-strategy.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dnd/src/types/moveable-strategy.ts>)。
 
 ```ts
 export interface DistanceRect {
@@ -299,7 +299,7 @@ export interface DistanceRect {
 }
 ```
 
-来源：[src/types/edge-detection.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dnd/src/types/edge-detection.ts>)。
+来源：[src/types/edge-detection.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dnd/src/types/edge-detection.ts>)。
 
 
 ### types-resizable
@@ -335,7 +335,7 @@ export type ResizableOptions = {
 };
 ```
 
-来源：[src/types/resizable-option.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dnd/src/types/resizable-option.ts>)。
+来源：[src/types/resizable-option.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dnd/src/types/resizable-option.ts>)。
 
 ```ts
 export type ResizableDirection = 'n' | 'e' | 's' | 'w' | 'ne' | 'nw' | 'se' | 'sw';
@@ -351,7 +351,7 @@ export type ResizableState = {
 };
 ```
 
-来源：[src/types/resizable-state.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dnd/src/types/resizable-state.ts>)。
+来源：[src/types/resizable-state.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dnd/src/types/resizable-state.ts>)。
 
 ## recipes
 
@@ -363,5 +363,5 @@ export type ResizableState = {
 
 ## references
 
-- [包入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dnd/package.json>)
-- [公开导出](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dnd/src/main.ts>)
+- [包入口](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dnd/package.json>)
+- [公开导出](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dnd/src/main.ts>)

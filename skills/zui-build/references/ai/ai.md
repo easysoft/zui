@@ -4,7 +4,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。本技能内置运行版本为 3.0.0；即使版本号相同，也不能据此推定 API 一致。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-来源基线：`1c40b549c79612d1337bfd8f40f74498f1d89177`；源码包含未提交变更：否。[完整清单](manifest.json)。
+来源基线：`b9ff8a6070382039ef110dd01ed6b34318bc63fc`；源码包含未提交变更：是，在线出处仅代表提交基线，随包文档对应清单中的内容摘要。[完整清单](manifest.json)。
 
 ## 离线读取
 
@@ -20,7 +20,7 @@ node <skill-root>/references/ai/read.mjs --lib menu --section constraints --runt
 
 ## 文档覆盖
 
-已发现 66 个内置库，66 个具有结构有效的使用参考，0 个缺少参考。仅收录内置库，不包含本机 exts。
+已发现 65 个内置库，65 个具有结构有效的使用参考，0 个缺少参考。仅收录内置库，不包含本机 exts。
 
 状态按清单分别标记：`wip` 表示默认全量构建排除；`separately` 表示独立使用、默认全量构建排除；`notReady` 表示使用 `--exclude-not-ready` 时排除。未标记不等于已完成所有运行验收。
 
@@ -1133,29 +1133,6 @@ node <skill-root>/references/ai/read.mjs --lib menu --section constraints --runt
 - [DTableLayout / DTableColsLayout 及布局类型](lib/dtable/ai.md#types-layout)（types）：计算后的表格几何结构。
 - [DTableState / DTablePointerInfo / DTableEventListener](lib/dtable/ai.md#types-state-events)（types）：滚动状态与事件参数。
 - [DTablePlugin / DTablePluginTypes / DTableWithPlugin 及泛型辅助类型](lib/dtable/ai.md#types-plugins)（types）：插件选项、方法、生命周期和依赖的类型组合。
-
-### kanban
-
-包：`@zui/kanban`；状态：无额外构建标记。
-
-[使用参考](lib/kanban/ai.md) — 提供按列泳道组织的单看板、多看板和分区，支持拖放、选择、异步加载及连接线。
-
-关键词：看板、Kanban、泳道、拖放、连接线、任务卡片。
-
-- [Kanban / KanbanList](lib/kanban/ai.md#vanilla-kanban)（vanilla）：创建单看板或多个看板容器。
-- [Kanban](lib/kanban/ai.md#preact-kanban)（preact）：管理单看板的数据、选择、拖放和连接线。
-- [KanbanList](lib/kanban/ai.md#preact-kanban-list)（preact）：组合看板或分区，并管理平移与跨看板连接。
-- [KanbanRegion](lib/kanban/ai.md#preact-kanban-region)（preact）：带标题和折叠状态的看板分区。
-- [看板、泳道、列和卡片部件](lib/kanban/ai.md#css-kanban-layout)（css / js-component）：配合 Kanban 计算的数据与布局。
-- [拖放、分区与连接线部件](lib/kanban/ai.md#css-kanban-interaction)（css / js-component）：配合交互控制的状态与覆盖层。
-- [看板变量](lib/kanban/ai.md#css-kanban-vars)（css-variables）：默认在 .kanban 和 .kanban-list 节点声明，props 可覆盖为内联值。
-- [KanbanDataset / KanbanData / KanbanItem / KanbanDataMap](lib/kanban/ai.md#types-kanban-data)（types）：看板的数据模型与查询结构。
-- [KanbanProps](lib/kanban/ai.md#types-kanban-props)（types）：单看板完整配置，继承 HElementProps。
-- [KanbanColOptions / KanbanLaneOptions](lib/kanban/ai.md#types-kanban-structure)（types）：列和泳道的完整选项。
-- [KanbanLinkOptions 与拖放类型](lib/kanban/ai.md#types-kanban-links)（types）：连接端点、外观及交互回调载荷。
-- [KanbanListProps / KanbanRegionProps](lib/kanban/ai.md#types-kanban-containers)（types）：多看板容器与分区配置。
-- [看板渲染与状态类型](lib/kanban/ai.md#types-kanban-view-contracts)（types）：公开类型服务于扩展和回调，不代表同名内部视图全部可独立导入。
-- [保存业务变更后更新看板](lib/kanban/ai.md#recipe-kanban-update)（recipes）：调用公开方法合并数据，并保留回滚快照。
 
 ### tabs
 

@@ -1340,52 +1340,6 @@ importers:
         specifier: workspace:*
         version: link:../../dev
 
-  lib/kanban:
-    dependencies:
-      '@zui/cards':
-        specifier: workspace:^3.1.0
-        version: link:../cards
-      '@zui/common-list':
-        specifier: workspace:^3.1.0
-        version: link:../common-list
-      '@zui/core':
-        specifier: workspace:^3.1.0
-        version: link:../core
-      '@zui/css-icons':
-        specifier: workspace:^3.1.0
-        version: link:../css-icons
-      '@zui/dnd':
-        specifier: workspace:^3.1.0
-        version: link:../dnd
-      '@zui/helpers':
-        specifier: workspace:^3.1.0
-        version: link:../helpers
-      '@zui/list':
-        specifier: workspace:^3.1.0
-        version: link:../list
-      '@zui/menu':
-        specifier: workspace:^3.1.0
-        version: link:../menu
-      '@zui/scrollbar':
-        specifier: workspace:^3.1.0
-        version: link:../scrollbar
-      '@zui/toolbar':
-        specifier: workspace:^3.1.0
-        version: link:../toolbar
-    devDependencies:
-      '@zui/button':
-        specifier: workspace:^3.1.0
-        version: link:../button
-      '@zui/checkbox':
-        specifier: workspace:^3.1.0
-        version: link:../checkbox
-      '@zui/dropdown':
-        specifier: workspace:^3.1.0
-        version: link:../dropdown
-      zui-dev:
-        specifier: workspace:^3.1.0
-        version: link:../../dev
-
   lib/label:
     devDependencies:
       '@zui/base':

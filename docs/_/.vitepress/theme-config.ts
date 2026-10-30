@@ -208,7 +208,7 @@ function createSidebar() {
         {text: '基础控件', section: 'controls', libs: ['button', 'btn-group', 'copy-btn', 'label', 'avatar', 'avatar-group', 'time-span', 'typography']},
         {text: '表单与输入', section: 'forms', libs: ['search-box', 'color-picker', 'file-selector', 'upload', 'upload-imgs']},
         {text: '导航与菜单', section: 'navigation', libs: ['breadcrumb', 'contextmenu', 'dropdown', 'menu', 'nav', 'responsive-nav', 'tabs', 'toolbar', 'tree']},
-        {text: '数据展示', section: 'data', libs: ['calendar', 'cards', 'common-list', 'dtable', 'file-list', 'kanban', 'list', 'pager', 'table', 'virtualize']},
+        {text: '数据展示', section: 'data', libs: ['calendar', 'cards', 'common-list', 'dtable', 'file-list', 'list', 'pager', 'table', 'virtualize']},
         {text: '布局与交互', section: 'interaction', libs: ['collapsible', 'dashboard', 'dnd', 'panel', 'scrollbar', 'sidebar', 'sortable', 'split']},
         {text: '反馈与浮层', section: 'feedback', libs: ['alert', 'messager', 'modal', 'popover', 'progress', 'progress-circle', 'tooltip']},
         {text: '其他组件', section: 'components', libs: []},

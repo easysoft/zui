@@ -63,7 +63,7 @@ console.log(table.$?.getCellValue('1', 'title'));
 // 页面卸载：table.destroy(); host.remove();
 ```
 
-来源：[原生入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/vanilla/index.ts>)。
+来源：[原生入口](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/vanilla/index.ts>)。
 
 ## preact
 
@@ -126,7 +126,7 @@ render(<DTable height={240} cols={[{name: 'title', title: '标题', flex: 1}]} d
 // 页面卸载：render(null, host); host.remove();
 ```
 
-来源：[视图](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/components/dtable.tsx>)、[默认配置](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/helpers/default-options.ts>)。
+来源：[视图](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/components/dtable.tsx>)、[默认配置](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/helpers/default-options.ts>)。
 
 
 ### preact-table-parts
@@ -151,7 +151,7 @@ workspace/TSX：`import {Cell} from '@zui/dtable/react';`，在提供 CellsProps
 {"name": "dtable 及布局部件", "summary": "数据表格的根节点和虚拟布局结构。", "role": "js-component"}
 ```
 
-JS 生成根 .dtable，布局部件 .dtable-table/.dtable-block/.dtable-header/.dtable-body/.dtable-footer/.dtable-cells/.dtable-cells-container/.dtable-cell/.dtable-cell-content/.dtable-header-cell/.dtable-empty-tip；固定区 .dtable-fixed-left/.dtable-fixed-right；滚动阴影 .dtable-scroll-shadow。几何来自内联布局，不适合独立写 div 模拟。根示例见 DTable 构造器。来源：[布局样式](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/style/layout.css>)。
+JS 生成根 .dtable，布局部件 .dtable-table/.dtable-block/.dtable-header/.dtable-body/.dtable-footer/.dtable-cells/.dtable-cells-container/.dtable-cell/.dtable-cell-content/.dtable-header-cell/.dtable-empty-tip；固定区 .dtable-fixed-left/.dtable-fixed-right；滚动阴影 .dtable-scroll-shadow。几何来自内联布局，不适合独立写 div 模拟。根示例见 DTable 构造器。来源：[布局样式](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/style/layout.css>)。
 
 
 ### css-dtable-helpers
@@ -187,7 +187,7 @@ JS 生成根 .dtable，布局部件 .dtable-table/.dtable-block/.dtable-header/.
 | --dtable-checked-border | var(--color-border-strong) | :root 勾选边框 | .dtable 或 :root |
 | --dtable-nt-size | calc((var(--font-size-root) * 3 / 4) + 1px) | nested 的 :root 声明；当前样式未消费 | 不作为有效缩进设置，使用 nestedIndent |
 
-例如 `.dtable {--dtable-header-bg:var(--color-canvas);--dtable-checked-bg:#fff7df}`。本地 .dtable 声明覆盖祖先值，不能统一只在 :root 改全部变量。来源：[基础变量](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/style/vars.css>)、[勾选](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/plugins/checkable/style.css>)、[嵌套](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/plugins/nested/style.css>)。
+例如 `.dtable {--dtable-header-bg:var(--color-canvas);--dtable-checked-bg:#fff7df}`。本地 .dtable 声明覆盖祖先值，不能统一只在 :root 改全部变量。来源：[基础变量](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/style/vars.css>)、[勾选](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/plugins/checkable/style.css>)、[嵌套](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/plugins/nested/style.css>)。
 
 ## javascript
 
@@ -215,7 +215,7 @@ const table = new DTable(host, {plugins: [checkable, pager], cols: [{name: 'id',
 // 页面卸载：table.destroy(); host.remove();
 ```
 
-来源：[共享注册器](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/helpers/shared-plugins.ts>)、[聚合入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/plugins/index.ts>)。
+来源：[共享注册器](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/helpers/shared-plugins.ts>)、[聚合入口](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/plugins/index.ts>)。
 
 
 ### javascript-plugin-rich
@@ -279,7 +279,7 @@ export type DTableRichTypes = {
 export type DTableRich = DTableWithPlugin<DTableRichTypes>;
 ```
 
-来源：[插件实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/plugins/rich/index.tsx>)。
+来源：[插件实现](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/plugins/rich/index.tsx>)。
 
 
 ### javascript-plugin-sort
@@ -328,7 +328,7 @@ export type DTableSortTypes = {
 export type DTableSort = DTableWithPlugin<DTableSortTypes>;
 ```
 
-来源：[插件实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/plugins/sort/index.tsx>)。
+来源：[插件实现](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/plugins/sort/index.tsx>)。
 
 
 ### javascript-plugin-custom
@@ -375,7 +375,7 @@ export type DTableCustomTypes = {
 export type DTableCustom = DTableWithPlugin<DTableCustomTypes>;
 ```
 
-来源：[插件实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/plugins/custom/index.tsx>)。
+来源：[插件实现](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/plugins/custom/index.tsx>)。
 
 
 ### javascript-plugin-checkable
@@ -426,7 +426,7 @@ export interface DTableCheckableTypes {
 export type DTableCheckable = DTableWithPlugin<DTableCheckableTypes>;
 ```
 
-来源：[插件实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/plugins/checkable/index.tsx>)。
+来源：[插件实现](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/plugins/checkable/index.tsx>)。
 
 
 ### javascript-plugin-nested
@@ -491,7 +491,7 @@ export type DTableNestedDependencies = [DTableSortableTypes, DTableCheckableType
 export type DTableNested = DTableWithPlugin<DTableNestedTypes, DTableNestedDependencies>;
 ```
 
-来源：[插件实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/plugins/nested/index.tsx>)。
+来源：[插件实现](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/plugins/nested/index.tsx>)。
 
 
 ### javascript-plugin-avatar
@@ -521,7 +521,7 @@ export type DTableAvatarTypes = {
 export type DTableAvatar = DTableWithPlugin<DTableAvatarTypes>;
 ```
 
-来源：[插件实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/plugins/avatar/index.tsx>)。
+来源：[插件实现](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/plugins/avatar/index.tsx>)。
 
 
 ### javascript-plugin-sort-type
@@ -556,7 +556,7 @@ export type DTableSortTypeTypes = {
 export type DTableSortType = DTableWithPlugin<DTableSortTypeTypes, [DTableSortTypes]>;
 ```
 
-来源：[插件实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/plugins/sort-type/index.tsx>)。
+来源：[插件实现](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/plugins/sort-type/index.tsx>)。
 
 
 ### javascript-plugin-group
@@ -580,7 +580,7 @@ export type DTableGroupTypes = {
 };
 ```
 
-来源：[插件实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/plugins/group/index.tsx>)。
+来源：[插件实现](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/plugins/group/index.tsx>)。
 
 
 ### javascript-plugin-header-group
@@ -614,7 +614,7 @@ export type DTableHeaderGroupTypes = {
 };
 ```
 
-来源：[插件实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/plugins/header-group/index.tsx>)。
+来源：[插件实现](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/plugins/header-group/index.tsx>)。
 
 
 ### javascript-plugin-cellspan
@@ -671,7 +671,7 @@ export type DTableCellSpanTypes = {
 export type DTableCellSpan = DTableWithPlugin<DTableCellSpanTypes>;
 ```
 
-来源：[插件实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/plugins/cellspan/index.ts>)。
+来源：[插件实现](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/plugins/cellspan/index.ts>)。
 
 
 ### javascript-plugin-sortable
@@ -729,7 +729,7 @@ export type DTableSortableTypes = {
 export type DTableSortable = DTableWithPlugin<DTableSortableTypes, [DTableMousemoveTypes, DTableAutoscrollTypes]>;
 ```
 
-来源：[插件实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/plugins/sortable/index.tsx>)。
+来源：[插件实现](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/plugins/sortable/index.tsx>)。
 
 
 ### javascript-plugin-pager
@@ -758,7 +758,7 @@ export interface DTablePagerTypes {
 export type DTablePager = DTableWithPlugin<DTablePagerTypes>;
 ```
 
-来源：[插件实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/plugins/pager/index.tsx>)。
+来源：[插件实现](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/plugins/pager/index.tsx>)。
 
 ## types
 
@@ -837,7 +837,7 @@ export interface DTableOptions<C = ColSetting> extends DTableDataOptions<C>, DTa
 }
 ```
 
-来源：[src/types/options.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/types/options.ts>)。
+来源：[src/types/options.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/types/options.ts>)。
 
 
 ### types-rows-columns
@@ -863,7 +863,7 @@ export type RowInfo = {
 };
 ```
 
-来源：[src/types/row.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/types/row.ts>)。
+来源：[src/types/row.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/types/row.ts>)。
 
 ```ts
 export type ColName = string;
@@ -914,7 +914,7 @@ export type ColSetting<S = object> = S & {
 }>;
 ```
 
-来源：[src/types/col.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/types/col.ts>)。
+来源：[src/types/col.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/types/col.ts>)。
 
 
 ### types-rendering
@@ -965,7 +965,7 @@ export type CellsProps = {
 };
 ```
 
-来源：[src/types/cell.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/types/cell.ts>)。
+来源：[src/types/cell.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/types/cell.ts>)。
 
 ```ts
 export type BlockProps = {
@@ -984,7 +984,7 @@ export type BlockProps = {
 };
 ```
 
-来源：[src/types/block-props.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/types/block-props.ts>)。
+来源：[src/types/block-props.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/types/block-props.ts>)。
 
 ```ts
 export type ClassNameLike = import('@zui/core').ClassNameLike;
@@ -994,7 +994,7 @@ export type CustomRenderResultGenerator<T extends unknown[] = unknown[], THIS = 
 export type CustomRenderResultList<T extends unknown[] = unknown[], THIS = DTable> = import('@zui/core').CustomRenderResultList<T, THIS>;
 ```
 
-来源：[src/types/common.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/types/common.ts>)。
+来源：[src/types/common.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/types/common.ts>)。
 
 
 ### types-layout
@@ -1048,7 +1048,7 @@ export type DTableLayout = {
 };
 ```
 
-来源：[src/types/layout.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/types/layout.ts>)。
+来源：[src/types/layout.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/types/layout.ts>)。
 
 
 ### types-state-events
@@ -1077,7 +1077,7 @@ export type DTablePointerInfo = {
 };
 ```
 
-来源：[src/types/dtable.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/types/dtable.ts>)。
+来源：[src/types/dtable.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/types/dtable.ts>)。
 
 
 ### types-plugins
@@ -1167,7 +1167,7 @@ export interface DTablePluginDefineOptions {
 }
 ```
 
-来源：[src/types/plugin.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/types/plugin.ts>)。
+来源：[src/types/plugin.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/types/plugin.ts>)。
 
 ```ts
 export type UnionToIntersection<U>
@@ -1180,7 +1180,7 @@ export type MergeUnionTypes<U> = MergeIntersectionTypes<UnionToIntersection<U>>;
 export type PickPropType<T, P> = P extends keyof T ? T[P] : object;
 ```
 
-来源：[src/types/helper.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/types/helper.ts>)。
+来源：[src/types/helper.ts](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/types/helper.ts>)。
 
 ## recipes
 
@@ -1192,7 +1192,7 @@ export type PickPropType<T, P> = P extends keyof T ? T[P] : object;
 
 ## references
 
-- [元数据与入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/src/main.ts>)
-- [官网文档](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/docs/lib/components/index.md>)
-- [插件文档](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/dtable/docs/lib/components/plugins.md>)
+- [元数据与入口](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/src/main.ts>)
+- [官网文档](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/docs/lib/components/index.md>)
+- [插件文档](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/dtable/docs/lib/components/plugins.md>)

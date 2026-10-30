@@ -24,9 +24,9 @@ name 设置时生成隐藏字段，或同步已存在的同 id input；PickTrigg
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/pick`](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/src/main.ts>) 公开原生组件和相应类型。
+主入口 [`@zui/pick`](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/src/main.ts>) 公开原生组件和相应类型。
 
-Preact 入口 [`@zui/pick/react`](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
+Preact 入口 [`@zui/pick/react`](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/pick` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -60,7 +60,7 @@ const instance = new Pick(host, {name: 'value', defaultValue: '示例值'});
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[Pick](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/src/vanilla/pick.ts>)。
+来源：[Pick](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/src/vanilla/pick.ts>)。
 
 ## preact
 
@@ -121,7 +121,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[Pick](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/src/components/pick.tsx>)。
+来源：[Pick](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/src/components/pick.tsx>)。
 
 ### preact-pick-pop
 
@@ -158,7 +158,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[PickPop](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/src/components/pick-pop.tsx>)。
+来源：[PickPop](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/src/components/pick-pop.tsx>)。
 
 ### preact-pick-trigger
 
@@ -193,7 +193,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[PickTrigger](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/src/components/pick-trigger.tsx>)。
+来源：[PickTrigger](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/src/components/pick-trigger.tsx>)。
 
 ## web-components
 
@@ -214,7 +214,7 @@ const dispose = mountExample();
 | `.pick-container` | 绝对定位；`left-0`（内部样式）；`top-0`（内部样式）；`z-overlay`（内部样式）；忽略指针命中 |
 | `.pick-pop` | Flex 布局；纵向布局；绝对定位；`z-dropdown`（内部样式）；透明；`transition-opacity`（内部样式）；`pointer-events-auto`（内部样式） |
 
-来源：[src/style/pick.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/src/style/pick.css>)。最小结构由前面的组件示例生成。
+来源：[src/style/pick.css](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/src/style/pick.css>)。最小结构由前面的组件示例生成。
 
 ### css-modifiers
 
@@ -250,7 +250,7 @@ import {EVENT_PICK} from '@zui/pick/react';
 console.log(typeof EVENT_PICK); // symbol
 ```
 
-来源：[PickTrigger](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/src/components/pick-trigger.tsx>)。
+来源：[PickTrigger](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/src/components/pick-trigger.tsx>)。
 
 ## types
 
@@ -314,7 +314,7 @@ export interface PickOptions<S extends PickState = PickState> {
 }
 ```
 
-来源：[PickOptions](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/src/types/pick-options.ts>)。
+来源：[PickOptions](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/src/types/pick-options.ts>)。
 
 ### types-pick-state
 
@@ -331,7 +331,7 @@ export interface PickState {
 }
 ```
 
-来源：[PickState](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/src/types/pick-state.ts>)。
+来源：[PickState](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/src/types/pick-state.ts>)。
 
 ### types-picker-state-changer
 
@@ -345,7 +345,7 @@ export interface PickState {
 export type PickerStateChanger<S extends PickState = PickState> = (state: Partial<S> | ((prevState: S) => Partial<S>), callback?: () => void) => Promise<S>;
 ```
 
-来源：[PickerStateChanger](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/src/types/pick-state.ts>)。
+来源：[PickerStateChanger](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/src/types/pick-state.ts>)。
 
 ### types-pick-pop-props
 
@@ -389,7 +389,7 @@ export interface PickPopProps<S extends PickState = PickState> {
 }
 ```
 
-来源：[PickPopProps](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/src/types/pick-pop-props.ts>)。
+来源：[PickPopProps](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/src/types/pick-pop-props.ts>)。
 
 ### types-pick-trigger-props
 
@@ -425,7 +425,7 @@ export interface PickTriggerProps<S extends PickState = PickState> {
 }
 ```
 
-来源：[PickTriggerProps](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/src/types/pick-trigger-props.ts>)。
+来源：[PickTriggerProps](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/src/types/pick-trigger-props.ts>)。
 
 ### types-pick-pop-layout
 
@@ -444,7 +444,7 @@ export type PickPopLayout = {
 };
 ```
 
-来源：[PickPopLayout](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/src/types/pick-pop-layout.ts>)。
+来源：[PickPopLayout](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/src/types/pick-pop-layout.ts>)。
 
 ### types-pick-pop-placement
 
@@ -458,7 +458,7 @@ export type PickPopLayout = {
 export type PickPopPlacement = Placement | 'auto';
 ```
 
-来源：[PickPopPlacement](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/src/types/pick-pop-placement.ts>)。
+来源：[PickPopPlacement](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/src/types/pick-pop-placement.ts>)。
 
 ## recipes
 
@@ -476,9 +476,9 @@ name 设置时生成隐藏字段，或同步已存在的同 id input；PickTrigg
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/src/main.ts>)
-- [Preact 入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/src/main-react.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/pick/docs/lib/forms/index.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/src/main.ts>)
+- [Preact 入口](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/src/main-react.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/pick/docs/lib/forms/index.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/.agents/skills/zui-standards/references/consumption.md>)

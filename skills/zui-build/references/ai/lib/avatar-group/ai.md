@@ -97,7 +97,7 @@ browser（已加载本库 CSS）：
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/avatar-group/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/avatar-group/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/avatar-group/docs/lib/components/index.md>)
-- [源码 src/vars.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/avatar-group/src/vars.css>)
+- [包元数据](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/avatar-group/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/avatar-group/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/avatar-group/docs/lib/components/index.md>)
+- [源码 src/vars.css](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/avatar-group/src/vars.css>)
