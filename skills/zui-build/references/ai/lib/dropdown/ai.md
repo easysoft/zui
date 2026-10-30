@@ -22,9 +22,9 @@
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/dropdown`](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/dropdown/src/main.ts>) 公开原生组件和相应类型。
+主入口 [`@zui/dropdown`](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/dropdown/src/main.ts>) 公开原生组件和相应类型。
 
-Preact 入口 [`@zui/dropdown/react`](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/dropdown/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
+Preact 入口 [`@zui/dropdown/react`](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/dropdown/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/dropdown` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -80,7 +80,7 @@ const instance = new Dropdown(host, {items: [{text: '刷新', onClick: () => con
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[Dropdown](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/dropdown/src/vanilla/dropdown.ts>)。
+来源：[Dropdown](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/dropdown/src/vanilla/dropdown.ts>)。
 
 ## preact
 
@@ -125,7 +125,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[DropdownButton](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/dropdown/src/component/dropdown-button.tsx>)。
+来源：[DropdownButton](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/dropdown/src/component/dropdown-button.tsx>)。
 
 ### preact-dropdown-menu
 
@@ -177,7 +177,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[DropdownMenu](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/dropdown/src/component/dropdown-menu.tsx>)。
+来源：[DropdownMenu](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/dropdown/src/component/dropdown-menu.tsx>)。
 
 ## web-components
 
@@ -203,7 +203,7 @@ const dispose = mountExample();
 | `.dropdown > .menu-wrapper .menu-wrapper` | 绝对定位 |
 | `.dropdown > .arrow` | `bg-canvas`（内部样式） |
 
-来源：[src/style/dropdown.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/dropdown/src/style/dropdown.css>)。最小结构由前面的组件示例生成。
+来源：[src/style/dropdown.css](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/dropdown/src/style/dropdown.css>)。最小结构由前面的组件示例生成。
 
 ### css-modifiers
 
@@ -268,7 +268,7 @@ export interface DropdownMenuOptions extends SearchMenuOptions {
 }
 ```
 
-来源：[DropdownMenuOptions](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/dropdown/src/types/dropdown-menu-options.ts>)。
+来源：[DropdownMenuOptions](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/dropdown/src/types/dropdown-menu-options.ts>)。
 
 ### types-dropdown-options
 
@@ -289,7 +289,7 @@ export type DropdownOptions = PopoverOptions & {
 };
 ```
 
-来源：[DropdownOptions](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/dropdown/src/types/dropdown-options.ts>)。
+来源：[DropdownOptions](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/dropdown/src/types/dropdown-options.ts>)。
 
 ### types-dropdown-button-options
 
@@ -311,7 +311,7 @@ export interface DropdownButtonOptions extends ButtonProps {
 }
 ```
 
-来源：[DropdownButtonOptions](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/dropdown/src/types/dropdown-button-options.ts>)。
+来源：[DropdownButtonOptions](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/dropdown/src/types/dropdown-button-options.ts>)。
 
 ## recipes
 
@@ -327,9 +327,9 @@ export interface DropdownButtonOptions extends ButtonProps {
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/dropdown/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/dropdown/src/main.ts>)
-- [Preact 入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/dropdown/src/main-react.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/dropdown/docs/lib/components/index.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/dropdown/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/dropdown/src/main.ts>)
+- [Preact 入口](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/dropdown/src/main-react.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/dropdown/docs/lib/components/index.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/.agents/skills/zui-standards/references/consumption.md>)

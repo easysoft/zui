@@ -20,7 +20,7 @@
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/contextmenu`](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/contextmenu/src/main.ts>) 公开原生组件和相应类型。
+主入口 [`@zui/contextmenu`](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/contextmenu/src/main.ts>) 公开原生组件和相应类型。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/contextmenu` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -70,7 +70,7 @@ const instance = new ContextMenu(host, {items: [{text: '刷新', onClick: () => 
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[ContextMenu](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/contextmenu/src/vanilla/contextmenu.ts>)。
+来源：[ContextMenu](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/contextmenu/src/vanilla/contextmenu.ts>)。
 
 ## preact
 
@@ -95,7 +95,7 @@ const instance = new ContextMenu(host, {items: [{text: '刷新', onClick: () => 
 | `.contextmenu` | 隐藏 |
 | `.contextmenu.popup, .contextmenu .popup .popup` | 绝对定位 |
 
-来源：[src/style/contextmenu.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/contextmenu/src/style/contextmenu.css>)。最小结构由前面的组件示例生成。
+来源：[src/style/contextmenu.css](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/contextmenu/src/style/contextmenu.css>)。最小结构由前面的组件示例生成。
 
 ### css-modifiers
 
@@ -134,7 +134,7 @@ const instance = new ContextMenu(host, {items: [{text: '刷新', onClick: () => 
 export type ContextMenuOptions = DropdownOptions;
 ```
 
-来源：[ContextMenuOptions](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/contextmenu/src/types/contextmenu-options.ts>)。
+来源：[ContextMenuOptions](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/contextmenu/src/types/contextmenu-options.ts>)。
 
 ## recipes
 
@@ -148,8 +148,8 @@ export type ContextMenuOptions = DropdownOptions;
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/contextmenu/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/contextmenu/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/contextmenu/docs/lib/components/index.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/contextmenu/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/contextmenu/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/contextmenu/docs/lib/components/index.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/.agents/skills/zui-standards/references/consumption.md>)

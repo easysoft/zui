@@ -24,9 +24,9 @@ schema 更新会重新协调字段而保留可用数据；setSchemaByPath 默认
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/form-builder`](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/main.ts>) 公开原生组件和相应类型。
+主入口 [`@zui/form-builder`](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/main.ts>) 公开原生组件和相应类型。
 
-Preact 入口 [`@zui/form-builder/react`](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
+Preact 入口 [`@zui/form-builder/react`](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/form-builder` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -58,7 +58,7 @@ const instance = new FormBuilder(host, {schema: {type: 'object', properties: {ti
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[FormBuilder](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/vanilla/form-builder.ts>)。
+来源：[FormBuilder](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/vanilla/form-builder.ts>)。
 
 ## preact
 
@@ -120,7 +120,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[FormBuilder](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/components/form-builder.tsx>)。
+来源：[FormBuilder](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/components/form-builder.tsx>)。
 
 ## web-components
 
@@ -154,7 +154,7 @@ const dispose = mountExample();
 | `.form-builder-items.form-column` | 纵向布局 |
 | `.form-builder-items.form-column > .form-builder-item` | `w-[var(--form-item-width,100%)]`（内部样式） |
 
-来源：[src/style/vars.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/style/vars.css>), [src/style/form-builder.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/style/form-builder.css>)。最小结构由前面的组件示例生成。
+来源：[src/style/vars.css](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/style/vars.css>), [src/style/form-builder.css](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/style/form-builder.css>)。最小结构由前面的组件示例生成。
 
 ### css-modifiers
 
@@ -195,7 +195,7 @@ const dispose = mountExample();
 export type FormWidgetType = typeof Component | ComponentType | string;
 ```
 
-来源：[FormWidgetType](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/form-builder-options.ts>)。
+来源：[FormWidgetType](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/form-builder-options.ts>)。
 
 ### types-form-widget-value-change-handler
 
@@ -209,7 +209,7 @@ export type FormWidgetType = typeof Component | ComponentType | string;
 export type FormWidgetValueChangeHandler = (value: unknown) => unknown;
 ```
 
-来源：[FormWidgetValueChangeHandler](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/form-builder-options.ts>)。
+来源：[FormWidgetValueChangeHandler](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/form-builder-options.ts>)。
 
 ### types-form-widget-setting
 
@@ -223,7 +223,7 @@ export type FormWidgetValueChangeHandler = (value: unknown) => unknown;
 export type FormWidgetSetting = [component: FormWidgetType, props?: Record<string, unknown>, onChange?: FormWidgetValueChangeHandler];
 ```
 
-来源：[FormWidgetSetting](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/form-builder-options.ts>)。
+来源：[FormWidgetSetting](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/form-builder-options.ts>)。
 
 ### types-form-widget-setting-definition
 
@@ -237,7 +237,7 @@ export type FormWidgetSetting = [component: FormWidgetType, props?: Record<strin
 export type FormWidgetSettingDefinition = string | FormWidgetSetting | (((schemaInfo: Omit<FieldSchemaInfo, 'widget'>, formBuilder: FormBuilder) => string | FormWidgetSetting));
 ```
 
-来源：[FormWidgetSettingDefinition](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/form-builder-options.ts>)。
+来源：[FormWidgetSettingDefinition](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/form-builder-options.ts>)。
 
 ### types-form-widget-map
 
@@ -251,7 +251,7 @@ export type FormWidgetSettingDefinition = string | FormWidgetSetting | (((schema
 export type FormWidgetMap = Record<string, FormWidgetSettingDefinition>;
 ```
 
-来源：[FormWidgetMap](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/form-builder-options.ts>)。
+来源：[FormWidgetMap](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/form-builder-options.ts>)。
 
 ### types-form-builder-options
 
@@ -310,7 +310,7 @@ export interface FormBuilderOptions extends HElementProps {
 }
 ```
 
-来源：[FormBuilderOptions](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/form-builder-options.ts>)。
+来源：[FormBuilderOptions](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/form-builder-options.ts>)。
 
 ### types-jsonschema-type
 
@@ -330,7 +330,7 @@ export type JSONSchemaType = 'string'
     | 'map';
 ```
 
-来源：[JSONSchemaType](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[JSONSchemaType](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-form-validate-rule
 
@@ -349,7 +349,7 @@ export type FormValidateRule = {
 };
 ```
 
-来源：[FormValidateRule](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[FormValidateRule](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-form-extra
 
@@ -363,7 +363,7 @@ export type FormValidateRule = {
 export type FormExtra = string | CustomContentType;
 ```
 
-来源：[FormExtra](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[FormExtra](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-form-grid-width
 
@@ -377,7 +377,7 @@ export type FormExtra = string | CustomContentType;
 export type FormGridWidth = 'full' | `${number}/${number}` | `${number}px` | `${number}%` | number;
 ```
 
-来源：[FormGridWidth](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[FormGridWidth](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-form-display-type
 
@@ -391,7 +391,7 @@ export type FormGridWidth = 'full' | `${number}/${number}` | `${number}px` | `${
 export type FormDisplayType = 'vert' | 'horz' | 'inline';
 ```
 
-来源：[FormDisplayType](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[FormDisplayType](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-form-display-mode
 
@@ -405,7 +405,7 @@ export type FormDisplayType = 'vert' | 'horz' | 'inline';
 export type FormDisplayMode = 'column' | 'grid';
 ```
 
-来源：[FormDisplayMode](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[FormDisplayMode](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-form-validate-rule-pattern
 
@@ -419,7 +419,7 @@ export type FormDisplayMode = 'column' | 'grid';
 export type FormValidateRulePattern = string | {pattern: string; message?: string};
 ```
 
-来源：[FormValidateRulePattern](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[FormValidateRulePattern](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-base-schema
 
@@ -480,7 +480,7 @@ export interface BaseSchema<T = unknown> {
 }
 ```
 
-来源：[BaseSchema](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[BaseSchema](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-string-schema
 
@@ -506,7 +506,7 @@ export interface StringSchema extends BaseSchema<string> {
 }
 ```
 
-来源：[StringSchema](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[StringSchema](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-number-schema
 
@@ -526,7 +526,7 @@ export interface NumberSchema extends BaseSchema<number> {
 }
 ```
 
-来源：[NumberSchema](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[NumberSchema](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-integer-schema
 
@@ -546,7 +546,7 @@ export interface IntegerSchema extends BaseSchema<number> {
 }
 ```
 
-来源：[IntegerSchema](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[IntegerSchema](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-boolean-schema
 
@@ -562,7 +562,7 @@ export interface BooleanSchema extends BaseSchema<boolean> {
 }
 ```
 
-来源：[BooleanSchema](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[BooleanSchema](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-object-schema
 
@@ -588,7 +588,7 @@ export interface ObjectSchema extends BaseSchema<Record<string, unknown>> {
 }
 ```
 
-来源：[ObjectSchema](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[ObjectSchema](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-map-schema
 
@@ -608,7 +608,7 @@ export interface MapSchema extends BaseSchema<Record<string, unknown>> {
 }
 ```
 
-来源：[MapSchema](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[MapSchema](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-array-schema
 
@@ -632,7 +632,7 @@ export interface ArraySchema extends BaseSchema<unknown[]> {
 }
 ```
 
-来源：[ArraySchema](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[ArraySchema](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-jsonschema
 
@@ -646,7 +646,7 @@ export interface ArraySchema extends BaseSchema<unknown[]> {
 export type JSONSchema = StringSchema | NumberSchema | IntegerSchema | BooleanSchema | ObjectSchema | MapSchema | ArraySchema;
 ```
 
-来源：[JSONSchema](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[JSONSchema](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-jsonschema-types
 
@@ -668,7 +668,7 @@ export type JSONSchemaTypes = {
 };
 ```
 
-来源：[JSONSchemaTypes](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[JSONSchemaTypes](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-jsonschema-data-type
 
@@ -682,7 +682,7 @@ export type JSONSchemaTypes = {
 export type JSONSchemaDataType<T extends JSONSchema> = T extends BaseSchema<infer U> ? U : never;
 ```
 
-来源：[JSONSchemaDataType](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/json-schema.ts>)。
+来源：[JSONSchemaDataType](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/json-schema.ts>)。
 
 ### types-expression-or-value
 
@@ -696,7 +696,7 @@ export type JSONSchemaDataType<T extends JSONSchema> = T extends BaseSchema<infe
 export type ExpressionOrValue<T> = `{{${string}}}` | T;
 ```
 
-来源：[ExpressionOrValue](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/form-schema.ts>)。
+来源：[ExpressionOrValue](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/form-schema.ts>)。
 
 ### types-form-layout
 
@@ -717,7 +717,7 @@ export type FormLayout = {
 };
 ```
 
-来源：[FormLayout](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/form-schema.ts>)。
+来源：[FormLayout](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/form-schema.ts>)。
 
 ### types-form-schema
 
@@ -740,7 +740,7 @@ export interface FormSchema extends ObjectSchema {
 }
 ```
 
-来源：[FormSchema](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/form-schema.ts>)。
+来源：[FormSchema](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/form-schema.ts>)。
 
 ### types-field-schema-info
 
@@ -762,7 +762,7 @@ export type FieldSchemaInfo = {
 };
 ```
 
-来源：[FieldSchemaInfo](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/types/form-schema.ts>)。
+来源：[FieldSchemaInfo](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/types/form-schema.ts>)。
 
 ## recipes
 
@@ -780,9 +780,9 @@ schema 更新会重新协调字段而保留可用数据；setSchemaByPath 默认
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/main.ts>)
-- [Preact 入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/src/main-react.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/form-builder/docs/lib/forms/index.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/main.ts>)
+- [Preact 入口](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/src/main-react.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/form-builder/docs/lib/forms/index.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/.agents/skills/zui-standards/references/consumption.md>)

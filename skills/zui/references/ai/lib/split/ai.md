@@ -75,7 +75,7 @@ split.one('inited', () => console.log(split.getSizes()));
 </script>
 ```
 
-来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/split/src/vanilla/split.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/split/src/vanilla/split.ts>)。
 
 ## preact
 
@@ -116,7 +116,7 @@ JS 管理宿主 split-vert/split-horz/has-animation，分栏 is-collapsed，间�
 | --- | --- | --- | --- | --- |
 | --split-gutter-size | options.gutterSize + px（默认8px） | 分隔条宽度 | JS 写入宿主 | 配置 gutterSize，与上游几何同步 |
 
-主题色来自 base，不在本库重新定义。来源：[样式](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/split/src/style/split.css>)。
+主题色来自 base，不在本库重新定义。来源：[样式](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/split/src/style/split.css>)。
 
 ## javascript
 
@@ -147,7 +147,7 @@ export interface SplitOptions extends Omit<SplitJS.Options, 'sizes'> {
 }
 ```
 
-来源：[src/types/split-options.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/split/src/types/split-options.ts>)。
+来源：[src/types/split-options.ts](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/split/src/types/split-options.ts>)。
 
 ## recipes
 
@@ -159,8 +159,8 @@ export interface SplitOptions extends Omit<SplitJS.Options, 'sizes'> {
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/split/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/split/src/main.ts>)
-- [类型](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/split/src/types/split-options.ts>)
-- [实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/split/src/vanilla/split.ts>)
-- [样式](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/split/src/style/split.css>)
+- [包元数据](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/split/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/split/src/main.ts>)
+- [类型](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/split/src/types/split-options.ts>)
+- [实现](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/split/src/vanilla/split.ts>)
+- [样式](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/split/src/style/split.css>)

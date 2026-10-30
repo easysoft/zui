@@ -4,8 +4,8 @@
     "kind": "source-snapshot",
     "repository": "https://github.com/easysoft/zui",
     "version": "3.1.0",
-    "revision": "c4c21db96c816bae14d178065ce59d2fbf8ea01d",
-    "contentHash": "sha256-b125b79bbebd1a801ad738136d20ebbf6cd42472353c66fbf507af55eb0e945c",
+    "revision": "9d2d0ebedb11d6ad944e110b9f0600f6c41505e5",
+    "contentHash": "sha256-9db931c3419e26c0fdc604db1205b78afc2e4a67281b5490b6f58c4cd0c26860",
     "modified": true
   },
   "compatibility": "verify-target-runtime",
@@ -14,5 +14,5 @@
     "manifest": "../../assets/vendor/zui-3.0.0/manifest.json",
     "integrity": "sha256-43dbf1b46d78b1e60cec14f45ecfed58557c78a23fe5b33d40f02f298d9f8f2c"
   },
-  "catalogIntegrity": "sha256-6a878bf85aeea2ff5f71ec83388e3f981e78e263a5f8fa2f04e0becd2ed51f79"
+  "catalogIntegrity": "sha256-9007aa1f38e116b009e0b35a344f6519b467e4d4c658866e4ed91c3a0fcf8c40"
 }

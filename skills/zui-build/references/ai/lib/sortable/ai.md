@@ -67,7 +67,7 @@ if (moduleClass) {
 }
 ```
 
-来源：[包装器](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/sortable/src/vanilla/sortable.ts>)。
+来源：[包装器](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/sortable/src/vanilla/sortable.ts>)。
 
 
 ### vanilla-sortable-list-tree
@@ -88,7 +88,7 @@ const list = new SortableList(host, {items: [{key: 'a', text: 'A'}, {key: 'b', t
 // 页面卸载：list.destroy(); host.remove();
 ```
 
-来源：[原生入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/sortable/src/vanilla/index.ts>)。
+来源：[原生入口](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/sortable/src/vanilla/index.ts>)。
 
 ## preact
 
@@ -129,7 +129,7 @@ render(<SortableList items={[{key: 'a', text: 'A'}, {key: 'b', text: 'B'}]} onSo
 {"name": "sortable-list", "summary": "可排序列表的内容和拖动影像样式。", "role": "js-component"}
 ```
 
-.sortable-list 内 .listitem 设置 padding、canvas 背景与 move cursor；.sortable-ghost > .listitem 标记占位为 warning-50。依赖 List 的生成结构，不能单独构造一个同名 div 得到列表行为；.sortable-tree 是树根标记，本库无专门匹配规则。示例见 Preact 条目。来源：[样式](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/sortable/src/style/sortable-list.css>)。
+.sortable-list 内 .listitem 设置 padding、canvas 背景与 move cursor；.sortable-ghost > .listitem 标记占位为 warning-50。依赖 List 的生成结构，不能单独构造一个同名 div 得到列表行为；.sortable-tree 是树根标记，本库无专门匹配规则。示例见 Preact 条目。来源：[样式](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/sortable/src/style/sortable-list.css>)。
 
 
 ### css-sortable-shadow
@@ -160,7 +160,7 @@ SortableJSOptions 是 sortablejs 的 Sortable.Options；SortableEvent 是底层�
 
 常用参数：group:string 或 {name,pull,put} 控制跨容器；sort:boolean 默认 true；disabled:boolean 默认 false；handle/draggable/filter 为 CSS selector；dataIdAttr 默认 data-id（List/Tree 改为 z-key）；animation:number 本包装默认150；ghostClass 默认 sortable-ghost，chosenClass 默认 sortable-chosen，dragClass 默认 sortable-drag；onStart/onEnd/onAdd/onUpdate/onRemove/onSort 回调接收 SortableEvent；onMove(event,originalEvent) 返回 boolean/-1/1/void 决定插入。事件包含 item/from/to、oldIndex/newIndex（可能 undefined）、clone。底层的完整扩展类型随依赖 sortablejs 版本提供，不推断插件已安装。
 
-workspace：`import type {SortableOptions, SortableEvent} from '@zui/sortable';`。来源：[扩展选项](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/sortable/src/types/sortable-options.ts>)、[类型别名](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/sortable/src/types/sortablejs.ts>)。
+workspace：`import type {SortableOptions, SortableEvent} from '@zui/sortable';`。来源：[扩展选项](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/sortable/src/types/sortable-options.ts>)、[类型别名](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/sortable/src/types/sortablejs.ts>)。
 
 
 ### types-sortable-views
@@ -177,7 +177,7 @@ export interface SortableListProps extends ListProps {
 }
 ```
 
-来源：[src/types/sortable-list-props.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/sortable/src/types/sortable-list-props.ts>)。
+来源：[src/types/sortable-list-props.ts](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/sortable/src/types/sortable-list-props.ts>)。
 
 ```ts
 export interface SortableTreeProps extends TreeOptions {
@@ -187,7 +187,7 @@ export interface SortableTreeProps extends TreeOptions {
 }
 ```
 
-来源：[src/types/sortable-tree-props.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/sortable/src/types/sortable-tree-props.ts>)。
+来源：[src/types/sortable-tree-props.ts](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/sortable/src/types/sortable-tree-props.ts>)。
 
 SortableListState 和 SortableTreeState 都是 ListState 别名。公共 ListProps、Item、ItemKey 见 [common-list 类型](../common-list/ai.md#types) 和 [List](../list/ai.md#types)，TreeOptions 见 [Tree](../tree/ai.md#types)。
 
@@ -201,6 +201,6 @@ SortableListState 和 SortableTreeState 都是 ListState 别名。公共 ListPro
 
 ## references
 
-- [包入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/sortable/package.json>)
-- [公开导出](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/sortable/src/main.ts>)
-- [资源加载器](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/sortable/src/helper/sortable-loader.ts>)
+- [包入口](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/sortable/package.json>)
+- [公开导出](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/sortable/src/main.ts>)
+- [资源加载器](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/sortable/src/helper/sortable-loader.ts>)

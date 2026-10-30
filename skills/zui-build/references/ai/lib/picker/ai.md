@@ -24,9 +24,9 @@ setValue/select/deselect/toggleValue/clear 走 beforeChange 和选项校验；on
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/picker`](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/main.ts>) 公开原生组件和相应类型。
+主入口 [`@zui/picker`](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/main.ts>) 公开原生组件和相应类型。
 
-Preact 入口 [`@zui/picker/react`](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
+Preact 入口 [`@zui/picker/react`](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/picker` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -58,7 +58,7 @@ const instance = new Picker(host, {name: 'choice', items: [{value: 'a', text: '�
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[Picker](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/vanilla/picker.ts>)。
+来源：[Picker](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/vanilla/picker.ts>)。
 
 ## preact
 
@@ -134,7 +134,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[Picker](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/component/picker.tsx>)。
+来源：[Picker](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/component/picker.tsx>)。
 
 ### preact-picker-single-select
 
@@ -169,7 +169,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[PickerSingleSelect](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/component/picker-single-select.tsx>)。
+来源：[PickerSingleSelect](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/component/picker-single-select.tsx>)。
 
 ### preact-picker-multi-select
 
@@ -204,7 +204,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[PickerMultiSelect](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/component/picker-multi-select.tsx>)。
+来源：[PickerMultiSelect](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/component/picker-multi-select.tsx>)。
 
 ### preact-picker-menu
 
@@ -240,7 +240,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[PickerMenu](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/component/picker-menu.tsx>)。
+来源：[PickerMenu](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/component/picker-menu.tsx>)。
 
 ### preact-picker-search
 
@@ -276,11 +276,11 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[PickerSearch](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/component/picker-search.tsx>)。
+来源：[PickerSearch](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/component/picker-search.tsx>)。
 
 ## web-components
 
-当前公开入口未提供可用自定义元素。仓库存在 [ZuiPickerElement/definePicker 实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/web-component/picker.ts>)，但主入口和 package exports 未公开或注册它；不能通过 `@zui/picker` 自动获得 `<zui-picker>`，也不推荐绕过入口深层导入。普通 `z-use-*` 自动初始化与标准自定义元素是不同机制。
+当前公开入口未提供可用自定义元素。仓库存在 [ZuiPickerElement/definePicker 实现](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/web-component/picker.ts>)，但主入口和 package exports 未公开或注册它；不能通过 `@zui/picker` 自动获得 `<zui-picker>`，也不推荐绕过入口深层导入。普通 `z-use-*` 自动初始化与标准自定义元素是不同机制。
 
 ## css
 
@@ -323,7 +323,7 @@ const dispose = mountExample();
 | `zui-picker` | 块级显示 |
 | `zui-picker > .zui-webc-mount` | `contents`（内部样式） |
 
-来源：[src/style/picker.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/style/picker.css>), [src/style/picker-select.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/style/picker-select.css>), [src/style/picker-menu.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/style/picker-menu.css>), [src/style/picker-search.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/style/picker-search.css>), [src/style/web-component.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/style/web-component.css>)。最小结构由前面的组件示例生成。
+来源：[src/style/picker.css](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/style/picker.css>), [src/style/picker-select.css](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/style/picker-select.css>), [src/style/picker-menu.css](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/style/picker-menu.css>), [src/style/picker-search.css](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/style/picker-search.css>), [src/style/web-component.css](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/style/web-component.css>)。最小结构由前面的组件示例生成。
 
 ### css-modifiers
 
@@ -415,7 +415,7 @@ export interface PickerOptions<S extends PickerState = PickerState> extends Pick
 }
 ```
 
-来源：[PickerOptions](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/types/picker-options.ts>)。
+来源：[PickerOptions](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/types/picker-options.ts>)。
 
 ### types-picker-menu-props
 
@@ -453,7 +453,7 @@ export interface PickerMenuProps<S extends PickerState = PickerState> extends Pi
 }
 ```
 
-来源：[PickerMenuProps](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/types/picker-menu-props.ts>)。
+来源：[PickerMenuProps](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/types/picker-menu-props.ts>)。
 
 ### types-picker-search-props
 
@@ -476,7 +476,7 @@ export type PickerSearchProps = {
 };
 ```
 
-来源：[PickerSearchProps](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/types/picker-search-props.ts>)。
+来源：[PickerSearchProps](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/types/picker-search-props.ts>)。
 
 ### types-picker-item-basic
 
@@ -495,7 +495,7 @@ export interface PickerItemBasic {
 }
 ```
 
-来源：[PickerItemBasic](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/types/picker-item-options.ts>)。
+来源：[PickerItemBasic](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/types/picker-item-options.ts>)。
 
 ### types-picker-item-options
 
@@ -510,7 +510,7 @@ export interface PickerItemOptions extends PickerItemBasic, NestedItem {
 }
 ```
 
-来源：[PickerItemOptions](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/types/picker-item-options.ts>)。
+来源：[PickerItemOptions](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/types/picker-item-options.ts>)。
 
 ### types-picker-item-props
 
@@ -524,7 +524,7 @@ export interface PickerItemOptions extends PickerItemBasic, NestedItem {
 export type PickerItemProps = PickerItemOptions;
 ```
 
-来源：[PickerItemProps](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/types/picker-item-props.ts>)。
+来源：[PickerItemProps](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/types/picker-item-props.ts>)。
 
 ### types-picker-select-props
 
@@ -557,7 +557,7 @@ export interface PickerSelectProps<S extends PickerState = PickerState> extends 
 }
 ```
 
-来源：[PickerSelectProps](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/types/picker-select-props.ts>)。
+来源：[PickerSelectProps](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/types/picker-select-props.ts>)。
 
 ### types-picker-state
 
@@ -578,7 +578,7 @@ export interface PickerState extends PickState {
 }
 ```
 
-来源：[PickerState](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/types/picker-state.ts>)。
+来源：[PickerState](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/types/picker-state.ts>)。
 
 ### types-picker-search-state
 
@@ -594,7 +594,7 @@ export type PickerSearchState = {
 };
 ```
 
-来源：[PickerSearchState](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/component/picker-search.tsx>)。
+来源：[PickerSearchState](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/component/picker-search.tsx>)。
 
 ## recipes
 
@@ -612,9 +612,9 @@ setValue/select/deselect/toggleValue/clear 走 beforeChange 和选项校验；on
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/main.ts>)
-- [Preact 入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/src/main-react.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/picker/docs/lib/forms/index.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/main.ts>)
+- [Preact 入口](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/src/main-react.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/picker/docs/lib/forms/index.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/.agents/skills/zui-standards/references/consumption.md>)

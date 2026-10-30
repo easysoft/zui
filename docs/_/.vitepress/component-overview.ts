@@ -57,7 +57,6 @@ const descriptions: Record<string, string> = {
     dtable: '以交互式表格展示二维数据。',
     'dtable/plugins': '扩展表格的单元格展示、选择、排序和编辑。',
     'file-list': '展示附件名称、大小、缩略图和操作。',
-    kanban: '用泳道、状态列和可拖动卡片展示工作事项。',
     list: '展示带图标、说明、操作和复选框的数据条目。',
     pager: '展示页码、翻页按钮和分页信息。',
     'pager/js': '根据总记录数、每页条数和当前页生成分页。',

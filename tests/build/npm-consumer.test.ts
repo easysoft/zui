@@ -183,10 +183,14 @@ const pickerFromRequire: import('zui', {with: {'resolution-mode': 'import'}}).Pi
     await withBrowserGlobals(async (dom) => {
         const distribution = await import(pathToFileURL(entryPath).href) as Record<string, unknown>;
         const commonJs = packageRequire(name) as Record<string, unknown>;
-        for (const name of ['DTable', 'Messager', 'Kanban']) {
+        for (const name of ['DTable', 'Messager']) {
             expect(distribution[name], name).toBeTypeOf('function');
             expect(commonJs[name], name).toBeTypeOf('function');
         }
+        expect(distribution).not.toHaveProperty('Kanban');
+        expect(distribution).not.toHaveProperty('KanbanList');
+        expect(commonJs).not.toHaveProperty('Kanban');
+        expect(commonJs).not.toHaveProperty('KanbanList');
         expect(Object.keys(commonJs).sort()).toEqual(Object.keys(distribution).sort());
         expect(packageRequire(installedPackage)).toBe(commonJs);
 

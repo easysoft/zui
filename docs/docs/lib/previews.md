@@ -5,7 +5,7 @@ aside: false
 
 # 组件封面
 
-57 个组件封面，以 **120 × 120** 原尺寸呈现。点击卡片名称查看文档，切换站点主题查看深浅模式。
+56 个组件封面，以 **120 × 120** 原尺寸呈现。点击卡片名称查看文档，切换站点主题查看深浅模式。
 
 ## 基础控件
 
@@ -334,14 +334,6 @@ aside: false
         <div class="component-cover-stage center bg-surface-light border border-light rounded">
             <div class="component-cover-frame vp-raw">
 <!--@include: @/public/assets/calendar/preview.html-->
-</div>
-        </div>
-    </figure>
-    <figure class="rounded-lg border border-strong bg-surface-light p-1">
-        <figcaption class="px-2 py-2 text-fore text-sm font-bold"><a href="/lib/components/kanban/">看板</a></figcaption>
-        <div class="component-cover-stage center bg-surface-light border border-light rounded">
-            <div class="component-cover-frame vp-raw">
-<!--@include: @/public/assets/kanban/preview.html-->
 </div>
         </div>
     </figure>

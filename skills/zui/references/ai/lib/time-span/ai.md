@@ -22,9 +22,9 @@ TimeAgo 使用共享计时器：差值小于 60 秒时约每秒刷新，否则�
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/time-span`](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/time-span/src/main.ts>) 公开原生组件和相应类型。
+主入口 [`@zui/time-span`](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/time-span/src/main.ts>) 公开原生组件和相应类型。
 
-Preact 入口 [`@zui/time-span/react`](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/time-span/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
+Preact 入口 [`@zui/time-span/react`](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/time-span/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/time-span` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -56,7 +56,7 @@ const instance = new TimeSpan(host, {time: new Date(), format: 'yyyy-MM-dd'});
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[TimeSpan](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/time-span/src/vanilla/timespan.ts>)。
+来源：[TimeSpan](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/time-span/src/vanilla/timespan.ts>)。
 
 ### vanilla-time-ago
 
@@ -84,7 +84,7 @@ const instance = new TimeAgo(host, {time: Date.now() - 120000});
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[TimeAgo](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/time-span/src/vanilla/timeago.ts>)。
+来源：[TimeAgo](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/time-span/src/vanilla/timeago.ts>)。
 
 ## preact
 
@@ -115,7 +115,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[TimeSpan](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/time-span/src/component/timespan.tsx>)。
+来源：[TimeSpan](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/time-span/src/component/timespan.tsx>)。
 
 ### preact-time-ago
 
@@ -151,7 +151,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[TimeAgo](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/time-span/src/component/timeago.tsx>)。
+来源：[TimeAgo](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/time-span/src/component/timeago.tsx>)。
 
 ## web-components
 
@@ -191,7 +191,7 @@ const now = Date.now();
 console.log(timeago(now - 120000, now, 'zh_cn'));
 ```
 
-来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/time-span/src/helper/timeago.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/time-span/src/helper/timeago.ts>)。
 
 ## types
 
@@ -215,7 +215,7 @@ export interface TimeSpanProps {
 }
 ```
 
-来源：[TimeSpanProps](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/time-span/src/types/time-span-props.ts>)。
+来源：[TimeSpanProps](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/time-span/src/types/time-span-props.ts>)。
 
 ### types-time-ago-props
 
@@ -238,7 +238,7 @@ export interface TimeAgoProps {
 }
 ```
 
-来源：[TimeAgoProps](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/time-span/src/types/time-ago-props.ts>)。
+来源：[TimeAgoProps](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/time-span/src/types/time-ago-props.ts>)。
 
 ### types-time-ago-state
 
@@ -254,7 +254,7 @@ export interface TimeAgoState {
 }
 ```
 
-来源：[TimeAgoState](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/time-span/src/component/timeago.tsx>)。
+来源：[TimeAgoState](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/time-span/src/component/timeago.tsx>)。
 
 ## recipes
 
@@ -270,9 +270,9 @@ TimeAgo 使用共享计时器：差值小于 60 秒时约每秒刷新，否则�
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/time-span/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/time-span/src/main.ts>)
-- [Preact 入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/time-span/src/main-react.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/time-span/docs/lib/components/index.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/time-span/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/time-span/src/main.ts>)
+- [Preact 入口](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/time-span/src/main-react.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/time-span/docs/lib/components/index.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/.agents/skills/zui-standards/references/consumption.md>)
