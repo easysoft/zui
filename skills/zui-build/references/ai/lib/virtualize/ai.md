@@ -53,7 +53,7 @@ list.scrollToIndex(100, {align: 'start'});
 // 页面卸载：list.destroy(); host.remove();
 ```
 
-来源：[原生类](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/virtualize/src/vanilla/virtual-list.ts>)。
+来源：[原生类](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/virtualize/src/vanilla/virtual-list.ts>)。
 
 ## preact
 
@@ -93,7 +93,7 @@ render(<VirtualList count={1000} height={300} estimateSize={() => 36} renderItem
 // 页面卸载：render(null, host); host.remove();
 ```
 
-实例 virtualizer 稳定，可 scrollToIndex/scrollToOffset/measure。horizontal/dynamic/estimateSize 改变会清测量并重新挂载包装节点；内容高度改变可调用 measure。组件自动 mount/update/destroy 控制器。来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/virtualize/src/component/virtual-list.tsx>)。
+实例 virtualizer 稳定，可 scrollToIndex/scrollToOffset/measure。horizontal/dynamic/estimateSize 改变会清测量并重新挂载包装节点；内容高度改变可调用 measure。组件自动 mount/update/destroy 控制器。来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/virtualize/src/component/virtual-list.tsx>)。
 
 ## web-components
 
@@ -107,7 +107,7 @@ render(<VirtualList count={1000} height={300} estimateSize={() => 36} renderItem
 {"name": "virtual-list / virtual-list-content / virtual-list-item", "summary": "虚拟列表视口、撑高容器和定位项。", "role": "js-component"}
 ```
 
-均为 JS 生成结构：virtual-list 禁用 overflow-anchor，结合 relative overflow-auto；virtual-list-content 使用总尺寸撑开滚动空间；virtual-list-item 使用 border-box 和 inline 定位。布局依赖 JS 计算，不可只加类获得虚拟渲染。不要覆盖项的 transform/position/主轴尺寸。源码示例见 VirtualList。来源：[样式入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/virtualize/src/style/index.ts>)。
+均为 JS 生成结构：virtual-list 禁用 overflow-anchor，结合 relative overflow-auto；virtual-list-content 使用总尺寸撑开滚动空间；virtual-list-item 使用 border-box 和 inline 定位。布局依赖 JS 计算，不可只加类获得虚拟渲染。不要覆盖项的 transform/position/主轴尺寸。源码示例见 VirtualList。来源：[样式入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/virtualize/src/style/index.ts>)。
 
 ## css-variables
 
@@ -140,7 +140,7 @@ controller.mount();
 
 Controller 的 instance 是稳定 Virtualizer；mount():void 开始观察，重复安全；update():void 在 DOM 提交后同步容器，mount 前 no-op；setOptions(options):void **替换全部用户选项**并重施默认值，随后需要 update；destroy():void 清理观察/监听/待执行滚动和元素缓存，幂等且终止，之后不能重新启用。构造器 `(options,resolveOptions)` 也公开，通常使用工厂以获得正确环境默认值。
 
-这些 API 不创建列表 DOM，也不自动订阅框架；调用方负责虚拟项、总尺寸、动态 measureElement 和 DOM 提交时机。来源：[适配器](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/virtualize/src/virtualizer.ts>)。
+这些 API 不创建列表 DOM，也不自动订阅框架；调用方负责虚拟项、总尺寸、动态 measureElement 和 DOM 提交时机。来源：[适配器](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/virtualize/src/virtualizer.ts>)。
 
 
 ### javascript-tanstack-virtualizer
@@ -172,7 +172,7 @@ export type VirtualListProps = Omit<HElementProps, 'onChange'> & Omit<ElementVir
 };
 ```
 
-来源：[src/types/virtual-list-props.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/virtualize/src/types/virtual-list-props.ts>)。
+来源：[src/types/virtual-list-props.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/virtualize/src/types/virtual-list-props.ts>)。
 
 HElementProps 见 [core](../core/ai.md#types-helement-props)；本组件占用 onChange 为虚拟器通知，且自己提供 getScrollElement。
 
@@ -199,7 +199,7 @@ DOM 之外的项并未挂载，不能依赖 querySelector 查询所有行。虚�
 
 ## references
 
-- [包入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/virtualize/package.json>)
-- [公开导出](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/virtualize/src/main.ts>)
-- [适配器](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/virtualize/src/virtualizer.ts>)
-- [组件](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/virtualize/src/component/virtual-list.tsx>)
+- [包入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/virtualize/package.json>)
+- [公开导出](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/virtualize/src/main.ts>)
+- [适配器](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/virtualize/src/virtualizer.ts>)
+- [组件](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/virtualize/src/component/virtual-list.tsx>)

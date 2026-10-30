@@ -25,9 +25,9 @@ import '@zui/base';
 import '@zui/utilities';
 ```
 
-浏览器 HTML 示例的前提是已加载包含 base、utilities 的 ZUI CSS；展示 `.btn` 等其他组件时还需包含该组件 CSS。标准 npm 的样式入口为 `zui/css`，按目标包实际产物使用；工作区包名不等于可单独安装的 npm 包。见[接入规范](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/.agents/skills/zui-standards/references/consumption.md>)。
+浏览器 HTML 示例的前提是已加载包含 base、utilities 的 ZUI CSS；展示 `.btn` 等其他组件时还需包含该组件 CSS。标准 npm 的样式入口为 `zui/css`，按目标包实际产物使用；工作区包名不等于可单独安装的 npm 包。见[接入规范](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/.agents/skills/zui-standards/references/consumption.md>)。
 
-[src/main.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/main.ts>) 导入 vars 以及全部十组 CSS，不导出 JS 成员。类名以本页明确列出的集合为边界，不能按 Tailwind 全集推导支持。HTML 使用 `p-0.5`、`w-1/2`、`hover:text-primary`，CSS 定义中转义字符不进入 HTML 类名。
+[src/main.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/main.ts>) 导入 vars 以及全部十组 CSS，不导出 JS 成员。类名以本页明确列出的集合为边界，不能按 Tailwind 全集推导支持。HTML 使用 `p-0.5`、`w-1/2`、`hover:text-primary`，CSS 定义中转义字符不进入 HTML 类名。
 
 ## vanilla
 
@@ -57,7 +57,7 @@ import '@zui/utilities';
 
 - `aspect-auto`、`aspect-square`、`aspect-video`
 
-来源：[layout/aspect-ratio.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/layout/aspect-ratio.css>)。
+来源：[layout/aspect-ratio.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/layout/aspect-ratio.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -77,7 +77,7 @@ import '@zui/utilities';
 
 - `container`
 
-来源：[layout/container.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/layout/container.css>)。
+来源：[layout/container.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/layout/container.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -97,7 +97,7 @@ import '@zui/utilities';
 
 - `block`、`inline-block`、`inline`、`flex`、`inline-flex`、`table`、`table-cell`、`table-row`、`hidden`、`hide-children`
 
-来源：[layout/display.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/layout/display.css>)。
+来源：[layout/display.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/layout/display.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -117,7 +117,7 @@ pull-left/right 设置浮动；clearfix 用块级 ::after 清除两侧浮动，�
 
 - `pull-right`、`pull-left`、`clearfix`
 
-来源：[layout/floats.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/layout/floats.css>)。
+来源：[layout/floats.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/layout/floats.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -138,7 +138,7 @@ object-fit 类用于图片/视频等替换元素，需元素有约束尺寸才�
 - `object-contain`、`object-cover`、`object-fill`、`object-none`、`object-scale-down`、`object-bottom`、`object-center`、`object-left`、`object-left-bottom`、`object-left-top`
 - `object-right`、`object-right-bottom`、`object-right-top`、`object-top`
 
-来源：[layout/object.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/layout/object.css>)。
+来源：[layout/object.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/layout/object.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。将 `./avatar.png` 替换为实际图片资源。
 
@@ -159,7 +159,7 @@ object-fit 类用于图片/视频等替换元素，需元素有约束尺寸才�
 - `overflow-auto`、`overflow-hidden`、`overflow-clip`、`overflow-visible`、`overflow-scroll`、`overflow-x-auto`、`overflow-y-auto`、`overflow-x-hidden`、`overflow-y-hidden`、`overflow-x-clip`
 - `overflow-y-clip`、`overflow-x-visible`、`overflow-y-visible`、`overflow-x-scroll`、`overflow-y-scroll`、`overflow-overlay`
 
-来源：[layout/overflow.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/layout/overflow.css>)。
+来源：[layout/overflow.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/layout/overflow.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -179,7 +179,7 @@ object-fit 类用于图片/视频等替换元素，需元素有约束尺寸才�
 
 - `popup`
 
-来源：[layout/popup.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/layout/popup.css>)。
+来源：[layout/popup.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/layout/popup.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -199,7 +199,7 @@ object-fit 类用于图片/视频等替换元素，需元素有约束尺寸才�
 
 - `static`、`fixed`、`absolute`、`relative`、`sticky`
 
-来源：[layout/position.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/layout/position.css>)。
+来源：[layout/position.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/layout/position.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -225,7 +225,7 @@ top/right/bottom/left 需配合非 static 定位。full 为 100%，auto 恢复�
 - `bottom-4`、`left-4`、`top-5`、`right-5`、`bottom-5`、`left-5`、`top-6`、`right-6`、`bottom-6`、`left-6`
 - `top-7`、`right-7`、`bottom-7`、`left-7`、`top-8`、`right-8`、`bottom-8`、`left-8`
 
-来源：[layout/top-right-bottom-left.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/layout/top-right-bottom-left.css>)。
+来源：[layout/top-right-bottom-left.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/layout/top-right-bottom-left.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -245,7 +245,7 @@ visible/invisible 使用 !important 控制 visibility；invisible 仍保留布�
 
 - `visible`、`invisible`
 
-来源：[layout/visibility.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/layout/visibility.css>)。
+来源：[layout/visibility.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/layout/visibility.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -266,7 +266,7 @@ visible/invisible 使用 !important 控制 visibility；invisible 仍保留布�
 - `z-0`、`z-1`、`z-5`、`z-10`、`z-20`、`z-30`、`z-40`、`z-50`、`z-auto`、`z-base`
 - `z-above`、`z-below`、`z-dropdown`、`z-sticky`、`z-fixed`、`z-modal`、`z-overlay`、`z-popover`、`z-tooltip`、`z-messager`
 
-来源：[layout/z-index.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/layout/z-index.css>)。
+来源：[layout/z-index.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/layout/z-index.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -286,7 +286,7 @@ visible/invisible 使用 !important 控制 visibility；invisible 仍保留布�
 
 - `content-center`、`content-start`、`content-end`、`content-between`、`content-around`、`content-evenly`
 
-来源：[flex/align-content.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/flex/align-content.css>)。
+来源：[flex/align-content.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/flex/align-content.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -306,7 +306,7 @@ visible/invisible 使用 !important 控制 visibility；invisible 仍保留布�
 
 - `items-start`、`items-end`、`items-center`、`items-baseline`、`items-stretch`
 
-来源：[flex/align-items.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/flex/align-items.css>)。
+来源：[flex/align-items.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/flex/align-items.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -326,7 +326,7 @@ visible/invisible 使用 !important 控制 visibility；invisible 仍保留布�
 
 - `self-auto`、`self-start`、`self-end`、`self-center`、`self-stretch`、`self-baseline`
 
-来源：[flex/align-self.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/flex/align-self.css>)。
+来源：[flex/align-self.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/flex/align-self.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -352,7 +352,7 @@ visible/invisible 使用 !important 控制 visibility；invisible 仍保留布�
 - `basis-5/6`、`basis-1/12`、`basis-2/12`、`basis-3/12`、`basis-4/12`、`basis-5/12`、`basis-6/12`、`basis-7/12`、`basis-8/12`、`basis-9/12`
 - `basis-10/12`、`basis-11/12`、`basis-full`
 
-来源：[flex/basis.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/flex/basis.css>)。
+来源：[flex/basis.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/flex/basis.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -372,7 +372,7 @@ row/col 及 reverse 同时开启 flex 并指定方向。center 为纵向 flex �
 
 - `row`、`col`、`center`、`center-row`、`center-x`、`center-y`、`row-reverse`、`col-reverse`
 
-来源：[flex/direction.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/flex/direction.css>)。
+来源：[flex/direction.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/flex/direction.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -392,7 +392,7 @@ row/col 及 reverse 同时开启 flex 并指定方向。center 为纵向 flex �
 
 - `flex-1`、`flex-auto`、`flex-initial`、`flex-none`
 
-来源：[flex/flex.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/flex/flex.css>)。
+来源：[flex/flex.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/flex/flex.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -416,7 +416,7 @@ row/col 及 reverse 同时开启 flex 并指定方向。center 为纵向 flex �
 - `gap-y-4`、`gap-5`、`gap-x-5`、`gap-y-5`、`gap-6`、`gap-x-6`、`gap-y-6`、`gap-7`、`gap-x-7`、`gap-y-7`
 - `gap-8`、`gap-x-8`、`gap-y-8`
 
-来源：[flex/gap.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/flex/gap.css>)。
+来源：[flex/gap.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/flex/gap.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -436,7 +436,7 @@ row/col 及 reverse 同时开启 flex 并指定方向。center 为纵向 flex �
 
 - `grow`、`grow-0`
 
-来源：[flex/grow.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/flex/grow.css>)。
+来源：[flex/grow.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/flex/grow.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -456,7 +456,7 @@ row/col 及 reverse 同时开启 flex 并指定方向。center 为纵向 flex �
 
 - `justify-start`、`justify-end`、`justify-center`、`justify-between`、`justify-around`、`justify-evenly`
 
-来源：[flex/justify-content.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/flex/justify-content.css>)。
+来源：[flex/justify-content.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/flex/justify-content.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -477,7 +477,7 @@ row/col 及 reverse 同时开启 flex 并指定方向。center 为纵向 flex �
 - `order-1`、`order-2`、`order-3`、`order-4`、`order-5`、`order-6`、`order-7`、`order-8`、`order-9`、`order-10`
 - `order-11`、`order-12`、`order-first`、`order-last`、`order-none`
 
-来源：[flex/order.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/flex/order.css>)。
+来源：[flex/order.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/flex/order.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -497,7 +497,7 @@ row/col 及 reverse 同时开启 flex 并指定方向。center 为纵向 flex �
 
 - `shrink`、`shrink-0`
 
-来源：[flex/shrink.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/flex/shrink.css>)。
+来源：[flex/shrink.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/flex/shrink.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -517,7 +517,7 @@ row/col 及 reverse 同时开启 flex 并指定方向。center 为纵向 flex �
 
 - `flex-wrap`、`flex-wrap-reverse`、`flex-nowrap`
 
-来源：[flex/wrap.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/flex/wrap.css>)。
+来源：[flex/wrap.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/flex/wrap.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -548,7 +548,7 @@ m 为四边、mx/my 为横/纵两边、mt/mr/mb/ml 为单边。auto 用于可分
 - `ml-7`、`mx-8`、`my-8`、`mt-8`、`mr-8`、`mb-8`、`ml-8`、`mx-9`、`my-9`、`mt-9`
 - `mr-9`、`mb-9`、`ml-9`、`mx-10`、`my-10`、`mt-10`、`mr-10`、`mb-10`、`ml-10`
 
-来源：[spacing/margin.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/spacing/margin.css>)。
+来源：[spacing/margin.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/spacing/margin.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -579,7 +579,7 @@ p 为四边、px/py 为横/纵两边、pt/pr/pb/pl 为单边。没有 auto、负
 - `px-9`、`py-9`、`pt-9`、`pr-9`、`pb-9`、`pl-9`、`px-10`、`py-10`、`pt-10`、`pr-10`
 - `pb-10`、`pl-10`
 
-来源：[spacing/padding.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/spacing/padding.css>)。
+来源：[spacing/padding.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/spacing/padding.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -602,7 +602,7 @@ p 为四边、px/py 为横/纵两边、pt/pr/pb/pl 为单边。没有 auto、负
 - `space-x-6`、`space-y-6`、`space-x-7`、`space-y-7`、`space-x-8`、`space-y-8`、`space-x-9`、`space-y-9`、`space-x-10`、`space-y-10`
 - `space-x-px`、`space-y-px`
 
-来源：[spacing/space.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/spacing/space.css>)。
+来源：[spacing/space.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/spacing/space.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -628,7 +628,7 @@ h 设置高度，min-h/max-h 设置上下界；百分比高度通常需要包含
 - `h-auto`、`h-full`、`h-screen`、`h-min`、`h-max`、`h-fit`、`min-h-0`、`min-h-full`、`min-h-min`、`min-h-max`
 - `min-h-fit`、`max-h-0`、`max-h-px`、`max-h-none`、`max-h-full`、`max-h-min`、`max-h-screen`、`max-h-max`、`max-h-fit`
 
-来源：[sizing/height.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/sizing/height.css>)。
+来源：[sizing/height.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/sizing/height.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -656,7 +656,7 @@ w 设置宽度，min-w/max-w 设置上下界。full/分数按包含块宽度，s
 - `min-w-min`、`min-w-max`、`min-w-fit`、`max-w-0`、`max-w-none`、`max-w-xs`、`max-w-sm`、`max-w-md`、`max-w-lg`、`max-w-xl`
 - `max-w-2xl`、`max-w-3xl`、`max-w-4xl`、`max-w-5xl`、`max-w-6xl`、`max-w-7xl`、`max-w-full`、`max-w-min`、`max-w-max`、`max-w-fit`
 
-来源：[sizing/width.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/sizing/width.css>)。
+来源：[sizing/width.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/sizing/width.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -676,7 +676,7 @@ w 设置宽度，min-w/max-w 设置上下界。full/分数按包含块宽度，s
 
 - `ghost`、`primary-ghost`、`secondary-ghost`、`success-ghost`、`warning-ghost`、`danger-ghost`、`important-ghost`、`special-ghost`
 
-来源：[skin/ghost.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/skin/ghost.css>)。
+来源：[skin/ghost.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/skin/ghost.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -697,7 +697,7 @@ w 设置宽度，min-w/max-w 设置上下界。full/分数按包含块宽度，s
 - `outline`、`primary-outline`、`secondary-outline`、`success-outline`、`warning-outline`、`danger-outline`、`important-outline`、`special-outline`、`gray-300-outline`、`gray-400-outline`
 - `gray-outline`、`gray-600-outline`、`dark-outline`、`light-outline`
 
-来源：[skin/outline.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/skin/outline.css>)。
+来源：[skin/outline.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/skin/outline.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -718,7 +718,7 @@ w 设置宽度，min-w/max-w 设置上下界。full/分数按包含块宽度，s
 - `pale`、`primary-pale`、`secondary-pale`、`success-pale`、`warning-pale`、`danger-pale`、`important-pale`、`special-pale`、`gray-50-pale`、`gray-100-pale`
 - `gray-200-pale`、`gray-300-pale`、`gray-400-pale`、`gray-500-pale`、`gray-pale`、`gray-600-pale`、`gray-700-pale`、`gray-800-pale`、`gray-900-pale`、`gray-950-pale`
 
-来源：[skin/pale.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/skin/pale.css>)。
+来源：[skin/pale.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/skin/pale.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -738,7 +738,7 @@ w 设置宽度，min-w/max-w 设置上下界。full/分数按包含块宽度，s
 
 - `skin`
 
-来源：[skin/skin.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/skin/skin.css>)。
+来源：[skin/skin.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/skin/skin.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -760,7 +760,7 @@ w 设置宽度，min-w/max-w 设置上下界。full/分数按包含块宽度，s
 - `lightest`、`gray-300`、`lighter`、`gray-400`、`lighten`、`gray-500`、`gray`、`gray-600`、`darken`、`gray-700`
 - `darker`、`gray-800`、`darkest`、`gray-900`、`gray-950`
 
-来源：[skin/solid.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/skin/solid.css>)。
+来源：[skin/solid.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/skin/solid.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -780,7 +780,7 @@ w 设置宽度，min-w/max-w 设置上下界。full/分数按包含块宽度，s
 
 - `canvas`、`surface-light`、`surface`、`surface-strong`、`inverse`、`white`、`black`、`transparent`
 
-来源：[skin/surface.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/skin/surface.css>)。
+来源：[skin/surface.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/skin/surface.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -800,7 +800,7 @@ underline/overline/line-through/no-underline 分别添加或移除装饰线，�
 
 - `underline`、`overline`、`line-through`、`no-underline`
 
-来源：[typography/decoration.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/typography/decoration.css>)。
+来源：[typography/decoration.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/typography/decoration.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -820,7 +820,7 @@ font-sans/serif/mono 设置对应主题字体栈，不加载字体文件。
 
 - `font-sans`、`font-serif`、`font-mono`
 
-来源：[typography/font-family.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/typography/font-family.css>)。
+来源：[typography/font-family.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/typography/font-family.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -840,7 +840,7 @@ text-root 为 16px；sm/base/md/lg/xl/2xl/3xl/4xl 分别为 .75/.8125/.875/1/1.1
 
 - `text-root`、`text-sm`、`text-base`、`text-md`、`text-lg`、`text-xl`、`text-2xl`、`text-3xl`、`text-4xl`
 
-来源：[typography/font-size.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/typography/font-size.css>)。
+来源：[typography/font-size.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/typography/font-size.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -860,7 +860,7 @@ thin/light/normal/medium/semibold/bold/black 对应 100/300/400/500/600/700/900�
 
 - `font-thin`、`font-light`、`font-normal`、`font-medium`、`font-semibold`、`font-bold`、`font-black`
 
-来源：[typography/font-weight.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/typography/font-weight.css>)。
+来源：[typography/font-weight.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/typography/font-weight.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -881,7 +881,7 @@ thin/light/normal/medium/semibold/bold/black 对应 100/300/400/500/600/700/900�
 - `leading-3`、`leading-4`、`leading-5`、`leading-6`、`leading-7`、`leading-8`、`leading-9`、`leading-10`、`leading-none`、`leading-tight`
 - `leading-snug`、`leading-normal`、`leading-relaxed`、`leading-loose`
 
-来源：[typography/leading.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/typography/leading.css>)。
+来源：[typography/leading.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/typography/leading.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -901,7 +901,7 @@ line-clamp-1 到 6 使用 -webkit-box、纵向 box-orient、overflow:hidden 与�
 
 - `line-clamp-1`、`line-clamp-2`、`line-clamp-3`、`line-clamp-4`、`line-clamp-5`、`line-clamp-6`
 
-来源：[typography/line-clamp.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/typography/line-clamp.css>)。
+来源：[typography/line-clamp.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/typography/line-clamp.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -921,7 +921,7 @@ list-none/disc/decimal 控制标记；list-unstyled 还去除左内边距，应�
 
 - `list-none`、`list-disc`、`list-decimal`、`list-unstyled`
 
-来源：[typography/list-style.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/typography/list-style.css>)。
+来源：[typography/list-style.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/typography/list-style.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -941,7 +941,7 @@ text-* 设置容器文本对齐；align-* 设置 vertical-align，主要对行�
 
 - `text-left`、`text-center`、`text-right`、`text-justify`、`align-middle`、`align-top`、`align-bottom`、`align-sub`、`align-super`
 
-来源：[typography/text-align.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/typography/text-align.css>)。
+来源：[typography/text-align.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/typography/text-align.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -967,7 +967,7 @@ text-* 设置容器文本对齐；align-* 设置 vertical-align，主要对行�
 - `text-transparent`、`text-canvas`、`text-surface-light`、`text-surface`、`text-surface-strong`、`text-inverse`、`text-fore-in-light`、`text-fore-in-dark`、`text-fore`、`text-focus`
 - `text-link`、`text-link-hover`、`text-current`、`text-inherit`
 
-来源：[typography/text-color.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/typography/text-color.css>)。
+来源：[typography/text-color.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/typography/text-color.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -988,7 +988,7 @@ text-* 设置容器文本对齐；align-* 设置 vertical-align，主要对行�
 - `text-opacity-0`、`text-opacity-5`、`text-opacity-10`、`text-opacity-20`、`text-opacity-25`、`text-opacity-30`、`text-opacity-40`、`text-opacity-50`、`text-opacity-60`、`text-opacity-70`
 - `text-opacity-80`、`text-opacity-90`、`text-opacity-95`、`text-opacity-100`
 
-来源：[typography/text-opacity.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/typography/text-opacity.css>)。
+来源：[typography/text-opacity.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/typography/text-opacity.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1008,7 +1008,7 @@ text-ellipsis/ellipsis 同时开启 overflow:hidden、nowrap 和省略号；text
 
 - `text-ellipsis`、`ellipsis`、`text-clip`、`clip`
 
-来源：[typography/text-overflow.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/typography/text-overflow.css>)。
+来源：[typography/text-overflow.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/typography/text-overflow.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1028,7 +1028,7 @@ uppercase/lowercase/capitalize/normal-case 控制文本绘制的大小写，不�
 
 - `uppercase`、`lowercase`、`capitalize`、`normal-case`
 
-来源：[typography/text-transform.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/typography/text-transform.css>)。
+来源：[typography/text-transform.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/typography/text-transform.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1048,7 +1048,7 @@ uppercase/lowercase/capitalize/normal-case 控制文本绘制的大小写，不�
 
 - `whitespace-normal`、`whitespace-nowrap`、`nowrap`、`whitespace-pre`、`pre`、`whitespace-pre-line`、`pre-line`、`whitespace-pre-wrap`、`pre-wrap`
 
-来源：[typography/whitespace.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/typography/whitespace.css>)。
+来源：[typography/whitespace.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/typography/whitespace.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1068,7 +1068,7 @@ break-normal 为正常 overflow-wrap/word-break；break-words 为 overflow-wrap:
 
 - `break-normal`、`break-words`、`break-all`
 
-来源：[typography/word-break.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/typography/word-break.css>)。
+来源：[typography/word-break.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/typography/word-break.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1090,7 +1090,7 @@ break-normal 为正常 overflow-wrap/word-break；break-words 为 overflow-wrap:
 - `bg-center`、`bg-left`、`bg-left-bottom`、`bg-left-top`、`bg-right`、`bg-right-bottom`、`bg-right-top`、`bg-top`、`bg-fixed`、`bg-local`
 - `bg-scroll`
 
-来源：[backgrounds/background-image.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/backgrounds/background-image.css>)。
+来源：[backgrounds/background-image.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/backgrounds/background-image.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。将 `./cover.png` 替换为实际图片资源。
 
@@ -1111,7 +1111,7 @@ break-normal 为正常 overflow-wrap/word-break；break-words 为 overflow-wrap:
 - `bg-opacity-0`、`bg-opacity-5`、`bg-opacity-10`、`bg-opacity-20`、`bg-opacity-25`、`bg-opacity-30`、`bg-opacity-40`、`bg-opacity-50`、`bg-opacity-60`、`bg-opacity-70`
 - `bg-opacity-80`、`bg-opacity-90`、`bg-opacity-100`
 
-来源：[backgrounds/background-opacity.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/backgrounds/background-opacity.css>)。
+来源：[backgrounds/background-opacity.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/backgrounds/background-opacity.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1137,7 +1137,7 @@ break-normal 为正常 overflow-wrap/word-break；break-words 为 overflow-wrap:
 - `bg-surface-strong`、`bg-inverse`、`bg-fore-in-light`、`bg-fore-in-dark`、`bg-fore`、`bg-focus`、`bg-white`、`bg-black`、`bg-transparent`、`bg-current`
 - `bg-inherit`、`bg-none`
 
-来源：[backgrounds/background.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/backgrounds/background.css>)。
+来源：[backgrounds/background.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/backgrounds/background.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1160,7 +1160,7 @@ break-normal 为正常 overflow-wrap/word-break；break-words 为 overflow-wrap:
 - `border-gray-950`、`border-white`、`border-black`、`border-canvas`、`border-surface-light`、`border-surface`、`border-surface-strong`、`border-inverse`、`border-fore-in-light`、`border-fore-in-dark`
 - `border-fore`、`border-focus`、`border-link`、`border-link-hover`、`border-transparent`、`border-current`、`border-inherit`
 
-来源：[borders/border-color.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/borders/border-color.css>)。
+来源：[borders/border-color.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/borders/border-color.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1181,7 +1181,7 @@ break-normal 为正常 overflow-wrap/word-break；break-words 为 overflow-wrap:
 - `border-opacity-0`、`border-opacity-5`、`border-opacity-10`、`border-opacity-20`、`border-opacity-25`、`border-opacity-30`、`border-opacity-40`、`border-opacity-50`、`border-opacity-60`、`border-opacity-70`
 - `border-opacity-80`、`border-opacity-90`、`border-opacity-95`、`border-opacity-100`
 
-来源：[borders/border-opacity.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/borders/border-opacity.css>)。
+来源：[borders/border-opacity.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/borders/border-opacity.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1201,7 +1201,7 @@ break-normal 为正常 overflow-wrap/word-break；break-words 为 overflow-wrap:
 
 - `border-solid`、`border-dashed`、`border-dotted`、`border-double`、`border-hidden`、`border-none`
 
-来源：[borders/border-style.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/borders/border-style.css>)。
+来源：[borders/border-style.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/borders/border-style.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1222,7 +1222,7 @@ border 是四边 1px，border-0/2/4 是四边相应像素；t/r/b/l 仅指定边
 - `border-0`、`border`、`border-2`、`border-4`、`border-t`、`border-l`、`border-r`、`border-b`、`border-t-0`、`border-r-0`
 - `border-b-0`、`border-l-0`、`border-t-2`、`border-l-2`、`border-r-2`、`border-b-2`、`border-t-4`、`border-l-4`、`border-r-4`、`border-b-4`
 
-来源：[borders/border-width.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/borders/border-width.css>)。
+来源：[borders/border-width.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/borders/border-width.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1242,7 +1242,7 @@ border 是四边 1px，border-0/2/4 是四边相应像素；t/r/b/l 仅指定边
 
 - `divider`
 
-来源：[borders/divider.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/borders/divider.css>)。
+来源：[borders/divider.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/borders/divider.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1267,7 +1267,7 @@ ring 默认 1px 与主题 border 色；ring-0/2/3/4/8 设置相应像素。ring-
 - `ring-opacity-30`、`ring-opacity-40`、`ring-opacity-50`、`ring-opacity-60`、`ring-opacity-70`、`ring-opacity-80`、`ring-opacity-90`、`ring-opacity-100`、`ring-0`、`ring-2`
 - `ring-3`、`ring-4`、`ring-8`、`ring-inset`、`ring-offset-0`、`ring-offset-1`、`ring-offset-2`、`ring-offset-4`、`ring-offset-8`
 
-来源：[borders/ring.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/borders/ring.css>)。
+来源：[borders/ring.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/borders/ring.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1288,7 +1288,7 @@ ring 默认 1px 与主题 border 色；ring-0/2/3/4/8 设置相应像素。ring-
 - `rounded-none`、`rounded-sm`、`rounded`、`rounded-md`、`rounded-lg`、`rounded-xl`、`rounded-2xl`、`rounded-3xl`、`circle`、`rounded-full`
 - `rounded-l-none`、`rounded-t-none`、`rounded-r-none`、`rounded-b-none`、`rounded-br-none`、`rounded-bl-none`、`rounded-tr-none`、`rounded-tl-none`
 
-来源：[borders/rounded.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/borders/rounded.css>)。
+来源：[borders/rounded.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/borders/rounded.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1309,7 +1309,7 @@ animate-spin/ping/pulse/bounce 及无 animate- 别名执行对应无限动画；
 - `animate-spin`、`spin`、`animate-ping`、`ping`、`animate-pulse`、`pulse`、`animate-bounce`、`bounce`、`animate-highlight`、`highlight`
 - `text-shimmer`、`text-aurora`、`text-breathe`
 
-来源：[effects/animation.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/effects/animation.css>)。
+来源：[effects/animation.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/effects/animation.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1331,7 +1331,7 @@ blur/backdrop-blur 分别模糊元素/其后景；后景模糊需透明或半透
 - `drop-shadow-sm`、`drop-shadow`、`drop-shadow-md`、`drop-shadow-lg`、`drop-shadow-xl`、`drop-shadow-2xl`、`backdrop-blur-none`、`backdrop-blur-sm`、`backdrop-blur`、`backdrop-blur-md`
 - `backdrop-blur-lg`、`backdrop-blur-xl`、`backdrop-blur-2xl`、`backdrop-blur-3xl`
 
-来源：[effects/filters.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/effects/filters.css>)。
+来源：[effects/filters.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/effects/filters.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1352,7 +1352,7 @@ opacity-N 按 N/100 设置元素整体透明度（包括子元素）；!opacity-
 - `muted`、`opacity-0`、`opacity-5`、`opacity-10`、`opacity-20`、`opacity-25`、`opacity-30`、`opacity-40`、`opacity-50`、`opacity-60`
 - `opacity-70`、`opacity-75`、`opacity-80`、`opacity-90`、`opacity-95`、`opacity-100`、`!opacity-0`、`!opacity-100`
 
-来源：[effects/opacity.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/effects/opacity.css>)。
+来源：[effects/opacity.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/effects/opacity.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1374,7 +1374,7 @@ opacity-N 按 N/100 设置元素整体透明度（包括子元素）；!opacity-
 - `shadow-gray-300`、`shadow-gray-400`、`shadow-gray-500`、`shadow-gray`、`shadow-gray-600`、`shadow-gray-700`、`shadow-gray-800`、`shadow-gray-900`、`shadow-gray-950`、`shadow-canvas`
 - `shadow-surface`、`shadow-inverse`、`shadow-fore`、`shadow-focus`、`shadow-white`、`shadow-black`、`shadow-transparent`、`shadow-current`、`shadow-inherit`
 
-来源：[effects/shadow-color.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/effects/shadow-color.css>)。
+来源：[effects/shadow-color.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/effects/shadow-color.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1394,7 +1394,7 @@ opacity-N 按 N/100 设置元素整体透明度（包括子元素）；!opacity-
 
 - `shadow-sm`、`shadow`、`shadow-md`、`shadow-lg`、`shadow-xl`、`shadow-2xl`、`shadow-inner`、`shadow-none`
 
-来源：[effects/shadow.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/effects/shadow.css>)。
+来源：[effects/shadow.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/effects/shadow.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1416,7 +1416,7 @@ scale-N 对两个轴缩放为 N/100；flip-x/y 把对应轴缩放设为 -1；rot
 - `flip-x`、`flip-y`、`rotate-0`、`rotate-1`、`rotate-2`、`rotate-3`、`rotate-6`、`rotate-12`、`rotate-45`、`rotate-90`
 - `rotate-135`、`rotate-180`、`rotate-270`
 
-来源：[effects/transforms.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/effects/transforms.css>)。
+来源：[effects/transforms.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/effects/transforms.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1437,7 +1437,7 @@ transition 类限定过渡属性，默认 150ms；duration 类数字为毫秒。
 - `transition`、`transition-all`、`transition-colors`、`transition-opacity`、`transition-shadow`、`transition-transform`、`transition-none`、`fade`、`fade-from-center`、`fade-from-bottom`
 - `fade-from-top`、`fade-from-left`、`fade-from-right`、`duration-75`、`duration-100`、`duration-200`、`duration-300`、`duration-500`、`duration-1000`
 
-来源：[effects/transition.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/effects/transition.css>)。
+来源：[effects/transition.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/effects/transition.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1457,7 +1457,7 @@ transition 类限定过渡属性，默认 150ms；duration 类数字为毫秒。
 
 - `cursor-auto`、`cursor-default`、`cursor-pointer`、`cursor-wait`、`cursor-text`、`cursor-move`、`cursor-help`、`cursor-not-allowed`
 
-来源：[interactivity/cursor.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/interactivity/cursor.css>)。
+来源：[interactivity/cursor.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/interactivity/cursor.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1477,7 +1477,7 @@ transition 类限定过渡属性，默认 150ms；duration 类数字为毫秒。
 
 - `disabled`
 
-来源：[interactivity/disabled.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/interactivity/disabled.css>)。
+来源：[interactivity/disabled.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/interactivity/disabled.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1502,7 +1502,7 @@ hover:* 作用于元素 :hover；group-hover:* 需要某个祖先带 group 且�
 - `group-hover:shadow-lg`、`hover:shadow-lg`、`group-active:shadow-lg`、`active:shadow-lg`、`group-hover:block`、`hover:block`、`group-hover:flex`、`hover:flex`、`group-hover:inline-flex`、`hover:inline-flex`
 - `group-hover:scale-110`、`hover:scale-110`、`group-hover:scale-125`、`hover:scale-125`、`group-hover:ring-primary`、`hover:ring-primary`
 
-来源：[interactivity/hover.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/interactivity/hover.css>)。
+来源：[interactivity/hover.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/interactivity/hover.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1522,7 +1522,7 @@ hover:* 作用于元素 :hover；group-hover:* 需要某个祖先带 group 且�
 
 - `load-indicator`
 
-来源：[interactivity/loading.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/interactivity/loading.css>)。
+来源：[interactivity/loading.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/interactivity/loading.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1542,7 +1542,7 @@ pointer-events-none/events-none 禁止指针命中；auto/events-auto 恢复。�
 
 - `pointer-events-none`、`events-none`、`pointer-events-auto`、`events-auto`
 
-来源：[interactivity/pointer-events.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/interactivity/pointer-events.css>)。
+来源：[interactivity/pointer-events.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/interactivity/pointer-events.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1562,7 +1562,7 @@ pointer-events-none/events-none 禁止指针命中；auto/events-auto 恢复。�
 
 - `scroll-auto`、`scroll-smooth`
 
-来源：[interactivity/scroll.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/interactivity/scroll.css>)。
+来源：[interactivity/scroll.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/interactivity/scroll.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1582,7 +1582,7 @@ pointer-events-none/events-none 禁止指针命中；auto/events-auto 恢复。�
 
 - `state`
 
-来源：[interactivity/state.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/interactivity/state.css>)。
+来源：[interactivity/state.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/interactivity/state.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1602,7 +1602,7 @@ pointer-events-none/events-none 禁止指针命中；auto/events-auto 恢复。�
 
 - `select-none`、`select-text`、`select-all`、`select-auto`
 
-来源：[interactivity/user-select.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/interactivity/user-select.css>)。
+来源：[interactivity/user-select.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/interactivity/user-select.css>)。
 
 环境：`browser`，前提是页面已加载包含 base、utilities 的 CSS。
 
@@ -1653,7 +1653,7 @@ pointer-events-none/events-none 禁止指针命中；auto/events-auto 恢复。�
 
 透明度变量继承到后代；禁用样式同时匹配后代时，父子透明度可能叠乘。主题或皮肤在元素上声明同名变量时，祖先覆盖不能胜过它，应在实际状态元素上覆盖。
 
-来源：[vars.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/vars.css>)、[状态](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/interactivity/state.css>)、[加载](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/interactivity/loading.css>)、[实色皮肤](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/skin/solid.css>)。
+来源：[vars.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/vars.css>)、[状态](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/interactivity/state.css>)、[加载](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/interactivity/loading.css>)、[实色皮肤](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/skin/solid.css>)。
 
 ### css-variables-skin
 
@@ -1679,7 +1679,7 @@ RGB 变量要求逗号分隔的通道值，不能直接填 `#rrggbb`。`.skin` �
 
 主题的 `--color-*`、`--radius-*`、`--shadow-*` 由 base/config 提供，本库读取它们，不重复定义主题默认值。深浅主题跟随这些变量；本库不提供可随意推导的 dark:* 类。
 
-来源：[skin.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/skin/skin.css>)、[各皮肤入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/skin/index.css>)、[主题配置](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/config/tailwind-theme/index.cjs>)。
+来源：[skin.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/skin/skin.css>)、[各皮肤入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/skin/index.css>)、[主题配置](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/config/tailwind-theme/index.cjs>)。
 
 ### css-variables-text-animation
 
@@ -1698,7 +1698,7 @@ RGB 变量要求逗号分隔的通道值，不能直接填 `#rrggbb`。`.skin` �
 | `--text-breathe-1` / `--text-breathe-3` | 回退 `var(--color-danger-500, #ec4899)` | 两端色标 | 未声明，使用点回退 | `.text-breathe` |
 | `--text-breathe-2` | 回退 `var(--color-warning-500, #f97316)` | 中间色标 | 未声明，使用点回退 | `.text-breathe` |
 
-这些变量也可从祖先继承；覆盖在动画元素上可以将影响限定到该元素。来源：[animation.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/effects/animation.css>)。
+这些变量也可从祖先继承；覆盖在动画元素上可以将影响限定到该元素。来源：[animation.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/effects/animation.css>)。
 
 ## javascript
 
@@ -1782,10 +1782,10 @@ finishLoading(); // 实际项目在请求完成或失败并完成错误展示后
 
 ## references
 
-- [公共样式入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/main.ts>)
-- [全局默认变量](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/src/vars.css>)
-- [正式工具类文档](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/utilities/docs/utilities/>)
-- [公开工具类使用规范](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/.agents/skills/zui-standards/references/utilities.md>)
-- [主题字号](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/config/tailwind-theme/font-size.cjs>)
-- [主题层叠顺序](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/config/tailwind-theme/z-index.cjs>)
-- [主题入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/config/tailwind-theme/index.cjs>)
+- [公共样式入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/main.ts>)
+- [全局默认变量](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/src/vars.css>)
+- [正式工具类文档](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/utilities/docs/utilities/>)
+- [公开工具类使用规范](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/.agents/skills/zui-standards/references/utilities.md>)
+- [主题字号](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/config/tailwind-theme/font-size.cjs>)
+- [主题层叠顺序](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/config/tailwind-theme/z-index.cjs>)
+- [主题入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/config/tailwind-theme/index.cjs>)

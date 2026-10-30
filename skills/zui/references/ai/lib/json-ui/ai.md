@@ -428,7 +428,7 @@ watch 每项 `{paths:string[],do:JsonUICommands}`，paths 至少一个且仅允�
 {"name": "本地省市联动", "summary": "通过 computed、model 和 watch 连接两个 Picker，无需业务回调。", "keywords": ["级联选择", "Picker", "组件联动"]}
 ```
 
-完整可直接作为 schema 的纯 JSON 见 [state-ui.json](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/json-ui/assets/state-ui.json>)。先加载并注册 Picker 与 Button（workspace 使用 `import '@zui/picker'; import '@zui/button';`；browser 使用包含这些库的 ZUI 资源）。这个示例的全部数据都在 JSON 内，无需请求服务端。
+完整可直接作为 schema 的纯 JSON 见 [state-ui.json](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/json-ui/assets/state-ui.json>)。先加载并注册 Picker 与 Button（workspace 使用 `import '@zui/picker'; import '@zui/button';`；browser 使用包含这些库的 ZUI 资源）。这个示例的全部数据都在 JSON 内，无需请求服务端。
 
 流程：两个 Picker 的 value 分别 model 到 state.province/state.city，onChange 读取 args.0；computed.cities 用 get 从本地映射取当前省份的城市，bind 到城市 Picker 的 props.items；watch 监听 state.province 并清空 state.city。省份为空时 props.disabled 为 true。用户选择和宿主 patchState({province: 'zj'}) 都经过同一条联动链；初次挂载与全量 reset 保留默认值。
 
@@ -473,16 +473,16 @@ fetcher 必须是 URL 字符串，按 document.baseURI 解析；HTTP(S) GET，�
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/json-ui/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/json-ui/src/main.ts>)
-- [Preact 入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/json-ui/src/main-react.ts>)
-- [公开类型](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/json-ui/src/types.ts>)
-- [原生 wrapper](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/json-ui/src/vanilla.ts>)
-- [Preact 实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/json-ui/src/component/json-ui.tsx>)
-- [协议和内容策略](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/json-ui/src/runtime.ts>)
-- [文档状态与命令实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/json-ui/src/document.ts>)
-- [表达式实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/json-ui/src/expression.ts>)
-- [JSON 与路径约束](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/json-ui/src/json.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/json-ui/docs/lib/components/index.md>)
-- [文档协议测试](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/tests/dom/json-ui-document.test.tsx>)
-- [节点协议测试](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/tests/dom/json-ui.test.tsx>)
+- [包元数据](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/json-ui/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/json-ui/src/main.ts>)
+- [Preact 入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/json-ui/src/main-react.ts>)
+- [公开类型](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/json-ui/src/types.ts>)
+- [原生 wrapper](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/json-ui/src/vanilla.ts>)
+- [Preact 实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/json-ui/src/component/json-ui.tsx>)
+- [协议和内容策略](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/json-ui/src/runtime.ts>)
+- [文档状态与命令实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/json-ui/src/document.ts>)
+- [表达式实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/json-ui/src/expression.ts>)
+- [JSON 与路径约束](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/json-ui/src/json.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/json-ui/docs/lib/components/index.md>)
+- [文档协议测试](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/tests/dom/json-ui-document.test.tsx>)
+- [节点协议测试](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/tests/dom/json-ui.test.tsx>)

@@ -144,7 +144,7 @@ const dispose = mountExample();
 | `--scrollbar-bar-bg` | `rgba(var(--color-inverse-rgb), .3)` | 背景色或渐变 | `:root, .scrollbar` | `:root, .scrollbar` 的实际匹配元素 |
 | `--scrollbar-hover-bg` | `rgba(var(--color-inverse-rgb), .4)` | 背景色或渐变 | `:root, .scrollbar` | `:root, .scrollbar` 的实际匹配元素 |
 | `--scrollbar-drag-bg` | `rgba(var(--color-inverse-rgb), .5)` | 背景色或渐变 | `:root, .scrollbar` | `:root, .scrollbar` 的实际匹配元素 |
-| `--scrollbar-radius` | `var(--radius-sm)` | 圆角长度 | `:root, .scrollbar` | `:root, .scrollbar` 的实际匹配元素 |
+| `--scrollbar-radius` | `var(--radius)` | 圆角长度 | `:root, .scrollbar` | `:root, .scrollbar` 的实际匹配元素 |
 | `--scrollbar-duration` | `.7s` | 动画/过渡时间 | `:root, .scrollbar` | `:root, .scrollbar` 的实际匹配元素 |
 | `--scrollbar-bg` | `rgba(var(--color-canvas-rgb), .05)` | 背景色或渐变 | `.scrollbar-light` | `.scrollbar-light` 的实际匹配元素 |
 | `--scrollbar-inset` | `inset 0 0 0 1px rgba(var(--color-canvas-rgb), .05)` | CSS 配置值 | `.scrollbar-light` | `.scrollbar-light` 的实际匹配元素 |

@@ -70,7 +70,7 @@ const TIME_DAY: number; // 86400000
 
 数字小于 `10000000000` 按秒乘 1000，其他数字按毫秒；纯数字字符串走同一规则。`yyyy-MM-dd` 按本地零点解析。传 Date 默认返回原对象；无效日期保留 Invalid Date，`getDateTime` 返回 NaN。`TIME_DAY` 是固定毫秒数，不等价于跨夏令时的一天日历增量。
 
-workspace：`createDate('2026-10-22'); getDateTime(1700000000);`。来源：[日期实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/helpers/src/date-helper.ts>)。
+workspace：`createDate('2026-10-22'); getDateTime(1700000000);`。来源：[日期实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/helpers/src/date-helper.ts>)。
 
 
 ### javascript-add-date
@@ -85,7 +85,7 @@ addDate(date: DateLike, value: number | string, type: DurationType = 'day'): Dat
 
 `value` 数字用 `type`；字符串如 `"2day"` 用 parseInt 得到数量，再取剩余字符作为单位。支持 day/month/year/week/hour/minute/second，未匹配单位按 day。返回新 Date，不修改传入 Date；月末按原生 setMonth 进位，没有月末钳制。
 
-workspace：`addDate('2026-10-22', -1, 'week');`。来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/helpers/src/date-helper.ts>)。
+workspace：`addDate('2026-10-22', -1, 'week');`。来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/helpers/src/date-helper.ts>)。
 
 
 ### javascript-date-comparison
@@ -107,7 +107,7 @@ isValidDate(date: DateLike): boolean;
 
 第二个日期默认为当前时间；同周以本地周一零点为起点。`isValidDate` 对 null/undefined 返回 false，其他值按 createDate 解析。比较前推荐校验输入，避免原生 Invalid Date 的比较行为。
 
-workspace：`isSameWeek('2026-10-22', '2026-10-23'); isToday(new Date());`。来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/helpers/src/date-helper.ts>)。
+workspace：`isSameWeek('2026-10-22', '2026-10-23'); isToday(new Date());`。来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/helpers/src/date-helper.ts>)。
 
 
 ### javascript-format-date
@@ -125,7 +125,7 @@ formatDateSpan(date1: DateLike, date2: DateLike, format?: {full?: string; month?
 
 `formatDateSpan` 默认 `{full:'yyyy-M-d',month:'M-d',day:'d',str:'{0} ~ {1}'}`；按同年、同月、同日缩短右端，同日只输出一次。
 
-workspace：`formatDate('2026-10-22', 'yyyy/MM/dd'); formatDateSpan('2026-10-22', '2026-10-24');`。来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/helpers/src/date-helper.ts>)。
+workspace：`formatDate('2026-10-22', 'yyyy/MM/dd'); formatDateSpan('2026-10-22', '2026-10-24');`。来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/helpers/src/date-helper.ts>)。
 
 
 ### javascript-string-format
@@ -150,7 +150,7 @@ convertString(value: unknown, expr: string | string[], converters?: Record<strin
 
 带参数者：json(space)、date(format)、truncate(length)、ellipsis(length，超长追加 `...`)、replace/replaceAll(search,replacement='')、fixed(digits=2)、currency(code='CNY'，locale zh-CN)、mask(start=3,end=4)、join(separator=','，仅数组 join)、padStart/padEnd(length,pad=' ')、default(fallback，匹配 null/undefined/空串)。字符串分隔规则不支持在参数中转义逗号或管道符。
 
-workspace：`formatString('{0} 项', 3); formatWithPipes('{name|trim|upper}', {name:' zui '});`。来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/helpers/src/string-helper.ts>)。
+workspace：`formatString('{0} 项', 3); formatWithPipes('{name|trim|upper}', {name:' zui '});`。来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/helpers/src/string-helper.ts>)。
 
 
 ### javascript-bytes
@@ -166,7 +166,7 @@ convertBytes(str: string): number;
 
 单位倍率为 1024。formatBytes 未指定单位自动选择，NaN 返回 `?KB`，小数精度遵循 Number.toFixed（非法精度可抛异常）。convertBytes 支持小数，大小写不敏感，未含 B 后缀则追加 B；不 trim，不支持负数/空格，无法解析返回 0。
 
-workspace：`formatBytes(1536); convertBytes('1.5MB');`。来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/helpers/src/string-helper.ts>)。
+workspace：`formatBytes(1536); convertBytes('1.5MB');`。来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/helpers/src/string-helper.ts>)。
 
 
 ### javascript-encoding
@@ -184,7 +184,7 @@ getUniqueCode(str: string): number;
 
 escapeHtml 转义 `& < > " '`，用于文本，不负责 URL 协议和 JavaScript 上下文校验。Base64 支持 UTF-8，非法 Base64、非法 UTF-8 或不成对代理字符可能由底层编码 API 抛错。getUniqueCode 累加 `(索引+1)*字符码`，非字符串运行时先 String 转换；允许碰撞，不用于密码学或唯一标识保证。
 
-workspace：`decodeBase64(encodeBase64('禅道')); escapeHtml('<b>'); getUniqueCode('zui');`。来源：[字符串](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/helpers/src/string-helper.ts>)、[编码](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/helpers/src/string-code.ts>)。
+workspace：`decodeBase64(encodeBase64('禅道')); escapeHtml('<b>'); getUniqueCode('zui');`。来源：[字符串](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/helpers/src/string-helper.ts>)、[编码](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/helpers/src/string-code.ts>)。
 
 
 ### javascript-color
@@ -204,7 +204,7 @@ HEX 仅接受带或不带 # 的三/六位十六进制，非法值抛 Error。亮
 
 h 单位度并按 360 取余，s/l 范围 [0,1] 并夹取；RGB 通道可能为小数，不自动取整。不处理 alpha。
 
-workspace：`hex2Rgb('#f00'); contrastColor('#ffffff'); hslToRgb(120, 1, 0.5);`。来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/helpers/src/color-helper.ts>)。
+workspace：`hex2Rgb('#f00'); contrastColor('#ffffff'); hslToRgb(120, 1, 0.5);`。来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/helpers/src/color-helper.ts>)。
 
 
 ### javascript-deep-access
@@ -223,7 +223,7 @@ deepCall(object: object, pathName: string | string[], args?: unknown[], thisObj?
 
 deepGetPath 返回包含原对象的沿途值数组；无法继续遍历或下标对象非法时抛 Error，末级属性不存在可得到 undefined。deepGet 捕获路径和 onGetParent 错误并返回 defaultValue，仅 undefined 触发默认值，null 保留。deepCall 用找到的父对象作为 this，可用 thisObj 覆盖；目标非函数时默认原样返回，throws=true 时抛 Error，目标函数自身错误向外传播。
 
-workspace：`deepGet({a:[{b:1}]}, 'a[0].b', 0); deepCall({value:2, read(){return this.value;}}, 'read');`。来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/helpers/src/object/deep-get.ts>)。
+workspace：`deepGet({a:[{b:1}]}, 'a[0].b', 0); deepCall({value:2, read(){return this.value;}}, 'read');`。来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/helpers/src/object/deep-get.ts>)。
 
 ## types
 
@@ -263,9 +263,9 @@ console.log(formatDate('2026-10-22', 'yyyy-MM-dd'), message);
 
 ## references
 
-- [公开入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/helpers/src/main.ts>)
-- [包元数据](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/helpers/package.json>)
-- [日期实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/helpers/src/date-helper.ts>)
-- [字符串实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/helpers/src/string-helper.ts>)
-- [颜色实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/helpers/src/color-helper.ts>)
-- [路径实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/helpers/src/object/deep-get.ts>)
+- [公开入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/helpers/src/main.ts>)
+- [包元数据](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/helpers/package.json>)
+- [日期实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/helpers/src/date-helper.ts>)
+- [字符串实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/helpers/src/string-helper.ts>)
+- [颜色实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/helpers/src/color-helper.ts>)
+- [路径实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/helpers/src/object/deep-get.ts>)

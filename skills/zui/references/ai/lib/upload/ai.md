@@ -24,7 +24,7 @@ setOptions 只修改配置；初始化生成的 input/list 不会因任意 rende
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/upload`](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/upload/src/main.ts>) 公开原生组件和相应类型。
+主入口 [`@zui/upload`](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/upload/src/main.ts>) 公开原生组件和相应类型。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/upload` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -91,7 +91,7 @@ const instance = new Upload(host, {name: 'files[]', limitSize: '10MB'});
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[Upload](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/upload/src/vanilla/upload.ts>)。
+来源：[Upload](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/upload/src/vanilla/upload.ts>)。
 
 ## preact
 
@@ -117,7 +117,7 @@ const instance = new Upload(host, {name: 'files[]', limitSize: '10MB'});
 | `.upload .draggable-area` | border: 1px dashed var(--color-primary-300)；`bg-primary-50/20`（内部样式） |
 | `.upload .draggable-area.dragover` | `bg-primary-500/10`（内部样式）；`border-solid`（内部样式） |
 
-来源：[src/style/upload.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/upload/src/style/upload.css>)。最小结构由前面的组件示例生成。
+来源：[src/style/upload.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/upload/src/style/upload.css>)。最小结构由前面的组件示例生成。
 ## css-variables
 
 本库没有新增可配置的 CSS 变量声明。依赖组件的变量按其 [AI 索引](../../ai.md) 查找；外部主题变量的使用不等于由本库定义。
@@ -180,7 +180,7 @@ export type UploadOptions = {
 }>;
 ```
 
-来源：[UploadOptions](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/upload/src/types/upload-options.ts>)。
+来源：[UploadOptions](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/upload/src/types/upload-options.ts>)。
 
 ## recipes
 
@@ -198,8 +198,8 @@ setOptions 只修改配置；初始化生成的 input/list 不会因任意 rende
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/upload/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/upload/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/upload/docs/lib/components/index.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/upload/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/upload/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/upload/docs/lib/components/index.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/.agents/skills/zui-standards/references/consumption.md>)

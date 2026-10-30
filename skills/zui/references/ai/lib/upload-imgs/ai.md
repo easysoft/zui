@@ -22,7 +22,7 @@
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/upload-imgs`](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/upload-imgs/src/main.ts>) 公开原生组件和相应类型。
+主入口 [`@zui/upload-imgs`](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/upload-imgs/src/main.ts>) 公开原生组件和相应类型。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/upload-imgs` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -88,7 +88,7 @@ const instance = new UploadImgs(host, {name: 'images[]', limitSize: '10MB'});
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[UploadImgs](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/upload-imgs/src/vanilla/upload-imgs.ts>)。
+来源：[UploadImgs](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/upload-imgs/src/vanilla/upload-imgs.ts>)。
 
 ## preact
 
@@ -114,7 +114,7 @@ const instance = new UploadImgs(host, {name: 'images[]', limitSize: '10MB'});
 | `.file-item > .img` | `w-[120px]`（内部样式）；`h-[120px]`（内部样式） |
 | `.upload .file-item:hover .file-size` | Flex 布局 |
 
-来源：[src/style/upload-imgs.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/upload-imgs/src/style/upload-imgs.css>)。最小结构由前面的组件示例生成。
+来源：[src/style/upload-imgs.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/upload-imgs/src/style/upload-imgs.css>)。最小结构由前面的组件示例生成。
 ## css-variables
 
 本库没有新增可配置的 CSS 变量声明。依赖组件的变量按其 [AI 索引](../../ai.md) 查找；外部主题变量的使用不等于由本库定义。
@@ -141,7 +141,7 @@ export type UploadImgsOptions = UploadOptions & Partial<{
 }>;
 ```
 
-来源：[UploadImgsOptions](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/upload-imgs/src/types/upload-imgs-options.ts>)。
+来源：[UploadImgsOptions](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/upload-imgs/src/types/upload-imgs-options.ts>)。
 
 ## recipes
 
@@ -157,8 +157,8 @@ export type UploadImgsOptions = UploadOptions & Partial<{
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/upload-imgs/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/upload-imgs/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/upload-imgs/docs/lib/components/index.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/upload-imgs/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/upload-imgs/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/upload-imgs/docs/lib/components/index.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/.agents/skills/zui-standards/references/consumption.md>)

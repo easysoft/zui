@@ -22,9 +22,9 @@
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/calendar`](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/src/main.ts>) 公开原生组件和相应类型。
+主入口 [`@zui/calendar`](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/src/main.ts>) 公开原生组件和相应类型。
 
-Preact 入口 [`@zui/calendar/react`](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
+Preact 入口 [`@zui/calendar/react`](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/calendar` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -56,7 +56,7 @@ const instance = new Calendar(host, {date: new Date(), events: [{id: 'e1', title
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[Calendar](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/src/vanilla/calendar.ts>)。
+来源：[Calendar](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/src/vanilla/calendar.ts>)。
 
 ## preact
 
@@ -118,7 +118,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[Calendar](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/src/component/calendar.tsx>)。
+来源：[Calendar](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/src/component/calendar.tsx>)。
 
 ## web-components
 
@@ -161,7 +161,7 @@ const dispose = mountExample();
 | `.calendar-body` | 1px 边框；主题圆角 |
 | `.calendar-header + .calendar-body` | `mt-2`（内部样式） |
 
-来源：[src/styles/calendar-header.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/src/styles/calendar-header.css>), [src/styles/calendar-event-list.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/src/styles/calendar-event-list.css>), [src/styles/calendar-month-view.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/src/styles/calendar-month-view.css>)。最小结构由前面的组件示例生成。
+来源：[src/styles/calendar-header.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/src/styles/calendar-header.css>), [src/styles/calendar-event-list.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/src/styles/calendar-event-list.css>), [src/styles/calendar-month-view.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/src/styles/calendar-month-view.css>)。最小结构由前面的组件示例生成。
 
 ### css-modifiers
 
@@ -209,7 +209,7 @@ const month = getMonthViewInfo(2026, 10, 1);
 console.log(events, month.rows);
 ```
 
-来源：[日历工具](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/src/helpers/calendar-helper.ts>)。
+来源：[日历工具](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/src/helpers/calendar-helper.ts>)。
 
 ## types
 
@@ -269,7 +269,7 @@ export type CalendarEvent = {
 };
 ```
 
-来源：[CalendarEvent](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/src/types/calendar-event.ts>)。
+来源：[CalendarEvent](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/src/types/calendar-event.ts>)。
 
 ### types-calendar-view-mode
 
@@ -283,7 +283,7 @@ export type CalendarEvent = {
 export type CalendarViewMode = 'month' | 'week' | 'day';
 ```
 
-来源：[CalendarViewMode](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/src/types/calendar-view-mode.ts>)。
+来源：[CalendarViewMode](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/src/types/calendar-view-mode.ts>)。
 
 ### types-calendar-category
 
@@ -330,7 +330,7 @@ export type CalendarCategory = {
 };
 ```
 
-来源：[CalendarCategory](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/src/types/calendar-category.ts>)。
+来源：[CalendarCategory](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/src/types/calendar-category.ts>)。
 
 ### types-calendar-props
 
@@ -398,7 +398,7 @@ export type CalendarProps = HElementProps & {
 };
 ```
 
-来源：[CalendarProps](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/src/types/calendar-props.ts>)。
+来源：[CalendarProps](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/src/types/calendar-props.ts>)。
 
 ### types-calendar-state
 
@@ -427,7 +427,7 @@ export type CalendarState = {
 };
 ```
 
-来源：[CalendarState](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/src/types/calendar-state.ts>)。
+来源：[CalendarState](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/src/types/calendar-state.ts>)。
 
 ### types-calendar-month-view-props
 
@@ -462,7 +462,7 @@ export type CalendarMonthViewProps = {
 };
 ```
 
-来源：[CalendarMonthViewProps](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/src/types/calendar-month-view-props.ts>)。
+来源：[CalendarMonthViewProps](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/src/types/calendar-month-view-props.ts>)。
 
 ## recipes
 
@@ -478,9 +478,9 @@ export type CalendarMonthViewProps = {
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/src/main.ts>)
-- [Preact 入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/src/main-react.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/calendar/docs/lib/components/index.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/src/main.ts>)
+- [Preact 入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/src/main-react.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/calendar/docs/lib/components/index.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/.agents/skills/zui-standards/references/consumption.md>)

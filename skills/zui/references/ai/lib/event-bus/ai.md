@@ -25,9 +25,9 @@ import {EventEmitter, EventBus, EventHub, nativeEvents} from '@zui/event-bus';
 import type {CustomEventMap, CustomEventListener} from '@zui/event-bus';
 ```
 
-源码入口为 [src/main.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/event-bus/src/main.ts>)。传入字符串或省略构造参数会访问 `document`，创建并挂载一个注释节点；需要避免创建节点时传入自己持有的 `EventTarget`。只要运行环境提供所需的 `EventTarget`、`Event`、`CustomEvent`，显式目标用法不需要 `document`。工作区入口可用不等于聚合包可在无 DOM 环境使用。
+源码入口为 [src/main.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/event-bus/src/main.ts>)。传入字符串或省略构造参数会访问 `document`，创建并挂载一个注释节点；需要避免创建节点时传入自己持有的 `EventTarget`。只要运行环境提供所需的 `EventTarget`、`Event`、`CustomEvent`，显式目标用法不需要 `document`。工作区入口可用不等于聚合包可在无 DOM 环境使用。
 
-标准 npm/浏览器消费遵循[接入规范](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/.agents/skills/zui-standards/references/consumption.md>)，并确认目标包或构建包含这几个导出；不推导 `zui/event-bus` 子路径。
+标准 npm/浏览器消费遵循[接入规范](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/.agents/skills/zui-standards/references/consumption.md>)，并确认目标包或构建包含这几个导出；不推导 `zui/event-bus` 子路径。
 
 ## vanilla
 
@@ -90,7 +90,7 @@ emitter.off('refresh', listener);
 
 没有 `destroy()` 或 `offAll()`。调用方保留监听函数并主动解除；若使用自己创建的注释节点，还应自己持有并按生命周期移除该节点。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/event-bus/src/event-emitter.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/event-bus/src/event-emitter.ts>)。
 
 ### javascript-event-bus
 
@@ -130,7 +130,7 @@ const prepared = EventBus.createEvent<Events['saved']>('saved', {id: 43});
 bus.emit(prepared);
 ```
 
-没有批量清理方法；需要批量释放时选择 `EventHub`。来源：[实现及泛型签名](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/event-bus/src/event-bus.ts>)。
+没有批量清理方法；需要批量释放时选择 `EventHub`。来源：[实现及泛型签名](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/event-bus/src/event-bus.ts>)。
 
 ### javascript-event-hub
 
@@ -171,7 +171,7 @@ hub.emit('saved', {id: 42}); // type 为 saved.panel
 hub.offAll();
 ```
 
-`offAll()` 只释放监听，不移除构造时创建的注释节点。多个 Hub 共享目标、事件名及同一回调时，原生目标仍使用相同的监听身份，不能将它们当作完全独立的注册。来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/event-bus/src/event-hub.ts>)。
+`offAll()` 只释放监听，不移除构造时创建的注释节点。多个 Hub 共享目标、事件名及同一回调时，原生目标仍使用相同的监听身份，不能将它们当作完全独立的注册。来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/event-bus/src/event-hub.ts>)。
 
 ### javascript-native-events
 
@@ -199,7 +199,7 @@ import {nativeEvents} from '@zui/event-bus';
 console.log(nativeEvents.has('click')); // true
 ```
 
-来源：[定义](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/event-bus/src/event-bus.ts>)。
+来源：[定义](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/event-bus/src/event-bus.ts>)。
 
 ## types
 
@@ -216,7 +216,7 @@ type CustomEventListener<E extends Event = Event> = (evt: E) => void;
 
 从 `@zui/event-bus` 通过 `import type` 导入。推荐具体事件映射使用 type 别名，例如 `type Events = {saved: CustomEvent<{id: number}>}`，避免将事件载荷直接作为映射值。`EventBus` / `EventHub` 的第一个泛型是事件对象映射，第二个是可用事件名，默认取第一个映射的字符串键。
 
-来源：[类型定义](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/event-bus/src/event-bus.ts>)。
+来源：[类型定义](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/event-bus/src/event-bus.ts>)。
 
 ## recipes
 
@@ -254,9 +254,9 @@ panel.dispose(); // 在所属页面或组件销毁时调用
 
 ## references
 
-- [公开入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/event-bus/src/main.ts>)
-- [EventEmitter](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/event-bus/src/event-emitter.ts>)
-- [EventBus、nativeEvents 与公共类型](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/event-bus/src/event-bus.ts>)
-- [EventHub](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/event-bus/src/event-hub.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/event-bus/docs/lib/helpers/index.md>)
-- [现有单元测试](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/tests/unit/event-bus.test.ts>)
+- [公开入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/event-bus/src/main.ts>)
+- [EventEmitter](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/event-bus/src/event-emitter.ts>)
+- [EventBus、nativeEvents 与公共类型](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/event-bus/src/event-bus.ts>)
+- [EventHub](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/event-bus/src/event-hub.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/event-bus/docs/lib/helpers/index.md>)
+- [现有单元测试](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/tests/unit/event-bus.test.ts>)

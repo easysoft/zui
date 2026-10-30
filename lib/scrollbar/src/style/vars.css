@@ -6,6 +6,6 @@
     --scrollbar-bar-bg:    rgba(var(--color-inverse-rgb), .3);
     --scrollbar-hover-bg:  rgba(var(--color-inverse-rgb), .4);
     --scrollbar-drag-bg:   rgba(var(--color-inverse-rgb), .5);
-    --scrollbar-radius:    var(--radius-sm);
+    --scrollbar-radius:    var(--radius);
     --scrollbar-duration:  .7s;
 }

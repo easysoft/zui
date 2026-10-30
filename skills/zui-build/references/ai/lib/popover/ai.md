@@ -24,9 +24,9 @@ show({delay?,event?,hideOthers?})、hide(destroy?)、toggle(options?) 控制显�
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/popover`](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/popover/src/main.ts>) 公开原生组件和相应类型。
+主入口 [`@zui/popover`](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/popover/src/main.ts>) 公开原生组件和相应类型。
 
-Preact 入口 [`@zui/popover/react`](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/popover/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
+Preact 入口 [`@zui/popover/react`](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/popover/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/popover` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -58,7 +58,7 @@ const instance = new PopoverPanel(host, {title: '说明', content: '面板内容
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[PopoverPanel](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/popover/src/vanilla/popover-panel.ts>)。
+来源：[PopoverPanel](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/popover/src/vanilla/popover-panel.ts>)。
 
 ### vanilla-popover
 
@@ -130,7 +130,7 @@ const instance = new Popover(host, {title: '说明', content: '面板内容', tr
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[Popover](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/popover/src/vanilla/popover.ts>)。
+来源：[Popover](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/popover/src/vanilla/popover.ts>)。
 
 ## preact
 
@@ -161,7 +161,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[PopoverPanel](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/popover/src/component/popover-panel.tsx>)。
+来源：[PopoverPanel](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/popover/src/component/popover-panel.tsx>)。
 
 ## web-components
 
@@ -187,7 +187,7 @@ const dispose = mountExample();
 | `.popover > .btn-close` | 绝对定位；`right-2`（内部样式）；`top-2.5`（内部样式）；`z-[2]`（内部样式） |
 | `.btn-close + .popover-content` | `pr-12`（内部样式） |
 
-来源：[src/style/popover.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/popover/src/style/popover.css>)。最小结构由前面的组件示例生成。
+来源：[src/style/popover.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/popover/src/style/popover.css>)。最小结构由前面的组件示例生成。
 
 ### css-modifiers
 
@@ -231,7 +231,7 @@ const dispose = mountExample();
 export type PopoverSide = 'top' | 'right' | 'bottom' | 'left';
 ```
 
-来源：[PopoverSide](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/popover/src/types/popover-options.ts>)。
+来源：[PopoverSide](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/popover/src/types/popover-options.ts>)。
 
 ### types-popover-layout-info
 
@@ -254,7 +254,7 @@ export type PopoverLayoutInfo = {
 };
 ```
 
-来源：[PopoverLayoutInfo](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/popover/src/types/popover-options.ts>)。
+来源：[PopoverLayoutInfo](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/popover/src/types/popover-options.ts>)。
 
 ### types-popover-options
 
@@ -308,7 +308,7 @@ export type PopoverOptions = Omit<PopoverPanelOptions, 'arrow' | 'arrowStyle' | 
 };
 ```
 
-来源：[PopoverOptions](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/popover/src/types/popover-options.ts>)。
+来源：[PopoverOptions](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/popover/src/types/popover-options.ts>)。
 
 ### types-popover-events
 
@@ -327,7 +327,7 @@ export type PopoverEvents = {
 };
 ```
 
-来源：[PopoverEvents](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/popover/src/types/popover-events.ts>)。
+来源：[PopoverEvents](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/popover/src/types/popover-events.ts>)。
 
 ### types-popover-panel-options
 
@@ -357,7 +357,7 @@ export type PopoverPanelOptions = {
 };
 ```
 
-来源：[PopoverPanelOptions](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/popover/src/types/popover-panel-options.ts>)。
+来源：[PopoverPanelOptions](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/popover/src/types/popover-panel-options.ts>)。
 
 ### types-popover-show-options
 
@@ -375,7 +375,7 @@ export type PopoverShowOptions = {
 };
 ```
 
-来源：[PopoverShowOptions](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/popover/src/vanilla/popover.ts>)。
+来源：[PopoverShowOptions](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/popover/src/vanilla/popover.ts>)。
 
 ## recipes
 
@@ -393,9 +393,9 @@ show({delay?,event?,hideOthers?})、hide(destroy?)、toggle(options?) 控制显�
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/popover/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/popover/src/main.ts>)
-- [Preact 入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/popover/src/main-react.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/popover/docs/lib/components/index.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/popover/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/popover/src/main.ts>)
+- [Preact 入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/popover/src/main-react.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/popover/docs/lib/components/index.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/.agents/skills/zui-standards/references/consumption.md>)

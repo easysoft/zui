@@ -24,9 +24,9 @@
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/datetime-picker`](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/main.ts>) 公开原生组件和相应类型。
+主入口 [`@zui/datetime-picker`](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/main.ts>) 公开原生组件和相应类型。
 
-Preact 入口 [`@zui/datetime-picker/react`](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
+Preact 入口 [`@zui/datetime-picker/react`](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/datetime-picker` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -58,7 +58,7 @@ const instance = new TimePicker(host, {name: 'time', defaultValue: '09:30'});
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[TimePicker](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/vanilla/time-picker.ts>)。
+来源：[TimePicker](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/vanilla/time-picker.ts>)。
 
 ### vanilla-date-picker
 
@@ -86,7 +86,7 @@ const instance = new DatePicker(host, {name: 'date', defaultValue: '2026-10-22'}
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[DatePicker](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/vanilla/date-picker.ts>)。
+来源：[DatePicker](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/vanilla/date-picker.ts>)。
 
 ### vanilla-datetime-picker
 
@@ -114,7 +114,7 @@ const instance = new DatetimePicker(host, {name: 'dateTime', defaultValue: '2026
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[DatetimePicker](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/vanilla/datetime-picker.ts>)。
+来源：[DatetimePicker](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/vanilla/datetime-picker.ts>)。
 
 ## preact
 
@@ -167,7 +167,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[TimePicker](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/component/time-picker.tsx>)。
+来源：[TimePicker](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/component/time-picker.tsx>)。
 
 ### preact-time-picker-menu
 
@@ -196,7 +196,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[TimePickerMenu](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/component/time-picker-menu.tsx>)。
+来源：[TimePickerMenu](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/component/time-picker-menu.tsx>)。
 
 ### preact-date-picker
 
@@ -247,7 +247,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[DatePicker](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/component/date-picker.tsx>)。
+来源：[DatePicker](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/component/date-picker.tsx>)。
 
 ### preact-date-picker-menu
 
@@ -276,7 +276,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[DatePickerMenu](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/component/date-picker-menu.tsx>)。
+来源：[DatePickerMenu](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/component/date-picker-menu.tsx>)。
 
 ### preact-datetime-picker
 
@@ -322,7 +322,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[DatetimePicker](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/component/datetime-picker.tsx>)。
+来源：[DatetimePicker](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/component/datetime-picker.tsx>)。
 
 ## web-components
 
@@ -356,7 +356,7 @@ const dispose = mountExample();
 | `.mini-calendar-day` | `h-8`（内部样式） |
 | `.mini-calendar-day > .btn` | `w-8`（内部样式） |
 
-来源：[src/style/date-picker.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/style/date-picker.css>), [src/style/time-picker.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/style/time-picker.css>), [src/style/datetime-picker.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/style/datetime-picker.css>), [src/style/mini-calendar.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/style/mini-calendar.css>)。最小结构由前面的组件示例生成。
+来源：[src/style/date-picker.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/style/date-picker.css>), [src/style/time-picker.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/style/time-picker.css>), [src/style/datetime-picker.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/style/datetime-picker.css>), [src/style/mini-calendar.css](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/style/mini-calendar.css>)。最小结构由前面的组件示例生成。
 
 ### css-modifiers
 
@@ -411,7 +411,7 @@ const date = getDate('2026-10-22');
 if (date) console.log(campDate(date, new Date(2026, 0, 1), new Date(2026, 11, 31)));
 ```
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/helpers/date-helper.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/helpers/date-helper.ts>)。
 
 ## types
 
@@ -429,7 +429,7 @@ if (date) console.log(campDate(date, new Date(2026, 0, 1), new Date(2026, 11, 31
 export type DateGetter = () => DateLike;
 ```
 
-来源：[DateGetter](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/types/date-setting.ts>)。
+来源：[DateGetter](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/types/date-setting.ts>)。
 
 ### types-date-setting
 
@@ -443,7 +443,7 @@ export type DateGetter = () => DateLike;
 export type DateSetting = DateLike | DateGetter;
 ```
 
-来源：[DateSetting](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/types/date-setting.ts>)。
+来源：[DateSetting](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/types/date-setting.ts>)。
 
 ### types-time-picker-options
 
@@ -464,7 +464,7 @@ export interface TimePickerOptions extends PickOptions {
 }
 ```
 
-来源：[TimePickerOptions](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/types/time-picker-options.ts>)。
+来源：[TimePickerOptions](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/types/time-picker-options.ts>)。
 
 ### types-time-picker-menu-props
 
@@ -484,7 +484,7 @@ export type TimePickerMenuProps = {
 };
 ```
 
-来源：[TimePickerMenuProps](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/types/time-picker-menu-props.ts>)。
+来源：[TimePickerMenuProps](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/types/time-picker-menu-props.ts>)。
 
 ### types-date-picker-options
 
@@ -518,7 +518,7 @@ export interface DatePickerOptions extends PickOptions {
 }
 ```
 
-来源：[DatePickerOptions](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/types/date-picker-options.ts>)。
+来源：[DatePickerOptions](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/types/date-picker-options.ts>)。
 
 ### types-date-picker-menu-props
 
@@ -546,7 +546,7 @@ export type DatePickerMenuProps = {
 };
 ```
 
-来源：[DatePickerMenuProps](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/types/date-picker-menu-props.ts>)。
+来源：[DatePickerMenuProps](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/types/date-picker-menu-props.ts>)。
 
 ### types-date-picker-menu-state
 
@@ -564,7 +564,7 @@ export type DatePickerMenuState = {
 };
 ```
 
-来源：[DatePickerMenuState](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/types/date-picker-menu-state.ts>)。
+来源：[DatePickerMenuState](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/types/date-picker-menu-state.ts>)。
 
 ### types-datetime-picker-options
 
@@ -578,7 +578,7 @@ export type DatePickerMenuState = {
 export type DatetimePickerOptions = DatePickerOptions & TimePickerOptions;
 ```
 
-来源：[DatetimePickerOptions](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/types/datetime-picker-options.ts>)。
+来源：[DatetimePickerOptions](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/types/datetime-picker-options.ts>)。
 
 ### types-mini-calendar-props
 
@@ -604,7 +604,7 @@ export type MiniCalendarProps = {
 };
 ```
 
-来源：[MiniCalendarProps](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/types/mini-calendar-props.ts>)。
+来源：[MiniCalendarProps](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/types/mini-calendar-props.ts>)。
 
 ## recipes
 
@@ -622,9 +622,9 @@ export type MiniCalendarProps = {
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/main.ts>)
-- [Preact 入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/src/main-react.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/datetime-picker/docs/lib/forms/date.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/main.ts>)
+- [Preact 入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/src/main-react.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/datetime-picker/docs/lib/forms/date.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/.agents/skills/zui-standards/references/consumption.md>)

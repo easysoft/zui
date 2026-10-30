@@ -79,7 +79,7 @@ host.remove();
 
 无点事件名由 on/off 自动加实例命名空间；包含 `.` 的名称原样保留。手写其他 namespace 不会随 destroy 的 off(this.namespace) 自动清除，调用方需显式 off。
 
-来源：[基类](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/component/component.ts>)、[创建器](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/component/creator.ts>)。
+来源：[基类](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/component/component.ts>)、[创建器](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/component/creator.ts>)。
 
 
 ### vanilla-component-from-react
@@ -92,7 +92,7 @@ host.remove();
 
 `$replace` 可覆盖静态 replace；匹配 HElement 时可替换目标节点。`executeCommand(path,args)` 先访问视图，失败再访问 wrapper。`renderHTML(options): string` 使用临时 DOM 渲染，不是无 DOM 的 SSR。
 
-使用实例见 [Menu](../menu/ai.md#vanilla-menu)。继承 API 以当前基类为准，不推断每个视图都有相同方法。来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/component-from-react.ts>)。
+使用实例见 [Menu](../menu/ai.md#vanilla-menu)。继承 API 以当前基类为准，不推断每个视图都有相同方法。来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/component-from-react.ts>)。
 
 
 ### vanilla-custom
@@ -115,7 +115,7 @@ view.destroy();
 host.remove();
 ```
 
-内容语义见 [渲染器](#preact-content)。来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/custom.ts>)。
+内容语义见 [渲染器](#preact-content)。来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/custom.ts>)。
 
 
 ### vanilla-sticky
@@ -128,7 +128,7 @@ host.remove();
 
 设置 position:sticky 和对应边 0；无 scrollContainer 时用 IntersectionObserver，有容器时监听滚动并在动画帧判断吸附。`$targets` 返回目标 Cash 集合。`destroy()` 当前仅释放 observer/scroll/rAF，不调用基类 destroy，也不还原内联样式或组件注册。避免销毁后在同一宿主重新 new；这是当前实现限制。
 
-workspace：`const sticky = new Sticky(element, {side:'top'}); sticky.destroy();`，element 是已存在且置于可滚动布局的 HTMLElement。来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/sticky.ts>)。
+workspace：`const sticky = new Sticky(element, {side:'top'}); sticky.destroy();`，element 是已存在且置于可滚动布局的 HTMLElement。来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/sticky.ts>)。
 
 ## preact
 
@@ -156,7 +156,7 @@ render(null, host);
 host.remove();
 ```
 
-不使用 hooks；状态可用 signals 或类状态。来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/components/h-element.ts>)。
+不使用 hooks；状态可用 signals 或类状态。来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/components/h-element.ts>)。
 
 
 ### preact-content
@@ -188,7 +188,7 @@ host.remove();
 
 LazyContent 默认 type=html、loadingIndicator=true、clearBeforeLoad=true、loadingClass=loading；executeScript 未指定时，无 ContentRenderPolicy 默认 true，有 policy 默认 false。它与 HtmlContent 的 false 默认不同，使用 HTML 请求前应明确执行策略。
 
-完整 Props 见 [内容类型](#types-content)。来源：[组件入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/components/index.ts>)、[宿主策略](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/components/content-render-context.ts>)。
+完整 Props 见 [内容类型](#types-content)。来源：[组件入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/components/index.ts>)、[宿主策略](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/components/content-render-context.ts>)。
 
 
 ### preact-bridge
@@ -213,7 +213,7 @@ render(<QueryClientProvider client={client}><span>ready</span></QueryClientProvi
 render(null, host);
 ```
 
-来源：[ZUI](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/components/zui.tsx>)、[provider](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/query/query-client-context.tsx>)、[portal](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/components/portals.ts>)。
+来源：[ZUI](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/components/zui.tsx>)、[provider](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/query/query-client-context.tsx>)、[portal](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/components/portals.ts>)。
 
 ## web-components
 
@@ -255,7 +255,7 @@ await element.ready;
 element.remove();
 ```
 
-注册是全局的；相同标签/不同构造器不能覆盖。来源：[工厂](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/web-components/factory.ts>)、[基类](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/web-components/element.ts>)、[属性](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/web-components/properties.ts>)。
+注册是全局的；相同标签/不同构造器不能覆盖。来源：[工厂](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/web-components/factory.ts>)、[基类](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/web-components/element.ts>)、[属性](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/web-components/properties.ts>)。
 
 ## css
 
@@ -277,7 +277,7 @@ Core 不提供独立 CSS 组件或工具样式；渲染器输出的布局、加�
 
 ZUI 增加 dataset/data、setClass、尺寸/CSS、事件、表单、zdata、zuiInit/zuiCall、scrollIntoView、resize、hotkeys、commands 等方法；对应能力的签名见下方条目和源码声明。AJAX helper 使用 `$.ajax/$.get/$.post/$.getJSON`，不是独立命名导出。
 
-workspace：`import {$} from '@zui/core'; const node = $('<div>text</div>').appendTo(document.body); node.remove();`。来源：[Cash](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/cash/cash.ts>)、[AJAX 扩展](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/ajax/helper.ts>)。
+workspace：`import {$} from '@zui/core'; const node = $('<div>text</div>').appendTo(document.body); node.remove();`。来源：[Cash](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/cash/cash.ts>)、[AJAX 扩展](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/ajax/helper.ts>)。
 
 
 ### javascript-creator
@@ -297,7 +297,7 @@ defineFn(name?: string): void;
 
 create 未找到类返回 null；已有实例默认复用，$update=true 刷新、$update='reset' 重置。init(element,{update,runJS,beforeCreate,onCreate}) 扫描声明式节点；beforeCreate 返回 false 跳过，onCreate 返回 false 跳过或返回选项替换。动态脚本相关选项仅用于可信内容。注册与静态 Component 方法共享表。
 
-browser（包含 Menu 资源）：`const host=document.createElement('div'); document.body.append(host); const menu=zui.create('menu',host,{items:[{text:'打开'}]}); menu?.destroy(); host.remove();`。来源：[创建器](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/component/creator.ts>)。
+browser（包含 Menu 资源）：`const host=document.createElement('div'); document.body.append(host); const menu=zui.create('menu',host,{items:[{text:'打开'}]}); menu?.destroy(); host.remove();`。来源：[创建器](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/component/creator.ts>)。
 
 
 ### javascript-signals
@@ -327,7 +327,7 @@ batch(() => { count.value = 2; });
 dispose();
 ```
 
-来源：[再导出](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/signals.ts>)。
+来源：[再导出](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/signals.ts>)。
 
 
 ### javascript-query
@@ -340,7 +340,7 @@ dispose();
 
 query 增加 refetch(options?)；infinite 增加 fetchNextPage/fetchPreviousPage；mutation 增加 mutate(variables,options?)（Promise）和 reset()。创建时不自动订阅，query/infinite 需显式 mount；mutation.mutate 会自动 mount。destroy 幂等且终止使用，但不清空共享缓存；mutation 的 destroy/reset 不取消已发送请求。refetch 可在 mount 前调用，用 throwOnError 要求失败 reject。应用或 QueryClientProvider 持有 client.mount/unmount 生命周期。
 
-同时再导出 QueryCache、MutationCache、keepPreviousData、skipToken 及 query-core 对应类型；不实现另一套缓存。具体扩展选项见 [公开 query 类型列表](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/query/index.ts>)。
+同时再导出 QueryCache、MutationCache、keepPreviousData、skipToken 及 query-core 对应类型；不实现另一套缓存。具体扩展选项见 [公开 query 类型列表](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/query/index.ts>)。
 
 workspace：
 
@@ -356,7 +356,7 @@ query.destroy();
 client.unmount();
 ```
 
-来源：[query](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/query/create-query.ts>)、[infinite](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/query/create-infinite-query.ts>)、[mutation](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/query/create-mutation.ts>)。
+来源：[query](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/query/create-query.ts>)、[infinite](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/query/create-infinite-query.ts>)、[mutation](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/query/create-mutation.ts>)。
 
 
 ### javascript-ajax
@@ -379,7 +379,7 @@ const value = await fetchData((id: number) => ({id}), [42]);
 console.log(value.id);
 ```
 
-选项类型见 [AJAX 类型](#types-ajax)。来源：[Ajax](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/ajax/ajax.ts>)、[fetcher](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/ajax/fetcher.ts>)。
+选项类型见 [AJAX 类型](#types-ajax)。来源：[Ajax](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/ajax/ajax.ts>)、[fetcher](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/ajax/fetcher.ts>)。
 
 
 ### javascript-classes
@@ -397,7 +397,7 @@ classes(...args: ClassNameLike[]): string;
 
 workspace：从 `@zui/core` 导入上述成员，`classes("a", {a:false, b:true})`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/classes.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/classes.ts>)。
 
 
 ### javascript-data
@@ -419,7 +419,7 @@ WeakMap 关联对象数据；storeData 的 null 清全部，undefined 删除单�
 
 workspace：从 `@zui/core` 导入上述成员，`storeData(document.body, "demo", 1); takeData(document.body, "demo"); clearData(document.body)`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/data.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/data.ts>)。
 
 
 ### javascript-raw-data
@@ -438,7 +438,7 @@ evalValue 用 new Function 求值；parseRawData 普通内容用 JSON.parse，RA
 
 workspace：从 `@zui/core` 导入上述成员，`parseRawData("{\"count\":1}")`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/raw-data.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/raw-data.ts>)。
 
 
 ### javascript-z
@@ -456,7 +456,7 @@ setZData(selector: Selector, data: Record<string, unknown>, prefix?: string): vo
 
 workspace：从 `@zui/core` 导入上述成员，`setZData(document.body, {demo:1}); getZData(document.body)`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/z.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/z.ts>)。
 
 
 ### javascript-merge-props
@@ -474,7 +474,7 @@ removeUndefinedProps(props: Record<string, unknown>): Record<string, unknown>;
 
 workspace：从 `@zui/core` 导入上述成员，`mergeProps({className:"a"}, {className:"b"})`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/merge-props.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/merge-props.ts>)。
 
 
 ### javascript-size
@@ -492,7 +492,7 @@ toCssSize<A extends unknown[] = unknown[]>(size: SizeSetting | undefined | null,
 
 workspace：从 `@zui/core` 导入上述成员，`toCssSize("1/2")`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/size.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/size.ts>)。
 
 
 ### javascript-is-diff
@@ -509,7 +509,7 @@ isDiff(value1: unknown, value2: unknown): boolean;
 
 workspace：从 `@zui/core` 导入上述成员，`isDiff({x:1},{x:2})`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/is-diff.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/is-diff.ts>)。
 
 
 ### javascript-gid
@@ -526,7 +526,7 @@ nextGid(): number;
 
 workspace：从 `@zui/core` 导入上述成员，`nextGid()`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/gid.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/gid.ts>)。
 
 
 ### javascript-delay
@@ -543,7 +543,7 @@ ms 为毫秒，setTimerID 可接收定时器 ID；清除计时器不会自动完
 
 workspace：从 `@zui/core` 导入上述成员，`await delay(10)`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/delay.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/delay.ts>)。
 
 
 ### javascript-debounce
@@ -560,7 +560,7 @@ debounce<T extends (...args: any[]) => any>(func: T, optionsOrDelay?: DebounceOp
 
 workspace：从 `@zui/core` 导入上述成员，`const run=debounce(() => console.log("done"), 100); run(); run.cancel()`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/debounce.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/debounce.ts>)。
 
 
 ### javascript-wait-until
@@ -577,7 +577,7 @@ interval 默认100ms，timeout默认60000ms；首次检查在 interval 后，避
 
 workspace：从 `@zui/core` 导入上述成员，`await waitUntil(() => true, 1000)`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/wait-until.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/wait-until.ts>)。
 
 
 ### javascript-try-exec
@@ -594,7 +594,7 @@ tryExec<F extends (...args: any[]) => any>(fn: F, args: Parameters<F>, onError?:
 
 workspace：从 `@zui/core` 导入上述成员，`tryExec(() => 1, [])`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/try-exec.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/try-exec.ts>)。
 
 
 ### javascript-copy
@@ -612,7 +612,7 @@ copy 支持字符串、{text,html,MIME:Blob/string} 或 ClipboardItems；无 cli
 
 workspace：从 `@zui/core` 导入上述成员，`await copy("hello")`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/copy.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/copy.ts>)。
 
 
 ### javascript-read-file
@@ -629,7 +629,7 @@ FileReader 按 UTF-8 文本读取，读取错误 reject。
 
 workspace：从 `@zui/core` 导入上述成员，`await readFile(new File(["hello"], "hello.txt"))`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/read-file.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/read-file.ts>)。
 
 
 ### javascript-select-file
@@ -647,7 +647,7 @@ options 可为 accept 字符串或 {accept,multiple}；取消返回 null，多�
 
 workspace：从 `@zui/core` 导入上述成员，`await selectFile({accept:"image/*"})`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/select-file.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/select-file.ts>)。
 
 
 ### javascript-download-file
@@ -664,7 +664,7 @@ downloadFile(file: Blob | Response | string, fileName?: string): Promise<Blob>;
 
 workspace：从 `@zui/core` 导入上述成员，`await downloadFile(new Blob(["hello"]), "hello.txt")`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/download-file.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/download-file.ts>)。
 
 
 ### javascript-scroll
@@ -681,7 +681,7 @@ disable 默认 true，切换目标滚动锁定；使用结束传 false 恢复。
 
 workspace：从 `@zui/core` 导入上述成员，`disableScroll(document.body, true); disableScroll(document.body, false)`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/scroll.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/scroll.ts>)。
 
 
 ### javascript-hotkeys
@@ -701,7 +701,7 @@ getHotkeysMap 归并默认配置；bindHotkeys 默认 keydown，支持 scope/whe
 
 workspace：从 `@zui/core` 导入上述成员，`bindHotkeys(document.body, {Escape: () => console.log("escape")}, {scope:"demo"}); unbindHotkeys(document.body,"demo")`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/hotkeys.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/hotkeys.ts>)。
 
 
 ### javascript-fullscreen
@@ -720,7 +720,7 @@ toggleFullscreen(options?: Selector | EnterFullscreenOptions | false): Promise<b
 
 workspace：从 `@zui/core` 导入上述成员，`getFullscreenElement()`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/fullscreen.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/fullscreen.ts>)。
 
 
 ### javascript-commands
@@ -743,7 +743,7 @@ unbindCommands(element: Selector, scopes?: string | true): void;
 
 workspace：从 `@zui/core` 导入上述成员，`parseCommand("/demo~open/42?mode=1")`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/commands.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/commands.ts>)。
 
 
 ### javascript-global-event
@@ -760,7 +760,7 @@ registerGlobalListener(events: string[]): void;
 
 workspace：从 `@zui/core` 导入上述成员，`registerGlobalListener(["click", "change", "inited"])`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/global-event.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/global-event.ts>)。
 
 
 ### javascript-run-js
@@ -777,7 +777,7 @@ runJS(selector: Selector, jsCode?: string | null, removeAfterRun?: boolean): voi
 
 workspace：从 `@zui/core` 导入上述成员，`runJS(document.createElement("div"), "void 0")`。
 
-来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/run-js.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/run-js.ts>)。
 
 
 ### javascript-computed
@@ -788,7 +788,7 @@ workspace：从 `@zui/core` 导入上述成员，`runJS(document.createElement("
 
 `new Computed<T,D>(compute:()=>T, dependencies:D|(()=>D))`。value 调用 compute 检查变化；cache 返回旧缓存（未算过才计算）；depends(deps) 更新依赖并返回 this；compute(deps?) 返回 T；forceCompute(deps?) 丢弃旧缓存重新算。依赖比较使用 isDiff，嵌套 Computed 读取 value，不是 signals 自动跟踪。
 
-workspace：`const value = new Computed(() => 2, []); value.value; value.forceCompute();`。来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/computed.ts>)。
+workspace：`const value = new Computed(() => 2, []); value.value; value.forceCompute();`。来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/computed.ts>)。
 
 
 ### javascript-bus
@@ -801,7 +801,7 @@ workspace：`const value = new Computed(() => 2, []); value.value; value.forceCo
 
 不同于 [event-bus](../event-bus/ai.md) 的 EventTarget 总线；请使用命名空间或精确 callback 清理，避免 bus.off() 清掉他人的监听。
 
-workspace：`const handle=()=>{}; bus.on('saved.demo',handle); bus.trigger('saved.demo',{id:1}); bus.off('saved.demo',handle);`。来源：[实现](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/bus.ts>)。
+workspace：`const handle=()=>{}; bus.on('saved.demo',handle); bus.trigger('saved.demo',{id:1}); bus.off('saved.demo',handle);`。来源：[实现](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/bus.ts>)。
 
 
 ### javascript-loader
@@ -823,7 +823,7 @@ GetLibOptions 的 src 必需；可配置 name/id/root/version/type/css/dependenc
 
 `new LibLoader<T>(name,options?)`；register(options) 登记，load({throwError?,noCache?}?) 返回模块或 undefined，默认缓存失败并静默，throwError=true 抛出，noCache=true 重试；loaded 表示模块为真值，Module 在未加载时抛错。加载不会自动卸载全局模块。
 
-workspace：`const loader = new LibLoader('example', {src:'./example.js',check:'Example'}); await loader.load({throwError:true});`，example.js 为使用方部署并导出 window.Example 的脚本。来源：[加载器](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/get-lib.ts>)、[包装类](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/lib-loader.ts>)。
+workspace：`const loader = new LibLoader('example', {src:'./example.js',check:'Example'}); await loader.load({throwError:true});`，example.js 为使用方部署并导出 window.Example 的脚本。来源：[加载器](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/get-lib.ts>)、[包装类](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/lib-loader.ts>)。
 
 
 ### javascript-dom
@@ -846,7 +846,7 @@ workspace：`const loader = new LibLoader('example', {src:'./example.js',check:'
 
 auto-height 模块通过 `$.fn.autoHeight` 提供 textarea 自动高度，并非 dom.autoHeight 导出；当前读取 scrollHeight 最小32px，尊重 max-height。
 
-workspace：`const observer = dom.listenResize(document.body, () => {}); observer.disconnect();`。来源：[模块入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/dom/index.ts>)、[自动高度](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/dom/auto-height.ts>)。
+workspace：`const observer = dom.listenResize(document.body, () => {}); observer.disconnect();`。来源：[模块入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/dom/index.ts>)、[自动高度](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/dom/auto-height.ts>)。
 
 
 ### javascript-form-i18n-registry
@@ -870,7 +870,7 @@ createFormData 接受查询串/FormData/URLSearchParams/对象/键值对，可�
 
 registerReactComponent 接受名称+组件或映射，getReactComponent 返回已注册 Preact 组件；reactComponentMap/reactComponents 为共享注册表。`html` 是 htm/vhtml 模板标签返回 HTML 字符串，`jsx` 返回 Preact VNode；表达式内插不需要 JSX 编译。VERSION/BUILD/BUILD_MODE/BUILD_HASH 来自构建注入。shareData 是共享可变对象，不是持久化存储。
 
-workspace：`const data = createFormData({name:'ZUI'}); setFormDataValue(data,'count',2); const node = jsx\`<span>${'hello'}</span>\`;`。来源：[表单](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/form/helper.ts>)、[词典](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/i18n/i18n.ts>)、[模板](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/htm.ts>)、[注册](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/components/components.ts>)。
+workspace：`const data = createFormData({name:'ZUI'}); setFormDataValue(data,'count',2); const node = jsx\`<span>${'hello'}</span>\`;`。来源：[表单](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/form/helper.ts>)、[词典](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/i18n/i18n.ts>)、[模板](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/htm.ts>)、[注册](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/components/components.ts>)。
 
 ## types
 
@@ -900,7 +900,7 @@ export type ComponentOptions<O extends object = object> = ComponentBaseOptions &
 };
 ```
 
-来源：[src/component/types/component-options.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/component/types/component-options.ts>)。
+来源：[src/component/types/component-options.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/component/types/component-options.ts>)。
 
 $onCreate/$onInited/$onDestroy 的 this 是实例；$optionsFromDataset 默认启用，设 false 禁止读取。$options 在构造初始化或显式 reset 时同步派生选项，构造时先于 init 执行并从结果选项删除；普通 setOptions/render 不执行后来追加的 $options。$fetcher 在下一帧异步取选项。$class/$style 作用于 wrapper 宿主；$reset/$notDestroyOnDetach 属于共享类型但具体使用须看创建/销毁路径。
 
@@ -933,7 +933,7 @@ export interface HElementProps extends PreactDOMAttributes, Attributes {
 }
 ```
 
-来源：[src/react/types/h-element-props.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/types/h-element-props.ts>)。
+来源：[src/react/types/h-element-props.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/types/h-element-props.ts>)。
 
 
 ### types-ajax
@@ -981,7 +981,7 @@ export type FetcherFn<T = unknown, A extends unknown[] = unknown[], THIS = unkno
 export type FetcherSetting<T = unknown, A extends unknown[] = unknown[], THIS = unknown> = FetcherUrl | FetcherInit | FetcherFn<T, A, THIS>;
 ```
 
-来源：[src/ajax/types.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/ajax/types.ts>)。
+来源：[src/ajax/types.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/ajax/types.ts>)。
 
 
 ### types-content
@@ -997,7 +997,7 @@ export interface HtmlContentProps extends HElementProps {
 }
 ```
 
-来源：[src/react/types/html-content-props.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/types/html-content-props.ts>)。
+来源：[src/react/types/html-content-props.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/types/html-content-props.ts>)。
 
 ```ts
 export interface LazyContentProps<T = string | CustomContentType, A extends unknown[] = unknown[], THIS = unknown> {
@@ -1024,7 +1024,7 @@ export interface LazyContentProps<T = string | CustomContentType, A extends unkn
 }
 ```
 
-来源：[src/react/types/lazy-content-props.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/types/lazy-content-props.ts>)。
+来源：[src/react/types/lazy-content-props.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/types/lazy-content-props.ts>)。
 
 ```ts
 export interface CustomContentProps {
@@ -1036,25 +1036,25 @@ export interface CustomContentProps {
 }
 ```
 
-来源：[src/react/types/custom-content-props.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/types/custom-content-props.ts>)。
+来源：[src/react/types/custom-content-props.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/types/custom-content-props.ts>)。
 
 ```ts
 export type CustomContentStatic = ComponentChildren | HtmlContentProps | HElementProps | LazyContentProps;
 ```
 
-来源：[src/react/types/custom-content-static.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/types/custom-content-static.ts>)。
+来源：[src/react/types/custom-content-static.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/types/custom-content-static.ts>)。
 
 ```ts
 export type CustomContentGenerator = (this: unknown | undefined, ...args: unknown[]) => CustomContentStatic;
 ```
 
-来源：[src/react/types/custom-content-generator.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/types/custom-content-generator.ts>)。
+来源：[src/react/types/custom-content-generator.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/types/custom-content-generator.ts>)。
 
 ```ts
 export type CustomContentType = CustomContentStatic | CustomContentGenerator;
 ```
 
-来源：[src/react/types/custom-content-type.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/types/custom-content-type.ts>)。
+来源：[src/react/types/custom-content-type.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/types/custom-content-type.ts>)。
 
 ```ts
 export type IconProps = {
@@ -1064,14 +1064,14 @@ export type IconProps = {
 };
 ```
 
-来源：[src/react/types/icon-props.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/types/icon-props.ts>)。
+来源：[src/react/types/icon-props.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/types/icon-props.ts>)。
 
 ```ts
 export type IconClass = JSX.HTMLAttributes<HTMLElement> & {icon?: string};
 export type IconType = string | IconClass | VNode;
 ```
 
-来源：[src/react/types/icon-type.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/types/icon-type.ts>)。
+来源：[src/react/types/icon-type.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/types/icon-type.ts>)。
 
 
 ### types-helper-options
@@ -1092,7 +1092,7 @@ type WaitUntilOptions<T> = {
 };
 ```
 
-其他公开类型按对应能力使用：CommandContext/CommandCallback/CommandExecutionOptions/CommandsBindOptions、HotkeysBindingOptions/HotkeysMap、LoadJSOptions/LoadCSSOptions/GetLibOptions、CopyContents/CopyDataMap、FormDataLike/FormItemValue、I18nLangMap/I18nLangCode、ComponentEvents/ComponentEventCallback、WebComponentConfig/ElementProperty、QueryController/InfiniteQueryController/MutationController。完整字段在对应条目和[helpers 入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/index.ts>)、[组件类型入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/component/types/index.ts>)、[查询入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/query/index.ts>)、[元素工厂](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/web-components/factory.ts>)中定位。
+其他公开类型按对应能力使用：CommandContext/CommandCallback/CommandExecutionOptions/CommandsBindOptions、HotkeysBindingOptions/HotkeysMap、LoadJSOptions/LoadCSSOptions/GetLibOptions、CopyContents/CopyDataMap、FormDataLike/FormItemValue、I18nLangMap/I18nLangCode、ComponentEvents/ComponentEventCallback、WebComponentConfig/ElementProperty、QueryController/InfiniteQueryController/MutationController。完整字段在对应条目和[helpers 入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/index.ts>)、[组件类型入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/component/types/index.ts>)、[查询入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/query/index.ts>)、[元素工厂](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/web-components/factory.ts>)中定位。
 
 Preact 的 JSX/ComponentChildren/VNode/Ref/RefObject/CSSProperties 和 signals/query-core 类型是公开再导出；使用 `import type`，不能当作运行时类实例化。
 
@@ -1157,7 +1157,7 @@ export type CommandLike = string | CommandExecuteInfo | undefined;
 export type CommandsLike = string | CommandsExecuteInfo | (string | CommandExecuteInfo)[];
 ```
 
-来源：[helpers/commands.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/commands.ts>)。
+来源：[helpers/commands.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/commands.ts>)。
 
 ### types-loading-options
 
@@ -1217,7 +1217,7 @@ export type GetLibOptions = {
 };
 ```
 
-来源：[helpers/get-lib.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/get-lib.ts>)。
+来源：[helpers/get-lib.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/get-lib.ts>)。
 
 ### types-interaction-options
 
@@ -1251,7 +1251,7 @@ export type HotkeysMap = Record<HotkeyName, HotkeySetting>;
 export type HotkeysSettings = boolean | Record<HotkeyName, HotkeySetting | boolean>;
 ```
 
-来源：[helpers/hotkeys.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/hotkeys.ts>)。
+来源：[helpers/hotkeys.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/hotkeys.ts>)。
 
 ```ts
 export type CopyDataMap = {
@@ -1263,7 +1263,7 @@ export type CopyDataMap = {
 export type CopyContents = string | CopyDataMap | ClipboardItems;
 ```
 
-来源：[helpers/copy.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/copy.ts>)。
+来源：[helpers/copy.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/copy.ts>)。
 
 ```ts
 export type EnterFullscreenOptions = {
@@ -1275,7 +1275,7 @@ export type EnterFullscreenOptions = {
 };
 ```
 
-来源：[helpers/fullscreen.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/fullscreen.ts>)。
+来源：[helpers/fullscreen.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/fullscreen.ts>)。
 
 ```ts
 export type StickyOptions = {
@@ -1288,7 +1288,7 @@ export type StickyOptions = {
 };
 ```
 
-来源：[helpers/sticky.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/sticky.ts>)。
+来源：[helpers/sticky.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/sticky.ts>)。
 
 ```ts
 export type GlobalEventOptions = {
@@ -1306,7 +1306,7 @@ export type GlobalEventOptions = {
 };
 ```
 
-来源：[helpers/global-event.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/global-event.ts>)。
+来源：[helpers/global-event.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/global-event.ts>)。
 
 ### types-component-events
 
@@ -1341,7 +1341,7 @@ export type ComponentEventArgs<E extends ComponentEventsDefnition, N extends Com
 ];
 ```
 
-来源：[component/types/component-events.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/component/types/component-events.ts>)。
+来源：[component/types/component-events.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/component/types/component-events.ts>)。
 
 ```ts
 export type ComponentToggleTrigger = 'click' | 'hover';
@@ -1362,7 +1362,7 @@ export type ComponentToggleConfig = {
 };
 ```
 
-来源：[component/types/component-toggle-config.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/component/types/component-toggle-config.ts>)。
+来源：[component/types/component-toggle-config.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/component/types/component-toggle-config.ts>)。
 
 ```ts
 export type ComponentCreateOptions = ComponentOptions & {
@@ -1382,7 +1382,7 @@ export type BeforeCreateCallback = (element: HTMLElement) => boolean | undefined
 export type OnCreateCallback = (name: string, options: Record<string, unknown>) => false | Record<string, unknown> | undefined;
 ```
 
-来源：[component/creator.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/component/creator.ts>)。
+来源：[component/creator.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/component/creator.ts>)。
 
 ### types-web-component-config
 
@@ -1403,7 +1403,7 @@ export type ElementProperty<T = unknown> = {
 };
 ```
 
-来源：[web-components/properties.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/web-components/properties.ts>)。
+来源：[web-components/properties.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/web-components/properties.ts>)。
 
 ```ts
 export type WebComponentInstance<P extends object, G extends object = object> = ZuiElement<P> & P & Readonly<G>;
@@ -1456,19 +1456,19 @@ export type WebComponentOwner<P extends object, O extends object = P, G extends 
 };
 ```
 
-来源：[web-components/factory.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/web-components/factory.ts>)。
+来源：[web-components/factory.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/web-components/factory.ts>)。
 
 ```ts
 export type ElementComponentOptions<O extends object> = Partial<ComponentOptions<O>> & {$replace?: boolean};
 ```
 
-来源：[web-components/component-element.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/web-components/component-element.ts>)。
+来源：[web-components/component-element.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/web-components/component-element.ts>)。
 
 ```ts
 export type PropertyChangeSource = 'attribute' | 'property' | 'internal';
 ```
 
-来源：[web-components/element.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/web-components/element.ts>)。
+来源：[web-components/element.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/web-components/element.ts>)。
 
 ```ts
 export type ElementSlotMap<O extends object = Record<string, unknown>> = Readonly<Record<string, 'children' | {
@@ -1476,7 +1476,7 @@ export type ElementSlotMap<O extends object = Record<string, unknown>> = Readonl
 }[keyof O]>>;
 ```
 
-来源：[web-components/slots.tsx](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/web-components/slots.tsx>)。
+来源：[web-components/slots.tsx](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/web-components/slots.tsx>)。
 
 ### types-query-controllers
 
@@ -1495,7 +1495,7 @@ export type QueryController<
 > = ReturnType<typeof createQuery<TQueryFnData, TError, TData, TQueryKey>>;
 ```
 
-来源：[query/create-query.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/query/create-query.ts>)。
+来源：[query/create-query.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/query/create-query.ts>)。
 
 ```ts
 export type InfiniteQueryController<
@@ -1507,7 +1507,7 @@ export type InfiniteQueryController<
 > = ReturnType<typeof createInfiniteQuery<TQueryFnData, TError, TData, TQueryKey, TPageParam>>;
 ```
 
-来源：[query/create-infinite-query.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/query/create-infinite-query.ts>)。
+来源：[query/create-infinite-query.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/query/create-infinite-query.ts>)。
 
 ```ts
 export type MutationController<TData = unknown, TError = DefaultError, TVariables = void, TOnMutateResult = unknown> = ReturnType<
@@ -1515,7 +1515,7 @@ export type MutationController<TData = unknown, TError = DefaultError, TVariable
 >;
 ```
 
-来源：[query/create-mutation.ts](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/query/create-mutation.ts>)。
+来源：[query/create-mutation.ts](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/query/create-mutation.ts>)。
 
 ```ts
 export type QueryClientProviderProps = {
@@ -1524,7 +1524,7 @@ export type QueryClientProviderProps = {
 };
 ```
 
-来源：[query/query-client-context.tsx](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/query/query-client-context.tsx>)。
+来源：[query/query-client-context.tsx](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/query/query-client-context.tsx>)。
 
 ## recipes
 
@@ -1553,10 +1553,10 @@ dispose();
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/main.ts>)
-- [原生组件](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/component/component.ts>)
-- [Preact 基类](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/react/components/h-element.ts>)
-- [工具入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/helpers/index.ts>)
-- [自定义元素入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/web-components/index.ts>)
-- [查询入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/core/src/query/index.ts>)
+- [包元数据](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/main.ts>)
+- [原生组件](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/component/component.ts>)
+- [Preact 基类](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/react/components/h-element.ts>)
+- [工具入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/helpers/index.ts>)
+- [自定义元素入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/web-components/index.ts>)
+- [查询入口](<https://github.com/easysoft/zui/blob/c4c21db96c816bae14d178065ce59d2fbf8ea01d/lib/core/src/query/index.ts>)
