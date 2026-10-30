@@ -1,6 +1,10 @@
-/* The documentation adapter follows ZUI tokens only while a custom theme is active. */
-:root { scrollbar-color: var(--scrollbar-bar-bg) var(--scrollbar-bg); scrollbar-width: auto; }
+/* Non-auto scrollbar-color overrides ZUI's WebKit scrollbar styles. */
+@supports not selector(::-webkit-scrollbar) {
+  :root { scrollbar-color: var(--scrollbar-bar-bg) var(--scrollbar-bg); }
+}
 @media (forced-colors: active) { :root { scrollbar-color: auto; } }
+
+/* The documentation adapter follows ZUI tokens only while a custom theme is active. */
 :root[data-zui-theme], :root.dark[data-zui-theme] {
   font-size: var(--font-size-root);
   --vp-c-bg: var(--color-canvas);
