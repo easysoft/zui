@@ -7,7 +7,7 @@ for (const width of [390, 1440]) {
         await page.goto('./');
         const tabs = page.getByRole('tablist', {name: '接入方式'});
         await tabs.scrollIntoViewIfNeeded();
-        const geometry = () => page.locator('.home-start').evaluate(element => ({
+        const geometry = () => page.locator('.home-showcase').evaluate(element => ({
             height: element.getBoundingClientRect().height,
             resourcesTop: element.querySelector('.home-resources')!.getBoundingClientRect().top,
             scroll: window.scrollY,
@@ -16,7 +16,7 @@ for (const width of [390, 1440]) {
         for (const name of ['npm', 'CDN', '下载构建', 'npm']) {
             await tabs.getByRole('tab', {name, exact: true}).click();
             const panel = page.getByRole('tabpanel', {name, exact: true});
-            await expect(page.getByRole('tabpanel')).toHaveCount(1);
+            await expect(page.locator('.home-install').getByRole('tabpanel')).toHaveCount(1);
             await expect(panel).toBeVisible();
             expect(await geometry()).toEqual(initial);
             await panel.evaluate(element => Promise.all(element.getAnimations().map(animation => animation.finished)));
@@ -48,17 +48,18 @@ test('install panels adapt after resizing and respect reduced motion during rapi
     await page.keyboard.press('Home');
     await page.keyboard.press('ArrowRight');
     await expect(page.getByRole('tabpanel', {name: 'CDN'})).toBeVisible();
-    await expect(page.getByRole('tabpanel')).toHaveCount(1);
+    await expect(page.locator('.home-install').getByRole('tabpanel')).toHaveCount(1);
     await page.emulateMedia({reducedMotion: 'reduce'});
+    await expect(page.locator('.home-showcase-toggle')).toHaveCount(0);
     for (const width of [390, 1440]) {
         await page.setViewportSize({width, height: 900});
-        const before = await page.locator('.home-start').boundingBox();
+        const before = await page.locator('.home-showcase').boundingBox();
         await tabs.getByRole('tab', {name: 'npm', exact: true}).click();
         const panel = page.getByRole('tabpanel', {name: 'npm'});
         await expect(panel).toHaveCSS('opacity', '1');
         expect(await panel.evaluate(element => element.getAnimations().length)).toBe(0);
-        expect((await page.locator('.home-start').boundingBox())!.height).toBe(before!.height);
+        expect((await page.locator('.home-showcase').boundingBox())!.height).toBe(before!.height);
         await download.click();
-        expect((await page.locator('.home-start').boundingBox())!.height).toBe(before!.height);
+        expect((await page.locator('.home-showcase').boundingBox())!.height).toBe(before!.height);
     }
 });

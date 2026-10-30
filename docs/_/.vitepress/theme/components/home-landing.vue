@@ -3,11 +3,12 @@ import {onMounted, onUnmounted, ref} from 'vue';
 import {withBase} from 'vitepress';
 import HomeFeatureTile from './home-feature-tile.vue';
 import HomeBrandBackdrop from './home-brand-backdrop.vue';
+import HomeShowcase from './home-showcase.vue';
 import {createTheme, presets} from '../theme-model';
 import {theme, updateTheme} from '../theme-state';
 import {changeTheme} from '../theme-transition';
-import zuiData from '../zui-data';
 import '../home-landing.css';
+import '../home-showcase.css';
 
 const repository = 'https://github.com/easysoft/zui';
 const resources = [
@@ -17,14 +18,6 @@ const resources = [
     {text: 'MIT 许可', href: `${repository}/blob/main/LICENSE`},
 ];
 const demoPresets = ['zui', 'forest', 'iris', 'sunset', 'ink', 'pop'].map(id => presets.find(preset => preset.id === id)!);
-const installs = [
-    {id: 'download', text: '下载构建'},
-    {id: 'cdn', text: 'CDN'},
-    {id: 'npm', text: 'npm'},
-];
-const activeInstall = ref(installs[0].id);
-const tabsReady = ref(false);
-const installTabs = ref<HTMLButtonElement[]>([]);
 
 function showMessage() {
     (window as unknown as {zui?: {Messager: {show: (content: string) => void}}}).zui?.Messager.show('你好，ZUI！');
@@ -34,15 +27,6 @@ function applyPreset(id: string) {
     changeTheme(() => updateTheme(createTheme(id)));
 }
 
-function onInstallKeydown(event: KeyboardEvent, index: number) {
-    const last = installs.length - 1;
-    const next = {ArrowLeft: index ? index - 1 : last, ArrowRight: index === last ? 0 : index + 1, Home: 0, End: last}[event.key];
-    if (next === undefined) return;
-    event.preventDefault();
-    activeInstall.value = installs[next].id;
-    installTabs.value[next]?.focus();
-}
-
 const features = [
     {id: 'compose', category: 'CSS 组合', title: '用工具类拼出界面', description: '布局、间距和外观，都有现成的工具类。', href: '/utilities/'},
     {id: 'interact', category: '交互组件', title: '现成的交互组件', description: '菜单、弹窗和消息提示，让每次操作都有反馈。', href: '/lib/components/'},
@@ -50,17 +34,10 @@ const features = [
     {id: 'theme', category: '主题定制', title: '一套组件，换成你的风格', description: '颜色、圆角和深浅色，一处调整全局生效。', href: '/guide/config/theme.html'},
     {id: 'build', category: '按需构建', title: '只打包用得到的部分', description: '挑选模块，生成项目需要的样式和脚本。', href: '/guide/customize/build.html'},
 ];
-const words = [['基础样式，', '自由', '组合。'], ['复杂交互，', '拿来', '即用。']];
-const wordCount = words.flat().length;
 const tiles = ref<InstanceType<typeof HomeFeatureTile>[]>([]);
-const tagline = ref<HTMLElement>();
-const revealed = ref(wordCount);
-const revealing = ref(false);
 const reducedMotion = ref(false);
 let media: MediaQueryList | undefined;
 let tileObserver: IntersectionObserver | undefined;
-let taglineObserver: IntersectionObserver | undefined;
-let frame = 0;
 let glowFrame = 0;
 let glowX = 0;
 let glowY = 0;
@@ -92,41 +69,9 @@ function onFeaturePointerMove(event: PointerEvent) {
     });
 }
 
-function stopScroll() {
-    window.removeEventListener('scroll', requestReveal);
-    window.removeEventListener('resize', requestReveal);
-    cancelAnimationFrame(frame);
-    frame = 0;
-}
-
-function finishReveal() {
-    revealed.value = wordCount;
-    revealing.value = false;
-    stopScroll();
-    taglineObserver?.disconnect();
-}
-
-function updateReveal() {
-    frame = 0;
-    if (!tagline.value) return;
-    const start = window.scrollY + tagline.value.getBoundingClientRect().top - window.innerHeight * 0.85;
-    // The final words must also reveal on a short page at its maximum scroll position.
-    const end = Math.min(start + window.innerHeight * 0.35, document.documentElement.scrollHeight - window.innerHeight);
-    const progress = (window.scrollY - start) / Math.max(1, end - start);
-    revealed.value = Math.max(revealed.value, Math.min(wordCount, Math.floor(progress * wordCount)));
-    if (revealed.value === wordCount) finishReveal();
-}
-
-function requestReveal() {
-    if (!frame) frame = requestAnimationFrame(updateReveal);
-}
-
 function onPreferenceChange() {
     reducedMotion.value = media?.matches ?? true;
-    if (reducedMotion.value) {
-        finishReveal();
-        clearGlow();
-    }
+    if (reducedMotion.value) clearGlow();
 }
 
 function onVisibilityChange() {
@@ -137,7 +82,6 @@ function onVisibilityChange() {
 }
 
 onMounted(() => {
-    tabsReady.value = true;
     media = window.matchMedia('(prefers-reduced-motion: reduce)');
     onPreferenceChange();
     media.addEventListener('change', onPreferenceChange);
@@ -157,31 +101,14 @@ onMounted(() => {
     tiles.value.forEach((tile) => {
         if (tile.element) tileObserver!.observe(tile.element);
     });
-
-    if (reducedMotion.value || !tagline.value) return;
-    revealed.value = 0;
-    revealing.value = true;
-    taglineObserver = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) {
-            window.addEventListener('scroll', requestReveal, {passive: true});
-            window.addEventListener('resize', requestReveal);
-            requestReveal();
-        } else {
-            stopScroll();
-            if (entry.boundingClientRect.bottom < 0) finishReveal();
-        }
-    });
-    taglineObserver.observe(tagline.value);
 });
 
 onUnmounted(() => {
     tileObserver?.disconnect();
-    taglineObserver?.disconnect();
     media?.removeEventListener('change', onPreferenceChange);
     document.removeEventListener('visibilitychange', onVisibilityChange);
     window.removeEventListener('scroll', clearGlow);
     clearGlow();
-    stopScroll();
 });
 </script>
 
@@ -273,33 +200,10 @@ onUnmounted(() => {
             </HomeFeatureTile>
         </section>
 
-        <section ref="tagline" class="home-tagline" :data-revealing="revealing" aria-label="按需组合">
-            <h2><span v-for="(line, lineIndex) in words" :key="lineIndex" class="home-tagline-line"><span v-for="(word, index) in line" :key="word" class="home-word" :class="{'is-revealed': index + (lineIndex ? words[0].length : 0) < revealed}">{{ word }}</span></span></h2>
-        </section>
-
-        <section class="home-start" aria-labelledby="home-start-title">
-            <div class="home-start-head">
-                <div><h2 id="home-start-title">从第一个示例开始</h2><p>选一种方式引入 ZUI，再按快速上手运行示例。</p></div>
-                <a class="btn primary size-lg home-primary" :href="withBase('/guide/start/')"><span class="home-primary-sheen" aria-hidden="true"></span>快速开始<span class="vpi-arrow-right" aria-hidden="true"></span></a>
-            </div>
-            <div class="home-install">
-                <div v-if="tabsReady" class="home-install-tabs" role="tablist" aria-label="接入方式">
-                    <button v-for="(install, index) in installs" :id="`home-install-tab-${install.id}`" :key="install.id" ref="installTabs" type="button" role="tab"
-                        :aria-selected="activeInstall === install.id" :aria-controls="`home-install-${install.id}`" :tabindex="activeInstall === install.id ? 0 : -1"
-                        @click="activeInstall = install.id" @keydown="onInstallKeydown($event, index)">{{ install.text }}</button>
-                </div>
-                <div class="home-install-panels" :class="{'is-ready': tabsReady}">
-                    <div v-for="install in installs" :id="`home-install-${install.id}`" :key="install.id" class="home-install-panel"
-                        :role="tabsReady ? 'tabpanel' : undefined" :aria-labelledby="tabsReady ? `home-install-tab-${install.id}` : undefined"
-                        :aria-hidden="tabsReady && activeInstall !== install.id" :inert="tabsReady && activeInstall !== install.id">
-                        <slot :name="`install-${install.id}`" />
-                        <a v-if="install.id === 'download'" class="btn size-sm home-download" :href="withBase(`/zui-${zuiData.version}.zip`)" download><span class="icon i-download" aria-hidden="true"></span>下载 zui-{{ zuiData.version }}.zip</a>
-                    </div>
-                </div>
-            </div>
-            <ul class="home-resources">
-                <li v-for="resource in resources" :key="resource.text"><a :href="resource.href" target="_blank" rel="noreferrer">{{ resource.text }}</a></li>
-            </ul>
-        </section>
+        <HomeShowcase :resources="resources">
+            <template #install-download><slot name="install-download" /></template>
+            <template #install-cdn><slot name="install-cdn" /></template>
+            <template #install-npm><slot name="install-npm" /></template>
+        </HomeShowcase>
     </div>
 </template>

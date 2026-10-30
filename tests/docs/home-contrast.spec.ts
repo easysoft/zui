@@ -98,10 +98,7 @@ for (const colorScheme of ['light', 'dark'] as const) {
             await expectTextContrast(page, '.home-features');
             expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
             await page.locator('.VPFooter').scrollIntoViewIfNeeded();
-            await expect(page.locator('.home-tagline')).toHaveAttribute('data-revealing', 'false');
-            for (const line of await page.locator('.home-tagline-line').all()) {
-                expect(await line.evaluate(element => element.getBoundingClientRect().height)).toBe(width < 640 ? 32 : 48);
-            }
+            expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
             await page.evaluate(() => window.scrollTo(0, 0));
             await expect(page.locator('.VPNavBar')).toHaveClass(/top/);
             await page.emulateMedia({colorScheme, reducedMotion: 'reduce'});
@@ -150,13 +147,13 @@ test('home scenes play once, replay on hover and focus, and keep text geometry s
     await page.keyboard.press('Tab');
     await page.keyboard.press('Shift+Tab');
     await expect(card).toHaveAttribute('data-motion', 'playing');
-    await page.locator('.home-start').scrollIntoViewIfNeeded();
+    await page.locator('.home-showcase').scrollIntoViewIfNeeded();
     await expect(card).toHaveAttribute('data-motion', 'complete');
     await card.scrollIntoViewIfNeeded();
     await expect(card).toHaveAttribute('data-motion', 'complete');
 });
 
-test('reduced motion settles a running scene and reveals the full tagline', async ({page}) => {
+test('reduced motion settles a running scene', async ({page}) => {
     await page.emulateMedia({reducedMotion: 'no-preference'});
     await page.goto('./');
     const card = page.locator('.home-feature-compose');
@@ -168,16 +165,13 @@ test('reduced motion settles a running scene and reveals the full tagline', asyn
     await card.focus();
     await expect(card).toHaveAttribute('data-motion', 'complete');
     expect(await card.evaluate(element => element.getAnimations({subtree: true}).length)).toBe(0);
-    await expect(page.locator('.home-tagline')).toHaveAttribute('data-revealing', 'false');
-    for (const word of await page.locator('.home-word').all()) await expect(word).toHaveCSS('opacity', '1');
 });
 
-test('tagline completes at the bottom and navigation during playback leaves no stale scene', async ({page}) => {
+test('navigation during playback leaves no stale scene', async ({page}) => {
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto('./');
     await page.locator('.VPFooter').scrollIntoViewIfNeeded();
-    await expect(page.locator('.home-tagline')).toHaveAttribute('data-revealing', 'false');
     const card = page.locator('.home-feature-interact');
     await card.scrollIntoViewIfNeeded();
     await card.focus();
@@ -201,7 +195,6 @@ test('home remains complete with JavaScript disabled', async ({browser, baseURL}
         await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', 'ZUI 3 · 回归 HTML，声明即界面');
         await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /无需编译，无需搭建脚手架/);
         await expect(page.locator('.home-feature')).toHaveCount(5);
-        await expect(page.locator('.home-tagline')).toHaveAttribute('data-revealing', 'false');
         await expect(page.locator('.home-scene').first()).toHaveCSS('opacity', '1');
         await page.getByRole('link', {name: '快速开始', exact: true}).first().click();
         await expect(page).toHaveURL(/\/guide\/start\/$/);
@@ -219,7 +212,6 @@ test('touch navigation works with reduced motion from the first render', async (
         await card.scrollIntoViewIfNeeded();
         await expect(card).toHaveAttribute('data-motion', 'idle');
         expect(await card.evaluate(element => element.getAnimations({subtree: true}).length)).toBe(0);
-        await expect(page.locator('.home-tagline')).toHaveAttribute('data-revealing', 'false');
         await card.tap();
         await expect(page).toHaveURL(new URL('utilities/', baseURL!).href);
     } finally {

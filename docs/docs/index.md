@@ -52,6 +52,20 @@ import HomeCode from './.vitepress/theme/components/home-code.vue';
 ```html
 <link rel="stylesheet" href="./zui/zui.css">
 <script src="./zui/zui.js"></script>
+
+<nav id="nav"></nav>
+<script>
+  const nav = new zui.Nav('#nav', {
+    type: 'pills',
+    active: 'home',
+    items: [
+      {key: 'home', text: '首页'},
+      {key: 'docs', text: '文档'},
+      {key: 'blog', text: '博客'},
+    ],
+    onClickItem: ({item}) => nav.render({active: item.key}),
+  });
+</script>
 ```
 
 </HomeCode>
@@ -62,6 +76,20 @@ import HomeCode from './.vitepress/theme/components/home-code.vue';
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zui@3.1.0/dist/zui.css">
 <script src="https://cdn.jsdelivr.net/npm/zui@3.1.0/dist/zui.js"></script>
+
+<nav id="nav"></nav>
+<script>
+  const nav = new zui.Nav('#nav', {
+    type: 'pills',
+    active: 'home',
+    items: [
+      {key: 'home', text: '首页'},
+      {key: 'docs', text: '文档'},
+      {key: 'blog', text: '博客'},
+    ],
+    onClickItem: ({item}) => nav.render({active: item.key}),
+  });
+</script>
 ```
 
 </HomeCode>
@@ -77,10 +105,19 @@ npm install zui@3.1.0
 <HomeCode label="入口模块">
 
 ```js
-import {Messager} from 'zui';
+import {Nav} from 'zui';
 import 'zui/css';
 
-Messager.show('你好，ZUI！');
+const nav = new Nav('#nav', {
+  type: 'pills',
+  active: 'home',
+  items: [
+    {key: 'home', text: '首页'},
+    {key: 'docs', text: '文档'},
+    {key: 'blog', text: '博客'},
+  ],
+  onClickItem: ({item}) => nav.render({active: item.key}),
+});
 ```
 
 </HomeCode>

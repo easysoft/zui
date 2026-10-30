@@ -5,10 +5,10 @@ for (const colorScheme of ['light', 'dark'] as const) {
     test(`hero demo and install section stay readable in ${colorScheme}`, async ({page}) => {
         await page.emulateMedia({colorScheme, reducedMotion: 'reduce'});
         await page.goto('./');
-        for (const selector of ['.home-hero', '.home-start']) {
+        for (const selector of ['.home-hero', '.home-showcase']) {
             await page.locator(selector).scrollIntoViewIfNeeded();
-            // The demo button shows ZUI's unmodified default skin, whose contrast belongs to the framework.
-            const result = await new AxeBuilder({page}).include(selector).exclude('.home-demo-result > .btn').withRules(['color-contrast']).analyze();
+            // Demo results show ZUI's unmodified default skins, whose contrast belongs to the framework.
+            const result = await new AxeBuilder({page}).include(selector).exclude('.home-demo-result > .btn').exclude('.home-stage-canvas').withRules(['color-contrast']).analyze();
             expect(result.violations, `${selector} text must meet the contrast ratio`).toEqual([]);
         }
     });
@@ -45,7 +45,7 @@ test('install tabs switch by keyboard and copy the visible code', async ({page})
     const tabs = page.getByRole('tablist', {name: '接入方式'});
     const download = tabs.getByRole('tab', {name: '下载构建'});
     await expect(download).toHaveAttribute('aria-selected', 'true');
-    await expect(page.getByRole('tabpanel')).toHaveCount(1);
+    await expect(page.locator('.home-install').getByRole('tabpanel')).toHaveCount(1);
     await expect(page.getByRole('link', {name: /^下载 zui-.+\.zip$/})).toHaveAttribute('href', /\/zui-[\d.]+\.zip$/);
 
     await download.focus();
