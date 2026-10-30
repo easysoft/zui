@@ -250,6 +250,12 @@ importers:
       '@stylistic/eslint-plugin':
         specifier: ^5.10.0
         version: 5.10.0(eslint@10.9.1(jiti@1.21.7)(supports-color@7.2.0))
+      '@tanstack/store':
+        specifier: 0.11.2
+        version: 0.11.2
+      '@tanstack/table-core':
+        specifier: 9.2.4
+        version: 9.2.4
       '@testing-library/jest-dom':
         specifier: 7.0.1
         version: 7.0.1(@testing-library/dom@10.4.1)(vitest@4.1.11)
@@ -2124,6 +2130,34 @@ importers:
         specifier: workspace:*
         version: link:../../dev
 
+  lib/vtable:
+    dependencies:
+      '@tanstack/table-core':
+        specifier: 9.2.4
+        version: 9.2.4
+      '@zui/checkbox':
+        specifier: workspace:*
+        version: link:../checkbox
+      '@zui/core':
+        specifier: workspace:*
+        version: link:../core
+      '@zui/virtualize':
+        specifier: workspace:*
+        version: link:../virtualize
+      preact:
+        specifier: ^10.27.2
+        version: 10.28.2
+    devDependencies:
+      '@zui/button':
+        specifier: workspace:*
+        version: link:../button
+      '@zui/utilities':
+        specifier: workspace:*
+        version: link:../utilities
+      zui-dev:
+        specifier: workspace:*
+        version: link:../../dev
+
 packages:
 
   '@adobe/css-tools@4.5.0':
@@ -3362,6 +3396,13 @@ packages:
 
   '@tanstack/query-core@5.102.8':
     resolution: {integrity: sha512-ZNjkJ33CqvPNec/6lZBnHqLc3EVGPZ9ySLhYahU9TcuRFdmwXewuj0c4hwSWcGHqEUwcSrKeZ+oGcvPBqXcQcg==}
+
+  '@tanstack/store@0.11.2':
+    resolution: {integrity: sha512-sJ4mjol8uQsHV0gOJzzjwXfh2Fwm+Sz0+8deqiTm4jGbMdjzNSW+xZCFm0kUa870uhd8yi+DpKnZb5Kc4apa0Q==}
+
+  '@tanstack/table-core@9.2.4':
+    resolution: {integrity: sha512-GwdDyGGr6UXAtubF14yAwcXvdaogqfsQgIk89Suebjxob/Rjq2xvfmXsjDF1rQmKmhHsJm9TOY7myxv3i6geJw==}
+    engines: {node: '>=20'}
 
   '@tanstack/virtual-core@3.17.9':
     resolution: {integrity: sha512-M8Bzy7CCMvUjRiuoHVH9mRjyUVczRs8v8RcUEphLFGc445ZP4KQ15Y1sLqhQqJi/HgGJrxfCHnEnIX0x9mVrBg==}
@@ -6810,6 +6851,12 @@ snapshots:
       picomatch: 4.0.7
 
   '@tanstack/query-core@5.102.8': {}
+
+  '@tanstack/store@0.11.2': {}
+
+  '@tanstack/table-core@9.2.4':
+    dependencies:
+      '@tanstack/store': 0.11.2
 
   '@tanstack/virtual-core@3.17.9': {}
 

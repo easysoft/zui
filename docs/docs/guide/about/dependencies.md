@@ -12,6 +12,8 @@
 | [Floating UI](https://floating-ui.com/)（`@floating-ui/dom`、`@floating-ui/core`、`@floating-ui/utils`） | [MIT](https://github.com/easysoft/zui/blob/main/licenses/LICENSE-floating-ui.txt) | 下拉菜单、弹出层和选择器的浮动定位；包含 `dom` 依赖的 `core`、`utils` |
 | [TanStack Query](https://github.com/TanStack/query)（`@tanstack/query-core`） | [MIT](https://github.com/easysoft/zui/blob/main/licenses/LICENSE-tanstack-query-core.txt) | `core` 中的查询缓存、异步请求、无限分页查询与数据变更 |
 | [TanStack Virtual](https://github.com/TanStack/virtual)（`@tanstack/virtual-core`） | [MIT](https://github.com/easysoft/zui/blob/main/licenses/LICENSE-tanstack-virtual-core.txt) | `virtualize` 的可见区域计算与滚动管理 |
+| [TanStack Table](https://github.com/TanStack/table)（`@tanstack/table-core` 9.2.4） | [MIT](https://github.com/easysoft/zui/blob/main/licenses/LICENSE-tanstack-table-core.txt) | `vtable` 的行列模型与可组合表格功能 |
+| [TanStack Store](https://github.com/TanStack/store)（`@tanstack/store` 0.11.2） | [MIT](https://github.com/easysoft/zui/blob/main/licenses/LICENSE-tanstack-store.txt) | Table Core 的运行时依赖，管理表格响应式状态 |
 | [htm](https://github.com/developit/htm)（`htm`） | [Apache-2.0](https://github.com/easysoft/zui/blob/main/licenses/LICENSE-htm.txt) | 解析模板字符串，与 Preact、vhtml 分别绑定为 `jsx`、`html` |
 | [vhtml](https://github.com/developit/vhtml)（`vhtml`） | [MIT](https://github.com/easysoft/zui/blob/main/licenses/LICENSE-vhtml.txt) | 将 `html` 模板渲染为 HTML 字符串 |
 | [tinykeys](https://github.com/jamiebuilds/tinykeys)（`tinykeys`） | [MIT](https://github.com/easysoft/zui/blob/main/licenses/LICENSE-tinykeys.txt) | `core` 中的快捷键绑定与按键处理 |

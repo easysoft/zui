@@ -1,0 +1,38 @@
+.vtable-sort-button {
+  @apply -flex -items-center -gap-2 -w-full -h-full -min-w-0 -cursor-pointer -border-0 -bg-transparent -p-0 -text-left;
+  color: inherit;
+  font: inherit;
+}
+.vtable-sort-button > :first-child {
+  @apply -min-w-0 -overflow-hidden -text-ellipsis -whitespace-nowrap;
+}
+.vtable-sort-indicator {
+  @apply -shrink-0;
+}
+.vtable-resize-handle {
+  @apply -absolute -top-0 -right-0 -h-full -cursor-col-resize;
+  width: var(--vtable-resize-handle-width, 8px);
+  touch-action: none;
+  user-select: none;
+}
+.vtable-resize-handle:hover,
+.vtable-resize-handle:focus-visible {
+  background: var(--vtable-resize-color, var(--color-primary-500, #006aff));
+}
+.vtable-sort-button:focus-visible,
+.vtable-resize-handle:focus-visible {
+  outline: 2px solid var(--vtable-resize-color, var(--color-primary-500, #006aff));
+  outline-offset: -2px;
+}
+.vtable-resize-guide {
+  @apply -absolute -left-0 -pointer-events-none;
+  z-index: 4;
+  width: 2px;
+  background: var(--vtable-resize-color, var(--color-primary-500, #006aff));
+}
+.vtable-selection-label {
+  @apply -sr-only;
+}
+.vtable-selection {
+  @apply -inline-flex -items-center;
+}

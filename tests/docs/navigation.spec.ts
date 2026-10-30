@@ -24,6 +24,7 @@ test('ZUI-DOC-009: component navigation starts with task groups and exposes the 
     for (const [name, href] of [
         ['数据表格', /\/lib\/components\/dtable\/(?:index\.html)?$/],
         ['数据表格插件', /\/lib\/components\/dtable\/plugins\.html$/],
+        ['高级表格', /\/lib\/components\/vtable\/(?:index\.html)?$/],
     ] as const) {
         await expect(sidebar.getByRole('link', {name, exact: true})).toHaveCount(1);
         await expect(data.getByRole('link', {name, exact: true})).toHaveAttribute('href', href);
@@ -97,7 +98,7 @@ test('ZUI-DOC-009: mobile menu reveals the current helper without taking over ma
 
 test('ZUI-DOC-009: component overview provides grouped document links with purpose descriptions', async ({page, baseURL}) => {
     const libraries = await (await page.request.get(new URL('zui-libs.json', baseURL).href)).json() as {name: string}[];
-    const entryCount = libraries.some(lib => lib.name === '@zui/icons') ? 69 : 68;
+    const entryCount = libraries.some(lib => lib.name === '@zui/icons') ? 70 : 69;
     await page.goto('lib/components/button/');
     const overviewLink = page.locator('.VPSidebar').getByRole('link', {name: '组件总览', exact: true});
     await expect(overviewLink).toHaveCount(1);

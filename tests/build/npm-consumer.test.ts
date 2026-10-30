@@ -82,10 +82,11 @@ import 'zui/css';
 // @ts-expect-error Standard packages do not expose component-specific elements.
 import {definePicker} from 'zui';
 import {
-    $, Picker, Pager, Modal, ProgressCircle, defineWebComponent, property, signal, computed,
+    $, Picker, Pager, Modal, ProgressCircle, VTable, defineWebComponent, property, signal, computed,
     type PickerOptions, type ReadonlySignal, type Cash,
     type FileListFileInfo, type FileSelectorFileInfo,
     type DashboardBlockProps, type DTableBlockProps, type DTableCustomRenderResult,
+    type VTableOptions, type VTableColumnDef,
 } from 'zui';
 
 const options: PickerOptions = {
@@ -129,6 +130,26 @@ const selectedFile: FileSelectorFileInfo = {id: 'notes', name: 'Notes', size: 1,
 const dashboardBlock: Partial<DashboardBlockProps> = {};
 const tableBlock: Partial<DTableBlockProps> = {};
 const renderCell: DTableCustomRenderResult = 'cell';
+type ProjectRow = {id: string; title: string};
+const projectColumns: VTableColumnDef<ProjectRow>[] = [{
+    id: 'title', accessorKey: 'title', header: 'Project',
+    cell(context) {return context.row.original.title.toUpperCase();},
+}];
+const vtableOptions: VTableOptions<ProjectRow> = {
+    data: [{id: 'project-1', title: 'Table consumer'}],
+    columns: projectColumns,
+    getRowId: row => row.id,
+    state: {columnSizing: {title: 240}},
+    onColumnSizingChange(updater) {
+        const next = typeof updater === 'function' ? updater({title: 240}) : updater;
+        next.title?.toFixed();
+    },
+};
+const vtable = new VTable<ProjectRow>(document.createElement('div'), vtableOptions);
+vtable.render({data: [{id: 'project-2', title: 'Updated'}]});
+const found: boolean = vtable.scrollToRow('project-2', {align: 'center'});
+vtable.table?.setColumnSizing({title: 280});
+vtable.destroy();
 
 // @ts-expect-error Invalid option values must not silently become any.
 new Picker(document.body, {items: [], multiple: 'many'});
@@ -138,6 +159,12 @@ picker.render({disabled: 'yes'});
 picker.nonexistentMethod();
 // @ts-expect-error Cash is a type-only export, not a runtime constructor.
 new Cash();
+// @ts-expect-error Stable row IDs are required by VTable.
+const invalidVTableOptions: VTableOptions<ProjectRow> = {data: [], columns: []};
+// @ts-expect-error VTable column IDs are explicit, including display columns.
+const invalidVTableColumn: VTableColumnDef<ProjectRow> = {header: 'Missing ID'};
+// @ts-expect-error VTable row data must retain the caller's shape.
+vtable.render({data: [{id: 'project-3', title: 123}]});
 `;
     await fs.writeFile(Path.join(consumerPath, 'consumer.mts'), typeConsumer);
     await fs.writeFile(Path.join(consumerPath, 'consumer.cts'), `${typeConsumer}
@@ -183,7 +210,7 @@ const pickerFromRequire: import('zui', {with: {'resolution-mode': 'import'}}).Pi
     await withBrowserGlobals(async (dom) => {
         const distribution = await import(pathToFileURL(entryPath).href) as Record<string, unknown>;
         const commonJs = packageRequire(name) as Record<string, unknown>;
-        for (const name of ['DTable', 'Messager']) {
+        for (const name of ['DTable', 'VTable', 'Messager']) {
             expect(distribution[name], name).toBeTypeOf('function');
             expect(commonJs[name], name).toBeTypeOf('function');
         }
@@ -193,6 +220,32 @@ const pickerFromRequire: import('zui', {with: {'resolution-mode': 'import'}}).Pi
         expect(commonJs).not.toHaveProperty('KanbanList');
         expect(Object.keys(commonJs).sort()).toEqual(Object.keys(distribution).sort());
         expect(packageRequire(installedPackage)).toBe(commonJs);
+
+        for (const exports of [distribution, commonJs]) {
+            for (const plugin of ['vtableSortingPlugin', 'vtableRowSelectionPlugin', 'vtableColumnResizePlugin', 'createVTableSelectionColumn']) {
+                expect(exports[plugin], plugin).toBeUndefined();
+            }
+            const VTable = exports.VTable as typeof import('@zui/vtable').VTable;
+            const element = document.createElement('div');
+            document.body.append(element);
+            const instance = new VTable(element, {
+                data: [{id: 'first', title: 'Installed package'}],
+                columns: [{id: 'title', accessorKey: 'title', header: 'Project'}],
+                getRowId: row => row.id,
+            });
+            expect(instance.table).toBeNull();
+            instance.render();
+            const engine = instance.table!;
+            expect(engine.getCoreRowModel().rows[0].id).toBe('first');
+            expect(element.querySelector('[role="table"]')).not.toBeNull();
+            instance.render({data: [{id: 'updated', title: 'Replacement'}]});
+            expect(instance.table).toBe(engine);
+            expect(engine.getCoreRowModel().rows[0].id).toBe('updated');
+            instance.destroy();
+            expect(instance.table).toBeNull();
+            expect(element.children).toHaveLength(0);
+            element.remove();
+        }
 
         dom.window.eval(await fileContents(Path.join(installedPackage, 'dist/zui.js')));
         const umd = (dom.window as unknown as {zui: Record<string, unknown>}).zui;
@@ -229,6 +282,7 @@ const pickerFromRequire: import('zui', {with: {'resolution-mode': 'import'}}).Pi
         expect(map.sources?.length).toBeGreaterThan(0);
         expect(map.sourcesContent?.length).toBe(map.sources?.length);
         expect(map.sourcesContent?.every(source => typeof source === 'string')).toBe(true);
+        expect(map.sources?.some(source => /vtable[/\\]src[/\\]plugins[/\\]/.test(source))).toBe(false);
         expect(JSON.stringify(map)).not.toMatch(/build[/\\]run-[A-Za-z0-9_-]+/);
     }
 

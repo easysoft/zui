@@ -23,6 +23,7 @@ ZUI 3 的发布产物以以下浏览器版本为最低编译目标：
 * [Floating UI](https://floating-ui.com/)（`@floating-ui/dom`、`@floating-ui/core`、`@floating-ui/utils`）- 下拉菜单、弹出层等浮动元素的定位。
 * [TanStack Query](https://github.com/TanStack/query)（`@tanstack/query-core`）- 查询缓存、异步数据请求、分页查询与数据变更。
 * [TanStack Virtual](https://github.com/TanStack/virtual)（`@tanstack/virtual-core`）- 虚拟列表的可见区域计算与滚动管理。
+* [TanStack Table](https://github.com/TanStack/table)（`@tanstack/table-core`）与 [TanStack Store](https://github.com/TanStack/store)（`@tanstack/store`）- 高级表格的行列模型、可组合功能与响应式状态。
 * [htm](https://github.com/developit/htm) 与 [vhtml](https://github.com/developit/vhtml) - 为 `jsx` 和 `html` 提供模板字符串渲染能力。
 * [tinykeys](https://github.com/jamiebuilds/tinykeys) - 快捷键绑定。
 * [DOMPurify](https://github.com/cure53/DOMPurify)（`dompurify`）- JSON UI 中 HTML 内容的净化。

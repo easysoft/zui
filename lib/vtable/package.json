@@ -1,0 +1,36 @@
+{
+    "name": "@zui/vtable",
+    "description": "Virtualized tables with composable TanStack features and ZUI controls",
+    "version": "0.0.1",
+    "keywords": ["zui:js-ui", "table", "virtualization"],
+    "main": "src/main.ts",
+    "exports": {
+        ".": "./src/main.ts",
+        "./react": "./src/main-react.ts",
+        "./css": "./src/main-css.ts",
+        "./plugins/sorting": "./src/plugins/sorting.tsx",
+        "./plugins/row-selection": "./src/plugins/row-selection.tsx",
+        "./plugins/column-resize": "./src/plugins/column-resize.tsx"
+    },
+    "files": ["./src/**/*"],
+    "dependencies": {
+        "@tanstack/table-core": "9.2.4",
+        "@zui/core": "workspace:*",
+        "@zui/virtualize": "workspace:*",
+        "@zui/checkbox": "workspace:*",
+        "preact": "^10.27.2"
+    },
+    "devDependencies": {
+        "@zui/button": "workspace:*",
+        "@zui/utilities": "workspace:*",
+        "zui-dev": "workspace:*"
+    },
+    "zui": {
+        "type": "js-ui",
+        "displayName": "高级表格",
+        "contributes": {
+            "css": ["class", "var"],
+            "js": ["class", "component"]
+        }
+    }
+}

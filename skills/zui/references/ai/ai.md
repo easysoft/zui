@@ -4,7 +4,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。先确认应用实际运行版本、导出、类型和 CSS。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-来源基线：`cb54a46c09bf17d272486651632ee62683000164`；源码包含未提交变更：是，在线出处仅代表提交基线，随包文档对应清单中的内容摘要。[完整清单](manifest.json)。
+来源基线：`3e84928d56a7d3c6adb619c793bfb137b2977592`；源码包含未提交变更：是，在线出处仅代表提交基线，随包文档对应清单中的内容摘要。[完整清单](manifest.json)。
 
 ## 离线读取
 
@@ -20,7 +20,7 @@ node <skill-root>/references/ai/read.mjs --lib menu --section constraints --runt
 
 ## 文档覆盖
 
-已发现 65 个内置库，65 个具有结构有效的使用参考，0 个缺少参考。仅收录内置库，不包含本机 exts。
+已发现 66 个内置库，66 个具有结构有效的使用参考，0 个缺少参考。仅收录内置库，不包含本机 exts。
 
 状态按清单分别标记：`wip` 表示默认全量构建排除；`separately` 表示独立使用、默认全量构建排除；`notReady` 表示使用 `--exclude-not-ready` 时排除。未标记不等于已完成所有运行验收。
 
@@ -1145,6 +1145,22 @@ node <skill-root>/references/ai/read.mjs --lib menu --section constraints --runt
 - [Tabs](lib/tabs/ai.md#vanilla-tabs)（vanilla）：在导航根节点管理标签面板。
 - [.tab-pane / .tab-pane.active](lib/tabs/ai.md#css-tab-pane)（css / js-component）：标签面板的隐藏和显示。
 - [程序切换](lib/tabs/ai.md#recipe-tabs-programmatic)（recipes）：传入现有导航项激活。
+
+### vtable
+
+包：`@zui/vtable`；状态：无额外构建标记。
+
+[使用参考](lib/vtable/ai.md) — 按可见行列渲染固定行高的宽表，提供可选的排序、勾选和列宽插件。
+
+关键词：高级表格、宽表、双轴虚拟化、vtable、TanStack Table。
+
+- [VTable](lib/vtable/ai.md#vanilla-vtable)（vanilla）：创建双轴虚拟表格，更新数据并按稳定 ID 定位行列。
+- [VTable](lib/vtable/ai.md#preact-vtable)（preact）：通过 Preact Props 渲染表格，并通过 ref 访问引擎与定位方法。
+- [.vtable](lib/vtable/ai.md#css-vtable)（css / js-component）：VTable 管理的滚动根节点与表格部件。
+- [VTable CSS 变量](lib/vtable/ai.md#vars-vtable)（css-variables / js-component）：在目标表格节点定制表头、边框和单元格间距。
+- [VTable 可选插件](lib/vtable/ai.md#javascript-vtable-plugins)（javascript）：按需组合排序、行勾选和列宽调整，不进入默认核心入口。
+- [VTable 公共类型](lib/vtable/ai.md#types-vtable)（types）：定义数据、平面列、插件、引擎与渲染上下文的泛型契约。
+- [受控排序](lib/vtable/ai.md#recipe-vtable-sorting)（recipes）：显式加载排序插件，并将状态更新回写到组件。
 
 ## css-utilities
 

@@ -62,6 +62,7 @@ const descriptions: Record<string, string> = {
     'pager/js': '根据总记录数、每页条数和当前页生成分页。',
     table: '使用 HTML 表格展示二维数据。',
     virtualize: '仅渲染可见范围附近的条目，展示长列表。',
+    vtable: '按可见行列展示宽表，可组合排序、选择和列宽调整。',
     collapsible: '按需展开或收起详情内容。',
     dashboard: '用灵活排列的区块组织信息展示页面。',
     'dnd/draggable': '管理元素的拖放过程、拖拽源和放置目标。',

@@ -1,0 +1,13 @@
+{
+    "name": "zui-vtable",
+    "libs": ["vtable"],
+    "outDir": "../../dist/vtable-plugins",
+    "exports": {
+        "vtable": [
+            {},
+            {"path": "plugins/sorting"},
+            {"path": "plugins/row-selection"},
+            {"path": "plugins/column-resize"}
+        ]
+    }
+}

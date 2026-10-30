@@ -1,0 +1,54 @@
+.vtable {
+  @apply -relative -overflow-auto -border -border-solid -outline-none;
+  --vtable-row-height: 36px;
+  --vtable-border-color: var(--color-border);
+  --vtable-header-bg: var(--color-surface);
+  --vtable-cell-padding: 8px;
+  border-color: var(--vtable-border-color);
+  background: var(--color-canvas);
+  color: var(--color-fore);
+  overflow-anchor: none;
+}
+
+.vtable:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+.vtable-header {
+  @apply -sticky -top-0 -z-10 -font-bold;
+  min-width: 100%;
+  height: var(--vtable-row-height);
+  background: var(--vtable-header-bg);
+}
+
+.vtable-body {
+  @apply -relative;
+  min-width: 100%;
+}
+
+.vtable-row {
+  @apply -absolute -top-0 -left-0 -w-full;
+  height: var(--vtable-row-height);
+}
+
+.vtable-cell,
+.vtable-header-cell {
+  @apply -absolute -top-0 -flex -items-center -h-full -box-border;
+  padding: 0 var(--vtable-cell-padding);
+  border-bottom: 1px solid var(--vtable-border-color);
+  border-right: 1px solid var(--vtable-border-color);
+}
+
+.vtable-cell,
+.vtable-header-content {
+  @apply -overflow-hidden -whitespace-nowrap -text-ellipsis;
+}
+
+.vtable-header-content {
+  @apply -min-w-0 -flex-1;
+}
+
+.vtable-empty {
+  @apply -sticky -left-0 -p-6 -text-center;
+}

@@ -18,6 +18,7 @@
     "paths": {
       "zui-dev": ["./dev"],
       "@zui/virtualize/virtualizer": ["./lib/virtualize/src/virtualizer.ts"],
+      "@zui/vtable/plugins/*": ["./lib/vtable/src/plugins/*"],
       "@zui/*": ["./lib/*"]
     }
   },
