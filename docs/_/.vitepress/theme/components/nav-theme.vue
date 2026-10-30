@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import {inject, nextTick, onMounted, onUnmounted, ref, watch} from 'vue';
+import {inject, onMounted, onUnmounted, ref, watch} from 'vue';
 import {useData, useRoute, withBase} from 'vitepress';
 import {createTheme, presets} from '../theme-model';
 import {theme, updateTheme} from '../theme-state';
+import {changeTheme, skipThemeTransition} from '../theme-transition';
 
 const {isDark} = useData();
 const route = useRoute();
@@ -10,34 +11,6 @@ const closeScreen = inject<() => void>('close-screen', () => {});
 const open = ref(false);
 const root = ref<HTMLElement>();
 const trigger = ref<HTMLButtonElement>();
-let themeTransition: ViewTransition | undefined;
-const pendingThemeChanges: (() => void)[] = [];
-
-async function applyThemeChanges() {
-    // A skipped snapshot still runs its callback; drain each accepted change once.
-    for (const change of pendingThemeChanges.splice(0)) change();
-    await nextTick();
-}
-
-function changeTheme(change: () => void) {
-    pendingThemeChanges.push(change);
-    themeTransition?.skipTransition();
-    if (!document.startViewTransition || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        void applyThemeChanges();
-        return;
-    }
-    document.documentElement.classList.add('zui-theme-changing');
-    const current = document.startViewTransition(applyThemeChanges);
-    themeTransition = current;
-    const finish = () => {
-        if (themeTransition !== current) return;
-        themeTransition = undefined;
-        document.documentElement.classList.remove('zui-theme-changing');
-    };
-    // Rapid selections may skip the animation while keeping the theme update.
-    void current.ready.catch(() => {});
-    void current.finished.then(finish, finish);
-}
 
 function setAppearance(dark: boolean) {
     changeTheme(() => {isDark.value = dark;});
@@ -67,14 +40,14 @@ function onEscape(event: KeyboardEvent) {
 
 watch(() => route.path, () => {
     open.value = false;
-    themeTransition?.skipTransition();
+    skipThemeTransition();
 });
 onMounted(() => {
     document.addEventListener('pointerdown', onOutside);
     document.addEventListener('focusin', onOutside);
 });
 onUnmounted(() => {
-    themeTransition?.skipTransition();
+    skipThemeTransition();
     document.removeEventListener('pointerdown', onOutside);
     document.removeEventListener('focusin', onOutside);
 });
