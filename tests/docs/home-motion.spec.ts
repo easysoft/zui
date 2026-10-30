@@ -1,11 +1,111 @@
 import AxeBuilder from '@axe-core/playwright';
 import {expect, test} from '@playwright/test';
 
+test('home glass keeps its left edges aligned while following the pointer and resets on exit', async ({page}) => {
+    const errors: string[] = [];
+    page.on('pageerror', error => errors.push(error.message));
+    await page.emulateMedia({reducedMotion: 'no-preference'});
+    await page.goto('./');
+    const backdrop = page.locator('.home-brand-backdrop');
+    const layers = backdrop.locator('.home-glass-layer');
+    const light = backdrop.locator('.home-glass-light').first();
+    await expect(layers).toHaveCount(3);
+    await expect(backdrop).toHaveAttribute('aria-hidden', 'true');
+    await expect(backdrop).toHaveCSS('pointer-events', 'none');
+    const transforms = () => backdrop.locator('.home-glass-stack, .home-glass-layer').evaluateAll(elements => elements.map(element => getComputedStyle(element).transform));
+    const leftEdgeSpread = () => layers.evaluateAll((elements) => {
+        const edges = elements.map((element) => {
+            const points = [160, 760].map((top) => {
+                const marker = document.createElement('span');
+                marker.style.cssText = `position:absolute;left:0;top:${top}px;width:0;height:0;pointer-events:none`;
+                element.append(marker);
+                const {x, y} = marker.getBoundingClientRect();
+                marker.remove();
+                return {x, y};
+            });
+            const [a, b] = points;
+            return a.x + (300 - a.y) * (b.x - a.x) / (b.y - a.y);
+        });
+        return Math.max(...edges) - Math.min(...edges);
+    });
+    expect(await leftEdgeSpread()).toBeLessThan(0.5);
+    const initial = await transforms();
+    const hero = page.locator('.home-hero');
+    const before = await hero.boundingBox();
+    const width = page.viewportSize()!.width;
+    await page.mouse.move(width - 40, 240);
+    await expect(light).toHaveCSS('opacity', '1');
+    await expect.poll(transforms).not.toEqual(initial);
+    expect(await leftEdgeSpread()).toBeLessThan(0.5);
+    const reflections = () => backdrop.locator('.home-glass-light').evaluateAll(elements => elements.map(element => getComputedStyle(element).backgroundImage));
+    const firstReflections = await reflections();
+    expect(new Set(firstReflections).size, 'Each pane must respond to its own position and depth').toBe(3);
+    await page.mouse.move(width - 220, 380);
+    await expect.poll(async () => (await reflections()).every((reflection, index) => reflection !== firstReflections[index])).toBe(true);
+    expect(await leftEdgeSpread()).toBeLessThan(0.5);
+    expect(await hero.boundingBox()).toEqual(before);
+    const drift = await backdrop.evaluate(element => Number.parseFloat(element.style.getPropertyValue('--home-drift-x')));
+    expect(Math.abs(drift)).toBeLessThanOrEqual(12);
+
+    await page.mouse.move(0, 0);
+    await expect(light).toHaveCSS('opacity', '0');
+    await expect.poll(transforms).toEqual(initial);
+    await page.mouse.move(width - 40, 240);
+    await expect(light).toHaveCSS('opacity', '1');
+    await page.mouse.wheel(0, 160);
+    await expect(light).toHaveCSS('opacity', '0');
+    await expect.poll(transforms).toEqual(initial);
+
+    await page.getByRole('link', {name: '快速开始', exact: true}).first().click();
+    await expect(backdrop).toHaveCount(0);
+    await page.locator('.VPNavBarTitle a').click();
+    await expect(layers).toHaveCount(3);
+    expect(errors).toEqual([]);
+});
+
+test('home glass settles for reduced motion and hides in forced colors', async ({page}) => {
+    await page.emulateMedia({reducedMotion: 'no-preference'});
+    await page.goto('./');
+    const backdrop = page.locator('.home-brand-backdrop');
+    await expect(backdrop.locator('.home-glass-layer')).toHaveCount(3);
+    const transforms = () => backdrop.locator('.home-glass-stack, .home-glass-layer').evaluateAll(elements => elements.map(element => getComputedStyle(element).transform));
+    const initial = await transforms();
+    await page.mouse.move(1000, 240);
+    await expect(backdrop.locator('.home-glass-light').first()).toHaveCSS('opacity', '1');
+    await page.emulateMedia({reducedMotion: 'reduce'});
+    await expect.poll(transforms).toEqual(initial);
+    await page.mouse.move(800, 320);
+    await expect(backdrop.locator('.home-glass-light').first()).toBeHidden();
+    expect(await transforms()).toEqual(initial);
+    await expect(page.getByRole('heading', {level: 1})).toBeVisible();
+    await page.emulateMedia({forcedColors: 'active'});
+    await expect(backdrop).toBeHidden();
+});
+
+test('touch screens keep a static glass backdrop without horizontal overflow', async ({browser, baseURL}) => {
+    const context = await browser.newContext({hasTouch: true, isMobile: true, viewport: {width: 390, height: 844}});
+    try {
+        const page = await context.newPage();
+        await page.goto(baseURL!);
+        const backdrop = page.locator('.home-brand-backdrop');
+        await expect(backdrop.locator('.home-glass-layer')).toHaveCount(3);
+        await page.touchscreen.tap(380, 180);
+        await expect(backdrop.locator('.home-glass-light').first()).toBeHidden();
+        expect(await backdrop.getAttribute('style')).toBeNull();
+        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
+        await expect(page.getByRole('link', {name: '快速开始', exact: true}).first()).toBeVisible();
+    } finally {
+        await context.close();
+    }
+});
+
 test('home glow follows the pointer without moving content and stops for reduced motion', async ({page}) => {
     await page.emulateMedia({reducedMotion: 'no-preference'});
     await page.goto('./');
     const card = page.locator('.home-feature-compose');
     await card.scrollIntoViewIfNeeded();
+    // Let the pending scroll event clear the previous glow before moving the pointer.
+    await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
     const before = await card.boundingBox();
     const copyBefore = await card.locator('.home-feature-copy').boundingBox();
     const readGlow = () => card.locator('.home-feature-glow').evaluate(element => ({

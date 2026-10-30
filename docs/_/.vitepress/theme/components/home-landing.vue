@@ -2,6 +2,7 @@
 import {onMounted, onUnmounted, ref} from 'vue';
 import {withBase} from 'vitepress';
 import HomeFeatureTile from './home-feature-tile.vue';
+import HomeBrandBackdrop from './home-brand-backdrop.vue';
 import '../home-landing.css';
 
 const features = [
@@ -147,13 +148,7 @@ onUnmounted(() => {
 
 <template>
     <div class="home-landing">
-        <svg class="home-brand-backdrop" viewBox="0 0 800 900" preserveAspectRatio="xMidYMin slice" aria-hidden="true" focusable="false">
-            <path d="M630-80h180L124 900H-56Z" fill="currentColor" opacity=".045" />
-            <path d="M810-80h160L284 900H124Z" fill="currentColor" opacity=".085" />
-            <path d="M970-80h210L494 900H284Z" fill="currentColor" opacity=".15" />
-            <path d="M1180-80h110L604 900H494Z" fill="currentColor" opacity=".035" />
-            <path d="M810-80 124 900M970-80 284 900" fill="none" stroke="currentColor" stroke-opacity=".12" />
-        </svg>
+        <HomeBrandBackdrop />
         <section class="home-hero" aria-labelledby="home-title">
             <h1 id="home-title"><span class="home-title-line">用熟悉的代码，</span><span class="home-title-line">搭建完整的界面。</span></h1>
             <p class="home-intro">ZUI 3 是可组合、可定制的前端开发框架。用 HTML、CSS 与 JavaScript，组合常用控件、交互和数据表格。</p>
