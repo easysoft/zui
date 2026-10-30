@@ -22,7 +22,7 @@ CSS hint 用 data-hint 和伪元素，不依赖 JS，但默认只响应 hover、
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/tooltip`](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/tooltip/src/main.ts>) 公开原生组件和相应类型。
+主入口 [`@zui/tooltip`](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/tooltip/src/main.ts>) 公开原生组件和相应类型。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/tooltip` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -73,7 +73,7 @@ const instance = new Tooltip(host, {title: '提示内容'});
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[Tooltip](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/tooltip/src/vanilla/tooltip.ts>)。
+来源：[Tooltip](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/tooltip/src/vanilla/tooltip.ts>)。
 
 ## preact
 
@@ -104,7 +104,7 @@ const instance = new Tooltip(host, {title: '提示内容'});
 | `.tooltip.light, .tooltip.white` | `bg-canvas`（内部样式）；`text-fore`（内部样式）；`border-border-strong`（内部样式）；1px 边框；`border-solid`（内部样式） |
 | `.tooltip.light > .arrow, .tooltip.white > .arrow` | `border-inherit`（内部样式） |
 
-来源：[src/style/vars.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/tooltip/src/style/vars.css>), [src/style/hint.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/tooltip/src/style/hint.css>), [src/style/tooltip.css](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/tooltip/src/style/tooltip.css>)。最小结构由前面的组件示例生成。
+来源：[src/style/vars.css](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/tooltip/src/style/vars.css>), [src/style/hint.css](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/tooltip/src/style/hint.css>), [src/style/tooltip.css](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/tooltip/src/style/tooltip.css>)。最小结构由前面的组件示例生成。
 ### css-hint
 
 ```json
@@ -166,7 +166,7 @@ export type TooltipOptions = PopoverOptions & {
 };
 ```
 
-来源：[TooltipOptions](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/tooltip/src/types/tooltip-options.ts>)。
+来源：[TooltipOptions](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/tooltip/src/types/tooltip-options.ts>)。
 
 ## recipes
 
@@ -182,8 +182,8 @@ CSS hint 用 data-hint 和伪元素，不依赖 JS，但默认只响应 hover、
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/tooltip/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/tooltip/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/lib/tooltip/docs/lib/components/index.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/tooltip/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/tooltip/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/lib/tooltip/docs/lib/components/index.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/1c40b549c79612d1337bfd8f40f74498f1d89177/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/b9ff8a6070382039ef110dd01ed6b34318bc63fc/.agents/skills/zui-standards/references/consumption.md>)
