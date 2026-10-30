@@ -119,6 +119,8 @@ const dispose = mountExample();
 
 这些类可加在原生滚动容器上：thin 厚度为变量的一半，Firefox 使用 scrollbar-width:thin；hover 平时隐藏，hover 时显示；light 用 canvas 色系透明度。`.scrollbar-hover .scrollbar` 也会控制后代自定义滚动条显示。
 
+原生 `::-webkit-scrollbar`、`::-webkit-scrollbar-track` 和 `::-webkit-scrollbar-thumb` 统一使用 `--scrollbar-radius` 控制圆角，可在滚动容器上覆盖该变量。
+
 环境：`browser`，已加载 base、scrollbar、utilities CSS。
 
 ```html

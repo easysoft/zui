@@ -113,4 +113,4 @@ browser 或 workspace：在已有导航 li 上加 `is-rsh-fixed`，重新 `helpe
 
 ## references
 
-- [入口](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/responsive-nav/package.json>)、[实现](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/responsive-nav/src/vanilla/responsive-nav-helper.ts>)、[完整类型](<https://github.com/easysoft/zui/blob/9d2d0ebedb11d6ad944e110b9f0600f6c41505e5/lib/responsive-nav/src/types/responsive-nav-helper-props.ts>)
+- [入口](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/responsive-nav/package.json>)、[实现](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/responsive-nav/src/vanilla/responsive-nav-helper.ts>)、[完整类型](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/responsive-nav/src/types/responsive-nav-helper-props.ts>)

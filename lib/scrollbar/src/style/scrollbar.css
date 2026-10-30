@@ -1,8 +1,9 @@
 ::-webkit-scrollbar {
-    @apply -h-[--scrollbar-size] -w-[--scrollbar-size];
+    @apply -h-[--scrollbar-size] -w-[--scrollbar-size] -rounded-[--scrollbar-radius];
 }
 
 ::-webkit-scrollbar-track {
+    @apply -rounded-[--scrollbar-radius];
     box-shadow: var(--scrollbar-shadow);
     transition: background-color var(--scrollbar-duration);
     background: var(--scrollbar-bg);
