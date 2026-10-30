@@ -92,7 +92,7 @@
   .home-hero .home-intro { animation-delay: 120ms; }
 }
 .home-hero .home-intro { margin-top: 32px; max-width: 600px; color: var(--home-muted); font-size: 18px; line-height: 28px; }
-.home-primary.btn { --skin-color: var(--vp-button-brand-bg); --state-color: rgba(0, 0, 0, .1); flex-shrink: 0; }
+.home-primary.btn { --skin-color: var(--vp-button-brand-bg); --skin-text: var(--vp-button-brand-text); --state-color: rgba(0, 0, 0, .1); flex-shrink: 0; }
 .home-primary-sheen { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; }
 .home-primary-sheen::before { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .03) 50%, transparent 65%); opacity: 0; transform: translateX(-100%); }
 @media (prefers-reduced-motion: no-preference) {

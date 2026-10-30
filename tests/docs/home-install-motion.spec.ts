@@ -6,6 +6,8 @@ for (const width of [390, 1440]) {
         await page.emulateMedia({reducedMotion: 'no-preference'});
         await page.goto('./');
         const tabs = page.getByRole('tablist', {name: '接入方式'});
+        // Measure switching after the parent stage's initial 8px entrance has settled.
+        await tabs.evaluate(element => Promise.all(element.closest('.home-stage-code')!.getAnimations().map(animation => animation.finished)));
         await tabs.scrollIntoViewIfNeeded();
         const geometry = () => page.locator('.home-showcase').evaluate(element => ({
             height: element.getBoundingClientRect().height,

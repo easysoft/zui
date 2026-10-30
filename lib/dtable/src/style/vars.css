@@ -1,7 +1,7 @@
 .dtable {
     --dtable-bg:           var(--color-canvas);
-    --dtable-striped-bg:   var(--color-gray-50);
-    --dtable-hover-bg:     rgba(var(--color-primary-500-rgb), .05);
+    --dtable-striped-bg:   var(--color-surface-light);
+    --dtable-hover-bg:     rgba(var(--color-primary-500-rgb), .12);
     --dtable-header-bg:    var(--color-surface);
     --dtable-footer-bg:    var(--color-surface);
     --dtable-border-color: var(--color-border);

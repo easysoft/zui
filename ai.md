@@ -1171,7 +1171,7 @@
 - [浮动与清除](lib/utilities/ai.md#css-layout-floats)（css / utility）：pull-left/right 设置浮动；clearfix 用块级 ::after 清除两侧浮动，应加在包住浮动子项的容器。
 - [替换元素适配与位置](lib/utilities/ai.md#css-layout-object)（css / utility）：object-fit 类用于图片/视频等替换元素，需元素有约束尺寸才表现裁切；object-position 类控制内容位置。
 - [溢出](lib/utilities/ai.md#css-layout-overflow)（css / utility）：控制全部或单轴溢出。
-- [弹出层外观](lib/utilities/ai.md#css-layout-popup)（css / component）：单个 \`.popup\` 元素获得 xl 阴影、低透明度外圈、85% canvas 背景、背景模糊和默认圆角。
+- [弹出层外观](lib/utilities/ai.md#css-layout-popup)（css / component）：单个 \`.popup\` 元素获得 xl 阴影、border-strong 外圈、不透明 surface-light 背景和默认圆角。
 - [定位模式](lib/utilities/ai.md#css-layout-position)（css / utility）：设置 static/fixed/absolute/relative/sticky。
 - [定位偏移](lib/utilities/ai.md#css-layout-top-right-bottom-left)（css / utility）：top/right/bottom/left 需配合非 static 定位。
 - [可见性](lib/utilities/ai.md#css-layout-visibility)（css / utility）：visible/invisible 使用 !important 控制 visibility；invisible 仍保留布局空间，不等同 hidden。
@@ -1195,9 +1195,9 @@
 - [宽度与宽度限制](lib/utilities/ai.md#css-sizing-width)（css / utility）：w 设置宽度，min-w/max-w 设置上下界。
 - [幽灵皮肤](lib/utilities/ai.md#css-skin-ghost)（css / utility）：包含 skin，透明背景和透明外圈，颜色用于文字及交互状态；ghost 默认继承文字，语义 ghost 使用对应 500 色阶。
 - [描边皮肤](lib/utilities/ai.md#css-skin-outline)（css / utility）：包含 skin，透明背景并使用指定颜色文字/边框/外圈；outline 默认取前景 RGB，gray-300/400-outline 文字取 gray-500。
-- [浅色皮肤](lib/utilities/ai.md#css-skin-pale)（css / utility）：这些类自身包含 skin；背景取指定 RGB 的 10% 透明度，文字取相应实色，较浅 gray 50/100/200 的文字用 gray-400、gray-300/400 用 gray-500。
+- [浅色皮肤](lib/utilities/ai.md#css-skin-pale)（css / utility）：这些类自身包含 skin；背景取指定 RGB 的 10% 透明度，语义颜色文字取相应实色，pale 与所有 gray 浅色皮肤使用普通前景 --color-fore。
 - [自定义皮肤](lib/utilities/ai.md#css-skin-skin)（css / utility）：\`.skin\` 将 --skin-\* 变量应用到背景、文字、边框和 1px 外圈，并处理 hover 背景/文字；使用前至少配置 --skin-color、--skin-text，或组合后续已有皮肤类。
-- [实色皮肤](lib/utilities/ai.md#css-skin-solid)（css / utility）：这些类自身包含 skin 基础效果；语义颜色默认使用相应 500 色阶，浅灰 50/100/200/300 使用普通前景，其他实色使用深色背景前景。
+- [实色皮肤](lib/utilities/ai.md#css-skin-solid)（css / utility）：这些类自身包含 skin 基础效果；语义颜色默认使用相应 500 色阶，文字通过 --color-on-\* 变量选用可读的黑色或白色，随深浅主题和灰阶反转同步切换。
 - [语义表面皮肤](lib/utilities/ai.md#css-skin-surface)（css / utility）：同时设置背景和文字（surface 系列及 white/black 还设置 ring 颜色）；transparent 仅透明背景/外圈，不设置文字。
 - [文字装饰线](lib/utilities/ai.md#css-typography-decoration)（css / utility）：underline/overline/line-through/no-underline 分别添加或移除装饰线，不改变链接行为。
 - [字体族](lib/utilities/ai.md#css-typography-font-family)（css / utility）：font-sans/serif/mono 设置对应主题字体栈，不加载字体文件。

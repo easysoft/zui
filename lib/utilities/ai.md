@@ -166,10 +166,10 @@ object-fit 类用于图片/视频等替换元素，需元素有约束尺寸才�
 ### css-layout-popup
 
 ```json
-{"name":"弹出层外观","summary":"单个 `.popup` 元素获得 xl 阴影、低透明度外圈、85% canvas 背景、背景模糊和默认圆角。","role":"component"}
+{"name":"弹出层外观","summary":"单个 `.popup` 元素获得 xl 阴影、border-strong 外圈、不透明 surface-light 背景和默认圆角。","role":"component"}
 ```
 
-单个 `.popup` 元素获得 xl 阴影、低透明度外圈、85% canvas 背景、背景模糊和默认圆角。不提供定位、显隐、遮罩、焦点管理或 JS；常与定位工具类组合。
+单个 `.popup` 元素获得 xl 阴影、border-strong 外圈、不透明 surface-light 背景和默认圆角。不提供定位、显隐、遮罩、焦点管理或 JS；常与定位工具类组合。
 
 支持类名（完整集合）：
 
@@ -704,10 +704,10 @@ w 设置宽度，min-w/max-w 设置上下界。full/分数按包含块宽度，s
 ### css-skin-pale
 
 ```json
-{"name":"浅色皮肤","summary":"这些类自身包含 skin；背景取指定 RGB 的 10% 透明度，文字取相应实色，较浅 gray 50/100/200 的文字用 gray-400、gray-300/400 用 gray-500。","role":"utility"}
+{"name":"浅色皮肤","summary":"这些类自身包含 skin；背景取指定 RGB 的 10% 透明度，语义颜色文字取相应实色，pale 与所有 gray 浅色皮肤使用普通前景 --color-fore。","role":"utility"}
 ```
 
-这些类自身包含 skin；背景取指定 RGB 的 10% 透明度，文字取相应实色，较浅 gray 50/100/200 的文字用 gray-400、gray-300/400 用 gray-500。gray-pale 等于 gray-500-pale。无需额外 .skin。
+这些类自身包含 skin；背景取指定 RGB 的 10% 透明度，语义颜色文字取相应实色，pale 与所有 gray 浅色皮肤使用普通前景 --color-fore。gray-pale 等于 gray-500-pale。无需额外 .skin。
 
 支持类名（完整集合）：
 
@@ -745,16 +745,18 @@ w 设置宽度，min-w/max-w 设置上下界。full/分数按包含块宽度，s
 ### css-skin-solid
 
 ```json
-{"name":"实色皮肤","summary":"这些类自身包含 skin 基础效果；语义颜色默认使用相应 500 色阶，浅灰 50/100/200/300 使用普通前景，其他实色使用深色背景前景。","role":"utility"}
+{"name":"实色皮肤","summary":"这些类自身包含 skin 基础效果；语义颜色默认使用相应 500 色阶，文字通过 --color-on-* 变量选用可读的黑色或白色，随深浅主题和灰阶反转同步切换。","role":"utility"}
 ```
 
-这些类自身包含 skin 基础效果；语义颜色默认使用相应 500 色阶，浅灰 50/100/200/300 使用普通前景，其他实色使用深色背景前景。gray 是 gray-500 别名；lightest/lighter/lighten/darken/darker/darkest 是已弃用兼容别名。无需额外 .skin，且不等同仅设置 background 的 bg-*。
+这些类自身包含 skin 基础效果；语义颜色默认使用相应 500 色阶，文字通过 --color-on-* 变量选用可读的黑色或白色，随深浅主题和灰阶反转同步切换。gray 是 gray-500 别名；lightest/lighter/lighten/darken/darker/darkest 是已弃用兼容别名。无需额外 .skin，且不等同仅设置 background 的 bg-*。
 
 支持类名（完整集合）：
 
 - `primary`、`secondary`、`success`、`warning`、`danger`、`important`、`special`、`gray-50`、`gray-100`、`gray-200`
 - `lightest`、`gray-300`、`lighter`、`gray-400`、`lighten`、`gray-500`、`gray`、`gray-600`、`darken`、`gray-700`
 - `darker`、`gray-800`、`darkest`、`gray-900`、`gray-950`
+
+主题生成时优先使用对比度达到 4.5:1 的白字，否则使用黑字；不改变背景色阶。语义皮肤使用 `--color-on-primary` 等变量，灰阶使用 `--color-on-gray-50` 至 `--color-on-gray-950`（各含 `-rgb` 形式）。手工覆盖对应背景颜色时，也须配套覆盖其 on 变量；局部组件仍可通过 `--skin-text` 定制文字。
 
 来源：[skin/solid.css](src/skin/solid.css)。
 

@@ -219,10 +219,10 @@ checkbox-primary/radio-primary 的同节点 checked/focus/disabled 提供视觉�
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/checkbox/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/checkbox/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/checkbox/docs/lib/forms/index.md>)
-- [源码 src/main-react.ts](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/checkbox/src/main-react.ts>)
-- [源码 src/types/index.ts](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/checkbox/src/types/index.ts>)
-- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/checkbox/src/style/index.ts>)
-- [源码 src/style/vars.css](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/checkbox/src/style/vars.css>)
+- [包元数据](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/checkbox/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/checkbox/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/checkbox/docs/lib/forms/index.md>)
+- [源码 src/main-react.ts](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/checkbox/src/main-react.ts>)
+- [源码 src/types/index.ts](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/checkbox/src/types/index.ts>)
+- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/checkbox/src/style/index.ts>)
+- [源码 src/style/vars.css](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/checkbox/src/style/vars.css>)

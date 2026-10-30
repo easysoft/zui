@@ -222,12 +222,19 @@ export function themeVariables(settings: ThemeSettings, mode: ThemeMode): Record
         variables[`--color-${name}`] = color;
         variables[`--color-${name}-rgb`] = rgb(color).join(', ');
     };
+    const onColor = (color: string) => contrast('#ffffff', color) >= 4.5 ? '#ffffff' : '#000000';
     const palettes = {} as Record<PaletteKey, Palette>;
     for (const {key} of paletteFields) {
         const palette = makePalette(settings.colors[key]);
         palettes[key] = Object.fromEntries(shades.map((shade, index) => [shade, palette[mode === 'dark' ? shades[shades.length - 1 - index] : shade]])) as Palette;
         for (const shade of shades) {
             addColor(`${key}-${shade}`, palettes[key][shade]);
+            if (key === 'gray') {
+                addColor(`on-gray-${shade}`, onColor(palettes[key][shade]));
+            }
+        }
+        if (key !== 'gray') {
+            addColor(`on-${key}`, onColor(palettes[key][500]));
         }
     }
     const surface = settings[mode];
@@ -260,7 +267,7 @@ export function themeVariables(settings: ThemeSettings, mode: ThemeMode): Record
         'link-hover': linkColor(1),
         'link-visited': linkColor(2),
         'link-active': linkColor(3),
-        placeholder: derive(['fore', 'canvas'], isDark ? gray[600] : gray[400], mix(surface.fore, surface.canvas, 0.5)),
+        placeholder: derive(['fore', 'canvas'], isDark ? gray[400] : gray[500], mix(surface.fore, surface.canvas, 0.35)),
         border: surface.border,
         'border-light': derive(['border', 'canvas'], isDark ? gray[900] : gray[100], mix(surface.border, surface.canvas, 0.45)),
         'border-strong': derive(['border', 'fore'], isDark ? gray[700] : gray[300], mix(surface.border, surface.fore, 0.2)),

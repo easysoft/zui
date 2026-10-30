@@ -73,8 +73,8 @@ browser：
 | 变量 | 默认表达式 | 含义及取值 | 声明位置 | 推荐覆盖节点 |
 | --- | --- | --- | --- | --- |
 | `--table-head-bg` | `var(--color-surface)` | 表头背景 | `.table` | 目标 table |
-| `--table-striped-color` | `var(--color-gray-50)` | 斑马纹色 | `.table` | 目标 table |
-| `--table-hover-color` | `rgba(var(--color-primary-500-rgb), .05)` | 悬停背景 | `.table` | 目标 table |
+| `--table-striped-color` | `var(--color-surface-light)` | 斑马纹色 | `.table` | 目标 table |
+| `--table-hover-color` | `rgba(var(--color-primary-500-rgb), .12)` | 悬停背景 | `.table` | 目标 table |
 | `--table-border-color` | `var(--color-border)` | 边框色 | `.table` | 目标 table |
 
 ## javascript
@@ -101,4 +101,4 @@ CSS 不处理横向溢出、排序或键盘交互；宽表可由应用外层滚�
 
 ## references
 
-- [包配置](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/table/package.json>)、[入口](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/table/src/main.ts>)、[样式](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/table/src/table.css>)、[变量](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/table/src/vars.css>)
+- [包配置](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/table/package.json>)、[入口](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/table/src/main.ts>)、[样式](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/table/src/table.css>)、[变量](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/table/src/vars.css>)

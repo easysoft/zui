@@ -131,6 +131,27 @@ test('preset styles differ in surfaces, geometry and density while keeping new r
     }
 });
 
+test('solid skins expose readable foregrounds for every palette and gray shade in either mode', () => {
+    const custom = createTheme();
+    custom.colors.primary = '#ffffff';
+    custom.colors.secondary = '#000000';
+    custom.colors.gray = '#7b868f';
+    for (const settings of [...presets.map(({settings}) => settings), custom]) {
+        for (const mode of ['light', 'dark'] as const) {
+            const variables = themeVariables(settings, mode);
+            for (const {key} of paletteFields) {
+                const suffixes = key === 'gray' ? [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] : [500];
+                for (const shade of suffixes) {
+                    const name = key === 'gray' ? `gray-${shade}` : key;
+                    const foreground = variables[`--color-on-${name}`];
+                    expect(foreground, `${settings.preset} ${mode} ${name}`).toBeDefined();
+                    expect(contrast(foreground, variables[`--color-${key}-${shade}`]), `${settings.preset} ${mode} ${name}`).toBeGreaterThanOrEqual(4.5);
+                }
+            }
+        }
+    }
+});
+
 test('dark links from low-luminance seeds become readable without changing solid colors or light links', () => {
     const custom = createTheme();
     custom.preset = 'custom';
@@ -248,7 +269,7 @@ test('default export preserves the native ZUI solid skin foreground contract', (
             nativeForeground = declarations(rule)['--skin-text'];
         }
     });
-    expect(nativeForeground).toBe('rgba(var(--color-fore-in-dark-rgb), var(--tw-text-opacity, 1))');
+    expect(nativeForeground).toBe('rgba(var(--skin-on-rgb), var(--tw-text-opacity, 1))');
     const exported = postcss.parse(exportThemeCSS(createTheme()));
     exported.walkDecls((declaration) => {
         expect(declaration.prop.startsWith('--skin-')).toBe(false);

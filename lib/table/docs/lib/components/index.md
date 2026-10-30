@@ -976,8 +976,8 @@
 | 变量名称                | 变量含义                       | 默认值                                    |
 | ----------------------- | ------------------------------ | ----------------------------------------- |
 | `--table-head-bg`       | 表头背景色                     | `var(--color-surface)`                    |
-| `--table-striped-color` | 表格斑马纹行背景色             | `var(--color-gray-50)`                    |
-| `--table-hover-color`   | 表格行响应鼠标悬停变化背景颜色 | `rgba(var(--color-primary-500-rgb), .05)` |
+| `--table-striped-color` | 表格斑马纹行背景色             | `var(--color-surface-light)`                    |
+| `--table-hover-color`   | 表格行响应鼠标悬停变化背景颜色 | `rgba(var(--color-primary-500-rgb), .12)` |
 | `--table-border-color`  | 表格边框颜色                   | `var(--color-border)`                     |
 
 这些变量声明在 `.table` 上，而不是 `:root`。覆盖时需要作用到表格元素本身，例如自定义 `.table` 规则、更具体的选择器或行内 `style`；在 `:root` 上覆盖不会生效，因为元素上直接匹配的声明始终优先于继承而来的值。

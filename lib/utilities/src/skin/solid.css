@@ -17,7 +17,7 @@
 .gray-900,
 .gray-950 {
   @apply -skin;
-  --skin-text: rgba(var(--color-fore-in-dark-rgb), var(--tw-text-opacity, 1));
+  --skin-text: rgba(var(--skin-on-rgb), var(--tw-text-opacity, 1));
   --skin-color: rgba(var(--skin-solid-rgb), 1);
   --state-ring-color: var(--skin-color);
   --state-active-color: rgba(0,0,0,.1);
@@ -28,61 +28,75 @@
 
 .primary {
   --skin-solid-rgb: var(--color-primary-500-rgb);
+  --skin-on-rgb: var(--color-on-primary-rgb);
 }
 .secondary {
   --skin-solid-rgb: var(--color-secondary-500-rgb);
+  --skin-on-rgb: var(--color-on-secondary-rgb);
 }
 .success {
   --skin-solid-rgb: var(--color-success-500-rgb);
+  --skin-on-rgb: var(--color-on-success-rgb);
 }
 .warning {
   --skin-solid-rgb: var(--color-warning-500-rgb);
+  --skin-on-rgb: var(--color-on-warning-rgb);
 }
 .danger {
   --skin-solid-rgb: var(--color-danger-500-rgb);
+  --skin-on-rgb: var(--color-on-danger-rgb);
 }
 .important {
   --skin-solid-rgb: var(--color-important-500-rgb);
+  --skin-on-rgb: var(--color-on-important-rgb);
 }
 .special {
   --skin-solid-rgb: var(--color-special-500-rgb);
+  --skin-on-rgb: var(--color-on-special-rgb);
 }
 
 .gray-50 {
   --skin-solid-rgb: var(--color-gray-50-rgb);
+  --skin-on-rgb: var(--color-on-gray-50-rgb);
   --skin-bg: rgba(var(--color-gray-50-rgb), var(--tw-bg-opacity, 1));
-  --skin-text: rgba(var(--color-fore-rgb), var(--tw-text-opacity, 1));
 }
 .gray-100 {
   --skin-solid-rgb: var(--color-gray-100-rgb);
-  --skin-text: rgba(var(--color-fore-rgb), var(--tw-text-opacity, 1));
+  --skin-on-rgb: var(--color-on-gray-100-rgb);
 }
 .gray-200, .lightest {
   --skin-solid-rgb: var(--color-gray-200-rgb);
-  --skin-text: rgba(var(--color-fore-rgb), var(--tw-text-opacity, 1));
+  --skin-on-rgb: var(--color-on-gray-200-rgb);
 }
 .gray-300, .lighter {
   --skin-solid-rgb: var(--color-gray-300-rgb);
-  --skin-text: rgba(var(--color-fore-rgb), var(--tw-text-opacity, 1));
+  --skin-on-rgb: var(--color-on-gray-300-rgb);
 }
 .gray-400, .lighten {
   --skin-solid-rgb: var(--color-gray-400-rgb);
+  --skin-on-rgb: var(--color-on-gray-400-rgb);
 }
 .gray-500, .gray {
   --skin-solid-rgb: var(--color-gray-500-rgb);
+  --skin-on-rgb: var(--color-on-gray-500-rgb);
 }
 .gray-600, .darken {
   --skin-solid-rgb: var(--color-gray-600-rgb);
+  --skin-on-rgb: var(--color-on-gray-600-rgb);
 }
 .gray-700, .darker {
   --skin-solid-rgb: var(--color-gray-700-rgb);
+  --skin-on-rgb: var(--color-on-gray-700-rgb);
 }
 .gray-800, .darkest {
   --skin-solid-rgb: var(--color-gray-800-rgb);
+  --skin-on-rgb: var(--color-on-gray-800-rgb);
 }
 .gray-900 {
   --skin-solid-rgb: var(--color-gray-900-rgb);
+  --skin-on-rgb: var(--color-on-gray-900-rgb);
 }
 .gray-950 {
   --skin-solid-rgb: var(--color-gray-950-rgb);
+  --skin-on-rgb: var(--color-on-gray-950-rgb);
 }

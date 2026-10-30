@@ -90,7 +90,7 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
         }
         return (
             <div className="date-picker-menu-footer">
-                <Toolbar btnProps={{className: 'ghost text-primary'}} {...actions} />
+                <Toolbar btnProps={{className: 'ghost text-primary-700'}} {...actions} />
                 {clearText ? <Button type="ghost text-link" data-set-date="">{clearText}</Button> : null}
             </div>
         );

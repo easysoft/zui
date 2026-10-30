@@ -1,5 +1,5 @@
 .modal-dialog {
-  @apply -relative -bg-canvas -bg-opacity-90 -shadow-2xl -max-h-screen -pointer-events-auto -ring-1 -ring-inverse -ring-opacity-5 -backdrop-blur -w-[--modal-base] -rounded-[--modal-radius];
+  @apply -relative -bg-surface-light -shadow-2xl -max-h-screen -pointer-events-auto -ring-1 -ring-border-strong -w-[--modal-base] -rounded-[--modal-radius];
 }
 .modal-content {
   @apply -flex -flex-col -h-full -max-h-screen;

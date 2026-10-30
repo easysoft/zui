@@ -773,7 +773,7 @@ const table = new zui.DTable('#dtable-header-hidden', {
 
 **定制表头背景色**
 
-在容器内的 `.dtable` 元素上设置 CSS 变量 `--dtable-header-bg`，即可改变表头背景色。
+在容器内的 `.dtable` 元素上设置 CSS 变量 `--dtable-header-bg`，即可改变表头背景色。示例使用带透明度的主色变量，让浅色和深色主题中的表头文字均保持可读。
 
 ::: tabs
 
@@ -790,7 +790,7 @@ const table = new zui.DTable('#dtable-header-hidden', {
 
 <style>
 #dtable-header-custom .dtable {
-  --dtable-header-bg: #ddeeff;
+  --dtable-header-bg: rgba(var(--color-primary-500-rgb), .12);
 }
 </style>
 
@@ -851,7 +851,7 @@ const table = new zui.DTable('#dtable-header-custom', {
 
 <style>
 #dtable-header-custom .dtable {
-  --dtable-header-bg: #ddeeff;
+  --dtable-header-bg: rgba(var(--color-primary-500-rgb), .12);
 }
 </style>
 
@@ -1269,7 +1269,7 @@ const table = new zui.DTable('#dtable-striped', {
 
 <style>
 #dtable-striped-custom .dtable {
-  --dtable-striped-bg: #ddeeff;
+  --dtable-striped-bg: rgba(var(--color-primary-500-rgb), .12);
 }
 </style>
 
@@ -1330,7 +1330,7 @@ const table = new zui.DTable('#dtable-striped-custom', {
 
 <style>
 #dtable-striped-custom .dtable {
-  --dtable-striped-bg: #ddeeff;
+  --dtable-striped-bg: rgba(var(--color-primary-500-rgb), .12);
 }
 </style>
 
@@ -1426,7 +1426,7 @@ const table = new zui.DTable('#dtable-bordered', {
 
 <style>
 #dtable-bordered-custom .dtable {
-  --dtable-border-color: #333;
+  --dtable-border-color: var(--color-border-strong);
 }
 </style>
 
@@ -1488,7 +1488,7 @@ const table = new zui.DTable('#dtable-bordered-custom', {
 
 <style>
 #dtable-bordered-custom .dtable {
-  --dtable-border-color: #333;
+  --dtable-border-color: var(--color-border-strong);
 }
 </style>
 
@@ -2084,8 +2084,8 @@ new zui.DTable({
 
 | 变量      | 定义  | 默认值 |
 | ------------- | ----- | ----- |
-| `--dtable-striped-bg` | 隔行背景色 | `var(--color-gray-100)` |
-| `--dtable-hover-bg` | 鼠标悬停背景色 | `rgba(var(--color-gray-500-rgb), .1)` |
+| `--dtable-striped-bg` | 隔行背景色 | `var(--color-surface-light)` |
+| `--dtable-hover-bg` | 鼠标悬停背景色 | `rgba(var(--color-primary-500-rgb), .12)` |
 | `--dtable-header-bg` | 表头背景色 | `var(--color-surface)` |
 | `--dtable-border-color` | 边框颜色 | `var(--color-border)` |
 | `--dtable-sorter-size` | 排序标记大小 | `0.3125rem` |

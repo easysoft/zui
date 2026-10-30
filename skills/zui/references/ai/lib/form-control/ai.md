@@ -193,7 +193,7 @@ browser（已加载本库 CSS）：
 | 变量 | 默认表达式 | 含义及取值 | 声明位置 | 推荐覆盖节点 |
 | --- | --- | --- | --- | --- |
 | `--form-control-radius` | `var(--radius)` | 圆角 | `:root` | 控件或祖先 |
-| `--form-control-border` | `var(--color-border)` | 普通边框；.dark 改为 border-strong | `:root` / `.dark` | 控件或对应主题根 |
+| `--form-control-border` | `rgba(var(--color-fore-rgb), .5)` | 普通边框；随主题前景同步，默认在画布上保持可见 | `:root` / `.dark` / `.light-in-dark` / `.dark-auto` | 控件或对应主题根 |
 | `--form-control-focus` | `var(--color-primary-500)` | 焦点 outline | `:root` | 控件或祖先 |
 | `--form-control-disabled` | `var(--color-surface)` | 禁用背景 | `:root` | 控件或祖先 |
 | `--form-control-readonly` | `var(--color-surface)` | 只读背景 | `:root` | 控件或祖先 |
@@ -354,10 +354,10 @@ Input/TextArea 类型没有声明全部原生 HTML 属性；扩展属性可通�
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/form-control/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/form-control/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/form-control/docs/lib/forms/index.md>)
-- [源码 src/main-react.ts](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/form-control/src/main-react.ts>)
-- [源码 src/types/index.ts](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/form-control/src/types/index.ts>)
-- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/form-control/src/style/index.ts>)
-- [源码 src/style/vars.css](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/form-control/src/style/vars.css>)
+- [包元数据](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/form-control/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/form-control/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/form-control/docs/lib/forms/index.md>)
+- [源码 src/main-react.ts](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/form-control/src/main-react.ts>)
+- [源码 src/types/index.ts](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/form-control/src/types/index.ts>)
+- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/form-control/src/style/index.ts>)
+- [源码 src/style/vars.css](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/form-control/src/style/vars.css>)

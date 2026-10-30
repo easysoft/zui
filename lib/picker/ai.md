@@ -304,6 +304,7 @@ const dispose = mountExample();
 | `.picker-multi-selection` | Flex 布局；交叉轴居中；1px 边框；`bg-surface`（内部样式）；`pl-2`（内部样式）；`rounded-full`（内部样式）；`max-w-full`（内部样式） |
 | `.picker-multi-selection > .text` | `max-w-[180px]`（内部样式）；不换行；`overflow-clip`（内部样式）；`min-w-0`（内部样式） |
 | `.picker-no-search` | `cursor-default`（内部样式） |
+| `.picker-menu` | `--menu-bg: transparent`；内部菜单显示外层 popup 表面 |
 | `.picker-menu-list` | `shadow-none`（内部样式）；`border-none`（内部样式）；`flex-auto`（内部样式）；`min-h-0`（内部样式）；`overflow-y-auto`（内部样式） |
 | `.picker-menu-search + .picker-menu-list.menu` | `pt-0`（内部样式）；`-mt-0.5`（内部样式） |
 | `.picker-menu-list.tree` | `p-2`（内部样式） |

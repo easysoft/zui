@@ -2,7 +2,7 @@
  * Custom style for zui
  * -------------------------------------------------------------------------- */
 body {
-  @apply !-bg-canvas;
+  background-color: var(--vp-c-bg)!important;
 }
 .Layout {
   font-size: 1rem;
@@ -151,7 +151,7 @@ button.DocSearch-Button {
   @apply !-rounded-t-none !-rounded-b !-bg-[--vp-code-block-bg];
 }
 .plugin-tabs--tab-list {
-  @apply -bg-surface;
+  @apply -bg-surface-light;
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
 }

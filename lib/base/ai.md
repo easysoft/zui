@@ -137,10 +137,12 @@ browser（已加载本库 CSS）：
 | `--color-link-hover` | `#2563eb` | `#60a5fa` |
 | `--color-link-visited` | `#1d4ed8` | `#93c5fd` |
 | `--color-link-active` | `#1e40af` | `#bfdbfe` |
-| `--color-placeholder` | `#94a3b8` | `#475569` |
+| `--color-placeholder` | `#64748b` | `#94a3b8` |
 | `--color-border` | `#e2e8f0` | `#1e293b` |
 | `--color-border-strong` | `#cbd5e1` | `#334155` |
 | `--color-border-light` | `#f1f5f9` | `#0f172a` |
+
+实色皮肤另使用 `--color-on-primary`、`--color-on-secondary`、`--color-on-success`、`--color-on-warning`、`--color-on-danger`、`--color-on-important`、`--color-on-special` 和 `--color-on-gray-{50,100,200,300,400,500,600,700,800,900,950}`。主题生成时根据对应实色背景选用白色（对比度至少 4.5:1）或黑色，深色模式按反转后的色阶重新选择，均带同名 `-rgb` 变量。手动更改背景变量时须配套维护 on 变量。
 
 每个值为十六进制颜色的变量还生成同名 `-rgb` 变量，值为逗号分隔十进制 R,G,B（如 `--color-primary-500-rgb: 59,130,246`）；在 rgba() 中使用。改变颜色时同步对应 RGB，避免透明色仍使用旧值。声明在 `:root`，深色覆盖在 `.dark`，`.light-in-dark` 恢复浅色，系统深色下 `.dark-auto` 使用深色。建议覆盖相同主题作用节点。
 

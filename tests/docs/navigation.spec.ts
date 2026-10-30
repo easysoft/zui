@@ -97,7 +97,7 @@ test('ZUI-DOC-009: mobile menu reveals the current helper without taking over ma
 
 test('ZUI-DOC-009: component overview provides grouped document links with purpose descriptions', async ({page, baseURL}) => {
     const libraries = await (await page.request.get(new URL('zui-libs.json', baseURL).href)).json() as {name: string}[];
-    const entryCount = libraries.some(lib => lib.name === '@zui/icons') ? 70 : 69;
+    const entryCount = libraries.some(lib => lib.name === '@zui/icons') ? 69 : 68;
     await page.goto('lib/components/button/');
     const overviewLink = page.locator('.VPSidebar').getByRole('link', {name: '组件总览', exact: true});
     await expect(overviewLink).toHaveCount(1);

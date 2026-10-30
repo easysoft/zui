@@ -343,7 +343,7 @@ const dispose = mountExample();
 | `.date-picker-menu-footer` | Flex 布局；`flex-row`（内部样式）；`border-t`（内部样式）；`p-1`（内部样式） |
 | `.date-picker-menu-footer > .toolbar` | `flex-auto`（内部样式）；主轴居中 |
 | `.date-picker-menu > .menu` | `border-r`（内部样式） |
-| `.date-picker-menu .menu-item` | `text-primary-500`（内部样式） |
+| `.date-picker-menu .menu-item` | `text-primary-700`（内部样式） |
 | `.time-picker-menu` | `max-h-[inherit]`（内部样式） |
 | `.time-picker-menu .menu-item > a` | 主轴居中；`px-0`（内部样式）；`text-center`（内部样式） |
 | `.datetime-picker-menu` | `max-h-[inherit]`（内部样式） |
@@ -364,13 +364,15 @@ const dispose = mountExample();
 
 | 条件选择器 | 效果 |
 | --- | --- |
-| `.date-pick-menu-years > .btn.is-current` | `bg-primary-100`（内部样式）；`text-primary-500`（内部样式） |
-| `.date-pick-menu-month > .btn.active, .date-pick-menu-years > .btn.active` | `bg-primary-500`（内部样式）；`text-canvas`（内部样式） |
+| `.date-pick-menu-years > .btn.is-current` | `bg-primary-100`（内部样式）；`text-primary-800`（内部样式） |
+| `.date-pick-menu-month > .btn.active, .date-pick-menu-years > .btn.active` | `bg-primary-500`（内部样式）；`text-on-primary`（内部样式） |
 | `.mini-calendar-day.disabled` | 忽略指针命中；`opacity-50`（内部样式）；`bg-gray-200`（内部样式） |
-| `.mini-calendar-day.is-weekend > .btn` | `text-gray-500`（内部样式） |
-| `.mini-calendar-day.active > .btn, .mini-calendar-day.is-today > .btn` | `bg-primary-100`（内部样式）；`text-primary-500`（内部样式） |
-| `.mini-calendar-day.selected > .btn` | `bg-primary-500`（内部样式）；`text-canvas`（内部样式） |
-| `.mini-calendar-day.is-out-month` | `opacity-50`（内部样式） |
+| `.mini-calendar-day.is-weekend > .btn` | `text-gray-600`（内部样式） |
+| `.mini-calendar-day.active > .btn, .mini-calendar-day.is-today > .btn` | `bg-primary-100`（内部样式）；`text-primary-800`（内部样式） |
+| `.mini-calendar-day.selected > .btn` | `bg-primary-500`（内部样式）；`text-on-primary`（内部样式） |
+| `.mini-calendar-day.is-out-month:not(.selected):not(.active):not(.is-today) > .btn` | `text-gray-600`（内部样式）；相邻月份可选日期保持不透明文字 |
+
+年/月切换控件的浅色皮肤使用 `--color-primary-800` 文字；快捷日期菜单与默认“今天”动作使用 primary-700。选中日期、年、月通过 on-primary 文字变量适配深浅主题。
 
 使用环境和组件最小示例见前文，需已加载基础样式及本库样式。
 ## css-variables

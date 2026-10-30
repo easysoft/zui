@@ -27,7 +27,7 @@ ZUI 样式基础。导入 Tailwind base/utilities/components 指令、主题变�
 
 ## setup
 
-workspace：`import '@zui/base';`，必须通过项目 PostCSS/Tailwind 配置构建。browser：加载包含 base 的 ZUI CSS。npm：使用目标包真实存在的 `zui/css`；不要把源码 CSS 指令文件直接交给浏览器。构建自定义主题遵循 [配置入口](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/config/tailwind-theme/index.cjs>)。
+workspace：`import '@zui/base';`，必须通过项目 PostCSS/Tailwind 配置构建。browser：加载包含 base 的 ZUI CSS。npm：使用目标包真实存在的 `zui/css`；不要把源码 CSS 指令文件直接交给浏览器。构建自定义主题遵循 [配置入口](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/config/tailwind-theme/index.cjs>)。
 
 ## vanilla
 
@@ -141,10 +141,12 @@ browser（已加载本库 CSS）：
 | `--color-link-hover` | `#2563eb` | `#60a5fa` |
 | `--color-link-visited` | `#1d4ed8` | `#93c5fd` |
 | `--color-link-active` | `#1e40af` | `#bfdbfe` |
-| `--color-placeholder` | `#94a3b8` | `#475569` |
+| `--color-placeholder` | `#64748b` | `#94a3b8` |
 | `--color-border` | `#e2e8f0` | `#1e293b` |
 | `--color-border-strong` | `#cbd5e1` | `#334155` |
 | `--color-border-light` | `#f1f5f9` | `#0f172a` |
+
+实色皮肤另使用 `--color-on-primary`、`--color-on-secondary`、`--color-on-success`、`--color-on-warning`、`--color-on-danger`、`--color-on-important`、`--color-on-special` 和 `--color-on-gray-{50,100,200,300,400,500,600,700,800,900,950}`。主题生成时根据对应实色背景选用白色（对比度至少 4.5:1）或黑色，深色模式按反转后的色阶重新选择，均带同名 `-rgb` 变量。手动更改背景变量时须配套维护 on 变量。
 
 每个值为十六进制颜色的变量还生成同名 `-rgb` 变量，值为逗号分隔十进制 R,G,B（如 `--color-primary-500-rgb: 59,130,246`）；在 rgba() 中使用。改变颜色时同步对应 RGB，避免透明色仍使用旧值。声明在 `:root`，深色覆盖在 `.dark`，`.light-in-dark` 恢复浅色，系统深色下 `.dark-auto` 使用深色。建议覆盖相同主题作用节点。
 
@@ -166,10 +168,10 @@ browser（已加载本库 CSS）：
 
 ## references
 
-- [公开入口](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/base/src/main.ts>)
-- [全局规则](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/base/src/global.css>)
-- [变量配置](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/config/tailwind-theme/variables.cjs>)
-- [颜色配置](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/config/tailwind-theme/colors.cjs>)
-- [深色配置](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/config/tailwind-theme/dark-colors.cjs>)
-- [构建配置](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/scripts/build/css-config.cjs>)
-- [主题说明](<https://github.com/easysoft/zui/blob/2ce01eca3bb1927e859006c2b8b33f51b675d564/lib/base/docs/guide/config/color.md>)
+- [公开入口](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/base/src/main.ts>)
+- [全局规则](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/base/src/global.css>)
+- [变量配置](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/config/tailwind-theme/variables.cjs>)
+- [颜色配置](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/config/tailwind-theme/colors.cjs>)
+- [深色配置](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/config/tailwind-theme/dark-colors.cjs>)
+- [构建配置](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/scripts/build/css-config.cjs>)
+- [主题说明](<https://github.com/easysoft/zui/blob/cb54a46c09bf17d272486651632ee62683000164/lib/base/docs/guide/config/color.md>)
