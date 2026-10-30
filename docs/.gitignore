@@ -1,4 +1,5 @@
 public
+!/docs/public/
 assets
 node_modules
 /_/*

@@ -3,16 +3,54 @@ import {onMounted, onUnmounted, ref} from 'vue';
 import {withBase} from 'vitepress';
 import HomeFeatureTile from './home-feature-tile.vue';
 import HomeBrandBackdrop from './home-brand-backdrop.vue';
+import {createTheme, presets} from '../theme-model';
+import {theme, updateTheme} from '../theme-state';
+import {changeTheme} from '../theme-transition';
+import zuiData from '../zui-data';
 import '../home-landing.css';
 
-const features = [
-    {id: 'compose', category: 'CSS 组合', title: '从基础样式，组合你的界面', description: '布局、间距与外观，用工具类搭配常用控件。', href: '/utilities/'},
-    {id: 'interact', category: '交互组件', title: '为常用操作，补齐交互', description: '菜单、弹窗与反馈，让操作有清楚的回应。', href: '/lib/components/'},
-    {id: 'table', category: '数据表格', title: '让数据展示，也能交互', description: '排序、选择与插件，承接更复杂的数据界面。', href: '/lib/components/dtable/'},
-    {id: 'theme', category: '主题定制', title: '同一套组件，呈现你的风格', description: '颜色、圆角与深浅外观，在一套主题中保持一致。', href: '/guide/config/theme.html'},
-    {id: 'build', category: '按需构建', title: '选择需要的能力，再打包', description: '选择模块，生成项目所需的样式与脚本。', href: '/guide/customize/build.html'},
+const repository = 'https://github.com/easysoft/zui';
+const resources = [
+    {text: 'GitHub 源码', href: repository},
+    {text: '更新日志', href: `${repository}/blob/main/CHANGELOG.md`},
+    {text: '问题反馈', href: `${repository}/issues`},
+    {text: 'MIT 许可', href: `${repository}/blob/main/LICENSE`},
 ];
-const words = [['基础样式，', '自由', '组合。'], ['复杂交互，', '也有', '现成', '起点。']];
+const demoPresets = ['zui', 'forest', 'iris', 'sunset', 'ink', 'pop'].map(id => presets.find(preset => preset.id === id)!);
+const installs = [
+    {id: 'download', text: '下载构建'},
+    {id: 'cdn', text: 'CDN'},
+    {id: 'npm', text: 'npm'},
+];
+const activeInstall = ref(installs[0].id);
+const tabsReady = ref(false);
+const installTabs = ref<HTMLButtonElement[]>([]);
+
+function showMessage() {
+    (window as unknown as {zui?: {Messager: {show: (content: string) => void}}}).zui?.Messager.show('你好，ZUI！');
+}
+
+function applyPreset(id: string) {
+    changeTheme(() => updateTheme(createTheme(id)));
+}
+
+function onInstallKeydown(event: KeyboardEvent, index: number) {
+    const last = installs.length - 1;
+    const next = {ArrowLeft: index ? index - 1 : last, ArrowRight: index === last ? 0 : index + 1, Home: 0, End: last}[event.key];
+    if (next === undefined) return;
+    event.preventDefault();
+    activeInstall.value = installs[next].id;
+    installTabs.value[next]?.focus();
+}
+
+const features = [
+    {id: 'compose', category: 'CSS 组合', title: '用工具类拼出界面', description: '布局、间距和外观，都有现成的工具类。', href: '/utilities/'},
+    {id: 'interact', category: '交互组件', title: '现成的交互组件', description: '菜单、弹窗和消息提示，让每次操作都有反馈。', href: '/lib/components/'},
+    {id: 'table', category: '数据表格', title: '能排序、能选择的表格', description: '支持排序和行选择，还能用插件继续扩展。', href: '/lib/components/dtable/'},
+    {id: 'theme', category: '主题定制', title: '一套组件，换成你的风格', description: '颜色、圆角和深浅色，一处调整全局生效。', href: '/guide/config/theme.html'},
+    {id: 'build', category: '按需构建', title: '只打包用得到的部分', description: '挑选模块，生成项目需要的样式和脚本。', href: '/guide/customize/build.html'},
+];
+const words = [['基础样式，', '自由', '组合。'], ['复杂交互，', '拿来', '即用。']];
 const wordCount = words.flat().length;
 const tiles = ref<InstanceType<typeof HomeFeatureTile>[]>([]);
 const tagline = ref<HTMLElement>();
@@ -99,6 +137,7 @@ function onVisibilityChange() {
 }
 
 onMounted(() => {
+    tabsReady.value = true;
     media = window.matchMedia('(prefers-reduced-motion: reduce)');
     onPreferenceChange();
     media.addEventListener('change', onPreferenceChange);
@@ -150,10 +189,38 @@ onUnmounted(() => {
     <div class="home-landing">
         <HomeBrandBackdrop />
         <section class="home-hero" aria-labelledby="home-title">
-            <h1 id="home-title"><span class="home-title-line">用熟悉的代码，</span><span class="home-title-line">搭建完整的界面。</span></h1>
-            <p class="home-intro">ZUI 3 是可组合、可定制的前端开发框架。用 HTML、CSS 与 JavaScript，组合常用控件、交互和数据表格。</p>
-            <a class="btn primary size-lg home-primary" :href="withBase('/guide/start/')"><span class="home-primary-sheen" aria-hidden="true"></span>快速开始<span class="vpi-arrow-right" aria-hidden="true"></span></a>
-            <p class="home-proof">MIT 开源<span aria-hidden="true">·</span>原生 DOM 调用<span aria-hidden="true">·</span>支持主题定制</p>
+            <div class="home-hero-copy">
+                <a class="home-release" :href="resources[1].href"><b>3.1.0</b>新增 JSON UI、表单生成器和虚拟列表<span class="vpi-arrow-right" aria-hidden="true"></span></a>
+                <h1 id="home-title"><span class="home-title-line">回归 <span class="code text-primary bg-transparent">&lt;HTML&gt;</span></span><span class="home-title-line">声明即界面</span></h1>
+                <p class="home-intro">无需编译，无需搭建脚手架。引入 ZUI，直接书写 HTML，就能组合布局、表单、数据表格与丰富的交互组件。</p>
+                <div class="home-actions">
+                    <a class="btn primary size-lg home-primary" :href="withBase('/guide/start/')"><span class="home-primary-sheen" aria-hidden="true"></span>快速开始<span class="vpi-arrow-right" aria-hidden="true"></span></a>
+                    <a class="btn size-lg home-secondary" :href="withBase('/lib/components/')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+                            <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                            <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                            <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                            <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                        </svg>
+                        浏览组件
+                    </a>
+                    <a class="btn size-lg home-secondary" :href="repository" target="_blank" rel="noreferrer"><i class="icon icon-github" aria-hidden="true"></i>GitHub</a>
+                </div>
+            </div>
+            <div class="home-demo rounded-lg">
+                <slot name="demo-code" />
+                <div class="home-demo-result" role="group" aria-labelledby="home-demo-label">
+                    <span id="home-demo-label" class="home-demo-label">运行效果</span>
+                    <button type="button" class="btn primary" @click="showMessage">显示消息</button>
+                    <div class="home-demo-themes" role="group" aria-labelledby="home-demo-themes-label">
+                        <span id="home-demo-themes-label">换个主题试试</span>
+                        <div class="home-swatches">
+                            <button v-for="preset in demoPresets" :key="preset.id" type="button" class="home-swatch" :style="{background: preset.settings.colors.primary}" :title="preset.name" :aria-label="`应用${preset.name}主题`" :aria-pressed="theme.preset === preset.id" @click="applyPreset(preset.id)"></button>
+                        </div>
+                        <a :href="withBase('/guide/config/theme.html')">全部主题</a>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section class="home-features" aria-label="ZUI 核心能力" @pointermove="onFeaturePointerMove" @pointerleave="clearGlow" @pointercancel="clearGlow">
@@ -211,8 +278,28 @@ onUnmounted(() => {
         </section>
 
         <section class="home-start" aria-labelledby="home-start-title">
-            <div><h2 id="home-start-title">从第一个示例开始</h2><ol><li>选择接入方式</li><li>加载资源</li><li>运行示例</li></ol></div>
-            <a class="btn primary size-lg home-primary" :href="withBase('/guide/start/')"><span class="home-primary-sheen" aria-hidden="true"></span>快速开始<span class="vpi-arrow-right" aria-hidden="true"></span></a>
+            <div class="home-start-head">
+                <div><h2 id="home-start-title">从第一个示例开始</h2><p>选一种方式引入 ZUI，再按快速上手运行示例。</p></div>
+                <a class="btn primary size-lg home-primary" :href="withBase('/guide/start/')"><span class="home-primary-sheen" aria-hidden="true"></span>快速开始<span class="vpi-arrow-right" aria-hidden="true"></span></a>
+            </div>
+            <div class="home-install">
+                <div v-if="tabsReady" class="home-install-tabs" role="tablist" aria-label="接入方式">
+                    <button v-for="(install, index) in installs" :id="`home-install-tab-${install.id}`" :key="install.id" ref="installTabs" type="button" role="tab"
+                        :aria-selected="activeInstall === install.id" :aria-controls="`home-install-${install.id}`" :tabindex="activeInstall === install.id ? 0 : -1"
+                        @click="activeInstall = install.id" @keydown="onInstallKeydown($event, index)">{{ install.text }}</button>
+                </div>
+                <div class="home-install-panels" :class="{'is-ready': tabsReady}">
+                    <div v-for="install in installs" :id="`home-install-${install.id}`" :key="install.id" class="home-install-panel"
+                        :role="tabsReady ? 'tabpanel' : undefined" :aria-labelledby="tabsReady ? `home-install-tab-${install.id}` : undefined"
+                        :aria-hidden="tabsReady && activeInstall !== install.id" :inert="tabsReady && activeInstall !== install.id">
+                        <slot :name="`install-${install.id}`" />
+                        <a v-if="install.id === 'download'" class="btn size-sm home-download" :href="withBase(`/zui-${zuiData.version}.zip`)" download><span class="icon i-download" aria-hidden="true"></span>下载 zui-{{ zuiData.version }}.zip</a>
+                    </div>
+                </div>
+            </div>
+            <ul class="home-resources">
+                <li v-for="resource in resources" :key="resource.text"><a :href="resource.href" target="_blank" rel="noreferrer">{{ resource.text }}</a></li>
+            </ul>
         </section>
     </div>
 </template>
