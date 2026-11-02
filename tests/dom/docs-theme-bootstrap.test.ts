@@ -34,3 +34,20 @@ test('bootstrap still rejects malformed cache values before adding a stylesheet'
     expect(document.getElementById('zui-custom-theme')).toBeNull();
     expect(document.documentElement.hasAttribute('data-zui-theme')).toBe(false);
 });
+
+test('bootstrap replaces stale cached foregrounds with the current theme contract', () => {
+    for (const {settings} of presets) {
+        clearTheme();
+        const light = themeVariables(settings, 'light');
+        const dark = themeVariables(settings, 'dark');
+        const stale = (tokens: Record<string, string>) => Object.fromEntries(Object.entries(tokens).map(([key, value]) => [key, key.startsWith('--color-on-') ? (key.endsWith('-rgb') ? '1, 2, 3' : '#010203') : value]));
+        localStorage.setItem('zui-docs-theme-v1', JSON.stringify({settings, light: stale(light), dark: stale(dark)}));
+        new Function(themeBootstrapScript)();
+        const rules = (document.getElementById('zui-custom-theme') as HTMLStyleElement).sheet!.cssRules;
+        for (const [rule, tokens] of [[rules[0], light], [rules[2], dark]] as const) {
+            for (const [name, value] of Object.entries(tokens).filter(([key]) => key.startsWith('--color-on-'))) {
+                expect((rule as CSSStyleRule).style.getPropertyValue(name).replaceAll(' ', ''), `${settings.preset} ${name}`).toBe(value.replaceAll(' ', ''));
+            }
+        }
+    }
+});

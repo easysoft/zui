@@ -230,11 +230,12 @@ export function themeVariables(settings: ThemeSettings, mode: ThemeMode): Record
         for (const shade of shades) {
             addColor(`${key}-${shade}`, palettes[key][shade]);
             if (key === 'gray') {
-                addColor(`on-gray-${shade}`, onColor(palettes[key][shade]));
+                addColor(`on-gray-${shade}`, mode === 'light' ? (shade <= 300 ? settings.light.fore : '#ffffff') : onColor(palettes[key][shade]));
             }
         }
         if (key !== 'gray') {
-            addColor(`on-${key}`, onColor(palettes[key][500]));
+            // Standard semantic skins keep white text, including in saved custom themes.
+            addColor(`on-${key}`, palette[500] === originalPalettes[key][500] ? '#ffffff' : onColor(palettes[key][500]));
         }
     }
     const surface = settings[mode];
@@ -267,7 +268,7 @@ export function themeVariables(settings: ThemeSettings, mode: ThemeMode): Record
         'link-hover': linkColor(1),
         'link-visited': linkColor(2),
         'link-active': linkColor(3),
-        placeholder: derive(['fore', 'canvas'], isDark ? gray[400] : gray[500], mix(surface.fore, surface.canvas, 0.35)),
+        placeholder: derive(['fore', 'canvas'], gray[400], mix(surface.fore, surface.canvas, isDark ? 0.35 : 0.5)),
         border: surface.border,
         'border-light': derive(['border', 'canvas'], isDark ? gray[900] : gray[100], mix(surface.border, surface.canvas, 0.45)),
         'border-strong': derive(['border', 'fore'], isDark ? gray[700] : gray[300], mix(surface.border, surface.fore, 0.2)),

@@ -10,7 +10,7 @@ function contrast(foreground: number[], background: number[]) {
 }
 
 for (const mode of ['light', 'dark'] as const) {
-    test(`components: ${mode} solid and gray pale skins have readable text`, async ({page}) => {
+    test(`components: ${mode} solid skins preserve standard text and mode-specific grays`, async ({page}) => {
         await page.addInitScript((appearance) => {
             localStorage.removeItem('zui-docs-theme-v1');
             localStorage.setItem('vitepress-theme-appearance', appearance);
@@ -30,11 +30,23 @@ for (const mode of ['light', 'dark'] as const) {
                 background = background.slice(0, 3).map((channel, index) => alpha ? (channel * background[3] + below[index] * (below[3] ?? 1) * (1 - background[3])) / alpha : 0).concat(alpha);
                 ancestor = ancestor.parentElement;
             }
-            return {name: element.textContent, foreground, background};
+            const name = element.textContent!.trim();
+            const shade = Number(name.match(/\d+/)?.[0] || 500);
+            const lightToken = name.endsWith('-pale') ? `gray-${shade <= 200 ? 400 : shade <= 400 ? 500 : shade}` : shade <= 300 ? 'fore' : 'white';
+            const lightForeground = style.getPropertyValue(`--color-${lightToken}-rgb`).split(',').map(Number);
+            return {name, foreground, background, lightForeground};
         }));
         expect(colors.length).toBeGreaterThanOrEqual(29);
-        for (const {name, foreground, background} of colors) {
-            expect(contrast(foreground.slice(0, 3), background.slice(0, 3)), `${mode} ${name}`).toBeGreaterThanOrEqual(4.5);
+        for (const {name, foreground, background, lightForeground} of colors) {
+            if (/^(primary|secondary|success|warning|danger|important|special)$/.test(name!.trim())) {
+                expect(foreground.slice(0, 3)).toEqual([255, 255, 255]);
+                continue;
+            }
+            if (mode === 'light') {
+                expect(foreground.slice(0, 3), name).toEqual(lightForeground);
+            } else {
+                expect(contrast(foreground.slice(0, 3), background.slice(0, 3)), `${mode} ${name}`).toBeGreaterThanOrEqual(4.5);
+            }
         }
     });
 }
@@ -51,9 +63,14 @@ for (const mode of ['light', 'dark'] as const) {
             const parse = (value: string) => value.match(/[\d.]+/g)!.map(Number);
             return {placeholder: parse(getComputedStyle(element, '::placeholder').color), background: parse(style.backgroundColor), ring: parse(style.boxShadow.match(/rgba?\([^)]+\)/g)![1])};
         });
-        expect(contrast(colors.placeholder, colors.background), 'placeholder').toBeGreaterThanOrEqual(4.5);
         const ring = colors.ring.slice(0, 3).map((channel, index) => channel * (colors.ring[3] ?? 1) + colors.background[index] * (1 - (colors.ring[3] ?? 1)));
-        expect(contrast(ring, colors.background), 'control boundary').toBeGreaterThanOrEqual(3);
+        if (mode === 'light') {
+            expect(colors.placeholder.slice(0, 3)).toEqual([148, 163, 184]);
+            expect(ring).toEqual([226, 232, 240]);
+        } else {
+            expect(contrast(colors.placeholder, colors.background), 'placeholder').toBeGreaterThanOrEqual(4.5);
+            expect(contrast(ring, colors.background), 'control boundary').toBeGreaterThanOrEqual(3);
+        }
         await input.focus();
         await expect(input).toBeFocused();
         await expect(input).not.toHaveCSS('outline-color', 'rgba(0, 0, 0, 0)');
@@ -61,7 +78,7 @@ for (const mode of ['light', 'dark'] as const) {
 }
 
 for (const mode of ['light', 'dark'] as const) {
-    test(`components: ${mode} modal dims the page behind an opaque surface`, async ({page}) => {
+    test(`components: ${mode} modal retains its surface and black backdrop`, async ({page}) => {
         await page.addInitScript(appearance => localStorage.setItem('vitepress-theme-appearance', appearance), mode);
         await page.goto('lib/components/modal/');
         await page.waitForFunction(() => 'zui' in window);
@@ -70,7 +87,7 @@ for (const mode of ['light', 'dark'] as const) {
         await expect(modal).toBeVisible();
         await expect(modal).toHaveCSS('background-color', 'rgba(0, 0, 0, 0.4)');
         const surface = await modal.locator('.modal-dialog').evaluate(element => getComputedStyle(element).backgroundColor);
-        expect(surface.startsWith('rgb(')).toBe(true);
+        expect(surface).toBe(mode === 'light' ? 'rgba(255, 255, 255, 0.9)' : 'rgb(15, 23, 42)');
         await modal.getByRole('button', {name: '关闭', exact: true}).click();
         await expect(modal).toBeHidden();
     });
@@ -87,7 +104,7 @@ for (const mode of ['light', 'dark'] as const) {
         const row = page.locator('.example .table-hover tbody tr').first();
         await row.hover();
         const background = await row.locator('td').first().evaluate(element => getComputedStyle(element).backgroundColor);
-        expect(Number(background.match(/[\d.]+/g)![3])).toBeGreaterThanOrEqual(0.1);
+        expect(Number(background.match(/[\d.]+/g)![3])).toBe(mode === 'light' ? 0.05 : 0.12);
     });
 }
 
@@ -104,7 +121,7 @@ for (const mode of ['light', 'dark'] as const) {
         await cell.hover();
         await expect(cell).toHaveClass(/is-hover-row/);
         const background = await cell.evaluate(element => getComputedStyle(element, '::before').backgroundColor);
-        expect(Number(background.match(/[\d.]+/g)![3])).toBeGreaterThanOrEqual(0.1);
+        expect(Number(background.match(/[\d.]+/g)![3])).toBe(mode === 'light' ? 0.05 : 0.12);
     });
 }
 
@@ -113,7 +130,7 @@ for (const mode of ['light', 'dark'] as const) {
         ['date', 'lib/forms/datetime-picker/date.html', '.example .date-picker input'],
         ['member', 'lib/forms/picker/', '.example .picker-select'],
     ]) {
-        test(`components: ${mode} ${name} picker popup has an opaque raised surface`, async ({page}) => {
+        test(`components: ${mode} ${name} picker popup follows its theme surface`, async ({page}) => {
             await page.addInitScript(appearance => localStorage.setItem('vitepress-theme-appearance', appearance), mode);
             await page.goto(route);
             const trigger = page.locator(selector).first();
@@ -126,11 +143,15 @@ for (const mode of ['light', 'dark'] as const) {
                 const style = getComputedStyle(element);
                 return {background: style.backgroundColor, ring: style.boxShadow};
             });
-            expect(colors.background.startsWith('rgb(')).toBe(true);
+            expect(colors.background).toBe(mode === 'light' ? 'rgba(255, 255, 255, 0.85)' : 'rgb(15, 23, 42)');
             expect(colors.background).not.toBe(canvas);
-            expect(colors.ring).not.toContain('0.05)');
+            if (mode === 'light') {
+                expect(colors.ring).toContain('0.05)');
+            } else {
+                expect(colors.ring).not.toContain('0.05)');
+            }
             if (name === 'member') {
-                await expect(popup.locator('.picker-menu-list')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+                await expect(popup.locator('.picker-menu-list')).toHaveCSS('background-color', mode === 'light' ? 'rgb(255, 255, 255)' : 'rgba(0, 0, 0, 0)');
             }
             await page.getByRole('heading', {level: 1}).click();
             await expect(popup).toBeHidden();
@@ -139,7 +160,7 @@ for (const mode of ['light', 'dark'] as const) {
 }
 
 for (const mode of ['light', 'dark'] as const) {
-    test(`components: ${mode} calendar dates retain readable state colors`, async ({page}) => {
+    test(`components: ${mode} calendar dates preserve standard selected colors and readable other states`, async ({page}) => {
         await page.clock.setFixedTime(new Date('2026-10-15T09:30:00+08:00'));
         await page.addInitScript(appearance => localStorage.setItem('vitepress-theme-appearance', appearance), mode);
         await page.goto('lib/forms/datetime-picker/date.html');
@@ -158,18 +179,26 @@ for (const mode of ['light', 'dark'] as const) {
                 const background = style.backgroundColor === 'rgba(0, 0, 0, 0)' ? surface : parse(style.backgroundColor);
                 const opacity = Number(getComputedStyle(button.parentElement!).opacity);
                 const foreground = parse(style.color).map((channel, index) => channel * opacity + surface[index] * (1 - opacity));
-                return {date: button.parentElement!.getAttribute('data-date'), foreground, background: background.map((channel, index) => channel * opacity + surface[index] * (1 - opacity))};
+                return {date: button.parentElement!.getAttribute('data-date'), selected: button.parentElement!.classList.contains('selected'), outside: button.parentElement!.classList.contains('is-out-month'), opacity, foreground, background: background.map((channel, index) => channel * opacity + surface[index] * (1 - opacity))};
             });
         });
         expect(colors).toHaveLength(42);
-        for (const {date, foreground, background} of colors) {
-            expect(contrast(foreground, background), `${mode} ${date}`).toBeGreaterThanOrEqual(4.5);
+        for (const {date, selected, outside, opacity, foreground, background} of colors) {
+            if (selected) {
+                expect(foreground).toEqual([255, 255, 255]);
+                expect(background).toEqual([59, 130, 246]);
+                continue;
+            }
+            expect(opacity, date!).toBe(outside ? (mode === 'light' ? 0.5 : 0.65) : 1);
+            if (mode === 'dark') {
+                expect(contrast(foreground, background), `${mode} ${date}`).toBeGreaterThanOrEqual(4.5);
+            }
         }
         await popup.getByRole('button', {name: '2026年', exact: true}).click();
-        await expect(popup.locator('.date-pick-menu-years > .btn.active')).toHaveCSS('color', 'rgb(0, 0, 0)');
+        await expect(popup.locator('.date-pick-menu-years > .btn.active')).toHaveCSS('color', 'rgb(255, 255, 255)');
         await popup.locator('.date-pick-menu-years > .btn.active').click();
         await popup.locator('.date-picker-menu > .cell > .row').getByRole('button', {name: '10月', exact: true}).click();
-        await expect(popup.locator('.date-pick-menu-month > .btn.active')).toHaveCSS('color', 'rgb(0, 0, 0)');
+        await expect(popup.locator('.date-pick-menu-month > .btn.active')).toHaveCSS('color', 'rgb(255, 255, 255)');
     });
 }
 

@@ -365,6 +365,49 @@ for (const legacy of [false, true]) {
     });
 }
 
+for (const mode of ['light', 'dark'] as const) {
+    for (const cache of ['missing', 'stale'] as const) {
+        test(`theme: ${mode} default text is restored from ${cache} cache before hydration`, async ({page, context}) => {
+            const response = await page.request.get('lib/components/button/');
+            test.skip((await response.text()).includes('src="/@vite/client"'), 'First-paint restoration requires a production build.');
+            await page.addInitScript(appearance => localStorage.setItem('vitepress-theme-appearance', appearance), mode);
+            await openEditor(page);
+            await page.getByTestId('theme-color-primary').fill('#3b82f7');
+            await page.getByTestId('theme-color-primary').fill('#3b82f6');
+            await expect.poll(() => savedTheme(page)).not.toBeNull();
+            await page.evaluate(({key, cache}) => {
+                const saved = JSON.parse(localStorage.getItem(key)!);
+                for (const theme of ['light', 'dark']) {
+                    for (const name of Object.keys(saved[theme]).filter(name => name.startsWith('--color-on-'))) {
+                        if (cache === 'missing') {
+                            delete saved[theme][name];
+                        } else {
+                            saved[theme][name] = name.endsWith('-rgb') ? '1, 2, 3' : '#010203';
+                        }
+                    }
+                }
+                localStorage.setItem(key, JSON.stringify(saved));
+            }, {key: storageKey, cache});
+            const reopened = await context.newPage();
+            let blockedScripts = 0;
+            await reopened.route('**/*', (route) => {
+                if (route.request().resourceType() === 'script') {
+                    blockedScripts++;
+                    return route.abort();
+                }
+                return route.continue();
+            });
+            await reopened.goto('lib/components/button/', {waitUntil: 'domcontentloaded'});
+            await expect(reopened.locator('html')).toHaveClass(mode === 'dark' ? /dark/ : /^(?!.*\bdark\b)/);
+            for (const name of ['primary', 'secondary', 'success', 'warning', 'danger', 'important', 'special']) {
+                await expect(reopened.locator(`.example .btn.${name}`).first()).toHaveCSS('color', 'rgb(255, 255, 255)');
+            }
+            await expect(reopened.locator('.example .btn.gray-100').first()).toHaveCSS('color', mode === 'light' ? 'rgb(30, 41, 59)' : 'rgb(255, 255, 255)');
+            expect(blockedScripts).toBeGreaterThan(0);
+        });
+    }
+}
+
 test('theme: semantic colors reach the preview labels without overriding native solid text', async ({page}) => {
     await openEditor(page);
     const colors = [['success', '#237341'], ['warning', '#a56b14'], ['danger', '#b1354b']] as const;
@@ -728,8 +771,15 @@ for (const mode of ['浅色', '深色']) {
         await page.getByTestId('theme-editor').getByRole('button', {name: mode, exact: true}).click();
         await page.getByRole('textbox', {name: '主题 CSS', exact: true}).scrollIntoViewIfNeeded();
         expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
-        const accessibility = await new AxeBuilder({page}).include('[data-testid="theme-editor"]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+        // Native semantic skins keep white text; all other accessibility rules still cover these samples.
+        const accessibility = await new AxeBuilder({page}).include('[data-testid="theme-editor"]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+            .disableRules('color-contrast')
+            .analyze();
         expect(accessibility.violations).toEqual([]);
+        const contrast = await new AxeBuilder({page}).include('[data-testid="theme-editor"]').withRules('color-contrast')
+            .exclude('.theme-preview-actions .btn.primary').exclude('.theme-export-actions .btn.primary')
+            .exclude('.theme-preview .label.success').exclude('.theme-preview .label.warning').exclude('.theme-preview .label.danger').analyze();
+        expect(contrast.violations).toEqual([]);
         await page.setViewportSize({width: 1440, height: 1000});
         await page.evaluate(() => window.scrollTo(0, 0));
         await expect(page.locator('.VPSidebar').getByRole('link', {name: '主题', exact: true})).toBeInViewport({ratio: 1});

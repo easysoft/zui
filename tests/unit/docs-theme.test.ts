@@ -131,7 +131,25 @@ test('preset styles differ in surfaces, geometry and density while keeping new r
     }
 });
 
-test('solid skins expose readable foregrounds for every palette and gray shade in either mode', () => {
+test('standard semantic skins keep white text in default, saved and exported themes', () => {
+    const theme = createTheme();
+    // Saved/customized themes can retain the standard semantic colors.
+    theme.preset = 'custom';
+    theme.radius = 8;
+    const keys = paletteFields.filter(({key}) => key !== 'gray').map(({key}) => key);
+    for (const mode of ['light', 'dark'] as const) {
+        const variables = themeVariables(theme, mode);
+        for (const key of keys) {
+            expect(variables[`--color-${key}-500`]).toBe(theme.colors[key]);
+            expect(variables[`--color-on-${key}`], key).toBe('#ffffff');
+            expect(variables[`--color-on-${key}-rgb`], key).toBe('255, 255, 255');
+        }
+    }
+    const exported = postcss.parse(exportThemeCSS(theme));
+    for (const key of keys) exported.walkDecls(`--color-on-${key}`, declaration => expect(declaration.value).toBe('#ffffff'));
+});
+
+test('solid skins preserve light defaults and readable dark gray or custom semantic foregrounds', () => {
     const custom = createTheme();
     custom.colors.primary = '#ffffff';
     custom.colors.secondary = '#000000';
@@ -145,11 +163,24 @@ test('solid skins expose readable foregrounds for every palette and gray shade i
                     const name = key === 'gray' ? `gray-${shade}` : key;
                     const foreground = variables[`--color-on-${name}`];
                     expect(foreground, `${settings.preset} ${mode} ${name}`).toBeDefined();
+                    if (key !== 'gray' && settings.colors[key] === createTheme().colors[key]) {
+                        expect(foreground).toBe('#ffffff');
+                        continue;
+                    }
+                    if (key === 'gray' && mode === 'light') {
+                        expect(foreground).toBe(shade <= 300 ? settings.light.fore : '#ffffff');
+                        continue;
+                    }
                     expect(contrast(foreground, variables[`--color-${key}-${shade}`]), `${settings.preset} ${mode} ${name}`).toBeGreaterThanOrEqual(4.5);
                 }
             }
         }
     }
+});
+
+test('light placeholder keeps the original gray-400 default', () => {
+    const variables = themeVariables(createTheme(), 'light');
+    expect(variables['--color-placeholder']).toBe(variables['--color-gray-400']);
 });
 
 test('dark links from low-luminance seeds become readable without changing solid colors or light links', () => {
@@ -269,7 +300,7 @@ test('default export preserves the native ZUI solid skin foreground contract', (
             nativeForeground = declarations(rule)['--skin-text'];
         }
     });
-    expect(nativeForeground).toBe('rgba(var(--skin-on-rgb), var(--tw-text-opacity, 1))');
+    expect(nativeForeground).toBe('rgba(var(--skin-on-rgb, var(--color-fore-in-dark-rgb)), var(--tw-text-opacity, 1))');
     const exported = postcss.parse(exportThemeCSS(createTheme()));
     exported.walkDecls((declaration) => {
         expect(declaration.prop.startsWith('--skin-')).toBe(false);
