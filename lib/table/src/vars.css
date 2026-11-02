@@ -1,6 +1,21 @@
 .table {
     --table-head-bg:       var(--color-surface);
-    --table-striped-color: var(--color-surface-light);
-    --table-hover-color:   rgba(var(--color-primary-500-rgb), .12);
+    --table-striped-color: var(--table-striped-default, var(--color-gray-50));
+    --table-hover-color:   rgba(var(--color-primary-500-rgb), var(--table-hover-opacity, .05));
     --table-border-color:  var(--color-border);
+}
+
+.dark {
+    --table-striped-default: var(--color-surface-light);
+    --table-hover-opacity: .12;
+}
+.light-in-dark {
+    --table-striped-default: initial;
+    --table-hover-opacity: initial;
+}
+@media (prefers-color-scheme: dark) {
+    .dark-auto {
+        --table-striped-default: var(--color-surface-light);
+        --table-hover-opacity: .12;
+    }
 }
