@@ -17,7 +17,7 @@
 .gray-900,
 .gray-950 {
   @apply -skin;
-  --skin-text: rgba(var(--skin-on-rgb), var(--tw-text-opacity, 1));
+  --skin-text: rgba(var(--skin-on-rgb, var(--color-fore-in-dark-rgb)), var(--tw-text-opacity, 1));
   --skin-color: rgba(var(--skin-solid-rgb), 1);
   --state-ring-color: var(--skin-color);
   --state-active-color: rgba(0,0,0,.1);
@@ -57,20 +57,20 @@
 
 .gray-50 {
   --skin-solid-rgb: var(--color-gray-50-rgb);
-  --skin-on-rgb: var(--color-on-gray-50-rgb);
+  --skin-on-rgb: var(--color-on-gray-50-rgb, var(--color-fore-rgb));
   --skin-bg: rgba(var(--color-gray-50-rgb), var(--tw-bg-opacity, 1));
 }
 .gray-100 {
   --skin-solid-rgb: var(--color-gray-100-rgb);
-  --skin-on-rgb: var(--color-on-gray-100-rgb);
+  --skin-on-rgb: var(--color-on-gray-100-rgb, var(--color-fore-rgb));
 }
 .gray-200, .lightest {
   --skin-solid-rgb: var(--color-gray-200-rgb);
-  --skin-on-rgb: var(--color-on-gray-200-rgb);
+  --skin-on-rgb: var(--color-on-gray-200-rgb, var(--color-fore-rgb));
 }
 .gray-300, .lighter {
   --skin-solid-rgb: var(--color-gray-300-rgb);
-  --skin-on-rgb: var(--color-on-gray-300-rgb);
+  --skin-on-rgb: var(--color-on-gray-300-rgb, var(--color-fore-rgb));
 }
 .gray-400, .lighten {
   --skin-solid-rgb: var(--color-gray-400-rgb);

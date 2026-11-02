@@ -1,3 +1,34 @@
 .popup {
-  @apply -shadow-xl -ring-1 -ring-border-strong -bg-surface-light -rounded;
+  @apply -shadow-xl -ring-1 -ring-inverse -ring-opacity-5 -bg-canvas -bg-opacity-[.85] -backdrop-blur-lg -rounded;
+  --tw-bg-opacity: var(--popup-bg-opacity, .85);
+  background-color: rgba(var(--popup-bg-rgb, var(--color-canvas-rgb)), var(--tw-bg-opacity));
+  --tw-ring-opacity: var(--popup-ring-opacity, .05);
+  --tw-ring-color: rgba(var(--popup-ring-rgb, var(--color-inverse-rgb)), var(--tw-ring-opacity));
+  --tw-backdrop-blur: var(--popup-blur, blur(16px));
+}
+
+.dark {
+  --popup-bg-rgb: var(--color-surface-light-rgb);
+  --popup-bg-opacity: 1;
+  --popup-ring-rgb: var(--color-border-strong-rgb);
+  --popup-ring-opacity: 1;
+  --popup-blur: none;
+}
+
+.light-in-dark {
+  --popup-bg-rgb: initial;
+  --popup-bg-opacity: initial;
+  --popup-ring-rgb: initial;
+  --popup-ring-opacity: initial;
+  --popup-blur: initial;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dark-auto {
+    --popup-bg-rgb: var(--color-surface-light-rgb);
+    --popup-bg-opacity: 1;
+    --popup-ring-rgb: var(--color-border-strong-rgb);
+    --popup-ring-opacity: 1;
+    --popup-blur: none;
+  }
 }

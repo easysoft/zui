@@ -166,10 +166,10 @@ object-fit 类用于图片/视频等替换元素，需元素有约束尺寸才�
 ### css-layout-popup
 
 ```json
-{"name":"弹出层外观","summary":"单个 `.popup` 元素获得 xl 阴影、border-strong 外圈、不透明 surface-light 背景和默认圆角。","role":"component"}
+{"name":"弹出层外观","summary":"单个 `.popup` 元素获得 xl 阴影和默认圆角；浅色保留半透明 canvas 与模糊，深色使用不透明 surface-light 与清晰外圈。","role":"component"}
 ```
 
-单个 `.popup` 元素获得 xl 阴影、border-strong 外圈、不透明 surface-light 背景和默认圆角。不提供定位、显隐、遮罩、焦点管理或 JS；常与定位工具类组合。
+单个 `.popup` 元素获得 xl 阴影和默认圆角。浅色使用 85% canvas 背景、5% inverse 外圈与 16px 背景模糊；深色使用不透明 surface-light、border-strong 外圈且不模糊。可在元素上覆盖 `--popup-bg-rgb`、`--popup-ring-rgb`（逗号分隔 RGB 通道）、`--popup-bg-opacity`、`--popup-ring-opacity`（0–1）和 `--popup-blur`；bg-opacity / ring-opacity 工具类仍可覆盖透明度。`.light-in-dark` 恢复浅色默认值，`.dark-auto` 仅在深色媒体条件下启用深色外观。不提供定位、显隐、遮罩、焦点管理或 JS；常与定位工具类组合。
 
 支持类名（完整集合）：
 
@@ -704,10 +704,10 @@ w 设置宽度，min-w/max-w 设置上下界。full/分数按包含块宽度，s
 ### css-skin-pale
 
 ```json
-{"name":"浅色皮肤","summary":"这些类自身包含 skin；背景取指定 RGB 的 10% 透明度，语义颜色文字取相应实色，pale 与所有 gray 浅色皮肤使用普通前景 --color-fore。","role":"utility"}
+{"name":"浅色皮肤","summary":"这些类自身包含 skin；背景取指定 RGB 的 10% 透明度，语义颜色文字取相应实色；中性皮肤在浅色保留原灰阶文字，在深色使用 fore。","role":"utility"}
 ```
 
-这些类自身包含 skin；背景取指定 RGB 的 10% 透明度，语义颜色文字取相应实色，pale 与所有 gray 浅色皮肤使用普通前景 --color-fore。gray-pale 等于 gray-500-pale。无需额外 .skin。
+这些类自身包含 skin；背景取指定 RGB 的 10% 透明度，语义颜色文字取相应实色。浅色主题中 gray-50/100/200-pale 使用 gray-400 文字，gray-300/400-pale 使用 gray-500，其余使用各自灰阶（pale 使用 gray-500）；深色主题中 pale 与所有 gray 浅色皮肤使用普通前景 --color-fore。gray-pale 等于 gray-500-pale。无需额外 .skin。
 
 支持类名（完整集合）：
 
@@ -745,10 +745,10 @@ w 设置宽度，min-w/max-w 设置上下界。full/分数按包含块宽度，s
 ### css-skin-solid
 
 ```json
-{"name":"实色皮肤","summary":"这些类自身包含 skin 基础效果；语义颜色默认使用相应 500 色阶，文字通过 --color-on-* 变量选用可读的黑色或白色，随深浅主题和灰阶反转同步切换。","role":"utility"}
+{"name":"实色皮肤","summary":"这些类自身包含 skin 基础效果；语义颜色默认使用相应 500 色阶，文字由 --color-on-* 控制，标准语义色保留白字，浅色灰阶保留原文字，深色灰阶选择可读黑字或白字。","role":"utility"}
 ```
 
-这些类自身包含 skin 基础效果；语义颜色默认使用相应 500 色阶，文字通过 --color-on-* 变量选用可读的黑色或白色，随深浅主题和灰阶反转同步切换。gray 是 gray-500 别名；lightest/lighter/lighten/darken/darker/darkest 是已弃用兼容别名。无需额外 .skin，且不等同仅设置 background 的 bg-*。
+这些类自身包含 skin 基础效果；语义颜色默认使用相应 500 色阶，文字由 --color-on-* 控制，标准语义色保留白字，浅色灰阶保留原文字，深色灰阶选择可读黑字或白字。gray 是 gray-500 别名；lightest/lighter/lighten/darken/darker/darkest 是已弃用兼容别名。无需额外 .skin，且不等同仅设置 background 的 bg-*。
 
 支持类名（完整集合）：
 
@@ -756,7 +756,9 @@ w 设置宽度，min-w/max-w 设置上下界。full/分数按包含块宽度，s
 - `lightest`、`gray-300`、`lighter`、`gray-400`、`lighten`、`gray-500`、`gray`、`gray-600`、`darken`、`gray-700`
 - `darker`、`gray-800`、`darkest`、`gray-900`、`gray-950`
 
-主题生成时优先使用对比度达到 4.5:1 的白字，否则使用黑字；不改变背景色阶。语义皮肤使用 `--color-on-primary` 等变量，灰阶使用 `--color-on-gray-50` 至 `--color-on-gray-950`（各含 `-rgb` 形式）。手工覆盖对应背景颜色时，也须配套覆盖其 on 变量；局部组件仍可通过 `--skin-text` 定制文字。
+七种标准语义色在深浅模式下均保留白字，延续 ZUI 标准按钮、头像等外观；原有配色不保证普通字号文字达到 4.5:1，例如默认蓝底白字约为 3.68:1。浅色 gray-50 至 gray-300 使用 fore，gray-400 至 gray-950 使用白字；深色灰阶优先使用对比度达到 4.5:1 的白字，否则使用黑字；不改变背景色阶。语义皮肤使用 `--color-on-primary` 等变量，灰阶使用 `--color-on-gray-50` 至 `--color-on-gray-950`（各含 `-rgb` 形式）。手工覆盖对应背景颜色时，也须配套覆盖其 on 变量；局部组件仍可通过 `--skin-text` 定制文字。
+
+旧主题未定义 on 变量时，语义色和 gray-400 至 gray-950 回退到 `--color-fore-in-dark-rgb`，gray-50 至 gray-300 回退到 `--color-fore-rgb`，兼容原有实心皮肤；新增 on 变量可覆盖该回退。
 
 来源：[skin/solid.css](src/skin/solid.css)。
 

@@ -95,5 +95,26 @@
 .gray-800-pale,
 .gray-900-pale,
 .gray-950-pale {
-  --skin-text: var(--color-fore);
+  --skin-text: var(--skin-neutral-text, rgba(var(--skin-pale-rgb), 1));
+}
+
+.gray-50-pale,
+.gray-100-pale,
+.gray-200-pale {
+  --skin-text: var(--skin-neutral-text, var(--color-gray-400));
+}
+.gray-300-pale,
+.gray-400-pale {
+  --skin-text: var(--skin-neutral-text, var(--color-gray-500));
+}
+.dark {
+  --skin-neutral-text: var(--color-fore);
+}
+.light-in-dark {
+  --skin-neutral-text: initial;
+}
+@media (prefers-color-scheme: dark) {
+  .dark-auto {
+    --skin-neutral-text: var(--color-fore);
+  }
 }
