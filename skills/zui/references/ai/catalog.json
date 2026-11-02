@@ -1,6 +1,6 @@
 {
   "lib/base/ai.md": {
-    "integrity": "sha256-c29ebb986819333f3fdf34879bdc7374dc3098953fba827c1cbffc848d0b1d47",
+    "integrity": "sha256-f34d3c3102c17f22e798a9ad5047e0b25ad61920d30e061da1c97355fde1f8f0",
     "sections": {
       "meta": [
         175,
@@ -32,27 +32,27 @@
       ],
       "css-variables": [
         1355,
-        7250
+        7362
       ],
       "javascript": [
-        7250,
-        7269
+        7362,
+        7381
       ],
       "types": [
-        7269,
-        7283
+        7381,
+        7395
       ],
       "recipes": [
-        7283,
-        7416
+        7395,
+        7528
       ],
       "constraints": [
-        7416,
-        7569
+        7528,
+        7681
       ],
       "references": [
-        7569,
-        8431
+        7681,
+        8543
       ]
     },
     "entries": {
@@ -66,12 +66,12 @@
       ],
       "css-variables/vars-base-colors": [
         3880,
-        7250
+        7362
       ]
     }
   },
   "lib/typography/ai.md": {
-    "integrity": "sha256-17805830bc95ca34da283550cf30d802418a367a771cdad15cc0ead6117c0b99",
+    "integrity": "sha256-5714936468b7466fca813b5983a1777f2f805db08202ca7b8074c8fd0a28bc29",
     "sections": {
       "meta": [
         171,
@@ -146,7 +146,7 @@
     }
   },
   "lib/alert/ai.md": {
-    "integrity": "sha256-bfe25c313723fc158486c9ec5bd6e1d973dee166d3eceab3084b6417c3c72539",
+    "integrity": "sha256-070d57bf7da6f74406d8386ef2ab4ef44777245ed53c65e2f758d846bd17c6a9",
     "sections": {
       "meta": [
         173,
@@ -229,7 +229,7 @@
     }
   },
   "lib/breadcrumb/ai.md": {
-    "integrity": "sha256-b301e7d46a9039cb2281db723c0b9d40575ba50658b98a7cc6a4c8d903a8b760",
+    "integrity": "sha256-f9a2b1536896db57f5ccde12662cb912b44c5e86b5f128d9bce022f6fe16e990",
     "sections": {
       "meta": [
         172,
@@ -300,7 +300,7 @@
     }
   },
   "lib/button/ai.md": {
-    "integrity": "sha256-43fc24ca5504d0b548f251e636065bead67b16175a9c0c2d75c91a8a55dfe18d",
+    "integrity": "sha256-2a823d49139ea235365c2cc5cbead28c933dd52e6d382197bdeefb65989e8b6f",
     "sections": {
       "meta": [
         171,
@@ -383,7 +383,7 @@
     }
   },
   "lib/checkbox/ai.md": {
-    "integrity": "sha256-292da3287643ae409d99bbe79a4358b4165879712416c2d0bc54b48ad75f56c0",
+    "integrity": "sha256-073ea65105fee71d5c1f9aec6a436256ed81568ba708ff642d39de9201f4855b",
     "sections": {
       "meta": [
         174,
@@ -482,7 +482,7 @@
     }
   },
   "lib/collapsible/ai.md": {
-    "integrity": "sha256-cbd84fa85c1943e27c4c24c6ebf9b5f753789d38ad93ea3ae865b4aff92a9405",
+    "integrity": "sha256-837c453f6805450dabdd6d38f3d406c525ad79009bd88e5750cc6c253b316e23",
     "sections": {
       "meta": [
         171,
@@ -569,7 +569,7 @@
     }
   },
   "lib/common-list/ai.md": {
-    "integrity": "sha256-7f0ba235dc0ed7d1b9d50aad970e7f888df41a114fd46774f7e46ec923b717b0",
+    "integrity": "sha256-55c321d10ab4cc51d47452efe05f68ca0f28fb5397c6b56d00c84f0da6701cf5",
     "sections": {
       "meta": [
         173,
@@ -648,7 +648,7 @@
     }
   },
   "lib/form/ai.md": {
-    "integrity": "sha256-0a3bd5f8785007b7d385f518cf26fa79577e21d2aa294a59a3079e7171185134",
+    "integrity": "sha256-4bb4d1cb5b0f5d49531d276ebae72964635cf431264c7526833ba9c693c142f6",
     "sections": {
       "meta": [
         171,
@@ -723,7 +723,7 @@
     }
   },
   "lib/form-control/ai.md": {
-    "integrity": "sha256-20a953cd01e9ae37a9633fb923c6dd63ba8f4123c6530a02bd98374ebbc0f0be",
+    "integrity": "sha256-ff051e1f0b5837519bfca3338bc4a72b63ab0d271f5662413731714cd5c6ac95",
     "sections": {
       "meta": [
         173,
@@ -755,27 +755,27 @@
       ],
       "css-variables": [
         6713,
-        7658
+        7692
       ],
       "javascript": [
-        7658,
-        7677
+        7692,
+        7711
       ],
       "types": [
-        7677,
-        13172
+        7711,
+        13206
       ],
       "recipes": [
-        13172,
-        13320
+        13206,
+        13354
       ],
       "constraints": [
-        13320,
-        13508
+        13354,
+        13542
       ],
       "references": [
-        13508,
-        14463
+        13542,
+        14497
       ]
     },
     "entries": {
@@ -813,40 +813,40 @@
       ],
       "css-variables/vars-form-control": [
         6731,
-        7658
+        7692
       ],
       "types/types-form-control": [
-        7687,
-        8494
+        7721,
+        8528
       ],
       "types/types-input": [
-        8494,
-        9179
+        8528,
+        9213
       ],
       "types/types-textarea": [
-        9179,
-        9812
+        9213,
+        9846
       ],
       "types/types-select": [
-        9812,
-        10594
+        9846,
+        10628
       ],
       "types/types-map-edit": [
-        10594,
-        11623
+        10628,
+        11657
       ],
       "types/types-string-list-edit": [
-        11623,
-        12223
+        11657,
+        12257
       ],
       "types/types-form-group": [
-        12223,
-        13172
+        12257,
+        13206
       ]
     }
   },
   "lib/icons/ai.md": {
-    "integrity": "sha256-2709352d476b6e853c061f16455721f7f4ce527ce0198af75aa56c4aa3c6b7d5",
+    "integrity": "sha256-8fc4a01743a55bcd35b5f3199803983b00583703e7184177af8d094e4992052d",
     "sections": {
       "meta": [
         173,
@@ -913,7 +913,7 @@
     }
   },
   "lib/input-control/ai.md": {
-    "integrity": "sha256-622bc81ea73e3bc3332762bac356ee6a285442779f82bdeb7e293cd2ba381353",
+    "integrity": "sha256-eb085efcfcc7c1caa5fb666e6b47afc987b04572df44ee08d6d977e344b8ac55",
     "sections": {
       "meta": [
         172,
@@ -988,7 +988,7 @@
     }
   },
   "lib/label/ai.md": {
-    "integrity": "sha256-2f8f42b67eb002aa028bd3938081d34a990b153f8c0f8ead125b1b5cece4868c",
+    "integrity": "sha256-ba4db4949e688feeb270c995ba7845e00c51fd5e3a02c26da7b87325eb378ccf",
     "sections": {
       "meta": [
         171,
@@ -1059,7 +1059,7 @@
     }
   },
   "lib/list/ai.md": {
-    "integrity": "sha256-ae892f987b5c12df1009d2a5cf66e05ff89602109d2cd0753dbd349c32e9bc4c",
+    "integrity": "sha256-4542c44985bcc94e1bb390bbd891c938fc0a59b6f134108e8d780767fe3f2705",
     "sections": {
       "meta": [
         171,
@@ -1166,7 +1166,7 @@
     }
   },
   "lib/menu/ai.md": {
-    "integrity": "sha256-24d619ed14f655b2f7284c79768745289934d09c890698efd32cdd55dc0dbe34",
+    "integrity": "sha256-96b72727460b0c4a4476f3b3899a50b74e185d4f4585c35ea41c38e2f1a34191",
     "sections": {
       "meta": [
         171,
@@ -1277,7 +1277,7 @@
     }
   },
   "lib/messager/ai.md": {
-    "integrity": "sha256-53b25324ac3b550561c3077b35d85cfafc3e0f4e9d29fd0c381bbbe793cc5882",
+    "integrity": "sha256-68d5ca0af84f669b8c228b57e6842432163cabc92d39a81a5c1641f871f88ba5",
     "sections": {
       "meta": [
         173,
@@ -1364,7 +1364,7 @@
     }
   },
   "lib/progress/ai.md": {
-    "integrity": "sha256-0c9369c5f69875e8b08210737b1fbca346d332e1075592bf787b9460e76f2d3a",
+    "integrity": "sha256-50323924a2efb0cca48d5fdc1923b6326770b2a9e126b399fc95c72a796652b3",
     "sections": {
       "meta": [
         172,
@@ -1447,7 +1447,7 @@
     }
   },
   "lib/progress-circle/ai.md": {
-    "integrity": "sha256-205900601b0265571d3cca9273a4007bdd04c6bb2f252806f00388b8eeda0eda",
+    "integrity": "sha256-56f97c6d4246f23604e301891986d697ffcf7d019c0c2153d44c0dce16f85d34",
     "sections": {
       "meta": [
         174,
@@ -1522,7 +1522,7 @@
     }
   },
   "lib/scrollbar/ai.md": {
-    "integrity": "sha256-b3f7dd959212ea94ec75fd4179120ad541cf71d09c8262c8079458cfed663fa7",
+    "integrity": "sha256-4b2ed385fca6527eaef53cc0955c06b8afc88f64f15664dcaaca86f573437dd9",
     "sections": {
       "meta": [
         172,
@@ -1613,7 +1613,7 @@
     }
   },
   "lib/time-span/ai.md": {
-    "integrity": "sha256-9895f942e63ae8946af7f066b140d551618a5c96cdb092d22bf5b9f948773701",
+    "integrity": "sha256-79ff4e8897dca23a90f44e71b3a32930cfaa399a8f91e874ed40b3fb4b0b7a5e",
     "sections": {
       "meta": [
         173,
@@ -1708,7 +1708,7 @@
     }
   },
   "lib/core/ai.md": {
-    "integrity": "sha256-c65ed9634bb3464c92d7c0949649b7878633ca1d740d327e0108f1e0f9f9c920",
+    "integrity": "sha256-2480e24943cbc7cd1b712903b35188e0fc5111575ed04b40e6f42699111ffb64",
     "sections": {
       "meta": [
         176,
@@ -1971,7 +1971,7 @@
     }
   },
   "lib/dnd/ai.md": {
-    "integrity": "sha256-e6cdfb7587c7b398d8480f679f564f19afc9ba528135263e52f90327b2d40133",
+    "integrity": "sha256-e669be2784f88a1ec956cfb5aa3be4ca19fca633bf53a9b4e16887e20bb9c35f",
     "sections": {
       "meta": [
         176,
@@ -2066,7 +2066,7 @@
     }
   },
   "lib/event-bus/ai.md": {
-    "integrity": "sha256-affe3b115f18c00274cfba484c2970d888f9415fd6f8a36215bf6fa7aacf5f40",
+    "integrity": "sha256-ac3401d7f2b13e284f8362fa71ae26f6019659204ed2a28cca54391f4c270051",
     "sections": {
       "meta": [
         178,
@@ -2149,7 +2149,7 @@
     }
   },
   "lib/form-helper/ai.md": {
-    "integrity": "sha256-357419259d6860666c402335f1b3bcfaad124423e17d799ca55f5f210a17bf83",
+    "integrity": "sha256-edec60f5f1b640e9a5524305e012105f57448224a8ff68328de05dc4faf049ac",
     "sections": {
       "meta": [
         173,
@@ -2216,7 +2216,7 @@
     }
   },
   "lib/sortable/ai.md": {
-    "integrity": "sha256-ec010ae6b8e2c4d99d46d50ffe62cfb9273edfab2498d8074c7c1a65a1407d7a",
+    "integrity": "sha256-a4c6d5a7ad779893810bd15cc82d15b92e359c1711f6de4ed7d0fdebe3470bd8",
     "sections": {
       "meta": [
         173,
@@ -2303,7 +2303,7 @@
     }
   },
   "lib/split/ai.md": {
-    "integrity": "sha256-61535d06a28a038ae5896616ad715d7581c752724603b6b1e4f4177bc4fde3b0",
+    "integrity": "sha256-dc28155c1626ad2be0668745ab3caace0bb3e0f2de8642e5ea2fd55de15708d3",
     "sections": {
       "meta": [
         180,
@@ -2386,7 +2386,7 @@
     }
   },
   "lib/store/ai.md": {
-    "integrity": "sha256-a2be6cc4b596be0a7af9cf35eba13872d839ad2f4b9810c1438cfea3f5e2e6ff",
+    "integrity": "sha256-848012e8d171a94da3b3b4984898e353c018e42a3694f7f5ced05d6f4da62f7e",
     "sections": {
       "meta": [
         173,
@@ -2457,7 +2457,7 @@
     }
   },
   "lib/avatar/ai.md": {
-    "integrity": "sha256-f90dbc17a0ddef02f4e7f34e379c11924d67fbf80ab80c78004cc4cfccf23a7b",
+    "integrity": "sha256-aeea93c3e6ffc292109a7f35be659cb69f74ef98dc13a186c4159cf5d2b79172",
     "sections": {
       "meta": [
         171,
@@ -2544,7 +2544,7 @@
     }
   },
   "lib/avatar-group/ai.md": {
-    "integrity": "sha256-3b101ffbd2ac39fef16994cf050c809a767e734f5d510fa3bf407909d741488b",
+    "integrity": "sha256-e1236e4a2ae571678cdec03d17045d03bff692d2c3e42258ca6c353f299e932e",
     "sections": {
       "meta": [
         172,
@@ -2615,7 +2615,7 @@
     }
   },
   "lib/btn-group/ai.md": {
-    "integrity": "sha256-c9778797f75e47235beac1f7b18eddd71664a34e99cd75efe35655769f81ccbd",
+    "integrity": "sha256-063a72b37da57badd2d4d4d4ca891f9e34c417bbc8bf1e85d8e414d98904fd0b",
     "sections": {
       "meta": [
         172,
@@ -2690,7 +2690,7 @@
     }
   },
   "lib/calendar/ai.md": {
-    "integrity": "sha256-c59b2080dbd1d84aa49a00f1fca1b59a6a7f0e7988ea1dc0eb107b0dc0b4c501",
+    "integrity": "sha256-4875533b073e6e5b3467caa36e2d86ec4f01f2c06d482d8355659af948782f4a",
     "sections": {
       "meta": [
         171,
@@ -2793,7 +2793,7 @@
     }
   },
   "lib/color-picker/ai.md": {
-    "integrity": "sha256-3c4e7f5d5f3d23b3b3201074b29c9ae963802af5238841dacaf9d827d71e0fec",
+    "integrity": "sha256-690f6ba29fef618a8789bc89b12c12497bc563e3102305f247a08ee5c0ca8a68",
     "sections": {
       "meta": [
         174,
@@ -2888,7 +2888,7 @@
     }
   },
   "lib/copy-btn/ai.md": {
-    "integrity": "sha256-55608dc728e9fb75ae3e0dbd4bc5c543e2a5dfd5186b5d8c6f280a48a3d0ce97",
+    "integrity": "sha256-a6aed90ab3f46998315bf35df7a4c491bc0585e49617e3f03c77a442750a2d46",
     "sections": {
       "meta": [
         173,
@@ -2967,7 +2967,7 @@
     }
   },
   "lib/datetime-picker/ai.md": {
-    "integrity": "sha256-beae6a3237791ef65ab96faa8e5efce7e4d82b71e60766ee7a10f2c6a739e13e",
+    "integrity": "sha256-59e90b054fcfbabca7606bb4f1cca18322f959add77ed482eb5014ddc7c71425",
     "sections": {
       "meta": [
         176,
@@ -2995,31 +2995,31 @@
       ],
       "css": [
         11581,
-        14467
+        14608
       ],
       "css-variables": [
-        14467,
-        14916
+        14608,
+        15057
       ],
       "javascript": [
-        14916,
-        15826
+        15057,
+        15967
       ],
       "types": [
-        15826,
-        21545
+        15967,
+        21686
       ],
       "recipes": [
-        21545,
-        21684
+        21686,
+        21825
       ],
       "constraints": [
-        21684,
-        22542
+        21825,
+        22683
       ],
       "references": [
-        22542,
-        23262
+        22683,
+        23403
       ]
     },
     "entries": {
@@ -3061,56 +3061,56 @@
       ],
       "css/css-modifiers": [
         13410,
-        14467
+        14608
       ],
       "css-variables/css-variables-config": [
-        14485,
-        14916
+        14626,
+        15057
       ],
       "javascript/javascript-date-helpers": [
-        14931,
-        15826
+        15072,
+        15967
       ],
       "types/types-date-getter": [
-        16154,
-        16502
+        16295,
+        16643
       ],
       "types/types-date-setting": [
-        16502,
-        16862
+        16643,
+        17003
       ],
       "types/types-time-picker-options": [
-        16862,
-        17441
+        17003,
+        17582
       ],
       "types/types-time-picker-menu-props": [
-        17441,
-        18008
+        17582,
+        18149
       ],
       "types/types-date-picker-options": [
-        18008,
-        19105
+        18149,
+        19246
       ],
       "types/types-date-picker-menu-props": [
-        19105,
-        19895
+        19246,
+        20036
       ],
       "types/types-date-picker-menu-state": [
-        19895,
-        20364
+        20036,
+        20505
       ],
       "types/types-datetime-picker-options": [
-        20364,
-        20802
+        20505,
+        20943
       ],
       "types/types-mini-calendar-props": [
-        20802,
-        21545
+        20943,
+        21686
       ]
     }
   },
   "lib/file-list/ai.md": {
-    "integrity": "sha256-dfab85dea9e73d1a53f0ca28b072fdec623132cbc424e514f2ef534b7cd5dfb3",
+    "integrity": "sha256-e2f9224568e2e98e247a6dad991508fe6ec974c580dac0f430d9b41a4a59e64a",
     "sections": {
       "meta": [
         173,
@@ -3201,7 +3201,7 @@
     }
   },
   "lib/file-selector/ai.md": {
-    "integrity": "sha256-571baef92d6f04eda8815dcf05cf0ae03d89c20df689a51fc9ab3e4d19d4122b",
+    "integrity": "sha256-b94437356a9902ffe712cc1efad73e1ee447b289f859608a2068f2569198789a",
     "sections": {
       "meta": [
         174,
@@ -3316,7 +3316,7 @@
     }
   },
   "lib/form-builder/ai.md": {
-    "integrity": "sha256-33eb0ede9bd150b52f2a68353764ab22d9037c9eaa80f6aeb9eff6f20a7c8e35",
+    "integrity": "sha256-4ddec5fe75008beb0888c8cdf89fecb00ba91806054e5e8d99d45305510703d2",
     "sections": {
       "meta": [
         174,
@@ -3503,7 +3503,7 @@
     }
   },
   "lib/input-group/ai.md": {
-    "integrity": "sha256-84da1c3678fd0b1ff800b1233aa2782b97440b901a46a4f08ca9bb9c84648aa8",
+    "integrity": "sha256-09bbcd6d52106af1644152d653de8602e5acd6ff7f23a851939d778dbe5d0425",
     "sections": {
       "meta": [
         172,
@@ -3574,7 +3574,7 @@
     }
   },
   "lib/json-ui/ai.md": {
-    "integrity": "sha256-d5532e2690809f1bdb90e5cc2e68e5da247597f185cf343f09b7700752878fcb",
+    "integrity": "sha256-334674fb05f0e26caa4ac040216203b71cc3819b3868f6524d645326e48bfe3a",
     "sections": {
       "meta": [
         176,
@@ -3685,7 +3685,7 @@
     }
   },
   "lib/modal/ai.md": {
-    "integrity": "sha256-6931dcb7b92840e3a43bf3f18f2afc9ffc24d096bc77b15bd8a7fe1390cd9c95",
+    "integrity": "sha256-563ff6d5c6a2ad3281fc723df22f34448c0be802735c86206226b5dedcf41c38",
     "sections": {
       "meta": [
         172,
@@ -3713,31 +3713,31 @@
       ],
       "css": [
         9007,
-        13165
+        13200
       ],
       "css-variables": [
-        13165,
-        14019
+        13200,
+        14518
       ],
       "javascript": [
-        14019,
-        14038
+        14518,
+        14537
       ],
       "types": [
-        14038,
-        25039
+        14537,
+        25538
       ],
       "recipes": [
-        25039,
-        25404
+        25538,
+        25903
       ],
       "constraints": [
-        25404,
-        26469
+        25903,
+        26968
       ],
       "references": [
-        26469,
-        27157
+        26968,
+        27656
       ]
     },
     "entries": {
@@ -3763,112 +3763,112 @@
       ],
       "css/css-structure": [
         9015,
-        12189
+        12224
       ],
       "css/css-modifiers": [
-        12189,
-        13165
+        12224,
+        13200
       ],
       "css-variables/css-variables-config": [
-        13183,
-        14019
+        13218,
+        14518
       ],
       "types/types-modal-position": [
-        14366,
-        14757
+        14865,
+        15256
       ],
       "types/types-modal-position-preset": [
-        14757,
-        15147
+        15256,
+        15646
       ],
       "types/types-modal-position-callback": [
-        15147,
-        15568
+        15646,
+        16067
       ],
       "types/types-modal-position-setting": [
-        15568,
-        15987
+        16067,
+        16486
       ],
       "types/types-modal-backdrop-type": [
-        15987,
-        16347
+        16486,
+        16846
       ],
       "types/types-modal-size-preset": [
-        16347,
-        16705
+        16846,
+        17204
       ],
       "types/types-modal-size-setting": [
-        16705,
-        17099
+        17204,
+        17598
       ],
       "types/types-modal-base-options": [
-        17099,
-        17969
+        17598,
+        18468
       ],
       "types/types-modal-events": [
-        17969,
-        18335
+        18468,
+        18834
       ],
       "types/types-modal-trigger-static-options": [
-        18335,
-        18756
+        18834,
+        19255
       ],
       "types/types-modal-trigger-options": [
-        18756,
-        19196
+        19255,
+        19695
       ],
       "types/types-modal-dialog-options": [
-        19196,
-        20107
+        19695,
+        20606
       ],
       "types/types-modal-dialog-state": [
-        20107,
-        20468
+        20606,
+        20967
       ],
       "types/types-modal-options": [
-        20468,
-        21101
+        20967,
+        21600
       ],
       "types/types-modal-custom-options": [
-        21101,
-        21606
+        21600,
+        22105
       ],
       "types/types-modal-ajax-options": [
-        21606,
-        22160
+        22105,
+        22659
       ],
       "types/types-modal-iframe-options": [
-        22160,
-        22606
+        22659,
+        23105
       ],
       "types/types-modal-alert-options": [
-        22606,
-        23185
+        23105,
+        23684
       ],
       "types/types-modal-confirm-options": [
-        23185,
-        23621
+        23684,
+        24120
       ],
       "types/types-modal-prompt-options": [
-        23621,
-        24125
+        24120,
+        24624
       ],
       "types/types-modal-typed-options": [
-        24125,
-        24519
+        24624,
+        25018
       ],
       "types/types-modal-iframe-content-props": [
-        24519,
-        25039
+        25018,
+        25538
       ],
       "recipes/recipe-confirm": [
-        25051,
-        25404
+        25550,
+        25903
       ]
     }
   },
   "lib/nav/ai.md": {
-    "integrity": "sha256-77c884fa6d237f1382061cf2b83f2ea4b972ca4c3f136228dc2a39baf4b1d59d",
+    "integrity": "sha256-425d2fe144b34970d59dc331ca50489f8b2362fd58c8cbe0d16746a4b478c97c",
     "sections": {
       "meta": [
         171,
@@ -3959,7 +3959,7 @@
     }
   },
   "lib/pager/ai.md": {
-    "integrity": "sha256-d327ec6ab5fb35f2b734b380a31181bd49153414fe7c6a51fdcca73a30a56796",
+    "integrity": "sha256-4f0f93c311cb376654cc012935cc8a03941d2a3d9334a6499802ed62b40a185e",
     "sections": {
       "meta": [
         171,
@@ -4066,7 +4066,7 @@
     }
   },
   "lib/panel/ai.md": {
-    "integrity": "sha256-d6094613c4562ae7f6ecaab303f7c81ab085e8683cec6fd401e0f97050e26ed4",
+    "integrity": "sha256-73a918490363800815b02983abde4e1161c9be49b9c316f3e3a717e04cbe3058",
     "sections": {
       "meta": [
         171,
@@ -4141,7 +4141,7 @@
     }
   },
   "lib/pick/ai.md": {
-    "integrity": "sha256-fe78f7e3685cc847c9435fea83c5de3da23fae2858630f3ca19ad83b9f0ddcdc",
+    "integrity": "sha256-f080f7df01fd80a92a7e9129a1b879b23d7ff727e38c7d011680b5cc32ed86a2",
     "sections": {
       "meta": [
         172,
@@ -4256,7 +4256,7 @@
     }
   },
   "lib/picker/ai.md": {
-    "integrity": "sha256-4b4c3a7a9bfa1e9228c3776d68ac2b7d31c04407ffb53bcd829a9068bf1e1235",
+    "integrity": "sha256-3dab713ec600aca308ca4d728935503ed9585e6371f37318c867b2eff3659efc",
     "sections": {
       "meta": [
         174,
@@ -4284,31 +4284,31 @@
       ],
       "css": [
         10320,
-        14820
+        14824
       ],
       "css-variables": [
-        14820,
-        15824
+        14824,
+        15828
       ],
       "javascript": [
-        15824,
-        15843
+        15828,
+        15847
       ],
       "types": [
-        15843,
-        22642
+        15847,
+        22646
       ],
       "recipes": [
-        22642,
-        22781
+        22646,
+        22785
       ],
       "constraints": [
-        22781,
-        23613
+        22785,
+        23617
       ],
       "references": [
-        23613,
-        24298
+        23617,
+        24302
       ]
     },
     "entries": {
@@ -4338,56 +4338,56 @@
       ],
       "css/css-structure": [
         10328,
-        13763
+        13767
       ],
       "css/css-modifiers": [
-        13763,
-        14820
+        13767,
+        14824
       ],
       "css-variables/css-variables-config": [
-        14838,
-        15824
+        14842,
+        15828
       ],
       "types/types-picker-options": [
-        16171,
-        17674
+        16175,
+        17678
       ],
       "types/types-picker-menu-props": [
-        17674,
-        18954
+        17678,
+        18958
       ],
       "types/types-picker-search-props": [
-        18954,
-        19513
+        18958,
+        19517
       ],
       "types/types-picker-item-basic": [
-        19513,
-        19943
+        19517,
+        19947
       ],
       "types/types-picker-item-options": [
-        19943,
-        20327
+        19947,
+        20331
       ],
       "types/types-picker-item-props": [
-        20327,
-        20675
+        20331,
+        20679
       ],
       "types/types-picker-select-props": [
-        20675,
-        21761
+        20679,
+        21765
       ],
       "types/types-picker-state": [
-        21761,
-        22261
+        21765,
+        22265
       ],
       "types/types-picker-search-state": [
-        22261,
-        22642
+        22265,
+        22646
       ]
     }
   },
   "lib/popover/ai.md": {
-    "integrity": "sha256-1425d0cab5c8ec3bc62cbeb9e87a4b8c545644f21eba4bcb25cba2987f53f019",
+    "integrity": "sha256-77f996080d306c8d2d9c8a19606e53d2d905508f658883679caad55c23c3b121",
     "sections": {
       "meta": [
         173,
@@ -4490,7 +4490,7 @@
     }
   },
   "lib/responsive-nav/ai.md": {
-    "integrity": "sha256-508cbf2b27f7adc6d6e0038c8042581b0a3d4496978c105ef9dea86d0ac64db0",
+    "integrity": "sha256-0ba42b332c1af26b856e14aaed9196ae5abae576193f71f387a80c1d978bcb9b",
     "sections": {
       "meta": [
         174,
@@ -4561,7 +4561,7 @@
     }
   },
   "lib/search-box/ai.md": {
-    "integrity": "sha256-61dbf65ff0a90fe2d59638ca704973d5986692b2b8281376bf1a01e08f51841c",
+    "integrity": "sha256-41e1e5fe4dd3066accb493aa76cf706c41b5df43278fd08871891dcc8ca38f6a",
     "sections": {
       "meta": [
         172,
@@ -4644,7 +4644,7 @@
     }
   },
   "lib/sidebar/ai.md": {
-    "integrity": "sha256-c79c88fe9857f51c935f78458b47949b57af7fb3cf6b4e43797820fba556b855",
+    "integrity": "sha256-ee7b414ade661dfa693451194ea02e2d6e732c3ca698dc20c04bbd1bfa50869d",
     "sections": {
       "meta": [
         172,
@@ -4727,7 +4727,7 @@
     }
   },
   "lib/table/ai.md": {
-    "integrity": "sha256-ab491cb72f8fab3a0d19f5390185864bce577e23cb390120c051102f811917a9",
+    "integrity": "sha256-97db9b125670b334dfadcd1d50892d3daa8f877273741b3e342b5cc14fef27c6",
     "sections": {
       "meta": [
         171,
@@ -4759,27 +4759,27 @@
       ],
       "css-variables": [
         1322,
-        1844
+        1885
       ],
       "javascript": [
-        1844,
-        1863
+        1885,
+        1904
       ],
       "types": [
-        1863,
-        1877
+        1904,
+        1918
       ],
       "recipes": [
-        1877,
-        2068
+        1918,
+        2109
       ],
       "constraints": [
-        2068,
-        2121
+        2109,
+        2162
       ],
       "references": [
-        2121,
-        2575
+        2162,
+        2616
       ]
     },
     "entries": {
@@ -4793,16 +4793,16 @@
       ],
       "css-variables/css-table-vars": [
         1340,
-        1844
+        1885
       ],
       "recipes/recipe-table-dense": [
-        1889,
-        2068
+        1930,
+        2109
       ]
     }
   },
   "lib/toolbar/ai.md": {
-    "integrity": "sha256-c1f46c16c9f88db5173af53ae5f7ef264a284fb08d316c8bad907ddb6010e1a1",
+    "integrity": "sha256-89a2acfad9c6102b4eb6ad2ae7c19e13a13a9a1166e0f8091b793a3bfd82adc2",
     "sections": {
       "meta": [
         172,
@@ -4893,7 +4893,7 @@
     }
   },
   "lib/tooltip/ai.md": {
-    "integrity": "sha256-8a1e90edd517df697cb5d9c104c19b43a44127e64c1485ab3f39cf9051136024",
+    "integrity": "sha256-d38893e3fcf7263e4ced30a97b426dee095b9f66c03e27ce1b0576f8ee7f9a3e",
     "sections": {
       "meta": [
         173,
@@ -4972,7 +4972,7 @@
     }
   },
   "lib/tree/ai.md": {
-    "integrity": "sha256-ddf8957a55a40efaa477a40a964e9567cce550986794dcb0090f01663024b883",
+    "integrity": "sha256-50ef85ff57e226b77c06c68ca150dfa7997359106d95687af022b684ffe9774c",
     "sections": {
       "meta": [
         173,
@@ -5059,7 +5059,7 @@
     }
   },
   "lib/upload/ai.md": {
-    "integrity": "sha256-c88f4722c8abd067d05d2e0ac22b2240c67c1cff22fd75dbf3678ce1d3b5cf0e",
+    "integrity": "sha256-00d74d898934c0b5b64bc0d27acddba25bf666908fc0c926edfe939a66b8359f",
     "sections": {
       "meta": [
         173,
@@ -5130,7 +5130,7 @@
     }
   },
   "lib/upload-imgs/ai.md": {
-    "integrity": "sha256-bd62e7ca63fb7837ddf5818f90120dffb5c87e7aa401bee16d55c7b7c68e46b1",
+    "integrity": "sha256-dd2945d8754ceeb8fd4924af26a6dc7f1e6a24d82493c9e98a202884ed908c00",
     "sections": {
       "meta": [
         173,
@@ -5201,7 +5201,7 @@
     }
   },
   "lib/virtualize/ai.md": {
-    "integrity": "sha256-3227d5f16dfa817dead000e40a96db1346f8cb5181296218693d61db35a3bb35",
+    "integrity": "sha256-9e25650e785b5cbd6e29eb8a466e6113a61c5f023e37876b7a41153ec61eb8c4",
     "sections": {
       "meta": [
         173,
@@ -5288,7 +5288,7 @@
     }
   },
   "lib/cards/ai.md": {
-    "integrity": "sha256-9ddbad7872130cf0f750008841371b2de5da5b4a5202b7e262c6eaf9ab58db49",
+    "integrity": "sha256-7d1a001b3f40d25f750901f7747a1bd2c5a9fd12ef972db6bbf2b149d847cb09",
     "sections": {
       "meta": [
         171,
@@ -5379,7 +5379,7 @@
     }
   },
   "lib/contextmenu/ai.md": {
-    "integrity": "sha256-abdc6d191f4d8757d698549eb8e22edaf7f70735ca8f3ca33e36ac32fa3667a3",
+    "integrity": "sha256-3580d367914542b4f8596c64b5686268fc7364f728e7857af1535c85322dab58",
     "sections": {
       "meta": [
         174,
@@ -5454,7 +5454,7 @@
     }
   },
   "lib/dashboard/ai.md": {
-    "integrity": "sha256-c367aca8bc32ba681af9bedcb366a02507da64a85ee4438720c699d5f0a08e49",
+    "integrity": "sha256-d9eeb9e3103ec56b971479eb31dc6c7fe87aad637b71389e0b75603c05ab81ab",
     "sections": {
       "meta": [
         172,
@@ -5541,7 +5541,7 @@
     }
   },
   "lib/dropdown/ai.md": {
-    "integrity": "sha256-14252b8e0adecdf196f0975e0a5087c6215112be36e73e4a9fccca2a8d09ede6",
+    "integrity": "sha256-c00c7fc2e3e086719351fa287fd346df55d5fe5b759193038111ae2f430472b5",
     "sections": {
       "meta": [
         173,
@@ -5636,7 +5636,7 @@
     }
   },
   "lib/dtable/ai.md": {
-    "integrity": "sha256-85f9baa998bf93f577a7a0aa0b91b82c9b8150f72693cd74c4114d0138391334",
+    "integrity": "sha256-8474b3cb19b8f599b0053de67c277cc96bd87c5dbd1b6e79b6361435e83b5569",
     "sections": {
       "meta": [
         173,
@@ -5668,27 +5668,27 @@
       ],
       "css-variables": [
         7303,
-        8849
+        8886
       ],
       "javascript": [
-        8849,
-        27777
+        8886,
+        27814
       ],
       "types": [
-        27777,
-        45825
+        27814,
+        45862
       ],
       "recipes": [
-        45825,
-        46057
+        45862,
+        46094
       ],
       "constraints": [
-        46057,
-        46406
+        46094,
+        46443
       ],
       "references": [
-        46406,
-        46911
+        46443,
+        46948
       ]
     },
     "entries": {
@@ -5714,88 +5714,88 @@
       ],
       "css-variables/css-variables-dtable": [
         7321,
-        8849
+        8886
       ],
       "javascript/javascript-plugin-registry": [
-        8864,
-        10419
+        8901,
+        10456
       ],
       "javascript/javascript-plugin-rich": [
-        10419,
-        12615
+        10456,
+        12652
       ],
       "javascript/javascript-plugin-sort": [
-        12615,
-        13787
+        12652,
+        13824
       ],
       "javascript/javascript-plugin-custom": [
-        13787,
-        15217
+        13824,
+        15254
       ],
       "javascript/javascript-plugin-checkable": [
-        15217,
-        17386
+        15254,
+        17423
       ],
       "javascript/javascript-plugin-nested": [
-        17386,
-        19704
+        17423,
+        19741
       ],
       "javascript/javascript-plugin-avatar": [
-        19704,
-        20798
+        19741,
+        20835
       ],
       "javascript/javascript-plugin-sort-type": [
-        20798,
-        22119
+        20835,
+        22156
       ],
       "javascript/javascript-plugin-group": [
-        22119,
-        22717
+        22156,
+        22754
       ],
       "javascript/javascript-plugin-header-group": [
-        22717,
-        23500
+        22754,
+        23537
       ],
       "javascript/javascript-plugin-cellspan": [
-        23500,
-        24862
+        23537,
+        24899
       ],
       "javascript/javascript-plugin-sortable": [
-        24862,
-        26982
+        24899,
+        27019
       ],
       "javascript/javascript-plugin-pager": [
-        26982,
-        27777
+        27019,
+        27814
       ],
       "types/types-options": [
-        27787,
-        31301
+        27824,
+        31338
       ],
       "types/types-rows-columns": [
-        31301,
-        33486
+        31338,
+        33523
       ],
       "types/types-rendering": [
-        33486,
-        36176
+        33523,
+        36213
       ],
       "types/types-layout": [
-        36176,
-        37832
+        36213,
+        37869
       ],
       "types/types-state-events": [
-        37832,
-        38670
+        37869,
+        38707
       ],
       "types/types-plugins": [
-        38670,
-        45825
+        38707,
+        45862
       ]
     }
   },
   "lib/tabs/ai.md": {
-    "integrity": "sha256-35314018e394eb486fb6e7f756488146f75b4fc8d99a54c2078ca73f577d70dd",
+    "integrity": "sha256-c3352d33360bf52ed8c1273e0d79938a0611521653346076497e2a3b9ea3091e",
     "sections": {
       "meta": [
         172,
@@ -5866,7 +5866,7 @@
     }
   },
   "lib/vtable/ai.md": {
-    "integrity": "sha256-8612c31c6c6ab709b902e8516a96aa5256e54498814185501bd04129440fd709",
+    "integrity": "sha256-9d5aa2b7e5959d0711be36b1c8b3243bebcdf12cb21a451072c713b96700efe5",
     "sections": {
       "meta": [
         173,
@@ -5953,7 +5953,7 @@
     }
   },
   "lib/css-icons/ai.md": {
-    "integrity": "sha256-871d5f13b93570a0a3157980cb4b55a0c7e6be5017a860291f4aad7a34d6fb93",
+    "integrity": "sha256-aecf5a7e5cc4b5a3f216577561d7b7b0d3ecbc287a9b977f481017615258b1a5",
     "sections": {
       "meta": [
         175,
@@ -6032,7 +6032,7 @@
     }
   },
   "lib/utilities/ai.md": {
-    "integrity": "sha256-eebd5af555ec33b513844e34e648ca11f6a1fa0579bb81c3ba096cf37e5bd9b1",
+    "integrity": "sha256-9571a9febd44ed867b0376d30d32be3851c47e19bbf5744f9689c2f67a4bca5b",
     "sections": {
       "meta": [
         176,
@@ -6060,31 +6060,31 @@
       ],
       "css": [
         1307,
-        59363
+        60012
       ],
       "css-variables": [
-        59363,
-        64332
+        60012,
+        64981
       ],
       "javascript": [
-        64332,
-        64351
+        64981,
+        65000
       ],
       "types": [
-        64351,
-        64365
+        65000,
+        65014
       ],
       "recipes": [
-        64365,
-        65861
+        65014,
+        66510
       ],
       "constraints": [
-        65861,
-        66303
+        66510,
+        66952
       ],
       "references": [
-        66303,
-        67200
+        66952,
+        67849
       ]
     },
     "entries": {
@@ -6114,304 +6114,304 @@
       ],
       "css/css-layout-popup": [
         5091,
-        5600
+        5871
       ],
       "css/css-layout-position": [
-        5600,
-        6160
+        5871,
+        6431
       ],
       "css/css-layout-top-right-bottom-left": [
-        6160,
-        7439
+        6431,
+        7710
       ],
       "css/css-layout-visibility": [
-        7439,
-        7963
+        7710,
+        8234
       ],
       "css/css-layout-z-index": [
-        7963,
-        8697
+        8234,
+        8968
       ],
       "css/css-flex-align-content": [
-        8697,
-        9305
+        8968,
+        9576
       ],
       "css/css-flex-align-items": [
-        9305,
-        9821
+        9576,
+        10092
       ],
       "css/css-flex-align-self": [
-        9821,
-        10398
+        10092,
+        10669
       ],
       "css/css-flex-basis": [
-        10398,
-        11653
+        10669,
+        11924
       ],
       "css/css-flex-direction": [
-        11653,
-        12320
+        11924,
+        12591
       ],
       "css/css-flex-flex": [
-        12320,
-        12921
+        12591,
+        13192
       ],
       "css/css-flex-gap": [
-        12921,
-        13859
+        13192,
+        14130
       ],
       "css/css-flex-grow": [
-        13859,
-        14360
+        14130,
+        14631
       ],
       "css/css-flex-justify-content": [
-        14360,
-        15036
+        14631,
+        15307
       ],
       "css/css-flex-order": [
-        15036,
-        15758
+        15307,
+        16029
       ],
       "css/css-flex-shrink": [
-        15758,
-        16300
+        16029,
+        16571
       ],
       "css/css-flex-wrap": [
-        16300,
-        16761
+        16571,
+        17032
       ],
       "css/css-spacing-margin": [
-        16761,
-        18143
+        17032,
+        18414
       ],
       "css/css-spacing-padding": [
-        18143,
-        19432
+        18414,
+        19703
       ],
       "css/css-spacing-space": [
-        19432,
-        20318
+        19703,
+        20589
       ],
       "css/css-sizing-height": [
-        20318,
-        21407
+        20589,
+        21678
       ],
       "css/css-sizing-width": [
-        21407,
-        22751
+        21678,
+        23022
       ],
       "css/css-skin-ghost": [
-        22751,
-        23337
+        23022,
+        23608
       ],
       "css/css-skin-outline": [
-        23337,
-        24146
+        23608,
+        24417
       ],
       "css/css-skin-pale": [
-        24146,
-        24985
+        24417,
+        25349
       ],
       "css/css-skin-skin": [
-        24985,
-        25592
+        25349,
+        25956
       ],
       "css/css-skin-solid": [
-        25592,
-        26652
+        25956,
+        27301
       ],
       "css/css-skin-surface": [
-        26652,
-        27255
+        27301,
+        27904
       ],
       "css/css-typography-decoration": [
-        27255,
-        27804
+        27904,
+        28453
       ],
       "css/css-typography-font-family": [
-        27804,
-        28290
+        28453,
+        28939
       ],
       "css/css-typography-font-size": [
-        28290,
-        28992
+        28939,
+        29641
       ],
       "css/css-typography-font-weight": [
-        28992,
-        29629
+        29641,
+        30278
       ],
       "css/css-typography-leading": [
-        29629,
-        30379
+        30278,
+        31028
       ],
       "css/css-typography-line-clamp": [
-        30379,
-        31056
+        31028,
+        31705
       ],
       "css/css-typography-list-style": [
-        31056,
-        31616
+        31705,
+        32265
       ],
       "css/css-typography-text-align": [
-        31616,
-        32235
+        32265,
+        32884
       ],
       "css/css-typography-text-color": [
-        32235,
-        33854
+        32884,
+        34503
       ],
       "css/css-typography-text-opacity": [
-        33854,
-        34662
+        34503,
+        35311
       ],
       "css/css-typography-text-overflow": [
-        34662,
-        35271
+        35311,
+        35920
       ],
       "css/css-typography-text-transform": [
-        35271,
-        35826
+        35920,
+        36475
       ],
       "css/css-typography-whitespace": [
-        35826,
-        36511
+        36475,
+        37160
       ],
       "css/css-typography-word-break": [
-        36511,
-        37156
+        37160,
+        37805
       ],
       "css/css-backgrounds-background-image": [
-        37156,
-        38076
+        37805,
+        38725
       ],
       "css/css-backgrounds-background-opacity": [
-        38076,
-        38839
+        38725,
+        39488
       ],
       "css/css-backgrounds-background": [
-        38839,
-        40351
+        39488,
+        41000
       ],
       "css/css-borders-border-color": [
-        40351,
-        41539
+        41000,
+        42188
       ],
       "css/css-borders-border-opacity": [
-        41539,
-        42399
+        42188,
+        43048
       ],
       "css/css-borders-border-style": [
-        42399,
-        43002
+        43048,
+        43651
       ],
       "css/css-borders-border-width": [
-        43002,
-        43751
+        43651,
+        44400
       ],
       "css/css-borders-divider": [
-        43751,
-        44386
+        44400,
+        45035
       ],
       "css/css-borders-ring": [
-        44386,
-        45919
+        45035,
+        46568
       ],
       "css/css-borders-rounded": [
-        45919,
-        46693
+        46568,
+        47342
       ],
       "css/css-effects-animation": [
-        46693,
-        47563
+        47342,
+        48212
       ],
       "css/css-effects-filters": [
-        47563,
-        48446
+        48212,
+        49095
       ],
       "css/css-effects-opacity": [
-        48446,
-        49206
+        49095,
+        49855
       ],
       "css/css-effects-shadow-color": [
-        49206,
-        50177
+        49855,
+        50826
       ],
       "css/css-effects-shadow": [
-        50177,
-        50763
+        50826,
+        51412
       ],
       "css/css-effects-transforms": [
-        50763,
-        51522
+        51412,
+        52171
       ],
       "css/css-effects-transition": [
-        51522,
-        52422
+        52171,
+        53071
       ],
       "css/css-interactivity-cursor": [
-        52422,
-        52969
+        53071,
+        53618
       ],
       "css/css-interactivity-disabled": [
-        52969,
-        53545
+        53618,
+        54194
       ],
       "css/css-interactivity-hover": [
-        53545,
-        55538
+        54194,
+        56187
       ],
       "css/css-interactivity-loading": [
-        55538,
-        56250
+        56187,
+        56899
       ],
       "css/css-interactivity-pointer-events": [
-        56250,
-        56852
+        56899,
+        57501
       ],
       "css/css-interactivity-scroll": [
-        56852,
-        57352
+        57501,
+        58001
       ],
       "css/css-interactivity-state": [
-        57352,
-        58101
+        58001,
+        58750
       ],
       "css/css-interactivity-user-select": [
-        58101,
-        58629
+        58750,
+        59278
       ],
       "css/css-state-modifiers": [
-        58629,
-        59363
+        59278,
+        60012
       ],
       "css-variables/css-variables-state": [
-        59381,
-        61379
+        60030,
+        62028
       ],
       "css-variables/css-variables-skin": [
-        61379,
-        63180
+        62028,
+        63829
       ],
       "css-variables/css-variables-text-animation": [
-        63180,
-        64332
+        63829,
+        64981
       ],
       "recipes/recipe-layout": [
-        64377,
-        64845
+        65026,
+        65494
       ],
       "recipes/recipe-loading": [
-        64845,
-        65399
+        65494,
+        66048
       ],
       "recipes/recipe-custom-skin": [
-        65399,
-        65861
+        66048,
+        66510
       ]
     }
   },
   "lib/helpers/ai.md": {
-    "integrity": "sha256-cde6df356713e68703c9099934659660c5a6b0dccc72d180c854b8d7ff6dac76",
+    "integrity": "sha256-220fe0017306970156d273a2cd7b9a1798395298d7ca646d738fa76fb275046b",
     "sections": {
       "meta": [
         176,
@@ -6510,7 +6510,7 @@
     }
   },
   "ai.md": {
-    "integrity": "sha256-d15c97976572ad1ca1a3ed4f60324b85828a33bb1961076cfc561efbb33f455f",
+    "integrity": "sha256-590ead3946b8a8b1a208f7d793370a38439f0a0a1ca82a44c199639d3b4ede2a",
     "sections": {},
     "entries": {}
   }
