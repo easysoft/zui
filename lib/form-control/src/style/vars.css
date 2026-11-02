@@ -6,8 +6,16 @@
 }
 
 :root,
-.dark,
-.light-in-dark,
-.dark-auto {
+.light-in-dark {
+  --form-control-border: var(--color-border);
+}
+
+.dark {
   --form-control-border: rgba(var(--color-fore-rgb), .5);
+}
+
+@media (prefers-color-scheme: dark) {
+  .dark-auto {
+    --form-control-border: rgba(var(--color-fore-rgb), .5);
+  }
 }

@@ -189,7 +189,7 @@ browser（已加载本库 CSS）：
 | 变量 | 默认表达式 | 含义及取值 | 声明位置 | 推荐覆盖节点 |
 | --- | --- | --- | --- | --- |
 | `--form-control-radius` | `var(--radius)` | 圆角 | `:root` | 控件或祖先 |
-| `--form-control-border` | `rgba(var(--color-fore-rgb), .5)` | 普通边框；随主题前景同步，默认在画布上保持可见 | `:root` / `.dark` / `.light-in-dark` / `.dark-auto` | 控件或对应主题根 |
+| `--form-control-border` | 浅色 `var(--color-border)`；深色 `rgba(var(--color-fore-rgb), .5)` | 普通边框；保留浅色主题边框，增强深色轮廓 | `:root` / `.dark` / `.light-in-dark` / 深色媒体条件下的 `.dark-auto` | 控件或对应主题根 |
 | `--form-control-focus` | `var(--color-primary-500)` | 焦点 outline | `:root` | 控件或祖先 |
 | `--form-control-disabled` | `var(--color-surface)` | 禁用背景 | `:root` | 控件或祖先 |
 | `--form-control-readonly` | `var(--color-surface)` | 只读背景 | `:root` | 控件或祖先 |
