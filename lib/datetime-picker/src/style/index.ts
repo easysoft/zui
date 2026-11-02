@@ -1,3 +1,4 @@
+import './vars.css';
 import './date-picker.css';
 import './time-picker.css';
 import './datetime-picker.css';

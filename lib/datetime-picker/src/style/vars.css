@@ -1,0 +1,23 @@
+.dark {
+  --calendar-weekend-color: var(--color-gray-600);
+  --calendar-highlight-color: var(--color-primary-800);
+  --calendar-menu-color: var(--color-primary-700);
+  --calendar-outside-color: var(--color-fore);
+  --calendar-outside-opacity: .65;
+}
+.light-in-dark {
+  --calendar-weekend-color: initial;
+  --calendar-highlight-color: initial;
+  --calendar-menu-color: initial;
+  --calendar-outside-color: initial;
+  --calendar-outside-opacity: initial;
+}
+@media (prefers-color-scheme: dark) {
+  .dark-auto {
+    --calendar-weekend-color: var(--color-gray-600);
+    --calendar-highlight-color: var(--color-primary-800);
+    --calendar-menu-color: var(--color-primary-700);
+    --calendar-outside-color: var(--color-fore);
+    --calendar-outside-opacity: .65;
+  }
+}

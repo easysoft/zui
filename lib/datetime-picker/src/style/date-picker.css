@@ -13,11 +13,13 @@
 }
 
 .date-pick-menu-years > .btn.is-current {
-  @apply -bg-primary-100 -text-primary-800;
+  @apply -bg-primary-100;
+  color: var(--calendar-highlight-color, var(--color-primary-500));
 }
 .date-pick-menu-month > .btn.active,
 .date-pick-menu-years > .btn.active {
-  @apply -bg-primary-500 -text-on-primary;
+  @apply -bg-primary-500;
+  color: rgba(var(--color-on-primary-rgb, var(--color-fore-in-dark-rgb)), var(--tw-text-opacity, 1));
 }
 .date-pick-menu-month > .btn {
   @apply -w-12;
@@ -33,9 +35,9 @@
   @apply -border-r;
 }
 .date-picker-menu .menu-item {
-  @apply -text-primary-700;
+  color: var(--calendar-menu-color, var(--color-primary-500));
 }
 
 .date-picker-menu .primary-pale {
-  --skin-text: var(--color-primary-800);
+  --skin-text: var(--calendar-highlight-color, var(--color-primary-500));
 }

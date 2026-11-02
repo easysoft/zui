@@ -14,15 +14,23 @@
   @apply -w-8;
 }
 .mini-calendar-day.is-weekend > .btn {
-  @apply -text-gray-600;
+  color: var(--calendar-weekend-color, var(--color-gray-500));
 }
 .mini-calendar-day.active > .btn,
 .mini-calendar-day.is-today > .btn {
-  @apply -bg-primary-100 -text-primary-800;
+  @apply -bg-primary-100;
+  color: var(--calendar-highlight-color, var(--color-primary-500));
 }
 .mini-calendar-day.selected > .btn {
-  @apply -bg-primary-500 -text-on-primary;
+  @apply -bg-primary-500;
+  color: rgba(var(--color-on-primary-rgb, var(--color-fore-in-dark-rgb)), var(--tw-text-opacity, 1));
+}
+.mini-calendar-day.is-out-month:not(.selected):not(.active):not(.is-today) {
+  opacity: var(--calendar-outside-opacity, .5);
 }
 .mini-calendar-day.is-out-month:not(.selected):not(.active):not(.is-today) > .btn {
-  @apply -text-gray-600;
+  color: var(--calendar-outside-color, inherit);
+}
+.mini-calendar-day.is-out-month.is-weekend:not(.selected):not(.active):not(.is-today) > .btn {
+  color: var(--calendar-outside-color, var(--calendar-weekend-color, var(--color-gray-500)));
 }
