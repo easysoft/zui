@@ -1,9 +1,24 @@
 .dtable {
     --dtable-bg:           var(--color-canvas);
-    --dtable-striped-bg:   var(--color-surface-light);
-    --dtable-hover-bg:     rgba(var(--color-primary-500-rgb), .12);
+    --dtable-striped-bg:   var(--dtable-striped-default, var(--color-gray-50));
+    --dtable-hover-bg:     rgba(var(--color-primary-500-rgb), var(--dtable-hover-opacity, .05));
     --dtable-header-bg:    var(--color-surface);
     --dtable-footer-bg:    var(--color-surface);
     --dtable-border-color: var(--color-border);
     --dtable-sorter-size:  0.3125rem;
+}
+
+.dark {
+    --dtable-striped-default: var(--color-surface-light);
+    --dtable-hover-opacity: .12;
+}
+.light-in-dark {
+    --dtable-striped-default: initial;
+    --dtable-hover-opacity: initial;
+}
+@media (prefers-color-scheme: dark) {
+    .dark-auto {
+        --dtable-striped-default: var(--color-surface-light);
+        --dtable-hover-opacity: .12;
+    }
 }

@@ -173,8 +173,8 @@ JS 生成根 .dtable，布局部件 .dtable-table/.dtable-block/.dtable-header/.
 | 变量 | 默认表达式 | 用途/声明位置 | 覆盖节点 |
 | --- | --- | --- | --- |
 | --dtable-bg | var(--color-canvas) | .dtable 单元格背景 | 实际 .dtable |
-| --dtable-striped-bg | var(--color-surface-light) | .dtable 奇数行背景 | .dtable |
-| --dtable-hover-bg | rgba(var(--color-primary-500-rgb), .12) | .dtable 悬停背景 | .dtable |
+| --dtable-striped-bg | 浅色 var(--color-gray-50)；深色 var(--color-surface-light) | .dtable 奇数行背景 | .dtable |
+| --dtable-hover-bg | rgba(var(--color-primary-500-rgb), .05)；深色透明度 .12 | .dtable 悬停背景 | .dtable |
 | --dtable-header-bg / --dtable-footer-bg | var(--color-surface) | .dtable 表头/页脚 | .dtable |
 | --dtable-border-color | var(--color-border) | .dtable 边框；is-checked 覆盖成 checked-border | .dtable 或对应单元格 |
 | --dtable-sorter-size | .3125rem | .dtable 排序三角尺寸 | .dtable |
