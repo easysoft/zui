@@ -1,5 +1,16 @@
 .picker-menu {
-  --menu-bg: transparent;
+  --menu-bg: var(--picker-menu-bg, var(--color-canvas));
+}
+.dark {
+  --picker-menu-bg: transparent;
+}
+.light-in-dark {
+  --picker-menu-bg: initial;
+}
+@media (prefers-color-scheme: dark) {
+  .dark-auto {
+    --picker-menu-bg: transparent;
+  }
 }
 .picker-menu-list {
   @apply -shadow-none -border-none -flex-auto -min-h-0 -overflow-y-auto;
