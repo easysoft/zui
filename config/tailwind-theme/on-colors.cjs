@@ -8,7 +8,8 @@ function onColor(hex) {
     return 1.05 / (luminance + 0.05) >= 4.5 ? '#ffffff' : '#000000';
 }
 
-module.exports = palettes => Object.fromEntries(Object.entries(palettes).map(([name, palette]) => [
+// Light gray skins retain the original body/white text contract; dark fills need contrast-aware text.
+module.exports = (palettes, lightFore) => Object.fromEntries(Object.entries(palettes).map(([name, palette]) => [
     name,
-    name === 'gray' ? Object.fromEntries(Object.entries(palette).map(([shade, color]) => [shade, onColor(color)])) : onColor(palette[500]),
+    name === 'gray' ? Object.fromEntries(Object.entries(palette).map(([shade, color]) => [shade, lightFore ? (Number(shade) <= 300 ? lightFore : '#ffffff') : onColor(color)])) : '#ffffff',
 ]));

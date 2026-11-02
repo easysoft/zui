@@ -83,7 +83,7 @@ const linkVisited = primary[700];
 const linkActive = primary[800];
 
 /* Placeholder text color. */
-const placeholder = gray[500];
+const placeholder = gray[400];
 
 /** Border. */
 const border = gray[200];
@@ -95,7 +95,7 @@ const borderStrong = gray[300];
 const borderLight = gray[100];
 
 module.exports = {
-    on: onColors({primary, secondary, success, warning, danger, important, special, gray}),
+    on: onColors({primary, secondary, success, warning, danger, important, special, gray}, fore),
     gray,
     primary,
     secondary,
