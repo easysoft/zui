@@ -282,7 +282,7 @@ const dispose = mountExample();
 | `.modal.load-indicator::before` | `bg-transparent`（内部样式）；`transition-none`（内部样式） |
 | `.modal-no-backdrop` | `bg-transparent`（内部样式）；忽略指针命中 |
 | `.modal-hide` | 透明 |
-| `.modal-dialog` | 相对定位；`bg-surface-light`（内部样式）；`shadow-2xl`（内部样式）；`max-h-screen`（内部样式）；`pointer-events-auto`（内部样式）；`ring-1`（内部样式）；`ring-border-strong`（内部样式）；`w-[--modal-base]`（内部样式）；`rounded-[--modal-radius]`（内部样式） |
+| `.modal-dialog` | 相对定位；浅色为 90% canvas 背景、5% inverse 外圈与 8px 背景模糊，深色为不透明 surface-light 背景、border-strong 外圈且不模糊；`shadow-2xl`（内部样式）；`max-h-screen`（内部样式）；`pointer-events-auto`（内部样式）；`ring-1`（内部样式）；`w-[--modal-base]`（内部样式）；`rounded-[--modal-radius]`（内部样式） |
 | `.modal-content` | Flex 布局；纵向布局；全高；`max-h-screen`（内部样式） |
 | `.modal-header` | 相对定位；`px-5`（内部样式）；`py-4`（内部样式）；Flex 布局；交叉轴居中；`flex-nowrap`（内部样式）；`flex-none`（内部样式）；`gap-4`（内部样式） |
 | `.modal-title` | 加粗；大字号；`flex-auto`（内部样式） |
@@ -338,6 +338,9 @@ const dispose = mountExample();
 | --- | --- | --- | --- | --- |
 | `--modal-radius` | `var(--radius-lg)` | 圆角长度 | `:root` | 需要全局修改时 :root；局部在实际使用元素 |
 | `--modal-bg` | `rgba(var(--color-black-rgb), .4)` | 遮罩背景色；深浅模式均压暗背后页面 | `:root` | 需要全局修改时 :root；局部在实际使用元素 |
+| `--modal-dialog-bg-rgb` / `--modal-dialog-ring-rgb` | 深色为 surface-light-rgb / border-strong-rgb；浅色回退 canvas-rgb / inverse-rgb | 窗口背景与外圈的 RGB 通道 | `.dark` / `.light-in-dark` / 深色媒体条件下的 `.dark-auto` | `.modal-dialog` |
+| `--modal-dialog-bg-opacity` / `--modal-dialog-ring-opacity` | 深色为 1 / 1；浅色回退 .9 / .05 | 背景与外圈的默认透明度，仍可用 bg-opacity / ring-opacity 工具类覆盖 | 同上 | `.modal-dialog` |
+| `--modal-dialog-blur` | 深色为 none；浅色回退 blur(8px) | 背景模糊 | 同上 | `.modal-dialog` |
 | `--modal-sm` | `37.5rem` | 尺寸/间距长度 | `:root` | 需要全局修改时 :root；局部在实际使用元素 |
 | `--modal-base` | `50rem` | 尺寸/间距长度 | `:root` | 需要全局修改时 :root；局部在实际使用元素 |
 | `--modal-lg` | `75rem` | 尺寸/间距长度 | `:root` | 需要全局修改时 :root；局部在实际使用元素 |

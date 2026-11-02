@@ -6,3 +6,29 @@
   --modal-lg: 75rem;   /* 1200px */
   --modal-xl: 90rem;   /* 1440px */
 }
+
+.dark {
+  --modal-dialog-bg-rgb: var(--color-surface-light-rgb);
+  --modal-dialog-bg-opacity: 1;
+  --modal-dialog-ring-rgb: var(--color-border-strong-rgb);
+  --modal-dialog-ring-opacity: 1;
+  --modal-dialog-blur: none;
+}
+
+.light-in-dark {
+  --modal-dialog-bg-rgb: initial;
+  --modal-dialog-bg-opacity: initial;
+  --modal-dialog-ring-rgb: initial;
+  --modal-dialog-ring-opacity: initial;
+  --modal-dialog-blur: initial;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dark-auto {
+    --modal-dialog-bg-rgb: var(--color-surface-light-rgb);
+    --modal-dialog-bg-opacity: 1;
+    --modal-dialog-ring-rgb: var(--color-border-strong-rgb);
+    --modal-dialog-ring-opacity: 1;
+    --modal-dialog-blur: none;
+  }
+}
