@@ -60,7 +60,7 @@ pnpm publish:npm --tarball <file> # check + test:build 验证指定包的私有�
 - `--extensions` 包含全部已注册扩展；重复 `--extension zentao --extension ../other-libs` 指定注册组名或单库／集合目录，与 `--extensions` 互斥。内置库始终可供选择，未指定 `--lib` 时也构建已启用扩展。
 - `--name mybuild`、`--version 1.0.0`、`--out-dir dist/mybuild` 指定产物信息；`--include-wip` 包含 WIP，`--exclude-not-ready` 排除未就绪库。
 - `--no-minify` 同时关闭 JS/CSS 压缩；`--no-sourcemap` 关闭 source map；`--zip ./dist/mybuild.zip` 指定完整 ZIP 输出路径。
-- `--config ./custom-build.json` 加载声明式配置；高级导出、npm 依赖、外置依赖（例如 `"externals": {"cash-dom": "$"}`）、CSS 和自定义 Vite 配置通过 JSON 指定。
+- `--config ./custom-build.json` 加载声明式配置；显式相对路径和绝对路径按指定位置读取。仅提供 `custom-build.json` 或省略扩展的 `custom-build` 时，优先查找工作目录的 `build-configs/custom-build.json`，不存在时再查找工作目录的 `custom-build.json`。高级导出、npm 依赖、外置依赖（例如 `"externals": {"cash-dom": "$"}`）、CSS 和自定义 Vite 配置通过 JSON 指定。
 - `--dry-run` 只输出归一化 BuildPlan，不执行安装、prebuild 或清理目录；`--help` 查看参数。CLI 路径相对工作目录，JSON 路径相对配置文件；CLI 标量和 libs/扩展来源覆盖 JSON，exclude 合并。
 
 每次执行只清理自己创建的 `build/run-*` 工作目录和暂存资源；构建、声明及 ZIP 全部完成后再更新最终目标，普通错误会保留或回滚旧产物。ZIP 可以位于输出目录内或外，但不能覆盖生成文件。不同输出的内置库构建可并行；同一目标、父子输出目录、共享 ZIP 或共享扩展源码集合被占用时立即报错，并显示占用进程与锁路径。锁注册表位于当前用户的系统临时目录，异常退出后的残留锁须确认相关进程已结束后手动清理；不自动恢复强杀或断电。目录与外置 ZIP 的替换不保证对并发读取者原子可见。

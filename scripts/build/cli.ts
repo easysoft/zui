@@ -5,7 +5,7 @@ import {BUILD_MIGRATION, BuildOptions, validateBuildOptions} from './config';
 
 export const BUILD_HELP = `Usage: pnpm build [options]
 
-  --config <file>             Declarative JSON configuration
+  --config <file|name>        Declarative JSON configuration (name may omit .json)
   --lib <name>                Select a library (repeatable)
   --exclude <name>            Exclude a library (repeatable)
   --extensions                Load all registered extension sources
@@ -24,12 +24,14 @@ export const BUILD_HELP = `Usage: pnpm build [options]
 
 Built-in libraries use short names; extension libraries use full package names.
 CLI paths are relative to the working directory; JSON paths to the config file.
+Config names search ./build-configs/ before ./; explicit paths are used as given.
 Examples:
   pnpm build --lib button --lib dropdown
   pnpm build --extensions
   pnpm build --extension zentao --extension another-group
   pnpm build --extension ../zui_exts/zentao
   pnpm build --extension zentao --lib @zentao/foo
+  pnpm build --config custom-build
   pnpm build --config ./custom-build.json --no-minify
 `;
 
@@ -108,7 +110,12 @@ function resolvePaths(options: BuildOptions, directory: string, registeredGroups
 }
 
 export async function loadBuildOptions(parsed: ReturnType<typeof parseBuildArgs>, rootDir = process.cwd()): Promise<BuildOptions> {
-    const configFile = parsed.config ? Path.resolve(rootDir, parsed.config) : undefined;
+    let configFile = parsed.config ? Path.resolve(rootDir, parsed.config) : undefined;
+    if (parsed.config && !Path.isAbsolute(parsed.config) && !/[\\/]/.test(parsed.config)) {
+        const fileName = Path.extname(parsed.config) ? parsed.config : `${parsed.config}.json`;
+        const preferred = Path.resolve(rootDir, 'build-configs', fileName);
+        configFile = await fs.pathExists(preferred) ? preferred : Path.resolve(rootDir, fileName);
+    }
     let config: BuildOptions = {};
     if (configFile) {
         const input: unknown = await fs.readJSON(configFile);

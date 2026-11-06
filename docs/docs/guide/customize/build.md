@@ -95,7 +95,7 @@ PR 和 main/nightly CI 保存 `test:build` 本次生成并验证的同一候选�
 
 | 参数 | 用途 |
 | --- | --- |
-| `--config <file>` | 加载声明式 JSON 配置 |
+| `--config <file\|name>` | 加载声明式 JSON 配置；仅提供文件名时优先查找 `build-configs/`，可省略 `.json` |
 | `--lib <name>` | 精确选择入口，可重复；内置库用短名，扩展库用完整包名 |
 | `--exclude <name>` | 排除入口，可重复；不会禁止其他库内部导入依赖 |
 | `--extensions` | 加载全部已注册扩展来源 |
@@ -134,6 +134,17 @@ pnpm build --extension zentao --lib @zentao/status-label
 组名来自 `exts/libs.json`。相对目录使用 `./` 或 `../` 前缀，也支持绝对路径。来源缺失或无效时，构建在清理目录前报错。
 
 ### JSON 配置
+
+`--config` 支持以下形式，项目路径指运行命令时的工作目录：
+
+| 参数示例 | 读取规则 |
+| --- | --- |
+| `./path/to/config.json` | 按相对项目路径读取；`path/to/config.json` 同样支持 |
+| `/user/path/to/config.json` | 按磁盘绝对路径读取 |
+| `config.json` | 优先读取 `./build-configs/config.json`，不存在时读取 `./config.json` |
+| `config` | 补全 `.json`，按 `config.json` 的顺序查找 |
+
+显式路径不搜索 `build-configs/`。优先位置的配置存在但内容无效时直接报错。配置中的相对路径以选中的配置文件所在目录为基准，例如 `build-configs/config.json` 中的 `"outDir": "../dist/custom"` 指向项目的 `dist/custom/`。
 
 保存以下内容为 `custom-build.json`，执行 `pnpm build --config ./custom-build.json`：
 

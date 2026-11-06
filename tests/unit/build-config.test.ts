@@ -57,6 +57,49 @@ describe('build CLI and configuration', () => {
         expect(() => validateBuildOptions({analyze: 'true'})).toThrow(/boolean/);
     });
 
+    it.each(['custom.json', 'custom'])('prefers build-configs for %s and resolves paths from the selected file', async (file) => {
+        await fs.outputJSON(Path.join(root, 'custom.json'), {name: 'root'});
+        await fs.outputJSON(Path.join(root, 'build-configs/custom.json'), {
+            name: 'preferred', outDir: '../output', zip: './build.zip', viteConfig: './vite.ts', extensions: ['./local'],
+        });
+        expect(await loadBuildOptions(parseBuildArgs(['--config', file]), root)).toEqual({
+            name: 'preferred', outDir: Path.join(root, 'output'), zip: Path.join(root, 'build-configs/build.zip'), viteConfig: Path.join(root, 'build-configs/vite.ts'), extensions: [Path.join(root, 'build-configs/local')],
+        });
+    });
+
+    it.each(['custom.json', 'custom'])('falls back to the project directory for %s', async (file) => {
+        await fs.ensureDir(Path.join(root, 'build-configs'));
+        await fs.outputJSON(Path.join(root, 'custom.json'), {name: 'root', outDir: './output'});
+        expect(await loadBuildOptions(parseBuildArgs(['--config', file]), root)).toEqual({name: 'root', outDir: Path.join(root, 'output')});
+    });
+
+    it.each(['./custom.json', './configs/custom.json', 'configs/custom.json', 'absolute'])('uses the explicit config path %s without searching build-configs', async (file) => {
+        const configFile = file === 'absolute' ? Path.join(root, 'external/custom.json') : file;
+        await fs.outputJSON(Path.join(root, 'build-configs/custom.json'), {name: 'preferred'});
+        await fs.outputJSON(Path.resolve(root, configFile), {name: 'explicit'});
+        expect(await loadBuildOptions(parseBuildArgs(['--config', configFile]), root)).toEqual({name: 'explicit'});
+    });
+
+    it('does not fall back when an explicit path is missing', async () => {
+        await fs.outputJSON(Path.join(root, 'build-configs/custom.json'), {name: 'preferred'});
+        await expect(loadBuildOptions(parseBuildArgs(['--config', './custom.json']), root)).rejects.toMatchObject({code: 'ENOENT'});
+    });
+
+    it.each(['{', '{"libs":"button"}'])('reports invalid preferred config instead of loading the fallback: %s', async (content) => {
+        await fs.outputJSON(Path.join(root, 'custom.json'), {name: 'fallback'});
+        await fs.outputFile(Path.join(root, 'build-configs/custom.json'), content);
+        await expect(loadBuildOptions(parseBuildArgs(['--config', 'custom']), root)).rejects.toThrow(/JSON|array/);
+    });
+
+    it.each(['custom.json', 'custom'])('reports the resolved JSON path when %s is missing from both locations', async (file) => {
+        await expect(loadBuildOptions(parseBuildArgs(['--config', file]), root)).rejects.toMatchObject({code: 'ENOENT', path: Path.join(root, 'custom.json')});
+    });
+
+    it.each([{outDir: '.'}, {zip: './custom.json'}])('protects a config selected by name from build outputs %j', async (options) => {
+        await fs.outputJSON(Path.join(root, 'build-configs/custom.json'), options);
+        await expect(loadBuildOptions(parseBuildArgs(['--config', 'custom']), root)).rejects.toThrow(/output directory|overwrite/);
+    });
+
     it('merges CLI over JSON, resolves paths by origin, and unions exclusions', async () => {
         await fs.outputJSON(Path.join(root, 'configs/custom.json'), {
             libs: ['button'], exclude: ['dropdown'], extensions: ['./local'], outDir: '../output', zip: './build.zip', viteConfig: './vite.ts', minify: true,
