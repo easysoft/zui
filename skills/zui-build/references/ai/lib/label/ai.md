@@ -105,7 +105,7 @@ browser（已加载本库 CSS）：
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/label/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/label/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/label/docs/lib/components/index.md>)
-- [源码 src/vars.css](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/label/src/vars.css>)
+- [包元数据](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/label/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/label/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/label/docs/lib/components/index.md>)
+- [源码 src/vars.css](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/label/src/vars.css>)

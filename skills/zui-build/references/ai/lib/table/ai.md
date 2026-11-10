@@ -101,4 +101,4 @@ CSS 不处理横向溢出、排序或键盘交互；宽表可由应用外层滚�
 
 ## references
 
-- [包配置](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/table/package.json>)、[入口](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/table/src/main.ts>)、[样式](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/table/src/table.css>)、[变量](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/table/src/vars.css>)
+- [包配置](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/table/package.json>)、[入口](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/table/src/main.ts>)、[样式](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/table/src/table.css>)、[变量](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/table/src/vars.css>)

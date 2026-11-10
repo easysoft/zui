@@ -49,7 +49,7 @@ workspace：在 ZUI 源码工作区通过 `import '@zui/css-icons';` 加载；�
 {"name": ".icon / .i-* / .close / .spinner / .magnifier / .more", "summary": "显示独立 CSS 操作与状态图标。", "role": "component"}
 ```
 
-完整操作类：`i-plus`、`i-minus`、`i-check`、`i-edit`、`i-trash`、`i-info`、`i-first-page`、`i-last-page`、`i-upload`、`i-download`、`i-copy`、`i-menu`、`i-move`、`i-time`、`i-calendar`。还有 `close`、`spinner`、`magnifier`、`more`、`more-vert`。操作图标通常 1em，i-calendar 高 .79em；more/more-vert 是固定 .125rem 圆点加阴影式三点，不随字号缩放。spinner 为 1s 无限旋转，调用者需按产品要求控制动画及状态说明。
+完整操作类：`i-plus`、`i-minus`、`i-check`、`i-edit`、`i-trash`、`i-info`、`i-first-page`、`i-last-page`、`i-upload`、`i-download`、`i-copy`、`i-menu`、`i-move`、`i-time`、`i-calendar`。还有 `close`、`spinner`、`magnifier`、`more`、`more-vert`。操作图标通常 1em，除 i-time、i-calendar 外的操作类按 13px 网格绘制，13px 时线宽 1px；i-calendar 高 .79em；more/more-vert 是固定 .125rem 圆点加阴影式三点，不随字号缩放。spinner 为 1s 无限旋转，调用者需按产品要求控制动画及状态说明。
 
 `.icon` 是无字体基础槽（行内块/垂直居中），svg.icon 为 1em 方形；可与上述形状组合，并避免被可选旧字体样式强制设为 ZenIcon。
 
@@ -128,6 +128,6 @@ arrow 方向：`arrow-top`/`arrow-up`、`arrow-bottom`/`arrow-down`、`arrow-lef
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/css-icons/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/css-icons/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/css-icons/docs/lib/icons/index.md>)
+- [包元数据](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/css-icons/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/css-icons/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/css-icons/docs/lib/icons/index.md>)
