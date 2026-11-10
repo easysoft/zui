@@ -7,6 +7,7 @@ svg.icon {
   width: 1em;
   height: 1em;
 }
+/* Drawn on a 13 × 13 grid: calc(Nem / 13) is N grid units, so 13px icons get whole-pixel 1px strokes. */
 .i-plus, .i-minus, .i-check, .i-edit, .i-trash, .i-info,
 .i-first-page, .i-last-page, .i-upload, .i-download, .i-copy,
 .i-menu, .i-move {
@@ -14,182 +15,177 @@ svg.icon {
   width: 1em;
   height: 1em;
 }
-.i-plus::before, .i-plus::after, .i-minus::before {
+.i-plus::before, .i-plus::after, .i-minus::before, .i-menu::before {
   content: '';
   @apply -absolute -bg-current;
-  width: .8em;
-  height: .1em;
-  left: .1em;
-  top: .45em;
-  border-radius: .05em;
+  width: calc(11em / 13);
+  height: calc(1em / 13);
+  left: calc(1em / 13);
+  top: calc(6em / 13);
+  border-radius: calc(.5em / 13);
 }
 .i-plus::after { transform: rotate(90deg); }
-/* Gradients and inset shadows keep .1em strokes from rounding to whole border pixels. */
+.i-menu::before {
+  box-shadow: 0 calc(-4em / 13) currentColor, 0 calc(4em / 13) currentColor;
+}
+/* Gradients and inset shadows keep fractional strokes from rounding to whole border pixels.
+   45° strokes are centered on pixel diagonals, which keeps them crisp at 13px. Rotated boxes
+   keep whole-unit geometry because browsers snap them before transforming; use translate()
+   or clip-path for fractional offsets. */
 .i-check::before {
   content: '';
-  @apply -absolute;
-  width: .4em;
-  height: .75em;
-  left: .3em;
-  top: 0;
+  @apply -absolute -left-0 -top-0;
+  width: calc(5em / 13);
+  height: calc(10em / 13);
   background:
-    linear-gradient(currentColor, currentColor) right / .1em 100% no-repeat,
-    linear-gradient(currentColor, currentColor) bottom / 100% .1em no-repeat;
+    linear-gradient(currentColor, currentColor) right / calc(1em / 13) 100% no-repeat,
+    linear-gradient(currentColor, currentColor) bottom / 100% calc(1em / 13) no-repeat;
+  transform: rotate(45deg);
+  transform-origin: calc(4.5em / 13) calc(9.5em / 13);
+}
+.i-edit::before, .i-edit::after {
+  content: '';
+  @apply -absolute -bg-current;
+  width: calc(5em / 13);
+  left: calc(4em / 13);
   transform: rotate(45deg);
 }
 .i-edit::before {
-  content: '';
-  @apply -absolute;
-  width: .3em;
-  height: .7em;
-  left: .35em;
-  top: .05em;
-  box-shadow: inset 0 0 0 .1em currentColor;
-  transform: rotate(45deg);
-  transform-origin: .15em .45em;
-  border-radius: .06em .06em 0 0;
+  height: calc(8em / 13);
+  top: calc(1em / 13);
+  clip-path: polygon(11.716% 100%, 11.716% 0, 88.284% 0, 88.284% 100%, 68.284% 100%, 68.284% 12.5%, 31.716% 12.5%, 31.716% 100%);
+  transform-origin: 50% calc(5.5em / 13);
 }
 .i-edit::after {
-  content: '';
-  @apply -absolute -bg-current;
-  width: .3em;
-  height: .2em;
-  left: .35em;
-  top: .75em;
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-  transform: rotate(45deg);
-  transform-origin: .15em -.25em;
+  height: calc(3em / 13);
+  top: calc(9em / 13);
+  clip-path: polygon(11.716% 0, 88.284% 0, 50% 100%);
+  transform-origin: 50% calc(-2.5em / 13);
 }
 .i-trash {
   background:
-    linear-gradient(currentColor, currentColor) center .2em / .8em .1em no-repeat,
-    linear-gradient(currentColor, currentColor) .35em .4em / .1em .35em no-repeat,
-    linear-gradient(currentColor, currentColor) .55em .4em / .1em .35em no-repeat;
+    linear-gradient(currentColor, currentColor) calc(1em / 13) calc(3em / 13) / calc(11em / 13) calc(1em / 13) no-repeat,
+    linear-gradient(currentColor, currentColor) calc(5em / 13) calc(6em / 13) / calc(1em / 13) calc(3em / 13) no-repeat,
+    linear-gradient(currentColor, currentColor) calc(7em / 13) calc(6em / 13) / calc(1em / 13) calc(3em / 13) no-repeat;
 }
 .i-trash::before {
   content: '';
   @apply -absolute;
-  width: .6em;
-  height: .65em;
-  left: .2em;
-  top: .25em;
+  width: calc(9em / 13);
+  height: calc(8em / 13);
+  left: calc(2em / 13);
+  top: calc(4em / 13);
   background:
-    linear-gradient(currentColor, currentColor) left / .1em 100% no-repeat,
-    linear-gradient(currentColor, currentColor) right / .1em 100% no-repeat,
-    linear-gradient(currentColor, currentColor) bottom / 100% .1em no-repeat;
-  border-radius: 0 0 .1em .1em;
+    linear-gradient(currentColor, currentColor) left / calc(1em / 13) 100% no-repeat,
+    linear-gradient(currentColor, currentColor) right / calc(1em / 13) 100% no-repeat,
+    linear-gradient(currentColor, currentColor) bottom / 100% calc(1em / 13) no-repeat;
+  border-radius: 0 0 calc(1em / 13) calc(1em / 13);
 }
 .i-trash::after {
   content: '';
   @apply -absolute;
-  width: .4em;
-  height: .15em;
-  left: .3em;
-  top: .05em;
+  width: calc(5em / 13);
+  height: calc(2em / 13);
+  left: calc(4em / 13);
+  top: calc(1em / 13);
   background:
-    linear-gradient(currentColor, currentColor) left / .1em 100% no-repeat,
-    linear-gradient(currentColor, currentColor) right / .1em 100% no-repeat,
-    linear-gradient(currentColor, currentColor) top / 100% .1em no-repeat;
-  border-radius: .1em .1em 0 0;
+    linear-gradient(currentColor, currentColor) left / calc(1em / 13) 100% no-repeat,
+    linear-gradient(currentColor, currentColor) right / calc(1em / 13) 100% no-repeat,
+    linear-gradient(currentColor, currentColor) top / 100% calc(1em / 13) no-repeat;
+  border-radius: calc(.5em / 13) calc(.5em / 13) 0 0;
 }
 .i-info::before {
   content: '';
-  @apply -absolute -rounded-full;
-  inset: .05em;
-  box-shadow: inset 0 0 0 .1em currentColor;
+  @apply -absolute -inset-0 -rounded-full;
+  box-shadow: inset 0 0 0 calc(1em / 13) currentColor;
 }
 .i-info::after {
   content: '';
   @apply -absolute;
-  width: .1em;
-  height: .5em;
-  left: .45em;
-  top: .25em;
+  width: calc(1em / 13);
+  height: calc(7em / 13);
+  left: calc(6em / 13);
+  top: calc(3em / 13);
   background:
-    linear-gradient(currentColor, currentColor) top / 100% .1em no-repeat,
-    linear-gradient(currentColor, currentColor) bottom / 100% .3em no-repeat;
+    linear-gradient(currentColor, currentColor) top / 100% calc(1em / 13) no-repeat,
+    linear-gradient(currentColor, currentColor) bottom / 100% calc(5em / 13) no-repeat;
 }
 .i-first-page::before, .i-last-page::before {
   content: '';
   @apply -absolute;
-  width: .45em;
-  height: .45em;
-  top: .275em;
-  left: .55em;
+  width: calc(7em / 13);
+  height: calc(7em / 13);
+  left: calc(6em / 13);
+  top: calc(3em / 13);
   background:
-    linear-gradient(currentColor, currentColor) left / .1em 100% no-repeat,
-    linear-gradient(currentColor, currentColor) bottom / 100% .1em no-repeat;
-  transform: rotate(45deg);
+    linear-gradient(currentColor, currentColor) left / calc(1em / 13) 100% no-repeat,
+    linear-gradient(currentColor, currentColor) bottom / 100% calc(1em / 13) no-repeat;
+  transform: translateX(calc(.243em / 13)) rotate(45deg);
 }
 .i-first-page::after, .i-last-page::after {
   content: '';
   @apply -absolute -bg-current;
-  width: .1em;
-  height: .75em;
-  left: .15em;
-  top: .125em;
-  border-radius: .05em;
+  width: calc(1em / 13);
+  height: calc(9em / 13);
+  left: calc(2em / 13);
+  top: calc(2em / 13);
+  border-radius: calc(.5em / 13);
 }
 .i-last-page { transform: rotate(180deg); }
 .i-upload::before, .i-download::before {
   content: '';
   @apply -absolute;
-  width: .45em;
-  height: .45em;
-  left: .275em;
-  top: .2em;
+  width: calc(6em / 13);
+  height: calc(6em / 13);
+  left: calc(3em / 13);
+  top: calc(2em / 13);
   background:
-    linear-gradient(currentColor, currentColor) top / 100% .1em no-repeat,
-    linear-gradient(currentColor, currentColor) right / .1em 100% no-repeat;
-  transform: rotate(-45deg);
+    linear-gradient(currentColor, currentColor) top / 100% calc(1em / 13) no-repeat,
+    linear-gradient(currentColor, currentColor) right / calc(1em / 13) 100% no-repeat;
+  transform: translateX(calc(.5em / 13)) rotate(-45deg);
 }
 .i-upload::after, .i-download::after {
   content: '';
   @apply -absolute -bg-current;
-  width: .1em;
-  height: .7em;
-  left: .45em;
-  top: .2em;
-  border-radius: .05em;
+  width: calc(1em / 13);
+  height: calc(10em / 13);
+  left: calc(6em / 13);
+  top: calc(2em / 13);
+  border-radius: calc(.5em / 13);
 }
 .i-download { transform: rotate(180deg); }
 .i-copy::before, .i-copy::after {
   content: '';
   @apply -absolute;
-  width: .6em;
-  height: .7em;
-  border-radius: .075em;
+  width: calc(8em / 13);
+  height: calc(8em / 13);
+  border-radius: calc(1em / 13);
 }
 .i-copy::before {
-  left: .1em;
-  top: .05em;
+  left: calc(1em / 13);
+  top: calc(1em / 13);
   background:
-    linear-gradient(currentColor, currentColor) left / .1em 100% no-repeat,
-    linear-gradient(currentColor, currentColor) top / 100% .1em no-repeat;
+    linear-gradient(currentColor, currentColor) left / calc(1em / 13) 100% no-repeat,
+    linear-gradient(currentColor, currentColor) top / 100% calc(1em / 13) no-repeat,
+    linear-gradient(currentColor, currentColor) right top / calc(1em / 13) calc(2em / 13) no-repeat,
+    linear-gradient(currentColor, currentColor) left bottom / calc(2em / 13) calc(1em / 13) no-repeat;
 }
 .i-copy::after {
-  left: .3em;
-  top: .25em;
-  box-shadow: inset 0 0 0 .1em currentColor;
+  left: calc(4em / 13);
+  top: calc(4em / 13);
+  background:
+    linear-gradient(currentColor, currentColor) left / calc(1em / 13) 100% no-repeat,
+    linear-gradient(currentColor, currentColor) right / calc(1em / 13) 100% no-repeat,
+    linear-gradient(currentColor, currentColor) top / 100% calc(1em / 13) no-repeat,
+    linear-gradient(currentColor, currentColor) bottom / 100% calc(1em / 13) no-repeat;
 }
-.i-menu::before {
-  content: '';
-  @apply -absolute -bg-current;
-  width: .8em;
-  height: .1em;
-  left: .1em;
-  top: .45em;
-  border-radius: .05em;
-  box-shadow: 0 -.25em currentColor, 0 .25em currentColor;
-}
+/* Double arrow with 45° heads across a 13 × 5 unit box; its stem sits on the middle row. */
 .i-move::before, .i-move::after {
   content: '';
-  @apply -absolute -bg-current;
-  width: .9em;
-  height: .3em;
-  left: .05em;
-  top: .35em;
-  clip-path: polygon(0 50%, 22.222% 0, 22.222% 33.333%, 77.778% 33.333%, 77.778% 0, 100% 50%, 77.778% 100%, 77.778% 66.667%, 22.222% 66.667%, 22.222% 100%);
+  @apply -absolute -inset-x-0 -bg-current;
+  height: calc(5em / 13);
+  top: calc(4em / 13);
+  clip-path: polygon(6.099% 50%, 20.357% 12.929%, 25.797% 27.071%, 20.824% 40%, 79.176% 40%, 74.203% 27.071%, 79.643% 12.929%, 93.901% 50%, 79.643% 87.071%, 74.203% 72.929%, 79.176% 60%, 20.824% 60%, 25.797% 72.929%, 20.357% 87.071%);
 }
 .i-move::after { transform: rotate(90deg); }
 

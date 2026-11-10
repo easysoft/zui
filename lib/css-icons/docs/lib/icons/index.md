@@ -4,7 +4,7 @@ ZUI 提供一组用纯 CSS 绘制的小图标，不依赖图标字体，也不�
 
 ## 常用操作
 
-以下图标使用 `currentColor`，边长为 `1em`，随字号缩放。仅图标按钮应在按钮上设置 `aria-label`。
+以下图标使用 `currentColor`，边长为 `1em`，随字号缩放。图形按 13px 网格设计，13px 时线宽为 1px、显示最清晰，13px 的整数倍字号同样保持整像素线条。仅图标按钮应在按钮上设置 `aria-label`。
 
 <Example class="flex flex-wrap items-center gap-4">
 <span class="i-plus" title="添加" aria-hidden="true"></span>

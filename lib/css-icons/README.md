@@ -106,7 +106,16 @@
 
 ## 常用操作
 
-使用 `currentColor`，边长为 `1em`，随字号缩放。仅图标按钮应在按钮上设置 `aria-label`。
+使用 `currentColor`，边长为 `1em`，随字号缩放。按 13px 网格设计，13px 时线宽为 1px。仅图标按钮应在按钮上设置 `aria-label`。
+
+```html:example:flex items-center gap-4
+<span class="i-plus" style="font-size: 13px" aria-hidden="true"></span>
+<span class="i-check" style="font-size: 13px" aria-hidden="true"></span>
+<span class="i-trash" style="font-size: 13px" aria-hidden="true"></span>
+<span class="i-plus" style="font-size: 26px" aria-hidden="true"></span>
+<span class="i-check" style="font-size: 26px" aria-hidden="true"></span>
+<span class="i-trash" style="font-size: 26px" aria-hidden="true"></span>
+```
 
 ```html:example:flex items-center gap-4
 <span class="i-plus" title="添加" aria-hidden="true"></span>
