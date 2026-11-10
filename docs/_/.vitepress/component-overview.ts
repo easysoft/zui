@@ -37,8 +37,6 @@ const descriptions: Record<string, string> = {
     'search-box': '输入关键词、提交搜索并清除内容。',
     'color-picker': '通过下拉选择器选择颜色。',
     'file-selector': '通过按钮、方框或网格界面选择文件。',
-    upload: '在表单中上传、重命名和删除文件。',
-    'upload-imgs': '在表单中选择并上传图片。',
     breadcrumb: '显示当前页面所在的层级路径。',
     contextmenu: '响应鼠标右键或在指定位置显示菜单。',
     dropdown: '将操作列表收纳到下拉菜单中。',

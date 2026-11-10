@@ -4,7 +4,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。本技能内置运行版本为 3.0.0；即使版本号相同，也不能据此推定 API 一致。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-来源基线：`6e332c56117e3fd284be90ec991ffa75fadaace7`；源码包含未提交变更：是，在线出处仅代表提交基线，随包文档对应清单中的内容摘要。[完整清单](manifest.json)。
+来源基线：`749985e4f151843879d42ab8aa842357bbc4d74f`；源码包含未提交变更：是，在线出处仅代表提交基线，随包文档对应清单中的内容摘要。[完整清单](manifest.json)。
 
 ## 离线读取
 
@@ -20,7 +20,7 @@ node <skill-root>/references/ai/read.mjs --lib menu --section constraints --runt
 
 ## 文档覆盖
 
-已发现 66 个内置库，66 个具有结构有效的使用参考，0 个缺少参考。仅收录内置库，不包含本机 exts。
+已发现 64 个内置库，64 个具有结构有效的使用参考，0 个缺少参考。仅收录内置库，不包含本机 exts。
 
 状态按清单分别标记：`wip` 表示默认全量构建排除；`separately` 表示独立使用、默认全量构建排除；`notReady` 表示使用 `--exclude-not-ready` 时排除。未标记不等于已完成所有运行验收。
 
@@ -993,30 +993,6 @@ node <skill-root>/references/ai/read.mjs --lib menu --section constraints --runt
 - [Tree.getTreeItem](lib/tree/ai.md#javascript-tree-item)（javascript）：为树条目补默认图标和动作。
 - [TreeOptions / SearchTreeOptions / TreeState](lib/tree/ai.md#types-tree-options)（types）：树特有配置及完整继承关系。
 - [展开指定树节点](lib/tree/ai.md#recipe-tree-expand)（recipes）：使用稳定键路径操作。
-
-### upload
-
-包：`@zui/upload`；状态：无额外构建标记。
-
-[使用参考](lib/upload/ai.md) — 提供文件选择列表、拖放、重命名与大小数量限制，供表单提交文件。
-
-关键词：上传文件、upload、Upload。
-
-- [Upload](lib/upload/ai.md#vanilla-upload)（vanilla）：创建和管理 Upload 原生实例。
-- [结构与部件](lib/upload/ai.md#css-structure)（css / js-component）：定义根节点和内部部件的样式。
-- [UploadOptions](lib/upload/ai.md#types-upload-options)（types）：定义 UploadOptions 的字段、参数或取值范围。
-
-### upload-imgs
-
-包：`@zui/upload-imgs`；状态：无额外构建标记。
-
-[使用参考](lib/upload-imgs/ai.md) — 在 Upload 基础上提供图片预览网格和文件数量提示。
-
-关键词：上传图片、upload-imgs、UploadImgs。
-
-- [UploadImgs](lib/upload-imgs/ai.md#vanilla-upload-imgs)（vanilla）：创建和管理 UploadImgs 原生实例。
-- [结构与部件](lib/upload-imgs/ai.md#css-structure)（css / js-component）：定义根节点和内部部件的样式。
-- [UploadImgsOptions](lib/upload-imgs/ai.md#types-upload-imgs-options)（types）：定义 UploadImgsOptions 的字段、参数或取值范围。
 
 ### virtualize
 

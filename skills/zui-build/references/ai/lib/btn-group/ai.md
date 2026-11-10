@@ -130,9 +130,9 @@ browser（已加载本库 CSS）：
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/btn-group/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/btn-group/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/btn-group/docs/lib/components/index.md>)
-- [源码 src/main-react.ts](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/btn-group/src/main-react.ts>)
-- [源码 src/types/index.ts](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/btn-group/src/types/index.ts>)
-- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/btn-group/src/style/index.ts>)
+- [包元数据](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/btn-group/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/btn-group/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/btn-group/docs/lib/components/index.md>)
+- [源码 src/main-react.ts](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/btn-group/src/main-react.ts>)
+- [源码 src/types/index.ts](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/btn-group/src/types/index.ts>)
+- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/btn-group/src/style/index.ts>)

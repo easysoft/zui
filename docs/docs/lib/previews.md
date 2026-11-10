@@ -175,22 +175,6 @@ aside: false
 </div>
         </div>
     </figure>
-    <figure class="rounded-lg border border-strong bg-surface-light p-1">
-        <figcaption class="px-2 py-2 text-fore text-sm font-bold"><a href="/lib/components/upload/">上传文件</a></figcaption>
-        <div class="component-cover-stage center bg-surface-light border border-light rounded">
-            <div class="component-cover-frame vp-raw">
-<!--@include: @/public/assets/upload/preview.html-->
-</div>
-        </div>
-    </figure>
-    <figure class="rounded-lg border border-strong bg-surface-light p-1">
-        <figcaption class="px-2 py-2 text-fore text-sm font-bold"><a href="/lib/components/upload-imgs/">上传图片</a></figcaption>
-        <div class="component-cover-stage center bg-surface-light border border-light rounded">
-            <div class="component-cover-frame vp-raw">
-<!--@include: @/public/assets/upload-imgs/preview.html-->
-</div>
-        </div>
-    </figure>
 </div>
 
 ## 导航与菜单

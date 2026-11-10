@@ -52,27 +52,6 @@ test('CSS and embedded SVG icons retain geometry, color and size without fonts',
     await expect(page.locator('#fileSelectorExample1 .i-trash').first()).toBeVisible();
 });
 
-test('native Upload preserves rename, cancel and delete actions with CSS icons', async ({page}) => {
-    await page.goto('/upload/');
-    await page.locator('#libPage.is-loaded').waitFor();
-    const upload = page.locator('#example2');
-    const item = upload.locator('.file-item').first();
-    await expect(item.locator('svg')).toBeVisible();
-    await expect(item.locator('.i-edit')).toBeVisible();
-    await expect(item.locator('.i-trash')).toBeVisible();
-    await item.locator('.file-rename').click();
-    await item.locator('input').fill('renamed.txt');
-    await item.locator('input').press('Enter');
-    await expect(item.locator('.file-name')).toHaveText('renamed.txt');
-    await item.locator('.file-rename').click();
-    await item.locator('input').fill('cancelled.txt');
-    await item.locator('input').press('Escape');
-    await expect(item.locator('.file-name')).toHaveText('renamed.txt');
-    await item.locator('.file-delete').click();
-    await expect(item).toBeHidden();
-    expect(await upload.locator('input[type="file"]').evaluate((input: HTMLInputElement) => [...input.files!].map(file => file.name))).toEqual(['file2.txt']);
-});
-
 test('CSS and SVG icons respect explicit font-size utilities', async ({page}) => {
     await page.goto('/css-icons/');
     await page.locator('#libPage.is-loaded').waitFor();

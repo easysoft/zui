@@ -2037,65 +2037,6 @@ importers:
         specifier: workspace:*
         version: link:../utilities
 
-  lib/upload:
-    dependencies:
-      '@zui/btn-group':
-        specifier: workspace:^3.1.0
-        version: link:../btn-group
-      '@zui/button':
-        specifier: workspace:^3.1.0
-        version: link:../button
-      '@zui/core':
-        specifier: workspace:^3.1.0
-        version: link:../core
-      '@zui/css-icons':
-        specifier: workspace:*
-        version: link:../css-icons
-      '@zui/helpers':
-        specifier: workspace:^3.1.0
-        version: link:../helpers
-      '@zui/input-group':
-        specifier: workspace:^3.1.0
-        version: link:../input-group
-      '@zui/tooltip':
-        specifier: workspace:^3.1.0
-        version: link:../tooltip
-    devDependencies:
-      zui-dev:
-        specifier: workspace:^3.1.0
-        version: link:../../dev
-
-  lib/upload-imgs:
-    dependencies:
-      '@zui/btn-group':
-        specifier: workspace:^3.1.0
-        version: link:../btn-group
-      '@zui/button':
-        specifier: workspace:^3.1.0
-        version: link:../button
-      '@zui/core':
-        specifier: workspace:^3.1.0
-        version: link:../core
-      '@zui/css-icons':
-        specifier: workspace:*
-        version: link:../css-icons
-      '@zui/helpers':
-        specifier: workspace:^3.1.0
-        version: link:../helpers
-      '@zui/input-group':
-        specifier: workspace:^3.1.0
-        version: link:../input-group
-      '@zui/tooltip':
-        specifier: workspace:^3.1.0
-        version: link:../tooltip
-      '@zui/upload':
-        specifier: workspace:^3.1.0
-        version: link:../upload
-    devDependencies:
-      zui-dev:
-        specifier: workspace:^3.1.0
-        version: link:../../dev
-
   lib/utilities:
     devDependencies:
       '@zui/base':

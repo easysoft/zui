@@ -150,11 +150,11 @@ progress-striped 放根，给直接子 progress-bar 增加 45 度条纹；active
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/progress/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/progress/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/progress/docs/lib/components/index.md>)
-- [源码 src/main-react.ts](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/progress/src/main-react.ts>)
-- [源码 src/main-css.ts](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/progress/src/main-css.ts>)
-- [源码 src/types/index.ts](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/progress/src/types/index.ts>)
-- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/progress/src/style/index.ts>)
-- [源码 src/style/vars.css](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/progress/src/style/vars.css>)
+- [包元数据](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/progress/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/progress/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/progress/docs/lib/components/index.md>)
+- [源码 src/main-react.ts](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/progress/src/main-react.ts>)
+- [源码 src/main-css.ts](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/progress/src/main-css.ts>)
+- [源码 src/types/index.ts](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/progress/src/types/index.ts>)
+- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/progress/src/style/index.ts>)
+- [源码 src/style/vars.css](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/progress/src/style/vars.css>)

@@ -206,7 +206,7 @@ function createSidebar() {
     // Group navigation by user tasks without changing source folders or URLs.
     const libGroups = [
         {text: '基础控件', section: 'controls', libs: ['button', 'btn-group', 'copy-btn', 'label', 'avatar', 'avatar-group', 'time-span', 'typography']},
-        {text: '表单与输入', section: 'forms', libs: ['search-box', 'color-picker', 'file-selector', 'upload', 'upload-imgs']},
+        {text: '表单与输入', section: 'forms', libs: ['search-box', 'color-picker', 'file-selector']},
         {text: '导航与菜单', section: 'navigation', libs: ['breadcrumb', 'contextmenu', 'dropdown', 'menu', 'nav', 'responsive-nav', 'tabs', 'toolbar', 'tree']},
         {text: '数据展示', section: 'data', libs: ['calendar', 'cards', 'common-list', 'dtable', 'file-list', 'list', 'pager', 'table', 'virtualize', 'vtable']},
         {text: '布局与交互', section: 'interaction', libs: ['collapsible', 'dashboard', 'dnd', 'panel', 'scrollbar', 'sidebar', 'sortable', 'split']},

@@ -247,5 +247,5 @@ workspace，复用原生 list：`list.render({maxVisibleItems: 20, showMoreStep:
 
 ## references
 
-- [公开入口](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/list/package.json>)、[List](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/list/src/component/list.tsx>)、[NestedList](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/list/src/component/nested-list.tsx>)、[Listitem](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/list/src/component/listitem.tsx>)
-- [类型出口](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/list/src/types/index.ts>)、[样式](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/list/src/style/index.ts>)
+- [公开入口](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/list/package.json>)、[List](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/list/src/component/list.tsx>)、[NestedList](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/list/src/component/nested-list.tsx>)、[Listitem](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/list/src/component/listitem.tsx>)
+- [类型出口](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/list/src/types/index.ts>)、[样式](<https://github.com/easysoft/zui/blob/749985e4f151843879d42ab8aa842357bbc4d74f/lib/list/src/style/index.ts>)
