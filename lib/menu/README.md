@@ -22,7 +22,7 @@ const menu = new Menu('#menu', {
     compact: true,
     items: [
         {title: '复制', icon: {"className": "i-copy", "aria-hidden": true}},
-        {title: '粘贴', icon: {"className": "i-paste", "aria-hidden": true}},
+        {title: '粘贴'},
         {title: '剪切'},
         {type: 'heading', title: '更多操作'},
         {title: '导入', icon: {"className": "i-upload", "aria-hidden": true}},
@@ -86,7 +86,7 @@ console.log('> menu', menu);
 ```html:example
 <menu class="menu has-icons -w-32">
   <li class="menu-item"><a><i class="i-copy"></i> 复制</a></li>
-  <li class="menu-item"><a><i class="i-paste"></i> 粘贴</a></li>
+  <li class="menu-item"><a>粘贴</a></li>
   <li class="menu-item"><a>剪切</a></li>
   <li class="menu-divider divider"></li>
   <li class="menu-heading">更多操作</li>
@@ -101,7 +101,7 @@ console.log('> menu', menu);
 ```html:example
 <menu class="menu compact popup has-icons -w-32">
   <li class="menu-item"><a><i class="i-copy"></i> 复制</a></li>
-  <li class="menu-item"><a><i class="i-paste"></i> 粘贴</a></li>
+  <li class="menu-item"><a>粘贴</a></li>
   <li class="menu-item"><a>剪切</a></li>
   <li class="menu-divider divider"></li>
   <li class="menu-heading">更多操作</li>

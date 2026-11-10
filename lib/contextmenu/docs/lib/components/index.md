@@ -61,7 +61,7 @@ new zui.ContextMenu('#contextMenuStatic', {target: '$next'});
     :options="{
         items: [
             {text: '复制', icon: {'className': 'i-copy', 'aria-hidden': true}},
-            {text: '粘贴', icon: {'className': 'i-paste', 'aria-hidden': true}},
+            {text: '粘贴'},
             {text: '剪切'},
             {type: 'heading', text: '更多操作'},
             {text: '导入', icon: {'className': 'i-upload', 'aria-hidden': true}},
@@ -85,7 +85,7 @@ new zui.ContextMenu('#contextMenuStatic', {target: '$next'});
 new zui.ContextMenu('#contextMenuDynamic', {
     items: [
         {text: '复制', icon: {"className": "i-copy", "aria-hidden": true}},
-        {text: '粘贴', icon: {"className": "i-paste", "aria-hidden": true}},
+        {text: '粘贴'},
         {text: '剪切'},
         {type: 'heading', text: '更多操作'},
         {text: '导入', icon: {"className": "i-upload", "aria-hidden": true}},
@@ -135,7 +135,7 @@ const contextMenu = zui.ContextMenu.get('#contextMenuDynamic');
     :options="{
         items: [
             {text: '复制', icon: {'className': 'i-copy', 'aria-hidden': true}},
-            {text: '粘贴', icon: {'className': 'i-paste', 'aria-hidden': true}},
+            {text: '粘贴'},
             {text: '剪切'},
             {type: 'heading', text: '更多操作'},
             {text: '导入', icon: {'className': 'i-upload', 'aria-hidden': true}},
@@ -172,7 +172,7 @@ const contextMenu = zui.ContextMenu.get('#contextMenuDynamic');
 new zui.ContextMenu('#contextMenuNested', {
     items: [
         {text: '复制', icon: {"className": "i-copy", "aria-hidden": true}},
-        {text: '粘贴', icon: {"className": "i-paste", "aria-hidden": true}},
+        {text: '粘贴'},
         {text: '剪切'},
         {type: 'heading', text: '更多操作'},
         {text: '导入', icon: {"className": "i-upload", "aria-hidden": true}},
@@ -213,7 +213,7 @@ new zui.ContextMenu('#contextMenuNested', {
         trigger: 'manual',
         items: [
             {text: '复制', icon: {'className': 'i-copy', 'aria-hidden': true}},
-            {text: '粘贴', icon: {'className': 'i-paste', 'aria-hidden': true}},
+            {text: '粘贴'},
             {text: '剪切'},
             {type: 'heading', text: '更多操作'},
             {text: '导入', icon: {'className': 'i-upload', 'aria-hidden': true}},
@@ -238,7 +238,7 @@ const contextMenu = new zui.ContextMenu('#contextMenuManual', {
     trigger: 'manual',
     items: [
         {text: '复制', icon: {"className": "i-copy", "aria-hidden": true}},
-        {text: '粘贴', icon: {"className": "i-paste", "aria-hidden": true}},
+        {text: '粘贴'},
         {text: '剪切'},
         {type: 'heading', text: '更多操作'},
         {text: '导入', icon: {"className": "i-upload", "aria-hidden": true}},
@@ -281,7 +281,7 @@ constructor(element: HTMLElement | string, options: ContextMenuOptions);
 new zui.ContextMenu('#contextMenuDynamic', {
     items: [
         {text: '复制', icon: {"className": "i-copy", "aria-hidden": true}},
-        {text: '粘贴', icon: {"className": "i-paste", "aria-hidden": true}},
+        {text: '粘贴'},
     ],
 });
 ```

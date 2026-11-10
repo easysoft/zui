@@ -37,7 +37,7 @@ test('CSS and embedded SVG icons retain geometry, color and size without fonts',
     await page.locator('#libPage.is-loaded').waitFor();
     for (const size of [14, 24]) {
         await page.locator('#libPage').evaluate((element, value) => element.style.fontSize = `${value}px`, size);
-        for (const name of ['i-plus', 'i-minus', 'i-check', 'i-edit', 'i-trash', 'i-info', 'i-first-page', 'i-last-page', 'i-upload', 'i-download', 'i-copy', 'i-paste', 'i-menu', 'i-move']) {
+        for (const name of ['i-plus', 'i-minus', 'i-check', 'i-edit', 'i-trash', 'i-info', 'i-first-page', 'i-last-page', 'i-upload', 'i-download', 'i-copy', 'i-menu', 'i-move']) {
             const icon = page.locator(`#libPage .${name}`).first();
             await expect(icon).toBeVisible();
             await expect(icon).toHaveCSS('width', `${size}px`);

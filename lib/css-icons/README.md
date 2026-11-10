@@ -120,7 +120,6 @@
 <span class="i-upload" title="上传" aria-hidden="true"></span>
 <span class="i-download" title="下载" aria-hidden="true"></span>
 <span class="i-copy" title="复制" aria-hidden="true"></span>
-<span class="i-paste" title="粘贴" aria-hidden="true"></span>
 <span class="i-menu" title="菜单" aria-hidden="true"></span>
 <span class="i-move" title="拖动" aria-hidden="true"></span>
 ```

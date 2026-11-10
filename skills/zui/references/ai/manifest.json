@@ -5,10 +5,10 @@
     "repository": "https://github.com/easysoft/zui",
     "version": "3.1.0",
     "revision": "6e332c56117e3fd284be90ec991ffa75fadaace7",
-    "contentHash": "sha256-e040ece15da3a6f771d09f3659ebb3ed60d996433cbcd7641eca865c00b0b3ee",
+    "contentHash": "sha256-7dfe9a9313d6d982c5165be73f7091942ade7c70065f8842eaca4749d9f5577d",
     "modified": true
   },
   "compatibility": "verify-target-runtime",
   "bundledRuntime": null,
-  "catalogIntegrity": "sha256-b3e85790c3e1cfee2e443ee21261139c663c9d6f043df23f099f7d9b70a9b768"
+  "catalogIntegrity": "sha256-2534e648d36e724ed816a9bad85ce68144381b21d532402e118afe2369015729"
 }

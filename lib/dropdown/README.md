@@ -44,7 +44,7 @@ const dropdown = new Dropdown('#dropdownToggle', {
         searchPlacement: 'top',
         items: [
             {text: '复制', icon: {"className": "i-copy", "aria-hidden": true}},
-            {text: '粘贴', icon: {"className": "i-paste", "aria-hidden": true}},
+            {text: '粘贴'},
             {text: '剪切'},
             {type: 'heading', text: '更多操作'},
             {text: '导入', icon: {"className": "i-upload", "aria-hidden": true}},

@@ -101,7 +101,7 @@
 <Example>
   <menu class="menu has-icons w-32">
     <li class="menu-item"><a><i class="item-icon i-copy"></i> <div class="item-content">复制</div></a></li>
-    <li class="menu-item"><a><i class="item-icon i-paste"></i> <div class="item-content">粘贴</div></a></li>
+    <li class="menu-item"><a><i class="item-icon"></i> <div class="item-content">粘贴</div></a></li>
     <li class="menu-item"><a><i class="item-icon"></i><div class="item-content">剪切</div></a></li>
   </menu>
 </Example>
@@ -111,7 +111,7 @@
 ```html
 <menu class="menu has-icons w-32">
   <li class="menu-item"><a><i class="item-icon i-copy"></i> <div class="item-content">复制</div></a></li>
-  <li class="menu-item"><a><i class="item-icon i-paste"></i> <div class="item-content">粘贴</div></a></li>
+  <li class="menu-item"><a><i class="item-icon"></i> <div class="item-content">粘贴</div></a></li>
   <li class="menu-item"><a><i class="item-icon"></i><div class="item-content">剪切</div></a></li>
 </menu>
 ```

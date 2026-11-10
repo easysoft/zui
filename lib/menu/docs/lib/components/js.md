@@ -28,7 +28,7 @@ const menu = new zui.Menu('#fileMenu', {
     items: [
         {type: 'heading', text: '文件操作'},
         {id: 'copy', text: '复制', icon: {"className": "i-copy", "aria-hidden": true}},
-        {id: 'paste', text: '粘贴', icon: {"className": "i-paste", "aria-hidden": true}, disabled: true},
+        {id: 'paste', text: '粘贴', disabled: true},
         {type: 'divider'},
         {id: 'export', text: '导出', icon: {"className": "i-download", "aria-hidden": true}, items: [
             {id: 'pdf', text: 'PDF 文件'},
@@ -55,7 +55,7 @@ const menuOptions = {
     items: [
         {type: 'heading', text: '文件操作'},
         {id: 'copy', text: '复制', icon: {"className": "i-copy", "aria-hidden": true}},
-        {id: 'paste', text: '粘贴', icon: {"className": "i-paste", "aria-hidden": true}, disabled: true},
+        {id: 'paste', text: '粘贴', disabled: true},
         {type: 'divider'},
         {id: 'export', text: '导出', icon: {"className": "i-download", "aria-hidden": true}, items: [
             {id: 'pdf', text: 'PDF 文件'},

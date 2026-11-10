@@ -5953,7 +5953,7 @@
     }
   },
   "lib/css-icons/ai.md": {
-    "integrity": "sha256-4fb86431660ec91ba14eb512c3abddf48302081b224410e781e15b1336bd3644",
+    "integrity": "sha256-ca57fa974bf7fc5d5548e441f0d82998312b9efae9ec4c7a4446e20eb6c8bfd6",
     "sections": {
       "meta": [
         192,
@@ -5981,53 +5981,53 @@
       ],
       "css": [
         751,
-        2777
+        2767
       ],
       "css-variables": [
-        2777,
-        3208
+        2767,
+        3198
       ],
       "javascript": [
-        3208,
-        3227
+        3198,
+        3217
       ],
       "types": [
-        3227,
-        3241
+        3217,
+        3231
       ],
       "recipes": [
-        3241,
-        3343
+        3231,
+        3333
       ],
       "constraints": [
-        3343,
-        3417
+        3333,
+        3407
       ],
       "references": [
-        3417,
-        3793
+        3407,
+        3783
       ]
     },
     "entries": {
       "css/css-action-icons": [
         759,
-        1507
+        1497
       ],
       "css/css-direction-icons": [
-        1507,
-        2027
+        1497,
+        2017
       ],
       "css/css-arrow": [
-        2027,
-        2411
+        2017,
+        2401
       ],
       "css/css-icon-helpers": [
-        2411,
-        2777
+        2401,
+        2767
       ],
       "css-variables/vars-css-icons": [
-        2795,
-        3208
+        2785,
+        3198
       ]
     }
   },

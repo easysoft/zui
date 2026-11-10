@@ -60,7 +60,7 @@ function renderDropdown(nested = false, longMenu = false) {
                 dropdown,
                 items: [
                     {key: 'copy', text: '复制', icon: {className: 'i-copy', 'aria-hidden': true}},
-                    {key: 'paste', text: '粘贴', icon: {className: 'i-paste', 'aria-hidden': true}},
+                    {key: 'paste', text: '粘贴'},
                     {type: 'divider'},
                     ...(nested ? [{
                         key: 'export', text: '导出', icon: {className: 'i-download', 'aria-hidden': true}, items: [

@@ -11,7 +11,7 @@ import {Menu, SearchMenu} from './src/main';
 onPageUpdate(() => {
     const searchMenuItems = [
         {text: '复制', icon: {className: 'i-copy', 'aria-hidden': true}, keys: 'fuzhi fz'},
-        {text: '粘贴', icon: {className: 'i-paste', 'aria-hidden': true}, keys: 'zhantie zt', disabled: true},
+        {text: '粘贴', keys: 'zhantie zt', disabled: true},
         {text: '剪切'},
         {type: 'heading', text: '更多操作'},
         {
@@ -71,7 +71,7 @@ onPageUpdate(() => {
         popup: true,
         items: [
             {text: '复制', icon: {className: 'i-copy', 'aria-hidden': true}},
-            {text: '粘贴', icon: {className: 'i-paste', 'aria-hidden': true}},
+            {text: '粘贴'},
             {text: '剪切'},
             {type: 'heading', text: '更多操作'},
             {text: '导入', icon: {className: 'i-upload', 'aria-hidden': true}},

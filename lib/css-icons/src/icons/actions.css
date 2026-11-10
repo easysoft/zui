@@ -9,7 +9,7 @@ svg.icon {
 }
 .i-plus, .i-minus, .i-check, .i-edit, .i-trash, .i-info,
 .i-first-page, .i-last-page, .i-upload, .i-download, .i-copy,
-.i-paste, .i-menu, .i-move {
+.i-menu, .i-move {
   @apply -inline-block -relative -align-middle -flex-none;
   width: 1em;
   height: 1em;
@@ -153,7 +153,7 @@ svg.icon {
   border-radius: .05em;
 }
 .i-download { transform: rotate(180deg); }
-.i-copy::before, .i-copy::after, .i-paste::before {
+.i-copy::before, .i-copy::after {
   content: '';
   @apply -absolute;
   width: .6em;
@@ -170,23 +170,6 @@ svg.icon {
 .i-copy::after {
   left: .3em;
   top: .25em;
-  box-shadow: inset 0 0 0 .1em currentColor;
-}
-.i-paste::before {
-  width: .7em;
-  left: .15em;
-  top: .25em;
-  box-shadow: inset 0 0 0 .1em currentColor;
-  clip-path: polygon(0 0, .15em 0, .15em .1em, .55em .1em, .55em 0, 100% 0, 100% 100%, 0 100%);
-}
-.i-paste::after {
-  content: '';
-  @apply -absolute;
-  width: .4em;
-  height: .3em;
-  left: .3em;
-  top: .05em;
-  border-radius: .05em;
   box-shadow: inset 0 0 0 .1em currentColor;
 }
 .i-menu::before {
@@ -214,7 +197,7 @@ svg.icon {
 @media (forced-colors: active) {
   .i-plus, .i-minus, .i-check, .i-edit, .i-trash, .i-info,
   .i-first-page, .i-last-page, .i-upload, .i-download, .i-copy,
-  .i-paste, .i-menu, .i-move {
+  .i-menu, .i-move {
     color: CanvasText;
     forced-color-adjust: none;
   }

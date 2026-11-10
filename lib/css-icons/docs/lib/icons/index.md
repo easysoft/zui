@@ -18,7 +18,6 @@ ZUI 提供一组用纯 CSS 绘制的小图标，不依赖图标字体，也不�
 <span class="i-upload" title="上传" aria-hidden="true"></span>
 <span class="i-download" title="下载" aria-hidden="true"></span>
 <span class="i-copy" title="复制" aria-hidden="true"></span>
-<span class="i-paste" title="粘贴" aria-hidden="true"></span>
 <span class="i-menu" title="菜单" aria-hidden="true"></span>
 <span class="i-move" title="拖动" aria-hidden="true"></span>
 </Example>
@@ -42,7 +41,6 @@ ZUI 提供一组用纯 CSS 绘制的小图标，不依赖图标字体，也不�
 | `i-upload` | 上传 |
 | `i-download` | 下载 |
 | `i-copy` | 复制 |
-| `i-paste` | 粘贴 |
 | `i-menu` | 菜单 |
 | `i-move` | 拖动 |
 
