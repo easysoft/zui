@@ -17,152 +17,208 @@ svg.icon {
 .i-plus::before, .i-plus::after, .i-minus::before {
   content: '';
   @apply -absolute -bg-current;
-  width: .85em;
+  width: .8em;
   height: .1em;
-  left: .075em;
+  left: .1em;
   top: .45em;
+  border-radius: .05em;
 }
 .i-plus::after { transform: rotate(90deg); }
+/* Gradients and inset shadows keep .1em strokes from rounding to whole border pixels. */
 .i-check::before {
   content: '';
-  @apply -absolute -border-current;
-  width: .45em;
-  height: .8em;
+  @apply -absolute;
+  width: .4em;
+  height: .75em;
   left: .3em;
-  top: .05em;
-  border-width: 0 .11em .11em 0;
+  top: 0;
+  background:
+    linear-gradient(currentColor, currentColor) right / .1em 100% no-repeat,
+    linear-gradient(currentColor, currentColor) bottom / 100% .1em no-repeat;
   transform: rotate(45deg);
 }
 .i-edit::before {
   content: '';
-  @apply -absolute -border-current -border;
-  width: .28em;
-  height: .8em;
+  @apply -absolute;
+  width: .3em;
+  height: .7em;
   left: .35em;
   top: .05em;
-  transform: rotate(40deg);
+  box-shadow: inset 0 0 0 .1em currentColor;
+  transform: rotate(45deg);
+  transform-origin: .15em .45em;
   border-radius: .06em .06em 0 0;
 }
 .i-edit::after {
   content: '';
   @apply -absolute -bg-current;
-  width: .16em;
-  height: .16em;
-  left: .08em;
-  bottom: .04em;
-  transform: rotate(40deg);
+  width: .3em;
+  height: .2em;
+  left: .35em;
+  top: .75em;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform: rotate(45deg);
+  transform-origin: .15em -.25em;
 }
 .i-trash {
   background:
-    linear-gradient(currentColor, currentColor) center .15em / .8em .1em no-repeat,
-    linear-gradient(currentColor, currentColor) .35em .35em / .1em .4em no-repeat,
-    linear-gradient(currentColor, currentColor) .55em .35em / .1em .4em no-repeat;
+    linear-gradient(currentColor, currentColor) center .2em / .8em .1em no-repeat,
+    linear-gradient(currentColor, currentColor) .35em .4em / .1em .35em no-repeat,
+    linear-gradient(currentColor, currentColor) .55em .4em / .1em .35em no-repeat;
 }
 .i-trash::before {
   content: '';
-  @apply -absolute -border-current;
-  width: .7em;
-  height: .75em;
-  left: .15em;
-  top: .2em;
-  border-width: 0 .1em .1em;
-  border-radius: 0 0 .15em .15em;
+  @apply -absolute;
+  width: .6em;
+  height: .65em;
+  left: .2em;
+  top: .25em;
+  background:
+    linear-gradient(currentColor, currentColor) left / .1em 100% no-repeat,
+    linear-gradient(currentColor, currentColor) right / .1em 100% no-repeat,
+    linear-gradient(currentColor, currentColor) bottom / 100% .1em no-repeat;
+  border-radius: 0 0 .1em .1em;
 }
 .i-trash::after {
   content: '';
-  @apply -absolute -border-current;
-  width: .5em;
-  height: .2em;
-  left: .25em;
-  top: 0;
-  border-width: .1em .1em 0;
+  @apply -absolute;
+  width: .4em;
+  height: .15em;
+  left: .3em;
+  top: .05em;
+  background:
+    linear-gradient(currentColor, currentColor) left / .1em 100% no-repeat,
+    linear-gradient(currentColor, currentColor) right / .1em 100% no-repeat,
+    linear-gradient(currentColor, currentColor) top / 100% .1em no-repeat;
   border-radius: .1em .1em 0 0;
 }
-.i-info {
-  @apply -border -border-current -rounded-full;
-}
-.i-info::before, .i-info::after {
+.i-info::before {
   content: '';
-  @apply -absolute -bg-current;
-  width: .1em;
-  left: calc(50% - .05em);
+  @apply -absolute -rounded-full;
+  inset: .05em;
+  box-shadow: inset 0 0 0 .1em currentColor;
 }
-.i-info::before { height: .1em; top: .15em; }
-.i-info::after { height: .35em; top: .4em; }
+.i-info::after {
+  content: '';
+  @apply -absolute;
+  width: .1em;
+  height: .5em;
+  left: .45em;
+  top: .25em;
+  background:
+    linear-gradient(currentColor, currentColor) top / 100% .1em no-repeat,
+    linear-gradient(currentColor, currentColor) bottom / 100% .3em no-repeat;
+}
 .i-first-page::before, .i-last-page::before {
   content: '';
-  @apply -absolute -border-current;
-  width: .5em;
-  height: .5em;
-  top: .25em;
-  left: .35em;
-  border-width: 0 0 .1em .1em;
+  @apply -absolute;
+  width: .45em;
+  height: .45em;
+  top: .275em;
+  left: .55em;
+  background:
+    linear-gradient(currentColor, currentColor) left / .1em 100% no-repeat,
+    linear-gradient(currentColor, currentColor) bottom / 100% .1em no-repeat;
   transform: rotate(45deg);
 }
 .i-first-page::after, .i-last-page::after {
   content: '';
   @apply -absolute -bg-current;
-  width: .08em;
-  height: .8em;
-  left: .05em;
-  top: .1em;
+  width: .1em;
+  height: .75em;
+  left: .15em;
+  top: .125em;
+  border-radius: .05em;
 }
 .i-last-page { transform: rotate(180deg); }
 .i-upload::before, .i-download::before {
   content: '';
-  @apply -absolute -border-current;
+  @apply -absolute;
   width: .45em;
   height: .45em;
   left: .275em;
-  top: .15em;
-  border-width: .1em .1em 0 0;
+  top: .2em;
+  background:
+    linear-gradient(currentColor, currentColor) top / 100% .1em no-repeat,
+    linear-gradient(currentColor, currentColor) right / .1em 100% no-repeat;
   transform: rotate(-45deg);
 }
 .i-upload::after, .i-download::after {
   content: '';
   @apply -absolute -bg-current;
   width: .1em;
-  height: .75em;
+  height: .7em;
   left: .45em;
-  top: .15em;
+  top: .2em;
+  border-radius: .05em;
 }
 .i-download { transform: rotate(180deg); }
 .i-copy::before, .i-copy::after, .i-paste::before {
   content: '';
-  @apply -absolute -border -border-current -rounded-sm;
-  width: .65em;
-  height: .75em;
+  @apply -absolute;
+  width: .6em;
+  height: .7em;
+  border-radius: .075em;
 }
-.i-copy::before { left: .05em; top: .05em; border-right: 0; border-bottom: 0; }
-.i-copy::after { left: .3em; top: .25em; }
-.i-paste::before { left: .15em; top: .2em; }
+.i-copy::before {
+  left: .1em;
+  top: .05em;
+  background:
+    linear-gradient(currentColor, currentColor) left / .1em 100% no-repeat,
+    linear-gradient(currentColor, currentColor) top / 100% .1em no-repeat;
+}
+.i-copy::after {
+  left: .3em;
+  top: .25em;
+  box-shadow: inset 0 0 0 .1em currentColor;
+}
+.i-paste::before {
+  width: .7em;
+  left: .15em;
+  top: .25em;
+  box-shadow: inset 0 0 0 .1em currentColor;
+  clip-path: polygon(0 0, .15em 0, .15em .1em, .55em .1em, .55em 0, 100% 0, 100% 100%, 0 100%);
+}
 .i-paste::after {
   content: '';
-  @apply -absolute -border -border-current;
+  @apply -absolute;
   width: .4em;
-  height: .2em;
-  left: .275em;
+  height: .3em;
+  left: .3em;
   top: .05em;
+  border-radius: .05em;
+  box-shadow: inset 0 0 0 .1em currentColor;
 }
 .i-menu::before {
   content: '';
   @apply -absolute -bg-current;
-  width: .9em;
+  width: .8em;
   height: .1em;
-  left: .05em;
+  left: .1em;
   top: .45em;
-  box-shadow: 0 -.3em currentColor, 0 .3em currentColor;
+  border-radius: .05em;
+  box-shadow: 0 -.25em currentColor, 0 .25em currentColor;
 }
 .i-move::before, .i-move::after {
   content: '';
   @apply -absolute -bg-current;
-  width: 1em;
-  height: .24em;
-  left: 0;
-  top: .38em;
-  clip-path: polygon(0 50%, 16% 0, 16% 33.333%, 84% 33.333%, 84% 0, 100% 50%, 84% 100%, 84% 66.667%, 16% 66.667%, 16% 100%);
+  width: .9em;
+  height: .3em;
+  left: .05em;
+  top: .35em;
+  clip-path: polygon(0 50%, 22.222% 0, 22.222% 33.333%, 77.778% 33.333%, 77.778% 0, 100% 50%, 77.778% 100%, 77.778% 66.667%, 22.222% 66.667%, 22.222% 100%);
 }
 .i-move::after { transform: rotate(90deg); }
+
+/* Forced colors suppress the gradients and shadows used to draw these shapes. */
+@media (forced-colors: active) {
+  .i-plus, .i-minus, .i-check, .i-edit, .i-trash, .i-info,
+  .i-first-page, .i-last-page, .i-upload, .i-download, .i-copy,
+  .i-paste, .i-menu, .i-move {
+    color: CanvasText;
+    forced-color-adjust: none;
+  }
+}
 
 /* These shapes also work alongside the optional legacy font stylesheet. */
 svg.icon,

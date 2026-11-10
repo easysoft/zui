@@ -171,11 +171,11 @@ rounded=true 当前不会命中可用 rounded-true 样式；使用 rounded="md" 
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/avatar/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/avatar/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/avatar/docs/lib/components/index.md>)
-- [源码 src/main-react.ts](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/avatar/src/main-react.ts>)
-- [源码 src/main-css.ts](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/avatar/src/main-css.ts>)
-- [源码 src/types/index.ts](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/avatar/src/types/index.ts>)
-- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/avatar/src/style/index.ts>)
-- [源码 src/style/vars.css](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/avatar/src/style/vars.css>)
+- [包元数据](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/avatar/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/avatar/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/avatar/docs/lib/components/index.md>)
+- [源码 src/main-react.ts](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/avatar/src/main-react.ts>)
+- [源码 src/main-css.ts](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/avatar/src/main-css.ts>)
+- [源码 src/types/index.ts](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/avatar/src/types/index.ts>)
+- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/avatar/src/style/index.ts>)
+- [源码 src/style/vars.css](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/avatar/src/style/vars.css>)

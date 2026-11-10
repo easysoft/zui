@@ -126,7 +126,7 @@ font-display: block，字体加载期间图标可能暂不可见；图标字体�
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/icons/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/icons/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/icons/docs/lib/icons/index.md>)
-- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/icons/src/style/index.ts>)
+- [包元数据](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/icons/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/icons/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/icons/docs/lib/icons/index.md>)
+- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/icons/src/style/index.ts>)
