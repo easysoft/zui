@@ -29,6 +29,8 @@ export interface FileSelectorProps extends HElementProps {
     uploadBtn?: string | ButtonProps;
     renameBtn?: boolean | string | ButtonProps | ((file: FileInfo) => (boolean | string | ButtonProps));
     removeBtn?: boolean | string | ButtonProps | ((file: FileInfo) => (boolean | string | ButtonProps));
+    renameIcon?: IconType;
+    removeIcon?: IconType;
     removeConfirm?: string | ModalConfirmOptions;
     maxFileCount?: number;
     maxFileSize?: FileSize;

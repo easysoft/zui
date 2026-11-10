@@ -171,6 +171,8 @@ host.remove();
 
 `ContentRenderContext.Provider` 的 value 可提供 resolveContent、prepareElement、prepareHTML、prepareLazy、renderError；策略来自宿主，覆盖通用内容处理。`renderCustomContent(props,policy?)` 是对应函数；`getIconClass(icon,className?)` 计算 CSS 图标类。HTML/RAWJS/脚本能力只处理可信内容；需限制时由宿主策略清理和禁用执行。图标样式需 icons/css-icons。
 
+`Icon` 和 `getIconClass` 对 `i-*` CSS 图标名与 `icon-*` 图标字体类名保留原值，例如 `icon="i-edit"` 生成 `icon i-edit`；普通名称如 `edit` 仍生成 `icon icon-edit`。对象的 `icon` 字段遵循相同规则；`close`、`spinner` 等其他 CSS 类通过 `className` 传入，例如 `icon={{className: 'close', 'aria-hidden': true}}`。
+
 workspace：
 
 ```tsx

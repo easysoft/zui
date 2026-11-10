@@ -24,9 +24,9 @@ Ajax 模式会请求 url，`executeScript` 默认为 true，控制返回脚本�
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/modal`](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/main.ts>) 公开原生组件和相应类型。
+主入口 [`@zui/modal`](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/main.ts>) 公开原生组件和相应类型。
 
-Preact 入口 [`@zui/modal/react`](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
+Preact 入口 [`@zui/modal/react`](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/modal` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -91,7 +91,7 @@ const instance = new ModalBase(host, {show: true});
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[ModalBase](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/vanilla/modal-base.ts>)。
+来源：[ModalBase](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/vanilla/modal-base.ts>)。
 
 ### vanilla-modal
 
@@ -149,7 +149,7 @@ void Modal.open({type: 'custom', custom: {title: '说明', body: '对话框内�
 });
 ```
 
-来源：[Modal](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/vanilla/modal.tsx>)。
+来源：[Modal](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/vanilla/modal.tsx>)。
 
 ### vanilla-modal-trigger
 
@@ -186,7 +186,7 @@ const instance = new ModalTrigger(host, {type: 'custom', custom: {title: '说明
 // 所属页面退出时：instance.modal?.destroy(); instance.destroy(); host.remove();
 ```
 
-来源：[ModalTrigger](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/vanilla/modal-trigger.ts>)。
+来源：[ModalTrigger](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/vanilla/modal-trigger.ts>)。
 
 ## preact
 
@@ -223,7 +223,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[ModalDialog](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/component/modal-dialog.tsx>)。
+来源：[ModalDialog](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/component/modal-dialog.tsx>)。
 
 ### preact-modal-iframe-content
 
@@ -264,7 +264,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[ModalIframeContent](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/component/modal-iframe-content.tsx>)。
+来源：[ModalIframeContent](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/component/modal-iframe-content.tsx>)。
 
 ## web-components
 
@@ -302,7 +302,7 @@ const dispose = mountExample();
 | `.modal-alert .modal-actions + .modal-body` | `pr-12`（内部样式） |
 | `.modal-alert .modal-header + .modal-actions + .modal-body` | `pr-5`（内部样式） |
 
-来源：[src/style/vars.css](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/style/vars.css>), [src/style/modal.css](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/style/modal.css>), [src/style/modal-dialog.css](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/style/modal-dialog.css>), [src/style/modal-header.css](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/style/modal-header.css>), [src/style/modal-body.css](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/style/modal-body.css>), [src/style/modal-footer.css](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/style/modal-footer.css>), [src/style/modal-size.css](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/style/modal-size.css>), [src/style/modal-builder.css](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/style/modal-builder.css>), [src/style/modal-trans.css](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/style/modal-trans.css>), [src/style/modal-alert.css](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/style/modal-alert.css>)。最小结构由前面的组件示例生成。
+来源：[src/style/vars.css](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/style/vars.css>), [src/style/modal.css](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/style/modal.css>), [src/style/modal-dialog.css](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/style/modal-dialog.css>), [src/style/modal-header.css](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/style/modal-header.css>), [src/style/modal-body.css](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/style/modal-body.css>), [src/style/modal-footer.css](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/style/modal-footer.css>), [src/style/modal-size.css](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/style/modal-size.css>), [src/style/modal-builder.css](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/style/modal-builder.css>), [src/style/modal-trans.css](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/style/modal-trans.css>), [src/style/modal-alert.css](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/style/modal-alert.css>)。最小结构由前面的组件示例生成。
 
 ### css-modifiers
 
@@ -370,7 +370,7 @@ const dispose = mountExample();
 export type ModalPosition = number | {left: number; top: number; width: number; height: number};
 ```
 
-来源：[ModalPosition](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-position-setting.ts>)。
+来源：[ModalPosition](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-position-setting.ts>)。
 
 ### types-modal-position-preset
 
@@ -384,7 +384,7 @@ export type ModalPosition = number | {left: number; top: number; width: number; 
 export type ModalPositionPreset = 'fit' | 'center' | 'bottom' | 'top';
 ```
 
-来源：[ModalPositionPreset](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-position-setting.ts>)。
+来源：[ModalPositionPreset](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-position-setting.ts>)。
 
 ### types-modal-position-callback
 
@@ -398,7 +398,7 @@ export type ModalPositionPreset = 'fit' | 'center' | 'bottom' | 'top';
 export type ModalPositionCallback = (size: {width: number; height: number}) => ModalPosition;
 ```
 
-来源：[ModalPositionCallback](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-position-setting.ts>)。
+来源：[ModalPositionCallback](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-position-setting.ts>)。
 
 ### types-modal-position-setting
 
@@ -412,7 +412,7 @@ export type ModalPositionCallback = (size: {width: number; height: number}) => M
 export type ModalPositionSetting = ModalPosition | ModalPositionPreset | ModalPositionCallback;
 ```
 
-来源：[ModalPositionSetting](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-position-setting.ts>)。
+来源：[ModalPositionSetting](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-position-setting.ts>)。
 
 ### types-modal-backdrop-type
 
@@ -426,7 +426,7 @@ export type ModalPositionSetting = ModalPosition | ModalPositionPreset | ModalPo
 export type ModalBackdropType = 'static' | boolean;
 ```
 
-来源：[ModalBackdropType](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-backdrop-type.ts>)。
+来源：[ModalBackdropType](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-backdrop-type.ts>)。
 
 ### types-modal-size-preset
 
@@ -440,7 +440,7 @@ export type ModalBackdropType = 'static' | boolean;
 export type ModalSizePreset = 'sm' | 'lg' | 'md' | 'full';
 ```
 
-来源：[ModalSizePreset](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-size-setting.ts>)。
+来源：[ModalSizePreset](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-size-setting.ts>)。
 
 ### types-modal-size-setting
 
@@ -454,7 +454,7 @@ export type ModalSizePreset = 'sm' | 'lg' | 'md' | 'full';
 export type ModalSizeSetting = ModalSizePreset | number | {width: number; height: number};
 ```
 
-来源：[ModalSizeSetting](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-size-setting.ts>)。
+来源：[ModalSizeSetting](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-size-setting.ts>)。
 
 ### types-modal-base-options
 
@@ -486,7 +486,7 @@ export type ModalBaseOptions = {
 };
 ```
 
-来源：[ModalBaseOptions](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-base-options.ts>)。
+来源：[ModalBaseOptions](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-base-options.ts>)。
 
 ### types-modal-events
 
@@ -505,7 +505,7 @@ export type ModalEvents = {
 };
 ```
 
-来源：[ModalEvents](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-events.ts>)。
+来源：[ModalEvents](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-events.ts>)。
 
 ### types-modal-trigger-static-options
 
@@ -519,7 +519,7 @@ export type ModalEvents = {
 export type ModalTriggerStaticOptions = ModalBaseOptions & {target?: string};
 ```
 
-来源：[ModalTriggerStaticOptions](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-trigger-options.ts>)。
+来源：[ModalTriggerStaticOptions](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-trigger-options.ts>)。
 
 ### types-modal-trigger-options
 
@@ -535,7 +535,7 @@ export type ModalTriggerOptions = (ModalOptions | ModalTriggerStaticOptions) & {
 };
 ```
 
-来源：[ModalTriggerOptions](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-trigger-options.ts>)。
+来源：[ModalTriggerOptions](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-trigger-options.ts>)。
 
 ### types-modal-dialog-options
 
@@ -567,7 +567,7 @@ export type ModalDialogOptions = {
 };
 ```
 
-来源：[ModalDialogOptions](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-dialog-options.ts>)。
+来源：[ModalDialogOptions](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-dialog-options.ts>)。
 
 ### types-modal-dialog-state
 
@@ -583,7 +583,7 @@ export type ModalDialogState = {
 };
 ```
 
-来源：[ModalDialogState](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-dialog-state.ts>)。
+来源：[ModalDialogState](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-dialog-state.ts>)。
 
 ### types-modal-options
 
@@ -611,7 +611,7 @@ export type ModalOptions = ModalBaseOptions & {
 };
 ```
 
-来源：[ModalOptions](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-options.ts>)。
+来源：[ModalOptions](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-options.ts>)。
 
 ### types-modal-custom-options
 
@@ -630,7 +630,7 @@ export interface ModalCustomOptions extends ModalOptions {
 }
 ```
 
-来源：[ModalCustomOptions](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-options.ts>)。
+来源：[ModalCustomOptions](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-options.ts>)。
 
 ### types-modal-ajax-options
 
@@ -652,7 +652,7 @@ export interface ModalAjaxOptions extends ModalOptions {
 }
 ```
 
-来源：[ModalAjaxOptions](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-options.ts>)。
+来源：[ModalAjaxOptions](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-options.ts>)。
 
 ### types-modal-iframe-options
 
@@ -670,7 +670,7 @@ export interface ModalIframeOptions extends ModalOptions {
 }
 ```
 
-来源：[ModalIframeOptions](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-options.ts>)。
+来源：[ModalIframeOptions](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-options.ts>)。
 
 ### types-modal-alert-options
 
@@ -690,7 +690,7 @@ export interface ModalAlertOptions extends ModalCustomOptions {
 }
 ```
 
-来源：[ModalAlertOptions](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-options.ts>)。
+来源：[ModalAlertOptions](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-options.ts>)。
 
 ### types-modal-confirm-options
 
@@ -706,7 +706,7 @@ export interface ModalConfirmOptions extends ModalAlertOptions {
 }
 ```
 
-来源：[ModalConfirmOptions](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-options.ts>)。
+来源：[ModalConfirmOptions](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-options.ts>)。
 
 ### types-modal-prompt-options
 
@@ -725,7 +725,7 @@ export interface ModalPromptOptions extends ModalAlertOptions {
 }
 ```
 
-来源：[ModalPromptOptions](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-options.ts>)。
+来源：[ModalPromptOptions](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-options.ts>)。
 
 ### types-modal-typed-options
 
@@ -739,7 +739,7 @@ export interface ModalPromptOptions extends ModalAlertOptions {
 export type ModalTypedOptions = ModalCustomOptions | ModalAjaxOptions | ModalIframeOptions;
 ```
 
-来源：[ModalTypedOptions](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/types/modal-options.ts>)。
+来源：[ModalTypedOptions](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/types/modal-options.ts>)。
 
 ### types-modal-iframe-content-props
 
@@ -758,7 +758,7 @@ export type ModalIframeContentProps = {
 };
 ```
 
-来源：[ModalIframeContentProps](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/component/modal-iframe-content.tsx>)。
+来源：[ModalIframeContentProps](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/component/modal-iframe-content.tsx>)。
 
 ## recipes
 
@@ -797,9 +797,9 @@ Ajax 模式会请求 url，`executeScript` 默认为 true，控制返回脚本�
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/main.ts>)
-- [Preact 入口](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/src/main-react.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/modal/docs/lib/components/trigger.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/main.ts>)
+- [Preact 入口](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/src/main-react.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/modal/docs/lib/components/trigger.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/.agents/skills/zui-standards/references/consumption.md>)

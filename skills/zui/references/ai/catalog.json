@@ -1,6 +1,6 @@
 {
   "lib/base/ai.md": {
-    "integrity": "sha256-060602e4742efded8b79315f3c7ce08f3ce16e7293aa5111fa0bd96cdb741516",
+    "integrity": "sha256-4f7b319716d408ba288430ad394213cd4e362a84b9a3513030f0044280932aa0",
     "sections": {
       "meta": [
         175,
@@ -71,7 +71,7 @@
     }
   },
   "lib/typography/ai.md": {
-    "integrity": "sha256-2e111726ee7549000a107668573621cbd41fb816c720e51544279b3a3693de4e",
+    "integrity": "sha256-9084613a2cd4aeeae6255de043c0d6ec416e68723812737d0ea2daaae6eed6c5",
     "sections": {
       "meta": [
         171,
@@ -146,7 +146,7 @@
     }
   },
   "lib/alert/ai.md": {
-    "integrity": "sha256-1e63eb91ee65bc59606e1373fd074c2dd90b55ad5d0ebb73867962d686461e1d",
+    "integrity": "sha256-4deca4a6f3619252393e10534aea58622033448d35a54a7b37e7d479002206a6",
     "sections": {
       "meta": [
         173,
@@ -229,7 +229,7 @@
     }
   },
   "lib/breadcrumb/ai.md": {
-    "integrity": "sha256-4ff6f225174e2df8d7381355d10570d386ba9e781674a8e2842f9602a524ac0e",
+    "integrity": "sha256-bd7dadd9bd4a251bf9086f84d73854386718a3b089773346594babb4c3ea31e4",
     "sections": {
       "meta": [
         172,
@@ -300,7 +300,7 @@
     }
   },
   "lib/button/ai.md": {
-    "integrity": "sha256-f9d8177b5c56f24f46a42ca70f049570b685f831ee93290f32bc38d2574306aa",
+    "integrity": "sha256-d9372f7eee08c77360933400b6b44ee62d5fae1341339d48602e60a3f0869793",
     "sections": {
       "meta": [
         171,
@@ -383,7 +383,7 @@
     }
   },
   "lib/checkbox/ai.md": {
-    "integrity": "sha256-385aa76315e86a54bb82458aa58fe9f5b4a50f13bd716c19d74e3d5e6d2c61cd",
+    "integrity": "sha256-abcd524c86d7fe319550829fd76ba538c15ccc62cc1d016b8ad2375130e18b22",
     "sections": {
       "meta": [
         174,
@@ -482,7 +482,7 @@
     }
   },
   "lib/collapsible/ai.md": {
-    "integrity": "sha256-89f0838926507def4185242ea2130597d3b52a6809343f3b5bb0b22785a564e6",
+    "integrity": "sha256-218bcc084c246c33965103c299fece1903d54f2fdaf39dcc0a3cf7c89623e3d0",
     "sections": {
       "meta": [
         171,
@@ -569,7 +569,7 @@
     }
   },
   "lib/common-list/ai.md": {
-    "integrity": "sha256-1743a320f635b9da2595f73d510592f6bfd90029cb866f4109ad3212994d456d",
+    "integrity": "sha256-8bfe5a8f43b0742d2e0554b9fd3d07dd2babebf2d02fbd5c2db0181c09375d34",
     "sections": {
       "meta": [
         173,
@@ -648,7 +648,7 @@
     }
   },
   "lib/form/ai.md": {
-    "integrity": "sha256-e27aeb54d5810d8a7c78d107b7a3c356a800f8558956a5d12eb236d36fa5d77e",
+    "integrity": "sha256-c822add9776bfacca86a5370550648a4f25ed42489cc38d1558670144999116f",
     "sections": {
       "meta": [
         171,
@@ -723,7 +723,7 @@
     }
   },
   "lib/form-control/ai.md": {
-    "integrity": "sha256-4048f146a00bb051028a2c009971899525fd43fc212d039c43470a7ee9c926a4",
+    "integrity": "sha256-27c5f351bbfbb61f2ab66d7d049652f2ca18a36b70802775043178df2c0b123a",
     "sections": {
       "meta": [
         173,
@@ -846,7 +846,7 @@
     }
   },
   "lib/icons/ai.md": {
-    "integrity": "sha256-8f6a13ee5e30baa92b2bf70f793d45046ca1dc71e9eb14db08ec2c5f119b6b85",
+    "integrity": "sha256-5abd4bf39f4a938710e3bcc070adc104bf084db331241e186dae0cfb26d06b0e",
     "sections": {
       "meta": [
         173,
@@ -913,7 +913,7 @@
     }
   },
   "lib/input-control/ai.md": {
-    "integrity": "sha256-7b4827b14085d1ea92a91d780753381f4f17a805bd08775bd6340d6de3f086e4",
+    "integrity": "sha256-15a9beb41ae7a25ef8712aa507bd68a6c9c668df3e447455fff9d2bb8c061996",
     "sections": {
       "meta": [
         172,
@@ -988,7 +988,7 @@
     }
   },
   "lib/label/ai.md": {
-    "integrity": "sha256-51e70cd6971d6fc22171d498e22af2379388b2015066043a4d73ea8a80340a62",
+    "integrity": "sha256-0bcc23f1c64018a36a449ad3142916267671eacf22b2e33300f88355c4444427",
     "sections": {
       "meta": [
         171,
@@ -1059,7 +1059,7 @@
     }
   },
   "lib/list/ai.md": {
-    "integrity": "sha256-ea29ca9009702631a198c30fc825c9e9ee424947205f26984d78092d64889fcd",
+    "integrity": "sha256-ab074e301dc5913750962478139912eaf2ae6b1ce9e80a3df01e5fc9ebd214a8",
     "sections": {
       "meta": [
         171,
@@ -1166,7 +1166,7 @@
     }
   },
   "lib/menu/ai.md": {
-    "integrity": "sha256-6131e7590a1c590f93a9d0f050d1f1a225652fdeb4fb0ea784a1e40f5025f666",
+    "integrity": "sha256-f867862c31c5c16276d568f6a78280bee3f48c87eff8c907e47fbde455896361",
     "sections": {
       "meta": [
         171,
@@ -1277,7 +1277,7 @@
     }
   },
   "lib/messager/ai.md": {
-    "integrity": "sha256-09434a2e4c1b0343d9b27de631fbd4189bfba7ac7d0667243dba7bcf1d13befb",
+    "integrity": "sha256-fc135951fc6cf0becfc1f7a1e24aaef5d6ba0c8f6d8c5efe65c72d3d53f2a250",
     "sections": {
       "meta": [
         173,
@@ -1364,7 +1364,7 @@
     }
   },
   "lib/progress/ai.md": {
-    "integrity": "sha256-94726bd38270812a0a4e104eef81eb29af772376de4a89b84567dadd0a912bbc",
+    "integrity": "sha256-dc7633b8b56021b145d741fe2d8a1b2ddb59fb6cfc8b66d2f9d58027c0726969",
     "sections": {
       "meta": [
         172,
@@ -1447,7 +1447,7 @@
     }
   },
   "lib/progress-circle/ai.md": {
-    "integrity": "sha256-f7907f61bd229c7e78e65294301dd15cbaab7e2fa672a11b63c2468314f9330a",
+    "integrity": "sha256-fc36e1a80cc22e6ee7ac769a100488faadf7e92c734f9d1ab5aaefb0ceeb026b",
     "sections": {
       "meta": [
         174,
@@ -1522,7 +1522,7 @@
     }
   },
   "lib/scrollbar/ai.md": {
-    "integrity": "sha256-925ba50be55b7f8af6e2dcf9d1c9049c10958c82a4f8c7d39491d6b5eb5db34b",
+    "integrity": "sha256-3e0c321406c4831ecc0c88194594ed3527f998442dcda755ee4a7a221ad4c2fb",
     "sections": {
       "meta": [
         172,
@@ -1613,7 +1613,7 @@
     }
   },
   "lib/time-span/ai.md": {
-    "integrity": "sha256-9e9b3bd8a3694fd7d64ac6f70d7f4cbfe8b771013c8a0449da199f5ca7ea8bf2",
+    "integrity": "sha256-395c63138370b2bf698c3391be4c87403f2f09d0c966c938fea9e576148db23c",
     "sections": {
       "meta": [
         173,
@@ -1708,7 +1708,7 @@
     }
   },
   "lib/core/ai.md": {
-    "integrity": "sha256-92215d714e4ed25a66068cd4d5e7deab114ad60b01b9affb270195e4cda32c4b",
+    "integrity": "sha256-9b868db7e03fd599e425e15783dc2a92ab376abc7ca8a632a5edb0a9d1f23aba",
     "sections": {
       "meta": [
         176,
@@ -1728,39 +1728,39 @@
       ],
       "preact": [
         5192,
-        9383
+        9635
       ],
       "web-components": [
-        9383,
-        11655
+        9635,
+        11907
       ],
       "css": [
-        11655,
-        11751
+        11907,
+        12003
       ],
       "css-variables": [
-        11751,
-        11773
+        12003,
+        12025
       ],
       "javascript": [
-        11773,
-        36784
+        12025,
+        37036
       ],
       "types": [
-        36784,
-        61163
+        37036,
+        61415
       ],
       "recipes": [
-        61163,
-        61525
+        61415,
+        61777
       ],
       "constraints": [
-        61525,
-        61885
+        61777,
+        62137
       ],
       "references": [
-        61885,
-        62755
+        62137,
+        63007
       ]
     },
     "entries": {
@@ -1786,192 +1786,192 @@
       ],
       "preact/preact-content": [
         6177,
-        7984
+        8236
       ],
       "preact/preact-bridge": [
-        7984,
-        9383
+        8236,
+        9635
       ],
       "web-components/web-components-factory": [
-        9402,
-        11655
+        9654,
+        11907
       ],
       "javascript/javascript-cash": [
-        11788,
-        12543
+        12040,
+        12795
       ],
       "javascript/javascript-creator": [
-        12543,
-        13652
+        12795,
+        13904
       ],
       "javascript/javascript-signals": [
-        13652,
-        14603
+        13904,
+        14855
       ],
       "javascript/javascript-query": [
-        14603,
-        16345
+        14855,
+        16597
       ],
       "javascript/javascript-ajax": [
-        16345,
-        17710
+        16597,
+        17962
       ],
       "javascript/javascript-classes": [
-        17710,
-        18168
+        17962,
+        18420
       ],
       "javascript/javascript-data": [
-        18168,
-        18992
+        18420,
+        19244
       ],
       "javascript/javascript-raw-data": [
-        18992,
-        19633
+        19244,
+        19885
       ],
       "javascript/javascript-z": [
-        19633,
-        20227
+        19885,
+        20479
       ],
       "javascript/javascript-merge-props": [
-        20227,
-        20889
+        20479,
+        21141
       ],
       "javascript/javascript-size": [
-        20889,
-        21492
+        21141,
+        21744
       ],
       "javascript/javascript-is-diff": [
-        21492,
-        21883
+        21744,
+        22135
       ],
       "javascript/javascript-gid": [
-        21883,
-        22194
+        22135,
+        22446
       ],
       "javascript/javascript-delay": [
-        22194,
-        22601
+        22446,
+        22853
       ],
       "javascript/javascript-debounce": [
-        22601,
-        23156
+        22853,
+        23408
       ],
       "javascript/javascript-wait-until": [
-        23156,
-        23826
+        23408,
+        24078
       ],
       "javascript/javascript-try-exec": [
-        23826,
-        24316
+        24078,
+        24568
       ],
       "javascript/javascript-copy": [
-        24316,
-        24837
+        24568,
+        25089
       ],
       "javascript/javascript-read-file": [
-        24837,
-        25246
+        25089,
+        25498
       ],
       "javascript/javascript-select-file": [
-        25246,
-        25856
+        25498,
+        26108
       ],
       "javascript/javascript-download-file": [
-        25856,
-        26363
+        26108,
+        26615
       ],
       "javascript/javascript-scroll": [
-        26363,
-        26808
+        26615,
+        27060
       ],
       "javascript/javascript-hotkeys": [
-        26808,
-        27739
+        27060,
+        27991
       ],
       "javascript/javascript-fullscreen": [
-        27739,
-        28492
+        27991,
+        28744
       ],
       "javascript/javascript-commands": [
-        28492,
-        29685
+        28744,
+        29937
       ],
       "javascript/javascript-global-event": [
-        29685,
-        30202
+        29937,
+        30454
       ],
       "javascript/javascript-run-js": [
-        30202,
-        30679
+        30454,
+        30931
       ],
       "javascript/javascript-computed": [
-        30679,
-        31208
+        30931,
+        31460
       ],
       "javascript/javascript-bus": [
-        31208,
-        31827
+        31460,
+        32079
       ],
       "javascript/javascript-loader": [
-        31827,
-        33358
+        32079,
+        33610
       ],
       "javascript/javascript-dom": [
-        33358,
-        34454
+        33610,
+        34706
       ],
       "javascript/javascript-form-i18n-registry": [
-        34454,
-        36784
+        34706,
+        37036
       ],
       "types/types-component-options": [
-        36794,
-        37963
+        37046,
+        38215
       ],
       "types/types-helement-props": [
-        37963,
-        38946
+        38215,
+        39198
       ],
       "types/types-ajax": [
-        38946,
-        41134
+        39198,
+        41386
       ],
       "types/types-content": [
-        41134,
-        44378
+        41386,
+        44630
       ],
       "types/types-helper-options": [
-        44378,
-        46185
+        44630,
+        46437
       ],
       "types/types-command-options": [
-        46185,
-        47910
+        46437,
+        48162
       ],
       "types/types-loading-options": [
-        47910,
-        49453
+        48162,
+        49705
       ],
       "types/types-interaction-options": [
-        49453,
-        52105
+        49705,
+        52357
       ],
       "types/types-component-events": [
-        52105,
-        55446
+        52357,
+        55698
       ],
       "types/types-web-component-config": [
-        55446,
-        59390
+        55698,
+        59642
       ],
       "types/types-query-controllers": [
-        59390,
-        61163
+        59642,
+        61415
       ]
     }
   },
   "lib/dnd/ai.md": {
-    "integrity": "sha256-abe528962525c7dc845acdc7ed93ffa953ea32caa4bc4c8859ae47d08773f64e",
+    "integrity": "sha256-d4ab24396af50c0820b47293e8a7146694fe373687c7f2334f85ee954960978c",
     "sections": {
       "meta": [
         176,
@@ -2066,7 +2066,7 @@
     }
   },
   "lib/event-bus/ai.md": {
-    "integrity": "sha256-5a0856dec292c3d044c9f4e7e55d253f4d3f58c00690d0ebef74236e07b224ea",
+    "integrity": "sha256-12b9fe503fb1c1bd0d686bfd735e6bb5c431195b4973505ff177370228cb835b",
     "sections": {
       "meta": [
         178,
@@ -2149,7 +2149,7 @@
     }
   },
   "lib/form-helper/ai.md": {
-    "integrity": "sha256-84dd366a18c77337611ddc761bdb7dcf195215a80598b30a1268374fa2b2b418",
+    "integrity": "sha256-d0a461dc89c9d5548794d3b28c991cd2ea5f2407afe5f2642e178ca5942a2156",
     "sections": {
       "meta": [
         173,
@@ -2216,7 +2216,7 @@
     }
   },
   "lib/sortable/ai.md": {
-    "integrity": "sha256-00cdb52f74aba75ccabbaa6beb85a5fd56352a0b471f1f2132826ab2f3eaf896",
+    "integrity": "sha256-a205c0043a8c03c34bbd7eeef09aac9893be8d4a294e4472c0a2f330796882f7",
     "sections": {
       "meta": [
         173,
@@ -2303,7 +2303,7 @@
     }
   },
   "lib/split/ai.md": {
-    "integrity": "sha256-823afc9c3b54fdb78fe4ae4678357f8bb244681a95d184451f13745ea80cf09f",
+    "integrity": "sha256-56a21260ce94b112f2111e2e0c77bbae9e818d75ed2e2c2ed32df2e41dbcd8a1",
     "sections": {
       "meta": [
         180,
@@ -2386,7 +2386,7 @@
     }
   },
   "lib/store/ai.md": {
-    "integrity": "sha256-cda60ae14fb3df0f833e476ec8dcd6b8d0b27482d38266a1d2cdb48def9163ca",
+    "integrity": "sha256-5530a7cdb189ab464304eff764cd7b7ec6e668c874f1e786dc5bb2d064fb49cb",
     "sections": {
       "meta": [
         173,
@@ -2457,7 +2457,7 @@
     }
   },
   "lib/avatar/ai.md": {
-    "integrity": "sha256-c3ed115e7a98914cdad725e1374a367560f47cf41fe8651c2440cfd3db55fefe",
+    "integrity": "sha256-06849b86949013e1d8eca4d2711bf943fb353acd0bf6eb48a2e46e81e63e3ef7",
     "sections": {
       "meta": [
         171,
@@ -2544,7 +2544,7 @@
     }
   },
   "lib/avatar-group/ai.md": {
-    "integrity": "sha256-7c20fe70c670c3a41901113bfe84173c34139647d9a5be94a5f4ab3e56f39b6a",
+    "integrity": "sha256-197cee57c04a49321127a3041de16433d190598761f0b5f30e4d4571f1cf0b0f",
     "sections": {
       "meta": [
         172,
@@ -2615,7 +2615,7 @@
     }
   },
   "lib/btn-group/ai.md": {
-    "integrity": "sha256-2e762be11f3de11d230d66ec4be6b72615b2d4b550a2c56dad365b4a481865a4",
+    "integrity": "sha256-2b75c447f22e8ff065bc6a1ec2669057a0d2d032664f23a327345a8b7e2c85db",
     "sections": {
       "meta": [
         172,
@@ -2690,7 +2690,7 @@
     }
   },
   "lib/calendar/ai.md": {
-    "integrity": "sha256-6854f6824c3ab233d9025f380e3e37d11e3b3136ed3b83cffa0de0a75b96e2f9",
+    "integrity": "sha256-b12c277b6e5804f47efd1f0219be2dce9a137c07d163602f60a5eb794d431d85",
     "sections": {
       "meta": [
         171,
@@ -2793,7 +2793,7 @@
     }
   },
   "lib/color-picker/ai.md": {
-    "integrity": "sha256-41938b8d554099444d8e7a35f210da58ea3764cd4060f415f61367d58ef2368b",
+    "integrity": "sha256-34ae17ba194ad2b40ff521e09967156c0f523a2c5924ea771a64e43f029d29af",
     "sections": {
       "meta": [
         174,
@@ -2888,7 +2888,7 @@
     }
   },
   "lib/copy-btn/ai.md": {
-    "integrity": "sha256-8b7bd2d2e86330f48dd76ed74a5e854797a6bc7d5bbeb0acdd10395f09715b96",
+    "integrity": "sha256-b47a0dcf2dc18d9169197846bb5421c1640e7913019d50af4fcaa7d6fc69d742",
     "sections": {
       "meta": [
         173,
@@ -2967,7 +2967,7 @@
     }
   },
   "lib/datetime-picker/ai.md": {
-    "integrity": "sha256-81ac7da06b11c8aa9a575af3bfda0870613fa90fc8c3db035d20a58fe8897837",
+    "integrity": "sha256-a578b44a3896ae3864e064f839f3f19d57e16f59b38e9305ed47013fd0986d62",
     "sections": {
       "meta": [
         176,
@@ -3110,7 +3110,7 @@
     }
   },
   "lib/file-list/ai.md": {
-    "integrity": "sha256-c5199d0d7a863087c6e3caa6f6b5d57d0393802de6ac03367289b6140465a4ce",
+    "integrity": "sha256-3343726c4236f378d8fd107905e02789ec78150bda201d796224f90d2b7d6b55",
     "sections": {
       "meta": [
         173,
@@ -3201,7 +3201,7 @@
     }
   },
   "lib/file-selector/ai.md": {
-    "integrity": "sha256-d8b991e69493bdb918272fe35f666cc62f148980e82e06a4c45e38bf8168fdbb",
+    "integrity": "sha256-098fc67d69fd47fd68a85c5bfff7800676093822ca2936b652473af791e05ba3",
     "sections": {
       "meta": [
         174,
@@ -3221,39 +3221,39 @@
       ],
       "preact": [
         3762,
-        7998
+        8439
       ],
       "web-components": [
-        7998,
-        8084
+        8439,
+        8525
       ],
       "css": [
-        8084,
-        12111
+        8525,
+        12552
       ],
       "css-variables": [
-        12111,
-        12730
+        12552,
+        13171
       ],
       "javascript": [
-        12730,
-        12749
+        13171,
+        13190
       ],
       "types": [
-        12749,
-        17850
+        13190,
+        18345
       ],
       "recipes": [
-        17850,
-        17989
+        18345,
+        18484
       ],
       "constraints": [
-        17989,
-        18732
+        18484,
+        19227
       ],
       "references": [
-        18732,
-        19450
+        19227,
+        19945
       ]
     },
     "entries": {
@@ -3267,56 +3267,56 @@
       ],
       "preact/preact-file-selector": [
         3773,
-        6782
+        7223
       ],
       "preact/preact-image-selector": [
-        6782,
-        7998
+        7223,
+        8439
       ],
       "css/css-structure": [
-        8092,
-        11338
+        8533,
+        11779
       ],
       "css/css-modifiers": [
-        11338,
-        12111
+        11779,
+        12552
       ],
       "css-variables/css-variables-config": [
-        12129,
-        12730
+        12570,
+        13171
       ],
       "types/types-file-size": [
-        13077,
-        13425
+        13518,
+        13866
       ],
       "types/types-file-info": [
-        13425,
-        13844
+        13866,
+        14285
       ],
       "types/types-static-file-info": [
-        13844,
-        14271
+        14285,
+        14712
       ],
       "types/types-file-selector-mode": [
-        14271,
-        14640
+        14712,
+        15081
       ],
       "types/types-file-selector-props": [
-        14640,
-        16937
+        15081,
+        17432
       ],
       "types/types-file-selector-state": [
-        16937,
-        17477
+        17432,
+        17972
       ],
       "types/types-image-selector-props": [
-        17477,
-        17850
+        17972,
+        18345
       ]
     }
   },
   "lib/form-builder/ai.md": {
-    "integrity": "sha256-5f01abde9684dcd57430234ab79b65d16fdd0c41939eabc90ba254fb3cb8e816",
+    "integrity": "sha256-86e43214bcc509b41373c1715c3ddae010cf7fefbb2f2070af7412aee7fb98b1",
     "sections": {
       "meta": [
         174,
@@ -3503,7 +3503,7 @@
     }
   },
   "lib/input-group/ai.md": {
-    "integrity": "sha256-7cd2c13cfd133c06ff669b6696608856802f0385833b940882c3a6bdf9b29369",
+    "integrity": "sha256-653557d4deab9c4e78d90b3b9c1ebaf5cedc37f4db9ed131d51a6891c20b87a9",
     "sections": {
       "meta": [
         172,
@@ -3574,7 +3574,7 @@
     }
   },
   "lib/json-ui/ai.md": {
-    "integrity": "sha256-dd53f7c0e0e1aad739797050b0f230995845201b765c06a7a85ff628c3157060",
+    "integrity": "sha256-d74bedcfda66745b6cb8d5efcf3f21812f7b8a9e36bd0c13dcd69e6de3180244",
     "sections": {
       "meta": [
         176,
@@ -3685,7 +3685,7 @@
     }
   },
   "lib/modal/ai.md": {
-    "integrity": "sha256-ad020539e278203fef35c10ca45feda94e98c99794edc729a2f738a578053c49",
+    "integrity": "sha256-8c0ef528c7a7a76b48633b8688dd3242a71561b439f9d7f91f252daeb89898e9",
     "sections": {
       "meta": [
         172,
@@ -3868,7 +3868,7 @@
     }
   },
   "lib/nav/ai.md": {
-    "integrity": "sha256-93cc0c7376fccf0b49e4ebc427f085d761ddf9d475723b31d0690362f7b8734e",
+    "integrity": "sha256-12f6b948794a73e2ac54722a88212f9fb836d8d1463d4cd1fd0eb67b91bcb05b",
     "sections": {
       "meta": [
         171,
@@ -3959,7 +3959,7 @@
     }
   },
   "lib/pager/ai.md": {
-    "integrity": "sha256-00d3f94f2747529ee4f6f834bf58a3b023468140704de28f47e233f6cb4d13d3",
+    "integrity": "sha256-658f90a97c47ec7b977f5fdbe930701d167894ed4669d394b447e2630134e35f",
     "sections": {
       "meta": [
         171,
@@ -4066,7 +4066,7 @@
     }
   },
   "lib/panel/ai.md": {
-    "integrity": "sha256-08a5e791aec46e99adbec32b95c32a26a7aa772476d56990e514f32e44b90986",
+    "integrity": "sha256-e1a0a0043fbb3bfffccbd8d4a3ce0c27a3ce2fb1c3e4878d8eb8fc01f07ef0d8",
     "sections": {
       "meta": [
         171,
@@ -4141,7 +4141,7 @@
     }
   },
   "lib/pick/ai.md": {
-    "integrity": "sha256-21a2ae9c9e1998b88e0ce818b1d6df381d70db9aa81b93d3f71e368d3e211186",
+    "integrity": "sha256-ba7c172694f5fd1ac0a5fee7c026c574e868688ed4581a9e61d82a902c407365",
     "sections": {
       "meta": [
         172,
@@ -4256,7 +4256,7 @@
     }
   },
   "lib/picker/ai.md": {
-    "integrity": "sha256-237c2d6ec27c3067839e2e868f8b82841f27d9945e4e51361abdd1183708bfbe",
+    "integrity": "sha256-a170de100190380a17877afbd6ddd265ec75d0e3eca5df3edd338f8e9e2be413",
     "sections": {
       "meta": [
         174,
@@ -4387,7 +4387,7 @@
     }
   },
   "lib/popover/ai.md": {
-    "integrity": "sha256-843fe874116328d813ed9a79fab718d57050cb25cba7e0855c4c3a9997183ce7",
+    "integrity": "sha256-dfd7475962a599be1ec8eafe0e4a82f26bcaa542a6b27730d6d437f77755a98c",
     "sections": {
       "meta": [
         173,
@@ -4490,7 +4490,7 @@
     }
   },
   "lib/responsive-nav/ai.md": {
-    "integrity": "sha256-91e07a200189cc6c2c1407925c16da8317d0ffc6eaa5ca343c1c82d5b4556b6b",
+    "integrity": "sha256-2a371c52033535c5f84d1b371197acb984b48f4f686274dcf71e0ccaa275cc99",
     "sections": {
       "meta": [
         174,
@@ -4561,7 +4561,7 @@
     }
   },
   "lib/search-box/ai.md": {
-    "integrity": "sha256-dd57d05f2531527ef17dcecbfed870abab6b9fba7c842eee95838de01df20972",
+    "integrity": "sha256-542424d0ca10df9fb4ec2022cb02478bc469c9fb0ac6674ffc0841aeb2b82930",
     "sections": {
       "meta": [
         172,
@@ -4644,7 +4644,7 @@
     }
   },
   "lib/sidebar/ai.md": {
-    "integrity": "sha256-4f2282babd9d11ee20d8e6b441b9c46aea66d3c97a954e21aa22e4f5744f48a4",
+    "integrity": "sha256-48c5477970c38d7731c2ef292e46684f66365b47db1ba08fc555262c29066735",
     "sections": {
       "meta": [
         172,
@@ -4727,7 +4727,7 @@
     }
   },
   "lib/table/ai.md": {
-    "integrity": "sha256-8b902b892b25990c89efaf8aee88814ab65926e1b99f10e0b315f91c0f405418",
+    "integrity": "sha256-dab7efe9d676f6805539959ab7d9859e69cce9b0671f6b9ef0cd23acbbadffdf",
     "sections": {
       "meta": [
         171,
@@ -4802,7 +4802,7 @@
     }
   },
   "lib/toolbar/ai.md": {
-    "integrity": "sha256-fc9f1f0842d5e6d589b53d8836fb224e86cd2b6048cb1328a31909ce4a19aa4e",
+    "integrity": "sha256-9ce8844b3b35eaa7ecfae06c81926d5eab9c8cc6d667f7ef2e345a38c46ceb98",
     "sections": {
       "meta": [
         172,
@@ -4893,7 +4893,7 @@
     }
   },
   "lib/tooltip/ai.md": {
-    "integrity": "sha256-9aef380457666be45238588fce82aac45dc814501f6aa584b696c75c4feee4cc",
+    "integrity": "sha256-be390fc6a9e2928864b6d3d03dddb5b3fad61dcb505e56a0f669ba09fe67bf63",
     "sections": {
       "meta": [
         173,
@@ -4972,7 +4972,7 @@
     }
   },
   "lib/tree/ai.md": {
-    "integrity": "sha256-05a277be6b879e1784315bb70cab86f34b4b8f8d03197431db7746e9e98a8cc9",
+    "integrity": "sha256-ab2c52a81bcc945ac8534ac624059cd60c83e00ea0c0e5fc154b0600cd55107a",
     "sections": {
       "meta": [
         173,
@@ -5059,7 +5059,7 @@
     }
   },
   "lib/upload/ai.md": {
-    "integrity": "sha256-c64ca9b98ea69a11fc393a8ff570baea94fbcfde2210836d86f73e48391b0e4f",
+    "integrity": "sha256-4fb858edcf57eefd7698f0c8b6208e5a3d57ab9c60929915879cf1f9f32b111c",
     "sections": {
       "meta": [
         173,
@@ -5130,7 +5130,7 @@
     }
   },
   "lib/upload-imgs/ai.md": {
-    "integrity": "sha256-c441e341a5173ab2ac4060ff7fa21d68d0f04f7ba409af021c88ad33e5ead957",
+    "integrity": "sha256-3e3fd3c40e8ed74a0a3584c16d0b567dfd98eac511855e781fb30d0f4a84ee5c",
     "sections": {
       "meta": [
         173,
@@ -5201,7 +5201,7 @@
     }
   },
   "lib/virtualize/ai.md": {
-    "integrity": "sha256-f65f2257e4984e0ce1447e1de72f87a671bfab9d775a32f9b0f5b65f8b64cc75",
+    "integrity": "sha256-5a975f81c423ecda3f125eb7050541a2423a30bb3b276b329fc41836c605d46d",
     "sections": {
       "meta": [
         173,
@@ -5288,7 +5288,7 @@
     }
   },
   "lib/cards/ai.md": {
-    "integrity": "sha256-ce66246a80398efecbe0fb3b87a15719b0f3cc138b9bb81940a8314febee1717",
+    "integrity": "sha256-9e85097aa2806bc56d8cb06e71c2728898e8ef0a92d9396c9605e89b42032a8d",
     "sections": {
       "meta": [
         171,
@@ -5379,7 +5379,7 @@
     }
   },
   "lib/contextmenu/ai.md": {
-    "integrity": "sha256-51a41eb62a02e964e5de188de9ea207220c55b7b2385d6a0c82e4e78bf54dbbe",
+    "integrity": "sha256-9f4c1c6906eaf01db61efae471bfee44a443f63a2ef23ee7d1720e71590494dc",
     "sections": {
       "meta": [
         174,
@@ -5454,7 +5454,7 @@
     }
   },
   "lib/dashboard/ai.md": {
-    "integrity": "sha256-d2733150db0b64a37cf2c765704b30d6774be518a3ba6187463148106b7ac611",
+    "integrity": "sha256-a9231529994a542e7cc04c3cd5c214d6788ced4fdc6e223c21653c5e42ae8acd",
     "sections": {
       "meta": [
         172,
@@ -5541,7 +5541,7 @@
     }
   },
   "lib/dropdown/ai.md": {
-    "integrity": "sha256-2bc5f8e9320b34db6c6d7e6147da3687cc89e1cc5c14c8128903629de5d64f6c",
+    "integrity": "sha256-5e0fdf29e8efe387312c9f18dc2ce034cb8d879bf35970f8234c83a1197317c4",
     "sections": {
       "meta": [
         173,
@@ -5636,7 +5636,7 @@
     }
   },
   "lib/dtable/ai.md": {
-    "integrity": "sha256-1af84052dbb2b38c026408cf6d471b0c329277c3498e36085f8caeb1688b8d50",
+    "integrity": "sha256-635dcb92d6962b31927bf090412958af1305422aa1a68d108a4b14ca71e4590f",
     "sections": {
       "meta": [
         173,
@@ -5795,7 +5795,7 @@
     }
   },
   "lib/tabs/ai.md": {
-    "integrity": "sha256-6ecee805ef40c42abfb8d921a109844a92a2528fc49df723e4e66a3e280c23dc",
+    "integrity": "sha256-58a34991c7c4b3518de58a265c1cec70919a933c67dfe0386e5f9ab1066c82d6",
     "sections": {
       "meta": [
         172,
@@ -5866,7 +5866,7 @@
     }
   },
   "lib/vtable/ai.md": {
-    "integrity": "sha256-b0f0a457ae857e624df5cca70e148fa5a4bd5931e03bfac05df98cc5d892fcdf",
+    "integrity": "sha256-d4bdee989ba8e0d6e42d5f27f14a4e89e6db0cb5980ae91a789c3875d7fcdeee",
     "sections": {
       "meta": [
         173,
@@ -5953,7 +5953,7 @@
     }
   },
   "lib/css-icons/ai.md": {
-    "integrity": "sha256-d349320e7df9500a5e32dcf8f79171170a0cf70fc76d285be62d1f3737610c65",
+    "integrity": "sha256-a6476620dbe8b455bca07065e235a9410ce0e498ac795cea2af34996aaaf35c3",
     "sections": {
       "meta": [
         175,
@@ -6032,7 +6032,7 @@
     }
   },
   "lib/utilities/ai.md": {
-    "integrity": "sha256-02fedbf30bbac79897966196ae690575c81d3cb3243b88e17074456f2efc0a7c",
+    "integrity": "sha256-c5c3f7cdf5427f31aaf5bf62b3d69c23205ec68dd34a98a9976342d7c937c85f",
     "sections": {
       "meta": [
         176,
@@ -6411,7 +6411,7 @@
     }
   },
   "lib/helpers/ai.md": {
-    "integrity": "sha256-d54f778c5e298a1ab76a758caf438d9bdb47c766d9e8a2ab4e8bdb4569178b07",
+    "integrity": "sha256-36ee9574cd0debbbd49bc29fad9ae873d8aeef40fe204b160cfc71414a853602",
     "sections": {
       "meta": [
         176,
@@ -6510,7 +6510,7 @@
     }
   },
   "ai.md": {
-    "integrity": "sha256-e8c816a9f92160e33b69be003df0bbd4394b8fc3eb82264bc4138b3d5e40c58d",
+    "integrity": "sha256-eb4b4f936613b97c578953cb6049907bf9634eb92ab01f2244fd4beb24192368",
     "sections": {},
     "entries": {}
   }

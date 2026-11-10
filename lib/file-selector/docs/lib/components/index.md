@@ -473,6 +473,8 @@ const fileSelector = new zui.FileSelector('#fileSelector', {
 
 默认情况下支持对文件进行重命名，通过设置 `renameBtn` 属性为 `false` 可以禁用重命名按钮，通过为 `renameBtn` 属性设置字符串可以自定义重命名按钮的文字，通过为 `renameBtn` 属性设置对象可以自定义重命名按钮。
 
+当 `renameBtn` 为 `true`（包括回调返回 `true`）时，通过 `renameIcon` 自定义图标，支持图标名称、图标属性对象或 VNode，空字符串隐藏图标。默认值为 `{className: 'i-edit', 'aria-hidden': true}`；`i-*` CSS 图标也可直接传字符串。`renameBtn` 为对象时由其 `icon` 属性控制图标，为字符串时保留纯文字按钮。
+
 ::: tabs
 
 == 示例
@@ -507,6 +509,8 @@ const fileSelector = new zui.FileSelector('#fileSelector', {
 ### 文件移除
 
 默认情况下支持对文件进行移除，通过设置 `removeBtn` 属性为 `false` 可以禁用移除按钮，通过为 `removeBtn` 属性设置字符串可以自定义移除按钮的文字，通过为 `removeBtn` 属性设置对象可以自定义移除按钮。
+
+当 `removeBtn` 为 `true`（包括回调返回 `true`）时，通过 `removeIcon` 自定义图标，支持图标名称、图标属性对象或 VNode，空字符串隐藏图标。默认值为 `{className: 'i-trash', 'aria-hidden': true}`；`i-*` CSS 图标也可直接传字符串。`removeBtn` 为对象时由其 `icon` 属性控制图标，为字符串时保留纯文字按钮。
 
 ::: tabs
 
@@ -700,6 +704,8 @@ fileIcons?: IconType | Record&lt;string, IconType&gt; = "file"; // 文件图标�
 uploadBtn?: string | ButtonProps; // 上传按钮。
 renameBtn?: boolean | string | ButtonProps | FileButtonGenerator = true; // 重命名按钮。
 removeBtn?: boolean | string | ButtonProps | FileButtonGenerator = true; // 删除按钮。
+renameIcon?: IconType = {"className": "i-edit", "aria-hidden": true}; // 默认重命名按钮的图标。
+removeIcon?: IconType = {"className": "i-trash", "aria-hidden": true}; // 默认移除按钮的图标。
 removeConfirm?: string | ModalConfirmOptions; // 删除确认提示。
 maxFileSize?: FileSize = "100MB";  // 限制文件大小。
 maxFileCount?: number = 0; // 限制文件数目，如果设置为非大于 `0` 的数则不限制。

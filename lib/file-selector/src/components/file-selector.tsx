@@ -23,6 +23,8 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         fileIcons: 'file',
         renameBtn: true,
         removeBtn: true,
+        renameIcon: {className: 'i-edit', 'aria-hidden': true},
+        removeIcon: {className: 'i-trash', 'aria-hidden': true},
         draggable: true,
         thumbnail: true,
         maxFileCount: 0,
@@ -606,6 +608,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             return;
         }
 
+        const {removeIcon, renameIcon} = this.props;
         let {removeBtn, renameBtn} = this.props;
         if (typeof removeBtn === 'function') {
             removeBtn = removeBtn.call(this, file);
@@ -613,7 +616,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         if (typeof removeBtn === 'string') {
             removeBtn = {text: removeBtn};
         } else if (removeBtn === true) {
-            removeBtn = {hint: this.i18n('removeFile'), icon: {className: 'i-trash', 'aria-hidden': true}};
+            removeBtn = {hint: this.i18n('removeFile'), icon: removeIcon};
         }
         if (typeof renameBtn === 'function') {
             renameBtn = renameBtn.call(this, file);
@@ -621,7 +624,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         if (typeof renameBtn === 'string') {
             renameBtn = {text: renameBtn};
         } else if (renameBtn === true) {
-            renameBtn = {hint: this.i18n('renameFile'), icon: {className: 'i-edit', 'aria-hidden': true}};
+            renameBtn = {hint: this.i18n('renameFile'), icon: renameIcon};
         }
         const actions: Item[] = [];
         if (renameBtn) {

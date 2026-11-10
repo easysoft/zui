@@ -106,11 +106,15 @@ static defaultProps: Partial<FileSelectorProps> = {
         fileIcons: 'file',
         renameBtn: true,
         removeBtn: true,
+        renameIcon: {className: 'i-edit', 'aria-hidden': true},
+        removeIcon: {className: 'i-trash', 'aria-hidden': true},
         draggable: true,
         thumbnail: true,
         maxFileCount: 0,
     };
 ```
+
+`renameIcon` / `removeIcon` 接受 `IconType`（图标名称、属性对象或 VNode），分别配置默认重命名和移除按钮的图标；空字符串隐藏图标。`i-*` CSS 图标可直接使用字符串，例如 `renameIcon: 'i-edit'`；其他 CSS 类使用属性对象，例如 `{className: 'close', 'aria-hidden': true}`。仅在对应 `renameBtn` / `removeBtn` 为 `true`（包括回调返回 `true`）时使用；字符串按钮保留纯文字，对象按钮由其自身 `icon` 控制。`ImageSelector` 同样支持这两个属性。
 
 | 成员 | 签名与返回值 |
 | --- | --- |
@@ -392,6 +396,8 @@ export interface FileSelectorProps extends HElementProps {
     uploadBtn?: string | ButtonProps;
     renameBtn?: boolean | string | ButtonProps | ((file: FileInfo) => (boolean | string | ButtonProps));
     removeBtn?: boolean | string | ButtonProps | ((file: FileInfo) => (boolean | string | ButtonProps));
+    renameIcon?: IconType;
+    removeIcon?: IconType;
     removeConfirm?: string | ModalConfirmOptions;
     maxFileCount?: number;
     maxFileSize?: FileSize;

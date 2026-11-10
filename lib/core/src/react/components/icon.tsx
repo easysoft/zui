@@ -4,7 +4,7 @@ import {classes} from '../../helpers/classes';
 import type {ClassNameLike} from '../../helpers/classes';
 import type {IconClass, IconProps} from '../types';
 
-const createIconClass = (icon: string) => icon.startsWith('icon-') ? icon : `icon-${icon}`;
+const createIconClass = (icon: string) => icon.startsWith('icon-') || icon.startsWith('i-') ? icon : `icon-${icon}`;
 
 /** Resolve CSS descriptors and caller-provided font icon names for native controls. */
 export function getIconClass(icon: string | IconClass, className?: ClassNameLike) {

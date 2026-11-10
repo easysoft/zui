@@ -16,6 +16,14 @@ describe('font-independent icons', () => {
         expect(getIconClass({className: 'i-trash'}, 'file-action')).toBe('icon file-action i-trash');
     });
 
+    it.each(['i-edit', 'i-trash'])('renders the CSS icon name %s without a font glyph prefix', (name) => {
+        const {container} = render(<Icon icon={name} className="item-icon" aria-hidden="true" />);
+        expect(container.firstElementChild).toHaveClass('icon', name, 'item-icon');
+        expect(container.firstElementChild).not.toHaveClass(`icon-${name}`);
+        expect(container.firstElementChild).toHaveAttribute('aria-hidden', 'true');
+        expect(getIconClass({icon: name}, 'file-action')).toBe(`icon file-action ${name}`);
+    });
+
     it('preserves SVG geometry and merges the consumer class, color and accessibility attributes', () => {
         const glyph = <svg className="file-icon" viewBox="0 0 24 24" style={{width: '1em'}}><path d="M2 2h20v20H2z" /></svg>;
         const {container} = render(<Icon icon={glyph} className="item-icon text-gray" style={{color: 'red'}} aria-hidden="true" />);

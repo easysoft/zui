@@ -22,9 +22,9 @@
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/file-selector`](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/src/main.ts>) 公开原生组件和相应类型。
+主入口 [`@zui/file-selector`](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/src/main.ts>) 公开原生组件和相应类型。
 
-Preact 入口 [`@zui/file-selector/react`](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
+Preact 入口 [`@zui/file-selector/react`](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/file-selector` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -58,7 +58,7 @@ const instance = new FileSelector(host, {name: 'files[]', maxFileCount: 3});
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[FileSelector](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/src/vanilla/file-selector.ts>)。
+来源：[FileSelector](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/src/vanilla/file-selector.ts>)。
 
 ### vanilla-image-selector
 
@@ -88,7 +88,7 @@ const instance = new ImageSelector(host, {name: 'images[]', maxFileCount: 3});
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[ImageSelector](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/src/vanilla/image-selector.ts>)。
+来源：[ImageSelector](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/src/vanilla/image-selector.ts>)。
 
 ## preact
 
@@ -110,11 +110,15 @@ static defaultProps: Partial<FileSelectorProps> = {
         fileIcons: 'file',
         renameBtn: true,
         removeBtn: true,
+        renameIcon: {className: 'i-edit', 'aria-hidden': true},
+        removeIcon: {className: 'i-trash', 'aria-hidden': true},
         draggable: true,
         thumbnail: true,
         maxFileCount: 0,
     };
 ```
+
+`renameIcon` / `removeIcon` 接受 `IconType`（图标名称、属性对象或 VNode），分别配置默认重命名和移除按钮的图标；空字符串隐藏图标。`i-*` CSS 图标可直接使用字符串，例如 `renameIcon: 'i-edit'`；其他 CSS 类使用属性对象，例如 `{className: 'close', 'aria-hidden': true}`。仅在对应 `renameBtn` / `removeBtn` 为 `true`（包括回调返回 `true`）时使用；字符串按钮保留纯文字，对象按钮由其自身 `icon` 控制。`ImageSelector` 同样支持这两个属性。
 
 | 成员 | 签名与返回值 |
 | --- | --- |
@@ -163,7 +167,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[FileSelector](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/src/components/file-selector.tsx>)。
+来源：[FileSelector](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/src/components/file-selector.tsx>)。
 
 ### preact-image-selector
 
@@ -204,7 +208,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[ImageSelector](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/src/components/image-selector.tsx>)。
+来源：[ImageSelector](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/src/components/image-selector.tsx>)。
 
 ## web-components
 
@@ -251,7 +255,7 @@ const dispose = mountExample();
 | `.file-selector-grid .file-selector-rename-text` | 全宽 |
 | `.file-selector-grid .file-selector-rename > .item-title` | 隐藏 |
 
-来源：[src/style/file-selector.css](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/src/style/file-selector.css>)。最小结构由前面的组件示例生成。
+来源：[src/style/file-selector.css](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/src/style/file-selector.css>)。最小结构由前面的组件示例生成。
 
 ### css-modifiers
 
@@ -307,7 +311,7 @@ const dispose = mountExample();
 export type FileSize = number | `${number}${'B' | 'KB' | 'MB' | 'GB' | 'TB'}`;
 ```
 
-来源：[FileSize](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/src/types/file-size.ts>)。
+来源：[FileSize](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/src/types/file-size.ts>)。
 
 ### types-file-info
 
@@ -329,7 +333,7 @@ export type FileInfo = {
 };
 ```
 
-来源：[FileInfo](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/src/types/file-info.ts>)。
+来源：[FileInfo](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/src/types/file-info.ts>)。
 
 ### types-static-file-info
 
@@ -349,7 +353,7 @@ export type StaticFileInfo = {
 };
 ```
 
-来源：[StaticFileInfo](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/src/types/static-file-info.ts>)。
+来源：[StaticFileInfo](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/src/types/static-file-info.ts>)。
 
 ### types-file-selector-mode
 
@@ -363,7 +367,7 @@ export type StaticFileInfo = {
 export type FileSelectorMode = 'button' | 'box' | 'grid';
 ```
 
-来源：[FileSelectorMode](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/src/types/file-selector-mode.ts>)。
+来源：[FileSelectorMode](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/src/types/file-selector-mode.ts>)。
 
 ### types-file-selector-props
 
@@ -396,6 +400,8 @@ export interface FileSelectorProps extends HElementProps {
     uploadBtn?: string | ButtonProps;
     renameBtn?: boolean | string | ButtonProps | ((file: FileInfo) => (boolean | string | ButtonProps));
     removeBtn?: boolean | string | ButtonProps | ((file: FileInfo) => (boolean | string | ButtonProps));
+    renameIcon?: IconType;
+    removeIcon?: IconType;
     removeConfirm?: string | ModalConfirmOptions;
     maxFileCount?: number;
     maxFileSize?: FileSize;
@@ -419,7 +425,7 @@ export interface FileSelectorProps extends HElementProps {
 }
 ```
 
-来源：[FileSelectorProps](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/src/types/file-selector-props.ts>)。
+来源：[FileSelectorProps](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/src/types/file-selector-props.ts>)。
 
 ### types-file-selector-state
 
@@ -441,7 +447,7 @@ export interface FileSelectorState {
 }
 ```
 
-来源：[FileSelectorState](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/src/types/file-selector-state.ts>)。
+来源：[FileSelectorState](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/src/types/file-selector-state.ts>)。
 
 ### types-image-selector-props
 
@@ -455,7 +461,7 @@ export interface FileSelectorState {
 export type ImageSelectorProps = FileSelectorProps;
 ```
 
-来源：[ImageSelectorProps](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/src/types/image-selector-props.ts>)。
+来源：[ImageSelectorProps](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/src/types/image-selector-props.ts>)。
 
 ## recipes
 
@@ -471,9 +477,9 @@ export type ImageSelectorProps = FileSelectorProps;
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/src/main.ts>)
-- [Preact 入口](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/src/main-react.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/lib/file-selector/docs/lib/components/index.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/src/main.ts>)
+- [Preact 入口](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/src/main-react.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/lib/file-selector/docs/lib/components/index.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/04e1d392c155b3b16368ef176aaeac88881101ab/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/6e332c56117e3fd284be90ec991ffa75fadaace7/.agents/skills/zui-standards/references/consumption.md>)
