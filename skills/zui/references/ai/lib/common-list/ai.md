@@ -149,5 +149,5 @@ workspace：`new CommonList(container, {items: [{id: 'a', label: '项目 A'}], g
 
 ## references
 
-- [公开入口](<https://github.com/easysoft/zui/blob/341e605d278232e2d485ea7ae47ad100f9ab43d0/lib/common-list/package.json>)、[CommonList 实现](<https://github.com/easysoft/zui/blob/341e605d278232e2d485ea7ae47ad100f9ab43d0/lib/common-list/src/component/common-list.tsx>)
-- [原生包装](<https://github.com/easysoft/zui/blob/341e605d278232e2d485ea7ae47ad100f9ab43d0/lib/common-list/src/vanilla/common-list.ts>)、[类型](<https://github.com/easysoft/zui/blob/341e605d278232e2d485ea7ae47ad100f9ab43d0/lib/common-list/src/types/common-list-props.ts>)、[Item](<https://github.com/easysoft/zui/blob/341e605d278232e2d485ea7ae47ad100f9ab43d0/lib/common-list/src/types/item.ts>)
+- [公开入口](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/common-list/package.json>)、[CommonList 实现](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/common-list/src/component/common-list.tsx>)
+- [原生包装](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/common-list/src/vanilla/common-list.ts>)、[类型](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/common-list/src/types/common-list-props.ts>)、[Item](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/common-list/src/types/item.ts>)

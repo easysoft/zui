@@ -117,8 +117,8 @@ browser（已加载本库 CSS）：
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/341e605d278232e2d485ea7ae47ad100f9ab43d0/lib/typography/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/341e605d278232e2d485ea7ae47ad100f9ab43d0/lib/typography/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/341e605d278232e2d485ea7ae47ad100f9ab43d0/lib/typography/docs/lib/basic/index.md>)
-- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/341e605d278232e2d485ea7ae47ad100f9ab43d0/lib/typography/src/style/index.ts>)
-- [源码 src/style/vars.css](<https://github.com/easysoft/zui/blob/341e605d278232e2d485ea7ae47ad100f9ab43d0/lib/typography/src/style/vars.css>)
+- [包元数据](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/typography/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/typography/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/typography/docs/lib/basic/index.md>)
+- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/typography/src/style/index.ts>)
+- [源码 src/style/vars.css](<https://github.com/easysoft/zui/blob/a564426ce100aef34d3de61b32165d9f84dbfd7b/lib/typography/src/style/vars.css>)

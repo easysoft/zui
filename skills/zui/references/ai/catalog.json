@@ -1,6 +1,6 @@
 {
   "lib/base/ai.md": {
-    "integrity": "sha256-f34d3c3102c17f22e798a9ad5047e0b25ad61920d30e061da1c97355fde1f8f0",
+    "integrity": "sha256-0e38aa8957c68f3ffe7ce2262c03f471bc4e97ff62b5fd0f626c28b2197549dd",
     "sections": {
       "meta": [
         175,
@@ -71,7 +71,7 @@
     }
   },
   "lib/typography/ai.md": {
-    "integrity": "sha256-5714936468b7466fca813b5983a1777f2f805db08202ca7b8074c8fd0a28bc29",
+    "integrity": "sha256-6752fe291a0abc2d2da3a14fdf370cc20f2a4099e6851568fd1c703ca49a3459",
     "sections": {
       "meta": [
         171,
@@ -146,7 +146,7 @@
     }
   },
   "lib/alert/ai.md": {
-    "integrity": "sha256-070d57bf7da6f74406d8386ef2ab4ef44777245ed53c65e2f758d846bd17c6a9",
+    "integrity": "sha256-7083f93df8e210f60a657b79f87b44593372b9d595a451bf4548412c6da5eeea",
     "sections": {
       "meta": [
         173,
@@ -229,7 +229,7 @@
     }
   },
   "lib/breadcrumb/ai.md": {
-    "integrity": "sha256-f9a2b1536896db57f5ccde12662cb912b44c5e86b5f128d9bce022f6fe16e990",
+    "integrity": "sha256-54432932b2d54d5d8ed58732f3edbfd6a73b0773c7fd942f45281540853fa6ba",
     "sections": {
       "meta": [
         172,
@@ -300,7 +300,7 @@
     }
   },
   "lib/button/ai.md": {
-    "integrity": "sha256-2a823d49139ea235365c2cc5cbead28c933dd52e6d382197bdeefb65989e8b6f",
+    "integrity": "sha256-c589beecbdc786ca0c780140e5932cce7c50a5ad209ffd9a3fc39172ba342ff8",
     "sections": {
       "meta": [
         171,
@@ -383,7 +383,7 @@
     }
   },
   "lib/checkbox/ai.md": {
-    "integrity": "sha256-073ea65105fee71d5c1f9aec6a436256ed81568ba708ff642d39de9201f4855b",
+    "integrity": "sha256-a76a13a62b0385a5c4bc98f55ada6c88191dae95334e0133466c0e22c231246c",
     "sections": {
       "meta": [
         174,
@@ -482,7 +482,7 @@
     }
   },
   "lib/collapsible/ai.md": {
-    "integrity": "sha256-837c453f6805450dabdd6d38f3d406c525ad79009bd88e5750cc6c253b316e23",
+    "integrity": "sha256-7c32b1da012c29b46657a193b24118cd7ca00466e6fe50b8f9f4b64512da5841",
     "sections": {
       "meta": [
         171,
@@ -569,7 +569,7 @@
     }
   },
   "lib/common-list/ai.md": {
-    "integrity": "sha256-55c321d10ab4cc51d47452efe05f68ca0f28fb5397c6b56d00c84f0da6701cf5",
+    "integrity": "sha256-c6d36a106381e2303f6ec0412192f36d3b0a8ae91cd2556e9d8e896327c92d7b",
     "sections": {
       "meta": [
         173,
@@ -648,7 +648,7 @@
     }
   },
   "lib/form/ai.md": {
-    "integrity": "sha256-4bb4d1cb5b0f5d49531d276ebae72964635cf431264c7526833ba9c693c142f6",
+    "integrity": "sha256-bb5ce2d6e4e11ad7df2d6bc70d882589233f6cba95c3ada32ba0c4908a52470c",
     "sections": {
       "meta": [
         171,
@@ -723,7 +723,7 @@
     }
   },
   "lib/form-control/ai.md": {
-    "integrity": "sha256-ff051e1f0b5837519bfca3338bc4a72b63ab0d271f5662413731714cd5c6ac95",
+    "integrity": "sha256-34a26d1d4b4e31f783664ec034b0b924e6808a401f7e5b75bc8738f87486cf5c",
     "sections": {
       "meta": [
         173,
@@ -846,7 +846,7 @@
     }
   },
   "lib/icons/ai.md": {
-    "integrity": "sha256-8fc4a01743a55bcd35b5f3199803983b00583703e7184177af8d094e4992052d",
+    "integrity": "sha256-7073406495a7a02d330ff31d2f0a69984f93d00b8482c6444e96ce02971e1616",
     "sections": {
       "meta": [
         173,
@@ -913,7 +913,7 @@
     }
   },
   "lib/input-control/ai.md": {
-    "integrity": "sha256-eb085efcfcc7c1caa5fb666e6b47afc987b04572df44ee08d6d977e344b8ac55",
+    "integrity": "sha256-8bad060bab12dacff95784a9441b55288239182e281741e170746b2894f3d931",
     "sections": {
       "meta": [
         172,
@@ -988,7 +988,7 @@
     }
   },
   "lib/label/ai.md": {
-    "integrity": "sha256-ba4db4949e688feeb270c995ba7845e00c51fd5e3a02c26da7b87325eb378ccf",
+    "integrity": "sha256-1091b52f10e282513ea6190601bda1e3bffe11d0c3d3b2e9d1b762f118c93804",
     "sections": {
       "meta": [
         171,
@@ -1059,7 +1059,7 @@
     }
   },
   "lib/list/ai.md": {
-    "integrity": "sha256-4542c44985bcc94e1bb390bbd891c938fc0a59b6f134108e8d780767fe3f2705",
+    "integrity": "sha256-6f68419bbd6edc44ddc80b60b925ea96f71be662886f99896fff73556bd99650",
     "sections": {
       "meta": [
         171,
@@ -1166,7 +1166,7 @@
     }
   },
   "lib/menu/ai.md": {
-    "integrity": "sha256-96b72727460b0c4a4476f3b3899a50b74e185d4f4585c35ea41c38e2f1a34191",
+    "integrity": "sha256-b5f76b95226178d325ab8cd585bc688542746c410393b655958ef86f90052038",
     "sections": {
       "meta": [
         171,
@@ -1277,7 +1277,7 @@
     }
   },
   "lib/messager/ai.md": {
-    "integrity": "sha256-68d5ca0af84f669b8c228b57e6842432163cabc92d39a81a5c1641f871f88ba5",
+    "integrity": "sha256-2b8448b65fb2c184d78f62bacb0cf30e783e0941318f577e7a640da65389713f",
     "sections": {
       "meta": [
         173,
@@ -1364,7 +1364,7 @@
     }
   },
   "lib/progress/ai.md": {
-    "integrity": "sha256-50323924a2efb0cca48d5fdc1923b6326770b2a9e126b399fc95c72a796652b3",
+    "integrity": "sha256-fd66af4b2ecf3610b33d3a2f216875b46900331fde8516f2c2190920834c18c3",
     "sections": {
       "meta": [
         172,
@@ -1447,7 +1447,7 @@
     }
   },
   "lib/progress-circle/ai.md": {
-    "integrity": "sha256-56f97c6d4246f23604e301891986d697ffcf7d019c0c2153d44c0dce16f85d34",
+    "integrity": "sha256-97a34154d2572a7f4df1303a2c18e8b8d5088e63d930093c226e689b3e6572ef",
     "sections": {
       "meta": [
         174,
@@ -1522,7 +1522,7 @@
     }
   },
   "lib/scrollbar/ai.md": {
-    "integrity": "sha256-4b2ed385fca6527eaef53cc0955c06b8afc88f64f15664dcaaca86f573437dd9",
+    "integrity": "sha256-15c46a15908dc21c41c13e8e037fb9fc76efadcfe01afcd72fc73e7cdc8abea1",
     "sections": {
       "meta": [
         172,
@@ -1613,7 +1613,7 @@
     }
   },
   "lib/time-span/ai.md": {
-    "integrity": "sha256-79ff4e8897dca23a90f44e71b3a32930cfaa399a8f91e874ed40b3fb4b0b7a5e",
+    "integrity": "sha256-9796aac803ed1a6ed0e55ff70f12e6d56c910ea14e146c736d5d897f544ffc64",
     "sections": {
       "meta": [
         173,
@@ -1708,7 +1708,7 @@
     }
   },
   "lib/core/ai.md": {
-    "integrity": "sha256-2480e24943cbc7cd1b712903b35188e0fc5111575ed04b40e6f42699111ffb64",
+    "integrity": "sha256-b5b595e4a3c46b603ef6aefb4ce8f7edca9c6d930041d999abeba5b9e4228575",
     "sections": {
       "meta": [
         176,
@@ -1971,7 +1971,7 @@
     }
   },
   "lib/dnd/ai.md": {
-    "integrity": "sha256-e669be2784f88a1ec956cfb5aa3be4ca19fca633bf53a9b4e16887e20bb9c35f",
+    "integrity": "sha256-7c149934ae46e42119691dc886aef9866103258046769ac0907ba5bfdca05e0e",
     "sections": {
       "meta": [
         176,
@@ -2066,7 +2066,7 @@
     }
   },
   "lib/event-bus/ai.md": {
-    "integrity": "sha256-ac3401d7f2b13e284f8362fa71ae26f6019659204ed2a28cca54391f4c270051",
+    "integrity": "sha256-2530be09292617a50b265eeca58e9dc288ae6d0555f8a5fe6303ff78eeb8d0d3",
     "sections": {
       "meta": [
         178,
@@ -2149,7 +2149,7 @@
     }
   },
   "lib/form-helper/ai.md": {
-    "integrity": "sha256-edec60f5f1b640e9a5524305e012105f57448224a8ff68328de05dc4faf049ac",
+    "integrity": "sha256-45fd10aa849260140a287c2e5e352180a72de66a4bb443826601d4f1d4e98e1a",
     "sections": {
       "meta": [
         173,
@@ -2216,7 +2216,7 @@
     }
   },
   "lib/sortable/ai.md": {
-    "integrity": "sha256-a4c6d5a7ad779893810bd15cc82d15b92e359c1711f6de4ed7d0fdebe3470bd8",
+    "integrity": "sha256-07ab39cd13a026fa6a89cfa680aa17a104829ae67556310e17253facd558c14b",
     "sections": {
       "meta": [
         173,
@@ -2303,7 +2303,7 @@
     }
   },
   "lib/split/ai.md": {
-    "integrity": "sha256-dc28155c1626ad2be0668745ab3caace0bb3e0f2de8642e5ea2fd55de15708d3",
+    "integrity": "sha256-7cf4d4ec6c8c02b4373a8a2c87fb27377fea017848f6e4c36417cf9989226c88",
     "sections": {
       "meta": [
         180,
@@ -2386,7 +2386,7 @@
     }
   },
   "lib/store/ai.md": {
-    "integrity": "sha256-848012e8d171a94da3b3b4984898e353c018e42a3694f7f5ced05d6f4da62f7e",
+    "integrity": "sha256-1add081b87542786619e384ea38fd437309a696e6da0009ef1135a89748005d1",
     "sections": {
       "meta": [
         173,
@@ -2457,7 +2457,7 @@
     }
   },
   "lib/avatar/ai.md": {
-    "integrity": "sha256-aeea93c3e6ffc292109a7f35be659cb69f74ef98dc13a186c4159cf5d2b79172",
+    "integrity": "sha256-9d591dff0a6b0edcc6d87c50c991b9fee76dc1349c34a14adbaa9b528c55afac",
     "sections": {
       "meta": [
         171,
@@ -2544,7 +2544,7 @@
     }
   },
   "lib/avatar-group/ai.md": {
-    "integrity": "sha256-e1236e4a2ae571678cdec03d17045d03bff692d2c3e42258ca6c353f299e932e",
+    "integrity": "sha256-225752e263c567824aeed2ab2a6b946a28a2908108aeafe99ee1ac9e6522092b",
     "sections": {
       "meta": [
         172,
@@ -2615,7 +2615,7 @@
     }
   },
   "lib/btn-group/ai.md": {
-    "integrity": "sha256-063a72b37da57badd2d4d4d4ca891f9e34c417bbc8bf1e85d8e414d98904fd0b",
+    "integrity": "sha256-e7b279f684faf60d116ac33f551489dbfe1f26a48066282604286f8fa9d9b8ab",
     "sections": {
       "meta": [
         172,
@@ -2690,7 +2690,7 @@
     }
   },
   "lib/calendar/ai.md": {
-    "integrity": "sha256-4875533b073e6e5b3467caa36e2d86ec4f01f2c06d482d8355659af948782f4a",
+    "integrity": "sha256-1172205fdb9e110e95909da4f8a8b4fa9c7eaa977f23a4a056c3369c7cf5fb0e",
     "sections": {
       "meta": [
         171,
@@ -2793,7 +2793,7 @@
     }
   },
   "lib/color-picker/ai.md": {
-    "integrity": "sha256-690f6ba29fef618a8789bc89b12c12497bc563e3102305f247a08ee5c0ca8a68",
+    "integrity": "sha256-a6ca1c80fe531495e25cb6b9dfc7f5a750bf11852a1419733fa5bcdfed84c1ca",
     "sections": {
       "meta": [
         174,
@@ -2888,7 +2888,7 @@
     }
   },
   "lib/copy-btn/ai.md": {
-    "integrity": "sha256-a6aed90ab3f46998315bf35df7a4c491bc0585e49617e3f03c77a442750a2d46",
+    "integrity": "sha256-4613ff64bc95ba705a321e14a747427829d6f9c0884b6e77a6ca8188f5114e80",
     "sections": {
       "meta": [
         173,
@@ -2967,7 +2967,7 @@
     }
   },
   "lib/datetime-picker/ai.md": {
-    "integrity": "sha256-59e90b054fcfbabca7606bb4f1cca18322f959add77ed482eb5014ddc7c71425",
+    "integrity": "sha256-a3bf9d63652904688c26b28769bc9bd1666bbe518983cd3b2184b86a477f4c1e",
     "sections": {
       "meta": [
         176,
@@ -3110,7 +3110,7 @@
     }
   },
   "lib/file-list/ai.md": {
-    "integrity": "sha256-e2f9224568e2e98e247a6dad991508fe6ec974c580dac0f430d9b41a4a59e64a",
+    "integrity": "sha256-ea4d8ff8495c6dcb87122c542627f728e56c9771cac235bf509b3a06e42fe44e",
     "sections": {
       "meta": [
         173,
@@ -3201,7 +3201,7 @@
     }
   },
   "lib/file-selector/ai.md": {
-    "integrity": "sha256-b94437356a9902ffe712cc1efad73e1ee447b289f859608a2068f2569198789a",
+    "integrity": "sha256-b1005a4208b4d4b6eab302a0568bf7869b874946f9c0f06494d934a4f57bf039",
     "sections": {
       "meta": [
         174,
@@ -3316,7 +3316,7 @@
     }
   },
   "lib/form-builder/ai.md": {
-    "integrity": "sha256-4ddec5fe75008beb0888c8cdf89fecb00ba91806054e5e8d99d45305510703d2",
+    "integrity": "sha256-40672577fb48d46298122885ba11c0e138c3656d6766f0c7ab802176fd2e0e36",
     "sections": {
       "meta": [
         174,
@@ -3503,7 +3503,7 @@
     }
   },
   "lib/input-group/ai.md": {
-    "integrity": "sha256-09bbcd6d52106af1644152d653de8602e5acd6ff7f23a851939d778dbe5d0425",
+    "integrity": "sha256-7243fa856546a7111f75ab245972722ea816ff2c16e0f66a6aba3d257495b351",
     "sections": {
       "meta": [
         172,
@@ -3574,7 +3574,7 @@
     }
   },
   "lib/json-ui/ai.md": {
-    "integrity": "sha256-334674fb05f0e26caa4ac040216203b71cc3819b3868f6524d645326e48bfe3a",
+    "integrity": "sha256-654931b86f9c48375eb2faa2e1d4b09d24c23ca9d61a4101e8eb31eced312af7",
     "sections": {
       "meta": [
         176,
@@ -3685,7 +3685,7 @@
     }
   },
   "lib/modal/ai.md": {
-    "integrity": "sha256-563ff6d5c6a2ad3281fc723df22f34448c0be802735c86206226b5dedcf41c38",
+    "integrity": "sha256-5834434c6bff459127a24e63e511c89b3e99a68b936e4b664417b314b0a89036",
     "sections": {
       "meta": [
         172,
@@ -3868,7 +3868,7 @@
     }
   },
   "lib/nav/ai.md": {
-    "integrity": "sha256-425d2fe144b34970d59dc331ca50489f8b2362fd58c8cbe0d16746a4b478c97c",
+    "integrity": "sha256-463422b9bd4d158098906b535be140256cd2441638fb5bc5a0ac9714375cb3b8",
     "sections": {
       "meta": [
         171,
@@ -3959,7 +3959,7 @@
     }
   },
   "lib/pager/ai.md": {
-    "integrity": "sha256-4f0f93c311cb376654cc012935cc8a03941d2a3d9334a6499802ed62b40a185e",
+    "integrity": "sha256-cbb3074057549869bd86f90953501e5935be48a0a947f546cd904c5a408f929b",
     "sections": {
       "meta": [
         171,
@@ -4066,7 +4066,7 @@
     }
   },
   "lib/panel/ai.md": {
-    "integrity": "sha256-73a918490363800815b02983abde4e1161c9be49b9c316f3e3a717e04cbe3058",
+    "integrity": "sha256-0fd3d45ef3e844c16f3cebd3711ce77241f412c76fe4dfb2ff633fbcd6c4b33a",
     "sections": {
       "meta": [
         171,
@@ -4141,7 +4141,7 @@
     }
   },
   "lib/pick/ai.md": {
-    "integrity": "sha256-f080f7df01fd80a92a7e9129a1b879b23d7ff727e38c7d011680b5cc32ed86a2",
+    "integrity": "sha256-148029704f22501d2b8a312f66776acbb0c5a609f1baf1d857ad624ef965cc42",
     "sections": {
       "meta": [
         172,
@@ -4256,7 +4256,7 @@
     }
   },
   "lib/picker/ai.md": {
-    "integrity": "sha256-3dab713ec600aca308ca4d728935503ed9585e6371f37318c867b2eff3659efc",
+    "integrity": "sha256-5b6bd130d7531a7bc212e0adaba4100b9b4042064499bdd81ad60edc73bf3f6d",
     "sections": {
       "meta": [
         174,
@@ -4387,7 +4387,7 @@
     }
   },
   "lib/popover/ai.md": {
-    "integrity": "sha256-77f996080d306c8d2d9c8a19606e53d2d905508f658883679caad55c23c3b121",
+    "integrity": "sha256-f72f05616bc3b18c009c0fd90f30b21fce06f0475b709e6934069e0ad4fdcdf9",
     "sections": {
       "meta": [
         173,
@@ -4490,7 +4490,7 @@
     }
   },
   "lib/responsive-nav/ai.md": {
-    "integrity": "sha256-0ba42b332c1af26b856e14aaed9196ae5abae576193f71f387a80c1d978bcb9b",
+    "integrity": "sha256-1464e7b1cdcd2554bf9a83383ba4a7ee68c03a265ecb1f29bb0faff1ed736b80",
     "sections": {
       "meta": [
         174,
@@ -4561,7 +4561,7 @@
     }
   },
   "lib/search-box/ai.md": {
-    "integrity": "sha256-41e1e5fe4dd3066accb493aa76cf706c41b5df43278fd08871891dcc8ca38f6a",
+    "integrity": "sha256-d4ba03b70262197e4a47662083258432293bb5adf3aad8016bd99542dbd14ace",
     "sections": {
       "meta": [
         172,
@@ -4644,7 +4644,7 @@
     }
   },
   "lib/sidebar/ai.md": {
-    "integrity": "sha256-ee7b414ade661dfa693451194ea02e2d6e732c3ca698dc20c04bbd1bfa50869d",
+    "integrity": "sha256-2def65fbfc2561dafd71a6bf9d8ee095148db415ef0d1984e685f333aa1ce19f",
     "sections": {
       "meta": [
         172,
@@ -4727,7 +4727,7 @@
     }
   },
   "lib/table/ai.md": {
-    "integrity": "sha256-97db9b125670b334dfadcd1d50892d3daa8f877273741b3e342b5cc14fef27c6",
+    "integrity": "sha256-d42ddc9eaa897f961937964d959a2f75f27bf686dbb7297669b6fd1ab81aa3ee",
     "sections": {
       "meta": [
         171,
@@ -4802,7 +4802,7 @@
     }
   },
   "lib/toolbar/ai.md": {
-    "integrity": "sha256-89a2acfad9c6102b4eb6ad2ae7c19e13a13a9a1166e0f8091b793a3bfd82adc2",
+    "integrity": "sha256-ddde8a42d2001022b07248726cd5fd30a274992f5729fdb3fea1014176f04eae",
     "sections": {
       "meta": [
         172,
@@ -4893,7 +4893,7 @@
     }
   },
   "lib/tooltip/ai.md": {
-    "integrity": "sha256-d38893e3fcf7263e4ced30a97b426dee095b9f66c03e27ce1b0576f8ee7f9a3e",
+    "integrity": "sha256-84f03490135aa078d55598fce1409a71f4b8b7a58ffa128951f0468dfe39c0ce",
     "sections": {
       "meta": [
         173,
@@ -4972,7 +4972,7 @@
     }
   },
   "lib/tree/ai.md": {
-    "integrity": "sha256-50ef85ff57e226b77c06c68ca150dfa7997359106d95687af022b684ffe9774c",
+    "integrity": "sha256-4e6c64e5070a680c8ca4130cb3423d983266c2c33a946c09c43898b7a621ea31",
     "sections": {
       "meta": [
         173,
@@ -5059,7 +5059,7 @@
     }
   },
   "lib/upload/ai.md": {
-    "integrity": "sha256-00d74d898934c0b5b64bc0d27acddba25bf666908fc0c926edfe939a66b8359f",
+    "integrity": "sha256-4286321666b13d1b2c14a0a06adca4b13cc4c9ac24cba725132d7e9c56b5b05a",
     "sections": {
       "meta": [
         173,
@@ -5130,7 +5130,7 @@
     }
   },
   "lib/upload-imgs/ai.md": {
-    "integrity": "sha256-dd2945d8754ceeb8fd4924af26a6dc7f1e6a24d82493c9e98a202884ed908c00",
+    "integrity": "sha256-b53d53e6eac582e100d5f03283ca1631414357819ce5dfb76db241ab909bd3ec",
     "sections": {
       "meta": [
         173,
@@ -5201,7 +5201,7 @@
     }
   },
   "lib/virtualize/ai.md": {
-    "integrity": "sha256-9e25650e785b5cbd6e29eb8a466e6113a61c5f023e37876b7a41153ec61eb8c4",
+    "integrity": "sha256-6f96bd7474bcd0fb46d291a4dcf4f79d79b6b848f3888ec2a62adbfcbb3b50e8",
     "sections": {
       "meta": [
         173,
@@ -5288,7 +5288,7 @@
     }
   },
   "lib/cards/ai.md": {
-    "integrity": "sha256-7d1a001b3f40d25f750901f7747a1bd2c5a9fd12ef972db6bbf2b149d847cb09",
+    "integrity": "sha256-5d220b39f24b41c5910cac9c3dfa320fe3a9a31b316a531c472c772d83d590a6",
     "sections": {
       "meta": [
         171,
@@ -5379,7 +5379,7 @@
     }
   },
   "lib/contextmenu/ai.md": {
-    "integrity": "sha256-3580d367914542b4f8596c64b5686268fc7364f728e7857af1535c85322dab58",
+    "integrity": "sha256-01365c8790b8a4720fe81d548c1d763e72d01fa17269aba4d41f6a03ef582af1",
     "sections": {
       "meta": [
         174,
@@ -5454,7 +5454,7 @@
     }
   },
   "lib/dashboard/ai.md": {
-    "integrity": "sha256-d9eeb9e3103ec56b971479eb31dc6c7fe87aad637b71389e0b75603c05ab81ab",
+    "integrity": "sha256-86e0e9ba67e8e1f6dd9aee4bb9ef07701dec55537345efeaac97408ed09ab532",
     "sections": {
       "meta": [
         172,
@@ -5541,7 +5541,7 @@
     }
   },
   "lib/dropdown/ai.md": {
-    "integrity": "sha256-c00c7fc2e3e086719351fa287fd346df55d5fe5b759193038111ae2f430472b5",
+    "integrity": "sha256-6bb590ec43e1e01ded590f697532d140c77693ee00cadf8f7fec243e611b5f87",
     "sections": {
       "meta": [
         173,
@@ -5636,7 +5636,7 @@
     }
   },
   "lib/dtable/ai.md": {
-    "integrity": "sha256-8474b3cb19b8f599b0053de67c277cc96bd87c5dbd1b6e79b6361435e83b5569",
+    "integrity": "sha256-78dd30947221d0bd902728aab609c5f2371ad45813ed330af8665bc3fd3f2199",
     "sections": {
       "meta": [
         173,
@@ -5795,7 +5795,7 @@
     }
   },
   "lib/tabs/ai.md": {
-    "integrity": "sha256-c3352d33360bf52ed8c1273e0d79938a0611521653346076497e2a3b9ea3091e",
+    "integrity": "sha256-e99b40ba9b6ba688854ad643f317e61bac0589f37aa1f71178ae30f06940322d",
     "sections": {
       "meta": [
         172,
@@ -5866,7 +5866,7 @@
     }
   },
   "lib/vtable/ai.md": {
-    "integrity": "sha256-9d5aa2b7e5959d0711be36b1c8b3243bebcdf12cb21a451072c713b96700efe5",
+    "integrity": "sha256-645401564a261cf0cdb199b25d93e20f95cd08ecc04fccfd19a1072264f7973c",
     "sections": {
       "meta": [
         173,
@@ -5953,7 +5953,7 @@
     }
   },
   "lib/css-icons/ai.md": {
-    "integrity": "sha256-aecf5a7e5cc4b5a3f216577561d7b7b0d3ecbc287a9b977f481017615258b1a5",
+    "integrity": "sha256-722709f21462473da88db05314ffba5d30cb14d65666a9f365f24c38065df472",
     "sections": {
       "meta": [
         175,
@@ -6032,7 +6032,7 @@
     }
   },
   "lib/utilities/ai.md": {
-    "integrity": "sha256-9571a9febd44ed867b0376d30d32be3851c47e19bbf5744f9689c2f67a4bca5b",
+    "integrity": "sha256-03679fe2d6bf50fe898bfea4086c0a2830dee50ecb27fa9d957b88ae67409758",
     "sections": {
       "meta": [
         176,
@@ -6411,7 +6411,7 @@
     }
   },
   "lib/helpers/ai.md": {
-    "integrity": "sha256-220fe0017306970156d273a2cd7b9a1798395298d7ca646d738fa76fb275046b",
+    "integrity": "sha256-9a0e0f36c7068505947e36900bc3c25bbf176fbdae271b6350ee67cba5ea6597",
     "sections": {
       "meta": [
         176,
@@ -6510,7 +6510,7 @@
     }
   },
   "ai.md": {
-    "integrity": "sha256-590ead3946b8a8b1a208f7d793370a38439f0a0a1ca82a44c199639d3b4ede2a",
+    "integrity": "sha256-0e2e8a73923e9d658029ac85a526bd3ae3feae72c4461be47447e22cf2ad0324",
     "sections": {},
     "entries": {}
   }
