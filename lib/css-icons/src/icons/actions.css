@@ -26,11 +26,11 @@ svg.icon {
 .i-check::before {
   content: '';
   @apply -absolute -border-current;
-  width: .35em;
-  height: .65em;
+  width: .45em;
+  height: .8em;
   left: .3em;
   top: .05em;
-  border-width: 0 .12em .12em 0;
+  border-width: 0 .11em .11em 0;
   transform: rotate(45deg);
 }
 .i-edit::before {
@@ -52,23 +52,31 @@ svg.icon {
   bottom: .04em;
   transform: rotate(40deg);
 }
+.i-trash {
+  background:
+    linear-gradient(currentColor, currentColor) center .15em / .8em .1em no-repeat,
+    linear-gradient(currentColor, currentColor) .35em .35em / .1em .4em no-repeat,
+    linear-gradient(currentColor, currentColor) .55em .35em / .1em .4em no-repeat;
+}
 .i-trash::before {
   content: '';
-  @apply -absolute -border-current -border;
-  width: .6em;
-  height: .7em;
-  left: .2em;
-  top: .25em;
-  border-radius: 0 0 .1em .1em;
+  @apply -absolute -border-current;
+  width: .7em;
+  height: .75em;
+  left: .15em;
+  top: .2em;
+  border-width: 0 .1em .1em;
+  border-radius: 0 0 .15em .15em;
 }
 .i-trash::after {
   content: '';
-  @apply -absolute -bg-current;
-  width: .8em;
-  height: .1em;
-  left: .1em;
-  top: .15em;
-  box-shadow: 0 -.15em 0 -.01em currentColor;
+  @apply -absolute -border-current;
+  width: .5em;
+  height: .2em;
+  left: .25em;
+  top: 0;
+  border-width: .1em .1em 0;
+  border-radius: .1em .1em 0 0;
 }
 .i-info {
   @apply -border -border-current -rounded-full;
@@ -94,7 +102,7 @@ svg.icon {
 .i-first-page::after, .i-last-page::after {
   content: '';
   @apply -absolute -bg-current;
-  width: .1em;
+  width: .08em;
   height: .8em;
   left: .05em;
   top: .1em;
@@ -145,15 +153,16 @@ svg.icon {
   top: .45em;
   box-shadow: 0 -.3em currentColor, 0 .3em currentColor;
 }
-.i-move::before {
+.i-move::before, .i-move::after {
   content: '';
-  @apply -absolute -bg-current -rounded-full;
-  width: .16em;
-  height: .16em;
-  left: .22em;
-  top: .12em;
-  box-shadow: .4em 0 currentColor, 0 .3em currentColor, .4em .3em currentColor, 0 .6em currentColor, .4em .6em currentColor;
+  @apply -absolute -bg-current;
+  width: 1em;
+  height: .24em;
+  left: 0;
+  top: .38em;
+  clip-path: polygon(0 50%, 16% 0, 16% 33.333%, 84% 33.333%, 84% 0, 100% 50%, 84% 100%, 84% 66.667%, 16% 66.667%, 16% 100%);
 }
+.i-move::after { transform: rotate(90deg); }
 
 /* These shapes also work alongside the optional legacy font stylesheet. */
 svg.icon,
