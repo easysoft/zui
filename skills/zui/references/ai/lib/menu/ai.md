@@ -329,7 +329,7 @@ await menu.$?.toggle('export', true);
 
 ## references
 
-- [包与公开入口](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/menu/package.json>)、[原生包装](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/menu/src/vanilla/index.ts>)、[Preact 入口](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/menu/src/main-react.ts>)
-- [Menu 实现](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/menu/src/component/menu.tsx>)、[SearchMenu 实现](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/menu/src/component/search-menu.tsx>)
-- [类型出口](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/menu/src/types/index.ts>)、[样式](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/menu/src/style/index.ts>)
-- [静态菜单文档](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/menu/docs/lib/components/index.md>)、[JS 文档](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/menu/docs/lib/components/js.md>)
+- [包与公开入口](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/menu/package.json>)、[原生包装](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/menu/src/vanilla/index.ts>)、[Preact 入口](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/menu/src/main-react.ts>)
+- [Menu 实现](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/menu/src/component/menu.tsx>)、[SearchMenu 实现](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/menu/src/component/search-menu.tsx>)
+- [类型出口](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/menu/src/types/index.ts>)、[样式](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/menu/src/style/index.ts>)
+- [静态菜单文档](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/menu/docs/lib/components/index.md>)、[JS 文档](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/menu/docs/lib/components/js.md>)

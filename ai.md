@@ -1119,7 +1119,7 @@
 
 ### vtable
 
-包：`@zui/vtable`；状态：无额外构建标记。
+包：`@zui/vtable`；状态：`notReady`。
 
 [使用参考](lib/vtable/ai.md) — 按可见行列渲染固定行高的宽表，提供可选的排序、勾选和列宽插件。
 

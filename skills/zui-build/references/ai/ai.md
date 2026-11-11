@@ -4,7 +4,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。本技能内置运行版本为 3.0.0；即使版本号相同，也不能据此推定 API 一致。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-来源基线：`c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37`；源码包含未提交变更：否。[完整清单](manifest.json)。
+来源基线：`83e2a619572130157bc58aa362d2e6dac0d53944`；源码包含未提交变更：是，在线出处仅代表提交基线，随包文档对应清单中的内容摘要。[完整清单](manifest.json)。
 
 ## 离线读取
 
@@ -1124,7 +1124,7 @@ node <skill-root>/references/ai/read.mjs --lib menu --section constraints --runt
 
 ### vtable
 
-包：`@zui/vtable`；状态：无额外构建标记。
+包：`@zui/vtable`；状态：`notReady`。
 
 [使用参考](lib/vtable/ai.md) — 按可见行列渲染固定行高的宽表，提供可选的排序、勾选和列宽插件。
 

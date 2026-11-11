@@ -83,7 +83,7 @@ console.log(settings.get('pageSize', 10));
 settings.remove('pageSize');
 ```
 
-来源：[实现](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/store/src/store.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/store/src/store.ts>)。
 
 
 ### javascript-default-store
@@ -94,7 +94,7 @@ settings.remove('pageSize');
 
 `store` 是 id='DEFAULT' 的 Store，并增加 `create(name?:string,type:StoreType='local'):Store`。create 每次返回新实例，独立缓存；同名同类型会访问同一持久命名空间。不要 switch 共享默认实例影响其他使用者。
 
-workspace：`import {store} from '@zui/store'; const session = store.create('draft', 'session'); session.set('text','hello'); session.remove('text');`。来源：[入口](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/store/src/main.ts>)。
+workspace：`import {store} from '@zui/store'; const session = store.create('draft', 'session'); session.set('text','hello'); session.remove('text');`。来源：[入口](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/store/src/main.ts>)。
 
 ## types
 
@@ -120,6 +120,6 @@ type StoreType = 'local' | 'session';
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/store/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/store/src/main.ts>)
-- [Store 实现](<https://github.com/easysoft/zui/blob/c10f770f4d7ab64c00cd1ca9859c1fd1862f0f37/lib/store/src/store.ts>)
+- [包元数据](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/store/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/store/src/main.ts>)
+- [Store 实现](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/store/src/store.ts>)
