@@ -24,11 +24,15 @@ function formatString(str: string, map: Record<string, unknown>): string;
 
 :::
 
+位置参数的内容按字面值插入，保留 `$` 字符，参数中的 `{0}` 等占位符不会再次替换。null/undefined 参数替换为空串，未提供参数的占位符保留原文。
+
 **示例**
 
 ```js
 zui.formatString('已完成 {0} / {1} 项任务', 5, 8); // '已完成 5 / 8 项任务'
 zui.formatString('{owner}负责{task}', {owner: '林悦', task: '需求评审'}); // '林悦负责需求评审'
+zui.formatString('Price: {0}', '$&9.99'); // 'Price: $&9.99'
+zui.formatString('{0} -> {1}', '{1}', 'x'); // '{1} -> x'
 ```
 
 ## `convertString`

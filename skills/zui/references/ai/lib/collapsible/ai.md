@@ -173,10 +173,10 @@ JS 根为 `.details.collapsible`；部件 `.collapsible-header`、`.collapsible-
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/collapsible/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/collapsible/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/collapsible/docs/lib/components/index.md>)
-- [源码 src/main-react.ts](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/collapsible/src/main-react.ts>)
-- [源码 src/main-css.ts](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/collapsible/src/main-css.ts>)
-- [源码 src/types/index.ts](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/collapsible/src/types/index.ts>)
-- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/collapsible/src/style/index.ts>)
+- [包元数据](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/collapsible/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/collapsible/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/collapsible/docs/lib/components/index.md>)
+- [源码 src/main-react.ts](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/collapsible/src/main-react.ts>)
+- [源码 src/main-css.ts](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/collapsible/src/main-css.ts>)
+- [源码 src/types/index.ts](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/collapsible/src/types/index.ts>)
+- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/collapsible/src/style/index.ts>)

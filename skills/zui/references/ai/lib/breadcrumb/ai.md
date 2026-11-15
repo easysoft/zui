@@ -100,7 +100,7 @@ CSS 只负责外观；页面语义由 `nav`、列表、真实链接及 `aria-cur
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/breadcrumb/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/breadcrumb/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/breadcrumb/docs/lib/components/index.md>)
-- [源码 src/vars.css](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/breadcrumb/src/vars.css>)
+- [包元数据](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/breadcrumb/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/breadcrumb/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/breadcrumb/docs/lib/components/index.md>)
+- [源码 src/vars.css](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/breadcrumb/src/vars.css>)

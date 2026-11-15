@@ -159,6 +159,7 @@ export function formatWithPipes(str: string, obj: Record<string, unknown>, conve
 
 /**
  * 格式化字符串
+ * 位置参数按字面值插入，参数中的占位符不会再次替换。
  * @param str 要格式化的字符串
  * @param args 格式化参数
  * @returns 格式化后的字符串
@@ -188,11 +189,11 @@ export function formatString(str: string, ...args: [Record<string, unknown>] | u
         return formatWithPipes(str, args[0] as Record<string, unknown>);
     }
 
-    for (let i = 0; i < args.length; i++) {
-        const arg = args[i] ?? '';
-        str = str.replace(new RegExp(`\\{${i}\\}`, 'g'), `${arg}`);
-    }
-    return str;
+    const values = args.map(arg => `${arg ?? ''}`);
+    return str.replace(/\{(0|[1-9]\d*)\}/g, (match, index: string) => {
+        const valueIndex = Number(index);
+        return valueIndex < values.length ? values[valueIndex] : match;
+    });
 }
 
 /**

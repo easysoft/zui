@@ -128,4 +128,4 @@ workspace 复用示例的 container，将 onClose 设置为 `() => render(null, 
 
 ## references
 
-- [入口](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/alert/package.json>)、[Alert](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/alert/src/component/alert.tsx>)、[类型](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/alert/src/types/alert-options.ts>)、[样式](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/alert/src/style/alert.css>)
+- [入口](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/alert/package.json>)、[Alert](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/alert/src/component/alert.tsx>)、[类型](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/alert/src/types/alert-options.ts>)、[样式](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/alert/src/style/alert.css>)

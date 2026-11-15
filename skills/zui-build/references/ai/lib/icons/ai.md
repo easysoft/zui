@@ -126,7 +126,7 @@ font-display: block，字体加载期间图标可能暂不可见；图标字体�
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/icons/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/icons/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/icons/docs/lib/icons/index.md>)
-- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/icons/src/style/index.ts>)
+- [包元数据](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/icons/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/icons/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/icons/docs/lib/icons/index.md>)
+- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/icons/src/style/index.ts>)

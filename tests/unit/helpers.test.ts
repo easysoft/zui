@@ -116,6 +116,38 @@ describe('@zui/helpers', () => {
             expect(formatWithPipes('Hello {name|upper}; {missing}', {name: 'zui'})).toBe('Hello ZUI; {missing}');
             expect(formatString('{0} {1}!', 'Hello', 'ZUI')).toBe('Hello ZUI!');
             expect(formatString('{answer}', {answer: 42})).toBe('42');
+            expect(formatString('{first} -> {second}', {first: '$& {second}', second: 'x'})).toBe('$& {second} -> x');
+        });
+
+        it.each([
+            ['$&9.99', 'Price: {0}', 'Price: $&9.99'],
+            ['$\'', 'Price: {0} USD', 'Price: $\' USD'],
+            ['$$5', 'Total: {0}', 'Total: $$5'],
+            ['$`', 'Before {0} after', 'Before $` after'],
+        ])('inserts positional replacement text %s literally', (value, template, expected) => {
+            expect(formatString(template, value)).toBe(expected);
+        });
+
+        it('does not substitute placeholders inside positional values', () => {
+            expect(formatString('{0} -> {1}', '{1}', 'x')).toBe('{1} -> x');
+            expect(formatString('{1} {0} {0}', '{1}', '{0}')).toBe('{0} {1} {1}');
+        });
+
+        it('preserves missing placeholders and normalizes nullish positional values', () => {
+            expect(formatString('{0}')).toBe('{0}');
+            expect(formatString('{0}|{1}|{2}|{3}|{4}|{5}', null, undefined, 0, false, '')).toBe('||0|false||{5}');
+        });
+
+        it('matches exact positional indexes including multiple digits', () => {
+            const values = Array.from({length: 11}, (_, index) => index);
+            expect(formatString('{0} {10} {01} {00} { 1 } {1|upper} {9007199254740993}', ...values))
+                .toBe('0 10 {01} {00} { 1 } {1|upper} {9007199254740993}');
+        });
+
+        it('stringifies each positional value once for repeated placeholders', () => {
+            const toString = vi.fn(() => 'value');
+            expect(formatString('{0} {0} {1}', {toString}, 'end')).toBe('value value end');
+            expect(toString).toHaveBeenCalledTimes(1);
         });
 
         it('converts byte values at unit boundaries and rejects malformed values', () => {

@@ -88,4 +88,4 @@ browser，复用上例：`tabs.active('#my-tabs a[href="#pane-b"]')`。不要直
 
 ## references
 
-- [入口](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/tabs/package.json>)、[Tabs 实现](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/tabs/src/vanilla/tabs.ts>)、[面板样式](<https://github.com/easysoft/zui/blob/83e2a619572130157bc58aa362d2e6dac0d53944/lib/tabs/src/style/tab-pane.css>)
+- [入口](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/tabs/package.json>)、[Tabs 实现](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/tabs/src/vanilla/tabs.ts>)、[面板样式](<https://github.com/easysoft/zui/blob/edd871a0e3a2d168e8bb8c9c92d28ec01e3db78f/lib/tabs/src/style/tab-pane.css>)

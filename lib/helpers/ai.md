@@ -138,7 +138,7 @@ formatWithPipes(str: string, obj: Record<string, unknown>, converters?: Record<s
 convertString(value: unknown, expr: string | string[], converters?: Record<string, StringConverter>): string;
 ```
 
-`isNotEmptyString` 不 trim，空格字符串也通过。`formatString` 的位置参数替换 `{0}` 等，null/undefined 替换为空串；唯一对象参数转入 formatWithPipes。对象缺少自有属性时保留占位符原文。
+`isNotEmptyString` 不 trim，空格字符串也通过。`formatString` 的位置参数替换 `{0}` 等精确索引，null/undefined 替换为空串，未提供参数的占位符保留原文。参数内容按字面值插入，保留 `$` 字符且不再次替换其中的占位符；唯一对象参数转入 formatWithPipes。对象缺少自有属性时保留占位符原文。
 
 管道形式 `{key|converter:arg1,arg2|next}`，参数以第一个冒号分隔、逗号拆分并 trim；未知转换器忽略。`convertString` 直接传 converters 时替换默认集合；`formatWithPipes` 则合并并覆盖同名默认转换器。最终 null/undefined 返回空串；转换器异常向外传播。
 
