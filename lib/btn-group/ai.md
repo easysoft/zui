@@ -6,22 +6,24 @@
 {
   "schemaVersion": 1,
   "library": "btn-group",
-  "summary": "将多个按钮连接成一组，支持数据驱动渲染与自定义项目。",
+  "summary": "提供相连和分段两种按钮组外观，支持数据驱动渲染与自定义项目。",
   "keywords": [
     "按钮组",
     "操作组",
-    "BtnGroup"
+    "分段按钮",
+    "BtnGroup",
+    "BtnSegmented"
   ]
 }
 ```
 
 ## overview
 
-CSS 可连接已有按钮；JS/Preact BtnGroup 基于 CommonList 渲染项目并共享按钮属性。普通工具条可选择 toolbar；组内菜单项需要额外 dropdown 接入。
+CSS 可连接已有按钮或显示分段外观；JS/Preact BtnGroup 基于 CommonList 渲染项目并共享按钮属性，Preact BtnSegmented 复用相同项目管线并使用分段外观。普通工具条可选择 toolbar；组内菜单项需要额外 dropdown 接入。
 
 ## setup
 
-workspace：主入口 `@zui/btn-group` 提供下述原生类和类型，`@zui/btn-group/react` 提供 Preact 组件（历史路径名不代表 React 支持）。JSX 需项目 Preact/TypeScript 配置；另加载 `@zui/base` 和 `@zui/btn-group` 的样式。browser：使用包含该库的 `zui` JS/CSS。npm：以目标发布包 `zui` / `zui/css` 的真实导出为准，不承诺独立子路径。本库 style 只导入 btn-group.css；必须另加载 @zui/button 的样式。下拉项目还需加载与注册 dropdown，不能只提供 items 就假定已接入。
+workspace：主入口 `@zui/btn-group` 提供下述原生类和类型，`@zui/btn-group/react` 提供 Preact BtnGroup 和 BtnSegmented（历史路径名不代表 React 支持）。JSX 需项目 Preact/TypeScript 配置；另加载 `@zui/base`、`@zui/button` 和 `@zui/btn-group` 的样式，按钮 hover/pressed/键盘焦点状态还需 `@zui/utilities`。browser：使用包含这些库的 `zui` JS/CSS。npm：以目标发布包 `zui` / `zui/css` 的真实导出为准，不承诺独立子路径。本库 style 导入 btn-group.css 与 btn-segmented.css。下拉项目还需加载与注册 dropdown，不能只提供 items 就假定已接入。
 
 ## vanilla
 
@@ -33,13 +35,14 @@ workspace：主入口 `@zui/btn-group` 提供下述原生类和类型，`@zui/bt
 
 `new BtnGroup(selector, options?)`；选项见下文类型条目。构造、初始化异步时序、实例关联、`render(options?)`、`destroy()`、事件与 `$` 视图 ref 继承 [ComponentFromReact](../core/ai.md#vanilla-component-from-react)；`$` 首次渲染前可能为 null。选项可结合 [ComponentOptions](../core/ai.md#types-component-options)。调用 destroy() 卸载 Preact 子树；宿主由调用者按需移除。
 
-主入口登记 Preact BtnGroup；原生类源码未主动 register。选项同 Preact，额外实例操作经 `$` 访问 CommonList。
+主入口登记 Preact BtnGroup 和 BtnSegmented；原生类源码未主动 register。选项同 Preact，额外实例操作经 `$` 访问 CommonList。BtnSegmented 通过 Preact 入口使用，没有对应的原生构造器。
 
 workspace（包含所需 CSS）：
 
 ```ts
 import '@zui/base';
 import '@zui/button';
+import '@zui/utilities';
 import {BtnGroup} from '@zui/btn-group';
 const host = document.createElement('div');
 document.body.append(host);
@@ -63,11 +66,49 @@ workspace（JSX，已配置 Preact）：
 import '@zui/base';
 import '@zui/button';
 import '@zui/btn-group';
+import '@zui/utilities';
 import {render} from 'preact';
 import {BtnGroup} from '@zui/btn-group/react';
 const host = document.createElement('div');
 document.body.append(host);
 render(<BtnGroup items={[{text: '保存'}, {text: '取消'}]} onClickItem={({item}: {item: {text?: unknown}}) => console.log(item.text)} />, host);
+// 离开页面时：render(null, host); host.remove();
+```
+
+### preact-btn-segmented
+
+```json
+{"name": "BtnSegmented", "summary": "使用 BtnGroup 的项目管线渲染分段按钮。"}
+```
+
+继承 [BtnGroup](#preact-btn-group)，Props 为 [BtnGroupOptions](#types-btn-group)，默认根 tag 为 nav，NAME=btn-segmented。根只生成 `.btn-segmented`，项目仍支持共享按钮属性、`onClickItem`、自定义渲染与 CommonList ref 方法；`children` 按 CommonList/HElement 的通用规则处理。用于视图切换等操作组时可设置 `tag="div"`，并通过 `attrs` 提供组名与语义。
+
+选中状态由调用方控制：同时设置项目的 `active` 和 `attrs['aria-pressed']`，在 `onClickItem` 中更新数据并重新渲染。组件沿用原生按钮的 Tab、Enter、Space 操作，不提供单选值或方向键导航。
+
+workspace（JSX，已配置 Preact；点击后同步更新选中外观与辅助技术状态）：
+
+```tsx
+import '@zui/base';
+import '@zui/button';
+import '@zui/btn-group';
+import '@zui/utilities';
+import {render} from 'preact';
+import {BtnSegmented} from '@zui/btn-group/react';
+const host = document.createElement('div');
+document.body.append(host);
+function showView(selected: number) {
+    render(<BtnSegmented
+        tag="div"
+        attrs={{role: 'group', 'aria-label': '视图'}}
+        items={['列表', '卡片', '看板'].map((text, index) => ({
+            text,
+            active: index === selected,
+            attrs: {'aria-pressed': index === selected},
+        }))}
+        onClickItem={({index}) => showView(index)}
+    />, host);
+}
+showView(1);
 // 离开页面时：render(null, host); host.remove();
 ```
 
@@ -91,9 +132,39 @@ browser（已加载本库 CSS）：
 <nav class="btn-group" aria-label="编辑操作"><button class="btn" type="button">保存</button><button class="btn" type="button">取消</button></nav>
 ```
 
+### css-btn-segmented
+
+```json
+{"name": ".btn-segmented", "summary": "以单行、独立圆角按钮呈现分段选择外观。", "role": "component"}
+```
+
+根为 inline-flex，按内容收缩且不换行，间距 0.25rem、内边距 0.125rem；直接子元素为 `.btn`。根使用主题 gray-100 背景和 border 外圈，`.active` 项使用 canvas 背景、fore 文字、按钮外圈与阴影。选中项仅取消静止时的状态遮罩，保留 hover、按下和键盘焦点反馈；配合 `size-xs`、`size-sm`、`size-md`、`size-lg`、`size-xl` 调整组内按钮尺寸。
+
+browser（已加载 base、button、btn-group、utilities 的 CSS）：
+
+```html
+<div class="btn-segmented" role="group" aria-label="视图">
+  <button class="btn" type="button" aria-pressed="false">列表</button>
+  <button class="btn active" type="button" aria-pressed="true">卡片</button>
+  <button class="btn" type="button" aria-pressed="false">看板</button>
+</div>
+```
+
+CSS 只呈现状态；切换时由应用更新 `active` 与 `aria-pressed`。不要同时添加 `.btn-group`，它会去掉按钮内侧圆角并添加接缝边框。
+
 ## css-variables
 
-无。
+### css-variables-btn-segmented
+
+```json
+{"name": "--btn-radius", "summary": "分段容器及组内按钮共享圆角。"}
+```
+
+| 变量 | 默认表达式 | 含义及取值 | 声明位置 | 推荐覆盖节点 |
+| --- | --- | --- | --- | --- |
+| `--btn-radius` | `var(--radius-md)` | 容器和直接子按钮的圆角，CSS 长度 | `.btn-segmented` | `.btn-segmented` 根节点 |
+
+复用 button 的 `--btn-height`、`--btn-border-color` 等变量及主题颜色；分段根上的圆角声明会覆盖从祖先继承的 `--btn-radius`。
 
 ## javascript
 
@@ -118,11 +189,11 @@ browser（已加载本库 CSS）：
 
 ## recipes
 
-只需静态连接按钮时使用 CSS；有项目权限、过滤、动态点击信息时选择 BtnGroup 并使用 CommonList 的 getItem/onClickItem。
+只需静态连接按钮时使用 `.btn-group`，分段外观使用 `.btn-segmented`；有项目权限、过滤、动态点击信息时选择 BtnGroup 或 Preact BtnSegmented，并使用 CommonList 的 getItem/onClickItem。
 
 ## constraints
 
-本库不声明专有 CSS 变量，背景/边框/圆角由 button 与主题提供。连接外观不表示单选切换行为，active 状态与 aria-pressed 由应用维护。
+背景、边框和尺寸复用 button 与主题，分段根将 `--btn-radius` 默认设为 `var(--radius-md)`。相连或分段外观都不表示自动单选切换行为，active 状态与 aria-pressed 由应用维护。分段布局保持单行，应为按钮内容预留足够宽度。
 
 ## references
 
@@ -132,3 +203,5 @@ browser（已加载本库 CSS）：
 - [源码 src/main-react.ts](src/main-react.ts)
 - [源码 src/types/index.ts](src/types/index.ts)
 - [源码 src/style/index.ts](src/style/index.ts)
+- [源码 src/component/btn-segmented.tsx](src/component/btn-segmented.tsx)
+- [源码 src/style/btn-segmented.css](src/style/btn-segmented.css)

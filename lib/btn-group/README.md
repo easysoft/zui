@@ -34,7 +34,20 @@ console.log('> btnGroup', btnGroup);
 </div>
 ```
 
+## btn-segmented
+
+```html:example: -flex -gap-3
+<div class="btn-segmented" role="group" aria-label="视图">
+  <button type="button" class="btn" aria-pressed="false">列表</button>
+  <button type="button" class="btn active" aria-pressed="true">卡片</button>
+  <button type="button" class="btn" aria-pressed="false">看板</button>
+</div>
+```
+
+分段外观单行排列并按内容收缩；选中项的 `active` 与 `aria-pressed` 由调用方维护。Preact 用法见 [BtnSegmented 使用参考](ai.md#preact-btn-segmented)。
+
 ## btn-group sizes
+
 ```html:example: -flex -gap-3
 <div class="btn-group size-xl">
   <button type="button" class="btn">左</button>

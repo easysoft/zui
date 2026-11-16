@@ -1,0 +1,11 @@
+.btn-segmented {
+    @apply -inline-flex -gap-1 -bg-gray-100 -p-0.5 -rounded-[--btn-radius] -ring-1 -ring-border;
+    --btn-radius: var(--radius-md);
+}
+.btn-segmented > .btn:not(:active) {
+    @apply -bg-transparent -shadow-none -ring-transparent;
+}
+.btn-segmented > .btn.active {
+    @apply !-bg-canvas -ring-[--btn-border-color] -shadow -text-fore;
+    --state-active-opacity: 0;
+}
