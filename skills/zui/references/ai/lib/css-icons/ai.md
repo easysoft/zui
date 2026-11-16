@@ -128,6 +128,6 @@ arrow 方向：`arrow-top`/`arrow-up`、`arrow-bottom`/`arrow-down`、`arrow-lef
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/1bae109547a83ba5c2948c766b98aec580115acf/lib/css-icons/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/1bae109547a83ba5c2948c766b98aec580115acf/lib/css-icons/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/1bae109547a83ba5c2948c766b98aec580115acf/lib/css-icons/docs/lib/icons/index.md>)
+- [包元数据](<https://github.com/easysoft/zui/blob/a9d2a6feb2644faa23b0ce60e54f3746fa853acc/lib/css-icons/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/a9d2a6feb2644faa23b0ce60e54f3746fa853acc/lib/css-icons/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/a9d2a6feb2644faa23b0ce60e54f3746fa853acc/lib/css-icons/docs/lib/icons/index.md>)

@@ -6,11 +6,13 @@
 {
   "schemaVersion": 1,
   "library": "btn-group",
-  "summary": "提供相连和分段两种按钮组外观，支持数据驱动渲染与自定义项目。",
+  "summary": "提供相连和分段两种按钮组外观，支持数据驱动渲染、原生单选与自定义项目。",
   "keywords": [
     "按钮组",
     "操作组",
     "分段按钮",
+    "原生单选",
+    "radio",
     "BtnGroup",
     "BtnSegmented"
   ]
@@ -19,7 +21,7 @@
 
 ## overview
 
-CSS 可连接已有按钮或显示分段外观；JS/Preact BtnGroup 基于 CommonList 渲染项目并共享按钮属性，Preact BtnSegmented 复用相同项目管线并使用分段外观。普通工具条可选择 toolbar；组内菜单项需要额外 dropdown 接入。
+CSS 可连接已有按钮或显示分段外观；分段表单单选可组合原生 radio 与 label。JS/Preact BtnGroup 基于 CommonList 渲染项目并共享按钮属性，Preact BtnSegmented 复用相同项目管线并使用分段外观。普通工具条可选择 toolbar；组内菜单项需要额外 dropdown 接入。
 
 ## setup
 
@@ -152,6 +154,36 @@ browser（已加载 base、button、btn-group、utilities 的 CSS）：
 
 CSS 只呈现状态；切换时由应用更新 `active` 与 `aria-pressed`。不要同时添加 `.btn-group`，它会去掉按钮内侧圆角并添加接缝边框。
 
+### css-btn-segmented-radio
+
+```json
+{"name": ".btn-segmented > input[type=radio] + label.btn", "summary": "使用原生 radio 提供分段单选、键盘操作和表单行为。", "role": "component"}
+```
+
+这是纯 HTML/CSS 用法，复用 [分段容器](#css-btn-segmented) 的布局；Preact BtnSegmented 仍按按钮模式渲染项目。每个 `input[type="radio"]` 和对应的 `label.btn` 必须是容器的相邻直接子元素，输入框紧接在标签之前。`id` 在页面中唯一，`label.for` 与之匹配；同组选项共用 `name`，同一表单中的独立组选用不同的 `name`。
+
+输入框视觉隐藏但保留原生语义与交互。`checked` 决定选中标签的 canvas 背景、外圈和阴影；Tab 进入/离开组，方向键在同组可用选项间移动并切换选中项。输入框的焦点显示为相邻标签的 outline，`disabled`（含祖先 `fieldset[disabled]`）显示为标签的灰度、禁用透明度和禁止光标，并关闭 hover/按下遮罩。
+
+选中语义由原生 `checked` 提供；该模式不需要按钮模式的 `active` 或 `aria-pressed`。表单读取选中且未禁用项的 `name`/`value`；`form.reset()` 恢复初始 `checked` 并同步选中外观。禁用项由浏览器跳过键盘选择且不进入表单数据。
+
+browser（已加载 base、button、btn-group、utilities 的 CSS；不需要组件初始化）：
+
+```html
+<form id="viewForm">
+  <div class="btn-segmented" role="group" aria-label="选择视图">
+    <input type="radio" id="viewList" name="view" value="list">
+    <label class="btn" for="viewList">列表</label>
+    <input type="radio" id="viewCard" name="view" value="card" checked>
+    <label class="btn" for="viewCard">卡片</label>
+    <input type="radio" id="viewBoard" name="view" value="board" disabled>
+    <label class="btn" for="viewBoard">看板</label>
+  </div>
+  <button class="btn" type="reset">恢复默认</button>
+</form>
+```
+
+`new FormData(document.querySelector('#viewForm')).get('view')` 初始为 `'card'`；点击「列表」后为 `'list'`，重置后恢复 `'card'`。
+
 ## css-variables
 
 ### css-variables-btn-segmented
@@ -189,11 +221,11 @@ CSS 只呈现状态；切换时由应用更新 `active` 与 `aria-pressed`。不
 
 ## recipes
 
-只需静态连接按钮时使用 `.btn-group`，分段外观使用 `.btn-segmented`；有项目权限、过滤、动态点击信息时选择 BtnGroup 或 Preact BtnSegmented，并使用 CommonList 的 getItem/onClickItem。
+只需静态连接按钮时使用 `.btn-group`，分段外观使用 `.btn-segmented`；表单单选使用 [radio 与 label](#css-btn-segmented-radio)。有项目权限、过滤、动态点击信息时选择 BtnGroup 或 Preact BtnSegmented，并使用 CommonList 的 getItem/onClickItem。
 
 ## constraints
 
-背景、边框和尺寸复用 button 与主题，分段根将 `--btn-radius` 默认设为 `var(--radius-md)`。相连或分段外观都不表示自动单选切换行为，active 状态与 aria-pressed 由应用维护。分段布局保持单行，应为按钮内容预留足够宽度。
+背景、边框和尺寸复用 button 与主题，分段根将 `--btn-radius` 默认设为 `var(--radius-md)`。按钮模式的 active 状态与 aria-pressed 由应用维护；原生 radio 模式的选中、键盘与表单行为由浏览器维护。分段布局保持单行，应为按钮内容预留足够宽度。
 
 ## references
 

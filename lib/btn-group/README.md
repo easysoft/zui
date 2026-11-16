@@ -46,6 +46,21 @@ console.log('> btnGroup', btnGroup);
 
 分段外观单行排列并按内容收缩；选中项的 `active` 与 `aria-pressed` 由调用方维护。Preact 用法见 [BtnSegmented 使用参考](ai.md#preact-btn-segmented)。
 
+## button groups with form radios
+
+```html:example: -flex -gap-3
+<div class="btn-segmented" role="group" aria-label="选择视图">
+  <input type="radio" id="listItem" name="view" value="list">
+  <label class="btn" for="listItem">列表</label>
+  <input type="radio" id="cardItem" name="view" value="card" checked>
+  <label class="btn" for="cardItem">卡片</label>
+  <input type="radio" id="boardItem" name="view" value="board">
+  <label class="btn" for="boardItem">看板</label>
+</div>
+```
+
+同组 radio 共用 `name`，每个 `input` 与紧邻的 `label` 通过唯一的 `id`/`for` 关联。浏览器维护选中状态、方向键切换和表单取值/重置；`disabled` 同步显示为标签的禁用状态。详见 [原生 radio 用法](ai.md#css-btn-segmented-radio)。
+
 ## btn-group sizes
 
 ```html:example: -flex -gap-3

@@ -100,8 +100,8 @@ browser（已加载本库 CSS）：
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/1bae109547a83ba5c2948c766b98aec580115acf/lib/input-group/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/1bae109547a83ba5c2948c766b98aec580115acf/lib/input-group/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/1bae109547a83ba5c2948c766b98aec580115acf/lib/input-group/docs/lib/forms/index.md>)
-- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/1bae109547a83ba5c2948c766b98aec580115acf/lib/input-group/src/style/index.ts>)
-- [源码 src/style/vars.css](<https://github.com/easysoft/zui/blob/1bae109547a83ba5c2948c766b98aec580115acf/lib/input-group/src/style/vars.css>)
+- [包元数据](<https://github.com/easysoft/zui/blob/a9d2a6feb2644faa23b0ce60e54f3746fa853acc/lib/input-group/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/a9d2a6feb2644faa23b0ce60e54f3746fa853acc/lib/input-group/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/a9d2a6feb2644faa23b0ce60e54f3746fa853acc/lib/input-group/docs/lib/forms/index.md>)
+- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/a9d2a6feb2644faa23b0ce60e54f3746fa853acc/lib/input-group/src/style/index.ts>)
+- [源码 src/style/vars.css](<https://github.com/easysoft/zui/blob/a9d2a6feb2644faa23b0ce60e54f3746fa853acc/lib/input-group/src/style/vars.css>)

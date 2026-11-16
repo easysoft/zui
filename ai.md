@@ -520,15 +520,16 @@
 
 包：`@zui/btn-group`；状态：无额外构建标记。
 
-[使用参考](lib/btn-group/ai.md) — 提供相连和分段两种按钮组外观，支持数据驱动渲染与自定义项目。
+[使用参考](lib/btn-group/ai.md) — 提供相连和分段两种按钮组外观，支持数据驱动渲染、原生单选与自定义项目。
 
-关键词：按钮组、操作组、分段按钮、BtnGroup、BtnSegmented。
+关键词：按钮组、操作组、分段按钮、原生单选、radio、BtnGroup、BtnSegmented。
 
 - [BtnGroup](lib/btn-group/ai.md#vanilla-btn-group)（vanilla）：以原生构造器创建和更新组件。
 - [BtnGroup](lib/btn-group/ai.md#preact-btn-group)（preact）：使用 CommonList 项目管线生成相连按钮。
 - [BtnSegmented](lib/btn-group/ai.md#preact-btn-segmented)（preact）：使用 BtnGroup 的项目管线渲染分段按钮。
 - [.btn-group](lib/btn-group/ai.md#css-btn-group)（css / component）：连接直接子按钮的边缘。
 - [.btn-segmented](lib/btn-group/ai.md#css-btn-segmented)（css / component）：以单行、独立圆角按钮呈现分段选择外观。
+- [.btn-segmented \> input\[type=radio\] + label.btn](lib/btn-group/ai.md#css-btn-segmented-radio)（css / component）：使用原生 radio 提供分段单选、键盘操作和表单行为。
 - [--btn-radius](lib/btn-group/ai.md#css-variables-btn-segmented)（css-variables）：分段容器及组内按钮共享圆角。
 - [BtnGroupOptions / BtnGroupItem](lib/btn-group/ai.md#types-btn-group)（types）：列出组件完整专有参数和回调约定。
 

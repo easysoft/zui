@@ -2,10 +2,28 @@
     @apply -inline-flex -gap-1 -bg-gray-100 -p-0.5 -rounded-[--btn-radius] -ring-1 -ring-border;
     --btn-radius: var(--radius-md);
 }
-.btn-segmented > .btn:not(:active) {
+.btn-segmented > .btn:not(:active),
+.btn-segmented > input[type="radio"] + label {
     @apply -bg-transparent -shadow-none -ring-transparent;
 }
 .btn-segmented > .btn.active {
     @apply !-bg-canvas -ring-[--btn-border-color] -shadow -text-fore;
     --state-active-opacity: 0;
+}
+
+.btn-segmented > input[type="radio"] {
+    @apply -sr-only;
+}
+.btn-segmented > input[type="radio"]:checked + label {
+    @apply -bg-canvas -ring-[--btn-border-color] -shadow -text-fore;
+    --state-active-opacity: 0;
+}
+.btn-segmented > input[type="radio"]:focus + label {
+    @apply -outline -outline-focus -outline-2 -outline-offset-2;
+}
+.btn-segmented > input[type="radio"]:disabled + label {
+    @apply -cursor-not-allowed -grayscale -opacity-[--opacity-disabled];
+}
+.btn-segmented > input[type="radio"]:disabled + label::before {
+    @apply -hidden;
 }
