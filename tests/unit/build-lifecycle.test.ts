@@ -30,7 +30,18 @@ describe('build resource ownership', () => {
         const releaseSecond = await acquireBuildLock([{path: Path.join(root, 'second'), directory: true}]);
         await releaseFirst();
         const releaseAgain = await acquireBuildLock(first);
-        await expect(acquireBuildLock([{path: Path.join(root, 'second'), directory: true}])).rejects.toThrow(`PID ${process.pid}`);
+        const secondPath = Path.join(root, 'second');
+        let heldLease = '';
+        for (const name of await fs.readdir(registry)) {
+            if (!name.endsWith('.json')) {
+                continue;
+            }
+            const lease = JSON.parse(await fs.readFile(Path.join(registry, name), 'utf8')) as {resources: {path: string}[]};
+            if (lease.resources.some(resource => resource.path === secondPath)) {
+                heldLease = Path.join(registry, name);
+            }
+        }
+        await expect(acquireBuildLock([{path: secondPath, directory: true}])).rejects.toThrow(`PID ${process.pid} (${heldLease}). That process is still running. Stop it if the build is stuck, then remove the lock with:\nrm '${heldLease}'`);
         await releaseAgain();
         await releaseSecond();
         expect(await fs.readdir(registry)).toEqual([]);
@@ -80,16 +91,15 @@ describe('build resource ownership', () => {
         const resource = {path: Path.join(root, 'dist'), directory: true};
         const lease = Path.join(registry, 'abandoned.json');
         await fs.writeFile(lease, JSON.stringify({pid: 99999999, resources: [resource]}));
-        await expect(acquireBuildLock([resource])).rejects.toThrow('PID 99999999');
-        await expect(acquireBuildLock([resource])).rejects.toThrow(lease);
+        await expect(acquireBuildLock([resource])).rejects.toThrow(`PID 99999999 (${lease}). That process is not running. Remove the abandoned lock with:\nrm '${lease}'`);
         expect(await fs.readFile(lease, 'utf8')).toContain('99999999');
     });
 
     it('never removes a registry guard it did not create', async () => {
         const guard = Path.join(registry, '.guard');
         await fs.mkdir(guard, {recursive: true});
-        await fs.writeFile(Path.join(guard, 'owner.json'), JSON.stringify({pid: 12345, token: 'another-owner'}));
-        await expect(acquireBuildLock([{path: Path.join(root, 'dist'), directory: true}])).rejects.toThrow(`lock registry is busy at "${guard}" (PID 12345)`);
+        await fs.writeFile(Path.join(guard, 'owner.json'), JSON.stringify({pid: 99999999, token: 'another-owner'}));
+        await expect(acquireBuildLock([{path: Path.join(root, 'dist'), directory: true}])).rejects.toThrow(`lock registry is busy at "${guard}" (PID 99999999). That process is not running. Remove the abandoned lock with:\nrm -r '${guard}'`);
         expect((await fs.stat(guard)).isDirectory()).toBe(true);
     });
 

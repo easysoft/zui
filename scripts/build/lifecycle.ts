@@ -17,6 +17,41 @@ function hasCode(error: unknown, code: string) {
     return (error as NodeJS.ErrnoException | null)?.code === code;
 }
 
+function shellQuote(value: string) {
+    return `'${value.replace(/'/g, `'\\''`)}'`;
+}
+
+/** `undefined` means the check itself failed; do not treat that as an exited holder. */
+function isProcessRunning(pid: number | undefined) {
+    if (!pid || pid <= 0) {
+        return undefined;
+    }
+    try {
+        process.kill(pid, 0);
+        return true;
+    } catch (error) {
+        if (hasCode(error, 'EPERM')) {
+            return true;
+        }
+        if (hasCode(error, 'ESRCH')) {
+            return false;
+        }
+        return undefined;
+    }
+}
+
+function lockRecoveryHint(pid: number | undefined, lockPath: string, directory: boolean) {
+    const command = `${directory ? 'rm -r' : 'rm'} ${shellQuote(lockPath)}`;
+    const running = isProcessRunning(pid);
+    if (running === false) {
+        return `That process is not running. Remove the abandoned lock with:\n${command}`;
+    }
+    if (running === true) {
+        return `That process is still running. Stop it if the build is stuck, then remove the lock with:\n${command}`;
+    }
+    return `Confirm the holder has exited, then remove the abandoned lock with:\n${command}`;
+}
+
 async function readOwner(path: string): Promise<{pid?: number; token?: string} | undefined> {
     try {
         return JSON.parse(await fs.readFile(path, 'utf8'));
@@ -40,7 +75,7 @@ async function withRegistryGuard<T>(registry: string, action: () => Promise<T>):
             }
             if (attempt >= 200) {
                 const owner = await readOwner(ownerFile);
-                throw new Error(`ZUI build: lock registry is busy at "${guard}" (PID ${owner?.pid ?? 'unknown'}). An abandoned guard must be removed manually.`);
+                throw new Error(`ZUI build: lock registry is busy at "${guard}" (PID ${owner?.pid ?? 'unknown'}). ${lockRecoveryHint(owner?.pid, guard, true)}`);
             }
             await setTimeout(10);
         }
@@ -87,7 +122,8 @@ export async function acquireBuildLock(resources: BuildResource[]): Promise<() =
                         || (requested.directory && isWithin(occupiedKey, requestedKey));
                 });
                 if (occupied) {
-                    throw new Error(`ZUI build: resource "${requested.path}" conflicts with "${occupied.path}" held by PID ${owner.pid} (${Path.join(registry, file)}).`);
+                    const leasePath = Path.join(registry, file);
+                    throw new Error(`ZUI build: resource "${requested.path}" conflicts with "${occupied.path}" held by PID ${owner.pid} (${leasePath}). ${lockRecoveryHint(owner.pid, leasePath, false)}`);
                 }
             }
         }
