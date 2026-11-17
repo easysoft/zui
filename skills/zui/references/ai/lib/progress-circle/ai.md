@@ -127,8 +127,8 @@ render(<ProgressCircle percent={68} size={48} text="68%" />, host);
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/progress-circle/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/progress-circle/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/progress-circle/docs/lib/components/index.md>)
-- [源码 src/main-react.ts](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/progress-circle/src/main-react.ts>)
-- [源码 src/types/index.ts](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/progress-circle/src/types/index.ts>)
+- [包元数据](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/progress-circle/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/progress-circle/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/progress-circle/docs/lib/components/index.md>)
+- [源码 src/main-react.ts](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/progress-circle/src/main-react.ts>)
+- [源码 src/types/index.ts](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/progress-circle/src/types/index.ts>)

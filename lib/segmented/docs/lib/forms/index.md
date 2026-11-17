@@ -35,6 +35,36 @@ const viewSelector = new zui.Segmented('#viewSelector', {
 
 `items` 可以直接使用字符串或数字，例如 `items: ['日', '周', '月']`。对象项目使用 `value` 与 `text`。`value` 和回调保留字符串/数字类型。
 
+## 切换动画
+
+设置 `animation: true`，选中背景会在选项间平滑移动，并适配选项的宽高。默认关闭，开启后同样支持纵向、等宽与受控值。
+
+::: tabs
+
+== 示例
+
+<Example>
+  <ZUI use="Segmented" :options="{items: ['日', '工作周', '整个月'], animation: true, attrs: {'aria-label': '汇总周期'}}" />
+</Example>
+
+== 完整代码
+
+```html
+<div id="animatedPeriod"></div>
+<script>
+const animatedPeriod = new zui.Segmented('#animatedPeriod', {
+    items: ['日', '工作周', '整个月'],
+    animation: true,
+    attrs: {'aria-label': '汇总周期'},
+});
+// 移除页面时调用 animatedPeriod.destroy()。
+</script>
+```
+
+:::
+
+首次显示和布局变化直接定位；系统启用减少动态效果时不播放动画。
+
 ## 尺寸、等宽、方向与形状
 
 ::: tabs
@@ -143,6 +173,7 @@ size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'; // ZUI 尺寸，未指定为 32px。
 block?: boolean = false; // 占满父级宽度并等分。
 vertical?: boolean = false; // 纵向排列。
 shape?: 'default' | 'round' = "default"; // 形状。
+animation?: boolean = false; // 选中背景的切换动画。
 onChange?: (value: string | number, event: Event) => void; // 用户改变选择时调用。
 </Props>
 

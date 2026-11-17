@@ -41,6 +41,31 @@
 .segmented-round {
     --segmented-radius: 9999px;
 }
+.segmented-animated {
+    @apply -relative;
+}
+.segmented-thumb {
+    @apply -absolute -left-0 -top-0 -pointer-events-none -rounded-[--segmented-radius] -bg-[--segmented-selected-bg] -shadow-sm -ring-1 -ring-[--segmented-border-color];
+}
+.segmented-animated:has(> .segmented-item > .segmented-input:checked:disabled) > .segmented-thumb {
+    @apply -opacity-[--opacity-disabled];
+}
+@media (forced-colors: none) {
+    .segmented-thumb:not([hidden]) ~ .segmented-item > .segmented-input:checked + .segmented-label {
+        @apply -bg-transparent;
+        box-shadow: none;
+    }
+}
+@media (prefers-reduced-motion: no-preference) {
+    .segmented-animated .segmented-label {
+        transition-property: color;
+    }
+    .segmented-thumb.is-animated {
+        transition: transform 200ms cubic-bezier(0.645, 0.045, 0.355, 1),
+            width 200ms cubic-bezier(0.645, 0.045, 0.355, 1),
+            height 200ms cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+}
 .segmented.size-xs {
     --segmented-height: 1.25rem;
     @apply -text-xs;
@@ -79,6 +104,9 @@
     }
 }
 @media (forced-colors: active) {
+    .segmented-thumb {
+        @apply -hidden;
+    }
     .segmented {
         border: 1px solid ButtonText;
     }

@@ -11,6 +11,14 @@
 <div id="segmentedRound"></div>
 ```
 
+## 切换动画
+
+设置 `animation: true`，选中背景随选项平滑移动并适配宽高。
+
+```html:example
+<div id="segmentedAnimation"></div>
+```
+
 ## 等宽与纵向
 
 ```html:example:col gap-4

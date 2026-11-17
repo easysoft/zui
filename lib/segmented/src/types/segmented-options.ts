@@ -32,5 +32,7 @@ export interface SegmentedOptions extends HElementProps {
     block?: boolean;
     vertical?: boolean;
     shape?: 'default' | 'round';
+    /** Animate the selected background between items. Defaults to false. */
+    animation?: boolean;
     onChange?: (value: SegmentedValue, event: Event) => void;
 }

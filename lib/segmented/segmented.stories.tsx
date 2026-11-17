@@ -11,7 +11,7 @@ const meta = {
     title: '控件/Segmented 分段选择器',
     args: {
         items: [{value: 'list', text: '列表'}, {value: 'board', text: '看板', disabled: true}, {value: 'card', text: '卡片'}],
-        value: 'list', disabled: false, block: false, vertical: false, shape: 'default',
+        value: 'list', disabled: false, block: false, vertical: false, shape: 'default', animation: false,
     },
     argTypes: {
         value: {control: 'select', options: ['list', 'board', 'card'], name: '当前值'},
@@ -21,6 +21,7 @@ const meta = {
         block: {control: 'boolean', name: '等宽'},
         vertical: {control: 'boolean', name: '纵向'},
         disabled: {control: 'boolean', name: '禁用'},
+        animation: {control: 'boolean', name: '切换动画'},
     },
     render: createPreactRender(Segmented, {
         props: (args: SegmentedOptions, api) => ({
@@ -38,6 +39,9 @@ export default meta;
 type Story = StoryObj<SegmentedOptions>;
 
 export const Playground: Story = {name: '受控选择与 Controls'};
+export const Animation: Story = {name: '切换动画', args: {animation: true, items: [
+    {value: 'list', text: '日'}, {value: 'board', text: '工作周'}, {value: 'card', text: '整个月'},
+]}};
 export const Block: Story = {name: '等宽', args: {block: true}};
 export const Vertical: Story = {name: '纵向', args: {vertical: true}};
 export const Round: Story = {name: '圆角', args: {shape: 'round'}};

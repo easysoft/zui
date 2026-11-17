@@ -4,7 +4,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。先确认应用实际运行版本、导出、类型和 CSS。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-来源基线：`787bb05af91acaf8a2d8a0592ce1eff90ced9dd9`；源码包含未提交变更：是，在线出处仅代表提交基线，随包文档对应清单中的内容摘要。[完整清单](manifest.json)。
+来源基线：`6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3`；源码包含未提交变更：是，在线出处仅代表提交基线，随包文档对应清单中的内容摘要。[完整清单](manifest.json)。
 
 ## 离线读取
 
@@ -328,7 +328,7 @@ node <skill-root>/references/ai/read.mjs --lib menu --section constraints --runt
 
 包：`@zui/segmented`；状态：无额外构建标记。
 
-[使用参考](lib/segmented/ai.md) — 提供原生 radio 语义的分段单选，支持受控值、表单、布局、尺寸、图标和自定义内容。
+[使用参考](lib/segmented/ai.md) — 提供原生 radio 语义的分段单选，支持受控值、表单、布局、尺寸、图标、自定义内容和可选切换动画。
 
 关键词：分段选择器、单选、表单、Segmented、radio。
 

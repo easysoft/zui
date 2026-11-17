@@ -17,6 +17,39 @@ const items: SegmentedItem[] = [
     {value: 'card', text: '卡片'},
 ];
 
+function mockAnimationLayout() {
+    const layout = {
+        visible: true,
+        scale: 1,
+        rects: [[2, 2, 60, 28], [66, 2, 100, 28], [170, 2, 128, 28]],
+    };
+    const observers: ResizeObserverMock[] = [];
+    class ResizeObserverMock {
+        observe = vi.fn();
+        disconnect = vi.fn();
+        unobserve = vi.fn();
+        constructor(public callback: ResizeObserverCallback) {
+            observers.push(this);
+        }
+    }
+    vi.stubGlobal('ResizeObserver', ResizeObserverMock);
+    const measure = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+        if (!layout.visible) return new DOMRect();
+        if (this.classList.contains('segmented')) return new DOMRect(10, 20, 300 * layout.scale, 100 * layout.scale);
+        const input = this.previousElementSibling as HTMLInputElement | null;
+        if (!this.classList.contains('segmented-label') || !input) return new DOMRect();
+        const [x, y, width, height] = layout.rects[Number(input.dataset.index)];
+        return new DOMRect(10 + x * layout.scale, 20 + y * layout.scale, width * layout.scale, height * layout.scale);
+    });
+    vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(300);
+    vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(100);
+    const resize = () => {
+        const observer = observers.at(-1)!;
+        observer.callback([], observer as unknown as ResizeObserver);
+    };
+    return {layout, observers, measure, resize};
+}
+
 describe('Segmented', () => {
     it('owns a separate renderer and vanilla registration', async () => {
         expect(getReactComponent('Segmented')).toBe(Segmented);
@@ -171,5 +204,171 @@ describe('Segmented', () => {
         view.rerender(<FormBuilder ref={ref} schema={{type: 'object', properties: {period: {type: 'number', title: '周期', widget: 'Segmented', props: {items: [0, 1, 2], attrs: {'aria-label': '周期'}}}}}} defaultData={{period: 0}} />);
         fireEvent.click(view.getByRole('radio', {name: '2'}));
         expect(ref.current!.formData).toEqual({period: 2});
+    });
+
+    it('opts into animation without changing typed selection and releases resources when disabled', async () => {
+        const {observers} = mockAnimationLayout();
+        const onChange = vi.fn();
+        const show = (animation?: boolean) => <form><Segmented items={[0, 1, '1']} animation={animation} onChange={onChange} /></form>;
+        const view = render(show());
+        expect(view.container.querySelector('.segmented-thumb')).toBeNull();
+        expect(observers).toHaveLength(0);
+        fireEvent.click(view.getAllByRole('radio')[1]);
+        view.rerender(show(true));
+        await act(flushAnimationFrame);
+        const thumb = view.container.querySelector<HTMLElement>('.segmented-thumb')!;
+        expect(thumb).toHaveAttribute('aria-hidden', 'true');
+        expect(thumb).not.toHaveAttribute('hidden');
+        expect(thumb).not.toHaveClass('is-animated');
+        expect(thumb.style.transform).toBe('translate(66px, 2px)');
+        expect(observers[0].observe).toHaveBeenCalledTimes(4);
+        fireEvent.click(view.getAllByRole('radio')[2]);
+        await act(flushAnimationFrame);
+        expect(thumb).toHaveClass('is-animated');
+        expect(thumb.style.width).toBe('128px');
+        expect(thumb.style.transform).toBe('translate(170px, 2px)');
+        expect(onChange.mock.calls.map(([value]) => value)).toEqual([1, '1']);
+        const form = view.container.querySelector('form')!;
+        const removeListener = vi.spyOn(form, 'removeEventListener');
+        const cancelFrame = vi.spyOn(globalThis, 'cancelAnimationFrame');
+        fireEvent.click(view.getAllByRole('radio')[0]);
+        view.rerender(show(false));
+        expect(cancelFrame).toHaveBeenCalled();
+        expect(observers[0].disconnect).toHaveBeenCalledOnce();
+        expect(removeListener).toHaveBeenCalledWith('reset', expect.any(Function));
+        expect(view.container.querySelector('.segmented-thumb')).toBeNull();
+        expect(view.getAllByRole('radio')[0]).toBeChecked();
+        view.rerender(show(true));
+        await act(flushAnimationFrame);
+        expect(view.container.querySelector('.segmented-thumb')).not.toHaveClass('is-animated');
+    });
+
+    it('follows reconciled controlled values, rapid updates and missing selections', async () => {
+        mockAnimationLayout();
+        const onChange = vi.fn();
+        const show = (value: string | number) => <form><Segmented animation items={[0, 1, '1']} value={value} onChange={onChange} /></form>;
+        const view = render(show(1));
+        await act(flushAnimationFrame);
+        const thumb = view.container.querySelector<HTMLElement>('.segmented-thumb')!;
+        fireEvent.click(view.getAllByRole('radio')[2]);
+        await act(flushAnimationFrame);
+        expect(view.getAllByRole('radio')[1]).toBeChecked();
+        expect(thumb.style.transform).toBe('translate(66px, 2px)');
+        expect(thumb).not.toHaveClass('is-animated');
+        view.rerender(show('1'));
+        await act(flushAnimationFrame);
+        expect(thumb.style.transform).toBe('translate(170px, 2px)');
+        expect(thumb).toHaveClass('is-animated');
+        act(() => view.container.querySelector('form')!.reset());
+        await act(flushAnimationFrame);
+        expect(view.getAllByRole('radio')[2]).toBeChecked();
+        expect(thumb.style.transform).toBe('translate(170px, 2px)');
+        view.rerender(show(0));
+        view.rerender(show(1));
+        await act(flushAnimationFrame);
+        expect(thumb.style.transform).toBe('translate(66px, 2px)');
+        view.rerender(show('missing'));
+        await act(flushAnimationFrame);
+        expect(thumb).toHaveAttribute('hidden');
+        view.rerender(show(0));
+        await act(flushAnimationFrame);
+        expect(thumb).not.toHaveAttribute('hidden');
+        expect(thumb).not.toHaveClass('is-animated');
+        expect(onChange).toHaveBeenCalledExactlyOnceWith('1', expect.any(Event));
+    });
+
+    it('tracks external forms after native reset, cancelled reset and reassociation', async () => {
+        mockAnimationLayout();
+        const onChange = vi.fn();
+        const show = (form: string) => (
+            <div>
+                <form id="firstForm" />
+                <form id="secondForm" />
+                <Segmented animation form={form} name="period" items={[0, 1, '1']} onChange={onChange} />
+            </div>
+        );
+        const view = render(show('firstForm'));
+        await act(flushAnimationFrame);
+        const [firstForm, secondForm] = view.container.querySelectorAll('form');
+        const thumb = view.container.querySelector<HTMLElement>('.segmented-thumb')!;
+        fireEvent.click(view.getAllByRole('radio')[2]);
+        await act(flushAnimationFrame);
+        firstForm.addEventListener('reset', event => event.preventDefault(), {once: true});
+        act(() => firstForm.reset());
+        await act(flushAnimationFrame);
+        expect(thumb.style.transform).toBe('translate(170px, 2px)');
+        act(() => firstForm.reset());
+        await act(flushAnimationFrame);
+        expect(thumb.style.transform).toBe('translate(2px, 2px)');
+        expect(new FormData(firstForm).get('period')).toBe('0');
+        const removeListener = vi.spyOn(firstForm, 'removeEventListener');
+        view.rerender(show('secondForm'));
+        await act(flushAnimationFrame);
+        expect(removeListener).toHaveBeenCalledWith('reset', expect.any(Function));
+        fireEvent.click(view.getAllByRole('radio')[1]);
+        await act(flushAnimationFrame);
+        act(() => secondForm.reset());
+        await act(flushAnimationFrame);
+        expect(thumb.style.transform).toBe('translate(2px, 2px)');
+        expect(onChange).toHaveBeenCalledTimes(2);
+    });
+
+    it('snaps to resized and reordered layouts and recovers from hidden or empty content', async () => {
+        const {layout, resize} = mockAnimationLayout();
+        const show = (options: (string | number)[]) => <Segmented animation items={options} />;
+        const view = render(show([0, 1, '1']));
+        await act(flushAnimationFrame);
+        const thumb = view.container.querySelector<HTMLElement>('.segmented-thumb')!;
+        fireEvent.click(view.getAllByRole('radio')[2]);
+        await act(flushAnimationFrame);
+        layout.scale = 2;
+        layout.rects[2] = [2, 70, 180, 40];
+        resize();
+        await act(flushAnimationFrame);
+        expect(thumb.style.transform).toBe('translate(2px, 70px)');
+        expect(thumb.style.width).toBe('180px');
+        expect(thumb.style.height).toBe('40px');
+        expect(thumb).not.toHaveClass('is-animated');
+        layout.visible = false;
+        resize();
+        await act(flushAnimationFrame);
+        expect(thumb).toHaveAttribute('hidden');
+        layout.visible = true;
+        resize();
+        await act(flushAnimationFrame);
+        expect(thumb).not.toHaveAttribute('hidden');
+        expect(thumb).not.toHaveClass('is-animated');
+        view.rerender(show(['1', 0, 1]));
+        await act(flushAnimationFrame);
+        expect(view.getAllByRole('radio')[0]).toBeChecked();
+        expect(thumb.style.transform).toBe('translate(2px, 2px)');
+        view.rerender(show([2, 0, 1]));
+        await act(flushAnimationFrame);
+        expect(thumb).not.toHaveAttribute('hidden');
+        view.rerender(show([]));
+        await act(flushAnimationFrame);
+        expect(thumb).toHaveAttribute('hidden');
+        view.rerender(show([0, 1, '1']));
+        await act(flushAnimationFrame);
+        expect(thumb).not.toHaveAttribute('hidden');
+    });
+
+    it('cleans up animation work and inherited lifecycle on unmount', async () => {
+        const {observers, measure, resize} = mockAnimationLayout();
+        const onUnmount = vi.fn();
+        const view = render(<form><Segmented animation items={[0, 1, '1']} onUnmount={onUnmount} /></form>);
+        await act(flushAnimationFrame);
+        const form = view.container.querySelector('form')!;
+        const removeListener = vi.spyOn(form, 'removeEventListener');
+        resize();
+        view.unmount();
+        const calls = measure.mock.calls.length;
+        await act(flushAnimationFrame);
+        resize();
+        await act(flushAnimationFrame);
+        expect(measure).toHaveBeenCalledTimes(calls);
+        expect(observers[0].disconnect).toHaveBeenCalledOnce();
+        expect(removeListener).toHaveBeenCalledWith('reset', expect.any(Function));
+        expect(onUnmount).toHaveBeenCalledOnce();
     });
 });

@@ -10,7 +10,7 @@
 {
   "schemaVersion": 1,
   "library": "segmented",
-  "summary": "提供原生 radio 语义的分段单选，支持受控值、表单、布局、尺寸、图标和自定义内容。",
+  "summary": "提供原生 radio 语义的分段单选，支持受控值、表单、布局、尺寸、图标、自定义内容和可选切换动画。",
   "keywords": ["分段选择器", "单选", "表单", "Segmented", "radio"]
 }
 ```
@@ -37,6 +37,8 @@ browser：加载包含 segmented 的 ZUI JS/CSS 后使用 `zui.Segmented` 或 `z
 
 选择变更调用 `onChange(value, event)`，参数保留原始字符串/数字类型，`this` 指向 Preact 视图。点击已选项、表单重置及程序更新不触发回调。使用 options 回调接收选择变化，不额外派发组件实例 change 事件。
 
+设置 `animation: true` 开启选中背景的 200ms 滑动及宽高过渡，默认关闭；可通过 `render({animation: false})` 关闭。首次显示和布局变化直接定位，支持横向、纵向、等宽、RTL 及不同尺寸项目。受控值和表单重置的背景始终跟随实际选择。动画启用时观察项目尺寸并监听关联表单的 reset；关闭或销毁时释放这些资源。
+
 workspace：
 
 ```ts
@@ -47,6 +49,7 @@ document.body.append(host);
 const view = new Segmented(host, {
     items: [{value: 'list', text: '列表'}, {value: 'card', text: '卡片'}],
     defaultValue: 'list',
+    animation: true,
     attrs: {'aria-label': '视图'},
     onChange: value => console.log(value),
 });
@@ -62,6 +65,8 @@ const view = new Segmented(host, {
 ```
 
 Props 为 [SegmentedOptions](#types-segmented-options)。`children` 不参与选项渲染；项目内容用 `text`。类组件 ref 提供只读 `value`、`controlled` 和 [HElement](../core/ai.md#preact-helement) 基础能力。
+
+`animation` 与 vanilla 使用相同的开关和动画行为，例如 `<Segmented items={['日', '工作周', '整个月']} animation />`。
 
 未传 `value` 时，原生 radio 保存选择。首次使用 `defaultValue`，否则选中第一个未禁用项目。普通重渲染及排序保持当前选择；选中项移除后回退到第一个可用项，空列表没有选择。默认值在首次有值后固定；原生 `form.reset()` 恢复默认项，默认项已移除时恢复当前第一个可用项。取消 reset 事件会保留选择。
 
@@ -96,6 +101,8 @@ show('周');
 ```
 
 根为 inline-flex，项目为 label，视觉隐藏的 radio 与 `.segmented-label` 相邻。文本放在 `.segmented-text` 中，图标可放在 `.segmented-icon` 中。选中、焦点、禁用均由输入的伪类反映到标签；不设置 `active` 或 `aria-pressed`。无默认多选模式。
+
+切换动画由 JS 组件的 `animation` 选项开启；内部 `.segmented-animated`、`.segmented-thumb` 及滑块状态由组件维护，不作为纯 HTML 的配置方式。
 
 browser（加载 base 与 segmented CSS，无需 JS）：
 
@@ -172,6 +179,7 @@ browser（加载 base 与 segmented CSS，无需 JS）：
 | `block` | `boolean` | 否 | `false` | 占满宽度并等分 |
 | `vertical` | `boolean` | 否 | `false` | 纵向排列 |
 | `shape` | `'default' \| 'round'` | 否 | `'default'` | 圆角形状 |
+| `animation` | `boolean` | 否 | `false` | 选中背景平滑移动并适配宽高；减少动态效果偏好下直接定位 |
 | `onChange` | `(value: SegmentedValue, event: Event) => void` | 否 | 无 | 用户选中不同项时调用，返回值忽略 |
 
 `SegmentedItem` 字段如下：
@@ -223,15 +231,15 @@ FormControl 同样使用 `widget="Segmented"`，选项放在 `props` 中；无�
 - 值必须唯一，数字 1 与字符串 '1' 是不同选项，但 FormData 都是字符串 '1'；业务需要保留类型时使用回调或实例 value。
 - 选项内容不要嵌套按钮、链接或其他输入，避免破坏标签和单选行为。纯图标项应显式提供有意义的 `aria-label`。
 - Tab 进入/离开组，方向键和空格使用浏览器原生 radio 行为；禁用项目被跳过。未提供组名时用 attrs 设置 `aria-label` 或 `aria-labelledby`。
-- 文本较长时使用 title 提供鼠标提示，或使用自定义内容分行；布局沿用父容器方向，支持 RTL。尺寸、主题和焦点使用 ZUI token，减少动态效果偏好会关闭颜色过渡。
+- 文本较长时使用 title 提供鼠标提示，或使用自定义内容分行；布局沿用父容器方向，支持 RTL。尺寸、主题和焦点使用 ZUI token，减少动态效果偏好会关闭颜色过渡和滑动动画；强制颜色模式使用原生选中与焦点轮廓。
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/segmented/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/segmented/src/main.ts>)
-- [Preact 入口](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/segmented/src/main-react.ts>)
-- [类型](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/segmented/src/types/segmented-options.ts>)
-- [组件](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/segmented/src/component/segmented.tsx>)
-- [样式](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/segmented/src/style/segmented.css>)
-- [开发示例](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/segmented/README.md>)
-- [正式文档](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/segmented/docs/lib/forms/index.md>)
+- [包元数据](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/segmented/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/segmented/src/main.ts>)
+- [Preact 入口](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/segmented/src/main-react.ts>)
+- [类型](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/segmented/src/types/segmented-options.ts>)
+- [组件](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/segmented/src/component/segmented.tsx>)
+- [样式](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/segmented/src/style/segmented.css>)
+- [开发示例](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/segmented/README.md>)
+- [正式文档](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/segmented/docs/lib/forms/index.md>)

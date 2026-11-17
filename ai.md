@@ -323,7 +323,7 @@
 
 包：`@zui/segmented`；状态：无额外构建标记。
 
-[使用参考](lib/segmented/ai.md) — 提供原生 radio 语义的分段单选，支持受控值、表单、布局、尺寸、图标和自定义内容。
+[使用参考](lib/segmented/ai.md) — 提供原生 radio 语义的分段单选，支持受控值、表单、布局、尺寸、图标、自定义内容和可选切换动画。
 
 关键词：分段选择器、单选、表单、Segmented、radio。
 

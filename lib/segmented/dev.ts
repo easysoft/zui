@@ -29,6 +29,7 @@ function setup() {
         return instance;
     };
     add('segmentedBasic');
+    add('segmentedAnimation', {animation: true, items: ['日', '工作周', '整个月']});
     add('segmentedSmall', {size: 'sm'});
     add('segmentedLarge', {size: 'lg'});
     add('segmentedRound', {shape: 'round'});
