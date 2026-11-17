@@ -170,7 +170,7 @@ browser 的原生表单按钮：`<button type="submit" class="btn">提交</butto
 
 ## references
 
-- [包入口](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/button/package.json>)、[主入口](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/button/src/main.ts>)、[Preact 入口](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/button/src/main-react.ts>)
-- [Button 实现](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/button/src/component/button.tsx>)、[属性定义](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/button/src/types/button-props.ts>)
-- [样式入口](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/button/src/style/index.ts>)、[样式变量](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/button/src/style/vars.css>)
-- [正式文档](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/button/docs/lib/components/index.md>)
+- [包入口](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/button/package.json>)、[主入口](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/button/src/main.ts>)、[Preact 入口](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/button/src/main-react.ts>)
+- [Button 实现](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/button/src/component/button.tsx>)、[属性定义](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/button/src/types/button-props.ts>)
+- [样式入口](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/button/src/style/index.ts>)、[样式变量](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/button/src/style/vars.css>)
+- [正式文档](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/button/docs/lib/components/index.md>)

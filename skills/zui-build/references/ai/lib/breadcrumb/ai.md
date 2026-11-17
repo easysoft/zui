@@ -100,7 +100,7 @@ CSS 只负责外观；页面语义由 `nav`、列表、真实链接及 `aria-cur
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/breadcrumb/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/breadcrumb/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/breadcrumb/docs/lib/components/index.md>)
-- [源码 src/vars.css](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/breadcrumb/src/vars.css>)
+- [包元数据](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/breadcrumb/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/breadcrumb/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/breadcrumb/docs/lib/components/index.md>)
+- [源码 src/vars.css](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/breadcrumb/src/vars.css>)

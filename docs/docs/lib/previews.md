@@ -5,11 +5,19 @@ aside: false
 
 # 组件封面
 
-56 个组件封面，以 **120 × 120** 原尺寸呈现。点击卡片名称查看文档，切换站点主题查看深浅模式。
+57 个组件封面，以 **120 × 120** 原尺寸呈现。点击卡片名称查看文档，切换站点主题查看深浅模式。
 
 ## 基础控件
 
 <div class="component-cover-gallery">
+    <figure class="rounded-lg border border-strong bg-surface-light p-1">
+        <figcaption class="px-2 py-2 text-fore text-sm font-bold"><a href="/lib/forms/segmented/">分段选择器</a></figcaption>
+        <div class="component-cover-stage center bg-surface-light border border-light rounded">
+            <div class="component-cover-frame vp-raw">
+<!--@include: @/public/assets/segmented/preview.html-->
+</div>
+        </div>
+    </figure>
     <figure class="rounded-lg border border-strong bg-surface-light p-1">
         <figcaption class="px-2 py-2 text-fore text-sm font-bold"><a href="/lib/components/button/">按钮</a></figcaption>
         <div class="component-cover-stage center bg-surface-light border border-light rounded">

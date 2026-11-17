@@ -82,11 +82,11 @@ import 'zui/css';
 // @ts-expect-error Standard packages do not expose component-specific elements.
 import {definePicker} from 'zui';
 import {
-    $, Picker, Pager, Modal, ProgressCircle, VTable, defineWebComponent, property, signal, computed,
+    $, Picker, Pager, Modal, ProgressCircle, Segmented, VTable, defineWebComponent, property, signal, computed,
     type PickerOptions, type ReadonlySignal, type Cash,
     type FileListFileInfo, type FileSelectorFileInfo,
     type DashboardBlockProps, type DTableBlockProps, type DTableCustomRenderResult,
-    type VTableOptions, type VTableColumnDef,
+    type VTableOptions, type VTableColumnDef, type SegmentedOptions, type SegmentedValue,
 } from 'zui';
 
 const options: PickerOptions = {
@@ -111,6 +111,19 @@ new Pager(document.createElement('div'), {
     },
 });
 new ProgressCircle(document.createElement('div'), {percent: 50});
+const segmentedOptions: SegmentedOptions = {
+    items: [0, {value: 'week', text: 'Weekly'}],
+    onChange(value, event) {
+        const selected: SegmentedValue = value;
+        event.preventDefault();
+    },
+};
+const segmented = new Segmented(document.createElement('div'), segmentedOptions);
+const selectedSegment: SegmentedValue | undefined = segmented.value;
+segmented.render({vertical: true, value: 'week'});
+segmented.destroy();
+// @ts-expect-error Segmented values are strings or numbers.
+segmented.render({value: false});
 Modal.confirm('Continue?').then(confirmed => { const result: boolean = confirmed; });
 const cash: Cash = $('body').z({answer: 42});
 const count = signal(1);

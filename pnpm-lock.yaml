@@ -1792,6 +1792,34 @@ importers:
         specifier: workspace:*
         version: link:../../dev
 
+  lib/segmented:
+    dependencies:
+      '@zui/core':
+        specifier: workspace:*
+        version: link:../core
+      preact:
+        specifier: ^10.27.2
+        version: 10.28.2
+    devDependencies:
+      '@zui/base':
+        specifier: workspace:*
+        version: link:../base
+      '@zui/button':
+        specifier: workspace:*
+        version: link:../button
+      '@zui/css-icons':
+        specifier: workspace:*
+        version: link:../css-icons
+      '@zui/form-builder':
+        specifier: workspace:*
+        version: link:../form-builder
+      '@zui/utilities':
+        specifier: workspace:*
+        version: link:../utilities
+      zui-dev:
+        specifier: workspace:*
+        version: link:../../dev
+
   lib/sidebar:
     dependencies:
       '@zui/base':

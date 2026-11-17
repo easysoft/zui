@@ -8,7 +8,7 @@ import '@zui/form-builder';
 import {h, render} from 'preact';
 import {FormBuilder} from '@zui/form-builder/react';
 import {BtnGroup} from './src/main';
-import {BtnGroup as BtnGroupReact, BtnSegmented} from './src/main-react';
+import {BtnGroup as BtnGroupReact} from './src/main-react';
 
 onPageLoad(() => {
     const btnGroup = new BtnGroup('#btnGroup', {
@@ -49,7 +49,6 @@ function setupRadioExamples() {
     }
     for (const [id, Component, name] of [
         ['btnGroupRadio', BtnGroupReact, 'view'],
-        ['btnSegmentedRadio', BtnSegmented, 'layout'],
     ] as const) {
         const host = document.getElementById(id)!;
         radioRoots.push(host);
@@ -60,11 +59,11 @@ function setupRadioExamples() {
         form.querySelector('output')!.value = JSON.stringify(Object.fromEntries(new FormData(form)));
     };
 
-    const controlledHost = document.getElementById('btnSegmentedControlled')!;
+    const controlledHost = document.getElementById('btnGroupControlled')!;
     radioRoots.push(controlledHost);
     const showControlled = (value: string) => {
-        render(h(BtnSegmented, {radio: true, name: 'controlledView', value, items, attrs: {'aria-label': '受控视图'}, onChange: showControlled}), controlledHost);
-        document.querySelector<HTMLOutputElement>('#btnSegmentedControlledValue')!.value = value;
+        render(h(BtnGroupReact, {radio: true, name: 'controlledView', value, items, attrs: {'aria-label': '受控视图'}, onChange: showControlled}), controlledHost);
+        document.querySelector<HTMLOutputElement>('#btnGroupControlledValue')!.value = value;
     };
     showControlled('list');
 
@@ -72,7 +71,7 @@ function setupRadioExamples() {
     radioRoots.push(builderHost);
     render(h(FormBuilder, {
         schema: {type: 'object', properties: {
-            view: {type: 'string', title: '视图', required: true, widget: 'BtnSegmented', props: {radio: true, items, attrs: {'aria-label': '视图'}}},
+            view: {type: 'string', title: '视图', required: true, widget: 'BtnGroup', props: {radio: true, items, attrs: {'aria-label': '视图'}}},
         }},
         defaultData: {view: 'card'},
         onDataChange: (data) => {

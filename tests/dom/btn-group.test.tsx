@@ -4,7 +4,7 @@ import {act, fireEvent, render} from '@testing-library/preact';
 import {createRef} from 'preact';
 import {describe, expect, it, vi} from 'vitest';
 import {BtnGroup as VanillaBtnGroup} from '@zui/btn-group';
-import {BtnGroup, BtnSegmented} from '@zui/btn-group/react';
+import {BtnGroup} from '@zui/btn-group/react';
 import {FormControl, FormGroup} from '@zui/form-control/react';
 import {FormBuilder} from '@zui/form-builder/react';
 import type {BtnGroupItem} from '@zui/btn-group';
@@ -32,7 +32,6 @@ it('supports the existing vanilla BtnGroup constructor, controlled render and de
 
 describe.each([
     ['BtnGroup', BtnGroup, 'btn-group'],
-    ['BtnSegmented', BtnSegmented, 'btn-segmented'],
 ] as const)('%s radio mode', (widget, Group, className) => {
     it('submits the native selection and resets without firing change', () => {
         const onChange = vi.fn();

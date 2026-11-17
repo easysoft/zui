@@ -1,16 +1,12 @@
-.btn-group > input[type="radio"],
-.btn-segmented > input[type="radio"] {
+.btn-group > input[type="radio"] {
     @apply -sr-only;
 }
-.btn-group > input[type="radio"]:focus + label,
-.btn-segmented > input[type="radio"]:focus + label {
+.btn-group > input[type="radio"]:focus + label {
     @apply -outline -outline-focus -outline-2 -outline-offset-2;
 }
-.btn-group > input[type="radio"]:disabled + label,
-.btn-segmented > input[type="radio"]:disabled + label {
+.btn-group > input[type="radio"]:disabled + label {
     @apply -cursor-not-allowed -grayscale -opacity-[--opacity-disabled];
 }
-.btn-group > input[type="radio"]:disabled + label::before,
-.btn-segmented > input[type="radio"]:disabled + label::before {
+.btn-group > input[type="radio"]:disabled + label::before {
     @apply -hidden;
 }

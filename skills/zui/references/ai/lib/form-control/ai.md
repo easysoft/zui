@@ -354,10 +354,10 @@ Input/TextArea 类型没有声明全部原生 HTML 属性；扩展属性可通�
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/form-control/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/form-control/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/form-control/docs/lib/forms/index.md>)
-- [源码 src/main-react.ts](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/form-control/src/main-react.ts>)
-- [源码 src/types/index.ts](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/form-control/src/types/index.ts>)
-- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/form-control/src/style/index.ts>)
-- [源码 src/style/vars.css](<https://github.com/easysoft/zui/blob/7e9390853de5d81886c46ee5daa4fc7e0cb37eed/lib/form-control/src/style/vars.css>)
+- [包元数据](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/form-control/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/form-control/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/form-control/docs/lib/forms/index.md>)
+- [源码 src/main-react.ts](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/form-control/src/main-react.ts>)
+- [源码 src/types/index.ts](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/form-control/src/types/index.ts>)
+- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/form-control/src/style/index.ts>)
+- [源码 src/style/vars.css](<https://github.com/easysoft/zui/blob/787bb05af91acaf8a2d8a0592ce1eff90ced9dd9/lib/form-control/src/style/vars.css>)

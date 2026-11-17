@@ -4,7 +4,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。先确认应用实际运行版本、导出、类型和 CSS。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-来源基线：`7e9390853de5d81886c46ee5daa4fc7e0cb37eed`；源码包含未提交变更：是，在线出处仅代表提交基线，随包文档对应清单中的内容摘要。[完整清单](manifest.json)。
+来源基线：`787bb05af91acaf8a2d8a0592ce1eff90ced9dd9`；源码包含未提交变更：是，在线出处仅代表提交基线，随包文档对应清单中的内容摘要。[完整清单](manifest.json)。
 
 ## 离线读取
 
@@ -20,7 +20,7 @@ node <skill-root>/references/ai/read.mjs --lib menu --section constraints --runt
 
 ## 文档覆盖
 
-已发现 64 个内置库，64 个具有结构有效的使用参考，0 个缺少参考。仅收录内置库，不包含本机 exts。
+已发现 65 个内置库，65 个具有结构有效的使用参考，0 个缺少参考。仅收录内置库，不包含本机 exts。
 
 状态按清单分别标记：`wip` 表示默认全量构建排除；`separately` 表示独立使用、默认全量构建排除；`notReady` 表示使用 `--exclude-not-ready` 时排除。未标记不等于已完成所有运行验收。
 
@@ -324,6 +324,22 @@ node <skill-root>/references/ai/read.mjs --lib menu --section constraints --runt
 - [ScrollbarProps](lib/scrollbar/ai.md#types-scrollbar-props)（types）：定义 ScrollbarProps 的字段、参数或取值范围。
 - [ScrollbarState](lib/scrollbar/ai.md#types-scrollbar-state)（types）：定义 ScrollbarState 的字段、参数或取值范围。
 
+### segmented
+
+包：`@zui/segmented`；状态：无额外构建标记。
+
+[使用参考](lib/segmented/ai.md) — 提供原生 radio 语义的分段单选，支持受控值、表单、布局、尺寸、图标和自定义内容。
+
+关键词：分段选择器、单选、表单、Segmented、radio。
+
+- [Segmented](lib/segmented/ai.md#vanilla-segmented)（vanilla）：创建、更新和销毁分段选择器，并读取当前值。
+- [Segmented](lib/segmented/ai.md#preact-segmented)（preact）：使用 items 与受控或非受控值渲染分段单选。
+- [.segmented / .segmented-item / .segmented-input / .segmented-label / .segmented-text / .segmented-icon](lib/segmented/ai.md#css-segmented)（css / component）：通过原生 radio 和标签呈现分段选择，支持纯 HTML。
+- [.segmented-block / .segmented-vertical / .segmented-round / .size-xs…xl](lib/segmented/ai.md#css-segmented-variants)（css / helper）：调整分段选择器布局、形状和 ZUI 标准尺寸。
+- [分段选择器变量](lib/segmented/ai.md#vars-segmented)（css-variables）：通过主题变量定制轨道、选中项、尺寸和间距。
+- [SegmentedOptions / SegmentedItem / SegmentedValue](lib/segmented/ai.md#types-segmented-options)（types）：定义选项、值类型、布局、表单属性和变更回调。
+- [FormControl / FormBuilder 接入](lib/segmented/ai.md#recipe-segmented-form)（recipes）：通过已注册的 Segmented widget 读写字段值。
+
 ### time-span
 
 包：`@zui/time-span`；状态：无额外构建标记。
@@ -527,16 +543,12 @@ node <skill-root>/references/ai/read.mjs --lib menu --section constraints --runt
 
 [使用参考](lib/btn-group/ai.md) — 提供相连和分段两种按钮组外观，支持数据驱动渲染、原生单选与自定义项目。
 
-关键词：按钮组、操作组、分段按钮、原生单选、radio、BtnGroup、BtnSegmented。
+关键词：按钮组、操作组、分段按钮、原生单选、radio、BtnGroup。
 
 - [BtnGroup](lib/btn-group/ai.md#vanilla-btn-group)（vanilla）：以原生构造器创建和更新组件。
 - [BtnGroup](lib/btn-group/ai.md#preact-btn-group)（preact）：使用 CommonList 项目管线生成相连按钮。
-- [BtnSegmented](lib/btn-group/ai.md#preact-btn-segmented)（preact）：使用 BtnGroup 的项目管线渲染分段按钮。
-- [BtnGroup / BtnSegmented radio](lib/btn-group/ai.md#preact-radio-form)（preact）：生成原生表单单选，并接入 FormControl 和 FormBuilder。
+- [BtnGroup radio](lib/btn-group/ai.md#preact-radio-form)（preact）：生成原生表单单选，并接入 FormControl 和 FormBuilder。
 - [.btn-group](lib/btn-group/ai.md#css-btn-group)（css / component）：连接直接子按钮的边缘。
-- [.btn-segmented](lib/btn-group/ai.md#css-btn-segmented)（css / component）：以单行、独立圆角按钮呈现分段选择外观。
-- [.btn-segmented \> input\[type=radio\] + label.btn](lib/btn-group/ai.md#css-btn-segmented-radio)（css / component）：使用原生 radio 提供分段单选、键盘操作和表单行为。
-- [--btn-radius](lib/btn-group/ai.md#css-variables-btn-segmented)（css-variables）：分段容器及组内按钮共享圆角。
 - [BtnGroupOptions / BtnGroupItem](lib/btn-group/ai.md#types-btn-group)（types）：列出组件完整专有参数和回调约定。
 
 ### calendar

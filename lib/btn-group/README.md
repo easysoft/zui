@@ -26,7 +26,7 @@ console.log('> btnGroup', btnGroup);
 
 ## btn-group
 
-```html:example: -flex -gap-3
+```html:example:flex gap-3
 <div class="btn-group">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
@@ -34,26 +34,15 @@ console.log('> btnGroup', btnGroup);
 </div>
 ```
 
-## btn-segmented
-
-```html:example: -flex -gap-3
-<div class="btn-segmented" role="group" aria-label="视图">
-  <button type="button" class="btn" aria-pressed="false">列表</button>
-  <button type="button" class="btn active" aria-pressed="true">卡片</button>
-  <button type="button" class="btn" aria-pressed="false">看板</button>
-</div>
-```
-
-分段外观单行排列并按内容收缩；按钮模式的 `active` 与 `aria-pressed` 由调用方维护，表单单选使用 `radio: true`。Preact 用法见 [BtnSegmented 使用参考](ai.md#preact-btn-segmented)。
+分段单选使用独立的 [Segmented](../segmented/README.md)。
 
 ## 组件表单单选
 
-`BtnGroup` 和 `BtnSegmented` 设置 `radio: true` 后生成原生 radio。`name` 是表单字段名，`items[].value` 是提交值；未指定 value 的项目使用列表 key。`defaultValue` 设置初值，重置按钮恢复初值。
+`BtnGroup` 设置 `radio: true` 后生成原生 radio。`name` 是表单字段名，`items[].value` 是提交值；未指定 value 的项目使用列表 key。`defaultValue` 设置初值，重置按钮恢复初值。
 
 ```html:example
 <form id="btnGroupRadioForm" class="space-y-3">
   <fieldset><legend>相连按钮</legend><div id="btnGroupRadio"></div></fieldset>
-  <fieldset><legend>分段按钮</legend><div id="btnSegmentedRadio"></div></fieldset>
   <div class="flex gap-3">
     <button class="btn" type="submit">读取表单</button>
     <button class="btn" type="reset">重置</button>
@@ -67,13 +56,13 @@ console.log('> btnGroup', btnGroup);
 传入 `value` 后，由调用方在 `onChange(value, event)` 中更新值；未更新时保持原选项，表单重置也保持当前 `value`。
 
 ```html:example
-<div id="btnSegmentedControlled"></div>
-<output id="btnSegmentedControlledValue" aria-live="polite"></output>
+<div id="btnGroupControlled"></div>
+<output id="btnGroupControlledValue" aria-live="polite"></output>
 ```
 
 ### FormBuilder
 
-加载按钮组主入口后，使用 `widget: 'BtnGroup'` 或 `'BtnSegmented'`，并在 `props` 中设置 `radio: true`。`FormControl` 使用相同配置。完整源码工作区示例见 [表单单选接入](ai.md#preact-radio-form)。
+加载按钮组主入口后，使用 `widget: 'BtnGroup'`，并在 `props` 中设置 `radio: true`。`FormControl` 使用相同配置。完整源码工作区示例见 [表单单选接入](ai.md#preact-radio-form)。
 
 ```html:example
 <div id="btnGroupFormBuilder"></div>
@@ -82,8 +71,8 @@ console.log('> btnGroup', btnGroup);
 
 ## button groups with form radios
 
-```html:example: -flex -gap-3
-<div id="btnSegmentedNative" class="btn-segmented" role="group" aria-label="选择视图">
+```html:example:flex gap-3
+<div id="btnGroupNative" class="btn-group" role="group" aria-label="选择视图">
   <input type="radio" id="listItem" name="view" value="list">
   <label class="btn" for="listItem">列表</label>
   <input type="radio" id="cardItem" name="view" value="card" checked>
@@ -93,11 +82,11 @@ console.log('> btnGroup', btnGroup);
 </div>
 ```
 
-同组 radio 共用 `name`，每个 `input` 与紧邻的 `label` 通过唯一的 `id`/`for` 关联。浏览器维护选中状态、方向键切换和表单取值/重置；`disabled` 同步显示为标签的禁用状态。详见 [原生 radio 用法](ai.md#css-btn-segmented-radio)。
+同组 radio 共用 `name`，每个 `input` 与紧邻的 `label` 通过唯一的 `id`/`for` 关联。浏览器维护选中状态、方向键切换和表单取值/重置；`disabled` 同步显示为标签的禁用状态。详见 [原生 radio 用法](ai.md#css-btn-group)。
 
 ## btn-group sizes
 
-```html:example: -flex -gap-3
+```html:example:flex gap-3
 <div class="btn-group size-xl">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
@@ -127,7 +116,7 @@ console.log('> btnGroup', btnGroup);
 
 ## btn-group styles
 
-```html:example: -flex -gap-3
+```html:example:flex gap-3
 <div class="btn-group">
   <button type="button" class="btn primary">Primary</button>
   <button type="button" class="btn primary">左</button>
@@ -162,7 +151,7 @@ console.log('> btnGroup', btnGroup);
 
 ## with dropdown
 
-```html:example: -flex -gap-3
+```html:example:flex gap-3
 <div class="btn-group">
   <button type="button" class="btn">春天</button>
   <button type="button" class="btn" data-toggle="dropdown"  data-target="#dropdownMenu">未来 <span class="caret"></span></button>

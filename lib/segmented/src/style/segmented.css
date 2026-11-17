@@ -1,0 +1,96 @@
+.segmented {
+    @apply -inline-flex -max-w-full -align-middle -gap-[--segmented-gap] -p-[--segmented-padding] -rounded-[--segmented-radius] -bg-[--segmented-bg] -text-[--segmented-color] -ring-1 -ring-[--segmented-border-color] -shadow-inner;
+}
+.segmented-item {
+    @apply -relative -flex -min-w-0 -flex-initial;
+}
+.segmented-input {
+    @apply -sr-only;
+}
+.segmented-label {
+    @apply -flex -w-full -min-w-0 -items-center -justify-center -gap-1.5 -px-3 -rounded-[--segmented-radius] -cursor-pointer -select-none -text-center -transition-colors;
+    min-height: calc(var(--segmented-height) - var(--segmented-padding) * 2);
+}
+.segmented-text {
+    @apply -min-w-0 -truncate;
+}
+.segmented-icon {
+    @apply -inline-block -flex-none;
+}
+.segmented-input:enabled:not(:checked) + .segmented-label:hover {
+    @apply -bg-[--segmented-hover-bg];
+}
+.segmented-input:checked + .segmented-label {
+    @apply -bg-[--segmented-selected-bg] -text-[--segmented-selected-color] -shadow-sm -ring-1 -ring-[--segmented-border-color];
+}
+.segmented-input:focus + .segmented-label {
+    @apply -outline -outline-focus -outline-2 -outline-offset-2;
+}
+.segmented-input:disabled + .segmented-label {
+    @apply -cursor-not-allowed -opacity-[--opacity-disabled];
+}
+.segmented-block {
+    @apply -flex -w-full;
+}
+.segmented-block > .segmented-item {
+    @apply -flex-1;
+}
+.segmented-vertical {
+    @apply -flex-col;
+}
+.segmented-round {
+    --segmented-radius: 9999px;
+}
+.segmented.size-xs {
+    --segmented-height: 1.25rem;
+    @apply -text-xs;
+}
+.segmented.size-sm {
+    --segmented-height: 1.5rem;
+    @apply -text-sm;
+}
+.segmented.size-md {
+    --segmented-height: 1.75rem;
+}
+.segmented.size-lg {
+    --segmented-height: 2.5rem;
+    @apply -text-lg;
+}
+.segmented.size-xl {
+    --segmented-height: 3rem;
+    @apply -text-xl;
+}
+.segmented.size-xs .segmented-label {
+    @apply -px-1;
+}
+.segmented.size-sm .segmented-label,
+.segmented.size-md .segmented-label {
+    @apply -px-2;
+}
+.segmented.size-lg .segmented-label {
+    @apply -px-4;
+}
+.segmented.size-xl .segmented-label {
+    @apply -px-5;
+}
+@media (prefers-reduced-motion: reduce) {
+    .segmented-label {
+        @apply -transition-none;
+    }
+}
+@media (forced-colors: active) {
+    .segmented {
+        border: 1px solid ButtonText;
+    }
+    .segmented-input:checked + .segmented-label {
+        outline: 2px solid Highlight;
+        outline-offset: -2px;
+    }
+    .segmented-input:focus + .segmented-label {
+        outline: 2px dashed ButtonText;
+        outline-offset: 2px;
+    }
+    .segmented-input:disabled + .segmented-label {
+        color: GrayText;
+    }
+}

@@ -1,0 +1,12 @@
+:root {
+    --segmented-height: 2rem;
+    --segmented-radius: var(--radius);
+    --segmented-padding: 0.125rem;
+    --segmented-gap: 0.25rem;
+    --segmented-bg: var(--color-gray-100);
+    --segmented-color: var(--color-fore);
+    --segmented-border-color: var(--color-border);
+    --segmented-selected-bg: var(--color-canvas);
+    --segmented-selected-color: var(--color-fore);
+    --segmented-hover-bg: var(--color-gray-200);
+}

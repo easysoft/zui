@@ -5,7 +5,7 @@ import type {Page} from '@playwright/test';
 import type {ComponentType} from 'preact';
 import type {BtnGroupOptions} from '@zui/btn-group';
 
-async function mountRadioComponent(page: Page, variant: 'BtnGroup' | 'BtnSegmented', theme = 'light', controlled = false) {
+async function mountRadioComponent(page: Page, variant: 'BtnGroup', theme = 'light', controlled = false) {
     await page.goto('/btn-group/');
     await page.locator('#libPage.is-loaded').waitFor();
     await expect(page).toHaveTitle(/ZUI/);
@@ -55,7 +55,7 @@ async function submittedValue(page: Page) {
     return page.locator('#radioForm').evaluate(form => new FormData(form as HTMLFormElement).getAll('view'));
 }
 
-for (const variant of ['BtnGroup', 'BtnSegmented'] as const) {
+for (const variant of ['BtnGroup'] as const) {
     for (const theme of ['light', 'dark']) {
         test(`${variant} radios preserve keyboard, form and visual states in ${theme}`, async ({page}, testInfo) => {
             const errors: string[] = [];
@@ -163,11 +163,11 @@ test('button group development examples wire native forms, controlled props and 
     await expect(page.locator('vite-error-overlay')).toHaveCount(0);
     await page.locator('#btnGroupRadio').getByText('列表').click();
     await page.locator('#btnGroupRadioForm').getByRole('button', {name: '读取表单'}).click();
-    await expect(page.locator('#btnGroupRadioForm output')).toHaveText('{"view":"list","layout":"card"}');
+    await expect(page.locator('#btnGroupRadioForm output')).toHaveText('{"view":"list"}');
     await page.locator('#btnGroupRadioForm').getByRole('button', {name: '重置'}).click();
     await expect(page.locator('#btnGroupRadio').getByRole('radio', {name: '卡片'})).toBeChecked();
-    await page.locator('#btnSegmentedControlled').getByText('卡片').click();
-    await expect(page.locator('#btnSegmentedControlledValue')).toHaveText('card');
+    await page.locator('#btnGroupControlled').getByText('卡片').click();
+    await expect(page.locator('#btnGroupControlledValue')).toHaveText('card');
     await page.locator('#btnGroupFormBuilder').getByText('列表').click();
     await expect(page.locator('#btnGroupFormBuilderValue')).toHaveText('{"view":"list"}');
     expect(errors).toEqual([]);
