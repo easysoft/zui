@@ -527,6 +527,7 @@
 - [BtnGroup](lib/btn-group/ai.md#vanilla-btn-group)（vanilla）：以原生构造器创建和更新组件。
 - [BtnGroup](lib/btn-group/ai.md#preact-btn-group)（preact）：使用 CommonList 项目管线生成相连按钮。
 - [BtnSegmented](lib/btn-group/ai.md#preact-btn-segmented)（preact）：使用 BtnGroup 的项目管线渲染分段按钮。
+- [BtnGroup / BtnSegmented radio](lib/btn-group/ai.md#preact-radio-form)（preact）：生成原生表单单选，并接入 FormControl 和 FormBuilder。
 - [.btn-group](lib/btn-group/ai.md#css-btn-group)（css / component）：连接直接子按钮的边缘。
 - [.btn-segmented](lib/btn-group/ai.md#css-btn-segmented)（css / component）：以单行、独立圆角按钮呈现分段选择外观。
 - [.btn-segmented \> input\[type=radio\] + label.btn](lib/btn-group/ai.md#css-btn-segmented-radio)（css / component）：使用原生 radio 提供分段单选、键盘操作和表单行为。

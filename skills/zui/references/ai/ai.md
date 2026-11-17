@@ -4,7 +4,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。先确认应用实际运行版本、导出、类型和 CSS。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-来源基线：`a9d2a6feb2644faa23b0ce60e54f3746fa853acc`；源码包含未提交变更：是，在线出处仅代表提交基线，随包文档对应清单中的内容摘要。[完整清单](manifest.json)。
+来源基线：`7e9390853de5d81886c46ee5daa4fc7e0cb37eed`；源码包含未提交变更：是，在线出处仅代表提交基线，随包文档对应清单中的内容摘要。[完整清单](manifest.json)。
 
 ## 离线读取
 
@@ -532,6 +532,7 @@ node <skill-root>/references/ai/read.mjs --lib menu --section constraints --runt
 - [BtnGroup](lib/btn-group/ai.md#vanilla-btn-group)（vanilla）：以原生构造器创建和更新组件。
 - [BtnGroup](lib/btn-group/ai.md#preact-btn-group)（preact）：使用 CommonList 项目管线生成相连按钮。
 - [BtnSegmented](lib/btn-group/ai.md#preact-btn-segmented)（preact）：使用 BtnGroup 的项目管线渲染分段按钮。
+- [BtnGroup / BtnSegmented radio](lib/btn-group/ai.md#preact-radio-form)（preact）：生成原生表单单选，并接入 FormControl 和 FormBuilder。
 - [.btn-group](lib/btn-group/ai.md#css-btn-group)（css / component）：连接直接子按钮的边缘。
 - [.btn-segmented](lib/btn-group/ai.md#css-btn-segmented)（css / component）：以单行、独立圆角按钮呈现分段选择外观。
 - [.btn-segmented \> input\[type=radio\] + label.btn](lib/btn-group/ai.md#css-btn-segmented-radio)（css / component）：使用原生 radio 提供分段单选、键盘操作和表单行为。

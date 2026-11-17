@@ -6,7 +6,7 @@ import type {Page} from '@playwright/test';
 async function mountRadioFixture(page: Page, theme: string) {
     await page.goto('/btn-group/');
     await page.locator('#libPage.is-loaded').waitFor();
-    const markup = await page.locator('#libPage .btn-segmented:has(input[type="radio"])').evaluate(element => element.outerHTML);
+    const markup = await page.locator('#libPage #btnSegmentedNative').evaluate(element => element.outerHTML);
     await page.evaluate(({markup, theme}) => {
         document.documentElement.classList.toggle('dark', theme === 'dark');
         document.body.className = '';

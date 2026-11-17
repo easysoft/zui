@@ -25,6 +25,7 @@
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*",
         "@zui/dropdown": "workspace:^3.1.0",
+        "@zui/form-builder": "workspace:^3.1.0",
         "@zui/menu": "workspace:^3.1.0"
     },
     "zui": {

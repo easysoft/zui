@@ -4,7 +4,11 @@ import '@zui/menu';
 import '@zui/dropdown';
 import '@zui/css-icons';
 import '@zui/button';
+import '@zui/form-builder';
+import {h, render} from 'preact';
+import {FormBuilder} from '@zui/form-builder/react';
 import {BtnGroup} from './src/main';
+import {BtnGroup as BtnGroupReact, BtnSegmented} from './src/main-react';
 
 onPageLoad(() => {
     const btnGroup = new BtnGroup('#btnGroup', {
@@ -24,4 +28,62 @@ onPageLoad(() => {
         },
     });
     console.log('> btnGroup', btnGroup);
+});
+
+const radioRoots: HTMLElement[] = [];
+
+function clearRadioExamples() {
+    radioRoots.splice(0).forEach(root => render(null, root));
+}
+
+function setupRadioExamples() {
+    clearRadioExamples();
+    const items = [
+        {text: '列表', value: 'list'},
+        {text: '卡片', value: 'card'},
+        {text: '看板', value: 'board', disabled: true},
+    ];
+    const form = document.querySelector<HTMLFormElement>('#btnGroupRadioForm');
+    if (!form) {
+        return;
+    }
+    for (const [id, Component, name] of [
+        ['btnGroupRadio', BtnGroupReact, 'view'],
+        ['btnSegmentedRadio', BtnSegmented, 'layout'],
+    ] as const) {
+        const host = document.getElementById(id)!;
+        radioRoots.push(host);
+        render(h(Component, {radio: true, name, defaultValue: 'card', items, attrs: {'aria-label': '视图'}}), host);
+    }
+    form.onsubmit = (event) => {
+        event.preventDefault();
+        form.querySelector('output')!.value = JSON.stringify(Object.fromEntries(new FormData(form)));
+    };
+
+    const controlledHost = document.getElementById('btnSegmentedControlled')!;
+    radioRoots.push(controlledHost);
+    const showControlled = (value: string) => {
+        render(h(BtnSegmented, {radio: true, name: 'controlledView', value, items, attrs: {'aria-label': '受控视图'}, onChange: showControlled}), controlledHost);
+        document.querySelector<HTMLOutputElement>('#btnSegmentedControlledValue')!.value = value;
+    };
+    showControlled('list');
+
+    const builderHost = document.getElementById('btnGroupFormBuilder')!;
+    radioRoots.push(builderHost);
+    render(h(FormBuilder, {
+        schema: {type: 'object', properties: {
+            view: {type: 'string', title: '视图', required: true, widget: 'BtnSegmented', props: {radio: true, items, attrs: {'aria-label': '视图'}}},
+        }},
+        defaultData: {view: 'card'},
+        onDataChange: (data) => {
+            document.querySelector<HTMLOutputElement>('#btnGroupFormBuilderValue')!.value = JSON.stringify(data);
+        },
+    }), builderHost);
+}
+
+onPageUpdate(setupRadioExamples);
+import.meta.hot?.dispose(() => {
+    clearRadioExamples();
+    document.removeEventListener('dev-page-load', setupRadioExamples);
+    document.removeEventListener('dev-page-update', setupRadioExamples);
 });

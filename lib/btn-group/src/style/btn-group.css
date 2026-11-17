@@ -2,7 +2,8 @@
   @apply -flex -gap-px;
 }
 
-.btn-group > .btn.active {
+.btn-group > .btn.active,
+.btn-group > input[type="radio"]:checked + label {
   @apply -z-[1];
 }
 .btn-group > .btn:focus-within,
@@ -14,12 +15,28 @@
   @apply -z-0;
 }
 
-.btn-group > .btn:not(:first-child) {
+.btn-group > .btn:not(:first-child, input:first-child + label) {
   @apply -rounded-l-none -border-l -border-l-canvas/20;
 }
-.btn-group > .btn:not(:first-child)::before {
+.btn-group > .btn:not(:first-child, input:first-child + label)::before {
   @apply --left-px;
 }
 .btn-group > .btn:not(:last-child) {
   @apply -rounded-r-none;
+}
+
+.btn-group > input[type="radio"]:checked + label:not(:hover, :active)::before {
+  @apply -scale-100 -duration-700 -shadow-inner;
+  opacity: var(--state-active-opacity, 0);
+  background: var(--state-active-color, var(--state-color));
+}
+.btn-group > input[type="radio"]:checked + label {
+  /* Native radio focus is separate from the button overlay disabled by Firefox's button workaround. */
+  --state-active-opacity: 1;
+}
+.btn-group > input[type="radio"]:focus + label {
+  @apply -z-[2];
+}
+.btn-group > input[type="radio"]:disabled + label {
+  @apply -z-0;
 }

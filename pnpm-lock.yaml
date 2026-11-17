@@ -481,6 +481,9 @@ importers:
       '@zui/dropdown':
         specifier: workspace:^3.1.0
         version: link:../dropdown
+      '@zui/form-builder':
+        specifier: workspace:^3.1.0
+        version: link:../form-builder
       '@zui/menu':
         specifier: workspace:^3.1.0
         version: link:../menu

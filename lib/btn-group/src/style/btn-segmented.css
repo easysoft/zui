@@ -11,19 +11,7 @@
     --state-active-opacity: 0;
 }
 
-.btn-segmented > input[type="radio"] {
-    @apply -sr-only;
-}
 .btn-segmented > input[type="radio"]:checked + label {
     @apply -bg-canvas -ring-[--btn-border-color] -shadow -text-fore;
     --state-active-opacity: 0;
-}
-.btn-segmented > input[type="radio"]:focus + label {
-    @apply -outline -outline-focus -outline-2 -outline-offset-2;
-}
-.btn-segmented > input[type="radio"]:disabled + label {
-    @apply -cursor-not-allowed -grayscale -opacity-[--opacity-disabled];
-}
-.btn-segmented > input[type="radio"]:disabled + label::before {
-    @apply -hidden;
 }
