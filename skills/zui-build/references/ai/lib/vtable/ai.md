@@ -2,7 +2,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。本技能内置运行版本为 3.0.0；即使版本号相同，也不能据此推定 API 一致。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-> [版本与来源清单](../../manifest.json)；源码出处为固定提交的在线链接，跨库使用参考可离线读取。
+> [版本与来源清单](../../manifest.json)；在线源码引用随 main 分支更新，跨库使用参考可离线读取。
 
 ## meta
 
@@ -21,7 +21,7 @@ VTable 使用 TanStack Table Core 9.2.4 管理行列模型，通过 [Virtualize]
 | 环境 | 接入方式 |
 | --- | --- |
 | workspace | `@zui/vtable` 导出原生类及公共类型，自动接入基础样式和组件注册；`@zui/vtable/react` 导出 Preact 类及公共类型；`@zui/vtable/css` 仅接入样式。必须解析工作区包并编译 TypeScript/Preact JSX。 |
-| browser | 加载包含 `vtable` 的 ZUI JS/CSS 后使用 `zui.VTable`。默认全量构建只含核心；插件须通过 [组合构建配置](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/vtable/build.plugins.json>) 显式导出。 |
+| browser | 加载包含 `vtable` 的 ZUI JS/CSS 后使用 `zui.VTable`。默认全量构建只含核心；插件须通过 [组合构建配置](<https://github.com/easysoft/zui/blob/main/lib/vtable/build.plugins.json>) 显式导出。 |
 | npm | 当前源码的标准 `zui` 候选包导出核心 `VTable` 和 `VTable` 前缀类型，样式为 `zui/css`；不提供插件、Preact 或 `zui/vtable` 子路径。以目标已发布版本的实际导出为准。 |
 
 原生主入口注册 `VTable`，可由 ZUI 创建器使用 `zui-create="vtable"`；复杂列定义和回调仍须由 JavaScript 传入。没有专属 Web Component。
@@ -168,7 +168,7 @@ render(<VTable
 {"name":"VTable 公共类型","summary":"定义数据、平面列、插件、引擎与渲染上下文的泛型契约。"}
 ```
 
-`@zui/vtable` 和 `/react` 导出 [types.ts](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/vtable/src/types.ts>) 中全部 `VTable` 前缀类型。`TData` 保留业务行形状，`TFeatures` 描述插件组合。主要成员如下：
+`@zui/vtable` 和 `/react` 导出 [types.ts](<https://github.com/easysoft/zui/blob/main/lib/vtable/src/types.ts>) 中全部 `VTable` 前缀类型。`TData` 保留业务行形状，`TFeatures` 描述插件组合。主要成员如下：
 
 | 类型 | 契约 |
 | --- | --- |
@@ -224,14 +224,14 @@ const table = new VTable('#projects', {
 - Tab/空格/Enter 操作可见控件，缩放列支持键盘；没有电子表格式方向键导航。焦点所在虚拟行移出后，焦点回到表格根节点。
 - CustomContent 中的 HTML 描述仅用于可信内容；纯文本可直接传字符串。
 - 原生实例持有引擎但不提供额外销毁协议，使用 `destroy()`；Preact 使用正常卸载。插件清理异常会在尝试其他资源清理后汇总抛出。
-- [性能记录](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/vtable/performance.md>) 来自旧分支的历史测量，不表示当前主线的速度或跨环境性能承诺。
+- [性能记录](<https://github.com/easysoft/zui/blob/main/lib/vtable/performance.md>) 来自旧分支的历史测量，不表示当前主线的速度或跨环境性能承诺。
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/vtable/package.json>)
-- [正式文档](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/vtable/docs/lib/components/index.md>)
-- [原生入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/vtable/src/vanilla/index.ts>)
-- [Preact 实现](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/vtable/src/component/vtable.tsx>)
-- [完整公共类型](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/vtable/src/types.ts>)
-- [插件源码](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/vtable/src/plugins/row-selection.tsx>)
-- [样式变量及布局](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/vtable/src/style/vtable.css>)
+- [包元数据](<https://github.com/easysoft/zui/blob/main/lib/vtable/package.json>)
+- [正式文档](<https://github.com/easysoft/zui/blob/main/lib/vtable/docs/lib/components/index.md>)
+- [原生入口](<https://github.com/easysoft/zui/blob/main/lib/vtable/src/vanilla/index.ts>)
+- [Preact 实现](<https://github.com/easysoft/zui/blob/main/lib/vtable/src/component/vtable.tsx>)
+- [完整公共类型](<https://github.com/easysoft/zui/blob/main/lib/vtable/src/types.ts>)
+- [插件源码](<https://github.com/easysoft/zui/blob/main/lib/vtable/src/plugins/row-selection.tsx>)
+- [样式变量及布局](<https://github.com/easysoft/zui/blob/main/lib/vtable/src/style/vtable.css>)

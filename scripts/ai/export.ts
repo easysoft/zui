@@ -140,7 +140,7 @@ async function renderExports(root: string): Promise<Map<string, Map<string, stri
             const target = Path.posix.normalize(Path.posix.join(Path.posix.dirname(file), decodeURIComponent(pathname.split('?')[0])));
             if (!knownDocuments.has(target)) {
                 const encoded = target.split('/').map(encodeURIComponent).join('/');
-                replacements.set(link, `${repository}/blob/${source.revision}/${encoded}${fragment ? `#${fragment}` : ''}`);
+                replacements.set(link, `${repository}/blob/main/${encoded}${fragment ? `#${fragment}` : ''}`);
             }
         }
         documents.set(file, rewriteReferenceLinks(document!.source, replacements));
@@ -154,13 +154,13 @@ async function renderExports(root: string): Promise<Map<string, Map<string, stri
         const boundary = `> 本参考描述 ZUI ${source.version} 源码快照，未经目标发布包验证。${bundledRuntime ? `本技能内置运行版本为 ${bundledRuntime.version}；即使版本号相同，也不能据此推定 API 一致。` : '先确认应用实际运行版本、导出、类型和 CSS。'} workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。`;
         for (const [file, content] of documents) {
             const end = content.indexOf('\n');
-            files.set(file, `${content.slice(0, end)}\n\n${boundary}\n\n> [版本与来源清单](../../manifest.json)；源码出处为固定提交的在线链接，跨库使用参考可离线读取。${content.slice(end)}`);
+            files.set(file, `${content.slice(0, end)}\n\n${boundary}\n\n> [版本与来源清单](../../manifest.json)；在线源码引用随 main 分支更新，跨库使用参考可离线读取。${content.slice(end)}`);
         }
         const introduction = [
             '# 随包 ZUI AI 使用索引', '',
             '<!-- 由 pnpm ai:export 生成；维护仓库 lib/*/ai.md 后重新导出，不手工修改副本。 -->', '',
             boundary, '',
-            `来源基线：\`${source.revision}\`；源码包含未提交变更：${source.modified ? '是，在线出处仅代表提交基线，随包文档对应清单中的内容摘要' : '否'}。[完整清单](manifest.json)。`, '',
+            '源码快照的基线提交、内容摘要及未提交修改状态见[版本与来源清单](manifest.json)。在线源码引用随 main 分支更新。', '',
             '## 离线读取', '',
             '直接打开本索引和库级 Markdown，或使用 Node（不需要 pnpm、安装依赖或源码仓库）：', '',
             '```sh',

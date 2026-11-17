@@ -2,7 +2,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。先确认应用实际运行版本、导出、类型和 CSS。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-> [版本与来源清单](../../manifest.json)；源码出处为固定提交的在线链接，跨库使用参考可离线读取。
+> [版本与来源清单](../../manifest.json)；在线源码引用随 main 分支更新，跨库使用参考可离线读取。
 
 ## meta
 
@@ -22,9 +22,9 @@
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/copy-btn`](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/copy-btn/src/main.ts>) 公开原生组件和相应类型。
+主入口 [`@zui/copy-btn`](<https://github.com/easysoft/zui/blob/main/lib/copy-btn/src/main.ts>) 公开原生组件和相应类型。
 
-Preact 入口 [`@zui/copy-btn/react`](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/copy-btn/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
+Preact 入口 [`@zui/copy-btn/react`](<https://github.com/easysoft/zui/blob/main/lib/copy-btn/src/main-react.ts>)，其历史 `/react` 命名不表示 React 支持。为完整包含本库及依赖样式，JSX 示例同时导入主入口。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/copy-btn` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -76,7 +76,7 @@ const instance = new CopyBtn(host, {copy: 'Hello ZUI', onCopied: () => console.l
 // 所属页面退出时：instance.destroy(); host.remove();
 ```
 
-来源：[CopyBtn](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/copy-btn/src/vanilla/copy-btn.ts>)。
+来源：[CopyBtn](<https://github.com/easysoft/zui/blob/main/lib/copy-btn/src/vanilla/copy-btn.ts>)。
 
 ## preact
 
@@ -120,7 +120,7 @@ const dispose = mountExample();
 // 所属页面卸载时：dispose();
 ```
 
-来源：[CopyBtn](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/copy-btn/src/components/copy-btn.tsx>)。
+来源：[CopyBtn](<https://github.com/easysoft/zui/blob/main/lib/copy-btn/src/components/copy-btn.tsx>)。
 
 ## web-components
 
@@ -220,7 +220,7 @@ export type CopyBtnOptions = {
 };
 ```
 
-来源：[CopyBtnOptions](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/copy-btn/src/types/copy-btn-options.ts>)。
+来源：[CopyBtnOptions](<https://github.com/easysoft/zui/blob/main/lib/copy-btn/src/types/copy-btn-options.ts>)。
 
 ### types-copy-btn-props
 
@@ -234,7 +234,7 @@ export type CopyBtnOptions = {
 export type CopyBtnProps = CopyBtnOptions & ButtonProps;
 ```
 
-来源：[CopyBtnProps](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/copy-btn/src/components/copy-btn.tsx>)。
+来源：[CopyBtnProps](<https://github.com/easysoft/zui/blob/main/lib/copy-btn/src/components/copy-btn.tsx>)。
 
 ## recipes
 
@@ -250,9 +250,9 @@ export type CopyBtnProps = CopyBtnOptions & ButtonProps;
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/copy-btn/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/copy-btn/src/main.ts>)
-- [Preact 入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/copy-btn/src/main-react.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/copy-btn/docs/lib/components/index.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/main/lib/copy-btn/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/main/lib/copy-btn/src/main.ts>)
+- [Preact 入口](<https://github.com/easysoft/zui/blob/main/lib/copy-btn/src/main-react.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/main/lib/copy-btn/docs/lib/components/index.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/main/.agents/skills/zui-standards/references/consumption.md>)

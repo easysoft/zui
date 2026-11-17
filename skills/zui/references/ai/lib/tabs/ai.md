@@ -2,7 +2,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。先确认应用实际运行版本、导出、类型和 CSS。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-> [版本与来源清单](../../manifest.json)；源码出处为固定提交的在线链接，跨库使用参考可离线读取。
+> [版本与来源清单](../../manifest.json)；在线源码引用随 main 分支更新，跨库使用参考可离线读取。
 
 ## meta
 
@@ -88,4 +88,4 @@ browser，复用上例：`tabs.active('#my-tabs a[href="#pane-b"]')`。不要直
 
 ## references
 
-- [入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/tabs/package.json>)、[Tabs 实现](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/tabs/src/vanilla/tabs.ts>)、[面板样式](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/tabs/src/style/tab-pane.css>)
+- [入口](<https://github.com/easysoft/zui/blob/main/lib/tabs/package.json>)、[Tabs 实现](<https://github.com/easysoft/zui/blob/main/lib/tabs/src/vanilla/tabs.ts>)、[面板样式](<https://github.com/easysoft/zui/blob/main/lib/tabs/src/style/tab-pane.css>)

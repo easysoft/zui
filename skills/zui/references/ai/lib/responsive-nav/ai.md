@@ -2,7 +2,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。先确认应用实际运行版本、导出、类型和 CSS。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-> [版本与来源清单](../../manifest.json)；源码出处为固定提交的在线链接，跨库使用参考可离线读取。
+> [版本与来源清单](../../manifest.json)；在线源码引用随 main 分支更新，跨库使用参考可离线读取。
 
 ## meta
 
@@ -113,4 +113,4 @@ browser 或 workspace：在已有导航 li 上加 `is-rsh-fixed`，重新 `helpe
 
 ## references
 
-- [入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/responsive-nav/package.json>)、[实现](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/responsive-nav/src/vanilla/responsive-nav-helper.ts>)、[完整类型](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/responsive-nav/src/types/responsive-nav-helper-props.ts>)
+- [入口](<https://github.com/easysoft/zui/blob/main/lib/responsive-nav/package.json>)、[实现](<https://github.com/easysoft/zui/blob/main/lib/responsive-nav/src/vanilla/responsive-nav-helper.ts>)、[完整类型](<https://github.com/easysoft/zui/blob/main/lib/responsive-nav/src/types/responsive-nav-helper-props.ts>)

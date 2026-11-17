@@ -2,7 +2,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。本技能内置运行版本为 3.0.0；即使版本号相同，也不能据此推定 API 一致。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-> [版本与来源清单](../../manifest.json)；源码出处为固定提交的在线链接，跨库使用参考可离线读取。
+> [版本与来源清单](../../manifest.json)；在线源码引用随 main 分支更新，跨库使用参考可离线读取。
 
 ## meta
 
@@ -128,6 +128,6 @@ arrow 方向：`arrow-top`/`arrow-up`、`arrow-bottom`/`arrow-down`、`arrow-lef
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/css-icons/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/css-icons/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/css-icons/docs/lib/icons/index.md>)
+- [包元数据](<https://github.com/easysoft/zui/blob/main/lib/css-icons/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/main/lib/css-icons/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/main/lib/css-icons/docs/lib/icons/index.md>)

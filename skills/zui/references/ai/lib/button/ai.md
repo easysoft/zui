@@ -2,7 +2,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。先确认应用实际运行版本、导出、类型和 CSS。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-> [版本与来源清单](../../manifest.json)；源码出处为固定提交的在线链接，跨库使用参考可离线读取。
+> [版本与来源清单](../../manifest.json)；在线源码引用随 main 分支更新，跨库使用参考可离线读取。
 
 ## meta
 
@@ -170,7 +170,7 @@ browser 的原生表单按钮：`<button type="submit" class="btn">提交</butto
 
 ## references
 
-- [包入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/button/package.json>)、[主入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/button/src/main.ts>)、[Preact 入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/button/src/main-react.ts>)
-- [Button 实现](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/button/src/component/button.tsx>)、[属性定义](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/button/src/types/button-props.ts>)
-- [样式入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/button/src/style/index.ts>)、[样式变量](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/button/src/style/vars.css>)
-- [正式文档](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/button/docs/lib/components/index.md>)
+- [包入口](<https://github.com/easysoft/zui/blob/main/lib/button/package.json>)、[主入口](<https://github.com/easysoft/zui/blob/main/lib/button/src/main.ts>)、[Preact 入口](<https://github.com/easysoft/zui/blob/main/lib/button/src/main-react.ts>)
+- [Button 实现](<https://github.com/easysoft/zui/blob/main/lib/button/src/component/button.tsx>)、[属性定义](<https://github.com/easysoft/zui/blob/main/lib/button/src/types/button-props.ts>)
+- [样式入口](<https://github.com/easysoft/zui/blob/main/lib/button/src/style/index.ts>)、[样式变量](<https://github.com/easysoft/zui/blob/main/lib/button/src/style/vars.css>)
+- [正式文档](<https://github.com/easysoft/zui/blob/main/lib/button/docs/lib/components/index.md>)

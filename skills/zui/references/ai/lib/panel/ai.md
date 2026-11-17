@@ -2,7 +2,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。先确认应用实际运行版本、导出、类型和 CSS。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-> [版本与来源清单](../../manifest.json)；源码出处为固定提交的在线链接，跨库使用参考可离线读取。
+> [版本与来源清单](../../manifest.json)；在线源码引用随 main 分支更新，跨库使用参考可离线读取。
 
 ## meta
 
@@ -90,4 +90,4 @@ browser：把上例正文替换为应用自己的 form，必要时使用 button 
 
 ## references
 
-- [包配置](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/panel/package.json>)、[入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/panel/src/main.ts>)、[结构样式](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/panel/src/style/panel.css>)、[尺寸](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/panel/src/style/size.css>)、[变量](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/panel/src/style/vars.css>)
+- [包配置](<https://github.com/easysoft/zui/blob/main/lib/panel/package.json>)、[入口](<https://github.com/easysoft/zui/blob/main/lib/panel/src/main.ts>)、[结构样式](<https://github.com/easysoft/zui/blob/main/lib/panel/src/style/panel.css>)、[尺寸](<https://github.com/easysoft/zui/blob/main/lib/panel/src/style/size.css>)、[变量](<https://github.com/easysoft/zui/blob/main/lib/panel/src/style/vars.css>)

@@ -2,7 +2,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。本技能内置运行版本为 3.0.0；即使版本号相同，也不能据此推定 API 一致。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-> [版本与来源清单](../../manifest.json)；源码出处为固定提交的在线链接，跨库使用参考可离线读取。
+> [版本与来源清单](../../manifest.json)；在线源码引用随 main 分支更新，跨库使用参考可离线读取。
 
 ## meta
 
@@ -22,7 +22,7 @@
 
 环境：`workspace`。需要 ZUI 源码工作区的 TypeScript、`@zui/*` 别名和 Vite/PostCSS 配置；涉及 JSX 时使用 Preact，不能使用 React 或 hooks。页面需要 DOM 和基础主题，示例统一先导入 `@zui/base` 与 `@zui/utilities`。
 
-主入口 [`@zui/input-control`](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/input-control/src/main.ts>) 加载样式，无运行时导出。
+主入口 [`@zui/input-control`](<https://github.com/easysoft/zui/blob/main/lib/input-control/src/main.ts>) 加载样式，无运行时导出。
 
 标准 npm 入口按目标包实际 `zui` / `zui/css` 导出核实，不能推导 `zui/input-control` 子路径。普通浏览器脚本只在构建包含该库时使用 `zui` 全局成员；本页示例不声称已发布版本与源码一致。
 
@@ -59,7 +59,7 @@
 | `.input-control > select.form-control` | padding-right: calc(var(--input-control-suffix) + 20px) |
 | `.input-control > select.form-control` | background-position-x: calc(100% - var(--input-control-suffix) - 8px) |
 
-来源：[src/style/vars.css](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/input-control/src/style/vars.css>), [src/style/input-control.css](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/input-control/src/style/input-control.css>), [src/style/size.css](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/input-control/src/style/size.css>)。最小结构由前面的组件示例生成。
+来源：[src/style/vars.css](<https://github.com/easysoft/zui/blob/main/lib/input-control/src/style/vars.css>), [src/style/input-control.css](<https://github.com/easysoft/zui/blob/main/lib/input-control/src/style/input-control.css>), [src/style/size.css](<https://github.com/easysoft/zui/blob/main/lib/input-control/src/style/size.css>)。最小结构由前面的组件示例生成。
 
 ### css-modifiers
 
@@ -143,8 +143,8 @@
 
 ## references
 
-- [包元信息](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/input-control/package.json>)
-- [主入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/input-control/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/input-control/docs/lib/forms/index.md>)
+- [包元信息](<https://github.com/easysoft/zui/blob/main/lib/input-control/package.json>)
+- [主入口](<https://github.com/easysoft/zui/blob/main/lib/input-control/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/main/lib/input-control/docs/lib/forms/index.md>)
 - [组件生命周期](../core/ai.md#vanilla-component)
-- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/.agents/skills/zui-standards/references/consumption.md>)
+- [工作区与发布消费边界](<https://github.com/easysoft/zui/blob/main/.agents/skills/zui-standards/references/consumption.md>)

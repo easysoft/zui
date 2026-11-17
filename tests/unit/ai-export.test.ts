@@ -16,7 +16,7 @@ function document(id: string): string {
         meta: `\`\`\`json\n${JSON.stringify({schemaVersion: 1, library: id, summary: '示例组件。', keywords: ['示例']})}\n\`\`\``,
         setup: 'browser：只使用所选构建已导出的成员。',
         vanilla: '### vanilla-demo\n\n```json\n{"name":"Demo","summary":"创建示例组件。"}\n```\n\n中文 😀\n\n```md\n## fake-section\n[src](src/main.ts)\n```\n\n[共享参考](../core/ai.md#setup) [源码](src/main.ts)\n',
-        references: '[源码][source]\n\n[source]: src/main.ts',
+        references: '[源码][source]\n\n[source]: src/main.ts\n\n[带空格的源码](src/with%20space.ts#demo)',
     };
     return `# Demo\n\n${AI_SECTIONS.map(section => `## ${section}\n\n${sections[section] ?? '无。'}\n\n`).join('')}`;
 }
@@ -35,10 +35,11 @@ describe('portable AI reference export', () => {
             await fs.outputJSON(Path.join(root, 'lib', id, 'package.json'), {name: `@zui/${id}`, version: '3.1.0', zui: {type: 'component'}});
             await fs.outputFile(Path.join(root, 'lib', id, 'ai.md'), document(id));
             await fs.outputFile(Path.join(root, 'lib', id, 'src/main.ts'), 'export const demo = 1;\n');
+            await fs.outputFile(Path.join(root, 'lib', id, 'src/with space.ts'), 'export const demo = 1;\n');
         }
         await fs.outputJSON(Path.join(root, 'skills/zui-build/assets/vendor/zui-3.0.0/manifest.json'), {name: 'zui', version: '3.0.0', files: {}});
         await buildAiIndex(root);
-        await git('init');
+        await git('init', '--initial-branch=fixture');
         await git('add', '.');
         await git('-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', '-c', 'commit.gpgsign=false', 'commit', '-m', 'fixture');
     });
@@ -59,12 +60,16 @@ describe('portable AI reference export', () => {
             const file = Path.join(directory, 'lib/demo/ai.md');
             const text = await fs.readFile(file, 'utf8');
             expect(await checkAiLinks(text, file, directory)).toEqual([]);
-            expect(text).toContain(`https://github.com/easysoft/zui/blob/${revision}/lib/demo/src/main.ts`);
+            expect(text).toContain('https://github.com/easysoft/zui/blob/main/lib/demo/src/main.ts');
+            expect(text).toContain('https://github.com/easysoft/zui/blob/main/lib/demo/src/with%20space.ts#demo');
+            expect(text).not.toContain(revision);
+            expect(await fs.readFile(Path.join(directory, 'ai.md'), 'utf8')).not.toContain(revision);
             expect(text).toContain('[共享参考](../core/ai.md#setup)');
             expect(text).toContain('```md\n## fake-section\n[src](src/main.ts)\n```');
             const {stdout, stderr} = await exec(process.execPath, [Path.join(directory, 'read.mjs'), '--lib', 'demo', '--section', 'vanilla', '--entry', 'vanilla-demo'], {cwd: directory});
             expect(stderr).toBe('');
             expect(stdout).toContain('中文 😀');
+            expect(stdout).toContain(`基线提交 ${revision}`);
             expect(stdout).toContain('### vanilla-demo');
             expect(stdout).not.toContain('## preact');
             expect(stdout).toContain(skill === 'zui-build' ? '内置运行版本 3.0.0：与文档版本不同' : '运行版本未知');
@@ -93,6 +98,36 @@ describe('portable AI reference export', () => {
         await git('add', 'lib/demo/src/main.ts');
         await git('-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', '-c', 'commit.gpgsign=false', 'commit', '-m', 'captured source');
         expect(await exportAiReferences(root, true)).toEqual([]);
+    });
+
+    it.each(['source', 'document'] as const)('limits changed exports after a %s commit and stays deterministic', async (kind) => {
+        await exportAiReferences(root);
+        await git('add', 'skills');
+        await git('-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', '-c', 'commit.gpgsign=false', 'commit', '-m', 'export references');
+        const file = kind === 'source' ? 'lib/demo/src/main.ts' : 'lib/demo/ai.md';
+        if (kind === 'source') {
+            await fs.appendFile(Path.join(root, file), 'export const another = 2;\n');
+        } else {
+            await fs.writeFile(Path.join(root, file), document('demo').replace('中文 😀', '中文 😀 新的说明。'));
+        }
+        await git('add', file);
+        await git('-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', '-c', 'commit.gpgsign=false', 'commit', '-m', `update ${kind}`);
+        const revision = (await git('rev-parse', 'HEAD')).stdout.trim();
+
+        await exportAiReferences(root);
+        const changed = (await git('diff', '--name-only', '--', 'skills')).stdout.trim().split('\n');
+        const expected = ['zui', 'zui-build'].flatMap(skill => (kind === 'source' ? ['manifest.json'] : ['manifest.json', 'catalog.json', 'lib/demo/ai.md'])
+            .map(path => `skills/${skill}/references/ai/${path}`));
+        expect(changed.sort()).toEqual(expected.sort());
+        for (const skill of ['zui', 'zui-build']) {
+            const manifest = await fs.readJSON(Path.join(root, 'skills', skill, 'references/ai/manifest.json'));
+            expect(manifest.source.revision).toBe(revision);
+            expect(manifest.source.modified).toBe(false);
+        }
+        expect(await exportAiReferences(root, true)).toEqual([]);
+        await git('add', 'skills');
+        await exportAiReferences(root);
+        expect((await git('diff', '--name-only', '--', 'skills')).stdout.trim()).toBe('');
     });
 
     it('rejects invalid selections, stale documents and changed runtime manifests', async () => {

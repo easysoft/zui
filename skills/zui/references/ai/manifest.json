@@ -10,5 +10,5 @@
   },
   "compatibility": "verify-target-runtime",
   "bundledRuntime": null,
-  "catalogIntegrity": "sha256-16f787ff42cb6688841c5556255176296aa7d590502e763fefe784b9745d02f3"
+  "catalogIntegrity": "sha256-d7a7246a48f4ef5714d8465b025e7ee76c529fbddef19c4e83b252d0cfd25f7a"
 }

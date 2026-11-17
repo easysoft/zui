@@ -2,7 +2,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。本技能内置运行版本为 3.0.0；即使版本号相同，也不能据此推定 API 一致。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-> [版本与来源清单](../../manifest.json)；源码出处为固定提交的在线链接，跨库使用参考可离线读取。
+> [版本与来源清单](../../manifest.json)；在线源码引用随 main 分支更新，跨库使用参考可离线读取。
 
 ## meta
 
@@ -337,7 +337,7 @@ goto 不自动进入页码按钮的内部更新路径；回调返回 false 阻�
 
 ## references
 
-- [包入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/pager/package.json>)、[原生入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/pager/src/vanilla/index.ts>)、[Preact 入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/pager/src/main-react.ts>)
-- [Pager 实现](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/pager/src/component/pager.tsx>)、[子组件导出](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/pager/src/component/index.ts>)、[公开类型](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/pager/src/types/index.ts>)
-- [Web Component 定义](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/pager/src/web-component/pager.ts>)、[分页计算](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/pager/src/helpers/update-pager-info.ts>)
-- [样式](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/pager/src/style/pager.css>)、[正式 JS 文档](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/pager/docs/lib/components/js.md>)、[静态文档](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/pager/docs/lib/components/index.md>)
+- [包入口](<https://github.com/easysoft/zui/blob/main/lib/pager/package.json>)、[原生入口](<https://github.com/easysoft/zui/blob/main/lib/pager/src/vanilla/index.ts>)、[Preact 入口](<https://github.com/easysoft/zui/blob/main/lib/pager/src/main-react.ts>)
+- [Pager 实现](<https://github.com/easysoft/zui/blob/main/lib/pager/src/component/pager.tsx>)、[子组件导出](<https://github.com/easysoft/zui/blob/main/lib/pager/src/component/index.ts>)、[公开类型](<https://github.com/easysoft/zui/blob/main/lib/pager/src/types/index.ts>)
+- [Web Component 定义](<https://github.com/easysoft/zui/blob/main/lib/pager/src/web-component/pager.ts>)、[分页计算](<https://github.com/easysoft/zui/blob/main/lib/pager/src/helpers/update-pager-info.ts>)
+- [样式](<https://github.com/easysoft/zui/blob/main/lib/pager/src/style/pager.css>)、[正式 JS 文档](<https://github.com/easysoft/zui/blob/main/lib/pager/docs/lib/components/js.md>)、[静态文档](<https://github.com/easysoft/zui/blob/main/lib/pager/docs/lib/components/index.md>)

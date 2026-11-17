@@ -2,7 +2,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。本技能内置运行版本为 3.0.0；即使版本号相同，也不能据此推定 API 一致。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-> [版本与来源清单](../../manifest.json)；源码出处为固定提交的在线链接，跨库使用参考可离线读取。
+> [版本与来源清单](../../manifest.json)；在线源码引用随 main 分支更新，跨库使用参考可离线读取。
 
 ## meta
 
@@ -83,7 +83,7 @@ console.log(settings.get('pageSize', 10));
 settings.remove('pageSize');
 ```
 
-来源：[实现](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/store/src/store.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/main/lib/store/src/store.ts>)。
 
 
 ### javascript-default-store
@@ -94,7 +94,7 @@ settings.remove('pageSize');
 
 `store` 是 id='DEFAULT' 的 Store，并增加 `create(name?:string,type:StoreType='local'):Store`。create 每次返回新实例，独立缓存；同名同类型会访问同一持久命名空间。不要 switch 共享默认实例影响其他使用者。
 
-workspace：`import {store} from '@zui/store'; const session = store.create('draft', 'session'); session.set('text','hello'); session.remove('text');`。来源：[入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/store/src/main.ts>)。
+workspace：`import {store} from '@zui/store'; const session = store.create('draft', 'session'); session.set('text','hello'); session.remove('text');`。来源：[入口](<https://github.com/easysoft/zui/blob/main/lib/store/src/main.ts>)。
 
 ## types
 
@@ -120,6 +120,6 @@ type StoreType = 'local' | 'session';
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/store/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/store/src/main.ts>)
-- [Store 实现](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/store/src/store.ts>)
+- [包元数据](<https://github.com/easysoft/zui/blob/main/lib/store/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/main/lib/store/src/main.ts>)
+- [Store 实现](<https://github.com/easysoft/zui/blob/main/lib/store/src/store.ts>)

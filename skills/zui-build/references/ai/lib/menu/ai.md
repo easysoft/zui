@@ -2,7 +2,7 @@
 
 > 本参考描述 ZUI 3.1.0 源码快照，未经目标发布包验证。本技能内置运行版本为 3.0.0；即使版本号相同，也不能据此推定 API 一致。 workspace 示例需要源码工作区，不能直接推定 npm 或浏览器构建具有同名能力。
 
-> [版本与来源清单](../../manifest.json)；源码出处为固定提交的在线链接，跨库使用参考可离线读取。
+> [版本与来源清单](../../manifest.json)；在线源码引用随 main 分支更新，跨库使用参考可离线读取。
 
 ## meta
 
@@ -329,7 +329,7 @@ await menu.$?.toggle('export', true);
 
 ## references
 
-- [包与公开入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/menu/package.json>)、[原生包装](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/menu/src/vanilla/index.ts>)、[Preact 入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/menu/src/main-react.ts>)
-- [Menu 实现](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/menu/src/component/menu.tsx>)、[SearchMenu 实现](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/menu/src/component/search-menu.tsx>)
-- [类型出口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/menu/src/types/index.ts>)、[样式](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/menu/src/style/index.ts>)
-- [静态菜单文档](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/menu/docs/lib/components/index.md>)、[JS 文档](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/menu/docs/lib/components/js.md>)
+- [包与公开入口](<https://github.com/easysoft/zui/blob/main/lib/menu/package.json>)、[原生包装](<https://github.com/easysoft/zui/blob/main/lib/menu/src/vanilla/index.ts>)、[Preact 入口](<https://github.com/easysoft/zui/blob/main/lib/menu/src/main-react.ts>)
+- [Menu 实现](<https://github.com/easysoft/zui/blob/main/lib/menu/src/component/menu.tsx>)、[SearchMenu 实现](<https://github.com/easysoft/zui/blob/main/lib/menu/src/component/search-menu.tsx>)
+- [类型出口](<https://github.com/easysoft/zui/blob/main/lib/menu/src/types/index.ts>)、[样式](<https://github.com/easysoft/zui/blob/main/lib/menu/src/style/index.ts>)
+- [静态菜单文档](<https://github.com/easysoft/zui/blob/main/lib/menu/docs/lib/components/index.md>)、[JS 文档](<https://github.com/easysoft/zui/blob/main/lib/menu/docs/lib/components/js.md>)
