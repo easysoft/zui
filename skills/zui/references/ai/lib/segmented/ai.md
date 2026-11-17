@@ -100,7 +100,7 @@ show('周');
 {"name": ".segmented / .segmented-item / .segmented-input / .segmented-label / .segmented-text / .segmented-icon", "summary": "通过原生 radio 和标签呈现分段选择，支持纯 HTML。", "role": "component"}
 ```
 
-根为 inline-flex，项目为 label，视觉隐藏的 radio 与 `.segmented-label` 相邻。文本放在 `.segmented-text` 中，图标可放在 `.segmented-icon` 中。选中、焦点、禁用均由输入的伪类反映到标签；不设置 `active` 或 `aria-pressed`。无默认多选模式。
+根为 inline-flex，项目为 label，视觉隐藏的 radio 与 `.segmented-label` 相邻。文本放在 `.segmented-text` 中，图标可放在 `.segmented-icon` 中。选中、焦点、禁用均由输入的伪类反映到标签；不设置 `active` 或 `aria-pressed`。鼠标点击不显示焦点框，Tab 等键盘焦点通过 `:focus-visible` 显示；按下时沿用按钮的 `--state-pressed-*` / `--state-ring-color` 反馈，禁用项无按压反馈。无默认多选模式。
 
 切换动画由 JS 组件的 `animation` 选项开启；内部 `.segmented-animated`、`.segmented-thumb` 及滑块状态由组件维护，不作为纯 HTML 的配置方式。
 
@@ -235,11 +235,11 @@ FormControl 同样使用 `widget="Segmented"`，选项放在 `props` 中；无�
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/segmented/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/segmented/src/main.ts>)
-- [Preact 入口](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/segmented/src/main-react.ts>)
-- [类型](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/segmented/src/types/segmented-options.ts>)
-- [组件](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/segmented/src/component/segmented.tsx>)
-- [样式](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/segmented/src/style/segmented.css>)
-- [开发示例](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/segmented/README.md>)
-- [正式文档](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/segmented/docs/lib/forms/index.md>)
+- [包元数据](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/segmented/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/segmented/src/main.ts>)
+- [Preact 入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/segmented/src/main-react.ts>)
+- [类型](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/segmented/src/types/segmented-options.ts>)
+- [组件](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/segmented/src/component/segmented.tsx>)
+- [样式](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/segmented/src/style/segmented.css>)
+- [开发示例](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/segmented/README.md>)
+- [正式文档](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/segmented/docs/lib/forms/index.md>)

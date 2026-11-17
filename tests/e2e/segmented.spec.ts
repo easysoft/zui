@@ -76,6 +76,7 @@ for (const theme of ['light', 'dark']) {
             const group = page.getByRole('radiogroup', {name: '视图'});
             const list = group.getByRole('radio', {name: '列表'});
             const card = group.getByRole('radio', {name: '卡片'});
+            const listLabel = group.locator('.segmented-label').first();
             const cardLabel = group.locator('.segmented-label').last();
             await expect(list).toBeChecked();
             await expect(group).toHaveCSS('display', 'inline-flex');
@@ -88,14 +89,29 @@ for (const theme of ['light', 'dark']) {
                 expect(new Set(bounds.map(rect => rect.top)).size).toBe(1);
                 expect(bounds.at(-1)!.right).toBeLessThanOrEqual(width);
             }
+            const pressedStyle = (element: Element) => {
+                const style = getComputedStyle(element, '::before');
+                return {background: style.backgroundColor, opacity: style.opacity, shadow: style.boxShadow};
+            };
+            await page.locator('#before').hover();
+            await page.mouse.down();
+            await expect.poll(() => page.locator('#before').evaluate(element => getComputedStyle(element, '::before').opacity)).toBe('0.6');
+            const buttonPressed = await page.locator('#before').evaluate(pressedStyle);
+            await page.mouse.up();
+            await listLabel.hover();
+            await page.mouse.down();
+            await expect.poll(() => listLabel.evaluate(pressedStyle)).toEqual(buttonPressed);
+            await page.mouse.up();
+            await expect(listLabel).toHaveCSS('outline-style', 'none');
+            await expect.poll(() => listLabel.evaluate(element => getComputedStyle(element, '::before').opacity)).toBe('0');
             await page.locator('#before').focus();
             await page.keyboard.press('Tab');
             await expect(list).toBeFocused();
+            await expect(listLabel).toHaveCSS('outline-style', 'solid');
+            await expect(listLabel).toHaveCSS('outline-width', '2px');
             await page.keyboard.press('ArrowRight');
             await expect(card).toBeFocused();
             await expect(card).toBeChecked();
-            await expect(cardLabel).toHaveCSS('outline-style', 'solid');
-            await expect(cardLabel).toHaveCSS('outline-width', '2px');
             const canvas = await cardLabel.evaluate(element => `rgb(${getComputedStyle(element).getPropertyValue('--color-canvas-rgb').split(',').map(value => value.trim()).join(', ')})`);
             await expect(cardLabel).toHaveCSS('background-color', canvas);
             expect(await page.locator('#form').evaluate(form => [...new FormData(form as HTMLFormElement).values()])).toEqual(['card']);
@@ -105,9 +121,12 @@ for (const theme of ['light', 'dark']) {
             await expect(page.locator('#reset')).toBeFocused();
             await page.keyboard.press('Shift+Tab');
             await expect(card).toBeFocused();
+            await expect(cardLabel).toHaveCSS('outline-style', 'solid');
+            await expect(cardLabel).toHaveCSS('outline-width', '2px');
             await page.screenshot({path: testInfo.outputPath(`${variant}-${theme}.png`)});
             await group.getByText('列表', {exact: true}).click();
             await group.getByText('卡片', {exact: true}).click();
+            await expect(cardLabel).toHaveCSS('outline-style', 'none');
             const changes = await page.locator('#host').getAttribute('data-changes');
             if (variant !== 'html') expect(changes).toBe('3');
             await page.locator('#reset').click();
@@ -120,6 +139,7 @@ for (const theme of ['light', 'dark']) {
             await cardLabel.hover();
             await page.mouse.down();
             await expect(cardLabel).toHaveCSS('background-color', idle);
+            await expect.poll(() => cardLabel.evaluate(element => getComputedStyle(element, '::before').display)).toBe('none');
             await page.mouse.up();
             await expect(list).toBeChecked();
             expect(await page.locator('#form').evaluate(form => [...new FormData(form as HTMLFormElement).values()])).toEqual([]);
@@ -174,7 +194,11 @@ test('block, vertical, round, icons, RTL and reduced motion retain layout', asyn
     await page.screenshot({path: testInfo.outputPath('segmented-mobile.png')});
     await page.emulateMedia({forcedColors: 'active'});
     expect(await page.evaluate(() => matchMedia('(forced-colors: active)').matches)).toBe(true);
-    await expect(rtlGroup.locator('.segmented-input:focus + .segmented-label')).toHaveCSS('outline-style', 'dashed');
+    await rtlGroup.getByText('列表', {exact: true}).click();
+    await expect(rtlGroup.locator('.segmented-input:checked + .segmented-label')).toHaveCSS('outline-style', 'solid');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Shift+Tab');
+    await expect(rtlGroup.locator('.segmented-input:focus-visible + .segmented-label')).toHaveCSS('outline-style', 'dashed');
 });
 
 for (const theme of ['light', 'dark']) {
@@ -191,6 +215,7 @@ for (const theme of ['light', 'dark']) {
             await expect(thumb).not.toHaveClass(/is-animated/);
             const positions = await group.locator('.segmented-item').evaluateAll(items => items.map(item => item.getBoundingClientRect().toJSON()));
             await group.getByText('整个月', {exact: true}).click();
+            await expect(group.locator('.segmented-label').last()).toHaveCSS('outline-style', 'none');
             await expectThumbAligned(page);
             await expect(thumb).toHaveCSS('pointer-events', 'none');
             await expect(thumb).toHaveCSS('transition-duration', '0.2s, 0.2s, 0.2s');
@@ -200,7 +225,9 @@ for (const theme of ['light', 'dark']) {
             await group.getByRole('radio', {name: '整个月'}).focus();
             await page.keyboard.press('ArrowLeft');
             await expect(group.getByRole('radio', {name: '工作周'})).toBeChecked();
-            await expect(group.locator('.segmented-input:focus + .segmented-label')).toHaveCSS('outline-width', '2px');
+            await page.keyboard.press('Tab');
+            await page.keyboard.press('Shift+Tab');
+            await expect(group.locator('.segmented-input:focus-visible + .segmented-label')).toHaveCSS('outline-width', '2px');
             await expectThumbAligned(page);
 
             // Sample the browser's real transition at its midpoint, then retarget it.
@@ -213,18 +240,17 @@ for (const theme of ['light', 'dark']) {
                 inputs[2].click();
                 await frame();
                 const animations = thumb.getAnimations();
-                for (const animation of animations) {
-                    animation.pause();
-                    animation.currentTime = 100;
-                }
+                for (const animation of animations) animation.pause();
+                // Firefox commits a pending pause asynchronously; seek only after it settles.
+                await Promise.all(animations.map(animation => animation.ready));
+                for (const animation of animations) animation.currentTime = 100;
                 const midpoint = thumb.getBoundingClientRect().left;
                 inputs[0].click();
                 await frame();
                 const nextAnimations = thumb.getAnimations();
-                for (const animation of nextAnimations) {
-                    animation.pause();
-                    animation.currentTime = 0;
-                }
+                for (const animation of nextAnimations) animation.pause();
+                await Promise.all(nextAnimations.map(animation => animation.ready));
+                for (const animation of nextAnimations) animation.currentTime = 0;
                 const retargeted = thumb.getBoundingClientRect().left;
                 for (const animation of nextAnimations) animation.finish();
                 return {start, target, midpoint, retargeted, count: animations.length};

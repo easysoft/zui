@@ -95,7 +95,7 @@ console.log(helper.getFieldVal('title'));
 helper.clearCache();
 ```
 
-来源：[实现](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/form-helper/src/vanilla/form-helper.ts>)。
+来源：[实现](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/form-helper/src/vanilla/form-helper.ts>)。
 
 ## types
 
@@ -133,7 +133,7 @@ export interface FormHelperOptions {
 }
 ```
 
-来源：[src/types/form-helper-options.ts](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/form-helper/src/types/form-helper-options.ts>)。
+来源：[src/types/form-helper-options.ts](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/form-helper/src/types/form-helper-options.ts>)。
 
 ## recipes
 
@@ -145,7 +145,7 @@ getFieldVal 查不到字段返回 undefined；throwError 只影响 setFieldVal �
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/form-helper/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/form-helper/src/main.ts>)
-- [实现](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/form-helper/src/vanilla/form-helper.ts>)
-- [类型](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/form-helper/src/types/form-helper-options.ts>)
+- [包元数据](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/form-helper/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/form-helper/src/main.ts>)
+- [实现](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/form-helper/src/vanilla/form-helper.ts>)
+- [类型](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/form-helper/src/types/form-helper-options.ts>)

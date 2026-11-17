@@ -117,8 +117,8 @@ browser（已加载本库 CSS）：
 
 ## references
 
-- [包元数据](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/form/package.json>)
-- [公开入口](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/form/src/main.ts>)
-- [正式文档](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/form/docs/lib/forms/index.md>)
-- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/form/src/style/index.ts>)
-- [源码 src/style/vars.css](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/form/src/style/vars.css>)
+- [包元数据](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/form/package.json>)
+- [公开入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/form/src/main.ts>)
+- [正式文档](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/form/docs/lib/forms/index.md>)
+- [源码 src/style/index.ts](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/form/src/style/index.ts>)
+- [源码 src/style/vars.css](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/form/src/style/vars.css>)

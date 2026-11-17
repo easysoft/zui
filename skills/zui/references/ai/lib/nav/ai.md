@@ -143,4 +143,4 @@ Nav 的 active 不自动安装完整 tab 键盘模型；普通页面导航使用
 
 ## references
 
-- [入口](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/nav/package.json>)、[组件](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/nav/src/component/nav.tsx>)、[类型](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/nav/src/types/index.ts>)、[样式](<https://github.com/easysoft/zui/blob/6c6a1f8798a3ebb8ef97b3f67622c2b320eb70f3/lib/nav/src/style/index.ts>)
+- [入口](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/nav/package.json>)、[组件](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/nav/src/component/nav.tsx>)、[类型](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/nav/src/types/index.ts>)、[样式](<https://github.com/easysoft/zui/blob/8183f74f34f9cafc03f3800515bd8d51974b345c/lib/nav/src/style/index.ts>)

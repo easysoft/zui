@@ -8,8 +8,22 @@
     @apply -sr-only;
 }
 .segmented-label {
-    @apply -flex -w-full -min-w-0 -items-center -justify-center -gap-1.5 -px-3 -rounded-[--segmented-radius] -cursor-pointer -select-none -text-center -transition-colors;
+    @apply -relative -flex -w-full -min-w-0 -items-center -justify-center -gap-1.5 -px-3 -rounded-[--segmented-radius] -cursor-pointer -select-none -text-center -transition-colors;
     min-height: calc(var(--segmented-height) - var(--segmented-padding) * 2);
+}
+.segmented-label::before {
+    @apply -absolute -inset-0 -opacity-0 -pointer-events-none;
+    content: '';
+    border-radius: inherit;
+    background: var(--state-color, rgba(0, 0, 0, .05));
+    transform: scale(var(--state-scale, .9));
+}
+.segmented-input:enabled + .segmented-label:active::before,
+.segmented-input:enabled:active + .segmented-label::before {
+    @apply -ring -scale-100;
+    background: var(--state-pressed-color, var(--state-color, rgba(0, 0, 0, .05)));
+    opacity: var(--state-pressed-opacity, .6);
+    --tw-ring-color: var(--state-ring-color, currentColor);
 }
 .segmented-text {
     @apply -min-w-0 -truncate;
@@ -23,11 +37,14 @@
 .segmented-input:checked + .segmented-label {
     @apply -bg-[--segmented-selected-bg] -text-[--segmented-selected-color] -shadow-sm -ring-1 -ring-[--segmented-border-color];
 }
-.segmented-input:focus + .segmented-label {
+.segmented-input:focus-visible + .segmented-label {
     @apply -outline -outline-focus -outline-2 -outline-offset-2;
 }
 .segmented-input:disabled + .segmented-label {
     @apply -cursor-not-allowed -opacity-[--opacity-disabled];
+}
+.segmented-input:disabled + .segmented-label::before {
+    @apply -hidden;
 }
 .segmented-block {
     @apply -flex -w-full;
@@ -57,6 +74,14 @@
     }
 }
 @media (prefers-reduced-motion: no-preference) {
+    .segmented-label::before {
+        @apply -duration-200 -ease-in-out;
+        transition-property: opacity, transform, box-shadow, background-color;
+    }
+    .segmented-input:enabled + .segmented-label:active::before,
+    .segmented-input:enabled:active + .segmented-label::before {
+        @apply -duration-700;
+    }
     .segmented-animated .segmented-label {
         transition-property: color;
     }
@@ -114,7 +139,7 @@
         outline: 2px solid Highlight;
         outline-offset: -2px;
     }
-    .segmented-input:focus + .segmented-label {
+    .segmented-input:focus-visible + .segmented-label {
         outline: 2px dashed ButtonText;
         outline-offset: 2px;
     }
