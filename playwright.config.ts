@@ -1,3 +1,5 @@
+import {mkdirSync} from 'node:fs';
+import Path from 'node:path';
 import {defineConfig, devices} from '@playwright/test';
 
 import type {PlaywrightTestConfig} from '@playwright/test';
@@ -13,10 +15,23 @@ const projects: NonNullable<PlaywrightTestConfig['projects']> = [
 ];
 
 if (runAllBrowsers) {
+    const firefoxAppData = process.platform === 'darwin'
+        ? Path.resolve(import.meta.dirname, '.cache/playwright-firefox')
+        : undefined;
+    if (firefoxAppData) {
+        // macOS protects Firefox's default app data even with a temporary -profile.
+        mkdirSync(firefoxAppData, {recursive: true});
+    }
+
     projects.push(
         {
             name: 'firefox',
-            use: {...devices['Desktop Firefox']},
+            use: {
+                ...devices['Desktop Firefox'],
+                launchOptions: firefoxAppData ? {
+                    env: {...process.env, MOZ_APP_DATA: firefoxAppData},
+                } : undefined,
+            },
         },
         {
             name: 'webkit',
