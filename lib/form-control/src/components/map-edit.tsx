@@ -1,6 +1,6 @@
 import {Component, type RenderableProps} from 'preact';
 import {signal, Signal, nextGid, SizeSetting, toCssSize, $, effect} from '@zui/core';
-import {Button} from '@zui/button/react';
+import {Button, ButtonProps} from '@zui/button/react';
 
 export type MapValue = Record<string, string>;
 
@@ -18,6 +18,8 @@ export type MapEditProps = {
     keyWidth?: SizeSetting | 'auto';
     valueWidth?: SizeSetting | 'auto';
     maxWidth?: SizeSetting | 'auto';
+    addBtn?: Partial<ButtonProps>;
+    deleteBtn?: Partial<ButtonProps>;
 };
 
 export class MapEdit extends Component<MapEditProps> {
@@ -85,14 +87,14 @@ export class MapEdit extends Component<MapEditProps> {
     }
 
     protected _renderItem(gid: number, key: string, value: string) {
-        const {readonly, keyPlaceholder, valuePlaceholder} = this.props;
+        const {readonly, keyPlaceholder, valuePlaceholder, addBtn, deleteBtn} = this.props;
         return (
             <div className="map-edit-item" key={gid} z-key={gid}>
                 <input className="map-edit-item-key form-control" type="text" value={key} readonly={readonly} onChange={this._handleKeyChange} placeholder={keyPlaceholder} />
                 <input className="map-edit-item-value form-control" type="text" value={value} readonly={readonly} onChange={this._handleValueChange} placeholder={valuePlaceholder} />
                 <div className="map-edit-item-actions">
-                    <Button type="ghost" size="sm" icon={{className: 'i-plus', 'aria-hidden': true}} disabled={readonly} onClick={this._handleAddClick} />
-                    <Button type="ghost" size="sm" icon={{className: 'i-trash', 'aria-hidden': true}} disabled={readonly} onClick={this._handleDeleteClick} />
+                    <Button type="ghost" size="sm" icon={{className: 'i-plus', 'aria-hidden': true}} disabled={readonly} onClick={this._handleAddClick} {...addBtn} />
+                    <Button type="ghost" size="sm" icon={{className: 'i-trash', 'aria-hidden': true}} disabled={readonly} onClick={this._handleDeleteClick} {...deleteBtn} />
                 </div>
             </div>
         );

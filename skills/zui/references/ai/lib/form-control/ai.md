@@ -302,8 +302,10 @@ browser（已加载本库 CSS）：
 | `keyWidth` | `SizeSetting \| 'auto'` | 否 | CSS `8rem` | 键宽；数值由 toCssSize 转 px，auto 不覆盖默认变量 |
 | `valueWidth` | `SizeSetting \| 'auto'` | 否 | CSS `auto` | 值宽 |
 | `maxWidth` | `SizeSetting \| 'auto'` | 否 | `400` | 根最大宽度，auto 或100% 不设置 max-width |
+| `addBtn` | `Partial<ButtonProps>` | 否 | 无 | 展开在添加按钮内置属性之后。省略时为 ghost、sm、加号图标，readonly 时禁用，点击在当前行后插入空行；传入的同名字段覆盖这些值 |
+| `deleteBtn` | `Partial<ButtonProps>` | 否 | 无 | 展开在删除按钮内置属性之后。省略时为 ghost、sm、垃圾桶图标，readonly 时禁用，点击删除当前行并在列表空时补一行；传入的同名字段覆盖这些值 |
 
-`MapValue=Record<string,string>`；`MapPair=[gid:number,key:string,value:string]`；`MapValuePair=[key:string,value:string]`。SizeSetting 见 [core 尺寸工具](../core/ai.md#javascript-size)。
+`MapValue=Record<string,string>`；`MapPair=[gid:number,key:string,value:string]`；`MapValuePair=[key:string,value:string]`。SizeSetting 见 [core 尺寸工具](../core/ai.md#javascript-size)。ButtonProps 见 [button](../button/ai.md#types-button-props)。
 
 ### types-string-list-edit
 
@@ -350,7 +352,7 @@ browser（已加载本库 CSS）：
 
 ## constraints
 
-Input/TextArea 类型没有声明全部原生 HTML 属性；扩展属性可通过 FormControl.props 传递，但语义仍取决于目标。readonly Select 使用 disabled，原生 FormData 会跳过。MapEdit/StringListEdit 的 gid 是行标识，不是下标；调用者不可传已移除 gid。
+Input/TextArea 类型没有声明全部原生 HTML 属性；扩展属性可通过 FormControl.props 传递，但语义仍取决于目标。readonly Select 使用 disabled，原生 FormData 会跳过。MapEdit/StringListEdit 的 gid 是行标识，不是下标；调用者不可传已移除 gid。MapEdit 的 addBtn 与 deleteBtn 写在内置 disabled 和 onClick 之后，传入这两项会替换只读禁用和增删处理。
 
 ## references
 
